@@ -1,13 +1,15 @@
 import examplesCode from '!raw!./examples'
 import code from '!raw!../Button'
 
-import PropTypesTable from 'PropTypesTable'
-import Playground from 'Playground'
+import PropTypesTable from 'site/src/components/PropTypesTable'
+import Playground from 'site/src/components/Playground'
+
+export const title = 'Кнопки'
+export const menuTitle = 'Кнопки'
 
 export default () => (
   <div>
-    <h2>Кнопки</h2>
-    <Playground code={examplesCode} title="Кнопки" />
+    <Playground code={examplesCode} />
     <PropTypesTable code={code} />
   </div>
 )

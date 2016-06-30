@@ -18,13 +18,13 @@
 
   &_size {
     &_small {
-      #{$ns}__icon { margin-left: 10px; }
+      $(ns)__icon { margin-left: 10px; }
     }
     &_medium {
-      #{$ns}__icon { margin-left: 15px; }
+      $(ns)__icon { margin-left: 15px; }
     }
     &_large {
-      #{$ns}__icon { margin-left: 20px; }
+      $(ns)__icon { margin-left: 20px; }
     }
   }
 

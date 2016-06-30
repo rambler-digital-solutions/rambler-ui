@@ -82,7 +82,7 @@ export default class Button extends Component {
 
     if (href)
       return <a href={href} className={ resultClassName } { ...other } >{ content }</a>
-    return <a type="button" className={ resultClassName } { ...other } >{ content }</a>
+    return <button type="button" className={ resultClassName } { ...other } >{ content }</button>
   }
 
 }

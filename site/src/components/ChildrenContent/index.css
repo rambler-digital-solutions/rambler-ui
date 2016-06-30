@@ -1,0 +1,39 @@
+.Content {
+
+}
+
+.ComponentWrapper {
+
+  &__header {
+
+  }
+
+  &__title {
+
+  }
+
+  &__name {
+
+  }
+
+  &__content {
+
+  }
+
+  &__link {
+
+  }
+
+  &__sourceLink {
+
+  }
+
+}
+
+.ChildrenLinks {
+
+  &__list {
+
+  }
+
+}

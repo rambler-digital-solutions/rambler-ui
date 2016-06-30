@@ -1,0 +1,19 @@
+.SideMenu {
+
+}
+
+.List {
+
+  &__item {
+
+  }
+
+  &__link {
+    &.is-active
+  }
+
+  &__embed {
+
+  }
+
+}
