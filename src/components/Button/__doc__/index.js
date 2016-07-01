@@ -5,7 +5,6 @@ import PropTypesTable from 'site/src/components/PropTypesTable'
 import Playground from 'site/src/components/Playground'
 
 export const title = 'Кнопки'
-export const menuTitle = 'Кнопки'
 
 export default () => (
   <div>

@@ -9,7 +9,7 @@ import css from './index.css'
 const reqContext = require.context('../../../src/components', true, /^\.\/.+\/__doc__\/index\.js$/)
 const docModules = provideDocModules(reqContext)
 
-export default class Components extends Component {
+export default class ComponentsPage extends Component {
 
   render() {
     // текущий компонент

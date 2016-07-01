@@ -28,7 +28,7 @@ export const DocModule = PropTypes.shape({
     /**
      * Описание компонента (показывается в компоненте ChildrenContent)
      */
-    description: PropTypes.string,
+    description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     /**
      * Скрывать контент дочерних компонент, если текущий компонент не выбран
      */

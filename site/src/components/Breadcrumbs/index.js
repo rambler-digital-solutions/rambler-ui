@@ -20,6 +20,7 @@ export default class Breadcrumb extends Component {
 
   render() {
     const { docModules, currentComponentName } = this.props
+
     let currentModule = docModules.dict[currentComponentName]
     if (!currentModule)
       return null
