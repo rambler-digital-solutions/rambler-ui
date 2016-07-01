@@ -1,3 +1,17 @@
 .Layout {
+  &__content {
 
+  }
+
+  &_route_components {
+    padding-left: 100px;
+  }
+}
+
+.Menu {
+  &__item {
+    &.is-active {
+
+    }
+  }
 }

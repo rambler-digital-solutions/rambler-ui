@@ -7,14 +7,14 @@ import ComponentsPage from 'pages/Components'
 import InstallPage from 'pages/Install'
 import Layout from 'pages/Layout'
 
-import './app.css'
+import css from './app.css'
 
 const history = useScroll(hashHistory, (prevLocation, location) =>
   !prevLocation || location.pathname !== prevLocation.pathname
 )
 
 render(
-  <div className="AppWrapper">
+  <div className={ css.App }>
     <Router history={ history }>
       <Route path="/" component={ Layout }>
         <Route path="components" component={ ComponentsPage }>
