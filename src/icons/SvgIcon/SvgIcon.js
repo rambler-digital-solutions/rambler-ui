@@ -1,5 +1,5 @@
 import { PropTypes } from 'react'
-import { colors } from '../../../variables'
+import { colors } from '../../variables'
 
 export default class SvgIcon {
 
@@ -25,7 +25,7 @@ export default class SvgIcon {
      */
     size: PropTypes.oneOfType([
       PropTypes.oneOf(['small', 'medium', 'large']),
-      React.PropTypes.number
+      PropTypes.number
     ])
   };
 
@@ -37,8 +37,8 @@ export default class SvgIcon {
   };
 
   sizeMap = {
-    small: 12
-    medium: 20
+    small: 12,
+    medium: 20,
     large: 30
   }
 
@@ -48,6 +48,7 @@ export default class SvgIcon {
       color,
       size,
       style,
+      viewBox,
       ...other
     } = this.props
 
