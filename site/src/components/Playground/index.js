@@ -7,7 +7,7 @@ import 'codemirror/mode/javascript/javascript'
 import { debounce } from 'core-decorators'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
-import { result, compact } from 'lodash'
+import { get, compact } from 'lodash'
 import { css } from './index.css'
 import rui from 'build/rambler-ui'
 
@@ -32,13 +32,18 @@ export default class Playground extends Component {
     /**
      * Открытая вкладка
      */
-    mode: PropTypes.string
+    mode: PropTypes.string,
+    /**
+     * Заголовок
+     */
+    title: PropTypes.string
   }
 
   static defaultProps = {
     canEdit: true,
     showPreview: true,
-    mode: 'read'
+    mode: 'read',
+    title: 'Пример'
   }
 
   state = {
@@ -77,7 +82,7 @@ export default class Playground extends Component {
       let _require = function (moduleName) {
         if (moduleName.indexOf(LIB_NAME) === 0 && moduleName.indexOf('/') !== -1) {
           let _path = compact(moduleName.replace(LIB_NAME, '').split('/')).join('.')
-          return result(rui, _path)
+          return get(rui, _path)
         }
         return rui
       }
@@ -97,7 +102,7 @@ export default class Playground extends Component {
 
   render() {
     const { code, mode } = this.state
-    const { showPreview, canEdit } = this.props
+    const { showPreview, canEdit, title } = this.props
     const output = mode === 'read' ?
       <pre>{ code }</pre> :
       <Codemirror
@@ -110,14 +115,17 @@ export default class Playground extends Component {
     return (
       <div className={ css.Wrapper }>
         <div className={ css.Header }>
-          <div
-            onClick={() => this.setMode('read')}
-            className={ classnames(css.Header__tab, { css.isActive: mode === 'read' }) }>Код</div>
-          {
-            canEdit && <div
-              onClick={() => this.setMode('write')}
-              className={ classnames(css.Header__tab, { css.isActive: mode === 'write' }) }>Редактировать</div>
-          }
+          <div className={ css.Header__title }>{ title }</div>
+          <div className={ css.Header__tabs }>
+            <div
+              onClick={() => this.setMode('read')}
+              className={ classnames(css.Header__tab, { css.isActive: mode === 'read' }) }>Код</div>
+            {
+              canEdit && <div
+                onClick={() => this.setMode('write')}
+                className={ classnames(css.Header__tab, { css.isActive: mode === 'write' }) }>Редактировать</div>
+            }
+          </div>
         </div>
         <div className={ css.Body }>
           <div className={ css.Code }>

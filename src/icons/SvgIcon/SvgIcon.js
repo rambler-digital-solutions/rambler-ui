@@ -1,5 +1,5 @@
 import { PropTypes } from 'react'
-import { colors } from '../../../../variables'
+import { colors } from '../../../variables'
 
 export default class SvgIcon {
 
@@ -21,7 +21,7 @@ export default class SvgIcon {
      */
     children: PropTypes.node,
     /**
-     * Размер иконки
+     * Размер иконки. Может быть строкой или значением в пикселях
      */
     size: PropTypes.oneOfType([
       PropTypes.oneOf(['small', 'medium', 'large']),
@@ -57,7 +57,7 @@ export default class SvgIcon {
       width: resultSize,
       height: resultSize,
       display: 'inline-block',
-      userSelect: 'none'
+      userSelect: 'none',
       ...style
     }
 

@@ -1,0 +1,38 @@
+.Button {
+
+  all: initial;
+  display: inline-block;
+
+  &__icon {
+    display: inline-block;
+  }
+
+  &--size-small &__icon {
+    margin-left: 10px;
+  }
+
+  &--size-medium &__icon {
+    margin-left: 15px;
+  }
+
+  &--size-large &__icon {
+    margin-left: 20px;
+  }
+
+  &--theme-blue {
+    background: $colors-blue;
+    color: $colors-white;
+  }
+
+  &--theme-dark {
+    background: $colors-dark;
+    color: $colors-white;
+  }
+
+  &--theme-red {
+    background: $colors-red;
+    color: $colors-white;
+  }
+
+}
+

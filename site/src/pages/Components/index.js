@@ -7,7 +7,7 @@ import Helmet from 'react-helmet'
 import css from './index.css'
 
 // Список компонентов, которые показываем в меню
-const reqContext = require.context('../../../src/components', true, /^\.\/.+\/__doc__\/index\.js$/)
+const reqContext = require.context('../../../src', true, /^\.\/.+\/__doc__\/index\.js$/)
 const docModules = provideDocModules(reqContext)
 
 export default class ComponentsPage extends Component {
