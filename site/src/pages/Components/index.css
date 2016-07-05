@@ -1,0 +1,10 @@
+.Wrapper {
+  display: flex;
+  flex: 1;
+  flex-flow: row nowrap;
+
+}
+
+.Content {
+  flex: 1 100%;
+}

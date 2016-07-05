@@ -1,5 +1,7 @@
 .SideMenu {
-
+  padding: 20px;
+  background: #eee;
+  flex: 1;
 }
 
 .List {

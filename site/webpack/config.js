@@ -18,9 +18,9 @@ const postCssVars = require('postcss-simple-vars')
 const postCssImport = require('postcss-import')
 const env = process.env.NODE_ENV || 'development'
 const postCssProcessors = [
+  postCssImport(),
   postCssVars({ variables: cssVariables }),
-  cssnext(),
-  postCssImport()
+  cssnext()
 ]
 
 const appConfig = require(__dirname + '/../config')
