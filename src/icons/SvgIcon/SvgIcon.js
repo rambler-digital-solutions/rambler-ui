@@ -1,7 +1,7 @@
-import { PropTypes } from 'react'
+import { PropTypes, Component } from 'react'
 import { colors } from '../../variables'
 
-export default class SvgIcon {
+export default class SvgIcon extends Component {
 
   static propTypes = {
     /**
@@ -26,12 +26,16 @@ export default class SvgIcon {
     size: PropTypes.oneOfType([
       PropTypes.oneOf(['small', 'medium', 'large']),
       PropTypes.number
-    ])
+    ]),
+    /**
+     * Атрибут viewBox svg-элемента
+     */
+    viewBox: PropTypes.string
   };
 
   static defaultProps = {
-    color: 'dark',
-    viewBox: '0 0 24 24',
+    color: 'blue',
+    viewBox: '0 0 20 20',
     size: 'medium',
     style: {}
   };
@@ -51,7 +55,6 @@ export default class SvgIcon {
       viewBox,
       ...other
     } = this.props
-
     const resultColor = colors[color] || color
     const resultSize = this.sizeMap[size] || size
     const resultStyle = {
@@ -59,12 +62,12 @@ export default class SvgIcon {
       height: resultSize,
       display: 'inline-block',
       userSelect: 'none',
+      fill: resultColor,
       ...style
     }
 
     return (
       <svg { ...other }
-        fill={ resultColor }
         viewBox={ viewBox }
         style={ resultStyle }>
         { children }

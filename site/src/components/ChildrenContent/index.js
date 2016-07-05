@@ -7,9 +7,18 @@ import css from './index.css'
 /**
  * Рендерит обертку вокруг компонента
  */
-function ComponentWrapper({ title, name, description, linkToComponent, linkToCode, children }) {
+function ComponentWrapper(props) {
+  const {
+    title,
+    name,
+    description,
+    linkToComponent,
+    linkToCode,
+    children,
+    ...other
+  } = props
   return (
-    <div className={ css.ComponentWrapper }>
+    <div className={ css.ComponentWrapper } { ...other } >
       <div className={ css.ComponentWrapper__header } >
         <Link className={ css.ComponentWrapper__link } to={ linkToComponent }>
           <h2 className={ css.ComponentWrapper__title } id={ name }>{ title || name }</h2>
@@ -35,8 +44,8 @@ function ChildrenLinks({ childrenDocModules = [] }) {
   return (
     <div className={ css.ChildrenLinks }>
       {
-        childrenDocModules.map(({ name, title, linkToComponent }) => (
-          <div className={ css.ChildrenLinks__item }>
+        childrenDocModules.map(({ name, title, linkToComponent }, i) => (
+          <div key={ i } className={ css.ChildrenLinks__item }>
             <Link className={ css.ChildrenLinks__link } to={ linkToComponent }>
               <span className={ css.ChildrenLinks__title }>{ title }</span>
               <span className={ css.ChildrenLinks__name }>{ name }</span>
@@ -81,28 +90,27 @@ export default class ChildrenContent extends Component {
   render() {
     const { docModules, currentComponentName, rootComponentName, level } = this.props
     const rootDocModules = rootComponentName ?
-      (docModules.dict[rootComponentName].childrenDocModules || []) : docModules.rootDocModules
+      [docModules.dict[rootComponentName]] : docModules.rootDocModules
 
     return (
       <div className={ css.Content } data-level={ level }>
         {
-          rootDocModules.map(module => {
+          rootDocModules.map((module, i) => {
             const {
               name,
+              linkToComponent,
+              linkToCode,
               childrenDocModules = [],
               module: {
                 title,
                 description,
                 hideChildrenIfNotCurrent,
                 DocIfNotCurrent,
-                linkToComponent,
-                linkToCode,
                 default: Doc
               }
             } = module
 
             let result
-
             if (name !== currentComponentName) {
               if (hideChildrenIfNotCurrent)
                 result = <ChildrenLinks childrenDocModules={ childrenDocModules } />
@@ -130,6 +138,7 @@ export default class ChildrenContent extends Component {
                   level={ level + 1 } />
             }
             return <ComponentWrapper
+              key={ i }
               description={ description }
               title={ title }
               name={ name }

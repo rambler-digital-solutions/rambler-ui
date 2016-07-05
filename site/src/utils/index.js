@@ -12,29 +12,30 @@ const getSortedKeys = memoize(reqContext => reqContext.keys().sort())
 
 export const provideDocModules = memoize(
   (reqContext) => {
-    const rootModules = []
+
+    const rootDocModules = []
     const dict = {}
 
     getSortedKeys(reqContext).forEach(key => {
-      const name = key.replace(/^\.\//, '').replace(/\/__doc__\.*$/, '')
-      const parentName = name.replace(/\/[^\/]+$/, '')
+      const name = key.replace(/^\.\//, '').replace(/\/__doc__\/.*$/, '')
+      const parentName = name.split('/').slice(0, -1).join('/')
       const docModule = {
         name,
         linkToComponent: getLinkToComponent(name),
         linkToCode: getLinkToCode(name),
         selfName: name.match(/\/?([^\/]*)$/)[1],
         module: reqContext(key),
-        childrenModules: []
+        childrenDocModules: []
       }
       if (parentName) {
         docModule.parentName = parentName
-        dict[parentName].childrenModules.push(docModule)
+        dict[parentName].childrenDocModules.push(docModule)
       } else {
-        rootModules.push(docModule)
+        rootDocModules.push(docModule)
       }
       dict[name] = docModule
     })
 
-    return { dict, rootModules }
+    return { dict, rootDocModules }
   }
 )

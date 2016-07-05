@@ -1,10 +1,8 @@
 import { Component, PropTypes, cloneElement, isValidElement } from 'react'
-import compact from 'lodash/compact'
-import flatten from 'lodash/flatten'
+import { create as createFragment } from 'react/lib/ReactFragment'
 import classnames from 'classnames'
 
 import css from './Button.css'
-
 export default class Button extends Component {
 
   static propTypes = {
@@ -75,9 +73,10 @@ export default class Button extends Component {
         size: this.props.size,
         color: this.mapThemeToIconColor(this.props.theme)
       }
-
-      return <span className={css.Button__icon}>
-        { cloneElement(icon, { ...iconProps, ...(icon.props || {}) }) }
+      const resultProps = { ...iconProps, ...(icon.props || {}) }
+      const resultIcon = cloneElement(icon, resultProps)
+      return <span className={ css.Button__icon }>
+        { resultIcon }
       </span>
     }
   }
@@ -94,7 +93,6 @@ export default class Button extends Component {
       buttonType,
       ...other
     } = this.props
-    const content = compact(flatten([this.renderIcon(icon), children]))
     const resultClassName = classnames(
       className,
       css.Button,
@@ -102,6 +100,10 @@ export default class Button extends Component {
       css['Button--size-' + size]
     )
 
+    const content = createFragment({
+      icon: this.renderIcon(icon),
+      content: <span className={css.Button__content}>{ children }</span>
+    })
     const buttonProps = { ...other, className: resultClassName }
 
     return isValidElement(container) ?

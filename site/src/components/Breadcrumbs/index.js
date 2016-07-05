@@ -25,17 +25,24 @@ export default class Breadcrumb extends Component {
     if (!currentModule)
       return null
 
+    let i = 0
     let crumbs = []
-    crumbs.push(<span className={ classnames(css.Breadcrumbs__item, css.isActive) }>{ currentModule.selfName }</span>)
+    crumbs.push(<span key={ i } className={ classnames(css.Breadcrumbs__item, css.isActive) }>{ currentModule.selfName }</span>)
     while (currentModule.parentName) {
-      currentModule = docModules[currentModule.parentName]
-      crumbs.unshift(<span className={ css.Breadcrumbs__divider }>/</span>)
+      currentModule = docModules.dict[currentModule.parentName]
+      crumbs.unshift(<span key={ ++i } className={ css.Breadcrumbs__divider }>/</span>)
       crumbs.unshift(
-        <Link className={ classnames(css.Breadcrumbs__item) } to={ currentModule.linkToComponent }>
+        <Link key={ ++i } className={ classnames(css.Breadcrumbs__item) } to={ currentModule.linkToComponent }>
           { currentModule.selfName }
         </Link>
       )
     }
+    crumbs.unshift(<span key={ ++i } className={ css.Breadcrumbs__divider }>/</span>)
+    crumbs.unshift(
+      <Link key={ ++i } className={ classnames(css.Breadcrumbs__item) } to="/components">
+        Компоненты
+      </Link>
+    )
 
     return (
       <div className={ css.Breadcrumbs }>{ crumbs }</div>

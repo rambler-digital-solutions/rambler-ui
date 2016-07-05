@@ -34,7 +34,7 @@ export const DocModule = PropTypes.shape({
   /**
    * Сам модуль компонента
    */
-  module: PropTypes.shapeOf({
+  module: PropTypes.shape({
     /**
      * Заголовок компонента
      */

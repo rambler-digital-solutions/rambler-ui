@@ -2,8 +2,9 @@
 
 import {Component, PropTypes} from 'react'
 import marked from 'marked'
-import './index.css'
-import 'style-loader!css-loader!highlight.js/styles/default.css'
+import '!!style!css!./index.css'
+import '!!style!css!highlight.js/styles/default.css'
+import hljs from 'highlight.js'
 
 const styles = {
   root: {
@@ -34,7 +35,8 @@ export default class MarkdownElement extends Component {
       smartLists: true,
       smartypants: false,
       highlight(code, lang) {
-        return require('highlight.js').highlight(lang, code).value
+        const { value } = lang ? hljs.highlight(lang, code) : hljs.highlightAuto(code)
+        return value
       }
     })
   }
@@ -48,9 +50,9 @@ export default class MarkdownElement extends Component {
     /* eslint-disable react/no-danger */
     return (
       <div
-        style={Object.assign({}, styles.root, style)}
+        style={ Object.assign({}, styles.root, style) }
         className="markdown-body"
-        dangerouslySetInnerHTML={{__html: marked(text)}}
+        dangerouslySetInnerHTML={{ __html: marked(text) }}
       />
     )
     /* eslint-enable */

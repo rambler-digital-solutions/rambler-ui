@@ -47,8 +47,8 @@ function generatePropType(type) {
     return type.raw
 
   case 'enum':
-    const values = type.value.map((v) => v.value).join('<br>&nbsp')
-    return `enum:<br>&nbsp${values}<br>`
+    const values = type.value.map((v) => v.value).join('<br>&nbsp;')
+    return `enum:<br>&nbsp;${values}<br>`
 
   default:
     return type.name
@@ -114,7 +114,7 @@ export default class PropTypeDescription extends Component {
   }
 
   static defaultProps = {
-    header: '### Properties'
+    header: '### Свойства'
   }
 
   render() {
@@ -126,8 +126,8 @@ export default class PropTypeDescription extends Component {
     let requiredProps = 0
 
     let text = `${header}
-| Name | Type | Default | Description |
-|:-----|:-----|:-----|:-----|\n`
+| Название | Тип | Значение по умолчанию | Описание |
+|:---------|:----|:----------------------|:---------|\n`
 
     const componentInfo = parse(code)
 

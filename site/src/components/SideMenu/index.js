@@ -17,8 +17,8 @@ export default class SideMenu extends Component {
     return (
       <div className={ css.List } data-level={ level }>
         {
-          docModules.map((module) => (
-            <div className={ css.List__item }>
+          docModules.map((module, i) => (
+            <div className={ css.List__item } key={ i }>
               <Link
                 to={ module.linkToComponent }
                 className={ css.List__link }
@@ -26,8 +26,9 @@ export default class SideMenu extends Component {
               >{ module.selfName }</Link>
               {
                 module.childrenDocModules &&
-                module.childrenDocModules.length &&
-                <div className={ css.List__embed }>{ this.renderUl(module.childrenDocModules, level + 1) }</div>
+                module.childrenDocModules.length ?
+                <div className={ css.List__embed }>{ this.renderUl(module.childrenDocModules, level + 1) }</div> :
+                null
               }
             </div>
           ))

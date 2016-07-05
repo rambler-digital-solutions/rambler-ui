@@ -1,4 +1,5 @@
 ---
+  root: true
   env:
     browser: true
     commonjs: true
@@ -20,7 +21,7 @@
     semi: ["error", "never"]
     comma-dangle: ["warn", "never"]
     object-curly-spacing: ["off"]
-    max-len: ["error", 200]
+    max-len: ["warn", 200]
     no-unused-expressions: ["error", { "allowShortCircuit": true }]
     prefer-template: ["off"]
     one-var: ["off"]
@@ -33,5 +34,7 @@
     consistent-return: ["off"]
     no-underscore-dangle: ["error", { "allowAfterThis": true }]
     no-nested-ternary: ["off"]
+    import/no-unresolved: ["warn"]
+    func-names: ["off"]
   settings:
     import/core-modules: [ react ]

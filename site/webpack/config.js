@@ -12,18 +12,20 @@ const HtmlWebPackPlugin = require('html-webpack-plugin')
 const rootDir = path.resolve(__dirname, '..')
 const argv = require('minimist')(process.argv.slice(2))
 const flat = require('flat')
-const cssVariables = flat(require(path.resolve(__dirname, '../../src/variables'), { delimiter: '-' }))
+const cssVariables = flat(require(path.resolve(__dirname, '../../src/variables')), { delimiter: '-' })
 const cssnext = require('postcss-cssnext')
-const cssModules = require('postcss-modules')
 const postCssVars = require('postcss-simple-vars')
-const env = process.env.NODE_ENV
+const postCssImport = require('postcss-import')
+const env = process.env.NODE_ENV || 'development'
 const postCssProcessors = [
   postCssVars({ variables: cssVariables }),
   cssnext(),
-  cssModules({ generateScopedName: '[name]__[local]___[hash:base64:5]' })
+  postCssImport()
 ]
+
 const appConfig = require(__dirname + '/../config')
-let outputPath = path.join(rootDir, 'www')
+
+let outputPath = path.join(rootDir, 'build')
 if (argv.output)
   outputPath = path.join(outputPath, argv.output)
 let envConfig
@@ -34,6 +36,7 @@ if (env)
     console.error(e)
     envConfig = {}
   }
+
 const config = Object.assign({
   entry: path.join(rootDir, 'src/app.js'),
   module: {
@@ -52,6 +55,15 @@ const config = Object.assign({
   resolve: {
     root: [
       path.join(rootDir, 'src')
+    ],
+    modulesDirectories: [
+      'node_modules',
+      path.resolve(__dirname, '../node_modules')
+    ]
+  },
+  resolveLoader: {
+    modulesDirectories: [
+      path.resolve(__dirname, '../node_modules')
     ]
   },
   plugins: [],
@@ -86,14 +98,12 @@ config.module.loaders = config.module.loaders.concat([
   {
     test: /\.js?$/,
     loader: 'babel-loader?cacheDirectory',
-    exclude: path.join(rootDir, 'node_modules'),
-    include: path.join(rootDir, 'src')
+    exclude: path.join(rootDir, 'node_modules')
   },
   {
     test: /\.json$/,
     loader: 'json-loader'
   }
 ])
-
 
 module.exports = config

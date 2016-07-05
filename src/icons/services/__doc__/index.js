@@ -1,4 +1,3 @@
-import { map } from 'lodash'
 import css from './index.css'
 import * as icons from '../index'
 
@@ -9,10 +8,16 @@ export default function Doc() {
     <div>
       <h2>{title}</h2>
       <div>
-        { icons.map(Icon => <div className={css.Icon}><Icon/></div>) }
+        {
+          Object.keys(icons).map((iconName, i) => {
+            const Icon = icons[iconName]
+            return (
+              <div key={ i } className={ css.Icon }><Icon/></div>
+            )
+          })
+        }
       </div>
     </div>
   )
 
 }
-

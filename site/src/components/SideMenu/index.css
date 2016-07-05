@@ -9,7 +9,9 @@
   }
 
   &__link {
-    &.is-active
+    &.is-active {
+
+    }
   }
 
   &__embed {

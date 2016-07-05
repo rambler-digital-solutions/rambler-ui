@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500,700&subset=latin,cyrillic);
 
-.App {
-  font-family: Roboto;
-  font-weight: 300;
-  font-size: 14px;
+:root {
+  --font-roboto {
+    font-family: 'Roboto';
+  }
 }

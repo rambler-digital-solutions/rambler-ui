@@ -12,11 +12,11 @@ import { debounce } from 'core-decorators'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import { get, compact } from 'lodash'
-import { css } from './index.css'
-import rui from '../../../../src'
+import css from './index.css'
+import * as rui from '../../../../src'
 import hljs from 'highlight.js'
-import { transform } from 'babel-core'
-import 'style-loader!css-loader!highlight.js/styles/default.css'
+import { transform } from 'babel-standalone'
+import '!!style!css!highlight.js/styles/default.css'
 
 const LIB_NAME = 'rambler-ui'
 
@@ -110,7 +110,7 @@ export default class Playground extends Component {
     const { code, mode } = this.state
     const { showPreview, canEdit, title } = this.props
     const codeElement = mode === 'read' ?
-      <div dangerouslySetInnerHTML={ hljs('javascript', code).value }/> :
+      <pre dangerouslySetInnerHTML={{ __html: hljs.highlight('javascript', code).value }}/> :
       <Codemirror
         options={{ mode: 'javascript' }}
         onChange={ ::this.onCodeChange }

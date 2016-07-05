@@ -1,10 +1,10 @@
 export const title = 'Иконки'
 
-import examplesCode from '!raw!./examples'
-import svgIconCode from '!raw!../services/SvgIcon/SvgIcon'
+import examplesCode from '!!raw!./examples.js'
+import svgIconCode from '!!raw!../SvgIcon/SvgIcon.js'
 
-import PropTypesTable from 'site/src/components/PropTypesTable'
-import Playground from 'site/src/components/Playground'
+import PropTypesTable from 'components/PropTypesTable'
+import Playground from 'components/Playground'
 
 // /* Дополнительное описание */
 // export const description = ''
@@ -12,11 +12,13 @@ import Playground from 'site/src/components/Playground'
 // /* Скрывать дочерние компоненты, если элемент не текущий, просто показывать ссылки на дочерние компоненты */
 export const hideChildrenIfNotCurrent = true
 
-export default () =>
+export default () => (
   <div>
     <Playground code={ examplesCode } />
     <PropTypesTable code={ svgIconCode } />
   </div>
+)
+
 
 /* Дополнительная функция рендеринга, если не дочерних компонент */
 export const DocIfNotCurrent = ({ children }) =>

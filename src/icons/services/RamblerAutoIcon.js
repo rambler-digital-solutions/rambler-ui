@@ -1,16 +1,15 @@
-import SvgIcon from '../../SvgIcon'
+import { Component } from 'react'
+import SvgIcon from '../SvgIcon'
 import pure from 'recompose/pure'
 
 @pure
-export default class RamblerAutoIcon {
+export default class RamblerAutoIcon extends Component {
 
   static displayName = 'RamblerAutoIcon'
 
   render() {
-
     return (
-      <SvgIcon>
-        <path d="m-13-14h48v48h-48z"/>
+      <SvgIcon { ...this.props } >
         <g transform="matrix(1 0 0-1 0 20)">
           <path d="m9.74.74c-1.6.02-3.18.45-4.6 1.26-4.5 2.59-6 8.33-3.45 12.82 2.6 4.49 8.35 6 12.84 3.44 4.5-2.59 6-8.33 3.45-12.82-1.66-2.87-4.68-4.62-7.94-4.69h-.3-.01m.01 1.5h.28c2.73.06 5.27 1.53 6.66 3.95 2.18 3.77.88 8.59-2.9 10.77-3.78 2.18-8.61.88-10.79-2.89-2.18-3.77-.88-8.59 2.89-10.76 1.19-.68 2.52-1.04 3.87-1.06h-.01"/>
           <path d="m9.1 1.49v6.27.75h1.5v-.75-6.27-.75h-1.5v.75"/>

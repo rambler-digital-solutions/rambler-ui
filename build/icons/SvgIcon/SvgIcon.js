@@ -13,7 +13,7 @@ var _class, _temp;
 
 var _react = require('react');
 
-var _variables = require('../../../variables');
+var _variables = require('../../variables');
 
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
@@ -38,8 +38,9 @@ var SvgIcon = (_temp = _class = function () {
       var color = _props.color;
       var size = _props.size;
       var style = _props.style;
+      var viewBox = _props.viewBox;
 
-      var other = _objectWithoutProperties(_props, ['children', 'color', 'size', 'style']);
+      var other = _objectWithoutProperties(_props, ['children', 'color', 'size', 'style', 'viewBox']);
 
       var resultColor = _variables.colors[color] || color;
       var resultSize = this.sizeMap[size] || size;
@@ -82,7 +83,7 @@ var SvgIcon = (_temp = _class = function () {
   /**
    * Размер иконки. Может быть строкой или значением в пикселях
    */
-  size: _react.PropTypes.oneOfType([_react.PropTypes.oneOf(['small', 'medium', 'large']), React.PropTypes.number])
+  size: _react.PropTypes.oneOfType([_react.PropTypes.oneOf(['small', 'medium', 'large']), _react.PropTypes.number])
 }, _class.defaultProps = {
   color: 'dark',
   viewBox: '0 0 24 24',

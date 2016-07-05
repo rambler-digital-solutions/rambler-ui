@@ -2,9 +2,14 @@ const webpack = require('webpack')
 
 module.exports = {
   module: {
-    loaders: [{
-      test: /\.(sass|scss|css)$/,
-      loader: 'style!css!postcss-loader!'
+    preLoaders: [{
+      test: /\.(css)$/,
+      loader: 'css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!postcss-loader'
+    }],
+    loaders: [],
+    postLoaders: [{
+      test: /\.(css)$/,
+      loader: 'style-loader'
     }]
   },
   plugins: [

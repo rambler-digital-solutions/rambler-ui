@@ -2,19 +2,20 @@ import { Component } from 'react'
 import { provideDocModules } from 'utils'
 import ChildrenContent from 'components/ChildrenContent'
 import SideMenu from 'components/SideMenu'
+import Breadcrumbs from 'components/Breadcrumbs'
 import Helmet from 'react-helmet'
 
 import css from './index.css'
 
 // Список компонентов, которые показываем в меню
-const reqContext = require.context('../../../src', true, /^\.\/.+\/__doc__\/index\.js$/)
+const reqContext = require.context('../../../../src', true, /^\.\/.+\/__doc__\/index\.js$/)
 const docModules = provideDocModules(reqContext)
 
 export default class ComponentsPage extends Component {
 
   render() {
     // текущий компонент
-    let { component = '' } = this.props.params
+    let { splat: component = '' } = this.props.params
     component = component.replace(/^\/{0,}(.*?)\/{0,}$/, '$1')
 
     let title = 'Компоненты'
@@ -28,9 +29,12 @@ export default class ComponentsPage extends Component {
           <SideMenu docModules={ docModules } />
         </div>
         <div className={ css.Content }>
-          <Breadcrumbs docModules={ docModules } componentName={ component } className={ css.Content__breadcrumbs } />
+          <Breadcrumbs docModules={ docModules } currentComponentName={ component } className={ css.Content__breadcrumbs } />
           <div className={ css.Content__wrapper }>
-            <ChildrenContent componentName={ component } docModules={ docModules } />
+            <ChildrenContent
+              currentComponentName={ component }
+              rootComponentName={ component }
+              docModules={ docModules } />
           </div>
         </div>
       </div>
