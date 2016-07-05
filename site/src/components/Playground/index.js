@@ -1,3 +1,7 @@
+/*
+  eslint
+  no-new-func: ['off']
+ */
 /**
  * Плейграунд
  */
@@ -82,16 +86,14 @@ export default class Playground extends Component {
     let error = null
 
     try {
-      let _module = { exports: {} }
-      let _require = function (moduleName) {
-        if (moduleName.indexOf(LIB_NAME) === 0 && moduleName.indexOf('/') !== -1) {
-          let _path = compact(moduleName.replace(LIB_NAME, '').split('/')).join('.')
-          return get(rui, _path)
-        }
+      const scopeModule = { exports: {} }
+      const scopeRequire = function (moduleName) {
+        if (moduleName.indexOf(LIB_NAME) === 0 && moduleName.indexOf('/') !== -1)
+          return get(rui, compact(moduleName.replace(LIB_NAME, '').split('/')).join('.'))
         return rui
       }
-      resModule(_module, _module.exports, _require)
-      ResComponent = _module.exports.default
+      resModule(scopeModule, scopeModule.exports, scopeRequire)
+      ResComponent = scopeModule.exports.default
     } catch (e) {
       error = e.toString()
     }
@@ -107,7 +109,7 @@ export default class Playground extends Component {
   render() {
     const { code, mode } = this.state
     const { showPreview, canEdit, title } = this.props
-    const output = mode === 'read' ?
+    const codeElement = mode === 'read' ?
       <div dangerouslySetInnerHTML={ hljs('javascript', code).value }/> :
       <Codemirror
         options={{ mode: 'javascript' }}
@@ -133,7 +135,7 @@ export default class Playground extends Component {
         </div>
         <div className={ css.Body }>
           <div className={ css.Code }>
-            { code }
+            { codeElement }
           </div>
           { showPreview && this.renderPreview() }
         </div>

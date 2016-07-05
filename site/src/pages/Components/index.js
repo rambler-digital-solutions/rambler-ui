@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import { provideDocModules } from 'utils'
-import ChildrenContent from 'doc/components/ChildrenContent'
-import SideMenu from 'doc/components/SideMenu'
+import ChildrenContent from 'components/ChildrenContent'
+import SideMenu from 'components/SideMenu'
 import Helmet from 'react-helmet'
 
 import css from './index.css'
