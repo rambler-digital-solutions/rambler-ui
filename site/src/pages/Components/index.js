@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { provideDocModules } from utils
+import { provideDocModules } from 'utils'
 import ChildrenContent from 'doc/components/ChildrenContent'
 import SideMenu from 'doc/components/SideMenu'
 import Helmet from 'react-helmet'

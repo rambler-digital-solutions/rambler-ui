@@ -9,7 +9,10 @@ import classnames from 'classnames'
 import pure from 'recompose/pure'
 import { get, compact } from 'lodash'
 import { css } from './index.css'
-import rui from 'build/rambler-ui'
+import rui from '../../../../src'
+import hljs from 'highlight.js'
+import { transform } from 'babel-core'
+import 'style-loader!css-loader!highlight.js/styles/default.css'
 
 const LIB_NAME = 'rambler-ui'
 
@@ -51,7 +54,8 @@ export default class Playground extends Component {
   }
 
   componentWillMount() {
-    const { code, mode, canEdit } = this.props
+    const { code, canEdit } = this.props
+    let mode = this.props.mode
     if (!canEdit)
       mode = 'read'
     this.setState({ code, mode })
@@ -104,7 +108,7 @@ export default class Playground extends Component {
     const { code, mode } = this.state
     const { showPreview, canEdit, title } = this.props
     const output = mode === 'read' ?
-      <pre>{ code }</pre> :
+      <div dangerouslySetInnerHTML={ hljs('javascript', code).value }/> :
       <Codemirror
         options={{ mode: 'javascript' }}
         onChange={ ::this.onCodeChange }
@@ -119,11 +123,11 @@ export default class Playground extends Component {
           <div className={ css.Header__tabs }>
             <div
               onClick={() => this.setMode('read')}
-              className={ classnames(css.Header__tab, { css.isActive: mode === 'read' }) }>Код</div>
+              className={ classnames(css.Header__tab, { [css.isActive]: mode === 'read' }) }>Код</div>
             {
               canEdit && <div
                 onClick={() => this.setMode('write')}
-                className={ classnames(css.Header__tab, { css.isActive: mode === 'write' }) }>Редактировать</div>
+                className={ classnames(css.Header__tab, { [css.isActive]: mode === 'write' }) }>Редактировать</div>
             }
           </div>
         </div>

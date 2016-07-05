@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react'
+import { Component } from 'react'
 import { DocModules } from 'prop-types'
 import { Link } from 'react-router'
 
@@ -25,9 +25,9 @@ export default class SideMenu extends Component {
                 activeClassName={ css.isActive }
               >{ module.selfName }</Link>
               {
-                item.childrenDocModules &&
-                item.childrenDocModules.length &&
-                <div className={ css.List__embed }>{ this.renderUl(item.childrenDocModules, level + 1) }</div>
+                module.childrenDocModules &&
+                module.childrenDocModules.length &&
+                <div className={ css.List__embed }>{ this.renderUl(module.childrenDocModules, level + 1) }</div>
               }
             </div>
           ))

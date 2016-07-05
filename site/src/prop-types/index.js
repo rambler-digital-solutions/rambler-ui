@@ -1,10 +1,24 @@
 import { PropTypes } from 'react'
 
+function lazyPropType(f) {
+  return function (...args) {
+    return f().call(this, ...args)
+  }
+}
+
 export const DocModule = PropTypes.shape({
   /**
    * Полное название модуля с компонентом, например forms/TextInput
    */
   name: PropTypes.string,
+  /**
+   * Ссылка на компонент
+   */
+  linkToComponent: PropTypes.string,
+  /**
+   * Ссылка на код компонента в репозитории
+   */
+  linkToCode: PropTypes.string,
   /**
    * Название только компонента без namespace, например TextInput
    */
@@ -16,7 +30,7 @@ export const DocModule = PropTypes.shape({
   /**
    * Дочерние модули
    */
-  childrenDocModules: PropTypes.arrayOf(DocModule),
+  childrenDocModules: PropTypes.arrayOf(lazyPropType(() => DocModule)),
   /**
    * Сам модуль компонента
    */

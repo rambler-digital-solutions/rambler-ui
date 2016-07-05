@@ -1,4 +1,4 @@
-.PropTypeDescription {
+:global .PropTypeDescription {
 
   table tr:nth-child(2n) {
     background-color: #fff;

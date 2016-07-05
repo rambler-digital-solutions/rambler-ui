@@ -1,13 +1,16 @@
+/* eslint global-require: ['off'] */
+
 import {Component, PropTypes} from 'react'
 import marked from 'marked'
 import './index.css'
+import 'style-loader!css-loader!highlight.js/styles/default.css'
 
 const styles = {
   root: {
     marginTop: 20,
     marginBottom: 20,
     padding: '0 10px'
-  },
+  }
 }
 
 export default class MarkdownElement extends Component {
@@ -30,7 +33,7 @@ export default class MarkdownElement extends Component {
       sanitize: false,
       smartLists: true,
       smartypants: false,
-      highlight: function(code, lang) {
+      highlight(code, lang) {
         return require('highlight.js').highlight(lang, code).value
       }
     })

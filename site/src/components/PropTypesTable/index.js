@@ -1,3 +1,10 @@
+/*
+  eslint
+  no-case-declarations: ['off'],
+  no-useless-concat: ['off'],
+  no-restricted-syntax: ['off'],
+  guard-for-in: ['off']
+ */
 /**
  * @see https://github.com/callemall/material-ui/blob/master/docs/src/app/components/PropTypeDescription.js
  */
@@ -8,45 +15,43 @@ import {parse as parseDoctrine} from 'doctrine'
 import MarkdownElement from 'components/MarkdownElement'
 import recast from 'recast'
 
-import css from './index.css'
+import './index.css'
 
 function getDeprecatedInfo(type) {
   const deprecatedPropType = 'deprecated(PropTypes.'
 
   const indexStart = type.raw.indexOf(deprecatedPropType)
 
-  if (indexStart !== -1) {
+  if (indexStart !== -1)
     return {
       propTypes: type.raw.substring(indexStart + deprecatedPropType.length, type.raw.indexOf(',')),
-      explanation: recast.parse(type.raw).program.body[0].expression.arguments[1].value,
+      explanation: recast.parse(type.raw).program.body[0].expression.arguments[1].value
     }
-  }
 
   return false
 }
 
 function generatePropType(type) {
   switch (type.name) {
-    case 'func':
-      return 'function'
+  case 'func':
+    return 'function'
 
-    case 'custom':
-      const deprecatedInfo = getDeprecatedInfo(type)
+  case 'custom':
+    const deprecatedInfo = getDeprecatedInfo(type)
 
-      if (deprecatedInfo !== false) {
-        return generatePropType({
-          name: deprecatedInfo.propTypes,
-        })
-      }
+    if (deprecatedInfo !== false)
+      return generatePropType({
+        name: deprecatedInfo.propTypes
+      })
 
-      return type.raw
+    return type.raw
 
-    case 'enum':
-      const values = type.value.map((v) => v.value).join('<br>&nbsp')
-      return `enum:<br>&nbsp${values}<br>`
+  case 'enum':
+    const values = type.value.map((v) => v.value).join('<br>&nbsp')
+    return `enum:<br>&nbsp${values}<br>`
 
-    default:
-      return type.name
+  default:
+    return type.name
   }
 }
 
@@ -56,9 +61,8 @@ function generateDescription(required, description, type) {
   if (type.name === 'custom') {
     const deprecatedInfo = getDeprecatedInfo(type)
 
-    if (deprecatedInfo) {
+    if (deprecatedInfo)
       deprecated = `*Deprecated*. ${deprecatedInfo.explanation}<br><br>`
-    }
   }
 
   const parsed = parseDoctrine(description)
@@ -73,9 +77,8 @@ function generateDescription(required, description, type) {
   if (type.name === 'func' && parsed.tags.length > 0) {
     // Remove new lines from tag descriptions to avoid markdown errors.
     parsed.tags.forEach((tag) => {
-      if (tag.description) {
+      if (tag.description)
         tag.description = tag.description.replace(/\n/g, ' ')
-      }
     })
 
     // Split up the parsed tags into 'arguments' and 'returns' parsed objects. If there's no
@@ -96,9 +99,8 @@ function generateDescription(required, description, type) {
     signature += parsedArgs.map((tag) => `${tag.name}: ${tag.type.name}`).join(', ')
     signature += `) => ${parsedReturns.type.name}` + '`<br>'
     signature += parsedArgs.map((tag) => `*${tag.name}:* ${tag.description}`).join('<br>')
-    if (parsedReturns.description) {
+    if (parsedReturns.description)
       signature += `<br> *returns* (${parsedReturns.type.name}): ${parsedReturns.description}`
-    }
   }
 
   return `${deprecated} ${jsDocText}${signature}`
@@ -108,17 +110,17 @@ export default class PropTypeDescription extends Component {
 
   static propTypes = {
     code: PropTypes.string,
-    header: PropTypes.string.isRequired,
+    header: PropTypes.string.isRequired
   }
 
   static defaultProps = {
-    header: '### Properties',
+    header: '### Properties'
   }
 
   render() {
     const {
       code,
-      header,
+      header
     } = this.props
 
     let requiredProps = 0
@@ -138,20 +140,17 @@ export default class PropTypeDescription extends Component {
 
       let defaultValue = ''
 
-      if (prop.defaultValue) {
+      if (prop.defaultValue)
         defaultValue = prop.defaultValue.value.replace(/\n/g, '')
-      }
 
       if (prop.required) {
         key = `<span style="color: #31a148">${key} \*</span>`
         requiredProps += 1
       }
 
-      if (prop.type.name === 'custom') {
-        if (getDeprecatedInfo(prop.type)) {
+      if (prop.type.name === 'custom')
+        if (getDeprecatedInfo(prop.type))
           key = `~~${key}~~`
-        }
-      }
 
       text += `| ${key} | ${generatePropType(prop.type)} | ${defaultValue} | ${description} |\n`
     }

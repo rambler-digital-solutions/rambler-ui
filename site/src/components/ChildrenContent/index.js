@@ -35,9 +35,9 @@ function ChildrenLinks({ childrenDocModules = [] }) {
   return (
     <div className={ css.ChildrenLinks }>
       {
-        childrenDocModules.map(({ name, title }) => (
+        childrenDocModules.map(({ name, title, linkToComponent }) => (
           <div className={ css.ChildrenLinks__item }>
-            <Link className={ css.ChildrenLinks__link } to={ linkToComponent(name) }>
+            <Link className={ css.ChildrenLinks__link } to={ linkToComponent }>
               <span className={ css.ChildrenLinks__title }>{ title }</span>
               <span className={ css.ChildrenLinks__name }>{ name }</span>
             </Link>
@@ -67,7 +67,7 @@ export default class ChildrenContent extends Component {
     /**
      * Имя текущего выбранного компонента (если есть)
      */
-    currentComponentName: PropTypes.string
+    currentComponentName: PropTypes.string,
     /**
      * Уровень вложенности
      */
@@ -80,13 +80,13 @@ export default class ChildrenContent extends Component {
 
   render() {
     const { docModules, currentComponentName, rootComponentName, level } = this.props
-    const childrenDocModules = rootComponentName ?
+    const rootDocModules = rootComponentName ?
       (docModules.dict[rootComponentName].childrenDocModules || []) : docModules.rootDocModules
 
     return (
       <div className={ css.Content } data-level={ level }>
         {
-          childrenDocModules.map(function (module) {
+          rootDocModules.map(module => {
             const {
               name,
               childrenDocModules = [],
@@ -97,11 +97,11 @@ export default class ChildrenContent extends Component {
                 DocIfNotCurrent,
                 linkToComponent,
                 linkToCode,
-                default: Doc,
+                default: Doc
               }
             } = module
 
-            let results
+            let result
 
             if (name !== currentComponentName) {
               if (hideChildrenIfNotCurrent)
@@ -115,7 +115,7 @@ export default class ChildrenContent extends Component {
               else if (childrenDocModules.length)
                 // рендерим дочерние компоненты
                 result = <ChildrenContent
-                  allReqContext={ allReqContext }
+                  docModules={ docModules }
                   rootComponentName={ name }
                   currentComponentName={ currentComponentName }
                   level={ level + 1 } />
@@ -124,7 +124,7 @@ export default class ChildrenContent extends Component {
                 result = <Doc />
               else if (childrenDocModules.length)
                 result = <ChildrenContent
-                  allReqContext={ allReqContext }
+                  docModules={ docModules }
                   rootComponentName={ name }
                   currentComponentName={ currentComponentName }
                   level={ level + 1 } />
