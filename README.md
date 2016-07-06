@@ -1,3 +1,3 @@
 # Rambler-ui
 <hr>
-[highpower.github.com/rambler-ui](highpower.github.com/rambler-ui)
+[https://highpower.github.io/rambler-ui](https://highpower.github.io/rambler-ui)
