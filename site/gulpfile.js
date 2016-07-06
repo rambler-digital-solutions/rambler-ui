@@ -9,7 +9,7 @@ const del = require('del')
 const cp = require('child_process')
 const path = require('path')
 const webpack = require('webpack-stream')
-// const ghpages = require('gh-pages')
+const ghpages = require('gh-pages')
 const webpackConfig = require('./webpack/config')
 const buildGhPagesDir = __dirname + '/build-gh-pages'
 const buildDir = __dirname + '/build'
@@ -22,7 +22,8 @@ const exec = (str) =>
   cp.execSync(str).toString().trim()
 
 
-gulp.task('gh-pages', ['webpack'], () => {
+
+gulp.task('gh-pages', [], (callback) => {
   // версии, для которых создаем папки
 
   const remoteUrl = exec('git config --get remote.origin.url')
@@ -53,8 +54,12 @@ gulp.task('gh-pages', ['webpack'], () => {
     cd ${buildGhPagesDir};
     git commit -am '${message}';
     git push origin gh-pages:gh-pages;
-    git push origin gh-pages:gh-pages ${config.ghPagesRepo};
   `)
+  ghpages.clean(buildGhPagesDir)
+  ghpages.publish(buildGhPagesDir, {
+    repo: config.ghPagesRepo,
+    message: message
+  }, callback)
 
 })
 
