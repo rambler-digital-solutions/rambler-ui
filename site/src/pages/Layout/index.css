@@ -24,6 +24,7 @@
   position: relative;
   z-index: 1;
   &__item {
+    display: inline-block;
     color: $colors-dark;
     padding: 15px 15px 13px;
     border-bottom: 2px solid transparent;
@@ -33,5 +34,10 @@
       border-color: $colors-blue;
       color: $colors-blue;
     }
+  }
+  &__version {
+    position: absolute;
+    right: 15px;
+    top: 14px;
   }
 }

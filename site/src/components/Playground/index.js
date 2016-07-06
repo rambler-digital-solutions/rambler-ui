@@ -134,14 +134,14 @@ export default class Playground extends Component {
         <div className={ css.Header }>
           <div className={ css.Header__title }>{ title }</div>
           <div className={ css.Header__tabs }>
-            <div
-              onClick={() => this.setMode('read')}
-              className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'read' }) }>Код</div>
             {
               canEdit && <div
                 onClick={() => this.setMode('write')}
                 className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'write' }) }>Редактировать</div>
             }
+            <div
+              onClick={() => this.setMode('read')}
+              className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'read' }) }>Код</div>
           </div>
         </div>
         <div className={ css.Body }>
