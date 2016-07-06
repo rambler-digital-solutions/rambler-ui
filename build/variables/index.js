@@ -1,4 +1,0 @@
-'use strict';
-
-exports.colors = require('./colors');
-exports.ns = 'rui';
