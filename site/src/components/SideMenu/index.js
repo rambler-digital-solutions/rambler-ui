@@ -22,8 +22,8 @@ export default class SideMenu extends Component {
               <Link
                 to={ module.linkToComponent }
                 className={ css.List__link }
-                activeClassName={ css.isActive }
-              >{ module.selfName }</Link>
+                activeClassName={ css['is-active'] }
+              >{ module.module.title || module.selfName }</Link>
               {
                 module.childrenDocModules &&
                 module.childrenDocModules.length ?

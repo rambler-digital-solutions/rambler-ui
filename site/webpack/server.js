@@ -14,6 +14,7 @@ const server = new WebpackDevServer(compiler, {
 })
 
 server.listen(port, host)
+console.log(`Dev server start on ${host}:${port}`)
 
 // const path = require('path')
 // const express = require('express')

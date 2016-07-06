@@ -4,12 +4,20 @@
 
 .ComponentWrapper {
 
+  &:not(:first-child) {
+    border-top: 1px solid #eee;
+    margin-top: 20px;
+  }
+
   &__header {
-    padding: 20px;
+    padding: 0 0 10px;
+    margin: 20px 15px 0;
+    border-bottom: 1px solid #eee;
+    position: relative;
   }
 
   &__title {
-
+    margin: 0;
   }
 
   &__name {
@@ -17,7 +25,7 @@
   }
 
   &__content {
-
+    padding: 15px;
   }
 
   &__link {
@@ -25,7 +33,11 @@
   }
 
   &__sourceLink {
-
+    position: absolute;
+    z-index: 1;
+    top: 0px;
+    right: 0px;
+    line-height: 20px;
   }
 
 }

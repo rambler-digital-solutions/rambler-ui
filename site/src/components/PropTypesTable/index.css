@@ -14,6 +14,7 @@
     border-right: 0 none;
     display: table-cell;
     vertical-align: top;
+    font-size: 14px;
   }
 
   table th {
@@ -44,4 +45,8 @@
     min-width: 250px;
   }
 
+}
+
+:global .propTypeDescription .markdown-body {
+  padding: 0 !important
 }

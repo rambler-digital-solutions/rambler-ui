@@ -1,10 +1,30 @@
 .Wrapper {
-  padding: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
 .Header {
-  &__tab {
+  padding: 15px;
+  background: #fafafa;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+  &__title {
 
+  }
+  &__tabs {
+    position: absolute;
+    right: 15px;
+    top: 0;
+  }
+  &__tab {
+    cursor: pointer;
+    display: inline-block;
+    padding: 15px 15px 13px;
+    border-bottom: 2px solid transparent;
+    &.is-active {
+      color: $colors-blue;
+      border-color: $colors-blue;
+    }
   }
 }
 
@@ -13,9 +33,21 @@
 }
 
 .Code {
+  padding: 15px;
+  &__pre {
 
+  }
 }
 
 .Preview {
-
+  border-top: 1px solid #ddd;
+  padding: 15px;
+  &__error {
+    color: red;
+  }
 }
+
+:global .CodeMirror {
+  height: auto !important;
+}
+

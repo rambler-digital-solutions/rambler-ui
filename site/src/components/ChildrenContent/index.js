@@ -22,7 +22,6 @@ function ComponentWrapper(props) {
       <div className={ css.ComponentWrapper__header } >
         <Link className={ css.ComponentWrapper__link } to={ linkToComponent }>
           <h2 className={ css.ComponentWrapper__title } id={ name }>{ title || name }</h2>
-          <div className={ css.ComponentWrapper__name }>{ name }</div>
         </Link>
         <a className={ css.ComponentWrapper__sourceLink } href={ linkToCode } target="_blank">&#x3C;source/&#x3E;</a>
       </div>
