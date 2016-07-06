@@ -1,6 +1,8 @@
 /* eslint strict: ['off'] */
 'use strict'
 
+const _ = require('lodash')
+const async = require('async')
 const gulp = require('gulp')
 const postcss = require('gulp-postcss')
 const cssnext = require('postcss-cssnext')
@@ -16,6 +18,7 @@ const path = require('path')
 const fs = require('fs')
 const cp = require('child_process')
 const eslint = require('gulp-eslint')
+const argv = require('minimist')(process.argv)
 const importRgx = /import +([^\n]+?) +from +['"]([^\n\s]+?\.css)['"]/g
 const srcDir = __dirname + '/src'
 const siteSrcDir = __dirname + '/site/src'
@@ -105,15 +108,16 @@ gulp.task('copy:build', () =>
 )
 
 // TODO
-gulp.task('npm:publish', callback => {
-  const options = {
-    branch: 'npm-master'
-  }
-  ghpages.publish(
-    buildDir,
-    options,
-    callback
-  )
+gulp.task('npm:publish', ['build'], callback => {
+  const versions = _.compact((argv.versions || '').split(/[\s,]+/))
+  async.eachSeries(versions, function (version, next) {
+    ghpages.clean()
+    ghpages.publish(
+      buildDir,
+      { branch: `npm-${version}` },
+      next
+    )
+  }, callback)
 })
 
 gulp.task('precommit', ['eslintChanged'])

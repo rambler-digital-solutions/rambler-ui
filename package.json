@@ -30,6 +30,7 @@
     "recompose": "^0.20.2"
   },
   "devDependencies": {
+    "async": "^2.0.0-rc.6",
     "babel": "^6.5.2",
     "babel-core": "^6.9.0",
     "babel-eslint": "^6.1.0",

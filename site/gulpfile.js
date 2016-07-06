@@ -4,6 +4,7 @@
 
 'use strict'
 
+const _ = require('lodash')
 const gulp = require('gulp')
 const del = require('del')
 const cp = require('child_process')
@@ -23,12 +24,11 @@ const exec = (str) =>
 
 
 
-gulp.task('gh-pages', [], (callback) => {
+gulp.task('gh-pages', ['webpack'], (callback) => {
   // версии, для которых создаем папки
 
   const remoteUrl = exec('git config --get remote.origin.url')
-  const versions = argv.versions || ''
-  const folders = versions.split(',')
+  const folders = _.compact((argv.versions || '').split(/[\s,]+/))
   const message = argv.message || 'Update gh-pages'
 
   exec(`rm -rf ${buildGhPagesDir}`)
@@ -55,7 +55,7 @@ gulp.task('gh-pages', [], (callback) => {
     git commit -am '${message}';
     git push origin gh-pages:gh-pages;
   `)
-  ghpages.clean(buildGhPagesDir)
+  ghpages.clean()
   ghpages.publish(buildGhPagesDir, {
     repo: config.ghPagesRepo,
     message: message

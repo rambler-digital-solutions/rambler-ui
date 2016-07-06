@@ -24,7 +24,7 @@ export default class Layout extends Component {
 
   fetchVersions() {
     const req = new XMLHttpRequest()
-    req.open('GET', '/versions.json', true)
+    req.open('GET', `${config.pathPrefix}/versions.json`, true)
     req.onreadystatechange = () => {
       if (req.readyState === 4 && req.status === 200)
         this.setState({ versions: JSON.parse(req.responseText) })
