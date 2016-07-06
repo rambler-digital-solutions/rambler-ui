@@ -61,6 +61,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "husky": "^0.11.4",
+    "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "postcss": "^5.0.21",
     "postcss-autoreset": "^1.1.5",

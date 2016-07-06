@@ -104,7 +104,8 @@ gulp.task('copy:build', () =>
   .pipe(gulp.dest(buildDir))
 )
 
-gulp.task('npm:master', callback => {
+// TODO
+gulp.task('npm:publish', callback => {
   const options = {
     branch: 'npm-master'
   }

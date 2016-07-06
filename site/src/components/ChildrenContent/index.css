@@ -20,10 +20,6 @@
     margin: 0;
   }
 
-  &__name {
-
-  }
-
   &__content {
     padding: 15px;
   }
@@ -34,6 +30,7 @@
 
   &__sourceLink {
     position: absolute;
+    display: inline-block;
     z-index: 1;
     top: 0px;
     right: 0px;

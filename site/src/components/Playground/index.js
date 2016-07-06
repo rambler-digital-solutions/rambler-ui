@@ -17,8 +17,8 @@ import css from './index.css'
 import * as rui from '../../../../src'
 import hljs from 'highlight.js'
 import { transform } from 'babel-standalone'
-import '!!style!css!highlight.js/styles/default.css'
-import '!!style!css!codemirror/lib/codemirror.css'
+import 'highlight.js/styles/default.css'
+import 'codemirror/lib/codemirror.css'
 
 const LIB_NAME = 'rambler-ui'
 

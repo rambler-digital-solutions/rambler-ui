@@ -24,16 +24,19 @@
     "codemirror": "^5.16.0",
     "core-decorators": "^0.12.3",
     "css-loader": "^0.23.1",
+    "del": "^2.2.1",
     "doctrine": "^1.2.2",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "flat": "^2.0.1",
     "gulp": "^3.9.1",
+    "gulp-copy": "0.0.2",
     "highlight.js": "^9.5.0",
     "html-webpack-plugin": "^2.22.0",
     "json-loader": "^0.5.4",
     "lodash": "^4.13.1",
     "marked": "^0.3.5",
+    "minimist": "^1.2.0",
     "normalize.css": "^4.2.0",
     "postcss-cssnext": "^2.7.0",
     "postcss-font-grabber": "^1.0.6",
@@ -55,5 +58,8 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
+  },
+  "devDependencies": {
+    "webpack-stream": "^3.2.0"
   }
 }

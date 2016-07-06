@@ -23,10 +23,10 @@ export default class Layout extends Component {
   }
 
   fetchVersions() {
-    var req = new XMLHttpRequest()
+    const req = new XMLHttpRequest()
     req.open('GET', '/versions.json', true)
     req.onreadystatechange = () => {
-      if (req.readyState == 4 && req.status == 200)
+      if (req.readyState === 4 && req.status === 200)
         this.setState({ versions: JSON.parse(req.responseText) })
     }
     req.send(null)

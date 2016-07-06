@@ -4,6 +4,7 @@ const _ = require('lodash')
 
 module.exports = {
   repoLink: 'https://gitlab.rambler.ru/rambler-ui/rambler-ui',
+  ghPagesRepo: 'git@github.com:highpower/rambler-ui.git',
   branch: cp.execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
 }
 

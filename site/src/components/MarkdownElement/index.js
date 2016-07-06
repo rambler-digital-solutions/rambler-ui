@@ -2,8 +2,8 @@
 
 import {Component, PropTypes} from 'react'
 import marked from 'marked'
-import '!!style!css!./index.css'
-import '!!style!css!highlight.js/styles/default.css'
+import './index.css'
+import 'highlight.js/styles/default.css'
 import hljs from 'highlight.js'
 
 const styles = {
