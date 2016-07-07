@@ -21,13 +21,6 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new ExtractTextPlugin('styles.css'),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: true
-      },
-      mangle: {
-        except: ['$super', 'exports', 'require']
-      }
-    })
+    new webpack.optimize.UglifyJsPlugin()
   ]
 }
