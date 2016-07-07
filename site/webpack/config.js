@@ -25,7 +25,7 @@ const postCssProcessors = [
   cssnext()
 ]
 
-const appConfig = require(__dirname + '/../config')
+const appConfig = require('../config')
 
 let outputPath = path.join(rootDir, 'build')
 if (argv.output)
