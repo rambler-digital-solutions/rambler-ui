@@ -23,7 +23,7 @@ const exec = (str) =>
   cp.execSync(str).toString().trim()
 
 
-gulp.task('gh-pages', [], (callback) => {
+gulp.task('gh-pages', ['webpack'], (callback) => {
   // версии, для которых создаем папки
 
   const remoteUrl = exec('git config --get remote.origin.url')
