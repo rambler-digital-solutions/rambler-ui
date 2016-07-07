@@ -4,8 +4,7 @@
   "description": "Rambler UI Docs",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=development node webpack/server.js",
-    "build": "build"
+    "dev": "NODE_ENV=development node webpack/server.js"
   },
   "author": "Rambler team",
   "license": "ISC",
@@ -19,7 +18,9 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-preset-stage-1": "^6.5.0",
     "babel-preset-stage-2": "^6.5.0",
-    "babel-standalone": "^6.10.3",
+    "babel-runtime": "^6.9.2",
+    "babel-standalone": "^6.7.7",
+    "babylon": "^5.8.3",
     "classnames": "^2.2.5",
     "codemirror": "^5.16.0",
     "core-decorators": "^0.12.3",
@@ -57,9 +58,7 @@
     "scroll-behavior": "^0.7.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
-  },
-  "devDependencies": {
+    "webpack-dev-server": "^1.14.1",
     "webpack-stream": "^3.2.0"
   }
 }
