@@ -1,37 +1,36 @@
 .SideMenu {
-  background: #fafafa;
+  background: #333;
   flex: 1;
 }
 
 .List {
 
-  &[data-level='1'] { margin-left: 10px; }
-  &[data-level='2'] { margin-left: 20px; }
-  &[data-level='3'] { margin-left: 30px; }
-  &[data-level='4'] { margin-left: 40px; }
-  &[data-level='5'] { margin-left: 50px; }
+  &[data-level='1'] { margin-left: 15px; }
+  &[data-level='2'] { margin-left: 30px; }
+  &[data-level='3'] { margin-left: 45px; }
+  &[data-level='4'] { margin-left: 60px; }
+  &[data-level='5'] { margin-left: 75px; }
 
   &[data-level='0'] > &__item:not(:last-child) {
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #444;
   }
 
   &[data-level='0'] > &__item {
-    padding: 15px 10px;
-    margin: 0 10px;
+    padding: 15px 15px;
   }
 
   &__link {
-    @mixin link $colors-dark, $colors-blue;
+    @mixin link #bbb, #eee;
     display: block;
+    font-size: 13px;
     &.is-active {
-     font-weight: bold;
-     @mixin link $colors-dark, $colors-dark;
+     @mixin link #f2f2f2, #f2f2f2;
      cursor: default;
     }
   }
 
   &:not([data-level='0']) &__link {
-    margin-top: 5px;
+    margin-top: 8px;
   }
 
   &__embed {
