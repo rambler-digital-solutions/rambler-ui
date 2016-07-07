@@ -1,4 +1,4 @@
-import { Component, PropTypes, cloneElement, isValidElement } from 'react'
+import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
 import { create as createFragment } from 'react/lib/ReactFragment'
 import classnames from 'classnames'
 

@@ -110,7 +110,7 @@ gulp.task('copy:build', () =>
 // TODO
 gulp.task('npm:publish', ['build'], callback => {
   const versions = _.compact((argv.versions || '').split(/[\s,]+/))
-  async.eachSeries(versions, function (version, next) {
+  async.eachSeries(versions, (version, next) => {
     ghpages.clean()
     ghpages.publish(
       buildDir,

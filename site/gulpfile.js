@@ -23,8 +23,7 @@ const exec = (str) =>
   cp.execSync(str).toString().trim()
 
 
-
-gulp.task('gh-pages', ['webpack'], (callback) => {
+gulp.task('gh-pages', [], (callback) => {
   // версии, для которых создаем папки
 
   const remoteUrl = exec('git config --get remote.origin.url')
@@ -32,34 +31,34 @@ gulp.task('gh-pages', ['webpack'], (callback) => {
   const message = argv.message || 'Update gh-pages'
 
   exec(`rm -rf ${buildGhPagesDir}`)
-  exec(`
-    git clone -b gh-pages ${remoteUrl} ${buildGhPagesDir};
-  `)
-
+  exec(`git clone -b gh-pages ${remoteUrl} ${buildGhPagesDir}`)
+  exec(`rm -rf ${buildGhPagesDir}/.git`)
+  exec(`find ${buildGhPagesDir} ! -name '*' ! -type d -exec rm -- {} +`)
   folders.forEach((folder) => {
     const resFolder = path.join(buildGhPagesDir, folder)
     exec(`rm -rf ${resFolder}`)
     exec(`cp -r ${buildDir} ${resFolder}`)
+    if (folder === 'stable')
+      exec(`cp -r ${buildDir}/* ${buildGhPagesDir}/`)
   })
 
   exec(`cp ${versionsFile} ${buildGhPagesDir}/`)
   exec(`cp ${readmeFile} ${buildGhPagesDir}/`)
-  try {
-    exec(`ln -sf ${buildGhPagesDir}/stable/* ${buildGhPagesDir}`)
-  } catch (e) {
-    console.error(e)
-  }
 
-  exec(`
-    cd ${buildGhPagesDir};
-    git commit -am '${message}';
-    git push origin gh-pages:gh-pages;
-  `)
   ghpages.clean()
   ghpages.publish(buildGhPagesDir, {
-    repo: config.ghPagesRepo,
-    message: message
-  }, callback)
+    message,
+    add: true
+  }, (err) => {
+    if (err)
+      return callback(err)
+    ghpages.clean()
+    ghpages.publish(buildGhPagesDir, {
+      message,
+      repo: config.ghPagesRepo,
+      add: true
+    }, callback)
+  })
 
 })
 
