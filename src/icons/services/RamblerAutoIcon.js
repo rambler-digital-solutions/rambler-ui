@@ -1,4 +1,4 @@
-import { Component } from 'react'
+import React, { Component } from 'react'
 import SvgIcon from '../SvgIcon'
 import pure from 'recompose/pure'
 

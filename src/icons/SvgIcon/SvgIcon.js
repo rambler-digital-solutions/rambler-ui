@@ -1,4 +1,4 @@
-import { PropTypes, Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { colors } from '../../variables'
 
 export default class SvgIcon extends Component {
