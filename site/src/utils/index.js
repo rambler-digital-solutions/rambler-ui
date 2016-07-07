@@ -6,7 +6,7 @@ const getLinkToComponent = (name) =>
   path.join('/components', name)
 
 const getLinkToCode = (name) =>
-  path.join(repoLink, 'tree', branch, 'src', name)
+  repoLink + path.join('/tree', branch, 'src', name)
 
 const getSortedKeys = memoize(reqContext => reqContext.keys().sort())
 
