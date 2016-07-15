@@ -8,7 +8,7 @@
     "release": "npm run build && npm run release",
     "build": "gulp build",
     "precommit": "gulp precommit",
-    "publish": "gulp publish"
+    "publish": "gulp npm:publish"
   },
   "repository": {
     "type": "git",
