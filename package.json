@@ -6,9 +6,9 @@
   "scripts": {
     "dev": "cd site && npm run dev",
     "release": "npm run build && npm run release",
-    "build": "gulp build",
+    "build": "NODE_ENV=production gulp build",
     "precommit": "gulp precommit",
-    "publish": "gulp npm:publish"
+    "publish": "NODE_ENV=production gulp npm:publish"
   },
   "repository": {
     "type": "git",
