@@ -1,15 +1,14 @@
 {
   "name": "rambler-ui",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
     "dev": "cd site && npm run dev",
     "release": "npm run build && npm run release",
     "build": "gulp build",
-    "build-site": "",
-    "release-site": "",
-    "precommit": "gulp precommit"
+    "precommit": "gulp precommit",
+    "publish": "gulp publish"
   },
   "repository": {
     "type": "git",

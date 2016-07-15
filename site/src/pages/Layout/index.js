@@ -39,11 +39,11 @@ export default class Layout extends Component {
       path: compact(window.location.pathname.replace(config.pathPrefix, '').split('/')).join('/')
     })
     const menuItems = [{
-      name: 'Установка',
-      route: '/install'
-    }, {
       name: 'Компоненты',
       route: '/components'
+    }, {
+      name: 'Установка',
+      route: '/install'
     }, {
       name: 'Разработка',
       route: '/contribute'

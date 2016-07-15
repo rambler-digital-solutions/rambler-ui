@@ -26,11 +26,11 @@
   &__item {
     display: inline-block;
     color: $colors-dark;
-    padding: 15px 15px 13px;
+    padding: 15px 0 13px;
+    margin: 0 15px -1px;
     border-bottom: 2px solid transparent;
     text-decoration: none;
     font-weight: 400;
-    margin-bottom: -1px;
     &.is-active {
       border-color: $colors-blue;
       color: $colors-blue;

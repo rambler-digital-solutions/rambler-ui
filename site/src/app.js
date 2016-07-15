@@ -23,7 +23,7 @@ render(
         </Route>
         <Route path="install" component={ InstallPage } />
         <Route path="contribute" component={ ContributePage } />
-        <IndexRedirect to="install"/>
+        <IndexRedirect to="components"/>
       </Route>
     </Router>
   </div>,
