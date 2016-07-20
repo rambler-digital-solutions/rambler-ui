@@ -1,4 +1,4 @@
-@keyframes ruiAnimateDot {
+@keyframes animateDot {
   20% {
     transform: scale(1)
   }
@@ -21,23 +21,26 @@ $active-border,
 $active-bg,
 $focus-border,
 $focus-bg,
-$focus-ounline-border,
 $loading-border,
 $loading-dot,
 $disabled-border,
 $disabled-bg,
-$disabled-text, {
+$disabled-text,
+$focus-offset, {
 
   &--theme-$theme {
     color: $default-text !important;
     background: $default-bg;
     box-shadow: inset 0px 0px 0px 1px $default-border;
 
-    &:focus:not(:active):not(:hover) {
+    &:focus:not(:active) {
       background: $focus-bg !important;
-      box-shadow: inset 0px 0px 0px 1px $focus-border !important;
-      &::before {
-        box-shadow: inset 0px 0px 0px 1px $focus-ounline-border;
+      &:before {
+        top: -$focus-offset;
+        bottom: -$focus-offset;
+        left: -$focus-offset;
+        right: -$focus-offset;
+        box-shadow: inset 0px 0px 0px 1px $focus-border;
       }
     }
     &:hover:not(:active) {
@@ -64,9 +67,7 @@ $disabled-text, {
 .Button {
   all: initial;
   font-family: 'Roboto', sans-serif;
-  overflow: hidden;
   text-align: center;
-  transition: all .2s;
   cursor: pointer;
   box-sizing: border-box;
   font-size: 12px;
@@ -80,6 +81,10 @@ $disabled-text, {
   border: none;
   user-select: none;
 
+  &, * {
+    transition: all .2s;
+  }
+
   &.is-loading, &[disabled] {
     pointer-events: none;
   }
@@ -88,13 +93,10 @@ $disabled-text, {
     opacity: 0;
   }
 
-  &:focus:not(:active):not(:hover)::before {
+  &:focus:before {
     content: '';
+    display: block;
     position: absolute;
-    top: -3px;
-    bottom: -3px;
-    left: -3px;
-    right: -3px;
   }
 
   &--block {
@@ -102,12 +104,12 @@ $disabled-text, {
     width: 100%;
   }
 
-  &--size-medium {
+  &--size-medium &__content {
     height: 45px;
     line-height: 45px;
   }
 
-  &--size-small {
+  &--size-small &__content {
     height: 35px;
     line-height: 35px;
   }
@@ -144,7 +146,7 @@ $disabled-text, {
     transition: transform .6s ease-out;
     transform: translate3d(0, 0, 0);
 
-    animation: ruiAnimateDot .6s ease-out;
+    animation: animateDot .6s ease-out;
     animation-fill-mode: forwards;
     animation-iteration-count: infinite;
 
@@ -185,14 +187,14 @@ $disabled-text, {
     #3059DD,
     #2A4FC5,
     #2A4FC5,
+    #3264fb,
     #1660e0,
-    #1660e0,
-    #315efb,
     #315efb,
     #fff,
     #315efb,
     #315efb,
-    rgba(255, 255, 255, .4);
+    rgba(255, 255, 255, .4),
+    3px;
 
   @mixin theme-button white,
     #fff,
@@ -204,12 +206,12 @@ $disabled-text, {
     #eee,
     #315efb,
     #fff,
-    transparent,
     #ccc,
     #315efb,
     #eee,
     #eee,
-    rgba(38, 38, 38, .4);
+    rgba(38, 38, 38, .4),
+    0px;
 
   @mixin theme-button lightBlue,
     #eaefff,
@@ -221,12 +223,12 @@ $disabled-text, {
     rgba(49, 94, 251, .3),
     #649dff,
     #eaefff,
-    transparent,
     #eaefff,
     #315efb,
     #eaefff,
     #eaefff,
-    rgba(49, 94, 251, .4);
+    rgba(49, 94, 251, .4),
+    0px;
 
 }
 
