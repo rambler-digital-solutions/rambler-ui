@@ -10,8 +10,24 @@
   }
 }
 
+@define-mixin middle {
+  &:before {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    content: '';
+    width: 0;
+  }
+  & > * {
+    vertical-align: middle;
+  }
+}
 
-@define-mixin theme-button $theme,
+@define-mixin border $color {
+  box-shadow: inset 0px 0px 0px 1px $color;
+}
+
+@define-mixin theme $theme,
 $default-bg,
 $default-border,
 $default-text,
@@ -31,7 +47,7 @@ $focus-offset, {
   &--theme-$theme {
     color: $default-text !important;
     background: $default-bg;
-    box-shadow: inset 0px 0px 0px 1px $default-border;
+    @mixin border $default-border;
 
     &:focus:not(:active) {
       background: $focus-bg !important;
@@ -40,20 +56,20 @@ $focus-offset, {
         bottom: -$focus-offset;
         left: -$focus-offset;
         right: -$focus-offset;
-        box-shadow: inset 0px 0px 0px 1px $focus-border;
+        @mixin border $focus-border;
       }
     }
     &:hover:not(:active) {
       background: $hover-bg !important;
-      box-shadow: inset 0px 0px 0px 1px $hover-border !important;
+      @mixin border $hover-border;
     }
     &:active {
       background: $active-bg;
-      box-shadow: inset 0px 0px 0px 1px $active-border !important;
+      @mixin border $active-border;
     }
     &[disabled] {
       color: $disabled-text !important;
-      box-shadow: inset 0px 0px 0px 1px $disabled-border;
+      @mixin border $disabled-border;
       background: $disabled-bg;
     }
   }
@@ -71,6 +87,7 @@ $focus-offset, {
   cursor: pointer;
   box-sizing: border-box;
   font-size: 12px;
+  line-height: 13px;
   text-transform: uppercase;
   text-decoration: none;
   font-weight: 500;
@@ -106,16 +123,18 @@ $focus-offset, {
 
   &--size-medium &__content {
     height: 45px;
-    line-height: 45px;
   }
 
   &--size-small &__content {
     height: 35px;
-    line-height: 35px;
   }
 
   &__content {
     padding: 0 20px;
+    white-space: nowrap;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    @mixin middle;
   }
 
   &__loader {
@@ -126,13 +145,7 @@ $focus-offset, {
     top: 0;
     width: 100%;
     text-align: center;
-    &:before {
-      display: inline-block;
-      height: 100%;
-      vertical-align: middle;
-      content: '';
-      width: 0;
-    }
+    @mixin middle;
   }
 
   &__loaderDot {
@@ -151,7 +164,7 @@ $focus-offset, {
     animation-iteration-count: infinite;
 
     &:nth-child(2){
-      margin: 0 4px;
+      margin: 0 5px;
     }
 
     &:nth-child(1){
@@ -179,7 +192,12 @@ $focus-offset, {
     cursor: pointer;
   }
 
-  @mixin theme-button blue,
+  &__icon {
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  @mixin theme blue,
     #315efb,
     #315efb,
     #fff,
@@ -196,7 +214,7 @@ $focus-offset, {
     rgba(255, 255, 255, .4),
     3px;
 
-  @mixin theme-button white,
+  @mixin theme white,
     #fff,
     #ccc,
     #262626,
@@ -213,7 +231,7 @@ $focus-offset, {
     rgba(38, 38, 38, .4),
     0px;
 
-  @mixin theme-button lightBlue,
+  @mixin theme lightBlue,
     #eaefff,
     #eaefff,
     #315efb,

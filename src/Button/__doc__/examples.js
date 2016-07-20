@@ -1,5 +1,6 @@
 import Button from 'rambler-ui/Button'
 import React, {Component} from 'react'
+import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
 
 export default class ButtonExample extends Component {
   state = {
@@ -21,7 +22,7 @@ export default class ButtonExample extends Component {
     return (
       <div>
         <div>
-          <Button style={{margin: 20}} onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
+          <Button icon={<RamblerMailIcon/>} style={{margin: 20}} onClick={::this.handleClick} loading={this.state.loading}>Почта</Button>
           <Button style={{margin: 20}} disabled>Disabled</Button>
           <Button style={{margin: 20}} theme="white" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
           <Button style={{margin: 20}} theme="white" disabled>disabled</Button>

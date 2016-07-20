@@ -41,9 +41,9 @@ export default class SvgIcon extends Component {
   };
 
   sizeMap = {
-    small: 12,
+    small: 15,
     medium: 20,
-    large: 30
+    large: 25
   }
 
   render() {

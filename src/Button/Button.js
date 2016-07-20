@@ -90,11 +90,10 @@ export default class Button extends Component {
         size: this.props.size,
         color: this.mapThemeToColor(this.props.theme)
       }
-      const resultProps = { ...iconProps, ...(icon.props || {}) }
-      const resultIcon = cloneElement(icon, resultProps)
-      return <div className={ css.Button__icon }>
-        { resultIcon }
-      </div>
+      const initialProps = icon.props || {}
+      const className = classnames(initialProps.className, css.Button__icon)
+      const resultProps = { ...iconProps, ...initialProps, className }
+      return cloneElement(icon, resultProps)
     }
   }
 
