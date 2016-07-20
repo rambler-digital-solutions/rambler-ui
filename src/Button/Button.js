@@ -48,7 +48,7 @@ export default class Button extends Component {
      */
     container: PropTypes.element,
     /**
-     * Элемент, который прозрачно накладывается на кнопку (Например <input type="file" />)
+     * Элемент, который прозрачно накладывается на кнопку (Например `<input type="file" />`)
      */
     overlay: PropTypes.element,
     /**
@@ -56,7 +56,7 @@ export default class Button extends Component {
      */
     disabled: PropTypes.bool,
     /**
-     * Отображать кнопку как display: block
+     * Отображать кнопку как блочный элемент
      */
     block: PropTypes.bool,
     /**
