@@ -132,7 +132,7 @@ export default class Button extends Component {
       className,
       {
         [css['is-loading']]: loading,
-        [css['Button--block']]: block,
+        [css['Button--block']]: block
       })
 
     const resultChildren = [
@@ -151,7 +151,10 @@ export default class Button extends Component {
       disabled: disabled ? 'disabled' : null
     }
 
-    const resultContainer = isValidElement(container) ? container : href ? <a href={ href } /> : <button type={ buttonType } />
+    const resultContainer = isValidElement(container) ?
+      container : href ?
+      <a href={ href } /> : overlay ?
+      <div /> : <button type={ buttonType } />
 
     return cloneElement(resultContainer, resultProps, ...resultChildren)
   }
