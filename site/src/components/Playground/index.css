@@ -36,9 +36,8 @@
 
 .Code {
   padding: 15px;
-  &__pre {
-
-  }
+  overflow: scroll;
+  &__pre {}
 }
 
 .Preview {

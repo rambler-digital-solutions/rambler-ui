@@ -6,6 +6,7 @@ const async = require('async')
 const gulp = require('gulp')
 const postcss = require('gulp-postcss')
 const cssnext = require('postcss-cssnext')
+const precss = require('precss')
 const cssModules = require('postcss-modules')
 const rename = require('gulp-rename')
 const replace = require('gulp-replace')
@@ -62,6 +63,7 @@ gulp.task('build:css', () => {
   const processors = [
     postCssImport(),
     postCssVars({variables: cssVariables}),
+    precss(),
     cssnext(),
     cssModules({
       getJSON(fileName, json) {

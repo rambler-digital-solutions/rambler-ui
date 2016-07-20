@@ -5,14 +5,14 @@
 /**
  * Плейграунд
  */
-import { PropTypes, Component } from 'react'
+import React, { PropTypes, Component } from 'react'
 import { render } from 'react/lib/ReactDOM'
 import Codemirror from 'react-codemirror'
 import 'codemirror/mode/javascript/javascript'
 import { debounce } from 'core-decorators'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
-import { get, compact } from 'lodash'
+import _, { get, compact } from 'lodash'
 import css from './index.css'
 import * as rui from '../../../../src'
 import hljs from 'highlight.js'
@@ -20,6 +20,10 @@ import { transform } from 'babel-standalone'
 import 'highlight.js/styles/default.css'
 import 'codemirror/lib/codemirror.css'
 
+const availableModules = {
+  react: React,
+  lodash: _
+}
 const LIB_NAME = 'rambler-ui'
 
 @pure
@@ -101,6 +105,8 @@ export default class Playground extends Component {
           return get(rui, compact(moduleName.replace(LIB_NAME, '').split('/')).join('.'))
         else if (moduleName === LIB_NAME)
           return rui
+        else if (availableModules[moduleName])
+          return availableModules[moduleName]
         throw new Error(`Module ${moduleName} is not defined`)
       }
       resModule(scopeModule, scopeModule.exports, scopeRequire)
@@ -123,7 +129,7 @@ export default class Playground extends Component {
     const codeElement = mode === 'read' ?
       <pre className={css.Code__pre} dangerouslySetInnerHTML={{ __html: hljs.highlight('javascript', code).value }}/> :
       <Codemirror
-        options={{ mode: 'javascript' }}
+        options={{ mode: 'javascript', scrollbarStyle: null }}
         onChange={ ::this.onCodeChange }
         autoSave={ true }
         value={ code }

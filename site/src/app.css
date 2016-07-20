@@ -14,16 +14,19 @@ body {
   font-family: Roboto;
   font-weight: 400;
   font-size: 14px;
+  overflow: hidden;
 }
 
 .App {
   display: flex;
   flex: 1;
+  max-width: 100%;
 }
 
 :global #root {
   display: flex;
   flex: 1;
+  max-width: 100%;
 }
 
 :global a {

@@ -1,4 +1,4 @@
-@keyframes animateDot {
+@keyframes ruiAnimateDot {
   20% {
     transform: scale(1)
   }
@@ -9,32 +9,9 @@
     transform: scale(1)  translate3d(0, 0, 0)
   }
 }
-.button {
-  font-family: 'Roboto', sans-serif;
-  overflow: hidden;
-  text-align: center;
-  transition: all .2s;
-  cursor: pointer;
-  box-sizing: border-box;
-  padding: 0 20px;
-  font-size: 12px;
-  text-transform: uppercase;
-  text-decoration: none;
-  position: relative;
-  font-weight: 500;
-  letter-spacing: 1px;
-  outline: none;
-  &--size-medium {
-    height: 45px;
-    line-height: 45px;
-  }
-  &--size-small {
-    height: 35px;
-    line-height: 35px;
-  }
-}
 
-@define-mixin btn $name,
+
+@define-mixin theme-button $theme,
 $default-bg,
 $default-border,
 $default-text,
@@ -49,134 +26,198 @@ $loading-border,
 $loading-dot,
 $disabled-border,
 $disabled-bg,
-$disabled-text {
-  $(name) {
-  color: $default-text !important;
-  background: $default-bg;
-  border: 1px solid $default-border;
+$disabled-text, {
+
+  &--theme-$theme {
+    color: $default-text !important;
+    background: $default-bg;
+    box-shadow: inset 0px 0px 0px 1px $default-border;
+
     &:focus:not(:active):not(:hover) {
       background: $focus-bg !important;
-      border-color: $focus-border !important;
+      box-shadow: inset 0px 0px 0px 1px $focus-border !important;
       &::before {
-        content: '';
-        position: absolute;
-        top: -3px;
-        bottom: -3px;
-        left: -3px;
-        right: -3px;
-        border: 1px solid $focus-ounline-border;
+        box-shadow: inset 0px 0px 0px 1px $focus-ounline-border;
       }
     }
     &:hover:not(:active) {
       background: $hover-bg !important;
-      border-color: $hover-border !important;
+      box-shadow: inset 0px 0px 0px 1px $hover-border !important;
     }
     &:active {
       background: $active-bg;
-      border-color: $active-border !important;
+      box-shadow: inset 0px 0px 0px 1px $active-border !important;
     }
-    &-disabled {
+    &[disabled] {
       color: $disabled-text !important;
-      pointer-events: none;
-      border-color: $disabled-border;
+      box-shadow: inset 0px 0px 0px 1px $disabled-border;
       background: $disabled-bg;
     }
-    &-loading {
-      &-wrapper {
-        color: rgba(0, 0, 0, 0) !important;
-      }
-      position: absolute;
-      width: 26px;
-      height: 12px;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      top: 0;
-      margin: auto;
+  }
 
-      &-dot {
-        height: 6px;
-        width: 6px;
-        border-radius: 50%;
-        background: $loading-dot;
-        float: left;
-        transition: transform .6s ease-out;
-        transform: translate3d(0, 0, 0);
-
-        animation: animateDot .6s ease-out;
-        animation-fill-mode: forwards;
-        animation-iteration-count: infinite;
-      }
-
-      &-dot:nth-child(2){
-        margin: 0 4px;
-      }
-
-      &-dot:nth-child(1){
-        animation-delay: 0s;
-      }
-
-      &-dot:nth-child(2){
-        animation-delay: .08s;
-      }
-
-      &-dot:nth-child(3){
-        animation-delay: .16s;
-      }
-    }
+  &--theme-$theme &__loaderDot {
+    background: $loading-dot;
   }
 }
 
-@mixin btn .Button--theme-blue,
-  #315efb,
-  #315efb,
-  #fff,
-  #3059DD,
-  #3059DD,
-  #2A4FC5,
-  #2A4FC5,
-  #1660e0,
-  #1660e0,
-  #315efb,
-  #315efb,
-  #fff,
-  #315efb,
-  #315efb,
-  rgba(255, 255, 255, .4)
-;
 
-@mixin btn .Button--theme-white,
-  #fff,
-  #ccc,
-  #262626,
-  #262626,
-  #fff,
-  #ccc,
-  #eee,
-  #315efb,
-  #fff,
-  transparent,
-  #ccc,
-  #315efb,
-  #eee,
-  #eee,
-  rgba(38, 38, 38, .4)
-;
+.Button {
+  all: initial;
+  font-family: 'Roboto', sans-serif;
+  overflow: hidden;
+  text-align: center;
+  transition: all .2s;
+  cursor: pointer;
+  box-sizing: border-box;
+  font-size: 12px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-weight: 500;
+  letter-spacing: 1px;
+  outline: none;
+  position: relative;
+  display: inline-block;
+  border: none;
+  user-select: none;
 
-@mixin btn .Button--theme-light-blue,
-  #eaefff,
-  #eaefff,
-  #315efb,
-  transparent,
-  rgba(49, 94, 251, .2),
-  transparent,
-  rgba(49, 94, 251, .3),
-  #649dff,
-  #eaefff,
-  transparent,
-  #eaefff,
-  #315efb,
-  #eaefff,
-  #eaefff,
-  rgba(49, 94, 251, .4)
-;
+  &.is-loading, &[disabled] {
+    pointer-events: none;
+  }
+
+  &.is-loading &__content {
+    opacity: 0;
+  }
+
+  &:focus:not(:active):not(:hover)::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    bottom: -3px;
+    left: -3px;
+    right: -3px;
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
+  &--size-medium {
+    height: 45px;
+    line-height: 45px;
+  }
+
+  &--size-small {
+    height: 35px;
+    line-height: 35px;
+  }
+
+  &__content {
+    padding: 0 20px;
+  }
+
+  &__loader {
+    position: absolute;
+    width: 26px;
+    height: 12px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    margin: auto;
+  }
+
+  &__loaderDot {
+    height: 6px;
+    width: 6px;
+    border-radius: 50%;
+    float: left;
+    transition: transform .6s ease-out;
+    transform: translate3d(0, 0, 0);
+
+    animation: ruiAnimateDot .6s ease-out;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+
+    &:nth-child(2){
+      margin: 0 4px;
+    }
+
+    &:nth-child(1){
+      animation-delay: 0s;
+    }
+
+    &:nth-child(2){
+      animation-delay: .08s;
+    }
+
+    &:nth-child(3){
+      animation-delay: .16s;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    opacity: 0;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  @mixin theme-button blue,
+    #315efb,
+    #315efb,
+    #fff,
+    #3059DD,
+    #3059DD,
+    #2A4FC5,
+    #2A4FC5,
+    #1660e0,
+    #1660e0,
+    #315efb,
+    #315efb,
+    #fff,
+    #315efb,
+    #315efb,
+    rgba(255, 255, 255, .4);
+
+  @mixin theme-button white,
+    #fff,
+    #ccc,
+    #262626,
+    #262626,
+    #fff,
+    #ccc,
+    #eee,
+    #315efb,
+    #fff,
+    transparent,
+    #ccc,
+    #315efb,
+    #eee,
+    #eee,
+    rgba(38, 38, 38, .4);
+
+  @mixin theme-button lightBlue,
+    #eaefff,
+    #eaefff,
+    #315efb,
+    transparent,
+    rgba(49, 94, 251, .2),
+    transparent,
+    rgba(49, 94, 251, .3),
+    #649dff,
+    #eaefff,
+    transparent,
+    #eaefff,
+    #315efb,
+    #eaefff,
+    #eaefff,
+    rgba(49, 94, 251, .4);
+
+}
+

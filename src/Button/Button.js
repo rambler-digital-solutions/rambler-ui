@@ -1,7 +1,7 @@
 import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
 import { create as createFragment } from 'react/lib/ReactFragment'
 import classnames from 'classnames'
-import { range } from 'lodash'
+import range from 'lodash/range'
 
 import css from './Button.css'
 export default class Button extends Component {
@@ -38,7 +38,7 @@ export default class Button extends Component {
     /**
      * Вид отображения кнопки
      */
-    theme: PropTypes.oneOf(['blue', 'white', 'light-blue']),
+    theme: PropTypes.oneOf(['blue', 'white', 'lightBlue']),
     /**
      * Обработчик клика
      */
@@ -49,19 +49,32 @@ export default class Button extends Component {
      */
     container: PropTypes.element,
     /**
-     * Атрибут `type` на кнопке
+     * Элемент, который прозрачно накладывается на кнопку (Например <input type="file" />)
      */
-    buttonType: PropTypes.string,
+    overlay: PropTypes.element,
     /**
      * Отключаем кнопку/ссылку
      */
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    /**
+     * Отображать кнопку как display: block
+     */
+    block: PropTypes.bool,
+    /**
+     * Тип кнопки
+     */
+    buttonType: PropTypes.string,
+    /**
+     * Ширина кнопки
+     */
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
   static defaultProps = {
     size: 'medium',
     theme: 'blue',
-    buttonType: 'button'
+    buttonType: 'button',
+    block: false
   };
 
   mapThemeToColor(theme) {
@@ -80,9 +93,9 @@ export default class Button extends Component {
       }
       const resultProps = { ...iconProps, ...(icon.props || {}) }
       const resultIcon = cloneElement(icon, resultProps)
-      return <span className={ css.Button__icon }>
+      return <div className={ css.Button__icon }>
         { resultIcon }
-      </span>
+      </div>
     }
   }
 
@@ -97,48 +110,51 @@ export default class Button extends Component {
       buttonType,
       disabled,
       loading,
+      block,
+      className,
+      overlay,
+      width,
+      style = {},
       ...other
     } = this.props
-    let contentButton
-    const buttonClass = 'Button--theme-' + theme
-    const resultClassName = classnames({
-      [css[buttonClass + '-disabled']]: disabled,
-      [css[buttonClass + '-loading-wrapper']]: loading,
-      [css[buttonClass]]: true,
-      [css['button--size-' + size]]: true,
-      [css.button]: true
-    })
+
+    const resultStyle = { width, ...style }
+    const themeClass = css['Button--theme-' + theme]
+    const sizeClass = css['Button--size-' + size]
+    const resultClassName = classnames(
+      css['Button'],
+      themeClass,
+      sizeClass,
+      className,
+      {
+        [css['is-loading']]: loading,
+        [css['Button--block']]: block,
+      })
+
+    let loader = null
     if (loading)
-      contentButton = (<div>
-        {children}
-        <span className={css['Button--theme-' + theme + '-loading']}>
-          {range(3).map(i => (<span className={css['Button--theme-' + theme + '-loading-dot']} key={i}></span>))}
-        </span>
-      </div>)
-    else contentButton = children
+      loader = <div className={css['Button__loader']} key='loader'>
+        {range(3).map(i => (<div className={css['Button__loaderDot']} key={i}></div>))}
+      </div>
 
-    const content = createFragment({
-      icon: this.renderIcon(icon),
-      content: contentButton
-    })
-    const buttonProps = { ...other, className: resultClassName }
-    if (buttonType === 'file') return (
-        <label { ...buttonProps }>
-          {content}
-          <input type="file" id="file" size="1" style={{display: 'none'}}/>
-        </label>
-    )
+    const resultChildren = [
+      <div className={css['Button__content']}>
+        { this.renderIcon(icon) }
+        { children }
+        { overlay && cloneElement(overlay, {className: css['Button__overlay']}) }
+      </div>,
+      loader
+    ]
 
-    return isValidElement(container) ?
-      cloneElement(container, buttonProps, content) :
-      href ?
-      <div>
-        <a href={ href } { ...buttonProps }>
-          {content}
-        </a>
-      </div> :
-      <button type={ buttonType } { ...buttonProps } >
-        { content }
-      </button>
+    let resultProps = {
+      ...other,
+      style: resultStyle,
+      className: resultClassName,
+      disabled: disabled ? 'disabled' : null
+    }
+
+    const resultContainer = isValidElement(container) ? container : href ? <a href={ href } /> : <button type={ buttonType } />
+
+    return cloneElement(resultContainer, resultProps, ...resultChildren)
   }
 }

@@ -17,11 +17,13 @@ const cssnext = require('postcss-cssnext')
 const postCssVars = require('postcss-simple-vars')
 const postCssImport = require('postcss-import')
 const postCssMixins = require('postcss-mixins')
+const precss = require('precss')
 const env = process.env.NODE_ENV || 'development'
 const postCssProcessors = [
   postCssImport(),
   postCssMixins({ mixinsDir: path.join(rootDir, 'src/style') }),
   postCssVars({ variables: cssVariables }),
+  precss(),
   cssnext()
 ]
 
