@@ -1,6 +1,7 @@
 import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
 import { create as createFragment } from 'react/lib/ReactFragment'
 import classnames from 'classnames'
+import { range } from 'lodash'
 
 import css from './Button.css'
 export default class Button extends Component {
@@ -33,11 +34,11 @@ export default class Button extends Component {
     /**
      * Размер кнопки
      */
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: PropTypes.oneOf(['small', 'medium']),
     /**
      * Вид отображения кнопки
      */
-    theme: PropTypes.oneOf(['blue', 'dark', 'red']),
+    theme: PropTypes.oneOf(['blue', 'white', 'light-blue']),
     /**
      * Обработчик клика
      */
@@ -50,7 +51,11 @@ export default class Button extends Component {
     /**
      * Атрибут `type` на кнопке
      */
-    buttonType: PropTypes.string
+    buttonType: PropTypes.string,
+    /**
+     * Отключаем кнопку/ссылку
+     */
+    disabled: PropTypes.bool
   };
 
   static defaultProps = {
@@ -59,11 +64,11 @@ export default class Button extends Component {
     buttonType: 'button'
   };
 
-  mapThemeToIconColor(theme) {
+  mapThemeToColor(theme) {
     return ({
       blue: 'light',
-      dark: 'light',
-      red: 'light'
+      white: 'light',
+      'light-blue': 'light'
     })[theme]
   }
 
@@ -71,7 +76,7 @@ export default class Button extends Component {
     if (icon) {
       const iconProps = {
         size: this.props.size,
-        color: this.mapThemeToIconColor(this.props.theme)
+        color: this.mapThemeToColor(this.props.theme)
       }
       const resultProps = { ...iconProps, ...(icon.props || {}) }
       const resultIcon = cloneElement(icon, resultProps)
@@ -83,7 +88,6 @@ export default class Button extends Component {
 
   render() {
     const {
-      className,
       icon,
       children,
       size,
@@ -91,26 +95,50 @@ export default class Button extends Component {
       href,
       container,
       buttonType,
+      disabled,
+      loading,
       ...other
     } = this.props
-    const resultClassName = classnames(
-      className,
-      css.Button,
-      css['Button--theme-' + theme],
-      css['Button--size-' + size]
-    )
+    let contentButton
+    const buttonClass = 'Button--theme-' + theme
+    const resultClassName = classnames({
+      [css[buttonClass + '-disabled']]: disabled,
+      [css[buttonClass + '-loading-wrapper']]: loading,
+      [css[buttonClass]]: true,
+      [css['button--size-' + size]]: true,
+      [css.button]: true
+    })
+    if (loading)
+      contentButton = (<div>
+        {children}
+        <span className={css['Button--theme-' + theme + '-loading']}>
+          {range(3).map(i => (<span className={css['Button--theme-' + theme + '-loading-dot']} key={i}></span>))}
+        </span>
+      </div>)
+    else contentButton = children
 
     const content = createFragment({
       icon: this.renderIcon(icon),
-      content: <span className={css.Button__content}>{ children }</span>
+      content: contentButton
     })
     const buttonProps = { ...other, className: resultClassName }
+    if (buttonType === 'file') return (
+        <label { ...buttonProps }>
+          {content}
+          <input type="file" id="file" size="1" style={{display: 'none'}}/>
+        </label>
+    )
 
     return isValidElement(container) ?
       cloneElement(container, buttonProps, content) :
       href ?
-      <a href={ href } { ...buttonProps } >{ content }</a> :
-      <button type={ buttonType } { ...buttonProps } >{ content }</button>
+      <div>
+        <a href={ href } { ...buttonProps }>
+          {content}
+        </a>
+      </div> :
+      <button type={ buttonType } { ...buttonProps } >
+        { content }
+      </button>
   }
-
 }
