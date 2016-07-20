@@ -1,5 +1,4 @@
 import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
-import { create as createFragment } from 'react/lib/ReactFragment'
 import classnames from 'classnames'
 import range from 'lodash/range'
 
@@ -99,6 +98,12 @@ export default class Button extends Component {
     }
   }
 
+  renderLoader() {
+    return <div className={css.Button__loader} key='loader'>
+      {range(3).map(i => (<div className={css.Button__loaderDot} key={i}></div>))}
+    </div>
+  }
+
   render() {
     const {
       icon,
@@ -122,7 +127,7 @@ export default class Button extends Component {
     const themeClass = css['Button--theme-' + theme]
     const sizeClass = css['Button--size-' + size]
     const resultClassName = classnames(
-      css['Button'],
+      css.Button,
       themeClass,
       sizeClass,
       className,
@@ -131,22 +136,16 @@ export default class Button extends Component {
         [css['Button--block']]: block,
       })
 
-    let loader = null
-    if (loading)
-      loader = <div className={css['Button__loader']} key='loader'>
-        {range(3).map(i => (<div className={css['Button__loaderDot']} key={i}></div>))}
-      </div>
-
     const resultChildren = [
-      <div className={css['Button__content']}>
+      <div className={css.Button__content}>
         { this.renderIcon(icon) }
         { children }
-        { overlay && cloneElement(overlay, {className: css['Button__overlay']}) }
+        { overlay && cloneElement(overlay, {className: css.Button__overlay}) }
       </div>,
-      loader
+      loading && this.renderLoader()
     ]
 
-    let resultProps = {
+    const resultProps = {
       ...other,
       style: resultStyle,
       className: resultClassName,

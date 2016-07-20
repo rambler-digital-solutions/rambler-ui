@@ -3,7 +3,7 @@
     transform: scale(1)
   }
   40% {
-    transform: scale(1) translate3d(0, 6px, 0);
+    transform: scale(1) translate3d(0, 5px, 0);
   }
   100% {
     transform: scale(1)  translate3d(0, 0, 0)
@@ -118,20 +118,29 @@ $disabled-text, {
 
   &__loader {
     position: absolute;
-    width: 26px;
-    height: 12px;
     left: 0;
     right: 0;
     bottom: 0;
     top: 0;
-    margin: auto;
+    width: 100%;
+    text-align: center;
+    &:before {
+      display: inline-block;
+      height: 100%;
+      vertical-align: middle;
+      content: '';
+      width: 0;
+    }
   }
 
   &__loaderDot {
-    height: 6px;
-    width: 6px;
+    display: inline-block;
+    vertical-align: middle;
+    height: 5px;
+    width: 5px;
+    position: relative;
+    top: -2px;
     border-radius: 50%;
-    float: left;
     transition: transform .6s ease-out;
     transform: translate3d(0, 0, 0);
 
