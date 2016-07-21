@@ -21,7 +21,6 @@ npm run dev -- --port 8080 --host 127.0.0.1
 1. Установить версию в package.json
 2. Запустить команду и указать версии, которые мы паблишем
 ```
-npm run build
 npm run publish -- --versions 'master, stable, 1.0.5, 1.0.x, 1.x'
 ```
 
