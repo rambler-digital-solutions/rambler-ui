@@ -87,7 +87,7 @@ $focus-offset, {
   cursor: pointer;
   box-sizing: border-box;
   font-size: 12px;
-  line-height: 13px;
+  line-height: 1;
   text-transform: uppercase;
   text-decoration: none;
   font-weight: 500;
