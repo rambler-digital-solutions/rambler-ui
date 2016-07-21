@@ -11,6 +11,7 @@ const host = argv.host || '0.0.0.0'
 // https://webpack.github.io/docs/webpack-dev-server.html
 const server = new WebpackDevServer(compiler, {
   contentBase: path.resolve(__dirname, '..'),
+  noInfo: true,
   hot: true,
   publicPath: '/'
 })

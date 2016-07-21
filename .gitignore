@@ -4,3 +4,5 @@ node_modules/
 local_font/
 .publish
 build/
+site/npm-debug.*.*
+.idea/

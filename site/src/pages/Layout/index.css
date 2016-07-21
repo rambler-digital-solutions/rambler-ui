@@ -2,6 +2,7 @@
   display: flex;
   flex: 1;
   flex-direction: row;
+  max-width: 100%;
   &__content {
     flex: 1;
     overflow-y: auto;
@@ -11,7 +12,8 @@
     display: flex;
   }
   &__right {
-    flex: 1 100%;
+    flex: 1 0px;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
   }

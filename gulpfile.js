@@ -6,6 +6,7 @@ const async = require('async')
 const gulp = require('gulp')
 const postcss = require('gulp-postcss')
 const cssnext = require('postcss-cssnext')
+const precss = require('precss')
 const cssModules = require('postcss-modules')
 const rename = require('gulp-rename')
 const replace = require('gulp-replace')
@@ -14,6 +15,7 @@ const babel = require('gulp-babel')
 const runSequence = require('run-sequence')
 const postCssVars = require('postcss-simple-vars')
 const postCssImport = require('postcss-import')
+const postCssMixins = require('postcss-mixins')
 const path = require('path')
 const fs = require('fs')
 const cp = require('child_process')
@@ -61,7 +63,9 @@ gulp.task('clean', () =>
 gulp.task('build:css', () => {
   const processors = [
     postCssImport(),
+    postCssMixins({ mixinsDir: path.join(srcDir, 'style') }),
     postCssVars({variables: cssVariables}),
+    precss(),
     cssnext(),
     cssModules({
       getJSON(fileName, json) {

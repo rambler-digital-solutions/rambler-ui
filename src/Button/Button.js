@@ -1,6 +1,6 @@
 import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
-import { create as createFragment } from 'react/lib/ReactFragment'
 import classnames from 'classnames'
+import range from 'lodash/range'
 
 import css from './Button.css'
 export default class Button extends Component {
@@ -33,11 +33,11 @@ export default class Button extends Component {
     /**
      * Размер кнопки
      */
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: PropTypes.oneOf(['small', 'medium']),
     /**
      * Вид отображения кнопки
      */
-    theme: PropTypes.oneOf(['blue', 'dark', 'red']),
+    theme: PropTypes.oneOf(['blue', 'white', 'lightBlue']),
     /**
      * Обработчик клика
      */
@@ -48,22 +48,39 @@ export default class Button extends Component {
      */
     container: PropTypes.element,
     /**
-     * Атрибут `type` на кнопке
+     * Элемент, который прозрачно накладывается на кнопку (Например `<input type="file" />`)
      */
-    buttonType: PropTypes.string
+    overlay: PropTypes.element,
+    /**
+     * Отключаем кнопку/ссылку
+     */
+    disabled: PropTypes.bool,
+    /**
+     * Отображать кнопку как блочный элемент
+     */
+    block: PropTypes.bool,
+    /**
+     * Тип кнопки
+     */
+    buttonType: PropTypes.string,
+    /**
+     * Ширина кнопки
+     */
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   };
 
   static defaultProps = {
     size: 'medium',
     theme: 'blue',
-    buttonType: 'button'
+    buttonType: 'button',
+    block: false
   };
 
-  mapThemeToIconColor(theme) {
+  mapThemeToColor(theme) {
     return ({
       blue: 'light',
-      dark: 'light',
-      red: 'light'
+      white: 'light',
+      'light-blue': 'light'
     })[theme]
   }
 
@@ -71,19 +88,23 @@ export default class Button extends Component {
     if (icon) {
       const iconProps = {
         size: this.props.size,
-        color: this.mapThemeToIconColor(this.props.theme)
+        color: this.mapThemeToColor(this.props.theme)
       }
-      const resultProps = { ...iconProps, ...(icon.props || {}) }
-      const resultIcon = cloneElement(icon, resultProps)
-      return <span className={ css.Button__icon }>
-        { resultIcon }
-      </span>
+      const initialProps = icon.props || {}
+      const className = classnames(initialProps.className, css.Button__icon)
+      const resultProps = { ...iconProps, ...initialProps, className }
+      return cloneElement(icon, resultProps)
     }
+  }
+
+  renderLoader() {
+    return <div className={css.Button__loader} key='loader'>
+      {range(3).map(i => (<div className={css.Button__loaderDot} key={i}></div>))}
+    </div>
   }
 
   render() {
     const {
-      className,
       icon,
       children,
       size,
@@ -91,26 +112,50 @@ export default class Button extends Component {
       href,
       container,
       buttonType,
+      disabled,
+      loading,
+      block,
+      className,
+      overlay,
+      width,
+      style = {},
       ...other
     } = this.props
+
+    const resultStyle = { width, ...style }
+    const themeClass = css['Button--theme-' + theme]
+    const sizeClass = css['Button--size-' + size]
     const resultClassName = classnames(
-      className,
       css.Button,
-      css['Button--theme-' + theme],
-      css['Button--size-' + size]
-    )
+      themeClass,
+      sizeClass,
+      className,
+      {
+        [css['is-loading']]: loading,
+        [css['Button--block']]: block
+      })
 
-    const content = createFragment({
-      icon: this.renderIcon(icon),
-      content: <span className={css.Button__content}>{ children }</span>
-    })
-    const buttonProps = { ...other, className: resultClassName }
+    const resultChildren = [
+      <div className={css.Button__content}>
+        { this.renderIcon(icon) }
+        { children }
+        { overlay && cloneElement(overlay, {className: css.Button__overlay}) }
+      </div>,
+      loading && this.renderLoader()
+    ]
 
-    return isValidElement(container) ?
-      cloneElement(container, buttonProps, content) :
-      href ?
-      <a href={ href } { ...buttonProps } >{ content }</a> :
-      <button type={ buttonType } { ...buttonProps } >{ content }</button>
+    const resultProps = {
+      ...other,
+      style: resultStyle,
+      className: resultClassName,
+      disabled: disabled ? 'disabled' : null
+    }
+
+    const resultContainer = isValidElement(container) ?
+      container : href ?
+      <a href={ href } /> : overlay ?
+      <div /> : <button type={ buttonType } />
+
+    return cloneElement(resultContainer, resultProps, ...resultChildren)
   }
-
 }
