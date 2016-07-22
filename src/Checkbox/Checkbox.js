@@ -41,18 +41,12 @@ export default class Checkbox extends Component {
   state = {
     checked: false
   }
-  onChange = (a, b) => {
-    this.toggleCheckbox()
-    this.handleCheck(a, b)
-  }
-  toggleCheckbox() {
+  onChange = (event) => {
     this.setState({
       checked: !this.state.checked
     })
-  }
-  handleCheck = (event, isInputChecked) => {
     if (this.props.onCheck)
-      this.props.onCheck(event, isInputChecked)
+      this.props.onCheck(event, this.state.checked)
   }
   render() {
     const {
@@ -76,7 +70,14 @@ export default class Checkbox extends Component {
     ])
     return (
       <div className={`${css.checkbox} ${css[effect]}`} style={style} >
-        <input checked={this.state.checked} name={name} id={name} type="checkbox" className={css['real-checkbox']} disabled={disabled} onChange={this.onChange} onSwitch={this.handleCheck}/>
+        <input
+        checked={this.state.checked}
+        name={name}
+        id={name}
+        type="checkbox"
+        className={css['real-checkbox']}
+        disabled={disabled}
+        onChange={this.onChange} />
         <span className={`${css['fake-checkbox']} ${direction.checkbox}`}>
           <span className={css.icon}><Tick viewBox="0 0 9 9" style={{width: 9, height: 9}}/></span>
         </span>
