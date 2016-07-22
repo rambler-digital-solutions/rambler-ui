@@ -1,15 +1,28 @@
-.realCheckbox {
+.checkbox {
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    .fake-checkbox {
+      border-color: #262626;
+    }
+  }
+}
+
+.real-checkbox {
   position: absolute;
   opacity: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   cursor: pointer;
   &:disabled {
     pointer-events: none;
     cursor: default;
-    & + .fakeCheckbox {
+    & + .fake-checkbox {
       background: #eee;
-      border-color:#eee !important;
+      border-color:#eee;
       fill: #ddd;
     }
     & ~ .label,
@@ -19,7 +32,7 @@
     }
   }
   &:checked {
-    + .fakeCheckbox {
+    + .fake-checkbox {
       fill: #315efb;
       border-color:#315efb;
 
@@ -28,7 +41,7 @@
       }
     }
 
-    &:active + .fakeCheckbox {
+    &:active + .fake-checkbox {
       background: #eee;
 
       .icon {
@@ -36,32 +49,21 @@
       }
     }
   }
-  &:not(:checked):active + .fakeCheckbox {
+  &:not(:checked):active + .fake-checkbox {
     background: #eee;
     border-color: #ccc;
   }
-  &:focus + .fakeCheckbox {
+  &:focus + .fake-checkbox {
     border-color: #315efb;
   }
 }
 
-.checkbox {
-  overflow: hidden;
-  position: relative;
-
-  &:hover {
-    .fakeCheckbox {
-      border-color: #262626;
-    }
-  }
-}
-
-.fakeCheckbox {
+.fake-checkbox {
   float: left;
-  box-sizing: content-box;
+  box-sizing: border-box;
   display: inline-block;
-  width: 13px;
-  height: 13px;
+  width: 15px;
+  height: 15px;
   text-align: center;
   border: 1px solid #ddd;
 }
@@ -73,11 +75,11 @@
   font-weight: normal;
 }
 
-.floatRight {
+.float-right {
   float: right !important;
 }
 
-.floatLeft {
+.float-left {
   float: left !important;
 }
 

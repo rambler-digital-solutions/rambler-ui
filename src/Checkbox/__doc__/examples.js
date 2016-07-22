@@ -7,7 +7,7 @@ export default class CheckboxExample extends Component {
     return (
       <div>
         <div style={{marginTop: 20}}>
-          <Checkbox style={{display: 'block', width: 225}} name="checkbox6" labelStyle={{color: '#f00'}}>Получать уведомления по почте</Checkbox>
+          <Checkbox style={{display: 'block', width: 225}} name="checkbox6" labelStyle={{color: '#f00'}} onCheck={(a, b) => console.log(a, b)}>Получать уведомления по почте</Checkbox>
         </div>
         <div style={{marginTop: 20}}>
           <Checkbox style={{display: 'block', width: 225}} name="checkbox7" checked>Получать уведомления по почте</Checkbox>

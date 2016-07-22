@@ -4,10 +4,6 @@ import Tick from '../icons/serviceIcons/Tick'
 import classnames from 'classnames'
 
 export default class Checkbox extends Component {
-  constructor() {
-    super()
-    this.toggleCheckbox = ::this.toggleCheckbox
-  }
   componentDidMount() {
     if (this.props.checked) this.setState({checked: true})
   }
@@ -28,7 +24,15 @@ export default class Checkbox extends Component {
     /**
      * Стили обертки для label и чекбокса
      */
-    style: PropTypes.object
+    style: PropTypes.object,
+    /**
+     * Поставить галочку изначально
+     */
+    checked: PropTypes.bool,
+    /**
+     * Колбек отрабатывающий при изменении checkbox'a
+     */
+    onCheck: PropTypes.func
   };
   static defaultProps = {
     labelPosition: 'right',
@@ -37,12 +41,19 @@ export default class Checkbox extends Component {
   state = {
     checked: false
   }
+  onChange = (a, b) => {
+    this.toggleCheckbox()
+    this.handleCheck(a, b)
+  }
   toggleCheckbox() {
     this.setState({
       checked: !this.state.checked
     })
   }
-
+  handleCheck = (event, isInputChecked) => {
+    if (this.props.onCheck)
+      this.props.onCheck(event, isInputChecked)
+  }
   render() {
     const {
       effect,
@@ -54,23 +65,23 @@ export default class Checkbox extends Component {
     } = this.props
     const direction = {}
     direction.checkbox = classnames({
-      [css.floatRight]: labelPosition === 'left'
+      [css['float-right']]: labelPosition === 'left'
     })
     direction.label = classnames({
-      [css.floatLeft]: labelPosition === 'left'
+      [css['float-left']]: labelPosition === 'left'
     })
-    const lableClasses = classnames([
+    const labelClasses = classnames([
       css.label,
       direction.label
     ])
     return (
       <div className={`${css.checkbox} ${css[effect]}`} style={style} >
-        <input checked={this.state.checked} name={name} id={name} type="checkbox" className={css.realCheckbox} disabled={disabled} onChange={this.toggleCheckbox} />
-        <span className={`${css.fakeCheckbox} ${direction.checkbox}`}>
+        <input checked={this.state.checked} name={name} id={name} type="checkbox" className={css['real-checkbox']} disabled={disabled} onChange={this.onChange} onSwitch={this.handleCheck}/>
+        <span className={`${css['fake-checkbox']} ${direction.checkbox}`}>
           <span className={css.icon}><Tick viewBox="0 0 9 9" style={{width: 9, height: 9}}/></span>
         </span>
         {createElement('label', {
-          className: lableClasses,
+          className: labelClasses,
           htmlFor: name,
           style: labelStyle
         },
