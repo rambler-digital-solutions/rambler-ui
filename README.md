@@ -1,4 +1,4 @@
 # Rambler UI
 Репозиторий с общими компонентами проектов `*.rambler.ru`
 <br />
-[Гайд по разработке](./contribute.md)
+[Документация](http://highpower.github.com/rambler-ui)

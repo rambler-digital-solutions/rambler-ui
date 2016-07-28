@@ -36,7 +36,7 @@
 
 .Code {
   padding: 15px;
-  overflow: scroll;
+  overflow: auto;
   &__pre {}
 }
 
