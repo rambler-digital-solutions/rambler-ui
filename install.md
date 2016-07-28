@@ -35,7 +35,7 @@ export default function() {
 ## Использование с `react-starter-kit`
 Если вы используете [react-starter-kit](https://github.com/kriasoft/react-starter-kit), соблюдайте следующие правила, чтобы у вас собиралось изоморфное приложение:
 <br/>
-1. Обязательно используйте [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin) для сборки css-стилей `rambler-ui` (или для всего вашего проекта)
+Обязательно используйте [extract-text-webpack-plugin](https://github.com/webpack/extract-text-webpack-plugin) для сборки css-стилей `rambler-ui` (или для всего вашего проекта)
 
 ```
   loaders: [
@@ -49,7 +49,7 @@ export default function() {
 
 ```
 
-2. Укажите, что `rambler-ui` является внешней зависимостью
+Укажите, что `rambler-ui` является внешней зависимостью
 
 ```
   externals: [
