@@ -1,4 +1,4 @@
-import React, { Component, PropTypes, createElement } from 'react'
+import React, { Component, PropTypes } from 'react'
 import css from './Checkbox.css'
 import TickIcon from '../icons/forms/TickIcon'
 import classnames from 'classnames'
@@ -130,10 +130,10 @@ export default class Checkbox extends Component {
           onChange={this.onChange}
           onFocus={this.onFocus}
           onBlur={this.onBlur} />
-        <span className={classnames(css.Checkbox__fake, css.checkboxClassName)} style={checkboxStyle}>
+        <span className={classnames(css.Checkbox__fake, checkboxClassName)} style={checkboxStyle}>
           <TickIcon className={css.Checkbox__icon} size={12} />
         </span>
-        <span className={classnames(css.Checkbox__label, css.labelClassName)} style={labelStyle}>
+        <span className={classnames(css.Checkbox__label, labelClassName)} style={labelStyle}>
           { this.props.children }
         </span>
       </div>

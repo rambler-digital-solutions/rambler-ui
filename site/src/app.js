@@ -2,7 +2,6 @@ import 'babel-polyfill'
 import { useRouterHistory, IndexRedirect, Router, Route } from 'react-router'
 import createHashHistory from 'history/lib/createHashHistory'
 import { render } from 'react/lib/ReactDOM'
-import { useScroll } from 'react-router-scroll'
 
 import ComponentsPage from 'pages/Components'
 import InstallPage from 'pages/Install'
@@ -15,7 +14,7 @@ render(
   <div className={ css.App }>
     <Router
       history={ useRouterHistory(createHashHistory)() }
-      onUpdate={() => document.getElementById('content').scrollTop = 0}
+      onUpdate={() => { document.getElementById('content').scrollTop = 0 }}
     >
       <Route path="/" component={ Layout }>
         <Route path="components" component={ ComponentsPage }>
