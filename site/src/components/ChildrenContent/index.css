@@ -39,6 +39,10 @@
 
 }
 
+.ComponentWrapper__content .ComponentWrapper {
+  margin: 0 -15px;
+}
+
 .ChildrenLinks {
 
   &__list {

@@ -32,7 +32,7 @@ export default class ButtonExample extends Component {
           <Button block={true} theme="lightBlue" size="small" disabled>disabled</Button>
         </div>
         <Button style={{margin: 20, display: 'block', width: 173}} theme="lightBlue" size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
-        <Button style={{margin: 20, display: 'block', width: '173'}} theme="lightBlue" size="small" disabled>disabled</Button>
+        <Button style={{margin: 20, display: 'block', width: 173}} theme="lightBlue" size="small" disabled>disabled</Button>
         <Button style={{margin: 20, display: 'block', width: 173}} theme="lightBlue" size="small" overlay={<input type="file" name="hello"/>}>Загрузить файл</Button>
       </div>
     )

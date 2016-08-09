@@ -5,3 +5,11 @@
     font-family: 'Roboto';
   }
 }
+
+.u-floatRight {
+  float: right !important;
+}
+
+.u-floatLeft {
+  float: left !important;
+}
