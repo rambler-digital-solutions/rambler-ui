@@ -155,8 +155,8 @@ export default class PropTypeDescription extends Component {
       text += `| ${key} | ${generatePropType(prop.type)} | ${defaultValue} | ${description} |\n`
     }
 
-    const requiredPropFootnote = (requiredProps === 1) ? '* required property' :
-      (requiredProps > 1) ? '* required properties' :
+    const requiredPropFootnote = (requiredProps === 1) ? '* Обязательный параметр' :
+      (requiredProps > 1) ? '* Обязательный параметр' :
         ''
 
     return (

@@ -3,17 +3,37 @@ import React, {Component} from 'react'
 
 export default class CheckboxExample extends Component {
 
+  componentWillMount() {
+    this.setState({checked: true})
+  }
+
+  onCheck(event, checked) {
+    this.setState({checked})
+  }
+
   render() {
     return (
       <div>
         <div style={{marginTop: 20}}>
-          <Checkbox style={{display: 'block', width: 225}} name="checkbox6" labelStyle={{color: '#f00'}} onCheck={(a, b) => console.log(a, b)}>Получать уведомления по почте</Checkbox>
+          <Checkbox
+            name="checkbox6"
+            labelStyle={{color: '#f00'}}
+            checked={this.state.checked}
+            onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
+          <Checkbox
+            checkboxStyle={{marginRight: 5}}
+            style={{marginLeft: 20}}
+            name="checkbox6"
+            onCheck={(event, checked) => alert(`Checked: ${checked}`)}>Получать уведомления по почте</Checkbox>
         </div>
         <div style={{marginTop: 20}}>
-          <Checkbox style={{display: 'block', width: 225}} name="checkbox7" checked>Получать уведомления по почте</Checkbox>
+          <Checkbox
+            name="checkbox7"
+            checked={this.state.checked}
+            onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
         </div>
         <div style={{marginTop: 20}}>
-          <Checkbox labelPosition="left" style={{display: 'block', width: 225}} name="checkbox8" disabled>Получать уведомления по почте</Checkbox>
+          <Checkbox iconPosition="right" name="checkbox8" disabled>Получать уведомления по почте</Checkbox>
         </div>
       </div>
     )

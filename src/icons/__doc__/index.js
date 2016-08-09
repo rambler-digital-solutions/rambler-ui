@@ -10,16 +10,17 @@ import Playground from 'components/Playground'
 // export const description = ''
 
 // /* Скрывать дочерние компоненты, если элемент не текущий, просто показывать ссылки на дочерние компоненты */
-export const hideChildrenIfNotCurrent = true
+export const hideChildrenIfNotCurrent = false
 
-export default () => (
+export default ({ renderChildrenDoc }) => (
   <div>
     <Playground code={ examplesCode } />
     <PropTypesTable code={ svgIconCode } />
+    { renderChildrenDoc() }
   </div>
 )
 
 
 /* Дополнительная функция рендеринга, если не дочерних компонент */
-export const DocIfNotCurrent = ({ children }) =>
-  <div>{ children }</div>
+// export const DocIfNotCurrent = ({ children }) =>
+//   <div>{ children }</div>

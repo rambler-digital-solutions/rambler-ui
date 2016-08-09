@@ -1,7 +1,7 @@
 import css from './index.css'
 import * as icons from '../index'
 
-export const title = 'Служебные иконки'
+export const title = 'Формы'
 export default function Doc() {
 
   return (

@@ -1,89 +1,102 @@
-.checkbox {
+.Checkbox {
   overflow: hidden;
   position: relative;
+  display: inline-block;
+  vertical-align: top;
 
-  &:hover {
-    .fake-checkbox {
-      border-color: #262626;
-    }
+  &, * {
+    transition: all .2s;
   }
-}
 
-.real-checkbox {
-  position: absolute;
-  opacity: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
-  &:disabled {
+  &__fake {
+    box-sizing: border-box;
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #ddd;
+  }
+
+  &:hover &__fake {
+    border-color: #262626;
+  }
+
+  &:active &__fake {
+    border-color: #315efb;
+  }
+
+  &__real {
+    position: absolute;
+    opacity: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 1;
+  }
+
+  &__label {
+    float: right;
+    cursor: pointer;
+    font-size: 13px;
+    line-height: 15px;
+    font-weight: normal;
+  }
+
+  &__icon {
+    position: relative;
+    left: 1px;
+    top: -3px;
+    opacity: 0;
+  }
+
+  &.is-checked &__icon {
+    top: 1px;
+    opacity: 1;
+  }
+
+  &.is-disabled {
     pointer-events: none;
-    cursor: default;
-    & + .fake-checkbox {
-      background: #eee;
-      border-color:#eee;
-      fill: #ddd;
-    }
-    & ~ .label,
-    & ~ .label a {
-      cursor: default;
-      color: rgba(38, 38, 38, 0.4);
-    }
   }
-  &:checked {
-    + .fake-checkbox {
-      fill: #315efb;
-      border-color:#315efb;
 
-      .icon {
-        display: block;
-      }
-    }
-
-    &:active + .fake-checkbox {
-      background: #eee;
-
-      .icon {
-        display: block;
-      }
-    }
+  &.is-disabled &__fake {
+    background: #eee;
+    border-color:#eee;
+    fill: #ddd;
   }
-  &:not(:checked):active + .fake-checkbox {
+
+  &.is-disabled &__label {
+    color: rgba(38, 38, 38, 0.4);
+  }
+
+  &.is-focused &__fake {
+    border-color: #315efb;
+  }
+
+  &.is-checked &__fake {
+    fill: #315efb;
+    border-color:#315efb;
+  }
+
+  &:not(.is-checked):active &__fake {
     background: #eee;
     border-color: #ccc;
   }
-  &:focus + .fake-checkbox {
+
+  &.is-focused &__fake {
     border-color: #315efb;
   }
-}
 
-.fake-checkbox {
-  float: left;
-  box-sizing: border-box;
-  display: inline-block;
-  width: 15px;
-  height: 15px;
-  text-align: center;
-  border: 1px solid #ddd;
-}
+  &--iconright &__fake {
+    float: right;
+    margin-left: 10px;
+  }
 
-.label {
-  float: right;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: normal;
-}
+  &--iconleft &__fake {
+    float: left;
+    margin-right: 10px;
+  }
 
-.float-right {
-  float: right !important;
-}
-
-.float-left {
-  float: left !important;
-}
-
-.icon {
-  margin-top: -1px;
-  display: none;
 }

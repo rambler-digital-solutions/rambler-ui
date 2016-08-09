@@ -1,93 +1,143 @@
 import React, { Component, PropTypes, createElement } from 'react'
 import css from './Checkbox.css'
-import Tick from '../icons/serviceIcons/Tick'
+import TickIcon from '../icons/forms/TickIcon'
 import classnames from 'classnames'
 
 export default class Checkbox extends Component {
-  componentDidMount() {
-    if (this.props.checked) this.setState({checked: true})
-  }
 
   static propTypes = {
     /**
      * Имя чекбокса
      */
-    name: PropTypes.string.isRequired,
+    name: PropTypes.string,
     /**
      * Отключение чекбокса
      */
     disabled: PropTypes.bool,
     /**
-     * С какой стороны от чекбокса будет label
+     * CSS-класс контейнера
      */
-    labelPosition: PropTypes.string,
+    className: PropTypes.string,
     /**
-     * Стили обертки для label и чекбокса
+     * Стили контейнера
      */
     style: PropTypes.object,
+    /**
+     * C какой стороны показывать иконку
+     */
+    iconPosition: PropTypes.oneOf(['left', 'right']),
     /**
      * Поставить галочку изначально
      */
     checked: PropTypes.bool,
     /**
      * Колбек отрабатывающий при изменении checkbox'a
+     * `onCheck(event, checked)`
+     * Принимает параметры: DOM-события и флаг включения/отключения чекбокса
      */
-    onCheck: PropTypes.func
+    onCheck: PropTypes.func,
+    /**
+     * Стиль чекбокса (квадрат с иконкой)
+     */
+    checkboxStyle: PropTypes.object,
+    /**
+     * Класс чекбокса (квадрат с иконкой)
+     */
+    checkboxClassName: PropTypes.string,
+    /**
+     * Стиль лейбла
+     */
+    labelStyle: PropTypes.object,
+    /**
+     * Класс лейбла
+     */
+    labelClassName: PropTypes.string
   };
+
   static defaultProps = {
-    labelPosition: 'right',
-    disabled: false
-  };
+    iconPosition: 'left',
+    disabled: false,
+    name: ''
+  }
+
   state = {
-    checked: false
-  }
+    checked: false,
+    focused: false
+  };
+
   onChange = (event) => {
-    this.setState({
-      checked: !this.state.checked
-    })
+    const checked = this.refs.input.checked
+    this.setState({ checked })
     if (this.props.onCheck)
-      this.props.onCheck(event, this.state.checked)
+      this.props.onCheck(event, checked)
+  };
+
+  onFocus = () => {
+    this.setFocused(true)
+  };
+
+  onBlur = () => {
+    this.setFocused(false)
+  };
+
+  componentWillMount() {
+    this.setChecked(this.props.checked)
   }
+
+  componentWillReceiveProps(nextProps) {
+    this.setChecked(nextProps.checked)
+  }
+
+  setChecked(checked) {
+    this.checked = checked
+    this.setState({ checked })
+  }
+
+  setFocused(focused) {
+    this.focused = focused
+    this.setState({ focused })
+  }
+
   render() {
+
     const {
-      effect,
       name,
       style,
       disabled,
-      labelStyle,
-      labelPosition
+      iconPosition,
+      className,
+      checkboxClassName,
+      checkboxStyle,
+      labelClassName,
+      labelStyle
     } = this.props
-    const direction = {}
-    direction.checkbox = classnames({
-      [css['float-right']]: labelPosition === 'left'
-    })
-    direction.label = classnames({
-      [css['float-left']]: labelPosition === 'left'
-    })
-    const labelClasses = classnames([
-      css.label,
-      direction.label
-    ])
+    const { checked = false, focused } = this.state
+    const stateClasses = {
+      [css['is-focused']]: focused,
+      [css['is-checked']]: checked,
+      [css['is-disabled']]: disabled
+    }
+    const resultClassName = classnames(css.Checkbox, className, css[`Checkbox--icon${iconPosition}`], stateClasses)
     return (
-      <div className={`${css.checkbox} ${css[effect]}`} style={style} >
+      <div className={resultClassName} style={style}>
         <input
-        checked={this.state.checked}
-        name={name}
-        id={name}
-        type="checkbox"
-        className={css['real-checkbox']}
-        disabled={disabled}
-        onChange={this.onChange} />
-        <span className={`${css['fake-checkbox']} ${direction.checkbox}`}>
-          <span className={css.icon}><Tick viewBox="0 0 9 9" style={{width: 9, height: 9}}/></span>
+          ref="input"
+          checked={checked}
+          name={name}
+          type="checkbox"
+          className={css.Checkbox__real}
+          disabled={disabled}
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur} />
+        <span className={classnames(css.Checkbox__fake, css.checkboxClassName)} style={checkboxStyle}>
+          <TickIcon className={css.Checkbox__icon} size={12} />
         </span>
-        {createElement('label', {
-          className: labelClasses,
-          htmlFor: name,
-          style: labelStyle
-        },
-        this.props.children)}
+        <span className={classnames(css.Checkbox__label, css.labelClassName)} style={labelStyle}>
+          { this.props.children }
+        </span>
       </div>
     )
+
   }
 }

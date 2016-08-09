@@ -73,7 +73,7 @@ export default class Layout extends Component {
               </select>
             </div>
           </div>
-          <div className={ css.Layout__content }>
+          <div className={ css.Layout__content } id="content">
             { this.props.children }
           </div>
         </div>

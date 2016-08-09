@@ -1,0 +1,1 @@
+export TickIcon from './TickIcon'

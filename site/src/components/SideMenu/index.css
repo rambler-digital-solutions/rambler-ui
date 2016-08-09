@@ -12,17 +12,18 @@
   &[data-level='5'] { margin-left: 75px; }
 
   &[data-level='0'] > &__item:not(:last-child) {
-    border-bottom: 1px solid #444;
+    // border-bottom: 1px solid #444;
   }
 
   &[data-level='0'] > &__item {
-    padding: 15px 15px;
+    padding: 20px 15px 0;
   }
 
   &__link {
     @mixin link #bbb, #eee;
     display: block;
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 300;
     &.is-active {
      @mixin link #f2f2f2, #f2f2f2;
      cursor: default;
