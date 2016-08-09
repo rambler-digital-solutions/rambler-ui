@@ -90,7 +90,6 @@ export default class ChildrenContent extends Component {
     const { docModules, currentComponentName, rootComponentName, level } = this.props
     const rootDocModules = rootComponentName ?
       [docModules.dict[rootComponentName]] : docModules.rootDocModules
-
     return (
       <div className={ css.Content } data-level={ level }>
         {
@@ -108,41 +107,42 @@ export default class ChildrenContent extends Component {
                 default: Doc
               }
             } = module
-
+            const renderChildrenDoc = () => (
+              childrenDocModules.map(({ name: childName }) => (
+                <ChildrenContent
+                  {...{ docModules, currentComponentName }}
+                  rootComponentName={ childName }
+                  level={ level + 1 }
+                  key={ childName }
+                  />
+              ))
+            )
             let result
-            if (name !== currentComponentName) {
+            if (name !== currentComponentName)
               if (hideChildrenIfNotCurrent)
                 result = <ChildrenLinks childrenDocModules={ childrenDocModules } />
               else if (DocIfNotCurrent)
-                result = <DocIfNotCurrent>
+                result = <DocIfNotCurrent {...{ renderChildrenDoc }} >
                   <ChildrenLinks childrenDocModules={ childrenDocModules } />
                 </DocIfNotCurrent>
               else if (Doc)
-                result = <Doc />
-              else if (childrenDocModules.length)
-                // рендерим дочерние компоненты
-                result = <ChildrenContent
-                  docModules={ docModules }
-                  rootComponentName={ name }
-                  currentComponentName={ currentComponentName }
-                  level={ level + 1 } />
-            } else {
+                result = <Doc {...{ renderChildrenDoc }} />
+              else // рендерим дочерние компоненты
+                result = renderChildrenDoc()
+            else
               if (Doc)
-                result = <Doc />
-              else if (childrenDocModules.length)
-                result = <ChildrenContent
-                  docModules={ docModules }
-                  rootComponentName={ name }
-                  currentComponentName={ currentComponentName }
-                  level={ level + 1 } />
-            }
+                result = <Doc {...{ renderChildrenDoc }} />
+              else
+                result = renderChildrenDoc()
             return <ComponentWrapper
+              {...{
+                description,
+                title,
+                name,
+                linkToComponent,
+                linkToCode
+              }}
               key={ i }
-              description={ description }
-              title={ title }
-              name={ name }
-              linkToComponent={ linkToComponent }
-              linkToCode={ linkToCode }
             >{ result }</ComponentWrapper>
           })
         }

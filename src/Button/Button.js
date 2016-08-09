@@ -122,7 +122,10 @@ export default class Button extends Component {
       ...other
     } = this.props
 
-    const resultStyle = { width, ...style }
+    const resultStyle = {
+      width,
+      ...style
+    }
     const themeClass = css['Button--theme-' + theme]
     const sizeClass = css['Button--size-' + size]
     const resultClassName = classnames(
