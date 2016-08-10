@@ -10,6 +10,7 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const rootDir = path.resolve(__dirname, '..')
+const repoDir = path.resolve(rootDir, '..')
 const argv = require('minimist')(process.argv.slice(2))
 const flat = require('flat')
 const cssVariables = flat(require(path.resolve(__dirname, '../../src/variables')), { delimiter: '-' })
@@ -19,14 +20,6 @@ const postCssImport = require('postcss-import')
 const postCssMixins = require('postcss-mixins')
 const precss = require('precss')
 const env = process.env.NODE_ENV || 'development'
-const postCssProcessors = [
-  postCssImport(),
-  postCssMixins({ mixinsDir: path.join(rootDir, 'src/style') }),
-  postCssVars({ variables: cssVariables }),
-  precss(),
-  cssnext()
-]
-
 const appConfig = require('../config')
 
 let outputPath = path.join(rootDir, 'build')
@@ -71,7 +64,13 @@ const config = Object.assign({
     ]
   },
   plugins: [],
-  postcss: () => postCssProcessors
+  postcss: () => [
+    postCssImport(),
+    postCssMixins({ mixinsDir: [path.join(rootDir, 'src/style'), path.join(repoDir, 'src/style')] }),
+    postCssVars({ variables: cssVariables }),
+    precss(),
+    cssnext()
+  ]
 }, envConfig)
 
 config.plugins.push(new HtmlWebPackPlugin({

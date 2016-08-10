@@ -1,8 +1,10 @@
 .Checkbox {
+  all: initial;
   overflow: hidden;
   position: relative;
   display: inline-block;
   vertical-align: top;
+  font-family: 'Roboto', sans-serif;
 
   &, * {
     transition: all .2s;
@@ -48,12 +50,12 @@
   &__icon {
     position: relative;
     left: 1px;
-    top: -3px;
+    top: -4px;
     opacity: 0;
   }
 
   &.is-checked &__icon {
-    top: 1px;
+    top: -1px;
     opacity: 1;
   }
 
