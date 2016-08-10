@@ -6,10 +6,19 @@
   }
 }
 
-.u-floatRight {
-  float: right !important;
+@define-mixin middle {
+  &:before {
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+    content: '';
+    width: 0;
+  }
+  & > * {
+    vertical-align: middle;
+  }
 }
 
-.u-floatLeft {
-  float: left !important;
+@define-mixin border $color {
+  box-shadow: inset 0px 0px 0px 1px $color;
 }
