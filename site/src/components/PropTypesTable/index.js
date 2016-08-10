@@ -106,7 +106,7 @@ function generateDescription(required, description, type) {
   return `${deprecated} ${jsDocText}${signature}`
 }
 
-export default class PropTypeDescription extends Component {
+export default class PropTypesTable extends Component {
 
   static propTypes = {
     code: PropTypes.string,

@@ -10,23 +10,6 @@
   }
 }
 
-@define-mixin middle {
-  &:before {
-    display: inline-block;
-    height: 100%;
-    vertical-align: middle;
-    content: '';
-    width: 0;
-  }
-  & > * {
-    vertical-align: middle;
-  }
-}
-
-@define-mixin border $color {
-  box-shadow: inset 0px 0px 0px 1px $color;
-}
-
 @define-mixin theme $theme,
 $default-bg,
 $default-border,

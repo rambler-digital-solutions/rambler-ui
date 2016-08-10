@@ -1,0 +1,75 @@
+.Toggle {
+  all: initial;
+  display: block;
+  font-family: 'Roboto', sans-serif;
+
+  &, * {
+    transition: all .2s;
+  }
+
+  &--block {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  &__option {
+    border-style: solid;
+    border-color: #ddd;
+    border-width: 1px 0px 1px 1px;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    display: inline-block;
+    &:last-child {
+      border-width: 1px;
+    }
+    &:before {
+      content: '';
+      display: block;
+      position: absolute;
+      pointer-events: none;
+      left: -1px;
+      top: -1px;
+      right: -1px;
+      bottom: -1px;
+    }
+  }
+
+  &--block&--equalWidth &__option {
+    flex: 1;
+    flex-basis: 0;
+    text-align: center;
+  }
+
+  &__option:active, &__option:active.is-selected {
+    background: #eee;
+  }
+
+  &__option:hover {
+    z-index: 2;
+    &:before {
+      @mixin border $colors-black;
+    }
+  }
+
+  &__option.is-selected {
+    background: rgba(49, 94, 251, 0.1);
+    color: $colors-blue;
+    z-index: 1;
+    &:before {
+      @mixin border $colors-blue;
+    }
+
+  }
+
+  &--behavior-radio &__option.is-selected {
+    cursor: default;
+  }
+
+  &.is-disabled {
+    opacity: .5;
+    pointer-events: none;
+  }
+
+}
