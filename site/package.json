@@ -41,6 +41,7 @@
     "marked": "^0.3.5",
     "minimist": "^1.2.0",
     "normalize.css": "^4.2.0",
+    "open": "0.0.5",
     "postcss-cssnext": "^2.7.0",
     "postcss-font-grabber": "^1.0.6",
     "postcss-import": "^8.1.2",

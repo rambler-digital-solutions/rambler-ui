@@ -1,5 +1,6 @@
-import Checkbox from 'rambler-ui/Checkbox'
 import React, {Component} from 'react'
+import Checkbox from 'rambler-ui/Checkbox'
+import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class CheckboxExample extends Component {
 
@@ -13,7 +14,7 @@ export default class CheckboxExample extends Component {
 
   render() {
     return (
-      <div>
+      <ApplyTheme>
         <div style={{marginTop: 20}}>
           <Checkbox
             name="checkbox6"
@@ -35,7 +36,7 @@ export default class CheckboxExample extends Component {
         <div style={{marginTop: 20}}>
           <Checkbox iconPosition="right" name="checkbox8" disabled>Получать уведомления по почте</Checkbox>
         </div>
-      </div>
+      </ApplyTheme>
     )
   }
 }

@@ -1,11 +1,36 @@
-import React, { Component, PropTypes, cloneElement } from 'react'
-import css from './ToggleOption.css'
-import colors from '../variables/colors'
-import classnames from 'classnames'
-
 /**
  * Опция компонента переключателя
  */
+import React, { Component, PropTypes, cloneElement } from 'react'
+import colors from '../variables/colors'
+import classnames from 'classnames'
+import { injectSheet } from '../theme'
+import { fontStyleMixin, middleMixin } from '../style/mixins'
+
+@injectSheet(theme => ({
+  ToggleOption: {
+    ...middleMixin,
+    ...fontStyleMixin(theme.baseFont),
+    isolate: true,
+    fontSize: 13,
+    display: 'block',
+    textAlign: 'center',
+    padding: '0 15px',
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
+    cursor: 'inherit',
+    color: 'inherit',
+    '&--size-small': { height: 35 },
+    '&--size-medium': {
+      height: 45,
+      padding: '0 25px'
+    },
+    '&__icon': {
+      display: 'inline-block',
+      marginRight: '10px'
+    }
+  }
+}))
 export default class ToggleOption extends Component {
 
   static propTypes = {
@@ -51,7 +76,11 @@ export default class ToggleOption extends Component {
 
   renderIcon(icon) {
     if (icon) {
-      const { size, isSelected } = this.props
+      const {
+        size,
+        isSelected,
+        sheet: { classes: css }
+      } = this.props
       const iconProps = {
         size,
         color: isSelected ? colors.blue : colors.black
@@ -72,6 +101,7 @@ export default class ToggleOption extends Component {
       className,
       isSelected,
       onPress,
+      sheet: { classes: css },
       ...other
     } = this.props
     /* eslint-enable no-unused-vars */

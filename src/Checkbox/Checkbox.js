@@ -1,8 +1,94 @@
 import React, { Component, PropTypes } from 'react'
-import css from './Checkbox.css'
-import TickIcon from '../icons/forms/TickIcon'
 import classnames from 'classnames'
+import TickIcon from '../icons/forms/TickIcon'
+import { injectSheet } from '../theme'
+import { fontStyleMixin } from '../style/mixins'
 
+@injectSheet(theme => ({
+  Checkbox: {
+    ...fontStyleMixin(theme.font),
+    isolate: true,
+    oveflow: 'hidden',
+    position: 'relative',
+    display: 'inline-block',
+    verticalAlign: 'top',
+    '&__fake': {
+      boxSizing: 'border-box',
+      display: 'inline-block',
+      width: 15,
+      height: 15,
+      border: '1px solid #ddd'
+    },
+    '&__real': {
+      position: 'absolute',
+      opacity: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      cursor: 'pointer',
+      zIndex: 1
+    },
+    '&__label': {
+      float: 'right',
+      cursor: 'pointer',
+      fontSize: 13,
+      lineHeight: '15px',
+      fontWeight: 'normal'
+    },
+    '&__icon': {
+      position: 'relative',
+      left: 1,
+      top: -4,
+      opacity: 0
+    },
+    '&--iconright &__fake': {
+      float: 'right',
+      marginLeft: 10
+    },
+    '&--iconleft &__fake': {
+      float: 'left',
+      marginRight: 10
+    },
+    '&, *': {
+      transition: 'all .2s'
+    },
+    '&:hover &__fake': {
+      borderColor: '#262626'
+    },
+    '&:active &__fake': {
+      borderColor: '#315efb'
+    },
+    '&.is-checked &__icon': {
+      top: -1,
+      opacity: 1
+    },
+    '&.is-disabled': {
+      pointerEvents: 'none'
+    },
+    '&.is-disabled &__fake': {
+      background: '#eee',
+      borderColor: '#eee',
+      fill: '#ddd'
+    },
+    '&.is-disabled &__label': {
+      color: 'rgba(38, 38, 38, 0.4)'
+    },
+    '&.is-focused &__fake': {
+      borderColor: '#315efb'
+    },
+    '&.is-checked &__fake': {
+      fill: '#315efb',
+      borderColor: '#315efb'
+    },
+    '&:not(.is-checked):active &__fake': {
+      background: '#eee',
+      borderColor: '#ccc'
+    }
+  }
+}))
 export default class Checkbox extends Component {
 
   static propTypes = {
@@ -99,7 +185,6 @@ export default class Checkbox extends Component {
   }
 
   render() {
-
     const {
       name,
       style,
@@ -109,7 +194,8 @@ export default class Checkbox extends Component {
       checkboxClassName,
       checkboxStyle,
       labelClassName,
-      labelStyle
+      labelStyle,
+      sheet: { classes: css }
     } = this.props
     const { checked = false, focused } = this.state
     const stateClasses = {

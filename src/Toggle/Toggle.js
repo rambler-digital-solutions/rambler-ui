@@ -1,11 +1,68 @@
-import React, { Component, PropTypes, cloneElement } from 'react'
-import classnames from 'classnames'
-import css from './Toggle.css'
-import ToggleOption from './ToggleOption'
-
 /**
  * Компонент переключателя
  */
+import React, { Component, PropTypes, cloneElement } from 'react'
+import classnames from 'classnames'
+import ToggleOption from './ToggleOption'
+import { injectSheet } from '../theme'
+import { fontStyleMixin, borderMixin } from '../style/mixins'
+
+@injectSheet(theme => ({
+  isSelected: {},
+  isDisabled: {},
+  Toggle: {
+    ...fontStyleMixin(theme.font),
+    isolate: true,
+    display: 'block',
+    '&, *': { transition: 'all .2s' },
+    '&--block': {
+      display: 'flex',
+      flexDirection: 'row',
+      flexWrap: 'nowrap'
+    },
+    '&__option': {
+      borderStyle: 'solid',
+      borderColor: '#ddd',
+      borderWidth: '1px 0px 1px 1px',
+      cursor: 'pointer',
+      userSelect: 'none',
+      position: 'relative',
+      display: 'inline-block',
+      '&:last-child': { borderWidth: 1 },
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        pointerEvents: 'none',
+        left: -1,
+        top: -1,
+        right: -1,
+        bottom: -1
+      }
+    },
+    '&--block&--equalWidth &__option': {
+      flex: 1,
+      flexBasis: 0,
+      textAlign: 'center'
+    },
+    '&__option:active, &__option:active$isSelected': { background: '#eee' },
+    '&__option:hover': {
+      zIndex: 2,
+      '&:before': borderMixin('#262626')
+    },
+    '&__option$isSelected': {
+      background: 'rgba(49, 94, 251, 0.1)',
+      color: '#315EFB',
+      zIndex: 1,
+      '&:before': borderMixin('#315EFB')
+    },
+    '&--behavior-radio &__option$isSelected': { cursor: 'default' },
+    '&$isDisabled': {
+      opacity: 0.5,
+      '& *': { pointerEvents: 'none !important' }
+    }
+  }
+}))
 export default class Toggle extends Component {
 
   static propTypes = {
@@ -105,6 +162,7 @@ export default class Toggle extends Component {
       equalWidth,
       behavior,
       disabled,
+      sheet: { classes: css },
       ...other
     } = this.props
     let i = 0

@@ -55,7 +55,7 @@ export default class Playground extends Component {
   static defaultProps = {
     canEdit: true,
     showPreview: true,
-    mode: 'read',
+    mode: 'preview',
     title: 'Пример'
   }
 
@@ -64,9 +64,11 @@ export default class Playground extends Component {
   }
 
   componentWillMount() {
-    const { code, canEdit } = this.props
+    const { code, canEdit, showPreview } = this.props
     let mode = this.props.mode
-    if (!canEdit)
+    if (!canEdit && mode === 'write')
+      mode = 'read'
+    if (!showPreview && mode === 'preview')
       mode = 'read'
     this.setState({ code, mode })
     this.initialCode = code
@@ -125,7 +127,8 @@ export default class Playground extends Component {
 
   render() {
     const { code, mode } = this.state
-    const { canEdit, title } = this.props
+    const { canEdit, title, showPreview } = this.props
+
     const codeElement = mode === 'read' ?
       <pre className={css.Code__pre} dangerouslySetInnerHTML={{ __html: hljs.highlight('javascript', code).value }}/> :
       <Codemirror
@@ -141,20 +144,27 @@ export default class Playground extends Component {
           <div className={ css.Header__title }>{ title }</div>
           <div className={ css.Header__tabs }>
             {
-              canEdit && <div
-                onClick={() => this.setMode('write')}
-                className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'write' }) }>Редактировать</div>
+              showPreview && <div
+              onClick={() => this.setMode('preview')}
+              className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'preview' }) }>Превью</div>
             }
             <div
               onClick={() => this.setMode('read')}
               className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'read' }) }>Код</div>
+            {
+              canEdit && <div
+                onClick={() => this.setMode('write')}
+                className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'write' }) }>Редактировать</div>
+            }
           </div>
         </div>
         <div className={ css.Body }>
-          <div className={ css.Code }>
-            { codeElement }
-          </div>
-          { this.props.showPreview && <div className={ css.Preview } ref="preview"></div> }
+          {
+            (mode !== 'preview') && <div className={ css.Code }>
+              { codeElement }
+            </div>
+          }
+          { showPreview && <div className={ css.Preview } ref="preview"></div> }
         </div>
       </div>
     )

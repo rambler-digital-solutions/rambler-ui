@@ -37,15 +37,19 @@
 .Code {
   padding: 15px;
   overflow: auto;
+
   &__pre {}
 }
 
 .Preview {
-  border-top: 1px solid #ddd;
   padding: 15px;
   &__error {
     color: red;
   }
+}
+
+.Code + .Preview {
+  border-top: 1px solid #ddd;
 }
 
 :global .CodeMirror {
