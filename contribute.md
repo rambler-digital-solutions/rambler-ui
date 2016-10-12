@@ -34,7 +34,7 @@ npm run gh-pages -- --versions 'master, stable, 1.0.5, 1.0.x, 1.x'
 
 ## Стайл-гайды
 
-1. Для css используем [Suit.css](https://github.com/suitcss/suit) + Модули для префикса компонентов.
+1. Для css используем [JSS](https://github.com/cssinjs/jss) + Модули для префикса компонентов.
 2. Для javascript кода используем базовый "airbnb-base" + некоторые правила переопределены в `.eslintrc`
 
 ## Написание документации

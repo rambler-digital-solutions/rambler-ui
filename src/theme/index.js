@@ -13,5 +13,6 @@ provider.defineTheme('baseTheme', baseTheme, {
   isDefault: true
 })
 
+export const jss = provider.jss
 export const ApplyTheme = provider.ApplyTheme
 export const injectSheet = provider.injectSheet
