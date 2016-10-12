@@ -54,11 +54,11 @@ const styleButtonMixin = (type, options) => ({
     textAlign: 'center',
     cursor: 'pointer',
     boxSizing: 'border-box',
-    fontSize: 12,
+    fontSize: theme.button.font.size,
     lineHeight: 1,
     textTransform: 'uppercase',
     textDecoration: 'none',
-    fontWeight: 400,
+    fontWeight: theme.button.font.weight,
     letterSpacing: 1,
     outline: 'none',
     position: 'relative',
@@ -90,12 +90,12 @@ const styleButtonMixin = (type, options) => ({
   },
   'size-medium': {
     '& $content': {
-      height: theme.buttons.sizes.medium.height
+      height: theme.sizes.medium.height
     }
   },
   'size-small': {
     '& $content': {
-      height: theme.buttons.sizes.small.height
+      height: theme.sizes.small.height
     }
   },
   loader: {
@@ -141,52 +141,52 @@ const styleButtonMixin = (type, options) => ({
     marginRight: 10
   },
   ...styleButtonMixin('primary', {
-    defaultBg: theme.buttons.types.primary.defaultBg,
-    defaultBorder: theme.buttons.types.primary.defaultBorder,
-    textColor: theme.buttons.types.primary.textColor,
-    disabledTextColor: theme.buttons.types.primary.disabledTextColor,
-    hoverBorder: theme.buttons.types.primary.hoverBorder,
-    hoverBg: theme.buttons.types.primary.hoverBg,
-    activeBorder: theme.buttons.types.primary.activeBorder,
-    activeBg: theme.buttons.types.primary.activeBg,
-    focusBorder: theme.buttons.types.primary.focusBorder,
-    focusBg: theme.buttons.types.primary.focusBg,
-    loadingBorder: theme.buttons.types.primary.loadingBorder,
-    disabledBorder: theme.buttons.types.primary.disabledBorder,
-    disabledBg: theme.buttons.types.primary.disabledBg,
-    focusOffset: theme.buttons.types.primary.focusOffset
+    defaultBg: theme.button.types.primary.defaultBg,
+    defaultBorder: theme.button.types.primary.defaultBorder,
+    textColor: theme.button.types.primary.textColor,
+    disabledTextColor: theme.button.types.primary.disabledTextColor,
+    hoverBorder: theme.button.types.primary.hoverBorder,
+    hoverBg: theme.button.types.primary.hoverBg,
+    activeBorder: theme.button.types.primary.activeBorder,
+    activeBg: theme.button.types.primary.activeBg,
+    focusBorder: theme.button.types.primary.focusBorder,
+    focusBg: theme.button.types.primary.focusBg,
+    loadingBorder: theme.button.types.primary.loadingBorder,
+    disabledBorder: theme.button.types.primary.disabledBorder,
+    disabledBg: theme.button.types.primary.disabledBg,
+    focusOffset: theme.button.types.primary.focusOffset
   }),
   ...styleButtonMixin('secondary', {
-    defaultBg: theme.buttons.types.secondary.defaultBg,
-    defaultBorder: theme.buttons.types.secondary.defaultBorder,
-    textColor: theme.buttons.types.secondary.textColor,
-    disabledTextColor: theme.buttons.types.secondary.disabledTextColor,
-    hoverBorder: theme.buttons.types.secondary.hoverBorder,
-    hoverBg: theme.buttons.types.secondary.hoverBg,
-    activeBorder: theme.buttons.types.secondary.activeBorder,
-    activeBg: theme.buttons.types.secondary.activeBg,
-    focusBorder: theme.buttons.types.secondary.focusBorder,
-    focusBg: theme.buttons.types.secondary.focusBg,
-    loadingBorder: theme.buttons.types.secondary.loadingBorder,
-    disabledBorder: theme.buttons.types.secondary.disabledBorder,
-    disabledBg: theme.buttons.types.secondary.disabledBg,
-    focusOffset: theme.buttons.types.secondary.focusOffset
+    defaultBg: theme.button.types.secondary.defaultBg,
+    defaultBorder: theme.button.types.secondary.defaultBorder,
+    textColor: theme.button.types.secondary.textColor,
+    disabledTextColor: theme.button.types.secondary.disabledTextColor,
+    hoverBorder: theme.button.types.secondary.hoverBorder,
+    hoverBg: theme.button.types.secondary.hoverBg,
+    activeBorder: theme.button.types.secondary.activeBorder,
+    activeBg: theme.button.types.secondary.activeBg,
+    focusBorder: theme.button.types.secondary.focusBorder,
+    focusBg: theme.button.types.secondary.focusBg,
+    loadingBorder: theme.button.types.secondary.loadingBorder,
+    disabledBorder: theme.button.types.secondary.disabledBorder,
+    disabledBg: theme.button.types.secondary.disabledBg,
+    focusOffset: theme.button.types.secondary.focusOffset
   }),
   ...styleButtonMixin('outline', {
-    defaultBg: theme.buttons.types.outline.defaultBg,
-    defaultBorder: theme.buttons.types.outline.defaultBorder,
-    textColor: theme.buttons.types.outline.textColor,
-    disabledTextColor: theme.buttons.types.outline.disabledTextColor,
-    hoverBorder: theme.buttons.types.outline.hoverBorder,
-    hoverBg: theme.buttons.types.outline.hoverBg,
-    activeBorder: theme.buttons.types.outline.activeBorder,
-    activeBg: theme.buttons.types.outline.activeBg,
-    focusBorder: theme.buttons.types.outline.focusBorder,
-    focusBg: theme.buttons.types.outline.focusBg,
-    loadingBorder: theme.buttons.types.outline.loadingBorder,
-    disabledBorder: theme.buttons.types.outline.disabledBorder,
-    disabledBg: theme.buttons.types.outline.disabledBg,
-    focusOffset: theme.buttons.types.outline.focusOffset
+    defaultBg: theme.button.types.outline.defaultBg,
+    defaultBorder: theme.button.types.outline.defaultBorder,
+    textColor: theme.button.types.outline.textColor,
+    disabledTextColor: theme.button.types.outline.disabledTextColor,
+    hoverBorder: theme.button.types.outline.hoverBorder,
+    hoverBg: theme.button.types.outline.hoverBg,
+    activeBorder: theme.button.types.outline.activeBorder,
+    activeBg: theme.button.types.outline.activeBg,
+    focusBorder: theme.button.types.outline.focusBorder,
+    focusBg: theme.button.types.outline.focusBg,
+    loadingBorder: theme.button.types.outline.loadingBorder,
+    disabledBorder: theme.button.types.outline.disabledBorder,
+    disabledBg: theme.button.types.outline.disabledBg,
+    focusOffset: theme.button.types.outline.focusOffset
   })
 }))
 export default class Button extends Component {
@@ -271,8 +271,8 @@ export default class Button extends Component {
     if (icon) {
       const { theme, size, type } = this.props
       const iconProps = {
-        size: theme.buttons.sizes[size].icon,
-        color: theme.buttons.types[type].textColor
+        size: theme.sizes[size].icon,
+        color: theme.button.types[type].textColor
       }
       const initialProps = icon.props || {}
       const className = classnames(initialProps.className, this.css.icon)

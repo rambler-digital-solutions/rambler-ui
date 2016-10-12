@@ -3,64 +3,69 @@
  */
 import React, { Component, PropTypes, cloneElement } from 'react'
 import classnames from 'classnames'
+import omit from 'lodash/omit'
 import ToggleOption from './ToggleOption'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, borderMixin } from '../style/mixins'
+import { borderMixin, isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
-  isSelected: {},
-  isDisabled: {},
-  Toggle: {
-    ...fontStyleMixin(theme.font),
-    isolate: true,
-    display: 'block',
-    '&, & *': { transition: 'all .2s' },
-    '&--block': {
-      display: 'flex',
-      flexDirection: 'row',
-      flexWrap: 'nowrap'
-    },
-    '&__option': {
-      borderStyle: 'solid',
-      borderColor: '#ddd',
-      borderWidth: '1px 0px 1px 1px',
-      cursor: 'pointer',
-      userSelect: 'none',
-      position: 'relative',
-      display: 'inline-block',
-      '&:last-child': { borderWidth: 1 },
-      '&:before': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        pointerEvents: 'none',
-        left: -1,
-        top: -1,
-        right: -1,
-        bottom: -1
-      }
-    },
-    '&--block&--equalWidth &__option': {
-      flex: 1,
-      flexBasis: 0,
-      textAlign: 'center'
-    },
-    '&__option:active, &__option:active$isSelected': { background: '#eee' },
-    '&__option:hover': {
-      zIndex: 2,
-      '&:before': borderMixin('#262626')
-    },
-    '&__option$isSelected': {
-      background: 'rgba(49, 94, 251, 0.1)',
-      color: '#315EFB',
-      zIndex: 1,
-      '&:before': borderMixin('#315EFB')
-    },
-    '&--behavior-radio &__option$isSelected': { cursor: 'default' },
-    '&$isDisabled': {
-      opacity: 0.5,
-      '& *': { pointerEvents: 'none !important' }
+  toggle: {
+    ...isolateMixin,
+    display: 'inline-block',
+    '&$block': { display: 'flex' },
+    '&, & *': {
+      transitionDuration: '.2s',
+      transitionProperty: 'background, opacity, border, box-shadow'
     }
+  },
+  option: {
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderColor: theme.toggle.color,
+    borderWidth: '1px 0px 1px 1px',
+    cursor: 'pointer',
+    userSelect: 'none',
+    position: 'relative',
+    display: 'inline-block',
+    '&:before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      pointerEvents: 'none',
+      left: -1,
+      top: -1,
+      right: -1,
+      bottom: -1
+    },
+    '&:last-child': { borderWidth: 1 },
+    '&:active, &:active$isSelected': { background: theme.toggle.activeBgColor },
+    '&:hover': { zIndex: 2 },
+    '&:hover:before': borderMixin(theme.toggle.hoverColor),
+    '&$isSelected': {
+      background: theme.toggle.selectedBgColor,
+      color: theme.toggle.selectedColor
+    },
+    '&$isSelected:before': borderMixin(theme.toggle.selectedColor)
+  },
+  block: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap'
+  },
+  isSelected: {
+    zIndex: 1
+  },
+  isDisabled: {
+    opacity: 0.5,
+    '& *': { pointerEvents: 'none !important' }
+  },
+  equalWidth: {
+    '& $option': {
+      flex: 1,
+      flexBasis: 0
+    }
+  },
+  'behavior-radio': {
+    '& $option$isSelected': { cursor: 'default' }
   }
 }))
 export default class Toggle extends Component {
@@ -122,6 +127,8 @@ export default class Toggle extends Component {
     minWidth: 0
   };
 
+  optionsElements = [];
+
   onValueChange = (event, value) => {
     if (value === this.value && this.props.behavior === 'toggle')
       value = null
@@ -139,8 +146,20 @@ export default class Toggle extends Component {
   }
 
   componentDidMount() {
+    // Делаем через таймаут т.к. при начально загрузки страницы jss добавляет стили асинхронно
     if (this.shouldCalcMinWidth())
-      this.setState({ minWidth: this.minWidth })
+      setTimeout(
+        (() => this.setState({ minWidth: this.calcMinWidth() })),
+        0
+      )
+  }
+
+  calcMinWidth() {
+    let minWidth = 0
+    this.optionsElements.forEach(el => {
+      minWidth = Math.max(el ? el.offsetWidth : 0, minWidth)
+    })
+    return minWidth
   }
 
   shouldCalcMinWidth() {
@@ -164,21 +183,20 @@ export default class Toggle extends Component {
       disabled,
       sheet: { classes: css },
       ...other
-    } = this.props
+    } = omit(this.props, 'theme')
     let i = 0
+    this.optionsElements = []
     const options = React.Children.map(children, (child) => {
       if (!child instanceof ToggleOption)
         throw new Error('Child component should be instance of <ToggleOption />')
       const isSelected = child.props.value === this.state.value
-      const resultClassName = classnames(css.Toggle__option, {
-        [css['is-selected']]: isSelected
+      const resultClassName = classnames(css.option, {
+        [css.isSelected]: isSelected
       })
 
       let ref = null
       if (this.shouldCalcMinWidth())
-        ref = (el) => {
-          this.minWidth = Math.max(el ? el.offsetWidth : 0, this.minWidth || 0)
-        }
+        ref = (el) => { this.optionsElements.push(el) }
 
       return (
         <div
@@ -198,13 +216,12 @@ export default class Toggle extends Component {
     }, this)
 
     const resultClassName = classnames(
-      css.Toggle,
-      css[`Toggle--size-${size}`],
-      css[`Toggle--behavior-${behavior}`],
+      css.toggle,
+      css[`behavior-${behavior}`],
       {
-        [css['Toggle--block']]: block,
-        [css['Toggle--equalWidth']]: equalWidth,
-        [css['is-disabled']]: disabled
+        [css.block]: block,
+        [css.equalWidth]: equalWidth,
+        [css.isDisabled]: disabled
       }
     )
 

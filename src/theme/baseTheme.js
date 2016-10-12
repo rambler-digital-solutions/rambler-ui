@@ -2,16 +2,37 @@ export default {
   font: {
     fontFamily: 'Roboto, sans-serif'
   },
-  buttons: {
+  sizes: {
+    medium: {
+      height: 45,
+      icon: 20,
+    },
+    small: {
+      height: 35,
+      icon: 15
+    }
+  },
+  toggle: {
+    color: '#262626',
+    bgColor: '#fff',
+    hoverBgColor: '#fff',
+    activeBgColor: '#eee',
+    selectedColor: '#315EFB',
+    selectedBgColor: 'rgba(49, 94, 251, 0.1)',
+    font: { size: 13 },
     sizes: {
       medium: {
-        height: 45,
-        icon: 20,
+        paddingHr: 25
       },
       small: {
-        height: 35,
-        icon: 15
+        paddingHr: 15
       }
+    }
+  },
+  button: {
+    font: {
+      weight: 400,
+      size: 12
     },
     types: {
       primary: {
