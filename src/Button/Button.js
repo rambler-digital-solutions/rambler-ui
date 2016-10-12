@@ -38,7 +38,7 @@ const styleButtonMixin = (type, options) => ({
       color: `${options.disabledTextColor} !important`,
       background: options.disabledBg
     },
-    '& $loaderDot': { background: options.textColor }
+    '& $loaderDot': { background: options.loaderColor }
   }
 })
 
@@ -154,7 +154,8 @@ const styleButtonMixin = (type, options) => ({
     loadingBorder: theme.button.types.primary.loadingBorder,
     disabledBorder: theme.button.types.primary.disabledBorder,
     disabledBg: theme.button.types.primary.disabledBg,
-    focusOffset: theme.button.types.primary.focusOffset
+    focusOffset: theme.button.types.primary.focusOffset,
+    loaderColor: theme.button.types.primary.loaderColor
   }),
   ...styleButtonMixin('secondary', {
     defaultBg: theme.button.types.secondary.defaultBg,
@@ -170,7 +171,8 @@ const styleButtonMixin = (type, options) => ({
     loadingBorder: theme.button.types.secondary.loadingBorder,
     disabledBorder: theme.button.types.secondary.disabledBorder,
     disabledBg: theme.button.types.secondary.disabledBg,
-    focusOffset: theme.button.types.secondary.focusOffset
+    focusOffset: theme.button.types.secondary.focusOffset,
+    loaderColor: theme.button.types.secondary.loaderColor
   }),
   ...styleButtonMixin('outline', {
     defaultBg: theme.button.types.outline.defaultBg,
@@ -186,7 +188,8 @@ const styleButtonMixin = (type, options) => ({
     loadingBorder: theme.button.types.outline.loadingBorder,
     disabledBorder: theme.button.types.outline.disabledBorder,
     disabledBg: theme.button.types.outline.disabledBg,
-    focusOffset: theme.button.types.outline.focusOffset
+    focusOffset: theme.button.types.outline.focusOffset,
+    loaderColor: theme.button.types.outline.loaderColor
   })
 }))
 export default class Button extends Component {

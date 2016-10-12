@@ -29,6 +29,22 @@ export default {
       }
     }
   },
+  checkbox: {
+    bgColor: '#fff',
+    borderColor: '#ddd',
+    hoverBorderColor: '#262626',
+    activeBorderColor: '#315efb',
+    activeBgColor: '#eee',
+    disabledBorderColor: '#eee',
+    disabledBgColor: '#eee',
+    disabledColor: 'rgba(38, 38, 38, 0.4)',
+    color: '#262626',
+    iconMargin: 10,
+    size: 15,
+    font: {
+      size: 13
+    }
+  },
   button: {
     font: {
       weight: 400,
@@ -37,6 +53,7 @@ export default {
     types: {
       primary: {
         textColor: '#fff',
+        loaderColor: '#fff',
         disabledTextColor: 'rgba(255, 255, 255, .4)',
         defaultBg: '#315efb',
         defaultBorder: '#315efb',
@@ -53,6 +70,7 @@ export default {
       },
       secondary: {
         textColor: '#315efb',
+        loaderColor: '#315efb',
         disabledTextColor: 'rgba(49, 94, 251, .4)',
         defaultBg: '#eaefff',
         defaultBorder: '#eaefff',
@@ -70,6 +88,7 @@ export default {
       },
       outline: {
         textColor: '#262626',
+        loaderColor: '#315efb',
         disabledTextColor: 'rgba(38, 38, 38, .4)',
         defaultBg: '#fff',
         defaultBorder: '#ccc',
