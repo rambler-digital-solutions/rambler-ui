@@ -10,7 +10,7 @@ import { fontStyleMixin, middleMixin } from '../style/mixins'
 @injectSheet(theme => ({
   ToggleOption: {
     ...middleMixin,
-    ...fontStyleMixin(theme.baseFont),
+    ...fontStyleMixin(theme.font),
     isolate: true,
     fontSize: 13,
     display: 'block',

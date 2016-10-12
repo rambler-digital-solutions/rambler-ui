@@ -6,23 +6,24 @@
 import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
 import classnames from 'classnames'
 import range from 'lodash/range'
+import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, middleMixin, borderMixin } from '../style/mixins'
+import { fontStyleMixin, middleMixin, borderMixin, isolateMixin } from '../style/mixins'
 
 const styleButtonMixin = (type, options) => ({
-  [`&--type-${type}`]: {
+  [`type-${type}`]: {
     extend: borderMixin(options.defaultBorder),
-    color: `${options.defaultText} !important`,
+    color: `${options.textColor} !important`,
     background: options.defaultBg,
     '&:focus:not(:active)': {
-      background: `${options.focusBg} !important`,
-      '&:before': {
-        extend: borderMixin(options.focusBorder),
-        top: -options.focusOffset,
-        bottom: -options.focusOffset,
-        left: -options.focusOffset,
-        right: -options.focusOffset
-      }
+      background: `${options.focusBg} !important`
+    },
+    '&:focus:not(:active):before': {
+      extend: borderMixin(options.focusBorder),
+      top: -options.focusOffset,
+      bottom: -options.focusOffset,
+      left: -options.focusOffset,
+      right: -options.focusOffset
     },
     '&:hover:not(:active)': {
       extend: borderMixin(options.hoverBorder),
@@ -34,25 +35,22 @@ const styleButtonMixin = (type, options) => ({
     },
     '&[disabled]': {
       extend: borderMixin(options.disabledBorder),
-      color: `${options.disabledText} !important`,
+      color: `${options.disabledTextColor} !important`,
       background: options.disabledBg
-    }
-  },
-  [`&--type-${type} &__loaderDot`]: {
-    background: options.loadingDot
+    },
+    '& $loaderDot': { background: options.textColor }
   }
 })
 
-@injectSheet(theme => ({
+@injectSheet((theme) => ({
   '@keyframes ruiAnimateDot': {
     '20%': { transform: 'scale(1)' },
     '40%': { transform: 'scale(1) translate3d(0, 5px, 0)' },
     '100%': { transform: 'scale(1)  translate3d(0, 0, 0)' }
   },
-  isLoading: {},
-  Button: {
+  button: {
+    ...isolateMixin,
     ...fontStyleMixin(theme.font),
-    isolate: true,
     textAlign: 'center',
     cursor: 'pointer',
     boxSizing: 'border-box',
@@ -67,121 +65,129 @@ const styleButtonMixin = (type, options) => ({
     display: 'inline-block',
     border: 'none',
     userSelect: 'none',
-    '&, *': { transition: 'all .2s' },
-    '&$isLoading, &[disabled]': { pointerEvents: 'none' },
-    '&$isLoading &__content': { opacity: 0 },
+    '&, & *': { transition: 'all .2s' },
     '&:focus:before': {
       content: '""',
       display: 'block',
       position: 'absolute'
     },
-    '&--block': {
-      display: 'block',
-      width: '100%'
-    },
-    '&--size-medium &__content': { height: '45px' },
-    '&--size-small &__content': { height: '35px' },
-    '&__content': {
-      ...middleMixin,
-      padding: '0 20px',
-      whiteSpace: 'nowrap',
-      overflowX: 'hidden',
-      textOverflow: 'ellipsis'
-    },
-    '&__loader': {
-      ...middleMixin,
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: 0,
-      top: 0,
-      width: '100%',
-      textAlign: 'center'
-    },
-    '&__loaderDot': {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      height: 5,
-      width: 5,
-      position: 'relative',
-      top: -2,
-      borderRadius: '100%',
-      transition: 'transform .6s ease-out',
-      transform: 'translate3d(0, 0, 0)',
-      animation: 'ruiAnimateDot .6s ease-out',
-      animationFillMode: 'forwards',
-      animationIterationCount: 'infinite',
-      '&:nth-child(1)': { animationDelay: '0s' },
-      '&:nth-child(2)': { animationDelay: '.08s', margin: '0 5px' },
-      '&:nth-child(3)': { animationDelay: '.16s' }
-    },
-    '&__overlay': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      zIndex: 1,
-      opacity: 0,
-      width: '100%',
-      cursor: 'pointer'
-    },
-    '&__icon': {
-      display: 'inline-block',
-      marginRight: 10
-    },
-    ...styleButtonMixin('primary', {
-      defaultBg: '#315efb',
-      defaultBorder: '#315efb',
-      defaultText: '#fff',
-      hoverBorder: '#3059DD',
-      hoverBg: '#3059DD',
-      activeBorder: '#2A4FC5',
-      activeBg: '#2A4FC5',
-      focusBorder: '#3264fb',
-      focusBg: '#1660e0',
-      loadingBorder: '#315efb',
-      loadingDot: '#fff',
-      disabledBorder: '#315efb',
-      disabledBg: '#315efb',
-      disabledText: 'rgba(255, 255, 255, .4)',
-      focusOffset: '3px'
-    }),
-    ...styleButtonMixin('secondary', {
-      defaultBg: '#eaefff',
-      defaultBorder: '#eaefff',
-      defaultText: '#315efb',
-      hoverBorder: 'transparent',
-      hoverBg: 'rgba(49, 94, 251, .2)',
-      activeBorder: 'transparent',
-      activeBg: 'rgba(49, 94, 251, .3)',
-      focusBorder: '#649dff',
-      focusBg: '#eaefff',
-      loadingBorder: '#eaefff',
-      loadingDot: '#315efb',
-      disabledBorder: '#eaefff',
-      disabledBg: '#eaefff',
-      disabledText: 'rgba(49, 94, 251, .4)',
-      focusOffset: '0px'
-    }),
-    ...styleButtonMixin('outline', {
-      defaultBg: '#fff',
-      defaultBorder: '#ccc',
-      defaultText: '#262626',
-      hoverBorder: '#262626',
-      hoverBg: '#fff',
-      activeBorder: '#ccc',
-      activeBg: '#eee',
-      focusBorder: '#315efb',
-      focusBg: '#fff',
-      loadingBorder: '#ccc',
-      loadingDot: '#315efb',
-      disabledBorder: '#eee',
-      disabledBg: '#eee',
-      disabledText: 'rgba(38, 38, 38, .4)',
-      focusOffset: '0px'
-    })
-  }
+    '&[disabled]': { pointerEvents: 'none' }
+  },
+  isLoading: {
+    pointerEvents: 'none',
+    '& $content': { opacity: 0 }
+  },
+  content: {
+    ...middleMixin,
+    padding: '0 20px',
+    whiteSpace: 'nowrap',
+    overflowX: 'hidden',
+    textOverflow: 'ellipsis'
+  },
+  block: {
+    display: 'block',
+    width: '100%'
+  },
+  'size-medium': {
+    '& $content': {
+      height: theme.buttons.sizes.medium.height
+    }
+  },
+  'size-small': {
+    '& $content': {
+      height: theme.buttons.sizes.small.height
+    }
+  },
+  loader: {
+    ...middleMixin,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    width: '100%',
+    textAlign: 'center'
+  },
+  loaderDot: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    height: 5,
+    width: 5,
+    position: 'relative',
+    top: -2,
+    borderRadius: '50%',
+    transition: 'transform .6s ease-out',
+    transform: 'translate3d(0, 0, 0)',
+    animation: 'ruiAnimateDot .6s ease-out',
+    animationFillMode: 'forwards',
+    animationIterationCount: 'infinite',
+    '&:nth-child(1)': { animationDelay: '0s' },
+    '&:nth-child(2)': { animationDelay: '.08s', margin: '0 5px' },
+    '&:nth-child(3)': { animationDelay: '.16s' }
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+    opacity: 0,
+    width: '100%',
+    cursor: 'pointer'
+  },
+  icon: {
+    display: 'inline-block',
+    marginRight: 10
+  },
+  ...styleButtonMixin('primary', {
+    defaultBg: theme.buttons.types.primary.defaultBg,
+    defaultBorder: theme.buttons.types.primary.defaultBorder,
+    textColor: theme.buttons.types.primary.textColor,
+    disabledTextColor: theme.buttons.types.primary.disabledTextColor,
+    hoverBorder: theme.buttons.types.primary.hoverBorder,
+    hoverBg: theme.buttons.types.primary.hoverBg,
+    activeBorder: theme.buttons.types.primary.activeBorder,
+    activeBg: theme.buttons.types.primary.activeBg,
+    focusBorder: theme.buttons.types.primary.focusBorder,
+    focusBg: theme.buttons.types.primary.focusBg,
+    loadingBorder: theme.buttons.types.primary.loadingBorder,
+    disabledBorder: theme.buttons.types.primary.disabledBorder,
+    disabledBg: theme.buttons.types.primary.disabledBg,
+    focusOffset: theme.buttons.types.primary.focusOffset
+  }),
+  ...styleButtonMixin('secondary', {
+    defaultBg: theme.buttons.types.secondary.defaultBg,
+    defaultBorder: theme.buttons.types.secondary.defaultBorder,
+    textColor: theme.buttons.types.secondary.textColor,
+    disabledTextColor: theme.buttons.types.secondary.disabledTextColor,
+    hoverBorder: theme.buttons.types.secondary.hoverBorder,
+    hoverBg: theme.buttons.types.secondary.hoverBg,
+    activeBorder: theme.buttons.types.secondary.activeBorder,
+    activeBg: theme.buttons.types.secondary.activeBg,
+    focusBorder: theme.buttons.types.secondary.focusBorder,
+    focusBg: theme.buttons.types.secondary.focusBg,
+    loadingBorder: theme.buttons.types.secondary.loadingBorder,
+    disabledBorder: theme.buttons.types.secondary.disabledBorder,
+    disabledBg: theme.buttons.types.secondary.disabledBg,
+    focusOffset: theme.buttons.types.secondary.focusOffset
+  }),
+  ...styleButtonMixin('outline', {
+    defaultBg: theme.buttons.types.outline.defaultBg,
+    defaultBorder: theme.buttons.types.outline.defaultBorder,
+    textColor: theme.buttons.types.outline.textColor,
+    disabledTextColor: theme.buttons.types.outline.disabledTextColor,
+    hoverBorder: theme.buttons.types.outline.hoverBorder,
+    hoverBg: theme.buttons.types.outline.hoverBg,
+    activeBorder: theme.buttons.types.outline.activeBorder,
+    activeBg: theme.buttons.types.outline.activeBg,
+    focusBorder: theme.buttons.types.outline.focusBorder,
+    focusBg: theme.buttons.types.outline.focusBg,
+    loadingBorder: theme.buttons.types.outline.loadingBorder,
+    disabledBorder: theme.buttons.types.outline.disabledBorder,
+    disabledBg: theme.buttons.types.outline.disabledBg,
+    focusOffset: theme.buttons.types.outline.focusOffset
+  })
 }))
 export default class Button extends Component {
 
@@ -252,7 +258,6 @@ export default class Button extends Component {
   static defaultProps = {
     type: 'primary',
     size: 'medium',
-    theme: 'blue',
     buttonType: 'button',
     block: false
   };
@@ -262,22 +267,15 @@ export default class Button extends Component {
     return css
   }
 
-  mapThemeToColor(theme) {
-    return ({
-      blue: 'light',
-      white: 'light',
-      'light-blue': 'light'
-    })[theme]
-  }
-
   renderIcon(icon) {
     if (icon) {
+      const { theme, size, type } = this.props
       const iconProps = {
-        size: this.props.size,
-        color: this.mapThemeToColor(this.props.theme)
+        size: theme.buttons.sizes[size].icon,
+        color: theme.buttons.types[type].textColor
       }
       const initialProps = icon.props || {}
-      const className = classnames(initialProps.className, this.css.Button__icon)
+      const className = classnames(initialProps.className, this.css.icon)
       const resultProps = { ...iconProps, ...initialProps, className }
       return cloneElement(icon, resultProps)
     }
@@ -285,8 +283,8 @@ export default class Button extends Component {
 
   renderLoader() {
     const css = this.css
-    return <div className={css.Button__loader} key='loader'>
-      {range(3).map(i => (<div className={css.Button__loaderDot} key={i}></div>))}
+    return <div className={ css.loader } key='loader'>
+      {range(3).map(i => (<div className={ css.loaderDot } key={i}></div>))}
     </div>
   }
 
@@ -307,30 +305,30 @@ export default class Button extends Component {
       width,
       style = {},
       ...other
-    } = this.props
+    } = omit(this.props, 'sheet', 'theme')
     const css = this.css
 
     const resultStyle = {
       width,
       ...style
     }
-    const themeClass = css['Button--type-' + type]
-    const sizeClass = css['Button--size-' + size]
+    const typeClass = css[`type-${type}`]
+    const sizeClass = css[`size-${size}`]
     const resultClassName = classnames(
-      css.Button,
-      themeClass,
+      css.button,
+      typeClass,
       sizeClass,
       className,
       {
-        [css['is-loading']]: loading,
-        [css['Button--block']]: block
+        [css.isLoading]: loading,
+        [css.block]: block
       })
 
     const resultChildren = [
-      <div className={css.Button__content}>
+      <div className={css.content}>
         { this.renderIcon(icon) }
         { children }
-        { overlay && cloneElement(overlay, {className: css.Button__overlay}) }
+        { overlay && cloneElement(overlay, {className: css.overlay}) }
       </div>,
       loading && this.renderLoader()
     ]

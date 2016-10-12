@@ -14,7 +14,7 @@ import { fontStyleMixin, borderMixin } from '../style/mixins'
     ...fontStyleMixin(theme.font),
     isolate: true,
     display: 'block',
-    '&, *': { transition: 'all .2s' },
+    '&, & *': { transition: 'all .2s' },
     '&--block': {
       display: 'flex',
       flexDirection: 'row',

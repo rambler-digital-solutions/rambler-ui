@@ -43,6 +43,7 @@
 
 .Preview {
   padding: 15px;
+  overflow: auto;
   &__error {
     color: red;
   }

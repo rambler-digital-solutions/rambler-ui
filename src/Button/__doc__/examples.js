@@ -1,6 +1,7 @@
 import Button from 'rambler-ui/Button'
 import React, {Component} from 'react'
 import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
+import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class ButtonExample extends Component {
   state = {
@@ -20,21 +21,23 @@ export default class ButtonExample extends Component {
 
   render() {
     return (
-      <div>
+      <ApplyTheme>
         <div>
-          <Button icon={<RamblerMailIcon/>} style={{margin: 20}} onClick={::this.handleClick} loading={this.state.loading}>Почта</Button>
-          <Button style={{margin: 20}} disabled>Disabled</Button>
-          <Button style={{margin: 20}} theme="white" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
-          <Button style={{margin: 20}} theme="white" disabled>disabled</Button>
+          <div>
+            <Button icon={<RamblerMailIcon/>} style={{margin: 20}} onClick={::this.handleClick} loading={this.state.loading}>Почта</Button>
+            <Button style={{margin: 20}} disabled>Disabled</Button>
+            <Button style={{margin: 20}} type="outline" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
+            <Button style={{margin: 20}} type="outline" disabled>disabled</Button>
+          </div>
+          <div style={{width: 300, padding: 20, margin: 20, background: '#fafafa', border: '1px solid #eee'}}>
+            <Button style={{marginBottom: 20}} block={true} size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
+            <Button block={true} type="secondary" size="small" disabled>disabled</Button>
+          </div>
+          <Button style={{margin: 20, display: 'block', width: 173}} type="secondary" size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
+          <Button style={{margin: 20, display: 'block', width: 173}} type="secondary" size="small" disabled>disabled</Button>
+          <Button style={{margin: 20, display: 'block', width: 173}} type="secondary" size="small" overlay={<input type="file" name="hello"/>}>Загрузить файл</Button>
         </div>
-        <div style={{width: 300, padding: 20, margin: 20, background: '#fafafa', border: '1px solid #eee'}}>
-          <Button style={{marginBottom: 20}} block={true} size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
-          <Button block={true} theme="lightBlue" size="small" disabled>disabled</Button>
-        </div>
-        <Button style={{margin: 20, display: 'block', width: 173}} theme="lightBlue" size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
-        <Button style={{margin: 20, display: 'block', width: 173}} theme="lightBlue" size="small" disabled>disabled</Button>
-        <Button style={{margin: 20, display: 'block', width: 173}} theme="lightBlue" size="small" overlay={<input type="file" name="hello"/>}>Загрузить файл</Button>
-      </div>
+      </ApplyTheme>
     )
   }
 }

@@ -52,7 +52,7 @@ import { fontStyleMixin } from '../style/mixins'
       float: 'left',
       marginRight: 10
     },
-    '&, *': {
+    '&, & *': {
       transition: 'all .2s'
     },
     '&:hover &__fake': {

@@ -66,7 +66,7 @@ const config = Object.assign({
   plugins: [],
   postcss: () => [
     postCssImport(),
-    postCssMixins({ mixinsDir: [path.join(rootDir, 'src/style'), path.join(repoDir, 'src/style')] }),
+    postCssMixins({ mixinsDir: [path.join(rootDir, 'src/style')] }),
     postCssVars({ variables: cssVariables }),
     precss(),
     cssnext()
@@ -101,7 +101,7 @@ config.module.loaders = config.module.loaders.concat([
   {
     test: /\.js?$/,
     loader: 'babel-loader?cacheDirectory',
-    exclude: path.join(rootDir, 'node_modules')
+    exclude: /node_modules/
   },
   {
     test: /\.json$/,
