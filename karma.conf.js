@@ -3,7 +3,8 @@ module.exports = function (config) {
     basePath: '',
     frameworks: ['jasmine'],
     files: [
-      'test/index.js'
+      'node_modules/babel-polyfill/dist/polyfill.js',
+      'src/**/*.test.js'
     ],
 
     preprocessors: {
@@ -22,6 +23,9 @@ module.exports = function (config) {
             loader: 'json-loader'
           }
         ]
+      },
+      resolve: {
+        root: [__dirname + '/src', __dirname + '/node_modules']
       }
     },
 

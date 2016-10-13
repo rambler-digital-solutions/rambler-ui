@@ -4,6 +4,7 @@
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
+    "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS",
     "dev": "cd site && npm run dev",
     "release": "npm run build && npm run release",
     "build": "NODE_ENV=production gulp build",
