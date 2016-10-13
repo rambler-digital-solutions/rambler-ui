@@ -8,6 +8,13 @@ import ToggleOption from './ToggleOption'
 import { injectSheet } from '../theme'
 import { borderMixin, isolateMixin } from '../style/mixins'
 
+const whenDomReady = new Promise((resolve) => {
+  if (document.readyState === 'complete')
+    resolve()
+  else
+    window.addEventListener('load', resolve)
+})
+
 @injectSheet(theme => ({
   toggle: {
     ...isolateMixin,
@@ -148,10 +155,9 @@ export default class Toggle extends Component {
   componentDidMount() {
     // Делаем через таймаут т.к. при начально загрузки страницы jss добавляет стили асинхронно
     if (this.shouldCalcMinWidth())
-      setTimeout(
-        (() => this.setState({ minWidth: this.calcMinWidth() })),
-        0
-      )
+      whenDomReady.then(() => {
+        this.setState({ minWidth: this.calcMinWidth() })
+      })
   }
 
   calcMinWidth() {

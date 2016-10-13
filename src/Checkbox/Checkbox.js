@@ -77,7 +77,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
   },
   isChecked: {
     '& $icon': {
-      top: 1,
+      top: 2,
       opacity: 1
     },
     '& $fake': {
