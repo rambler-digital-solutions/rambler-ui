@@ -8,7 +8,7 @@
     "dev": "cd site && npm run dev",
     "release": "npm run build && npm run release",
     "build": "NODE_ENV=production gulp build",
-    "precommit": "gulp precommit",
+    "precommit": "gulp precommit && npm run test",
     "publish": "NODE_ENV=production gulp npm:publish"
   },
   "repository": {
