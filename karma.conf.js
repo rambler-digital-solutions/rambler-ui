@@ -29,6 +29,7 @@ module.exports = function (config) {
         ]
       },
       externals: {
+        'react/addons': true,
         'react/lib/ExecutionEnvironment': true,
         'react/lib/ReactContext': true
       },
@@ -39,6 +40,10 @@ module.exports = function (config) {
       resolveLoader: {
         root: path.join(__dirname, 'node_modules')
       }
+    },
+
+    webpackServer: {
+      noInfo: true
     },
 
     plugins: [
