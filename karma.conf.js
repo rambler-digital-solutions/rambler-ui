@@ -10,13 +10,13 @@ module.exports = function (config) {
       'src/**/*.test.js': ['webpack']
     },
 
-    webpack: { //kind of a copy of your webpack config
+    webpack: {
       module: {
         loaders: [
           {
             test: /\.js$/,
             loader: 'babel',
-            exclude: /node_modules/,
+            exclude: /node_modules/
           }, {
             test: /\.json$/,
             loader: 'json-loader'

@@ -109,7 +109,6 @@ export default class ToggleOption extends Component {
     } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */
     const resultClassName = classnames(css.toggleOption, className, css[`size-${size}`])
-
     return (
       <div { ...other } className={ resultClassName } onClick={ this.onClick }>
         { this.renderIcon(icon) }
