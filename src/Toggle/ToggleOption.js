@@ -33,7 +33,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     marginRight: 10
   }
 }))
-export default class ToggleOption extends Component {
+class ToggleOption extends Component {
 
   static propTypes = {
     /**
@@ -118,3 +118,5 @@ export default class ToggleOption extends Component {
   }
 
 }
+ToggleOption.displayName = 'ruiToggleOption'
+export default ToggleOption

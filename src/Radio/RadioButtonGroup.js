@@ -77,7 +77,8 @@ export default class RadioButtonGroup extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setValue(nextProps)
+    console.log(nextProps.value)
+    this.setValue(nextProps.value)
   }
 
   componentDidMount() {
@@ -107,14 +108,15 @@ export default class RadioButtonGroup extends Component {
     let i = 0
 
     const options = React.Children.map(this.props.children, (child) => {
-      if (!child instanceof RadioButton)
-        throw new Error('Child component should be instance of <RadioButton />')
+      if (!child.type || child.type.displayName !== 'ruiRadioButton')
+        return child
 
       /* eslint-disable no-unused-vars */
       const {
         value,
         label,
         style,
+        disabled,
         ...other
       } = child.props
       /* eslint-disable no-unused-vars */
@@ -130,7 +132,8 @@ export default class RadioButtonGroup extends Component {
             ref={value}
             key={++i}
             style={style}
-            onChange={::this.handleChange}
+            disabled={disabled}
+            onChange={this.handleChange}
             isSelected={isSelected}
             {...other}
           />

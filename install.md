@@ -5,13 +5,17 @@ npm install --save git+https://gitlab.rambler.ru/rambler-ui/rambler-ui.git#npm-s
 ```
 
 # Использование
+Обязательно включите babel-polyfill в свой код
 ```
 import Button from 'rambler-ui/Button'
+import 'babel-polyfill'
 
 export default function() {
   return <Button>Кнопка</Button> 
 }
 ```
+
+
 
 ## Использование с Webpack
 Использование babel-loader необязательно, т.к. весь код уже скомпилирован

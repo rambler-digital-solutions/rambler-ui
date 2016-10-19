@@ -14,8 +14,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     ...fontStyleMixin(theme.font),
     fontSize: theme.toggle.font.size,
     display: 'inline-block',
-    fontize: '1em',
-    fonteight: '400',
+    fonteWeight: '400',
     cursor: 'pointer',
     '& input': {
       position: 'absolute',
@@ -79,10 +78,13 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   isLabelLeft: {
     marginRight: '0px',
     marginLeft: '20px'
+  },
+  isDisabled: {
+    opacity: '0.5',
+    pointerEvents: 'none'
   }
 }))
-
-export default class RadioButton extends Component {
+class RadioButton extends Component {
 
   static propTypes = {
     /**
@@ -117,8 +119,7 @@ export default class RadioButton extends Component {
 
   static defaultProps = {
     value: null,
-    disabled: false,
-    style: {}
+    disabled: false
   }
 
   componentDidMount() {
@@ -134,16 +135,18 @@ export default class RadioButton extends Component {
       labelPosition,
       isSelected,
       style,
+      disabled,
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */
 
     const isLabelLeft = labelPosition === 'left'
-    const rootClassName = classnames(css.normal)
+    const rootClassName = classnames(css.normal, {
+      [css.isDisabled]: disabled })
     const radioClassName = classnames(css.radio, {
       [css.isSelected]: isSelected,
-      [css.isLabelLeft]: isLabelLeft })
+      [css.isLabelLeft]: isLabelLeft})
     const labelClassName = classnames(css.label)
 
     if (labelPosition === 'right')
@@ -176,3 +179,6 @@ export default class RadioButton extends Component {
   }
 
 }
+
+RadioButton.displayName = 'ruiRadioButton'
+export default RadioButton
