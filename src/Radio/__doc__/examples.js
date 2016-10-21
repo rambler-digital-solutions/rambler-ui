@@ -1,6 +1,7 @@
 import { RadioButton, RadioButtonGroup } from 'rambler-ui/Radio'
 import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
+import TickIcon from 'rambler-ui/icons/forms/TickIcon'
 
 export default class RadioExample extends Component {
 
@@ -8,11 +9,18 @@ export default class RadioExample extends Component {
     radioValue: null
   }
 
-  onChange(event, newValue) {
-    // console.log(newValue)
-    this.setState({
-      radioValue: newValue
-    })
+  onChangeState(event, newValue) {
+    console.log('onChangeState :', newValue)
+    if (this.state.value !== newValue)
+      this.setState({ radioValue: newValue })
+  }
+
+  onFocus(e) {
+    console.log('onFocus: ', e.type)
+  }
+
+  onBlur(e) {
+    console.log('onBlur: ', e.type)
   }
 
   componentWillMount() {
@@ -26,65 +34,98 @@ export default class RadioExample extends Component {
         <div>
           <div>
             <RadioButtonGroup
-              style={{width: 300}}
+              styleForGroup={{width: 150}}
               value={this.state.radioValue}
-              onChange={::this.onChange}
-              block={true}
-              labelPosition="right"
-              name="RdBtnGrp-1">
+              onChange={::this.onChangeState}
+              labelPosition="right">
                 <RadioButton
                   value="Moscow"
-                  label="Moscow"
                   disabled={false}
                   style={{marginTop: 20}}
-                  disabled={false}
-                />
-                <hr/>
+                  onFocus={::this.onFocus}
+                  onBlur={::this.onBlur}
+                >Moscow</RadioButton>
                 <RadioButton
                   value="Samara"
-                  label="Samara"
                   disabled={false}
                   style={{marginTop: 20}}
+                  onFocus={::this.onFocus}
+                  onBlur={::this.onBlur}
+                >Samara</RadioButton>
+                <RadioButton
+                  value="SaintP"
                   disabled={false}
-                />
+                  style={{marginTop: 20}}
+                  onFocus={::this.onFocus}
+                  onBlur={::this.onBlur}
+                >SaintP <TickIcon style={{color: 'blue'}}/> </RadioButton>
                 <RadioButton
                   value="New-York"
-                  label="New-York"
                   disabled={false}
                   style={{marginTop: 20}}
                   disabled={true}
-                />
+                  onFocus={::this.onFocus}
+                  onBlur={::this.onBlur}
+                ><span>yep</span> New-York</RadioButton>
+            </RadioButtonGroup>
+          </div>
+          <div>
+            <RadioButtonGroup
+            styleForGroup={{width: 200}}
+              value={this.state.radioValue}
+              onChange={::this.onChangeState}
+              labelPosition="left">
+              <RadioButton
+                value="Moscow"
+                disabled={false}
+                style={{marginTop: 20}}
+                onFocus={::this.onFocus}
+                onBlur={::this.onBlur}
+              >Moscow</RadioButton>
+              <RadioButton
+                value="Samara"
+                disabled={false}
+                style={{marginTop: 20}}
+                onFocus={::this.onFocus}
+                onBlur={::this.onBlur}
+              >Samara</RadioButton>
+              <RadioButton
+                value="SaintP"
+                disabled={false}
+                style={{marginTop: 20}}
+                onFocus={::this.onFocus}
+                onBlur={::this.onBlur}
+              >SaintP</RadioButton>
+              <RadioButton
+                value="New-York"
+                disabled={false}
+                style={{marginTop: 20}}
+                onFocus={::this.onFocus}
+                onBlur={::this.onBlur}
+              >New-York</RadioButton>
             </RadioButtonGroup>
             <br/>
           </div>
-          {/* <div>
-            <RadioButtonGroup
-              value={this.state.radioValue}
-              onChange={::this.onChange}
-              block={false}
-              labelPosition="left"
-              name="RdBtnGrp-2">
-                <RadioButton
-                  value="Moscow"
-                  label="Moscow"
-                  disabled={false}
-                  style={{marginTop: 20}}
-                />
-                <RadioButton
-                  value="Samara"
-                  label="Samara"
-                  disabled={false}
-                  style={{marginTop: 20}}
-                />
-                <RadioButton
-                  value="New-York"
-                  label="New-York"
-                  disabled={false}
-                  style={{marginTop: 20}}
-                />
-            </RadioButtonGroup>
-            <br/>
-          </div> */}
+
+          <div>
+          <RadioButton
+            value="1"
+            disabled={false}
+            labelPosition='right'
+            style={{marginTop: 20}}
+            onFocus={::this.onFocus}
+            onBlur={::this.onBlur}
+          >1</RadioButton>
+          <RadioButton
+            value="2"
+            disabled={false}
+            labelPosition='right'
+            style={{marginTop: 20}}
+            onFocus={::this.onFocus}
+            onBlur={::this.onBlur}
+          >2</RadioButton>
+          </div>
+
           <div>
               <div><span>this.state.radioValue:</span><b>{this.state.radioValue}</b></div>
           </div>

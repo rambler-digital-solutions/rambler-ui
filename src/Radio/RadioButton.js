@@ -6,29 +6,31 @@ import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
 
 @injectSheet(theme => ({
   normal: {
     ...isolateMixin,
+    ...middleMixin,
     ...fontStyleMixin(theme.font),
     fontSize: theme.toggle.font.size,
     display: 'inline-block',
-    fonteWeight: '400',
+    width: '100%',
     cursor: 'pointer',
+    position: 'relative',
     '& input': {
       position: 'absolute',
-      visibility: 'hidden',
+      opacity: '0',
       appearance: 'none'
     },
     '& input:checked + $radio': {
-      borderColor: '#315efb'
+      borderColor: theme.radio.activeRadioColor
     },
     '& input:checked + $radio:after': {
       opacity: '1'
     },
     '&--enter radio': {
-      borderColor: '#315efb'
+      borderColor: theme.radio.activeRadioColor
     }
   },
   label: {
@@ -37,13 +39,13 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   },
   radio: {
     '&:hover': {
-      borderColor: '#315efb'
+      borderColor: theme.radio.activeRadioColor
     },
     display: 'inline-block',
     verticalAlign: 'middle',
     position: 'relative',
     boxSizing: 'border-box',
-    border: '1px solid #ccc',
+    border: theme.radio.baseRadioBorder,
     borderRadius: '50%',
     width: '16px',
     height: '16px',
@@ -58,7 +60,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
       display: 'inline-block',
       borderRadius: '50%',
       content: '""',
-      backgroundColor: '#315efb',
+      backgroundColor: theme.radio.activeRadioColor,
       opacity: 0,
       transition: 'opacity 0.1s ease',
       margin: '-3px 0 0 -3px',
@@ -76,8 +78,10 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     }
   },
   isLabelLeft: {
-    marginRight: '0px',
-    marginLeft: '20px'
+    margin: '0',
+    position: 'absolute',
+    right: '0',
+    top: '1px'
   },
   isDisabled: {
     opacity: '0.5',
@@ -114,7 +118,15 @@ class RadioButton extends Component {
     /**
      * Переопределение стандартных стилей
      */
-    style: PropTypes.object
+    style: PropTypes.object,
+    /**
+     * Колбэк onFocus на input
+     */
+    onFocus: PropTypes.func,
+   /**
+    * Колбэк onBlur на input
+    */
+    onBlur: PropTypes.func
   }
 
   static defaultProps = {
@@ -123,6 +135,7 @@ class RadioButton extends Component {
   }
 
   componentDidMount() {
+    // console.log(this.refs.radio.focus())
     this.refs.radio.checked = this.props.isSelected
   }
 
@@ -131,16 +144,18 @@ class RadioButton extends Component {
     const {
       name,
       value,
-      label,
+      children,
       labelPosition,
       isSelected,
       style,
       disabled,
+      onFocus,
+      onBlur,
+      onChange,
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */
-
     const isLabelLeft = labelPosition === 'left'
     const rootClassName = classnames(css.normal, {
       [css.isDisabled]: disabled })
@@ -152,27 +167,33 @@ class RadioButton extends Component {
     if (labelPosition === 'right')
       return (
         <label className={rootClassName} style={style}>
-          <input
-            type="radio"
-            ref="radio"
-            name={name}
-            value={value}
-            {...other} />
-          <span className={radioClassName}></span>
-          <span className={labelClassName}>{this.props.label}</span>
+            <input
+              type="radio"
+              ref="radio"
+              name={name}
+              value={value}
+              onFocus={onFocus}
+              onBlur={onBlur}
+              onChange={onChange}
+              {...other} />
+            <span className={radioClassName}></span>
+            <span className={labelClassName}>{children}</span>
         </label>
       )
 
     return (
       <label className={rootClassName} style={style}>
-      <span
-        className={labelClassName}>{this.props.label}</span>
-      <input
-        type="radio"
-        name={name}
-        value={value}
-        ref="radio" />
-      <span className={radioClassName}></span>
+        <span className={labelClassName}>{children}</span>
+        <input
+          type="radio"
+          ref="radio"
+          name={name}
+          value={value}
+          onFocus={onFocus}
+          onBlur={onBlur}
+          onChange={onChange}
+          {...other} />
+        <span className={radioClassName}></span>
       </label>
     )
 

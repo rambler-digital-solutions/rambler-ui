@@ -4,7 +4,6 @@
 import React, { Component, PropTypes, cloneElement } from 'react'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import ToggleOption from './ToggleOption'
 import { injectSheet } from '../theme'
 import { borderMixin, isolateMixin } from '../style/mixins'
 
