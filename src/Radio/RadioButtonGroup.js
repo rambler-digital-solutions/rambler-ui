@@ -38,16 +38,14 @@ export default class RadioButtonGroup extends Component {
      */
     labelPosition: PropTypes.oneOf(['left', 'right']),
     /**
-     * Имя, которое будет применяться ко всем radio
+     * Имя, которое будет применяться ко всей группе radio.
+     * Генерируется автоматически, если не указано
      */
     name: PropTypes.string,
     /**
-     * Колбэк, который вызывается при нажатии на input.
-     * '{object}' event `change` event targeting the selected
-     * radio button.
-     * '{*}' value The `value` of the selected radio button.
+     * Колбэк, который вызывается при нажатии на input и меняет state radioButtonGroup.
      */
-    onChange: PropTypes.func,
+    onChangeState: PropTypes.func,
     /**
      * Добавление стандартных стилей для группы
      */
@@ -78,23 +76,21 @@ export default class RadioButtonGroup extends Component {
   }
 
   setValue(value) {
-    // console.log(value)
     if (this.state.value !== value)
       this.setState({ value })
   }
 
-  handleChange = (event) => {
-    if (this.props.onChange)
-      this.props.onChange(event, event.target.value)
-  }
-
-  handleName = () => {
+  nameHelper = () => {
     if (!this.props.name)
       return `RadioGroup-${((Math.floor(Math.random() * 10000)).toString(36))}`
   }
 
-  render() {
+  onClickHelper = (event) => {
+    if (this.props.onChangeState)
+      this.props.onChangeState(event, event.target.value)
+  }
 
+  render() {
     /* eslint-disable no-unused-vars */
     const {
       labelPosition,
@@ -102,7 +98,7 @@ export default class RadioButtonGroup extends Component {
       styleForGroup,
       sheet: { classes: css }
     } = omit(this.props, 'theme')
-    const name = this.props.name || this.handleName()
+    const name = this.props.name || this.nameHelper()
     /* eslint-disable no-unused-vars */
     const labelWrap = classnames(css.labelWrap)
     let i = 0
@@ -118,10 +114,11 @@ export default class RadioButtonGroup extends Component {
         disabled,
         onFocus,
         onBlur,
+        onChange,
+        labelStyle,
         ...other
       } = child.props
       /* eslint-disable no-unused-vars */
-
       const isSelected = value === this.state.value
       return (
         <div className={labelWrap}>
@@ -133,10 +130,12 @@ export default class RadioButtonGroup extends Component {
               disabled,
               labelPosition,
               isSelected,
+              labelStyle,
               key: ++i,
-              onChange: this.handleChange,
+              onClick: this.onClickHelper,
               onFocus,
               onBlur,
+              onChange,
               ...other
             })
           }

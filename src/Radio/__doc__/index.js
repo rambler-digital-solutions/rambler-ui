@@ -10,7 +10,7 @@ export const title = 'Радиобаттоны'
 export default () => (
   <div>
     <Playground code={examplesCode} title="Пример" />
-    <PropTypesTable code={codeRadioButton} header="### Свойства `<codeRadioButton/>`" />
-    <PropTypesTable code={codeRadioButtonGroup} header="### Свойства `<codeRadioButtonGroup/>`" />
+    <PropTypesTable code={codeRadioButton} header="### Свойства `<RadioButton/>`" />
+    <PropTypesTable code={codeRadioButtonGroup} header="### Свойства `<RadioButtonGroup/>`" />
   </div>
 )

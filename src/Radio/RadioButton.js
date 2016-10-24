@@ -81,7 +81,7 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
     margin: '0',
     position: 'absolute',
     right: '0',
-    top: '1px'
+    top: '0'
   },
   isDisabled: {
     opacity: '0.5',
@@ -104,10 +104,6 @@ class RadioButton extends Component {
      */
     value: PropTypes.any,
     /**
-     * Переопределение стандартных стилей input
-     */
-    inputStyle: PropTypes.object,
-    /**
      * Css-класс компонента
      */
     className: PropTypes.string,
@@ -116,9 +112,13 @@ class RadioButton extends Component {
      */
     labelStyle: PropTypes.object,
     /**
-     * Переопределение стандартных стилей
+     * Переопределение стандартных стилей компонента radioButton
      */
     style: PropTypes.object,
+    /**
+     * Колбэк onChange на input
+     */
+    onChange: PropTypes.func,
     /**
      * Колбэк onFocus на input
      */
@@ -131,11 +131,16 @@ class RadioButton extends Component {
 
   static defaultProps = {
     value: null,
-    disabled: false
+    disabled: false,
+    style: {},
+    labelStyle: {}
   }
 
   componentDidMount() {
-    // console.log(this.refs.radio.focus())
+    this.refs.radio.checked = this.props.isSelected
+  }
+
+  componentDidUpdate() {
     this.refs.radio.checked = this.props.isSelected
   }
 
@@ -146,22 +151,22 @@ class RadioButton extends Component {
       value,
       children,
       labelPosition,
-      isSelected,
       style,
       disabled,
+      labelStyle,
+      onClick,
       onFocus,
       onBlur,
       onChange,
       sheet: { classes: css },
       ...other
-    } = omit(this.props, 'theme')
+    } = omit(this.props, ['theme', 'isSelected'])
     /* eslint-enable no-unused-vars */
     const isLabelLeft = labelPosition === 'left'
     const rootClassName = classnames(css.normal, {
       [css.isDisabled]: disabled })
     const radioClassName = classnames(css.radio, {
-      [css.isSelected]: isSelected,
-      [css.isLabelLeft]: isLabelLeft})
+      [css.isLabelLeft]: isLabelLeft })
     const labelClassName = classnames(css.label)
 
     if (labelPosition === 'right')
@@ -175,25 +180,27 @@ class RadioButton extends Component {
               onFocus={onFocus}
               onBlur={onBlur}
               onChange={onChange}
+              onClick={onClick}
               {...other} />
             <span className={radioClassName}></span>
-            <span className={labelClassName}>{children}</span>
+            <span className={labelClassName} style={labelStyle}>{children}</span>
         </label>
       )
 
     return (
       <label className={rootClassName} style={style}>
-        <span className={labelClassName}>{children}</span>
-        <input
-          type="radio"
-          ref="radio"
-          name={name}
-          value={value}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={onChange}
-          {...other} />
-        <span className={radioClassName}></span>
+        <span className={labelClassName} style={labelStyle}>{children}</span>
+          <input
+            type="radio"
+            ref="radio"
+            name={name}
+            value={value}
+            onFocus={onFocus}
+            onBlur={onBlur}
+            onChange={onChange}
+            onClick={onClick}
+            {...other} />
+          <span className={radioClassName}></span>
       </label>
     )
 
