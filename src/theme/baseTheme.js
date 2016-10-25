@@ -108,6 +108,7 @@ export default {
   },
   radio: {
     baseRadioBorder: '1px solid #ccc',
-    activeRadioColor: '#315efb'
+    activeRadioColor: '#315efb',
+    font: {size: 14}
   }
 }

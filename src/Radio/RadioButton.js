@@ -13,7 +13,7 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
     ...isolateMixin,
     ...middleMixin,
     ...fontStyleMixin(theme.font),
-    fontSize: theme.toggle.font.size,
+    fontSize: theme.radio.font.size,
     display: 'inline-block',
     width: '100%',
     cursor: 'pointer',
@@ -126,7 +126,11 @@ class RadioButton extends Component {
    /**
     * Колбэк onBlur на input
     */
-    onBlur: PropTypes.func
+    onBlur: PropTypes.func,
+    /**
+     * Колбэк onClick на input
+     */
+    onClick: PropTypes.func
   }
 
   static defaultProps = {
@@ -154,10 +158,6 @@ class RadioButton extends Component {
       style,
       disabled,
       labelStyle,
-      onClick,
-      onFocus,
-      onBlur,
-      onChange,
       sheet: { classes: css },
       ...other
     } = omit(this.props, ['theme', 'isSelected'])
@@ -168,39 +168,23 @@ class RadioButton extends Component {
     const radioClassName = classnames(css.radio, {
       [css.isLabelLeft]: isLabelLeft })
     const labelClassName = classnames(css.label)
-
-    if (labelPosition === 'right')
-      return (
-        <label className={rootClassName} style={style}>
-            <input
-              type="radio"
-              ref="radio"
-              name={name}
-              value={value}
-              onFocus={onFocus}
-              onBlur={onBlur}
-              onChange={onChange}
-              onClick={onClick}
-              {...other} />
-            <span className={radioClassName}></span>
-            <span className={labelClassName} style={labelStyle}>{children}</span>
-        </label>
-      )
+    const labelElem = <span className={labelClassName} style={labelStyle}>{children}</span>
 
     return (
       <label className={rootClassName} style={style}>
-        <span className={labelClassName} style={labelStyle}>{children}</span>
-          <input
-            type="radio"
-            ref="radio"
-            name={name}
-            value={value}
-            onFocus={onFocus}
-            onBlur={onBlur}
-            onChange={onChange}
-            onClick={onClick}
-            {...other} />
-          <span className={radioClassName}></span>
+        { isLabelLeft === true &&
+          labelElem
+        }
+        <input
+          type="radio"
+          ref="radio"
+          name={name}
+          value={value}
+          {...other} />
+        <span className={radioClassName}></span>
+        { isLabelLeft === false &&
+          labelElem
+        }
       </label>
     )
 

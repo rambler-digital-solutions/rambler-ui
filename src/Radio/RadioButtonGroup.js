@@ -63,11 +63,15 @@ export default class RadioButtonGroup extends Component {
   }
 
   state = {
-    value: null
+    value: null,
+    name: null
   }
 
   componentWillMount() {
-    this.setValue(this.props.value)
+    this.setState({
+      value: (!!this.props.value) ? this.props.value : null,
+      name: (!!this.props.name) ? this.props.name : this.nameHelper()
+    })
   }
 
   componentWillReceiveProps(nextProps) {
@@ -80,12 +84,11 @@ export default class RadioButtonGroup extends Component {
       this.setState({ value })
   }
 
-  nameHelper = () => {
-    if (!this.props.name)
-      return `RadioGroup-${((Math.floor(Math.random() * 10000)).toString(36))}`
+  nameHelper() {
+    return `RadioGroup-${((Math.floor(Math.random() * 10000)).toString(36))}`
   }
 
-  onClickHelper = (event) => {
+  onChangeValue = (event) => {
     if (this.props.onChangeState)
       this.props.onChangeState(event, event.target.value)
   }
@@ -94,11 +97,10 @@ export default class RadioButtonGroup extends Component {
     /* eslint-disable no-unused-vars */
     const {
       labelPosition,
-      block,
       styleForGroup,
       sheet: { classes: css }
     } = omit(this.props, 'theme')
-    const name = this.props.name || this.nameHelper()
+    const name = this.state.name
     /* eslint-disable no-unused-vars */
     const labelWrap = classnames(css.labelWrap)
     let i = 0
@@ -112,10 +114,8 @@ export default class RadioButtonGroup extends Component {
         value,
         style,
         disabled,
-        onFocus,
-        onBlur,
-        onChange,
         labelStyle,
+        onChange,
         ...other
       } = child.props
       /* eslint-disable no-unused-vars */
@@ -132,10 +132,11 @@ export default class RadioButtonGroup extends Component {
               isSelected,
               labelStyle,
               key: ++i,
-              onClick: this.onClickHelper,
-              onFocus,
-              onBlur,
-              onChange,
+              onChange: (...args) => {
+                if (onChange)
+                  onChange(...args)
+                this.onChangeValue(...args)
+              },
               ...other
             })
           }
