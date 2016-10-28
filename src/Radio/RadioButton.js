@@ -46,7 +46,7 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
     position: 'relative',
     boxSizing: 'border-box',
     border: theme.radio.baseRadioBorder,
-    borderRadius: '50%',
+    borderRadius: theme.radio.borderRadius,
     width: '16px',
     height: '16px',
     marginTop: '-1px',
@@ -58,7 +58,7 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
       top: '50%',
       left: '50%',
       display: 'inline-block',
-      borderRadius: '50%',
+      borderRadius: theme.radio.borderRadius,
       content: '""',
       backgroundColor: theme.radio.activeRadioColor,
       opacity: 0,
@@ -104,9 +104,17 @@ class RadioButton extends Component {
      */
     value: PropTypes.any,
     /**
-     * Css-класс компонента
+     * Css-класс root-компонента(label)
      */
     className: PropTypes.string,
+    /**
+     * Css-класс span-radio
+     */
+    radioClassName: PropTypes.string,
+    /**
+     * Css-класс span-label
+     */
+    labelClassName: PropTypes.string,
     /**
      * Переопределение стандартных стилей label
      */
@@ -158,17 +166,24 @@ class RadioButton extends Component {
       style,
       disabled,
       labelStyle,
+      className,
+      labelClassName,
+      radioClassName,
       sheet: { classes: css },
       ...other
     } = omit(this.props, ['theme', 'isSelected'])
     /* eslint-enable no-unused-vars */
     const isLabelLeft = labelPosition === 'left'
-    const rootClassName = classnames(css.normal, {
+
+    const rootClassName = classnames(css.normal, className, {
       [css.isDisabled]: disabled })
-    const radioClassName = classnames(css.radio, {
+
+    const resultRadioClassName = classnames(css.radio, radioClassName, {
       [css.isLabelLeft]: isLabelLeft })
-    const labelClassName = classnames(css.label)
-    const labelElem = <span className={labelClassName} style={labelStyle}>{children}</span>
+
+    const resultLabelClassName = classnames(css.label, labelClassName)
+
+    const labelElem = <span className={resultLabelClassName} style={labelStyle}>{children}</span>
 
     return (
       <label className={rootClassName} style={style}>
@@ -180,8 +195,9 @@ class RadioButton extends Component {
           ref="radio"
           name={name}
           value={value}
+          disabled={disabled}
           {...other} />
-        <span className={radioClassName}></span>
+        <span className={resultRadioClassName}></span>
         { isLabelLeft === false &&
           labelElem
         }

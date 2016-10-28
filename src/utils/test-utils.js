@@ -15,8 +15,7 @@ export function mount(component) {
   })
 }
 
-export function getStyles(wrappedComponent) {
-  const node = findDOMNode(wrappedComponent.get(0))
+export function getNodeStyles(node) {
   const computedStyles = getComputedStyle(node)
   const resultStyles = {}
   for (let i = 0; i < computedStyles.length; i += 1) {
@@ -24,4 +23,9 @@ export function getStyles(wrappedComponent) {
     resultStyles[name] = computedStyles.getPropertyValue(name)
   }
   return resultStyles
+}
+
+export function getStyles(wrappedComponent) {
+  const node = findDOMNode(wrappedComponent.get(0))
+  return getNodeStyles(node)
 }

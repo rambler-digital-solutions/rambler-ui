@@ -98,11 +98,12 @@ export default class RadioButtonGroup extends Component {
     const {
       labelPosition,
       styleForGroup,
+      className,
       sheet: { classes: css }
     } = omit(this.props, 'theme')
     const name = this.state.name
     /* eslint-disable no-unused-vars */
-    const labelWrap = classnames(css.labelWrap)
+    const labelWrap = classnames(css.labelWrap, className)
     let i = 0
 
     const options = React.Children.map(this.props.children, (child) => {
@@ -144,7 +145,7 @@ export default class RadioButtonGroup extends Component {
       )
     }, this)
 
-    const resultClassName = classnames(css.radioButtonGroup)
+    const resultClassName = classnames(css.radioButtonGroup, className)
 
     return (
       <div className={resultClassName} style={styleForGroup}>

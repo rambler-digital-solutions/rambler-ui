@@ -59,7 +59,18 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+    browsers: ['Chrome', 'PhantomJS_custom'],
+    singleRun: false,
+    customLaunchers: {
+      'PhantomJS_custom': {
+        base: 'PhantomJS',
+        options: {
+          viewportSize: {
+            width: 1200,
+            height: 1000
+          }
+        }
+      }
+    }
   })
 }
