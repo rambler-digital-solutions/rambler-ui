@@ -9,6 +9,10 @@ import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
+function nameHelper() {
+  return `RadioGroup-${((Math.floor(Math.random() * 10000)).toString(36))}`
+}
+
 @injectSheet(() => ({
   radioButtonGroup: {
     display: 'block'
@@ -22,7 +26,16 @@ export default class RadioButtonGroup extends Component {
 
   static propTypes = {
     /**
-     * Количество дочерних узлов - radio
+    * Имя, которое будет применяться ко всей группе radio.
+    * Генерируется автоматически, если не указано
+    */
+    name: PropTypes.string,
+    /**
+    * Значение по умолчанию выбранного radio
+    */
+    defaultSelect: PropTypes.any,
+    /**
+     * Дочерние узлы - radio
      */
     children: PropTypes.node,
     /**
@@ -30,26 +43,17 @@ export default class RadioButtonGroup extends Component {
      */
     className: PropTypes.string,
     /**
-     * Значение по умолчанию выбранного radio
-     */
-    defaultSelect: PropTypes.any,
+    * Добавление стандартных стилей для группы
+    */
+    styleForGroup: PropTypes.object,
     /**
      * Позиция label - либо слева, либо справа
      */
     labelPosition: PropTypes.oneOf(['left', 'right']),
     /**
-     * Имя, которое будет применяться ко всей группе radio.
-     * Генерируется автоматически, если не указано
+     * Обязательный колбэк, который вызывается при нажатии на input и меняет state root-компонента.
      */
-    name: PropTypes.string,
-    /**
-     * Колбэк, который вызывается при нажатии на input и меняет state radioButtonGroup.
-     */
-    onChangeState: PropTypes.func,
-    /**
-     * Добавление стандартных стилей для группы
-     */
-    styleForGroup: PropTypes.object,
+    onChange: PropTypes.func.isRequired,
     /**
      * Значение, выбранного в данный момент radio
      */
@@ -59,38 +63,23 @@ export default class RadioButtonGroup extends Component {
   static defaultProps = {
     labelPosition: 'right',
     styleForGroup: {},
-    name: null
+    name: null,
+    onChange: () => {}
   }
 
   state = {
-    value: null,
     name: null
   }
 
   componentWillMount() {
     this.setState({
-      value: (!!this.props.value) ? this.props.value : null,
-      name: (!!this.props.name) ? this.props.name : this.nameHelper()
+      name: this.props.name || nameHelper()
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.value !== nextProps.value)
-      this.setValue(nextProps.value)
-  }
-
-  setValue(value) {
-    if (this.state.value !== value)
-      this.setState({ value })
-  }
-
-  nameHelper() {
-    return `RadioGroup-${((Math.floor(Math.random() * 10000)).toString(36))}`
-  }
-
   onChangeValue = (event) => {
-    if (this.props.onChangeState)
-      this.props.onChangeState(event, event.target.value)
+    if (this.props.onChange)
+      this.props.onChange(event, event.target.value)
   }
 
   render() {
@@ -120,18 +109,15 @@ export default class RadioButtonGroup extends Component {
         ...other
       } = child.props
       /* eslint-disable no-unused-vars */
-      const isSelected = value === this.state.value
+      const isSelected = value === this.props.value
       return (
         <div className={labelWrap}>
           {
             cloneElement(child, {
               name,
               value,
-              style,
-              disabled,
               labelPosition,
               isSelected,
-              labelStyle,
               key: ++i,
               onChange: (...args) => {
                 if (onChange)

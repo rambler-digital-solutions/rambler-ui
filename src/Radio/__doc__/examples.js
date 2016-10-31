@@ -43,7 +43,7 @@ export default class RadioExample extends Component {
             <RadioButtonGroup
               styleForGroup={{width: 150}}
               value={this.state.radioValue}
-              onChangeState={::this.onChangeState}
+              onChange={::this.onChangeState}
               labelPosition="right"
               name='soooqua'>
                 <RadioButton

@@ -44,20 +44,20 @@ const whenDomReady = new Promise((resolve) => {
       bottom: -1
     },
     '&:last-child': { borderWidth: 1 },
-    '&:active, &:active$isSelect': { background: theme.toggle.activeBgColor },
+    '&:active, &:active$isSelected': { background: theme.toggle.activeBgColor },
     '&:hover': { zIndex: 2 },
     '&:hover:before': borderMixin(theme.toggle.hoverColor),
-    '&$isSelect': {
+    '&$isSelected': {
       background: theme.toggle.selectedBgColor,
       color: theme.toggle.selectedColor
     },
-    '&$isSelect:before': borderMixin(theme.toggle.selectedColor)
+    '&$isSelected:before': borderMixin(theme.toggle.selectedColor)
   },
   block: {
     flexDirection: 'row',
     flexWrap: 'nowrap'
   },
-  isSelect: {
+  isSelected: {
     zIndex: 1
   },
   isDisabled: {
@@ -71,7 +71,7 @@ const whenDomReady = new Promise((resolve) => {
     }
   },
   'behavior-radio': {
-    '& $option$isSelect': { cursor: 'default' }
+    '& $option$isSelected': { cursor: 'default' }
   }
 }))
 export default class Toggle extends Component {
@@ -196,7 +196,7 @@ export default class Toggle extends Component {
         throw new Error('Child component should be instance of <ToggleOption />')
       const isSelected = child.props.value === this.state.value
       const resultClassName = classnames(css.option, {
-        [css.isSelect]: isSelected
+        [css.isSelected]: isSelected
       })
 
       let ref = null

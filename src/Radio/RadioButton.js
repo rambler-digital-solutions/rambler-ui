@@ -92,19 +92,15 @@ class RadioButton extends Component {
 
   static propTypes = {
     /**
-     * Выбран если значение true
-     */
-    checked: PropTypes.bool,
+    * Выбранное значение radioButton
+    */
+    value: PropTypes.any,
     /**
      * Если true, radioButoon задизэйблен
      */
     disabled: PropTypes.bool,
     /**
-     * Выбранное значение radioButton
-     */
-    value: PropTypes.any,
-    /**
-     * Css-класс root-компонента(label)
+     * Css-класс root-компонента(radioButton)
      */
     className: PropTypes.string,
     /**
@@ -116,13 +112,13 @@ class RadioButton extends Component {
      */
     labelClassName: PropTypes.string,
     /**
+    * Переопределение стандартных стилей компонента radioButton
+    */
+    style: PropTypes.object,
+    /**
      * Переопределение стандартных стилей label
      */
     labelStyle: PropTypes.object,
-    /**
-     * Переопределение стандартных стилей компонента radioButton
-     */
-    style: PropTypes.object,
     /**
      * Колбэк onChange на input
      */
@@ -163,12 +159,12 @@ class RadioButton extends Component {
       value,
       children,
       labelPosition,
-      style,
       disabled,
-      labelStyle,
       className,
-      labelClassName,
       radioClassName,
+      labelClassName,
+      style,
+      labelStyle,
       sheet: { classes: css },
       ...other
     } = omit(this.props, ['theme', 'isSelected'])
