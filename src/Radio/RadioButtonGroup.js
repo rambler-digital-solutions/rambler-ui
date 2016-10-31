@@ -101,9 +101,6 @@ export default class RadioButtonGroup extends Component {
       /* eslint-disable no-unused-vars */
       const {
         value,
-        style,
-        disabled,
-        labelStyle,
         onChange,
         ...other
       } = child.props
