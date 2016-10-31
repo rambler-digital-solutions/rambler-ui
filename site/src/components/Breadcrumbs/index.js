@@ -26,7 +26,7 @@ export default class Breadcrumb extends Component {
       return null
 
     let i = 0
-    let crumbs = []
+    const crumbs = []
     let title = currentModule.module.title || currentModule.selfName
     crumbs.push(<span key={ i } className={ classnames(css.Breadcrumbs__item, css.isActive) }>{ title }</span>)
     while (currentModule.parentName) {

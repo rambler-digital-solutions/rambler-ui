@@ -4,7 +4,6 @@
 import React, { Component, PropTypes, cloneElement } from 'react'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import ToggleOption from './ToggleOption'
 import { injectSheet } from '../theme'
 import { borderMixin, isolateMixin } from '../style/mixins'
 
@@ -193,7 +192,7 @@ export default class Toggle extends Component {
     let i = 0
     this.optionsElements = []
     const options = React.Children.map(children, (child) => {
-      if (!child instanceof ToggleOption)
+      if (!child.type || child.type.displayName !== 'ruiToggleOption')
         throw new Error('Child component should be instance of <ToggleOption />')
       const isSelected = child.props.value === this.state.value
       const resultClassName = classnames(css.option, {

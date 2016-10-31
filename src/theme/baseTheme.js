@@ -5,7 +5,7 @@ export default {
   sizes: {
     medium: {
       height: 45,
-      icon: 20,
+      icon: 20
     },
     small: {
       height: 35,
@@ -105,5 +105,11 @@ export default {
         focusOffset: 0
       }
     }
+  },
+  radio: {
+    borderRadius: '50%',
+    baseRadioBorder: '1px solid #ccc',
+    activeRadioColor: '#315efb',
+    font: {size: 14}
   }
 }

@@ -13,14 +13,14 @@ module.exports = function (config) {
       'src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
-    webpack: { //kind of a copy of your webpack config
+    webpack: {
       devtool: 'inline-source-map',
       module: {
         loaders: [
           {
             test: /\.js$/,
             loader: 'babel',
-            exclude: /node_modules/,
+            exclude: /node_modules/
           }, {
             test: /\.json$/,
             loader: 'json',
@@ -59,7 +59,18 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
-    browsers: ['Chrome'],
-    singleRun: false
+    browsers: ['Chrome', 'PhantomJS_custom'],
+    singleRun: false,
+    customLaunchers: {
+      'PhantomJS_custom': {
+        base: 'PhantomJS',
+        options: {
+          viewportSize: {
+            width: 1200,
+            height: 1000
+          }
+        }
+      }
+    }
   })
 }

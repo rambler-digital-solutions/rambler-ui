@@ -33,7 +33,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     marginRight: 10
   }
 }))
-export default class ToggleOption extends Component {
+class ToggleOption extends Component {
 
   static propTypes = {
     /**
@@ -109,7 +109,6 @@ export default class ToggleOption extends Component {
     } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */
     const resultClassName = classnames(css.toggleOption, className, css[`size-${size}`])
-
     return (
       <div { ...other } className={ resultClassName } onClick={ this.onClick }>
         { this.renderIcon(icon) }
@@ -119,3 +118,5 @@ export default class ToggleOption extends Component {
   }
 
 }
+ToggleOption.displayName = 'ruiToggleOption'
+export default ToggleOption
