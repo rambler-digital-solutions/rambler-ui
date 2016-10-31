@@ -2,7 +2,6 @@
  * Компонент radioButtonGroup
  */
 import React, { Component, PropTypes, cloneElement} from 'react'
-// import RadioButton from './RadioButton'
 
 import classnames from 'classnames'
 import omit from 'lodash/omit'
