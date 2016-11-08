@@ -56,7 +56,7 @@ export default class RadioButtonGroup extends Component {
     /**
      * Значение, выбранного в данный момент radio
      */
-    valueSelected: PropTypes.any
+    value: PropTypes.any
   }
 
   static defaultProps = {

@@ -1,5 +1,12 @@
 # Гайд по разработке RamblerUI
 
+## Roadmap
+Dropdown
+Tooltip
+Popup
+Input
+Textarea
+
 ## Установка
 ```
 git clone git@gitlab.rambler.ru:rambler-ui/rambler-ui.git

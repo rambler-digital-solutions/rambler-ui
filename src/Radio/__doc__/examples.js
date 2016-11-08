@@ -48,7 +48,6 @@ export default class RadioExample extends Component {
               name='soooqua'>
                 <RadioButton
                   value="Moscow"
-                  disabled={false}
                   style={{marginTop: 20}}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
@@ -57,7 +56,6 @@ export default class RadioExample extends Component {
                 >Moscow</RadioButton>
                 <RadioButton
                   value="Samara"
-                  disabled={false}
                   style={{marginTop: 20}}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
@@ -66,7 +64,6 @@ export default class RadioExample extends Component {
                 >Samara</RadioButton>
                 <RadioButton
                   value="SaintP"
-                  disabled={false}
                   style={{marginTop: 20}}
                   onFocus={this.onFocus}
                   onBlur={this.onBlur}
@@ -75,7 +72,6 @@ export default class RadioExample extends Component {
                 >SaintP <TickIcon style={{color: 'blue'}}/> </RadioButton>
                 <RadioButton
                   value="New-York"
-                  disabled={false}
                   style={{marginTop: 20}}
                   disabled={true}
                   onFocus={this.onFocus}
@@ -86,7 +82,7 @@ export default class RadioExample extends Component {
             </RadioButtonGroup>
           </div>
           <div>
-          <RadioButtonGroup
+            <RadioButtonGroup
             styleForGroup={{width: 150}}
             value={this.state.radioValue}
             onChange={::this.onChangeState}
@@ -128,8 +124,8 @@ export default class RadioExample extends Component {
                 onChange={this.onChange}
                 onClick={this.onClick}
               >New-York</RadioButton>
-          </RadioButtonGroup>
-            <br/>
+            </RadioButtonGroup>
+          <br/>
           </div>
           <div>
               <div><span>this.state.radioValue:</span><b>{this.state.radioValue}</b></div>

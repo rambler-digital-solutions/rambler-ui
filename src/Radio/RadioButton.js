@@ -94,7 +94,7 @@ class RadioButton extends Component {
     /**
     * Выбранное значение radioButton
     */
-    value: PropTypes.any,
+    value: PropTypes.any.isRequired,
     /**
      * Если true, radioButoon задизэйблен
      */
