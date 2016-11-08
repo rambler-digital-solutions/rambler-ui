@@ -4,6 +4,7 @@ const config = require('./config')
 const argv = require('minimist')(process.argv)
 const compiler = webpack(config)
 const path = require('path')
+const open = require('open')
 
 const port = argv.port || 8086
 const host = argv.host || '0.0.0.0'
@@ -17,4 +18,5 @@ const server = new WebpackDevServer(compiler, {
 })
 
 server.listen(port, host)
+open(`http://${host}:${port}`)
 console.log(`Dev server start on ${host}:${port}`)

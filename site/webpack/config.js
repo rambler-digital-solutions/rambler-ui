@@ -10,10 +10,9 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
 const rootDir = path.resolve(__dirname, '..')
-const repoDir = path.resolve(rootDir, '..')
 const argv = require('minimist')(process.argv.slice(2))
 const flat = require('flat')
-const cssVariables = flat(require(path.resolve(__dirname, '../../src/variables')), { delimiter: '-' })
+const cssVariables = flat(require(path.resolve(__dirname, '../src/variables')), { delimiter: '-' })
 const cssnext = require('postcss-cssnext')
 const postCssVars = require('postcss-simple-vars')
 const postCssImport = require('postcss-import')
@@ -66,7 +65,7 @@ const config = Object.assign({
   plugins: [],
   postcss: () => [
     postCssImport(),
-    postCssMixins({ mixinsDir: [path.join(rootDir, 'src/style'), path.join(repoDir, 'src/style')] }),
+    postCssMixins({ mixinsDir: [path.join(rootDir, 'src/style')] }),
     postCssVars({ variables: cssVariables }),
     precss(),
     cssnext()
@@ -101,7 +100,7 @@ config.module.loaders = config.module.loaders.concat([
   {
     test: /\.js?$/,
     loader: 'babel-loader?cacheDirectory',
-    exclude: path.join(rootDir, 'node_modules')
+    exclude: /node_modules/
   },
   {
     test: /\.json$/,

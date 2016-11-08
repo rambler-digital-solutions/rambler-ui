@@ -1,8 +1,105 @@
 import React, { Component, PropTypes } from 'react'
-import css from './Checkbox.css'
-import TickIcon from '../icons/forms/TickIcon'
 import classnames from 'classnames'
+import TickIcon from '../icons/forms/TickIcon'
+import { injectSheet } from '../theme'
+import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
 
+@injectSheet((theme) => ({
+  checkbox: {
+    ...isolateMixin,
+    ...fontStyleMixin(theme.font),
+    fontSize: theme.checkbox.font.size,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'inline-block',
+    verticalAlign: 'top',
+    '&, & *': {
+      transition: 'all .2s'
+    },
+    '&:hover $fake': {
+      borderColor: theme.checkbox.hoverBorderColor
+    },
+    '&:active $fake': {
+      borderColor: theme.checkbox.activeBorderColor
+    },
+    '&:not($isChecked):active $fake': {
+      background: theme.checkbox.activeBgColor,
+      borderColor: theme.checkbox.activeBorderColor
+    }
+  },
+  fake: {
+    ...middleMixin,
+    float: 'left',
+    marginRight: theme.checkbox.iconMargin,
+    boxSizing: 'border-box',
+    display: 'inline-block',
+    width: theme.checkbox.size,
+    height: theme.checkbox.size,
+    border: `1px solid ${theme.checkbox.borderColor}`
+  },
+  real: {
+    position: 'absolute',
+    opacity: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    top: 0,
+    width: '100%',
+    height: '100%',
+    cursor: 'pointer',
+    zIndex: 1
+  },
+  label: {
+    float: 'right',
+    cursor: 'pointer',
+    fontSize: 13,
+    lineHeight: '15px',
+    fontWeight: 'normal'
+  },
+  icon: {
+    ...isolateMixin,
+    position: 'relative',
+    left: 1,
+    top: -4,
+    opacity: 0
+  },
+  iconright: {
+    '& $fake': {
+      float: 'right',
+      marginLeft: 10
+    }
+  },
+  iconleft: {
+    '& $fake': {
+      float: 'left',
+      marginRight: 10
+    }
+  },
+  isChecked: {
+    '& $icon': {
+      top: 2,
+      opacity: 1
+    },
+    '& $fake': {
+      borderColor: theme.checkbox.activeBorderColor
+    }
+  },
+  isFocused: {
+    '& $fake': {
+      borderColor: theme.checkbox.activeBorderColor
+    }
+  },
+  isDisabled: {
+    pointerEvents: 'none',
+    '& $fake': {
+      borderColor: theme.checkbox.disabledBorderColor,
+      background: theme.checkbox.disabledBgColor
+    },
+    '& $label': {
+      color: theme.checkbox.disabledColor
+    }
+  }
+}))
 export default class Checkbox extends Component {
 
   static propTypes = {
@@ -99,7 +196,6 @@ export default class Checkbox extends Component {
   }
 
   render() {
-
     const {
       name,
       style,
@@ -109,31 +205,33 @@ export default class Checkbox extends Component {
       checkboxClassName,
       checkboxStyle,
       labelClassName,
-      labelStyle
+      labelStyle,
+      theme,
+      sheet: { classes: css }
     } = this.props
     const { checked = false, focused } = this.state
     const stateClasses = {
-      [css['is-focused']]: focused,
-      [css['is-checked']]: checked,
-      [css['is-disabled']]: disabled
+      [css.isFocused]: focused,
+      [css.isChecked]: checked,
+      [css.isDisabled]: disabled
     }
-    const resultClassName = classnames(css.Checkbox, className, css[`Checkbox--icon${iconPosition}`], stateClasses)
+    const resultClassName = classnames(css.checkbox, css[`icon${iconPosition}`], className, stateClasses)
     return (
       <div className={resultClassName} style={style}>
         <input
           ref="input"
-          checked={checked}
-          name={name}
+          checked={ checked }
+          name={ name }
           type="checkbox"
-          className={css.Checkbox__real}
-          disabled={disabled}
-          onChange={this.onChange}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur} />
-        <span className={classnames(css.Checkbox__fake, checkboxClassName)} style={checkboxStyle}>
-          <TickIcon className={css.Checkbox__icon} size={12} />
+          className={ css.real }
+          disabled={ disabled }
+          onChange={ this.onChange }
+          onFocus={ this.onFocus }
+          onBlur={ this.onBlur } />
+        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
+          <TickIcon className={ css.icon } size={ 12 } color={ theme.checkbox.activeBorderColor } />
         </span>
-        <span className={classnames(css.Checkbox__label, labelClassName)} style={labelStyle}>
+        <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { this.props.children }
         </span>
       </div>

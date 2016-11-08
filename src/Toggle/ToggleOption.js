@@ -1,12 +1,39 @@
-import React, { Component, PropTypes, cloneElement } from 'react'
-import css from './ToggleOption.css'
-import colors from '../variables/colors'
-import classnames from 'classnames'
-
 /**
  * Опция компонента переключателя
  */
-export default class ToggleOption extends Component {
+import React, { Component, PropTypes, cloneElement } from 'react'
+import classnames from 'classnames'
+import omit from 'lodash/omit'
+import { injectSheet } from '../theme'
+import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
+
+@injectSheet(theme => ({
+  toggleOption: {
+    ...middleMixin,
+    ...isolateMixin,
+    ...fontStyleMixin(theme.font),
+    fontSize: theme.toggle.font.size,
+    display: 'block',
+    textAlign: 'center',
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
+    cursor: 'inherit',
+    color: 'inherit'
+  },
+  'size-small': {
+    height: theme.sizes.small.height,
+    padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
+  },
+  'size-medium': {
+    height: theme.sizes.medium.height,
+    padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
+  },
+  icon: {
+    display: 'inline-block',
+    marginRight: 10
+  }
+}))
+class ToggleOption extends Component {
 
   static propTypes = {
     /**
@@ -51,13 +78,18 @@ export default class ToggleOption extends Component {
 
   renderIcon(icon) {
     if (icon) {
-      const { size, isSelected } = this.props
-      const iconProps = {
+      const {
         size,
-        color: isSelected ? colors.blue : colors.black
+        isSelected,
+        theme,
+        sheet: { classes: css }
+      } = this.props
+      const iconProps = {
+        size: theme.sizes[size].icon,
+        color: isSelected ? theme.toggle.selectedColor : theme.toggle.color
       }
       const initialProps = icon.props || {}
-      const className = classnames(initialProps.className, css.ToggleOption__icon)
+      const className = classnames(initialProps.className, css.icon)
       const resultProps = { ...iconProps, ...initialProps, className }
       return cloneElement(icon, resultProps)
     }
@@ -72,15 +104,13 @@ export default class ToggleOption extends Component {
       className,
       isSelected,
       onPress,
+      sheet: { classes: css },
       ...other
-    } = this.props
+    } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */
-    const resultClassName = classnames(css.ToggleOption, className, css[`ToggleOption--size-${size}`], {
-      [css['is-selected']]: isSelected
-    })
-
+    const resultClassName = classnames(css.toggleOption, className, css[`size-${size}`])
     return (
-      <div { ...other } className={ resultClassName } onClick={this.onClick}>
+      <div { ...other } className={ resultClassName } onClick={ this.onClick }>
         { this.renderIcon(icon) }
         { children }
       </div>
@@ -88,3 +118,5 @@ export default class ToggleOption extends Component {
   }
 
 }
+ToggleOption.displayName = 'ruiToggleOption'
+export default ToggleOption

@@ -1,5 +1,4 @@
 import React, { PropTypes, Component } from 'react'
-import { colors } from '../../variables'
 
 export default class SvgIcon extends Component {
 
@@ -34,7 +33,7 @@ export default class SvgIcon extends Component {
   };
 
   static defaultProps = {
-    color: 'blue',
+    color: '#000',
     viewBox: '0 0 20 20',
     size: 'medium',
     style: {}
@@ -55,14 +54,13 @@ export default class SvgIcon extends Component {
       viewBox,
       ...other
     } = this.props
-    const resultColor = colors[color] || color
     const resultSize = this.sizeMap[size] || size
     const resultStyle = {
       width: resultSize,
       height: resultSize,
       display: 'inline-block',
       userSelect: 'none',
-      fill: resultColor,
+      fill: color,
       ...style
     }
 

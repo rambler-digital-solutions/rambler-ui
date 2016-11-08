@@ -4,6 +4,7 @@
     browser: true
     commonjs: true
     es6: true
+    jasmine: true
   extends: "airbnb-base"
   parser: "babel-eslint"
   parserOptions:

@@ -1,11 +1,79 @@
-import React, { Component, PropTypes, cloneElement } from 'react'
-import classnames from 'classnames'
-import css from './Toggle.css'
-import ToggleOption from './ToggleOption'
-
 /**
  * Компонент переключателя
  */
+import React, { Component, PropTypes, cloneElement } from 'react'
+import classnames from 'classnames'
+import omit from 'lodash/omit'
+import { injectSheet } from '../theme'
+import { borderMixin, isolateMixin } from '../style/mixins'
+
+const whenDomReady = new Promise((resolve) => {
+  if (document.readyState === 'complete')
+    resolve()
+  else
+    window.addEventListener('load', resolve)
+})
+
+@injectSheet(theme => ({
+  toggle: {
+    ...isolateMixin,
+    display: 'inline-block',
+    '&$block': { display: 'flex' },
+    '&, & *': {
+      transitionDuration: '.2s',
+      transitionProperty: 'background, opacity, border, box-shadow'
+    }
+  },
+  option: {
+    textAlign: 'center',
+    borderStyle: 'solid',
+    borderColor: theme.toggle.color,
+    borderWidth: '1px 0px 1px 1px',
+    cursor: 'pointer',
+    userSelect: 'none',
+    position: 'relative',
+    display: 'inline-block',
+    '&:before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      pointerEvents: 'none',
+      left: -1,
+      top: -1,
+      right: -1,
+      bottom: -1
+    },
+    '&:last-child': { borderWidth: 1 },
+    '&:active, &:active$isSelected': { background: theme.toggle.activeBgColor },
+    '&:hover': { zIndex: 2 },
+    '&:hover:before': borderMixin(theme.toggle.hoverColor),
+    '&$isSelected': {
+      background: theme.toggle.selectedBgColor,
+      color: theme.toggle.selectedColor
+    },
+    '&$isSelected:before': borderMixin(theme.toggle.selectedColor)
+  },
+  block: {
+    flexDirection: 'row',
+    flexWrap: 'nowrap'
+  },
+  isSelected: {
+    zIndex: 1
+  },
+  isDisabled: {
+    opacity: 0.5,
+    '& *': { pointerEvents: 'none !important' }
+  },
+  equalWidth: {
+    '& $option': {
+      flex: 1,
+      flexBasis: 0
+    }
+  },
+  'behavior-radio': {
+    '& $option$isSelected': { cursor: 'default' }
+  }
+}))
 export default class Toggle extends Component {
 
   static propTypes = {
@@ -65,6 +133,8 @@ export default class Toggle extends Component {
     minWidth: 0
   };
 
+  optionsElements = [];
+
   onValueChange = (event, value) => {
     if (value === this.value && this.props.behavior === 'toggle')
       value = null
@@ -82,8 +152,19 @@ export default class Toggle extends Component {
   }
 
   componentDidMount() {
+    // Делаем через таймаут т.к. при начально загрузки страницы jss добавляет стили асинхронно
     if (this.shouldCalcMinWidth())
-      this.setState({ minWidth: this.minWidth })
+      whenDomReady.then(() => {
+        this.setState({ minWidth: this.calcMinWidth() })
+      })
+  }
+
+  calcMinWidth() {
+    let minWidth = 0
+    this.optionsElements.forEach(el => {
+      minWidth = Math.max(el ? el.offsetWidth : 0, minWidth)
+    })
+    return minWidth
   }
 
   shouldCalcMinWidth() {
@@ -105,22 +186,22 @@ export default class Toggle extends Component {
       equalWidth,
       behavior,
       disabled,
+      sheet: { classes: css },
       ...other
-    } = this.props
+    } = omit(this.props, 'theme')
     let i = 0
+    this.optionsElements = []
     const options = React.Children.map(children, (child) => {
-      if (!child instanceof ToggleOption)
+      if (!child.type || child.type.displayName !== 'ruiToggleOption')
         throw new Error('Child component should be instance of <ToggleOption />')
       const isSelected = child.props.value === this.state.value
-      const resultClassName = classnames(css.Toggle__option, {
-        [css['is-selected']]: isSelected
+      const resultClassName = classnames(css.option, {
+        [css.isSelected]: isSelected
       })
 
       let ref = null
       if (this.shouldCalcMinWidth())
-        ref = (el) => {
-          this.minWidth = Math.max(el ? el.offsetWidth : 0, this.minWidth || 0)
-        }
+        ref = (el) => { this.optionsElements.push(el) }
 
       return (
         <div
@@ -140,13 +221,12 @@ export default class Toggle extends Component {
     }, this)
 
     const resultClassName = classnames(
-      css.Toggle,
-      css[`Toggle--size-${size}`],
-      css[`Toggle--behavior-${behavior}`],
+      css.toggle,
+      css[`behavior-${behavior}`],
       {
-        [css['Toggle--block']]: block,
-        [css['Toggle--equalWidth']]: equalWidth,
-        [css['is-disabled']]: disabled
+        [css.block]: block,
+        [css.equalWidth]: equalWidth,
+        [css.isDisabled]: disabled
       }
     )
 
