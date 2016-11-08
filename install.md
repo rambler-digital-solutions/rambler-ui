@@ -1,17 +1,20 @@
 # Установка
 
 ```
-npm install --save git+https://gitlab.rambler.ru/rambler-ui/rambler-ui.git#npm-stable
+npm install --save rambler-ui
 ```
 
 # Использование
 Обязательно включите babel-polyfill в свой код
 ```
 import Button from 'rambler-ui/Button'
+import { ApplyTheme } from 'rambler-ui/theme'
 import 'babel-polyfill'
 
 export default function() {
-  return <Button>Кнопка</Button> 
+  return <ApplyTheme>
+    <Button>Кнопка</Button> 
+  </ApplyTheme> 
 }
 ```
 

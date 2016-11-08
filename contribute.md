@@ -1,11 +1,17 @@
 # Гайд по разработке RamblerUI
 
 ## Roadmap
-Dropdown
-Tooltip
-Popup
-Input
-Textarea
+- [x] Buttons
+- [x] RadioButton 
+- [x] Toggle 
+- [x] Checkbox
+- [ ] Dropdown
+- [ ] Tooltip
+- [ ] Popup
+- [ ] Hint
+- [ ] Input
+- [ ] Textarea
+- [ ] InputSuggest
 
 ## Установка
 ```
@@ -28,7 +34,8 @@ npm run dev -- --port 8080 --host 127.0.0.1
 1. Установить версию в package.json
 2. Запустить команду и указать версии, которые мы паблишем
 ```
-npm run publish -- --versions 'master, stable, 1.0.5, 1.0.x, 1.x'
+npm run build
+npm publish
 ```
 
 ## Билд и деплой gh-pages

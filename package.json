@@ -1,12 +1,12 @@
 {
   "name": "rambler-ui",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS_custom",
     "dev": "cd site && npm run dev",
-    "release": "npm run build && npm run release",
+    "release": "npm run build && cd build && npm publish",
     "build": "NODE_ENV=production gulp build",
     "precommit": "gulp precommit && npm run test",
     "publish": "NODE_ENV=production gulp npm:publish"
@@ -22,7 +22,7 @@
   },
   "homepage": "https://gitlab.rambler.ru/rambler-ui/rambler-ui#readme",
   "ghPagesRepository": {
-    "url": "git+https://github.com/highpower/rambler-ui.git"
+    "url": "git+https://github.com/rambler-digital-solutions/rambler-ui.git"
   },
   "dependencies": {
     "classnames": "^2.2.5",
@@ -81,5 +81,10 @@
     "react-dom": "^15.3.2",
     "run-sequence": "^1.2.2",
     "webpack": "^1.13.2"
-  }
+  },
+  "keywords": [
+    "react",
+    "ui",
+    "rambler&co"
+  ]
 }
