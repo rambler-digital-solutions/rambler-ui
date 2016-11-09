@@ -27,7 +27,7 @@ const whenDomReady = new Promise((resolve) => {
   option: {
     textAlign: 'center',
     borderStyle: 'solid',
-    borderColor: theme.toggle.color,
+    borderColor: theme.toggle.borderColor,
     borderWidth: '1px 0px 1px 1px',
     cursor: 'pointer',
     userSelect: 'none',
@@ -58,7 +58,7 @@ const whenDomReady = new Promise((resolve) => {
     flexWrap: 'nowrap'
   },
   isSelected: {
-    zIndex: 1
+    zIndex: 3
   },
   isDisabled: {
     opacity: 0.5,
