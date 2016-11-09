@@ -255,7 +255,11 @@ export default class Button extends Component {
     /**
      * Ширина кнопки
      */
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    /**
+     * Показывать индикатор загрузки
+     */
+    loading: PropTypes.bool
   };
 
   static defaultProps = {
