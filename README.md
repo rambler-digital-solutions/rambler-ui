@@ -1,5 +1,5 @@
 # Rambler UI
 Репозиторий с общими компонентами проектов `*.rambler.ru`
 <br />
-[Документация](http://highpower.github.com/rambler-ui)
-[Telegram-чат](https://telegram.me/joinchat/Bng9hD9JHKkROhi5fpbwkw)
+[Документация](https://rambler-digital-solutions.github.io/rambler-ui)
+[Установка](https://rambler-digital-solutions.github.io/rambler-ui/#/install)
