@@ -7,6 +7,7 @@ import React, { Component, PropTypes, cloneElement, isValidElement } from 'react
 import classnames from 'classnames'
 import range from 'lodash/range'
 import omit from 'lodash/omit'
+import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, middleMixin, borderMixin, isolateMixin } from '../style/mixins'
 
@@ -42,6 +43,7 @@ const styleButtonMixin = (type, options) => ({
   }
 })
 
+@pure
 @injectSheet((theme) => ({
   '@keyframes ruiAnimateDot': {
     '20%': { transform: 'scale(1)' },
@@ -91,6 +93,10 @@ const styleButtonMixin = (type, options) => ({
   'size-medium': {
     '& $content': {
       height: theme.sizes.medium.height
+    },
+    '& $icon': {
+      position: 'relative',
+      top: -1
     }
   },
   'size-small': {
@@ -137,8 +143,17 @@ const styleButtonMixin = (type, options) => ({
     cursor: 'pointer'
   },
   icon: {
-    display: 'inline-block',
-    marginRight: 10
+    display: 'inline-block'
+  },
+  'iconPosition-right': {
+    '& $icon': {
+      marginLeft: 10
+    }
+  },
+  'iconPosition-left': {
+    '& $icon': {
+      marginRight: 10
+    }
   },
   ...styleButtonMixin('primary', {
     defaultBg: theme.button.types.primary.defaultBg,
@@ -224,6 +239,10 @@ export default class Button extends Component {
      */
     icon: PropTypes.node,
     /**
+     * Позиция иконки: слева/справа
+     */
+    iconPosition: PropTypes.oneOf(['left', 'right']),
+    /**
      * Размер кнопки
      */
     size: PropTypes.oneOf(['small', 'medium']),
@@ -266,6 +285,7 @@ export default class Button extends Component {
     type: 'primary',
     size: 'medium',
     buttonType: 'button',
+    iconPosition: 'left',
     block: false
   };
 
@@ -310,21 +330,23 @@ export default class Button extends Component {
       className,
       overlay,
       width,
+      iconPosition,
       style = {},
       ...other
     } = omit(this.props, 'sheet', 'theme')
     const css = this.css
+    const iconLeft = iconPosition === 'left'
+    const iconEl = this.renderIcon(icon)
 
     const resultStyle = {
       width,
       ...style
     }
-    const typeClass = css[`type-${type}`]
-    const sizeClass = css[`size-${size}`]
     const resultClassName = classnames(
       css.button,
-      typeClass,
-      sizeClass,
+      css[`type-${type}`],
+      css[`size-${size}`],
+      css[`iconPosition-${iconPosition}`],
       className,
       {
         [css.isLoading]: loading,
@@ -333,8 +355,9 @@ export default class Button extends Component {
 
     const resultChildren = [
       <div className={css.content}>
-        { this.renderIcon(icon) }
+        { iconLeft && iconEl }
         { children }
+        { !iconLeft && iconEl }
         { overlay && cloneElement(overlay, {className: css.overlay}) }
       </div>,
       loading && this.renderLoader()
