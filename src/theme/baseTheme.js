@@ -13,6 +13,7 @@ export default {
     }
   },
   toggle: {
+    borderColor: '#ccc',
     color: '#262626',
     bgColor: '#fff',
     hoverBgColor: '#fff',

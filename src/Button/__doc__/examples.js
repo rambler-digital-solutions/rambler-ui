@@ -25,12 +25,13 @@ export default class ButtonExample extends Component {
         <div>
           <div>
             <Button icon={<RamblerMailIcon/>} style={{margin: 20}} onClick={::this.handleClick} loading={this.state.loading}>Почта</Button>
+            <Button icon={<RamblerMailIcon/>} iconPosition="right" style={{margin: 20}} onClick={::this.handleClick} loading={this.state.loading}>Почта</Button>
             <Button style={{margin: 20}} disabled>Disabled</Button>
             <Button style={{margin: 20}} type="outline" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
             <Button style={{margin: 20}} type="outline" disabled>disabled</Button>
           </div>
           <div style={{width: 300, padding: 20, margin: 20, background: '#fafafa', border: '1px solid #eee'}}>
-            <Button style={{marginBottom: 20}} block={true} size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
+            <Button icon={<RamblerMailIcon/>} style={{marginBottom: 20}} block={true} size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
             <Button block={true} type="secondary" size="small" disabled>disabled</Button>
           </div>
           <Button style={{margin: 20, display: 'block', width: 173}} type="secondary" size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
