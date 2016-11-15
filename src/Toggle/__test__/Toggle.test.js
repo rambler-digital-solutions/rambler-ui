@@ -1,6 +1,6 @@
 import { Toggle, ToggleOption} from '../../Toggle'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles } from '../../utils/test-utils'
+import { mount, getStyles, getNodeStyles } from '../../utils/test-utils'
 
 import React from 'react'
 
@@ -37,7 +37,6 @@ describe('<Toggle />', () => {
           <ToggleOption
             {...defaultPropsToggleOption}
             className='toggleActive'
-            classNameTogOpt='toggleOption'
             value="Rambler">Рамблер</ToggleOption>
           <ToggleOption
             {...defaultPropsToggleOption}
@@ -47,16 +46,17 @@ describe('<Toggle />', () => {
     ))
 
     const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
-    const togOptActStyles = getStyles(wrapper.find('.toggleActive'))
-    const togOptStyles = getStyles(wrapper.find('.toggleOption'))
+    const togOpt = getStyles(wrapper.find('.toggleActive'))
+    const togOptParent = getNodeStyles(wrapper.find('.toggleActive').node.parentNode)
+
     expect(toggleStyles.display).toEqual('inline-block')
-    expect(togOptStyles['font-family']).toEqual('Roboto, sans-serif')
-    expect(togOptStyles['font-size']).toEqual('13px')
-    expect(togOptStyles.height).toEqual('35px')
-    expect(togOptActStyles['border-top-width']).toEqual('1px')
-    expect(togOptActStyles['border-bottom-width']).toEqual('1px')
-    expect(togOptActStyles['border-top-style']).toEqual('solid')
-    expect(togOptActStyles.color).toEqual('rgb(49, 94, 251)')
+    expect(togOpt['font-family']).toEqual('Roboto, sans-serif')
+    expect(togOpt['font-size']).toEqual('13px')
+    expect(togOpt.height).toEqual('35px')
+    expect(togOptParent['border-top-width']).toEqual('1px')
+    expect(togOptParent['border-bottom-width']).toEqual('1px')
+    expect(togOptParent['border-top-style']).toEqual('solid')
+    expect(togOptParent.color).toEqual('rgb(49, 94, 251)')
   })
 
   it('Стили для toggle, toggleOptions block = true, equalWidth = true, disabled = true', () => {
@@ -73,19 +73,18 @@ describe('<Toggle />', () => {
           <ToggleOption
             {...defaultPropsToggleOption}
             className='toggleActive'
-            classNameTogOpt='toggleOption'
             value="Rambler">Рамблер</ToggleOption>
           <ToggleOption
             {...defaultPropsToggleOption}
-            classNameTogOpt='toggleOption-2'
+            className='toggleOption'
             value="Yandex">Яндекс</ToggleOption>
         </Toggle>
       </div>
     ))
 
     const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
-    const togOptStyles = getStyles(wrapper.find('.toggleOption'))
-    const togOptStyles2 = getStyles(wrapper.find('.toggleOption-2'))
+    const togOptStyles = getStyles(wrapper.find('.toggleActive'))
+    const togOptStyles2 = getStyles(wrapper.find('.toggleOption'))
     expect(toggleStyles['margin-bottom']).toEqual('20px')
     expect(toggleStyles.width).toEqual('480px')
     expect(toggleStyles.opacity).toEqual('0.5')
@@ -99,25 +98,20 @@ describe('<Toggle />', () => {
       <div style={{width: 480, marginBottom: 20}}>
         <Toggle
           {...defaultPropsToggle}
-          size='small'
-          block={true}
-          style={{marginBottom: 20}}
           behavior='toggle'>
           <ToggleOption
             {...defaultPropsToggleOption}
-            className='toggleActive'
-            classNameTogOpt='toggleOption'
             value="Rambler">Рамблер</ToggleOption>
           <ToggleOption
             {...defaultPropsToggleOption}
-            classNameTogOpt='toggleOption-2'
+            className='toggleOption'
             value="Yandex">Яндекс</ToggleOption>
         </Toggle>
       </div>
     ))
 
     const toggle = wrapper.find('.toggleGroup')
-    const togOpt2 = wrapper.find('.toggleOption-2')
+    const togOpt2 = wrapper.find('.toggleOption')
 
     expect(toggle.props().value).toEqual('Rambler')
     togOpt2.simulate('click')

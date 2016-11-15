@@ -41,13 +41,9 @@ class ToggleOption extends Component {
      */
     value: PropTypes.any.isRequired,
     /**
-     * Css-класс компонента контейнера снаружи (уровень классов options и isSelected, )
-     */
-    className: PropTypes.string,
-    /**
      * Css-класс компонента
      */
-    classNameTogOpt: PropTypes.string,
+    className: PropTypes.string,
     /**
      * Стили перелючателя
      */
@@ -105,14 +101,14 @@ class ToggleOption extends Component {
       icon,
       size,
       children,
-      classNameTogOpt,
+      className,
       isSelected,
       onPress,
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */
-    const resultClassName = classnames(css.toggleOption, css[`size-${size}`], classNameTogOpt)
+    const resultClassName = classnames(css.toggleOption, css[`size-${size}`], className)
     return (
       <div { ...other } className={ resultClassName } onClick={ this.onClick }>
         { this.renderIcon(icon) }

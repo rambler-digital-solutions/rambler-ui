@@ -21,7 +21,7 @@ export default class ToggleExample extends Component {
         <div>
           <div style={{width: 480, marginBottom: 20}}>
             <Toggle value={this.state.toggleValue} className='toggle' onChange={::this.onChange} block={true} equalWidth={true}>
-              <ToggleOption className='container-tgopt' classNameTogOpt='tgopt' value="Rambler" icon={ <RamblerMailIcon/> }>Рамблер</ToggleOption>
+              <ToggleOption value="Rambler" icon={ <RamblerMailIcon/> }>Рамблер</ToggleOption>
               <ToggleOption value="Yandex">Яндекс</ToggleOption>
               <ToggleOption value="Mail">Мейл</ToggleOption>
               <ToggleOption value="Google">Гугл</ToggleOption>
