@@ -186,6 +186,7 @@ export default class Toggle extends Component {
       equalWidth,
       behavior,
       disabled,
+      className,
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'theme')
@@ -198,7 +199,6 @@ export default class Toggle extends Component {
       const resultClassName = classnames(css.option, {
         [css.isSelected]: isSelected
       })
-
       let ref = null
       if (this.shouldCalcMinWidth())
         ref = (el) => { this.optionsElements.push(el) }
@@ -227,7 +227,8 @@ export default class Toggle extends Component {
         [css.block]: block,
         [css.equalWidth]: equalWidth,
         [css.isDisabled]: disabled
-      }
+      },
+      className
     )
 
     return (
