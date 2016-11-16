@@ -112,5 +112,26 @@ export default {
     baseRadioBorder: '1px solid #ccc',
     activeRadioColor: '#315efb',
     font: {size: 14}
+  },
+  input: {
+    padding: '11px 45px 11px 13px',
+    border: '1px solid #e8e8e8',
+    height: '44px',
+    '&:focus': {
+      borderBottom: '2px solid #315efb',
+      paddingBottom: '10px'
+    },
+    '&:invalid': {
+      boxShadow: 'none'
+    },
+    '&:-moz-submit-invalid': {
+      boxShadow: 'none'
+    },
+    '&:-moz-ui-invalid': {
+      boxShadow: 'none'
+    }
+  },
+  inputEye: {
+    top: '13px'
   }
 }

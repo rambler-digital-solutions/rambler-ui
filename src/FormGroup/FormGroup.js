@@ -34,7 +34,6 @@ import { injectSheet } from '../theme'
     inner: {
       display: 'inline-block',
       verticalAlign: 'top',
-      marginLeft: '172px',
       width: '440px'
     },
     'label + inner': {
