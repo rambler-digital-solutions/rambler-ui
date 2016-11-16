@@ -42,7 +42,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   }
 }))
 
-export default class Input extends Component {
+export default class TextInput extends Component {
 
   static propTypes = {
     /**
