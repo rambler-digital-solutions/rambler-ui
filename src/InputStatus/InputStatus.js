@@ -5,51 +5,26 @@ import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-// import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
+import { fontStyleMixin } from '../style/mixins'
 
-@injectSheet(() => ({
+@injectSheet(theme => ({
   success: {
-    '& $field': {
-      '&:after': {
-        backgroundColor: '#28bc00'
-      }
-    },
     '& $message': {
       color: ' #28bc00;'
     }
   },
   warning: {
-    '& $field': {
-      '&:after': {
-        backgroundColor: '#f4c914'
-      }
-    },
     '& $message': {
       color: '#f4c914'
     }
   },
   error: {
-    '& $field': {
-      '&:after': {
-        backgroundColor: '#ff564e'
-      }
-    },
     '& $message': {
       color: '#ff564e'
     }
   },
-  field: {
-    position: 'relative',
-    '&:after': {
-      content: '""',
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      bottom: 0,
-      height: '2px'
-    }
-  },
   message: {
+    ...fontStyleMixin(theme.font),
     marginTop: '7px'
   }
 }))
@@ -69,7 +44,7 @@ export default class InputStatus extends Component {
      */
     message: PropTypes.node,
     /**
-     * Тот самый input
+     * Элемент Input относительно которого будет отражаться InputStatus
      */
     children: PropTypes.node.isRequired,
     /**
@@ -88,12 +63,11 @@ export default class InputStatus extends Component {
     } = omit(this.props, 'theme')
 
     const rootClassName = classnames(css[type])
-    const fieldClassName = classnames(css.field)
     const messageClassName = classnames(css.message, className)
 
     return (
       <div className={message && rootClassName}>
-        <div className={fieldClassName}>
+        <div>
           {children}
         </div>
         {message && (

@@ -8,6 +8,18 @@ import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin } from '../style/mixins'
 import { Eye } from '../icons/forms'
 
+function paddingLeftHelper(iconLeft) {
+  if (iconLeft === undefined) return 0
+  if (iconLeft === 'object') return 35
+}
+
+function paddingRightHelper(iconRight, inputType) {
+  if (iconRight === 'object' && inputType === 'text') return 45
+  if (iconRight === undefined && inputType === 'text') return 13
+  if (iconRight === 'object' && inputType === 'password') return 65
+  if (iconRight === undefined && inputType === 'password') return 45
+}
+
 @injectSheet(theme => ({
   normal: {
     ...isolateMixin,
@@ -22,19 +34,7 @@ import { Eye } from '../icons/forms'
     fontWeight: 400,
     appearance: 'none',
     ...theme.input,
-    transition: 'border-color 0.3s ease',
-    '&:placeholder': {
-      color: '#aebbc9',
-      padding: '6px 45px 6px 35px'
-    },
-    '&::-ms-reveal': {
-      display: 'none'
-    },
-    '&:disabled': {
-      backgroundColor: '#eee',
-      borderColor: '#eee',
-      cursor: 'default'
-    }
+    transition: 'border-color 0.3s ease'
   },
   root: {
     position: 'relative'
@@ -74,10 +74,24 @@ import { Eye } from '../icons/forms'
     width: '18px',
     height: '18px'
   },
-  icon: {
-    position: 'absolute',
-    top: '5px',
-    left: 0
+  iconLeft: theme.iconLeft,
+  iconRight: theme.iconRight,
+  iconRightWithoutPass: theme.iconRightWithoutPass,
+  success: {
+    borderBottom: '2px solid #28bc00 !important',
+    paddingBottom: '1px'
+  },
+  error: {
+    borderBottom: '2px solid #ff564e !important',
+    paddingBottom: '1px'
+  },
+  warning: {
+    borderBottom: '2px solid #f4c914 !important',
+    paddingBottom: '1px'
+  },
+  filled: {
+    borderBottom: '2px solid #000',
+    opacity: 1
   }
 }))
 
@@ -86,13 +100,9 @@ export default class TextInput extends Component {
   static propTypes = {
     /**
     *  Значение введённое в поле, возвращается в callback onChange.
-    *  Если нужно задать значение по умолчанию, то использовать defaultValue
+    // *  Если нужно задать значение по умолчанию, то использовать defaultValue
     */
     value: PropTypes.any,
-    /**
-    * Значение input по умолчанию
-    */
-    defaultValue: PropTypes.string,
     /**
     *  Значение placeholder для input
     */
@@ -109,6 +119,15 @@ export default class TextInput extends Component {
     * Имя элемента
     */
     name: PropTypes.string,
+    /**
+    * Валидация input'a - border снизу
+    */
+    status: PropTypes.oneOf([
+      'error',
+      'warning',
+      'success',
+      'filled'
+    ]),
     /**
      * Класс компонента
      */
@@ -148,38 +167,29 @@ export default class TextInput extends Component {
      */
     onKeyDown: PropTypes.number,
     /**
-     *  icon в основном для чемпа, по умолчанию вставляется слева.
+     *  icon слева
      */
-    icon: PropTypes.node,
+    iconLeft: PropTypes.node,
     /**
-     *  icons сделать слева и справа
+     *  icon справа
      */
-    iconPos: PropTypes.string,
-    /**
-     *  Стили для icon
-     */
-    styleIcon: PropTypes.object
+    iconRight: PropTypes.node
   }
 
   state = {}
 
   static defaultProps = {
     placeholder: '',
-    defaultValue: '',
     type: 'text'
   }
 
   componentDidMount() {
-    this.input.value = (typeof this.props.defaultValue === 'string' &&
-                        !!this.props.defaultValue && this.props.type === 'text') ?
-                          this.props.defaultValue : ''
-
-    const { type } = this.props
+    const { value, type } = this.props
+    this.input.value = (typeof value === 'string' && !!value && type === 'text') ? value : ''
     this.setState({ type, trueType: type})
   }
 
   onChangeValue = value => {
-    console.log('1: ', value)
     this.setState({value})
   }
 
@@ -200,28 +210,39 @@ export default class TextInput extends Component {
       onKeyUp,
       onKeyDown,
       style,
-      styleIcon,
       placeholder,
-      icon,
+      iconLeft,
+      iconRight,
+      status,
       sheet: { classes: css },
       ...other
-    } = omit(this.props, 'theme')
+    } = omit(this.props, ['theme', 'value'])
 
     const { type } = this.state
-    const resultClassName = classnames(css.normal, className)
+    const rootClassName = classnames(css.root)
+    const resultClassName = classnames(css.normal, css[status], className)
 
+    const resultIconRight = (iconRight && this.state.trueType === 'password') ?
+                              <div className={css.iconRight}>{iconRight}</div> :
+                                (iconRight && this.state.trueType === 'text') ?
+                                  <div className={css.iconRightWithoutPass}>{iconRight}</div> :
+                                    null
     return (
-      <div style={style} className={css.root}>
-        { icon &&
-          <div className={css.icon} style={styleIcon}>
-            {icon}
+      <div style={style} className={rootClassName}>
+        { iconLeft &&
+          <div className={css.iconLeft}>
+            {iconLeft}
           </div>
         }
         <input
           ref={input => (this.input = input)}
           className={resultClassName}
           disabled={disabled}
-          style={inputStyle}
+          style={{
+            paddingLeft: paddingLeftHelper(typeof iconLeft),
+            paddingRight: paddingRightHelper(typeof iconRight, type),
+            ...inputStyle
+          }}
           name={name}
           tabIndex='0'
           onFocus={onFocus}
@@ -234,9 +255,8 @@ export default class TextInput extends Component {
           onKeyUp={onKeyUp}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
-          // required для border-bottom в champTheme
-          required
           {...other} />
+          { resultIconRight }
           { this.state.trueType === 'password' &&
             <button className={css[type]} onClick={this.inputTypeHelper}>
               <Eye className={css.svg} />
@@ -244,7 +264,5 @@ export default class TextInput extends Component {
           }
       </div>
     )
-
   }
-
 }
