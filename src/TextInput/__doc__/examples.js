@@ -16,7 +16,7 @@ export default class InputExample extends Component {
   }
 
   onChange(target, value) {
-    console.log(target.name)
+    console.log(target.name, value)
     this.setState({[target.name]: value})
   }
 
@@ -31,7 +31,7 @@ export default class InputExample extends Component {
               style={{marginBottom: 30}}
               type='text'
               name='value1'
-              status={this.state.value1 ? 'filled' : undefined}
+              status={!!this.state.value1 ? 'filled' : undefined}
               onChange={::this.onChange}
               placeholder='Почта'
               iconLeft={<RamblerMailIcon />}

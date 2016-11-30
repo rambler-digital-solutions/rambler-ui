@@ -136,7 +136,8 @@ export default {
     }
   },
   inputEye: {
-    top: '13px'
+    top: '13px',
+    fill: '#315efb'
   },
   iconLeft: {
     position: 'absolute',

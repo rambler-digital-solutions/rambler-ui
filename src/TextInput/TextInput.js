@@ -49,10 +49,11 @@ function paddingRightHelper(iconRight, inputType) {
     width: '18px',
     backgroundSize: 'contain',
     cursor: 'pointer',
-    opacity: 0.75,
-    filter: 'grayscale(100%)',
-    transition: 'opacity 0.3s ease, filter 0.3s ease',
-    backgroundColor: '#fff'
+    color: 'gray',
+    backgroundColor: '#fff',
+    '& $eye': {
+      fill: '#aebbc9'
+    }
   },
   text: {
     position: 'absolute',
@@ -64,17 +65,18 @@ function paddingRightHelper(iconRight, inputType) {
     width: '18px',
     backgroundSize: 'contain',
     cursor: 'pointer',
-    transition: 'opacity 0.3s ease, filter 0.3s ease',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    '& $eye': {
+      fill: theme.inputEye.fill
+    }
   },
-  svg: {
+  eye: {
     position: 'absolute',
     top: 0,
     left: 0,
     width: '18px',
     height: '18px'
   },
-  iconLeft: theme.iconLeft,
   iconRight: theme.iconRight,
   iconRightWithoutPass: theme.iconRightWithoutPass,
   success: {
@@ -90,9 +92,19 @@ function paddingRightHelper(iconRight, inputType) {
     paddingBottom: '1px'
   },
   filled: {
-    borderBottom: '2px solid #000',
-    opacity: 1
-  }
+    '& > input': {
+      borderBottom: '2px solid #000',
+    },
+    '& $iconLeft': {
+      '& > svg': {
+        fill: '#ff4800'
+      }
+    },
+    '& $normal': {
+      opacity: 1
+    }
+  },
+  iconLeft: theme.iconLeft
 }))
 
 export default class TextInput extends Component {
@@ -161,11 +173,11 @@ export default class TextInput extends Component {
     /**
      * Callback onKeyUp
      */
-    onKeyUp: PropTypes.number,
+    onKeyUp: PropTypes.func,
     /**
      * Callback onKeyDown
      */
-    onKeyDown: PropTypes.number,
+    onKeyDown: PropTypes.func,
     /**
      *  icon слева
      */
@@ -219,7 +231,7 @@ export default class TextInput extends Component {
     } = omit(this.props, ['theme', 'value'])
 
     const { type } = this.state
-    const rootClassName = classnames(css.root)
+    const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'})
     const resultClassName = classnames(css.normal, css[status], className)
 
     const resultIconRight = (iconRight && this.state.trueType === 'password') ?
@@ -255,11 +267,12 @@ export default class TextInput extends Component {
           onKeyUp={onKeyUp}
           onKeyDown={onKeyDown}
           placeholder={placeholder}
-          {...other} />
+          {...other}
+        />
           { resultIconRight }
           { this.state.trueType === 'password' &&
             <button className={css[type]} onClick={this.inputTypeHelper}>
-              <Eye className={css.svg} />
+              <Eye className={css.eye} />
             </button>
           }
       </div>

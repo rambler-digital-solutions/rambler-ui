@@ -6,12 +6,12 @@ export default {
     height: '36px',
     opacity: 0.7,
     '&:focus': {
-      borderBottom: '2px solid #000',
-      opacity: 1
+      borderBottom: '2px solid #000'
     }
   },
   inputEye: {
-    top: '7px'
+    top: '7px',
+    fill: '#ff4800'
   },
   iconLeft: {
     position: 'absolute',
