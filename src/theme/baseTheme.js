@@ -1,5 +1,3 @@
-import { placeholder } from '../style/mixins'
-
 export default {
   font: {
     fontFamily: 'Roboto, sans-serif'
@@ -118,40 +116,17 @@ export default {
   input: {
     padding: '0 45px 2px 13px',
     border: '1px solid #e8e8e8',
-    height: '44px',
-    lineHeight: 'normal',
+    height: 44,
     '&:focus': {
       borderBottom: '2px solid #315efb',
-      lineHeight: 'normal',
-      paddingBottom: '1px'
-    },
-    ...placeholder({color: '#aebbc9'}),
-    '&::-ms-reveal': {
-      display: 'none'
-    },
-    '&:disabled': {
-      backgroundColor: '#eee',
-      borderColor: '#eee',
-      cursor: 'default'
+      paddingBottom: 1
     }
   },
   inputEye: {
-    top: '13px',
+    top: 13,
     fill: '#315efb'
   },
-  iconLeft: {
-    position: 'absolute',
-    top: '13px',
-    left: 0
-  },
-  iconRight: {
-    position: 'absolute',
-    top: '13px',
-    right: '40px'
-  },
-  iconRightWithoutPass: {
-    position: 'absolute',
-    top: '13px',
-    right: 0
+  icon: {
+    top: 13
   }
 }

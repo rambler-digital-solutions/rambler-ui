@@ -4,7 +4,6 @@
 
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { ifDesktop } from '../style/mixins'
 
@@ -82,7 +81,7 @@ export default class FormGroup extends Component {
       className,
       children,
       sheet: { classes: css }
-    } = omit(this.props, 'theme')
+    } = this.props
 
     const rootClass = inline === true ? 'inline' : 'normal'
     const rootClassName = classnames(css[rootClass], className)

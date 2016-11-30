@@ -59,7 +59,7 @@ export const ifMobile = (options) => ({
   '@media (max-width: 768px)': options
 })
 
-export const placeholder = (options) => ({
+export const placeholderMixin = (options) => ({
   '&::placeholder': options,
   '&::-webkit-input-placeholder': options,
   '&::-moz-placeholder': options,

@@ -5,19 +5,19 @@ import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
 import { Eye } from '../icons/forms'
 
-function paddingLeftHelper(iconLeft) {
-  if (iconLeft === undefined) return 0
-  if (iconLeft === 'object') return 35
+function paddingLeftHelper(typeofIconLeft) {
+  if (typeofIconLeft === undefined) return 0
+  if (typeofIconLeft === 'object') return 35
 }
 
-function paddingRightHelper(iconRight, inputType) {
-  if (iconRight === 'object' && inputType === 'text') return 45
-  if (iconRight === undefined && inputType === 'text') return 13
-  if (iconRight === 'object' && inputType === 'password') return 65
-  if (iconRight === undefined && inputType === 'password') return 45
+function paddingRightHelper(typeofIconRight, inputType) {
+  if (typeofIconRight === 'object' && inputType === 'text') return 45
+  if (typeofIconRight === undefined && inputType === 'text') return 13
+  if (typeofIconRight === 'object' && inputType === 'password') return 65
+  if (typeofIconRight === undefined && inputType === 'password') return 45
 }
 
 @injectSheet(theme => ({
@@ -30,11 +30,20 @@ function paddingRightHelper(iconRight, inputType) {
     outline: 0,
     width: '100%',
     background: '#fff',
-    fontSize: '1rem',
     fontWeight: 400,
     appearance: 'none',
+    lineHeight: 'normal',
     ...theme.input,
-    transition: 'border-color 0.3s ease'
+    transition: 'border-color 0.3s ease',
+    ...placeholderMixin({color: '#aebbc9'}),
+    '&::-ms-reveal': {
+      display: 'none'
+    },
+    '&:disabled': {
+      backgroundColor: '#eee',
+      borderColor: '#eee',
+      cursor: 'default'
+    }
   },
   root: {
     position: 'relative'
@@ -77,8 +86,6 @@ function paddingRightHelper(iconRight, inputType) {
     width: '18px',
     height: '18px'
   },
-  iconRight: theme.iconRight,
-  iconRightWithoutPass: theme.iconRightWithoutPass,
   success: {
     borderBottom: '2px solid #28bc00 !important',
     paddingBottom: '1px'
@@ -93,7 +100,7 @@ function paddingRightHelper(iconRight, inputType) {
   },
   filled: {
     '& > input': {
-      borderBottom: '2px solid #000',
+      borderBottom: '2px solid #000'
     },
     '& $iconLeft': {
       '& > svg': {
@@ -104,15 +111,37 @@ function paddingRightHelper(iconRight, inputType) {
       opacity: 1
     }
   },
-  iconLeft: theme.iconLeft
+  iconLeft: {
+    position: 'absolute',
+    left: 0,
+    top: theme.icon.top
+  },
+  iconRight: {
+    position: 'absolute',
+    right: '40px',
+    top: theme.icon.top
+  },
+  iconRightWithoutPass: {
+    position: 'absolute',
+    right: 0,
+    top: theme.icon.top
+  }
 }))
 
 export default class TextInput extends Component {
+  constructor(props) {
+    super(props)
+    const { type } = this.props
+    this.state = {
+      type,
+      trueType: type
+    }
+  }
 
   static propTypes = {
     /**
     *  Значение введённое в поле, возвращается в callback onChange.
-    // *  Если нужно задать значение по умолчанию, то использовать defaultValue
+    *  Можно задать дефолтное значение.
     */
     value: PropTypes.any,
     /**
@@ -188,26 +217,13 @@ export default class TextInput extends Component {
     iconRight: PropTypes.node
   }
 
-  state = {}
-
-  static defaultProps = {
-    placeholder: '',
-    type: 'text'
-  }
-
-  componentDidMount() {
-    const { value, type } = this.props
-    this.input.value = (typeof value === 'string' && !!value && type === 'text') ? value : ''
-    this.setState({ type, trueType: type})
-  }
-
-  onChangeValue = value => {
-    this.setState({value})
-  }
-
   inputTypeHelper = () => {
     this.input.type = this.state.type === 'password' ? 'text' : 'password'
     this.setState({ type: this.input.type })
+  }
+
+  onChangeHelper = e => {
+    if (this.props.onChange) this.props.onChange(e)
   }
 
   render() {
@@ -216,11 +232,6 @@ export default class TextInput extends Component {
       disabled,
       inputStyle,
       name,
-      onChange,
-      onBlur,
-      onFocus,
-      onKeyUp,
-      onKeyDown,
       style,
       placeholder,
       iconLeft,
@@ -228,7 +239,7 @@ export default class TextInput extends Component {
       status,
       sheet: { classes: css },
       ...other
-    } = omit(this.props, ['theme', 'value'])
+    } = omit(this.props, ['theme', 'onChange'])
 
     const { type } = this.state
     const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'})
@@ -256,22 +267,14 @@ export default class TextInput extends Component {
             ...inputStyle
           }}
           name={name}
+          onChange={this.onChangeHelper}
           tabIndex='0'
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={ e => {
-            if (onChange)
-              onChange(e.target, e.target.value)
-            this.onChangeValue(e.target.value)
-          }}
-          onKeyUp={onKeyUp}
-          onKeyDown={onKeyDown}
           placeholder={placeholder}
           {...other}
         />
           { resultIconRight }
           { this.state.trueType === 'password' &&
-            <button className={css[type]} onClick={this.inputTypeHelper}>
+            <button type='button' className={css[type]} onClick={this.inputTypeHelper}>
               <Eye className={css.eye} />
             </button>
           }

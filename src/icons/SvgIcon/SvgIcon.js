@@ -33,7 +33,6 @@ export default class SvgIcon extends Component {
   };
 
   static defaultProps = {
-    // color: '#000',
     viewBox: '0 0 20 20',
     size: 'medium',
     style: {}

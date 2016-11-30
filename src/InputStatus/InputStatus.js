@@ -3,7 +3,6 @@
  */
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { fontStyleMixin } from '../style/mixins'
 
@@ -60,7 +59,7 @@ export default class InputStatus extends Component {
       children,
       className,
       sheet: { classes: css }
-    } = omit(this.props, 'theme')
+    } = this.props
 
     const rootClassName = classnames(css[type])
     const messageClassName = classnames(css.message, className)

@@ -12,12 +12,13 @@ export default class InputExample extends Component {
     value3: '',
     value4: '',
     value5: '',
-    value6: '',
+    value6: ''
   }
 
-  onChange(target, value) {
-    console.log(target.name, value)
-    this.setState({[target.name]: value})
+  onChange(event) {
+    const {name, value} = event.target
+    console.log(name, value)
+    this.setState({[name]: value})
   }
 
   render() {
@@ -34,6 +35,7 @@ export default class InputExample extends Component {
               status={!!this.state.value1 ? 'filled' : undefined}
               onChange={::this.onChange}
               placeholder='Почта'
+              value={this.state.value1}
               iconLeft={<RamblerMailIcon />}
               iconRight={<RamblerMailIcon />}
             />
@@ -58,8 +60,9 @@ export default class InputExample extends Component {
                 message='Зелёный текст' >
                 <TextInput
                   type='text'
-                  name='value3'
-                  status={this.state.value3 ? 'filled' : undefined}
+                  name='value1'
+                  status={!!this.state.value1 ? 'filled' : undefined}
+                  value={this.state.value1}
                   onChange={::this.onChange}
                   placeholder='Почта'
                   iconLeft={<RamblerMailIcon />}
@@ -93,6 +96,7 @@ export default class InputExample extends Component {
                 <TextInput
                   type='text'
                   name='value5'
+                  value={this.state.value5}
                   status={this.state.value5 ? 'filled' : undefined}
                   onChange={::this.onChange}
                   placeholder='Почта'
@@ -157,7 +161,6 @@ export default class InputExample extends Component {
                 type='text'
                 status='warning'
                 placeholder='Фамилия'
-                value='Фамилия'
               />
             </InputStatus>
           </FormGroup>
