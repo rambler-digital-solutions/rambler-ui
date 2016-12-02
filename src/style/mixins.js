@@ -50,3 +50,19 @@ export const isolateMixin = {
   padding: 0,
   margin: 0
 }
+
+export const ifDesktop = (options) => ({
+  '@media (min-width: 768px)': options
+})
+
+export const ifMobile = (options) => ({
+  '@media (max-width: 768px)': options
+})
+
+export const placeholderMixin = (options) => ({
+  '&::placeholder': options,
+  '&::-webkit-input-placeholder': options,
+  '&::-moz-placeholder': options,
+  '&:-ms-input-placeholder': options,
+  '&:-moz-placeholder': options
+})

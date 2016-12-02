@@ -112,5 +112,21 @@ export default {
     baseRadioBorder: '1px solid #ccc',
     activeRadioColor: '#315efb',
     font: {size: 14}
+  },
+  input: {
+    padding: '0 45px 2px 13px',
+    border: '1px solid #e8e8e8',
+    height: 44,
+    '&:focus': {
+      borderBottom: '2px solid #315efb',
+      paddingBottom: 1
+    }
+  },
+  inputEye: {
+    top: 13,
+    fill: '#315efb'
+  },
+  icon: {
+    top: 13
   }
 }

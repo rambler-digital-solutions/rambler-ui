@@ -1,4 +1,4 @@
-import { findDOMNode } from 'react/lib/ReactDOM'
+import { findDOMNode } from 'react-dom/lib/ReactDOM'
 import { mount as enzymeMount } from 'enzyme'
 import once from 'lodash/once'
 
