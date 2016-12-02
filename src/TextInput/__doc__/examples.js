@@ -7,7 +7,7 @@ import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
 
 export default class InputExample extends Component {
   state = {
-    value1: '',
+    value1: 'asdasdasds',
     value2: '',
     value3: '',
     value4: '',
@@ -15,9 +15,8 @@ export default class InputExample extends Component {
     value6: ''
   }
 
-  onChange(event) {
-    const {name, value} = event.target
-    console.log(name, value)
+  onChange(event, value) {
+    const {name} = event.target
     this.setState({[name]: value})
   }
 
@@ -32,16 +31,17 @@ export default class InputExample extends Component {
               style={{marginBottom: 30}}
               type='text'
               name='value1'
+              value={this.state.value1}
               status={!!this.state.value1 ? 'filled' : undefined}
               onChange={::this.onChange}
               placeholder='Почта'
-              value={this.state.value1}
               iconLeft={<RamblerMailIcon />}
               iconRight={<RamblerMailIcon />}
             />
             <TextInput
               type='password'
               name='value2'
+              value={this.state.value2}
               status={this.state.value2 ? 'filled' : undefined}
               onChange={::this.onChange}
               placeholder='Пароль'
@@ -61,8 +61,8 @@ export default class InputExample extends Component {
                 <TextInput
                   type='text'
                   name='value1'
-                  status={!!this.state.value1 ? 'filled' : undefined}
                   value={this.state.value1}
+                  status={!!this.state.value1 ? 'filled' : undefined}
                   onChange={::this.onChange}
                   placeholder='Почта'
                   iconLeft={<RamblerMailIcon />}
@@ -75,8 +75,9 @@ export default class InputExample extends Component {
                 message='Красный текст' >
                 <TextInput
                   type='password'
-                  name='value4'
-                  status={this.state.value4 ? 'filled' : undefined}
+                  name='value2'
+                  value={this.state.value2}
+                  status={this.state.value2 ? 'filled' : undefined}
                   onChange={::this.onChange}
                   placeholder='Пароль'
                   iconLeft={<RamblerMailIcon />}
@@ -95,9 +96,9 @@ export default class InputExample extends Component {
                 message='Зелёный текст' >
                 <TextInput
                   type='text'
-                  name='value5'
-                  value={this.state.value5}
-                  status={this.state.value5 ? 'filled' : undefined}
+                  name='value3'
+                  value={this.state.value3}
+                  status={this.state.value3 ? 'filled' : undefined}
                   onChange={::this.onChange}
                   placeholder='Почта'
                 />
@@ -109,8 +110,9 @@ export default class InputExample extends Component {
                 message='Красный текст' >
                 <TextInput
                   type='password'
-                  name='value6'
-                  status={this.state.value6 ? 'filled' : undefined}
+                  name='value3'
+                  value={this.state.value3}
+                  status={this.state.value3 ? 'filled' : undefined}
                   onChange={::this.onChange}
                   className='Пароль'
                   placeholder='Пароль'
@@ -130,6 +132,8 @@ export default class InputExample extends Component {
                 <TextInput
                   disabled={true}
                   type='text'
+                  value=''
+                  onChange={::this.onChange}
                   iconLeft={<RamblerMailIcon />}
                 />
               </InputStatus>
@@ -140,26 +144,32 @@ export default class InputExample extends Component {
         <h1>Дефолтная тема</h1>
         <h3>FormGroup inline=false</h3>
         <ApplyTheme>
-          <FormGroup inline={false} label='Имя' fieldId='name' className='formGroup'>
+          <FormGroup inline={false} label='Имя' fieldId='name' className='formGroup' style={{width: 300}}>
             <InputStatus
               type='success'
               message='Зелёный текст' >
               <TextInput
                 status='success'
                 type='text'
+                name='value4'
+                value={this.state.value4}
+                onChange={::this.onChange}
                 placeholder='Имя'
               />
             </InputStatus>
           </FormGroup>
         </ApplyTheme>
         <ApplyTheme>
-          <FormGroup inline={false} label='Фамилия' fieldId='name' className='formGroup'>
+          <FormGroup inline={false} label='Фамилия' fieldId='name' className='formGroup' style={{width: 400}}>
             <InputStatus
               type='warning'
               message='Текст предупреждения' >
               <TextInput
-                type='text'
                 status='warning'
+                type='text'
+                name='value4'
+                value={this.state.value4}
+                onChange={::this.onChange}
                 placeholder='Фамилия'
               />
             </InputStatus>
@@ -168,34 +178,41 @@ export default class InputExample extends Component {
 
         <h3>FormGroup inline=true</h3>
         <ApplyTheme>
-          <FormGroup inline={true} label='Отчество' fieldId='name' className='formGroup'>
+          <FormGroup inline={true} label='Отчество' fieldId='name' className='formGroup' style={{width: 550}}>
             <InputStatus
               type='error'
               message='Текст ошибки' >
               <TextInput
-                type='text'
                 status='error'
+                type='text'
+                name='value5'
+                value={this.state.value5}
+                onChange={::this.onChange}
                 placeholder='placeholder'
               />
             </InputStatus>
           </FormGroup>
         </ApplyTheme>
         <ApplyTheme>
-          <FormGroup inline={true} label='Input disabled' fieldId='name' className='formGroup'>
+          <FormGroup inline={true} label='Input disabled' fieldId='name' className='formGroup' style={{width: 600}}>
             <InputStatus message='Без статуса задизэйблена'>
               <TextInput
                 type='text'
+                value=''
+                onChange={::this.onChange}
                 disabled
               />
             </InputStatus>
           </FormGroup>
         </ApplyTheme>
         <ApplyTheme>
-          <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup'>
+          <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup' style={{width: 650}}>
             <TextInput
               type='password'
+              name='value6'
+              value={this.state.value6}
+              onChange={::this.onChange}
               placeholder='Пароль'
-              type='password'
               onChange={::this.onChange}
             />
           </FormGroup>
@@ -203,13 +220,16 @@ export default class InputExample extends Component {
 
         <h3>Пример с iconLeft и iconRight</h3>
         <ApplyTheme>
-          <FormGroup inline={true} label='Отчество' fieldId='name' className='formGroup'>
+          <FormGroup inline={true} label='Отчество' fieldId='name' className='formGroup' style={{width: 700}}>
             <InputStatus
               type='error'
               message='Текст ошибки' >
               <TextInput
-                type='text'
                 status='error'
+                type='text'
+                name='value6'
+                value={this.state.value6}
+                onChange={::this.onChange}
                 placeholder='placeholder'
                 iconLeft={<RamblerMailIcon />}
                 iconRight={<RamblerMailIcon />}
@@ -218,11 +238,13 @@ export default class InputExample extends Component {
           </FormGroup>
         </ApplyTheme>
         <ApplyTheme>
-          <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup'>
+          <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup' style={{width: 750}}>
             <TextInput
               type='password'
+              name='value6'
+              value={this.state.value6}
+              onChange={::this.onChange}
               placeholder='Пароль'
-              type='password'
               iconRight={<RamblerMailIcon />}
               onChange={::this.onChange}
             />

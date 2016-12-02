@@ -9,7 +9,7 @@ import { fontStyleMixin } from '../style/mixins'
 @injectSheet(theme => ({
   success: {
     '& $message': {
-      color: ' #28bc00;'
+      color: ' #28bc00'
     }
   },
   warning: {
@@ -31,7 +31,8 @@ import { fontStyleMixin } from '../style/mixins'
 export default class InputStatus extends Component {
   static propTypes = {
     /**
-     * Тип предупреждения
+     * Отображает текст статуса компонента input.
+     * Тип предупреждения.
      */
     type: PropTypes.oneOf([
       'error',

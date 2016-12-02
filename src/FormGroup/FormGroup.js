@@ -32,18 +32,20 @@ import { ifDesktop } from '../style/mixins'
     },
     inline: {
       marginBottom: '30px',
+      display: 'flex',
       '& $label': {},
       '& $inner': {}
     },
     label: {
       marginBottom: 0,
       width: '172px',
-      lineHeight: '44px'
+      lineHeight: '44px',
+      marginLeft: 0
     },
     inner: {
       display: 'inline-block',
       verticalAlign: 'top',
-      width: '440px',
+      width: '100%',
       marginLeft: 0
     }
   })
@@ -52,7 +54,8 @@ import { ifDesktop } from '../style/mixins'
 export default class FormGroup extends Component {
   static propTypes = {
     /**
-     * Задаём стиль FormGroup - в строчку или колонку (label + input)
+     * Задаём стиль FormGroup - в строчку или колонку (label + input).
+     * В теме чемпа не используется
      */
     inline: PropTypes.bool,
     /**
@@ -70,7 +73,11 @@ export default class FormGroup extends Component {
     /**
      * Children - может быть InputStatus или TextInput.
      */
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    /**
+     * Style - объект со стилями
+     */
+    style: PropTypes.object
   }
 
   render() {
@@ -80,6 +87,7 @@ export default class FormGroup extends Component {
       fieldId,
       className,
       children,
+      style,
       sheet: { classes: css }
     } = this.props
 
@@ -89,7 +97,7 @@ export default class FormGroup extends Component {
     const innerClassName = classnames(css.inner)
 
     return (
-      <section className={rootClassName}>
+      <section className={rootClassName} style={style}>
         {label && (
           <label htmlFor={fieldId} className={labelClassName}>
             {label}

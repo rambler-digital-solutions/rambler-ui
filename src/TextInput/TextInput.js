@@ -9,15 +9,17 @@ import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
 import { Eye } from '../icons/forms'
 
 function paddingLeftHelper(typeofIconLeft) {
-  if (typeofIconLeft === undefined) return 0
-  if (typeofIconLeft === 'object') return 35
+  if (typeofIconLeft === 'undefined') return 13
+  if (typeofIconLeft === 'object') return 30
 }
 
-function paddingRightHelper(typeofIconRight, inputType) {
-  if (typeofIconRight === 'object' && inputType === 'text') return 45
-  if (typeofIconRight === undefined && inputType === 'text') return 13
+function paddingRightHelper(typeofIconRight, inputType, trueType) {
+  if (typeofIconRight === 'object' && inputType === 'text' && trueType === 'password') return 65
+  if (typeofIconRight === 'object' && inputType === 'text' && trueType === 'text') return 35
+  if (typeofIconRight === 'undefined' && inputType === 'text' && trueType === 'text') return 13
+  if (typeofIconRight === 'undefined' && inputType === 'text' && trueType === 'password') return 40
   if (typeofIconRight === 'object' && inputType === 'password') return 65
-  if (typeofIconRight === undefined && inputType === 'password') return 45
+  if (typeofIconRight === 'undefined' && inputType === 'password') return 35
 }
 
 @injectSheet(theme => ({
@@ -143,7 +145,7 @@ export default class TextInput extends Component {
     *  Значение введённое в поле, возвращается в callback onChange.
     *  Можно задать дефолтное значение.
     */
-    value: PropTypes.any,
+    value: PropTypes.any.isRequired,
     /**
     *  Значение placeholder для input
     */
@@ -161,7 +163,7 @@ export default class TextInput extends Component {
     */
     name: PropTypes.string,
     /**
-    * Валидация input'a - border снизу
+    * Валидация input'a - border снизу. 'filled' - для чемпа. Остальные - дефолтные
     */
     status: PropTypes.oneOf([
       'error',
@@ -190,7 +192,7 @@ export default class TextInput extends Component {
     /**
     * Callback onChange возвращает event и event.target.value
     */
-    onChange: PropTypes.func,
+    onChange: PropTypes.func.isRequired,
     /**
      * Callback onBlur
      */
@@ -223,7 +225,7 @@ export default class TextInput extends Component {
   }
 
   onChangeHelper = e => {
-    if (this.props.onChange) this.props.onChange(e)
+    if (this.props.onChange) this.props.onChange(e, e.target.value)
   }
 
   render() {
@@ -241,13 +243,13 @@ export default class TextInput extends Component {
       ...other
     } = omit(this.props, ['theme', 'onChange'])
 
-    const { type } = this.state
+    const { type, trueType } = this.state
     const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'})
     const resultClassName = classnames(css.normal, css[status], className)
 
-    const resultIconRight = (iconRight && this.state.trueType === 'password') ?
+    const resultIconRight = (iconRight && trueType === 'password') ?
                               <div className={css.iconRight}>{iconRight}</div> :
-                                (iconRight && this.state.trueType === 'text') ?
+                                (iconRight && trueType === 'text') ?
                                   <div className={css.iconRightWithoutPass}>{iconRight}</div> :
                                     null
     return (
@@ -263,7 +265,7 @@ export default class TextInput extends Component {
           disabled={disabled}
           style={{
             paddingLeft: paddingLeftHelper(typeof iconLeft),
-            paddingRight: paddingRightHelper(typeof iconRight, type),
+            paddingRight: paddingRightHelper(typeof iconRight, type, trueType),
             ...inputStyle
           }}
           name={name}
