@@ -19,6 +19,10 @@ export const borderMixin = (color) => ({
   boxShadow: `inset 0px 0px 0px 1px ${color}`
 })
 
+export const borderChampMixin = (color) => ({
+  boxShadow: `0 3px 7px 0 ${color}`
+})
+
 export const isolateMixin = {
   borderCollapse: 'separate',
   borderSpacing: '0',

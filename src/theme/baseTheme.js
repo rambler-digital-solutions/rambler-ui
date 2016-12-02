@@ -1,4 +1,5 @@
 export default {
+  name: 'defaultTheme',
   font: {
     fontFamily: 'Roboto, sans-serif'
   },
@@ -67,7 +68,8 @@ export default {
         loadingBorder: '#315efb',
         disabledBorder: '#315efb',
         disabledBg: '#315efb',
-        focusOffset: 3
+        focusOffset: 3,
+        borderRadius: 0
       },
       secondary: {
         textColor: '#315efb',
@@ -85,7 +87,8 @@ export default {
         loadingDot: '#315efb',
         disabledBorder: '#eaefff',
         disabledBg: '#eaefff',
-        focusOffset: 0
+        focusOffset: 0,
+        borderRadius: 0
       },
       outline: {
         textColor: '#262626',

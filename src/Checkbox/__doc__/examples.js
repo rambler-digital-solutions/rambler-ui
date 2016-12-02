@@ -14,31 +14,50 @@ export default class CheckboxExample extends Component {
 
   render() {
     return (
-      <ApplyTheme>
-        <div>
-          <div style={{marginTop: 20}}>
-            <Checkbox
-              name="checkbox6"
-              labelStyle={{color: '#f00'}}
-              checked={this.state.checked}
-              onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
-            <Checkbox
-              checkboxStyle={{marginRight: 5}}
-              style={{marginLeft: 20}}
-              name="checkbox6"
-              onCheck={(event, checked) => alert(`Checked: ${checked}`)}>Получать уведомления по почте</Checkbox>
+      <div>
+        <ApplyTheme>
+          <div>
+            <div style={{marginTop: 20}}>
+              <Checkbox
+                name="checkbox6"
+                labelStyle={{color: '#f00'}}
+                checked={this.state.checked}
+                onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
+              <Checkbox
+                checkboxStyle={{marginRight: 5}}
+                style={{marginLeft: 20}}
+                name="checkbox6"
+                onCheck={(event, checked) => alert(`Checked: ${checked}`)}>Получать уведомления по почте</Checkbox>
+            </div>
+            <div style={{marginTop: 20}}>
+              <Checkbox
+                name="checkbox7"
+                checked={this.state.checked}
+                onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
+            </div>
+            <div style={{marginTop: 20}}>
+              <Checkbox iconPosition="right" name="checkbox8" disabled>Получать уведомления по почте</Checkbox>
+            </div>
           </div>
-          <div style={{marginTop: 20}}>
-            <Checkbox
-              name="checkbox7"
-              checked={this.state.checked}
-              onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
+        </ApplyTheme>
+
+        <ApplyTheme name='champTheme'>
+          <div>
+            <div style={{marginTop: 20}}>
+              <Checkbox
+                name="checkbox6"
+                labelStyle={{color: '#f00'}}
+                checked={this.state.checked}
+                onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
+              <Checkbox
+                checkboxStyle={{marginRight: 5}}
+                style={{marginLeft: 20}}
+                name="checkbox6"
+                onCheck={(event, checked) => alert(`Checked: ${checked}`)}>Получать уведомления по почте</Checkbox>
+            </div>
           </div>
-          <div style={{marginTop: 20}}>
-            <Checkbox iconPosition="right" name="checkbox8" disabled>Получать уведомления по почте</Checkbox>
-          </div>
-        </div>
-      </ApplyTheme>
+        </ApplyTheme>
+      </div>
     )
   }
 }

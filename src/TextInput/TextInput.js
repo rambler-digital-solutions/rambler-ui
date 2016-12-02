@@ -102,7 +102,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   },
   filled: {
     '& > input': {
-      borderBottom: '2px solid #000'
+      borderBottom: '1px solid #000'
     },
     '& $iconLeft': {
       '& > svg': {
