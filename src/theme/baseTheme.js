@@ -34,6 +34,7 @@ export default {
   checkbox: {
     bgColor: '#fff',
     borderColor: '#ddd',
+    borderRadius: 0,
     hoverBorderColor: '#262626',
     activeBorderColor: '#315efb',
     activeBgColor: '#eee',

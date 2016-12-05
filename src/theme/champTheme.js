@@ -12,6 +12,7 @@ export default {
   },
   checkbox: {
     borderColor: '#a5acb2',
+    borderRadius: 2,
     hoverBorderColor: '#ff4800',
     activeBorderColor: '#ff4800'
   },

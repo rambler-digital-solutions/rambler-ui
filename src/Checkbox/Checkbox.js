@@ -35,7 +35,8 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     display: 'inline-block',
     width: theme.checkbox.size,
     height: theme.checkbox.size,
-    border: `1px solid ${theme.checkbox.borderColor}`
+    border: `1px solid ${theme.checkbox.borderColor}`,
+    borderRadius: theme.checkbox.borderRadius
   },
   real: {
     position: 'absolute',

@@ -8,9 +8,7 @@ import codeInputStatus from '!!raw!../../InputStatus/InputStatus'
 import Playground from 'components/Playground'
 import PropTypesTable from 'components/PropTypesTable'
 
-export const title = `TextInput /
-                      FormGroup /
-                      InputStatus`
+export const title = 'TextInput'
 
 export default () => (
   <div>
