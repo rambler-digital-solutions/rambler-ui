@@ -82,7 +82,9 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
       opacity: 1
     },
     '& $fake': {
-      borderColor: theme.checkbox.activeBorderColor
+      borderColor: theme.name === 'defaultTheme' ?
+                    theme.checkbox.activeBorderColor :
+                      theme.checkbox.borderColor
     }
   },
   isFocused: {
