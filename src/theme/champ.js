@@ -1,7 +1,6 @@
 import {styleButtonChampMixin} from '../style/mixins'
 
 export default {
-  name: 'champ',
   sizes: {
     medium: {
       height: 40,
@@ -95,9 +94,12 @@ export default {
   },
   inputEye: {
     top: 7,
+    right: 3,
     fill: '#ff4800'
   },
   icon: {
-    top: 6
+    top: 6,
+    left: 0,
+    right: 0
   }
 }

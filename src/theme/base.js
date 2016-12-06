@@ -1,7 +1,6 @@
 import {styleButtonBaseMixin} from '../style/mixins'
 
 export default {
-  name: 'base',
   font: {
     fontFamily: 'Roboto, sans-serif'
   },
@@ -132,9 +131,12 @@ export default {
   },
   inputEye: {
     top: 13,
+    right: 15,
     fill: '#315efb'
   },
   icon: {
-    top: 13
+    top: 13,
+    left: 5,
+    right: 5
   }
 }

@@ -53,7 +53,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   password: {
     position: 'absolute',
     top: theme.inputEye.top,
-    right: '15px',
+    right: theme.inputEye.right,
     border: 0,
     outline: 0,
     height: '18px',
@@ -69,7 +69,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   text: {
     position: 'absolute',
     top: theme.inputEye.top,
-    right: '15px',
+    right: theme.inputEye.right,
     border: 0,
     outline: 0,
     height: '18px',
@@ -115,7 +115,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   },
   iconLeft: {
     position: 'absolute',
-    left: 0,
+    left: theme.icon.left,
     top: theme.icon.top
   },
   iconRight: {
@@ -125,7 +125,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   },
   iconRightWithoutPass: {
     position: 'absolute',
-    right: 0,
+    right: theme.icon.right,
     top: theme.icon.top
   }
 }))
