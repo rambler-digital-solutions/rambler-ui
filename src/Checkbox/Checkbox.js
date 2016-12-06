@@ -82,9 +82,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
       opacity: 1
     },
     '& $fake': {
-      borderColor: theme.name === 'defaultTheme' ?
-                    theme.checkbox.activeBorderColor :
-                      theme.checkbox.borderColor
+      borderColor: theme.checkbox.checkedBorderColor
     }
   },
   isFocused: {
@@ -166,7 +164,7 @@ export default class Checkbox extends Component {
   };
 
   onChange = (event) => {
-    const checked = this.refs.input.checked
+    const checked = this.input.checked
     this.setState({ checked })
     if (this.props.onCheck)
       this.props.onCheck(event, checked)
@@ -222,7 +220,7 @@ export default class Checkbox extends Component {
     return (
       <div className={resultClassName} style={style}>
         <input
-          ref="input"
+          ref={input => { this.input = input }}
           checked={ checked }
           name={ name }
           type="checkbox"

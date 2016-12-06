@@ -1,5 +1,7 @@
+import {styleButtonChampMixin} from '../style/mixins'
+
 export default {
-  name: 'champTheme',
+  name: 'champ',
   sizes: {
     medium: {
       height: 40,
@@ -14,7 +16,8 @@ export default {
     borderColor: '#a5acb2',
     borderRadius: 2,
     hoverBorderColor: '#ff4800',
-    activeBorderColor: '#ff4800'
+    activeBorderColor: '#ff4800',
+    checkedBorderColor: '#a5acb2'
   },
   button: {
     types: {
@@ -77,7 +80,8 @@ export default {
         focusOffset: 0,
         borderRadius: 2
       }
-    }
+    },
+    buttonMixin: (type, options) => ({...styleButtonChampMixin(type, options)})
   },
   input: {
     padding: '0 45px 1px 35px',

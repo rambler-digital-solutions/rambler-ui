@@ -41,7 +41,7 @@ export default class CheckboxExample extends Component {
           </div>
         </ApplyTheme>
 
-        <ApplyTheme name='champTheme'>
+        <ApplyTheme name='champ'>
           <div>
             <div style={{marginTop: 20}}>
               <Checkbox

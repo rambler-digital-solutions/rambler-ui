@@ -25,7 +25,7 @@ export default class InputExample extends Component {
       <div>
         <h1>Чемповская тема</h1>
         <h3>Пример без InputStatus</h3>
-        <ApplyTheme name='champTheme'>
+        <ApplyTheme name='champ'>
           <div style={{width: 300}}>
             <TextInput
               style={{marginBottom: 30}}
@@ -52,7 +52,7 @@ export default class InputExample extends Component {
         </ApplyTheme>
 
         <h3>Пример c InputStatus</h3>
-        <ApplyTheme name='champTheme'>
+        <ApplyTheme name='champ'>
           <div style={{width: 300}}>
             <div style={{marginBottom: 30}}>
               <InputStatus
@@ -88,7 +88,7 @@ export default class InputExample extends Component {
         </ApplyTheme>
 
         <h3>Пример c status в inputText и без iconLeft</h3>
-        <ApplyTheme name='champTheme'>
+        <ApplyTheme name='champ'>
           <div style={{width: 300}}>
             <div style={{marginBottom: 30}}>
               <InputStatus
@@ -123,7 +123,7 @@ export default class InputExample extends Component {
           </div>
         </ApplyTheme>
         <h3>Пример c disabled</h3>
-        <ApplyTheme name='champTheme'>
+        <ApplyTheme name='champ'>
           <div style={{width: 300}}>
             <div style={{marginBottom: 30}}>
               <InputStatus

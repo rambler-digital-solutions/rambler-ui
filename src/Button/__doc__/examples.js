@@ -44,7 +44,7 @@ export default class ButtonExample extends Component {
         </ApplyTheme>
 
         <h1>Чемповая тема</h1>
-        <ApplyTheme name="champTheme">
+        <ApplyTheme name="champ">
           <div>
             <div style={{marginBottom: 50}}>
               <Button style={{margin: 20}} type='primary' size='small' disabled>Button</Button>

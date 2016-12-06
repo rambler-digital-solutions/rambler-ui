@@ -9,54 +9,7 @@ import range from 'lodash/range'
 import omit from 'lodash/omit'
 import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, middleMixin, borderMixin, borderChampMixin, isolateMixin } from '../style/mixins'
-
-const styleButtonMixin = (type, themeName, options) => ({
-  [`type-${type}`]: {
-    extend: themeName === 'defaultTheme' ? borderMixin(options.defaultBorder) :
-              (themeName === 'champTheme' && type === 'secondary') ?
-                borderMixin(options.defaultBorder) : null,
-    color: `${options.textColor} !important`,
-    borderRadius: options.borderRadius,
-    background: options.defaultBg,
-    '&:focus:not(:active)': {
-      background: `${options.focusBg} !important`
-    },
-    '&:focus:not(:active):before': {
-      extend: (themeName === 'defaultTheme') ? borderMixin(options.focusBorder) :
-                (themeName === 'champTheme' && type === 'secondary') ?
-                  borderMixin(options.focusBorder) : null,
-      color: `${options.activeTextColor} !important`,
-      top: -options.focusOffset,
-      bottom: -options.focusOffset,
-      left: -options.focusOffset,
-      right: -options.focusOffset,
-      borderRadius: options.borderRadius
-    },
-    '&:hover:not(:active)': {
-      extend: themeName === 'defaultTheme' ? borderMixin(options.hoverBorder) :
-                (themeName === 'champTheme' && type === 'primary') ? borderChampMixin(options.hoverBorder) :
-                  (themeName === 'champtheme' && type === 'secondary') ? borderMixin(options.hoverBorder) : null,
-      color: `${options.activeTextColor} !important`,
-      borderRadius: options.borderRadius,
-      background: `${options.hoverBg} !important`
-    },
-    '&:active': {
-      extend: themeName === 'defaultTheme' ? borderMixin(options.defaultBorder) :
-                (themeName === 'champTheme' && type === 'primary') ? borderChampMixin(options.defaultBorder) :
-                  (themeName === 'champtheme' && type === 'secondary') ? borderMixin(options.hoverBorder) : null,
-      color: `${options.activeTextColor} !important`,
-      borderRadius: options.borderRadius,
-      background: options.activeBg
-    },
-    '&[disabled]': {
-      extend: themeName === 'defaultTheme' ? borderMixin(options.defaultBorder) : null,
-      color: `${options.disabledTextColor} !important`,
-      background: options.disabledBg
-    },
-    '& $loaderDot': { background: options.loaderColor }
-  }
-})
+import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet((theme) => ({
@@ -170,7 +123,7 @@ const styleButtonMixin = (type, themeName, options) => ({
       marginRight: 10
     }
   },
-  ...styleButtonMixin('primary', theme.name, {
+  ...theme.button.buttonMixin('primary', {
     defaultBg: theme.button.types.primary.defaultBg,
     defaultBorder: theme.button.types.primary.defaultBorder,
     textColor: theme.button.types.primary.textColor,
@@ -188,7 +141,7 @@ const styleButtonMixin = (type, themeName, options) => ({
     loaderColor: theme.button.types.primary.loaderColor,
     borderRadius: theme.button.types.primary.borderRadius
   }),
-  ...styleButtonMixin('secondary', theme.name, {
+  ...theme.button.buttonMixin('secondary', {
     defaultBg: theme.button.types.secondary.defaultBg,
     defaultBorder: theme.button.types.secondary.defaultBorder,
     textColor: theme.button.types.secondary.textColor,
@@ -207,7 +160,7 @@ const styleButtonMixin = (type, themeName, options) => ({
     activeTextColor: theme.button.types.secondary.activeTextColor,
     borderRadius: theme.button.types.secondary.borderRadius
   }),
-  ...styleButtonMixin('outline', theme.name, {
+  ...theme.button.buttonMixin('outline', {
     defaultBg: theme.button.types.outline.defaultBg,
     defaultBorder: theme.button.types.outline.defaultBorder,
     textColor: theme.button.types.outline.textColor,

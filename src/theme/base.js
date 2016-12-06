@@ -1,5 +1,7 @@
+import {styleButtonBaseMixin} from '../style/mixins'
+
 export default {
-  name: 'defaultTheme',
+  name: 'base',
   font: {
     fontFamily: 'Roboto, sans-serif'
   },
@@ -37,6 +39,7 @@ export default {
     borderRadius: 0,
     hoverBorderColor: '#262626',
     activeBorderColor: '#315efb',
+    checkedBorderColor: '#315efb',
     activeBgColor: '#eee',
     disabledBorderColor: '#eee',
     disabledBgColor: '#eee',
@@ -109,7 +112,8 @@ export default {
         disabledBg: '#eee',
         focusOffset: 0
       }
-    }
+    },
+    buttonMixin: (type, options) => ({...styleButtonBaseMixin(type, options)})
   },
   radio: {
     borderRadius: '50%',
