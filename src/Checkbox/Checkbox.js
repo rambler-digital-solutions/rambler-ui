@@ -35,7 +35,8 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     display: 'inline-block',
     width: theme.checkbox.size,
     height: theme.checkbox.size,
-    border: `1px solid ${theme.checkbox.borderColor}`
+    border: `1px solid ${theme.checkbox.borderColor}`,
+    borderRadius: theme.checkbox.borderRadius
   },
   real: {
     position: 'absolute',
@@ -81,7 +82,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
       opacity: 1
     },
     '& $fake': {
-      borderColor: theme.checkbox.activeBorderColor
+      borderColor: theme.checkbox.checkedBorderColor
     }
   },
   isFocused: {
@@ -163,7 +164,7 @@ export default class Checkbox extends Component {
   };
 
   onChange = (event) => {
-    const checked = this.refs.input.checked
+    const checked = this.input.checked
     this.setState({ checked })
     if (this.props.onCheck)
       this.props.onCheck(event, checked)
@@ -219,7 +220,7 @@ export default class Checkbox extends Component {
     return (
       <div className={resultClassName} style={style}>
         <input
-          ref="input"
+          ref={input => { this.input = input }}
           checked={ checked }
           name={ name }
           type="checkbox"

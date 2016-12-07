@@ -9,39 +9,7 @@ import range from 'lodash/range'
 import omit from 'lodash/omit'
 import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, middleMixin, borderMixin, isolateMixin } from '../style/mixins'
-
-const styleButtonMixin = (type, options) => ({
-  [`type-${type}`]: {
-    extend: borderMixin(options.defaultBorder),
-    color: `${options.textColor} !important`,
-    background: options.defaultBg,
-    '&:focus:not(:active)': {
-      background: `${options.focusBg} !important`
-    },
-    '&:focus:not(:active):before': {
-      extend: borderMixin(options.focusBorder),
-      top: -options.focusOffset,
-      bottom: -options.focusOffset,
-      left: -options.focusOffset,
-      right: -options.focusOffset
-    },
-    '&:hover:not(:active)': {
-      extend: borderMixin(options.hoverBorder),
-      background: `${options.hoverBg} !important`
-    },
-    '&:active': {
-      extend: borderMixin(options.activeBorder),
-      background: options.activeBg
-    },
-    '&[disabled]': {
-      extend: borderMixin(options.disabledBorder),
-      color: `${options.disabledTextColor} !important`,
-      background: options.disabledBg
-    },
-    '& $loaderDot': { background: options.loaderColor }
-  }
-})
+import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet((theme) => ({
@@ -67,7 +35,7 @@ const styleButtonMixin = (type, options) => ({
     display: 'inline-block',
     border: 'none',
     userSelect: 'none',
-    '&, & *': { transition: 'all .2s' },
+    '&, & *': { transition: 'background-color .2s, border .2s, box-shadow .2s' },
     '&:focus:before': {
       content: '""',
       display: 'block',
@@ -155,7 +123,7 @@ const styleButtonMixin = (type, options) => ({
       marginRight: 10
     }
   },
-  ...styleButtonMixin('primary', {
+  ...theme.button.buttonMixin('primary', {
     defaultBg: theme.button.types.primary.defaultBg,
     defaultBorder: theme.button.types.primary.defaultBorder,
     textColor: theme.button.types.primary.textColor,
@@ -170,9 +138,10 @@ const styleButtonMixin = (type, options) => ({
     disabledBorder: theme.button.types.primary.disabledBorder,
     disabledBg: theme.button.types.primary.disabledBg,
     focusOffset: theme.button.types.primary.focusOffset,
-    loaderColor: theme.button.types.primary.loaderColor
+    loaderColor: theme.button.types.primary.loaderColor,
+    borderRadius: theme.button.types.primary.borderRadius
   }),
-  ...styleButtonMixin('secondary', {
+  ...theme.button.buttonMixin('secondary', {
     defaultBg: theme.button.types.secondary.defaultBg,
     defaultBorder: theme.button.types.secondary.defaultBorder,
     textColor: theme.button.types.secondary.textColor,
@@ -187,9 +156,11 @@ const styleButtonMixin = (type, options) => ({
     disabledBorder: theme.button.types.secondary.disabledBorder,
     disabledBg: theme.button.types.secondary.disabledBg,
     focusOffset: theme.button.types.secondary.focusOffset,
-    loaderColor: theme.button.types.secondary.loaderColor
+    loaderColor: theme.button.types.secondary.loaderColor,
+    activeTextColor: theme.button.types.secondary.activeTextColor,
+    borderRadius: theme.button.types.secondary.borderRadius
   }),
-  ...styleButtonMixin('outline', {
+  ...theme.button.buttonMixin('outline', {
     defaultBg: theme.button.types.outline.defaultBg,
     defaultBorder: theme.button.types.outline.defaultBorder,
     textColor: theme.button.types.outline.textColor,
@@ -204,7 +175,8 @@ const styleButtonMixin = (type, options) => ({
     disabledBorder: theme.button.types.outline.disabledBorder,
     disabledBg: theme.button.types.outline.disabledBg,
     focusOffset: theme.button.types.outline.focusOffset,
-    loaderColor: theme.button.types.outline.loaderColor
+    loaderColor: theme.button.types.outline.loaderColor,
+    activeTextColor: theme.button.types.outline.activeTextColor
   })
 }))
 export default class Button extends Component {

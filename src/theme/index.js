@@ -1,8 +1,8 @@
 import { create } from 'themed-react-jss'
 import { create as createJss } from 'jss'
 import preset from 'jss-preset-default'
-import baseTheme from './baseTheme'
-import champTheme from './champTheme'
+import base from './base'
+import champ from './champ'
 
 
 export const provider = create({
@@ -10,12 +10,12 @@ export const provider = create({
   jss: createJss(preset())
 })
 
-provider.defineTheme('baseTheme', baseTheme, {
+provider.defineTheme('base', base, {
   isDefault: true
 })
 
-provider.defineTheme('champTheme', champTheme, {
-  inherit: ['baseTheme']
+provider.defineTheme('champ', champ, {
+  inherit: ['base']
 })
 
 export const jss = provider.jss

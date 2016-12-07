@@ -1,3 +1,5 @@
+import {styleButtonBaseMixin} from '../style/mixins'
+
 export default {
   font: {
     fontFamily: 'Roboto, sans-serif'
@@ -33,8 +35,10 @@ export default {
   checkbox: {
     bgColor: '#fff',
     borderColor: '#ddd',
+    borderRadius: 0,
     hoverBorderColor: '#262626',
     activeBorderColor: '#315efb',
+    checkedBorderColor: '#315efb',
     activeBgColor: '#eee',
     disabledBorderColor: '#eee',
     disabledBgColor: '#eee',
@@ -67,7 +71,8 @@ export default {
         loadingBorder: '#315efb',
         disabledBorder: '#315efb',
         disabledBg: '#315efb',
-        focusOffset: 3
+        focusOffset: 3,
+        borderRadius: 0
       },
       secondary: {
         textColor: '#315efb',
@@ -85,7 +90,8 @@ export default {
         loadingDot: '#315efb',
         disabledBorder: '#eaefff',
         disabledBg: '#eaefff',
-        focusOffset: 0
+        focusOffset: 0,
+        borderRadius: 0
       },
       outline: {
         textColor: '#262626',
@@ -105,7 +111,8 @@ export default {
         disabledBg: '#eee',
         focusOffset: 0
       }
-    }
+    },
+    buttonMixin: (type, options) => ({...styleButtonBaseMixin(type, options)})
   },
   radio: {
     borderRadius: '50%',
@@ -124,9 +131,12 @@ export default {
   },
   inputEye: {
     top: 13,
+    right: 15,
     fill: '#315efb'
   },
   icon: {
-    top: 13
+    top: 13,
+    left: 5,
+    right: 5
   }
 }

@@ -19,6 +19,10 @@ export const borderMixin = (color) => ({
   boxShadow: `inset 0px 0px 0px 1px ${color}`
 })
 
+export const borderChampMixin = (color) => ({
+  boxShadow: `0 3px 7px 0 ${color}`
+})
+
 export const isolateMixin = {
   borderCollapse: 'separate',
   borderSpacing: '0',
@@ -65,4 +69,82 @@ export const placeholderMixin = (options) => ({
   '&::-moz-placeholder': options,
   '&:-ms-input-placeholder': options,
   '&:-moz-placeholder': options
+})
+
+export const styleButtonBaseMixin = (type, options) => ({
+  [`type-${type}`]: {
+    extend: borderMixin(options.defaultBorder),
+    color: `${options.textColor} !important`,
+    borderRadius: options.borderRadius,
+    background: options.defaultBg,
+    '&:focus:not(:active)': {
+      background: `${options.focusBg} !important`
+    },
+    '&:focus:not(:active):before': {
+      extend: borderMixin(options.focusBorder),
+      color: `${options.activeTextColor} !important`,
+      top: -options.focusOffset,
+      bottom: -options.focusOffset,
+      left: -options.focusOffset,
+      right: -options.focusOffset,
+      borderRadius: options.borderRadius
+    },
+    '&:hover:not(:active)': {
+      extend: borderMixin(options.hoverBorder),
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: `${options.hoverBg} !important`
+    },
+    '&:active': {
+      extend: borderMixin(options.defaultBorder),
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: options.activeBg
+    },
+    '&[disabled]': {
+      extend: borderMixin(options.defaultBorder),
+      color: `${options.disabledTextColor} !important`,
+      background: options.disabledBg
+    },
+    '& $loaderDot': { background: options.loaderColor }
+  }
+})
+
+export const styleButtonChampMixin = (type, options) => ({
+  [`type-${type}`]: {
+    extend: type === 'secondary' ? borderMixin(options.defaultBorder) : null,
+    color: `${options.textColor} !important`,
+    borderRadius: options.borderRadius,
+    background: options.defaultBg,
+    '&:focus:not(:active)': {
+      background: `${options.focusBg} !important`
+    },
+    '&:focus:not(:active):before': {
+      extend: type === 'secondary' ? borderMixin(options.focusBorder) : null,
+      color: `${options.activeTextColor} !important`,
+      top: -options.focusOffset,
+      bottom: -options.focusOffset,
+      left: -options.focusOffset,
+      right: -options.focusOffset,
+      borderRadius: options.borderRadius
+    },
+    '&:hover:not(:active)': {
+      extend: type === 'primary' ? borderChampMixin(options.hoverBorder) : type === 'secondary' ? borderMixin(options.hoverBorder) : null,
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: `${options.hoverBg} !important`
+    },
+    '&:active': {
+      extend: type === 'primary' ? borderChampMixin(options.defaultBorder) : type === 'secondary' ? borderMixin(options.hoverBorder) : null,
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: options.activeBg
+    },
+    '&[disabled]': {
+      extend: null,
+      color: `${options.disabledTextColor} !important`,
+      background: options.disabledBg
+    },
+    '& $loaderDot': { background: options.loaderColor }
+  }
 })
