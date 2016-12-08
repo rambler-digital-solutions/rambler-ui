@@ -136,7 +136,7 @@ export default {
   },
   icon: {
     top: 13,
-    left: 5,
-    right: 5
+    left: 12,
+    right: 12
   }
 }

@@ -20,7 +20,6 @@ export default class InputExample extends Component {
   render() {
     return (
       <div>
-        <h1>Дефолтная тема</h1>
         <h3>FormGroup inline=false</h3>
         <ApplyTheme>
           <FormGroup inline={false} label='Имя' fieldId='name' className='formGroup' style={{width: 300}}>

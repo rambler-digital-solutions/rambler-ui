@@ -10,7 +10,7 @@ import { Eye } from '../icons/forms'
 
 function paddingLeftHelper(typeofIconLeft) {
   if (typeofIconLeft === 'undefined') return 13
-  if (typeofIconLeft === 'object') return 30
+  if (typeofIconLeft === 'object') return 40
 }
 
 function paddingRightHelper(typeofIconRight, inputType, trueType) {
@@ -104,10 +104,8 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
     '& > input': {
       borderBottom: '1px solid #000'
     },
-    '& $iconLeft': {
-      '& > svg': {
-        fill: '#ff4800'
-      }
+    '& $iconLeft > svg': {
+      fill: '#ff4800'
     },
     '& $normal': {
       opacity: 1
@@ -133,10 +131,8 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
 export default class TextInput extends Component {
   constructor(props) {
     super(props)
-    const { type } = this.props
     this.state = {
-      type,
-      trueType: type
+      type: this.props.type
     }
   }
 
@@ -243,7 +239,8 @@ export default class TextInput extends Component {
       ...other
     } = omit(this.props, ['theme', 'onChange'])
 
-    const { type, trueType } = this.state
+    const { type } = this.state
+    const trueType = this.props.type
     const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'})
     const resultClassName = classnames(css.normal, css[status], className)
 
@@ -275,7 +272,7 @@ export default class TextInput extends Component {
           {...other}
         />
           { resultIconRight }
-          { this.state.trueType === 'password' &&
+          { trueType === 'password' &&
             <button type='button' className={css[type]} onClick={this.inputTypeHelper}>
               <Eye className={css.eye} />
             </button>

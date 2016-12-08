@@ -19,7 +19,6 @@ export default class InputExample extends Component {
   render() {
     return (
       <div>
-        <h1>Чемповская тема</h1>
         <h3>Пример без InputStatus</h3>
         <ApplyTheme name='champ'>
           <div style={{width: 300}}>
