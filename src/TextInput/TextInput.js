@@ -105,7 +105,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
       borderBottom: '1px solid #000'
     },
     '& $iconLeft > svg': {
-      fill: '#ff4800'
+      fill: '#ff4800 !important'
     },
     '& $normal': {
       opacity: 1
