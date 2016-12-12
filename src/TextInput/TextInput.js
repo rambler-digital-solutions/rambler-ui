@@ -10,7 +10,7 @@ import { Eye } from '../icons/forms'
 
 function paddingLeftHelper(typeofIconLeft) {
   if (typeofIconLeft === 'undefined') return 13
-  if (typeofIconLeft === 'object') return 40
+  if (typeofIconLeft === 'object') return 35
 }
 
 function paddingRightHelper(typeofIconRight, inputType, trueType) {
@@ -173,7 +173,7 @@ export default class TextInput extends Component {
     className: PropTypes.string,
     /**
      * По умолчанию элемент input растягивается на всю ширину родительского контейнера.
-     * Т.е. задавать ширину через родительский контейнер, объект style.
+     * Т.е. задавать ширину через родительский контейнер - объект style.
      * Сюда не стоит передавать какое-либо значение.
      */
     fullWidth: PropTypes.any,

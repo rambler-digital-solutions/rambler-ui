@@ -98,7 +98,7 @@ export default {
     fill: '#ff4800'
   },
   icon: {
-    top: 6,
+    top: 7,
     left: 0,
     right: 0
   }
