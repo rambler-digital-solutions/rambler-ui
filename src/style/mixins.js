@@ -113,15 +113,15 @@ export const styleButtonBaseMixin = (type, options) => ({
 export const styleButtonChampMixin = (type, options) => ({
   [`type-${type}`]: {
     extend: type === 'secondary' ? borderMixin(options.defaultBorder) : null,
-    color: `${options.textColor} !important`,
+    color: `${options.textColor}`,
     borderRadius: options.borderRadius,
     background: options.defaultBg,
     '&:focus:not(:active)': {
+      color: `${options.activeTextColor} !important`,
       background: `${options.focusBg} !important`
     },
     '&:focus:not(:active):before': {
-      extend: type === 'secondary' ? borderMixin(options.focusBorder) : null,
-      color: `${options.activeTextColor} !important`,
+      extend: type === 'primary' ? borderChampMixin(options.focusBorder) : type === 'secondary' ? borderMixin(options.focusBorder) : null,
       top: -options.focusOffset,
       bottom: -options.focusOffset,
       left: -options.focusOffset,
@@ -135,7 +135,7 @@ export const styleButtonChampMixin = (type, options) => ({
       background: `${options.hoverBg} !important`
     },
     '&:active': {
-      extend: type === 'primary' ? borderChampMixin(options.defaultBorder) : type === 'secondary' ? borderMixin(options.hoverBorder) : null,
+      extend: type === 'primary' ? borderChampMixin(options.activeBorder) : type === 'secondary' ? borderMixin(options.activeBorder) : null,
       color: `${options.activeTextColor} !important`,
       borderRadius: options.borderRadius,
       background: options.activeBg

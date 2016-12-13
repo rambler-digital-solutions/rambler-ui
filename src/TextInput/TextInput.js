@@ -8,20 +8,6 @@ import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
 import { Eye } from '../icons/forms'
 
-function paddingLeftHelper(typeofIconLeft) {
-  if (typeofIconLeft === 'undefined') return 13
-  if (typeofIconLeft === 'object') return 35
-}
-
-function paddingRightHelper(typeofIconRight, inputType, trueType) {
-  if (typeofIconRight === 'object' && inputType === 'text' && trueType === 'password') return 65
-  if (typeofIconRight === 'object' && inputType === 'text' && trueType === 'text') return 35
-  if (typeofIconRight === 'undefined' && inputType === 'text' && trueType === 'text') return 13
-  if (typeofIconRight === 'undefined' && inputType === 'text' && trueType === 'password') return 40
-  if (typeofIconRight === 'object' && inputType === 'password') return 65
-  if (typeofIconRight === 'undefined' && inputType === 'password') return 35
-}
-
 @injectSheet(theme => ({
   normal: {
     ...isolateMixin,
@@ -118,13 +104,22 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   },
   iconRight: {
     position: 'absolute',
-    right: '40px',
+    right: theme.icon.right,
     top: theme.icon.top
   },
   iconRightWithoutPass: {
     position: 'absolute',
-    right: theme.icon.right,
+    right: theme.inputIconRightWithoutPass.right,
     top: theme.icon.top
+  },
+  inputIconLeft: {
+    ...theme.inputPaddingLeft
+  },
+  inputOneIconRight: {
+    ...theme.inputOneIconRight
+  },
+  inputTwoIconRight: {
+    ...theme.inputTwoIconRight
   }
 }))
 
@@ -242,7 +237,11 @@ export default class TextInput extends Component {
     const { type } = this.state
     const trueType = this.props.type
     const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'})
-    const resultClassName = classnames(css.normal, css[status], className)
+    const resultClassName = classnames(css.normal, css[status], {
+      [css.inputIconLeft]: !!iconLeft,
+      [css.inputTwoIconRight]: !!iconRight && trueType === 'password',
+      [css.inputOneIconRight]: !!iconRight || trueType === 'password'
+    }, className)
 
     const resultIconRight = (iconRight && trueType === 'password') ?
                               <div className={css.iconRight}>{iconRight}</div> :
@@ -260,11 +259,7 @@ export default class TextInput extends Component {
           ref={input => (this.input = input)}
           className={resultClassName}
           disabled={disabled}
-          style={{
-            paddingLeft: paddingLeftHelper(typeof iconLeft),
-            paddingRight: paddingRightHelper(typeof iconRight, type, trueType),
-            ...inputStyle
-          }}
+          style={inputStyle}
           name={name}
           onChange={this.onChangeHelper}
           tabIndex='0'

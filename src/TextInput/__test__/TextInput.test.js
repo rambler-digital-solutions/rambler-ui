@@ -171,10 +171,10 @@ describe('<TextInput style={{width: 200}}/>', () => {
     const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode)
     // расположение iconLeft
     expect(iconLeftStyles.top).toEqual('13px')
-    expect(iconLeftStyles.left).toEqual('12px')
+    expect(iconLeftStyles.left).toEqual('13px')
     // расположение iconEye для password
     expect(iconEyeStyles.top).toEqual('13px')
-    expect(iconEyeStyles.right).toEqual('15px')
+    expect(iconEyeStyles.right).toEqual('13px')
   })
 
   it('Проверяем paddingHelpers', () => {
@@ -193,8 +193,8 @@ describe('<TextInput style={{width: 200}}/>', () => {
     const inputTextStyles = getStyles(inputText)
     const inputPassStyles = getStyles(inputPass)
 
-    expect(inputTextStyles['padding-right']).toEqual('35px')
-    expect(inputPassStyles['padding-right']).toEqual('65px')
+    expect(inputTextStyles['padding-right']).toEqual('40px')
+    expect(inputPassStyles['padding-right']).toEqual('70px')
     expect(inputPassStyles['padding-left']).toEqual('13px')
   })
 })
