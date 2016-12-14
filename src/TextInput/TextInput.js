@@ -23,7 +23,7 @@ import { Eye } from '../icons/forms'
     lineHeight: 'normal',
     ...theme.input,
     transition: 'border-color 0.3s ease',
-    ...placeholderMixin({color: '#aebbc9'}),
+    ...placeholderMixin({color: theme.input.baseColor}),
     '&::-ms-reveal': {
       display: 'none'
     },
@@ -49,7 +49,7 @@ import { Eye } from '../icons/forms'
     color: 'gray',
     backgroundColor: '#fff',
     '& $eye': {
-      fill: '#aebbc9'
+      fill: theme.inputBaseColor.color
     }
   },
   text: {
@@ -268,7 +268,7 @@ export default class TextInput extends Component {
         />
           { resultIconRight }
           { trueType === 'password' &&
-            <button type='button' className={css[type]} onClick={this.inputTypeHelper}>
+            <button type='button' tabIndex="-1" className={css[type]} onClick={this.inputTypeHelper} >
               <Eye className={css.eye} />
             </button>
           }

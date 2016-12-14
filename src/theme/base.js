@@ -129,6 +129,9 @@ export default {
       paddingBottom: 1
     }
   },
+  inputBaseColor: {
+    color: '#aebbc9'
+  },
   inputPaddingLeft: {
     paddingLeft: 40
   },

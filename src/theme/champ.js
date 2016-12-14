@@ -92,6 +92,9 @@ export default {
       borderBottom: '1px solid #000'
     }
   },
+  inputBaseColor: {
+    color: '#BEBEBE'
+  },
   inputPaddingLeft: {
     paddingLeft: 30
   },
