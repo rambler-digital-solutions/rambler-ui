@@ -24,7 +24,8 @@ import { fontStyleMixin } from '../style/mixins'
   },
   message: {
     ...fontStyleMixin(theme.font),
-    marginTop: '7px'
+    marginTop: '7px',
+    textAlign: 'left'
   }
 }))
 
