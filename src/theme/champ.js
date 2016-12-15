@@ -25,14 +25,14 @@ export default {
         loaderColor: '#fff',
         disabledTextColor: '#fff',
         defaultBg: '#ff4800',
-        defaultBorder: 'rgba(255, 76, 7, 0.7)',
-        hoverBorder: '#ff4800',
+        defaultBorder: 'transparent',
+        hoverBorder: 'rgba(255, 76, 7, 0.68)',
         hoverBg: '#ff4800',
-        activeBorder: '#ff4800',
+        activeBorder: 'rgba(255, 76, 7, 0.68)',
         activeBg: '#ff4800',
-        focusBorder: '#ff4800',
+        focusBorder: 'rgba(255, 76, 7, 0.68)',
         focusBg: '#ff4800',
-        loadingBorder: '#ff4800',
+        loadingBorder: 'rgba(255, 76, 7, 0.68)',
         disabledBorder: '#a5acb2',
         disabledBg: '#a5acb2',
         focusOffset: 0,
@@ -41,18 +41,18 @@ export default {
       },
       secondary: {
         textColor: '#ff4800',
-        activeTextColor: '#fff',
+        activeTextColor: '#ff4800',
         loaderColor: '#ff4800',
         disabledTextColor: '#fff',
-        defaultBg: '#fff',
-        defaultBorder: '#ff4800',
-        hoverBorder: 'rgba(255, 72, 0, 0.7)',
-        hoverBg: 'rgba(255, 72, 0, 0.5)',
-        activeBorder: 'rgba(255, 72, 0, 0.7)',
-        activeBg: 'rgba(255, 72, 0, 0.5)',
-        focusBorder: 'rgba(255, 72, 0, 0.7)',
-        focusBg: 'rgba(255, 72, 0, 0.5)',
-        loadingBorder: 'rgba(255, 72, 0, 0.7)',
+        defaultBg: 'rgba(255, 72, 0, 0.2)',
+        defaultBorder: 'transparent',
+        hoverBorder: 'transparent',
+        hoverBg: 'rgba(255, 72, 0, 0.3)',
+        activeBorder: 'transparent',
+        activeBg: 'rgba(255, 72, 0, 0.4)',
+        focusBorder: 'rgba(255, 72, 0, 0.4)',
+        focusBg: 'rgba(255, 72, 0, 0.3)',
+        loadingBorder: 'rgba(255, 72, 0, 0.3)',
         loadingDot: '#ff4800',
         disabledBorder: '#a5acb2',
         disabledBg: '#a5acb2',
@@ -60,8 +60,8 @@ export default {
         borderRadius: 2
       },
       outline: {
-        textColor: 'rgba(255, 72, 0, 1)',
-        activeTextColor: 'rgba(255, 72, 0, 0.8)',
+        textColor: '#ff4800',
+        activeTextColor: 'rgba(255, 72, 0, .3)',
         loaderColor: '#ff4800',
         disabledTextColor: 'rgba(38, 38, 38, .4)',
         defaultBg: '#fff',
@@ -70,10 +70,10 @@ export default {
         hoverBg: '#fff',
         activeBorder: '#fff',
         activeBg: '#fff',
-        focusBorder: '#315efb',
+        focusBorder: 'rgba(255, 72, 0, .3)',
         focusBg: '#fff',
         loadingBorder: '#ccc',
-        loadingDot: '#315efb',
+        loadingDot: '#ff4800',
         disabledBorder: '#eee',
         disabledBg: '#eee',
         focusOffset: 0,
@@ -83,7 +83,7 @@ export default {
     buttonMixin: (type, options) => ({...styleButtonChampMixin(type, options)})
   },
   input: {
-    padding: '0 45px 1px 35px',
+    padding: '0 5px 1px 5px',
     border: 'none',
     borderBottom: '1px solid #d5d5d5',
     height: 36,
@@ -92,14 +92,40 @@ export default {
       borderBottom: '1px solid #000'
     }
   },
-  inputEye: {
-    top: 7,
-    right: 3,
-    fill: '#ff4800'
-  },
-  icon: {
-    top: 6,
-    left: 0,
-    right: 0
+  inputRequiredProps: {
+    successBorderBottom: {
+      borderBottom: '1px solid #28bc00 !important'
+    },
+    errorBorderBottom: {
+      borderBottom: '1px solid #ff564e !important'
+    },
+    warningBorderBottom: {
+      borderBottom: '1px solid #f4c914 !important'
+    },
+    inputBaseColor: {
+      color: '#BEBEBE'
+    },
+    inputPaddingLeft: {
+      paddingLeft: 30
+    },
+    inputOneIconRight: {
+      paddingRight: 30
+    },
+    inputTwoIconRight: {
+      paddingRight: '60px !important'
+    },
+    inputIconRightWithoutPass: {
+      right: 0
+    },
+    inputEye: {
+      top: 7,
+      right: 3,
+      fill: '#ff4800'
+    },
+    icon: {
+      top: 7,
+      left: 0,
+      right: 30
+    }
   }
 }

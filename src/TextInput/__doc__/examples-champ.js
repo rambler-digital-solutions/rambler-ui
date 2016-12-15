@@ -72,7 +72,7 @@ export default class InputExample extends Component {
                   type='password'
                   name='value2'
                   value={this.state.value2}
-                  status={this.state.value2 ? 'filled' : undefined}
+                  status={this.state.value2 ? 'error' : undefined}
                   onChange={::this.onChange}
                   placeholder='Пароль'
                   iconLeft={<RamblerMailIcon />}
@@ -87,13 +87,13 @@ export default class InputExample extends Component {
           <div style={{width: 300}}>
             <div style={{marginBottom: 30}}>
               <InputStatus
-                type='success'
-                message='Зелёный текст' >
+                type='warning'
+                message='Оранжевый текст' >
                 <TextInput
                   type='text'
                   name='value3'
                   value={this.state.value3}
-                  status={this.state.value3 ? 'filled' : undefined}
+                  status={this.state.value3 ? 'warning' : undefined}
                   onChange={::this.onChange}
                   placeholder='Почта'
                 />
@@ -101,13 +101,13 @@ export default class InputExample extends Component {
             </div>
             <div style={{marginBottom: 30}}>
               <InputStatus
-                type='error'
-                message='Красный текст' >
+                type='success'
+                message='Зелёный текст' >
                 <TextInput
                   type='password'
                   name='value3'
                   value={this.state.value3}
-                  status={this.state.value3 ? 'filled' : undefined}
+                  status={this.state.value3 ? 'success' : undefined}
                   onChange={::this.onChange}
                   className='Пароль'
                   placeholder='Пароль'

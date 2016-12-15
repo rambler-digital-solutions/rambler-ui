@@ -8,20 +8,6 @@ import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
 import { Eye } from '../icons/forms'
 
-function paddingLeftHelper(typeofIconLeft) {
-  if (typeofIconLeft === 'undefined') return 13
-  if (typeofIconLeft === 'object') return 40
-}
-
-function paddingRightHelper(typeofIconRight, inputType, trueType) {
-  if (typeofIconRight === 'object' && inputType === 'text' && trueType === 'password') return 65
-  if (typeofIconRight === 'object' && inputType === 'text' && trueType === 'text') return 35
-  if (typeofIconRight === 'undefined' && inputType === 'text' && trueType === 'text') return 13
-  if (typeofIconRight === 'undefined' && inputType === 'text' && trueType === 'password') return 40
-  if (typeofIconRight === 'object' && inputType === 'password') return 65
-  if (typeofIconRight === 'undefined' && inputType === 'password') return 35
-}
-
 @injectSheet(theme => ({
   normal: {
     ...isolateMixin,
@@ -37,7 +23,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
     lineHeight: 'normal',
     ...theme.input,
     transition: 'border-color 0.3s ease',
-    ...placeholderMixin({color: '#aebbc9'}),
+    ...placeholderMixin({color: theme.inputRequiredProps.baseColor}),
     '&::-ms-reveal': {
       display: 'none'
     },
@@ -52,8 +38,8 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   },
   password: {
     position: 'absolute',
-    top: theme.inputEye.top,
-    right: theme.inputEye.right,
+    top: theme.inputRequiredProps.inputEye.top,
+    right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
     height: '18px',
@@ -63,13 +49,13 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
     color: 'gray',
     backgroundColor: '#fff',
     '& $eye': {
-      fill: '#aebbc9'
+      fill: theme.inputRequiredProps.inputBaseColor.color
     }
   },
   text: {
     position: 'absolute',
-    top: theme.inputEye.top,
-    right: theme.inputEye.right,
+    top: theme.inputRequiredProps.inputEye.top,
+    right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
     height: '18px',
@@ -78,7 +64,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
     cursor: 'pointer',
     backgroundColor: '#fff',
     '& $eye': {
-      fill: theme.inputEye.fill
+      fill: theme.inputRequiredProps.inputEye.fill
     }
   },
   eye: {
@@ -89,15 +75,15 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
     height: '18px'
   },
   success: {
-    borderBottom: '2px solid #28bc00 !important',
+    borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
     paddingBottom: '1px'
   },
   error: {
-    borderBottom: '2px solid #ff564e !important',
+    borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
     paddingBottom: '1px'
   },
   warning: {
-    borderBottom: '2px solid #f4c914 !important',
+    borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
     paddingBottom: '1px'
   },
   filled: {
@@ -105,7 +91,7 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
       borderBottom: '1px solid #000'
     },
     '& $iconLeft > svg': {
-      fill: '#ff4800'
+      fill: '#ff4800 !important'
     },
     '& $normal': {
       opacity: 1
@@ -113,18 +99,27 @@ function paddingRightHelper(typeofIconRight, inputType, trueType) {
   },
   iconLeft: {
     position: 'absolute',
-    left: theme.icon.left,
-    top: theme.icon.top
+    left: theme.inputRequiredProps.icon.left,
+    top: theme.inputRequiredProps.icon.top
   },
   iconRight: {
     position: 'absolute',
-    right: '40px',
-    top: theme.icon.top
+    right: theme.inputRequiredProps.icon.right,
+    top: theme.inputRequiredProps.icon.top
   },
   iconRightWithoutPass: {
     position: 'absolute',
-    right: theme.icon.right,
-    top: theme.icon.top
+    right: theme.inputRequiredProps.inputIconRightWithoutPass.right,
+    top: theme.inputRequiredProps.icon.top
+  },
+  inputIconLeft: {
+    ...theme.inputRequiredProps.inputPaddingLeft
+  },
+  inputOneIconRight: {
+    ...theme.inputRequiredProps.inputOneIconRight
+  },
+  inputTwoIconRight: {
+    ...theme.inputRequiredProps.inputTwoIconRight
   }
 }))
 
@@ -173,7 +168,7 @@ export default class TextInput extends Component {
     className: PropTypes.string,
     /**
      * По умолчанию элемент input растягивается на всю ширину родительского контейнера.
-     * Т.е. задавать ширину через родительский контейнер, объект style.
+     * Т.е. задавать ширину через родительский контейнер - объект style.
      * Сюда не стоит передавать какое-либо значение.
      */
     fullWidth: PropTypes.any,
@@ -242,7 +237,11 @@ export default class TextInput extends Component {
     const { type } = this.state
     const trueType = this.props.type
     const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'})
-    const resultClassName = classnames(css.normal, css[status], className)
+    const resultClassName = classnames(css.normal, css[status], {
+      [css.inputIconLeft]: !!iconLeft,
+      [css.inputTwoIconRight]: !!iconRight && trueType === 'password',
+      [css.inputOneIconRight]: !!iconRight || trueType === 'password'
+    }, className)
 
     const resultIconRight = (iconRight && trueType === 'password') ?
                               <div className={css.iconRight}>{iconRight}</div> :
@@ -260,11 +259,7 @@ export default class TextInput extends Component {
           ref={input => (this.input = input)}
           className={resultClassName}
           disabled={disabled}
-          style={{
-            paddingLeft: paddingLeftHelper(typeof iconLeft),
-            paddingRight: paddingRightHelper(typeof iconRight, type, trueType),
-            ...inputStyle
-          }}
+          style={inputStyle}
           name={name}
           onChange={this.onChangeHelper}
           tabIndex='0'
@@ -273,7 +268,7 @@ export default class TextInput extends Component {
         />
           { resultIconRight }
           { trueType === 'password' &&
-            <button type='button' className={css[type]} onClick={this.inputTypeHelper}>
+            <button type='button' tabIndex="-1" className={css[type]} onClick={this.inputTypeHelper} >
               <Eye className={css.eye} />
             </button>
           }

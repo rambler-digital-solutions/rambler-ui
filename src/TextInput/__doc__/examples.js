@@ -106,6 +106,7 @@ export default class InputExample extends Component {
                 status='error'
                 type='text'
                 name='value6'
+                style={{width: 300}}
                 value={this.state.value6}
                 onChange={::this.onChange}
                 placeholder='placeholder'

@@ -121,7 +121,7 @@ export default {
     font: {size: 14}
   },
   input: {
-    padding: '0 45px 2px 13px',
+    padding: '0 13px 2px 13px',
     border: '1px solid #e8e8e8',
     height: 44,
     '&:focus': {
@@ -129,14 +129,40 @@ export default {
       paddingBottom: 1
     }
   },
-  inputEye: {
-    top: 13,
-    right: 15,
-    fill: '#315efb'
-  },
-  icon: {
-    top: 13,
-    left: 12,
-    right: 12
+  inputRequiredProps: {
+    successBorderBottom: {
+      borderBottom: '2px solid #28bc00 !important'
+    },
+    errorBorderBottom: {
+      borderBottom: '2px solid #ff564e !important'
+    },
+    warningBorderBottom: {
+      borderBottom: '2px solid #f4c914 !important'
+    },
+    inputBaseColor: {
+      color: '#aebbc9'
+    },
+    inputPaddingLeft: {
+      paddingLeft: 40
+    },
+    inputOneIconRight: {
+      paddingRight: 40
+    },
+    inputTwoIconRight: {
+      paddingRight: '70px !important'
+    },
+    inputIconRightWithoutPass: {
+      right: 13
+    },
+    inputEye: {
+      top: 13,
+      right: 13,
+      fill: '#315efb'
+    },
+    icon: {
+      top: 13,
+      left: 13,
+      right: 40
+    }
   }
 }
