@@ -23,7 +23,7 @@ import { Eye } from '../icons/forms'
     lineHeight: 'normal',
     ...theme.input,
     transition: 'border-color 0.3s ease',
-    ...placeholderMixin({color: theme.input.baseColor}),
+    ...placeholderMixin({color: theme.inputRequiredProps.baseColor}),
     '&::-ms-reveal': {
       display: 'none'
     },
@@ -38,8 +38,8 @@ import { Eye } from '../icons/forms'
   },
   password: {
     position: 'absolute',
-    top: theme.inputEye.top,
-    right: theme.inputEye.right,
+    top: theme.inputRequiredProps.inputEye.top,
+    right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
     height: '18px',
@@ -49,13 +49,13 @@ import { Eye } from '../icons/forms'
     color: 'gray',
     backgroundColor: '#fff',
     '& $eye': {
-      fill: theme.inputBaseColor.color
+      fill: theme.inputRequiredProps.inputBaseColor.color
     }
   },
   text: {
     position: 'absolute',
-    top: theme.inputEye.top,
-    right: theme.inputEye.right,
+    top: theme.inputRequiredProps.inputEye.top,
+    right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
     height: '18px',
@@ -64,7 +64,7 @@ import { Eye } from '../icons/forms'
     cursor: 'pointer',
     backgroundColor: '#fff',
     '& $eye': {
-      fill: theme.inputEye.fill
+      fill: theme.inputRequiredProps.inputEye.fill
     }
   },
   eye: {
@@ -75,15 +75,15 @@ import { Eye } from '../icons/forms'
     height: '18px'
   },
   success: {
-    borderBottom: '2px solid #28bc00 !important',
+    borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
     paddingBottom: '1px'
   },
   error: {
-    borderBottom: '2px solid #ff564e !important',
+    borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
     paddingBottom: '1px'
   },
   warning: {
-    borderBottom: '2px solid #f4c914 !important',
+    borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
     paddingBottom: '1px'
   },
   filled: {
@@ -99,27 +99,27 @@ import { Eye } from '../icons/forms'
   },
   iconLeft: {
     position: 'absolute',
-    left: theme.icon.left,
-    top: theme.icon.top
+    left: theme.inputRequiredProps.icon.left,
+    top: theme.inputRequiredProps.icon.top
   },
   iconRight: {
     position: 'absolute',
-    right: theme.icon.right,
-    top: theme.icon.top
+    right: theme.inputRequiredProps.icon.right,
+    top: theme.inputRequiredProps.icon.top
   },
   iconRightWithoutPass: {
     position: 'absolute',
-    right: theme.inputIconRightWithoutPass.right,
-    top: theme.icon.top
+    right: theme.inputRequiredProps.inputIconRightWithoutPass.right,
+    top: theme.inputRequiredProps.icon.top
   },
   inputIconLeft: {
-    ...theme.inputPaddingLeft
+    ...theme.inputRequiredProps.inputPaddingLeft
   },
   inputOneIconRight: {
-    ...theme.inputOneIconRight
+    ...theme.inputRequiredProps.inputOneIconRight
   },
   inputTwoIconRight: {
-    ...theme.inputTwoIconRight
+    ...theme.inputRequiredProps.inputTwoIconRight
   }
 }))
 

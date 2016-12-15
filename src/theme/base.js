@@ -129,29 +129,40 @@ export default {
       paddingBottom: 1
     }
   },
-  inputBaseColor: {
-    color: '#aebbc9'
-  },
-  inputPaddingLeft: {
-    paddingLeft: 40
-  },
-  inputOneIconRight: {
-    paddingRight: 40
-  },
-  inputTwoIconRight: {
-    paddingRight: '70px !important'
-  },
-  inputIconRightWithoutPass: {
-    right: 13
-  },
-  inputEye: {
-    top: 13,
-    right: 13,
-    fill: '#315efb'
-  },
-  icon: {
-    top: 13,
-    left: 13,
-    right: 40
+  inputRequiredProps: {
+    successBorderBottom: {
+      borderBottom: '2px solid #28bc00 !important'
+    },
+    errorBorderBottom: {
+      borderBottom: '2px solid #ff564e !important'
+    },
+    warningBorderBottom: {
+      borderBottom: '2px solid #f4c914 !important'
+    },
+    inputBaseColor: {
+      color: '#aebbc9'
+    },
+    inputPaddingLeft: {
+      paddingLeft: 40
+    },
+    inputOneIconRight: {
+      paddingRight: 40
+    },
+    inputTwoIconRight: {
+      paddingRight: '70px !important'
+    },
+    inputIconRightWithoutPass: {
+      right: 13
+    },
+    inputEye: {
+      top: 13,
+      right: 13,
+      fill: '#315efb'
+    },
+    icon: {
+      top: 13,
+      left: 13,
+      right: 40
+    }
   }
 }
