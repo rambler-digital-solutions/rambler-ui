@@ -1,4 +1,43 @@
-import {styleButtonBaseMixin} from '../style/mixins'
+import { borderMixin } from '../style/mixins'
+
+const styleButtonBaseMixin = (type, options) => ({
+  [`type-${type}`]: {
+    extend: borderMixin(options.defaultBorder),
+    color: `${options.textColor} !important`,
+    borderRadius: options.borderRadius,
+    background: options.defaultBg,
+    '&:focus:not(:active)': {
+      background: `${options.focusBg} !important`
+    },
+    '&:focus:not(:active):before': {
+      extend: borderMixin(options.focusBorder),
+      color: `${options.activeTextColor} !important`,
+      top: -options.focusOffset,
+      bottom: -options.focusOffset,
+      left: -options.focusOffset,
+      right: -options.focusOffset,
+      borderRadius: options.borderRadius
+    },
+    '&:hover:not(:active)': {
+      extend: borderMixin(options.hoverBorder),
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: `${options.hoverBg} !important`
+    },
+    '&:active': {
+      extend: borderMixin(options.defaultBorder),
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: options.activeBg
+    },
+    '&[disabled]': {
+      extend: borderMixin(options.defaultBorder),
+      color: `${options.disabledTextColor} !important`,
+      background: options.disabledBg
+    },
+    '& $loaderDot': { background: options.loaderColor }
+  }
+})
 
 export default {
   font: {
@@ -112,7 +151,7 @@ export default {
         focusOffset: 0
       }
     },
-    buttonMixin: (type, options) => ({...styleButtonBaseMixin(type, options)})
+    buttonMixin: styleButtonBaseMixin
   },
   radio: {
     borderRadius: '50%',

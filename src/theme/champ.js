@@ -1,4 +1,46 @@
-import {styleButtonChampMixin} from '../style/mixins'
+import { borderMixin } from '../style/mixins'
+
+const borderChampMixin = (color) => ({
+  boxShadow: `0 3px 7px 0 ${color}`
+})
+const styleButtonChampMixin = (type, options) => ({
+  [`type-${type}`]: {
+    extend: type === 'secondary' ? borderMixin(options.defaultBorder) : null,
+    color: `${options.textColor}`,
+    borderRadius: options.borderRadius,
+    background: options.defaultBg,
+    '&:focus:not(:active)': {
+      color: `${options.activeTextColor} !important`,
+      background: `${options.focusBg} !important`
+    },
+    '&:focus:not(:active):before': {
+      extend: type === 'primary' ? borderChampMixin(options.focusBorder) : type === 'secondary' ? borderMixin(options.focusBorder) : null,
+      top: -options.focusOffset,
+      bottom: -options.focusOffset,
+      left: -options.focusOffset,
+      right: -options.focusOffset,
+      borderRadius: options.borderRadius
+    },
+    '&:hover:not(:active)': {
+      extend: type === 'primary' ? borderChampMixin(options.hoverBorder) : type === 'secondary' ? borderMixin(options.hoverBorder) : null,
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: `${options.hoverBg} !important`
+    },
+    '&:active': {
+      extend: type === 'primary' ? borderChampMixin(options.activeBorder) : type === 'secondary' ? borderMixin(options.activeBorder) : null,
+      color: `${options.activeTextColor} !important`,
+      borderRadius: options.borderRadius,
+      background: options.activeBg
+    },
+    '&[disabled]': {
+      extend: null,
+      color: `${options.disabledTextColor} !important`,
+      background: options.disabledBg
+    },
+    '& $loaderDot': { background: options.loaderColor }
+  }
+})
 
 export default {
   sizes: {
@@ -80,7 +122,7 @@ export default {
         borderRadius: 2
       }
     },
-    buttonMixin: (type, options) => ({...styleButtonChampMixin(type, options)})
+    buttonMixin: styleButtonChampMixin
   },
   input: {
     padding: '0 5px 1px 5px',

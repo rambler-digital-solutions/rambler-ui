@@ -112,15 +112,9 @@ import { Eye } from '../icons/forms'
     right: theme.inputRequiredProps.inputIconRightWithoutPass.right,
     top: theme.inputRequiredProps.icon.top
   },
-  inputIconLeft: {
-    ...theme.inputRequiredProps.inputPaddingLeft
-  },
-  inputOneIconRight: {
-    ...theme.inputRequiredProps.inputOneIconRight
-  },
-  inputTwoIconRight: {
-    ...theme.inputRequiredProps.inputTwoIconRight
-  }
+  inputIconLeft: theme.inputRequiredProps.inputPaddingLeft,
+  inputOneIconRight: theme.inputRequiredProps.inputOneIconRight,
+  inputTwoIconRight: theme.inputRequiredProps.inputTwoIconRight
 }))
 
 export default class TextInput extends Component {
