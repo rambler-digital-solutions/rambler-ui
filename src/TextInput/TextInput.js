@@ -148,7 +148,7 @@ export default class TextInput extends Component {
     /**
     * Тип поля (на данный момент, cо временем добавим другие типы полей).
     */
-    type: PropTypes.oneOf(['text', 'password']),
+    type: PropTypes.oneOf(['text', 'password', 'email', 'tel']),
     /**
     * Имя элемента
     */
