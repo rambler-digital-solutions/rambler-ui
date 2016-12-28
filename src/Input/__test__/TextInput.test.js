@@ -1,5 +1,5 @@
 import React from 'react'
-import TextInput from '../../TextInput'
+import Input from '../../Input'
 import InputStatus from '../../InputStatus'
 import FormGroup from '../../FormGroup'
 import { ApplyTheme } from '../../theme'
@@ -10,7 +10,7 @@ const applyTheme = (children) => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
-describe('<TextInput style={{width: 200}}/>', () => {
+describe('<Input style={{width: 200}}/>', () => {
   const formGroupProps = {
     inline: false,
     label: 'Label',
@@ -60,10 +60,10 @@ describe('<TextInput style={{width: 200}}/>', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
-          <TextInput {...defaultProps} />
-          <TextInput {...defaultProps} className='inputCls2' status='warning' />
-          <TextInput {...defaultProps} className='inputCls3' status='error' />
-          <TextInput {...defaultProps} className='inputCls4' status={false} />
+          <Input {...defaultProps} />
+          <Input {...defaultProps} className='inputCls2' status='warning' />
+          <Input {...defaultProps} className='inputCls3' status='error' />
+          <Input {...defaultProps} className='inputCls4' status={false} />
         </InputStatus>
       </FormGroup>
     ))
@@ -99,7 +99,7 @@ describe('<TextInput style={{width: 200}}/>', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
-          <TextInput {...defaultProps} {...handlersProps} />
+          <Input {...defaultProps} {...handlersProps} />
         </InputStatus>
       </FormGroup>
     ))
@@ -122,9 +122,9 @@ describe('<TextInput style={{width: 200}}/>', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
-          <TextInput {...defaultProps} />
-          <TextInput {...defaultProps} value='Value' className='disabledInput' disabled/>
-          <TextInput {...passwordProps} />
+          <Input {...defaultProps} />
+          <Input {...defaultProps} value='Value' className='disabledInput' disabled/>
+          <Input {...passwordProps} />
         </InputStatus>
       </FormGroup>
     ))
@@ -161,7 +161,7 @@ describe('<TextInput style={{width: 200}}/>', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
-          <TextInput {...passwordProps} iconLeft={<RamblerMailIcon />} />
+          <Input {...passwordProps} iconLeft={<RamblerMailIcon />} />
         </InputStatus>
       </FormGroup>
     ))
@@ -181,8 +181,8 @@ describe('<TextInput style={{width: 200}}/>', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
-          <TextInput {...passwordProps} iconRight={<RamblerMailIcon />} />
-          <TextInput {...defaultProps} iconRight={<RamblerMailIcon />} />
+          <Input {...passwordProps} iconRight={<RamblerMailIcon />} />
+          <Input {...defaultProps} iconRight={<RamblerMailIcon />} />
         </InputStatus>
       </FormGroup>
     ))

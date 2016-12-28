@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import TextInput from 'rambler-ui/TextInput'
+import Input from 'rambler-ui/Input'
 import InputStatus from 'rambler-ui/InputStatus'
 import { ApplyTheme } from 'rambler-ui/theme'
 import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
@@ -8,7 +8,9 @@ export default class InputExample extends Component {
   state = {
     value1: 'asdasdasds',
     value2: '',
-    value3: ''
+    value3: 'yo',
+    value4: 982034203,
+    value5: 'email@email.com'
   }
 
   onChange(event, value) {
@@ -22,7 +24,7 @@ export default class InputExample extends Component {
         <h3>Пример без InputStatus</h3>
         <ApplyTheme name='champ'>
           <div style={{width: 300}}>
-            <TextInput
+            <Input
               style={{marginBottom: 30}}
               type='text'
               name='value1'
@@ -33,7 +35,7 @@ export default class InputExample extends Component {
               iconLeft={<RamblerMailIcon />}
               iconRight={<RamblerMailIcon />}
             />
-            <TextInput
+            <Input
               type='password'
               name='value2'
               value={this.state.value2}
@@ -53,7 +55,7 @@ export default class InputExample extends Component {
               <InputStatus
                 type='success'
                 message='Зелёный текст' >
-                <TextInput
+                <Input
                   type='text'
                   name='value1'
                   value={this.state.value1}
@@ -68,7 +70,7 @@ export default class InputExample extends Component {
               <InputStatus
                 type='error'
                 message='Красный текст' >
-                <TextInput
+                <Input
                   type='password'
                   name='value2'
                   value={this.state.value2}
@@ -89,7 +91,7 @@ export default class InputExample extends Component {
               <InputStatus
                 type='warning'
                 message='Оранжевый текст' >
-                <TextInput
+                <Input
                   type='text'
                   name='value3'
                   value={this.state.value3}
@@ -103,7 +105,7 @@ export default class InputExample extends Component {
               <InputStatus
                 type='success'
                 message='Зелёный текст' >
-                <TextInput
+                <Input
                   type='password'
                   name='value3'
                   value={this.state.value3}
@@ -124,10 +126,56 @@ export default class InputExample extends Component {
               <InputStatus
                 type='success'
                 message='Зелёный текст' >
-                <TextInput
+                <Input
                   disabled={true}
                   type='text'
                   value=''
+                  onChange={::this.onChange}
+                  iconLeft={<RamblerMailIcon />}
+                />
+              </InputStatus>
+            </div>
+          </div>
+        </ApplyTheme>
+        <ApplyTheme name='champ'>
+          <div style={{width: 300}}>
+            <div style={{marginBottom: 30}}>
+              <InputStatus
+                type='warning'
+                message='Зелёный текст' >
+                <Input
+                  type='tel'
+                  name='value4'
+                  value={this.state.value4}
+                  status={this.state.value4 ? 'success' : null}
+                  onChange={::this.onChange}
+                  iconLeft={<RamblerMailIcon />}
+                />
+              </InputStatus>
+            </div>
+            <div style={{marginBottom: 30}}>
+              <InputStatus
+                type='error'
+                message='Зелёный текст' >
+                <Input
+                  type='email'
+                  name='value5'
+                  value={this.state.value5}
+                  status={this.state.value5 ? 'warning' : null}
+                  onChange={::this.onChange}
+                  iconLeft={<RamblerMailIcon />}
+                />
+              </InputStatus>
+            </div>
+            <div style={{marginBottom: 30}}>
+              <InputStatus
+                type='success'
+                message='Зелёный текст' >
+                <Input
+                  type='email'
+                  name='value5'
+                  value={this.state.value5}
+                  status={this.state.value5 ? 'error' : null}
                   onChange={::this.onChange}
                   iconLeft={<RamblerMailIcon />}
                 />
