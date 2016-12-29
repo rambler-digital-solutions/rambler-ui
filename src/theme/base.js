@@ -201,7 +201,8 @@ export default {
     icon: {
       top: 13,
       left: 13,
-      right: 40
+      right: 40,
+      fill: 'initial !important'
     }
   }
 }

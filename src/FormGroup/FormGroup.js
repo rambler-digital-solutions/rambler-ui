@@ -71,7 +71,7 @@ export default class FormGroup extends Component {
      */
     fieldId: PropTypes.string,
     /**
-     * Children - может быть InputStatus или TextInput.
+     * Children - может быть InputStatus или Input.
      */
     children: PropTypes.node.isRequired,
     /**
