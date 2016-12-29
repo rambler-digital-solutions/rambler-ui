@@ -42,8 +42,8 @@ import { Eye } from '../icons/forms'
     right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
-    height: '18px',
-    width: '18px',
+    height: '20px',
+    width: '20px',
     backgroundSize: 'contain',
     cursor: 'pointer',
     color: 'gray',
@@ -58,8 +58,8 @@ import { Eye } from '../icons/forms'
     right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
-    height: '18px',
-    width: '18px',
+    height: '20px',
+    width: '20px',
     backgroundSize: 'contain',
     cursor: 'pointer',
     backgroundColor: '#fff',
@@ -75,23 +75,47 @@ import { Eye } from '../icons/forms'
     height: '18px'
   },
   success: {
-    borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
-    paddingBottom: '1px'
+    '& > input': {
+      borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
+      paddingBottom: '1px',
+    },
+    '& $iconLeft > svg': {
+      fill: theme.inputRequiredProps.icon.fill
+    },
+    '& $normal': {
+      opacity: 1
+    }
   },
   error: {
-    borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
-    paddingBottom: '1px'
+    '& > input': {
+      borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
+      paddingBottom: '1px',
+    },
+    '& $iconLeft > svg': {
+      fill: theme.inputRequiredProps.icon.fill
+    },
+    '& $normal': {
+      opacity: 1
+    }
   },
   warning: {
-    borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
-    paddingBottom: '1px'
+    '& > input': {
+      borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
+      paddingBottom: '1px',
+    },
+    '& $iconLeft > svg': {
+      fill: theme.inputRequiredProps.icon.fill
+    },
+    '& $normal': {
+      opacity: 1
+    }
   },
   filled: {
     '& > input': {
       borderBottom: '1px solid #000'
     },
     '& $iconLeft > svg': {
-      fill: '#ff4800 !important'
+      fill: theme.inputRequiredProps.icon.fill
     },
     '& $normal': {
       opacity: 1
@@ -123,7 +147,7 @@ import { Eye } from '../icons/forms'
   }
 }))
 
-export default class TextInput extends Component {
+export default class Input extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -148,7 +172,7 @@ export default class TextInput extends Component {
     /**
     * Тип поля (на данный момент, cо временем добавим другие типы полей).
     */
-    type: PropTypes.oneOf(['text', 'password']),
+    type: PropTypes.oneOf(['text', 'password', 'email', 'tel']),
     /**
     * Имя элемента
     */
@@ -160,7 +184,8 @@ export default class TextInput extends Component {
       'error',
       'warning',
       'success',
-      'filled'
+      'filled',
+      null
     ]),
     /**
      * Класс компонента
@@ -236,8 +261,8 @@ export default class TextInput extends Component {
 
     const { type } = this.state
     const trueType = this.props.type
-    const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'})
-    const resultClassName = classnames(css.normal, css[status], {
+    const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'}, css[status])
+    const resultClassName = classnames(css.normal, {
       [css.inputIconLeft]: !!iconLeft,
       [css.inputTwoIconRight]: !!iconRight && trueType === 'password',
       [css.inputOneIconRight]: !!iconRight || trueType === 'password'
@@ -245,7 +270,7 @@ export default class TextInput extends Component {
 
     const resultIconRight = (iconRight && trueType === 'password') ?
                               <div className={css.iconRight}>{iconRight}</div> :
-                                (iconRight && trueType === 'text') ?
+                                (iconRight && trueType !== 'password') ?
                                   <div className={css.iconRightWithoutPass}>{iconRight}</div> :
                                     null
     return (

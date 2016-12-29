@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import TextInput from 'rambler-ui/TextInput'
+import Input from 'rambler-ui/Input'
 import FormGroup from 'rambler-ui/FormGroup'
 import InputStatus from 'rambler-ui/InputStatus'
 import { ApplyTheme } from 'rambler-ui/theme'
@@ -26,7 +26,7 @@ export default class InputExample extends Component {
             <InputStatus
               type='success'
               message='Зелёный текст' >
-              <TextInput
+              <Input
                 status='success'
                 type='text'
                 name='value4'
@@ -42,7 +42,7 @@ export default class InputExample extends Component {
             <InputStatus
               type='warning'
               message='Текст предупреждения' >
-              <TextInput
+              <Input
                 status='warning'
                 type='text'
                 name='value4'
@@ -60,7 +60,7 @@ export default class InputExample extends Component {
             <InputStatus
               type='error'
               message='Текст ошибки' >
-              <TextInput
+              <Input
                 status='error'
                 type='text'
                 name='value5'
@@ -74,7 +74,7 @@ export default class InputExample extends Component {
         <ApplyTheme>
           <FormGroup inline={true} label='Input disabled' fieldId='name' className='formGroup' style={{width: 600}}>
             <InputStatus message='Без статуса задизэйблена'>
-              <TextInput
+              <Input
                 type='text'
                 value=''
                 onChange={::this.onChange}
@@ -85,7 +85,7 @@ export default class InputExample extends Component {
         </ApplyTheme>
         <ApplyTheme>
           <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup' style={{width: 650}}>
-            <TextInput
+            <Input
               type='password'
               name='value6'
               value={this.state.value6}
@@ -102,7 +102,7 @@ export default class InputExample extends Component {
             <InputStatus
               type='error'
               message='Текст ошибки' >
-              <TextInput
+              <Input
                 status='error'
                 type='text'
                 name='value6'
@@ -118,7 +118,7 @@ export default class InputExample extends Component {
         </ApplyTheme>
         <ApplyTheme>
           <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup' style={{width: 750}}>
-            <TextInput
+            <Input
               type='password'
               name='value6'
               value={this.state.value6}

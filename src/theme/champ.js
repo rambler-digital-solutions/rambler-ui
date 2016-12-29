@@ -125,7 +125,8 @@ export default {
     icon: {
       top: 7,
       left: 0,
-      right: 30
+      right: 30,
+      fill: '#ff4800 !important'
     }
   }
 }
