@@ -227,7 +227,11 @@ export default class Input extends Component {
      *  icon справа
      */
     iconRight: PropTypes.node
-  }
+  };
+
+  static defaultProps = {
+    status: null
+  };
 
   inputTypeHelper = () => {
     this.input.type = this.state.type === 'password' ? 'text' : 'password'

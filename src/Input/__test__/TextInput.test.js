@@ -63,7 +63,7 @@ describe('<Input style={{width: 200}}/>', () => {
           <Input {...defaultProps} />
           <Input {...defaultProps} className='inputCls2' status='warning' />
           <Input {...defaultProps} className='inputCls3' status='error' />
-          <Input {...defaultProps} className='inputCls4' status={false} />
+          <Input {...defaultProps} className='inputCls4' status={null} />
         </InputStatus>
       </FormGroup>
     ))
