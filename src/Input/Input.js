@@ -47,7 +47,7 @@ import { Eye } from '../icons/forms'
     backgroundSize: 'contain',
     cursor: 'pointer',
     color: 'gray',
-    backgroundColor: '#fff',
+    background: 'none',
     '& $eye': {
       fill: theme.inputRequiredProps.inputBaseColor.color
     }
@@ -62,7 +62,7 @@ import { Eye } from '../icons/forms'
     width: '20px',
     backgroundSize: 'contain',
     cursor: 'pointer',
-    backgroundColor: '#fff',
+    background: 'none',
     '& $eye': {
       fill: theme.inputRequiredProps.inputEye.fill
     }
