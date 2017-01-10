@@ -1,6 +1,6 @@
 {
   "name": "rambler-ui-site",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "description": "Rambler UI Docs",
   "main": "index.js",
   "scripts": {
