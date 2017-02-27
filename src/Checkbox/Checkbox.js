@@ -29,8 +29,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
   },
   fake: {
     ...middleMixin,
-    float: 'left',
-    marginRight: theme.checkbox.iconMargin,
+    position: 'absolute',
     boxSizing: 'border-box',
     display: 'inline-block',
     width: theme.checkbox.size,
@@ -51,7 +50,6 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     zIndex: 1
   },
   label: {
-    float: 'right',
     cursor: 'pointer',
     fontSize: 13,
     lineHeight: '15px',
@@ -66,14 +64,18 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
   },
   iconright: {
     '& $fake': {
-      float: 'right',
-      marginLeft: 10
+      right: 0
+    },
+    '& $label': {
+      marginRight: theme.checkbox.size + theme.checkbox.iconMargin
     }
   },
   iconleft: {
     '& $fake': {
-      float: 'left',
-      marginRight: 10
+      left: 0
+    },
+    '& $label': {
+      marginLeft: theme.checkbox.size + theme.checkbox.iconMargin
     }
   },
   isChecked: {
