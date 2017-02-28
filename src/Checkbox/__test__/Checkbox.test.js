@@ -47,9 +47,9 @@ describe('<Checkbox />', () => {
 
     expect(checkboxStyles.width).toEqual('15px')
     expect(checkboxStyles.height).toEqual('15px')
-    expect(checkboxStyles.float).toEqual('left')
+    expect(checkboxStyles.left).toEqual('0px')
     expect(inputStyles.opacity).toEqual('0')
-    expect(labelStyles.float).toEqual('right')
+    expect(labelStyles['margin-left']).toEqual('25px')
     expect(labelStyles.cursor).toEqual('pointer')
 
   })
@@ -64,13 +64,14 @@ describe('<Checkbox />', () => {
 
     expect(containerStyles['margin-top']).toEqual('100px')
 
-    expect(checkboxStyles.float).toEqual('right')
+    expect(checkboxStyles.right).toEqual('0px')
 
     expect(checkboxStyles['border-top-color']).toEqual('rgb(238, 238, 238)')
     expect(checkboxStyles['border-bottom-color']).toEqual('rgb(238, 238, 238)')
     expect(checkboxStyles['background-color']).toEqual('rgb(238, 238, 238)')
     expect(checkboxStyles['margin-bottom']).toEqual('20px')
 
+    expect(labelStyles['margin-right']).toEqual('25px')
     expect(labelStyles['margin-bottom']).toEqual('20px')
     expect(labelStyles.color).toEqual('rgba(38, 38, 38, 0.4)')
 
