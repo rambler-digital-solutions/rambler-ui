@@ -6,7 +6,7 @@
  * Плейграунд
  */
 import React, { PropTypes, Component } from 'react'
-import { render } from 'react/lib/ReactDOM'
+import { render } from 'react-dom'
 import Codemirror from 'react-codemirror'
 import 'codemirror/mode/javascript/javascript'
 import { debounce } from 'core-decorators'
