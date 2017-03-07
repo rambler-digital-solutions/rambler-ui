@@ -177,7 +177,43 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     focusOffset: theme.button.types.outline.focusOffset,
     loaderColor: theme.button.types.outline.loaderColor,
     activeTextColor: theme.button.types.outline.activeTextColor
-  })
+  }),
+  ...theme.button.buttonMixin('flat', {
+    defaultBg: theme.button.types.flat.defaultBg,
+    defaultBorder: theme.button.types.flat.defaultBorder,
+    textColor: theme.button.types.flat.textColor,
+    disabledTextColor: theme.button.types.flat.disabledTextColor,
+    hoverBorder: theme.button.types.flat.hoverBorder,
+    hoverBg: theme.button.types.flat.hoverBg,
+    activeBorder: theme.button.types.flat.activeBorder,
+    activeBg: theme.button.types.flat.activeBg,
+    focusBorder: theme.button.types.flat.focusBorder,
+    focusBg: theme.button.types.flat.focusBg,
+    loadingBorder: theme.button.types.flat.loadingBorder,
+    disabledBorder: theme.button.types.flat.disabledBorder,
+    disabledBg: theme.button.types.flat.disabledBg,
+    focusOffset: theme.button.types.flat.focusOffset,
+    loaderColor: theme.button.types.flat.loaderColor,
+    activeTextColor: theme.button.types.flat.activeTextColor
+  }),
+  ...theme.button.buttonMixin('danger', {
+    defaultBg: theme.button.types.danger.defaultBg,
+    defaultBorder: theme.button.types.danger.defaultBorder,
+    textColor: theme.button.types.danger.textColor,
+    disabledTextColor: theme.button.types.danger.disabledTextColor,
+    hoverBorder: theme.button.types.danger.hoverBorder,
+    hoverBg: theme.button.types.danger.hoverBg,
+    activeBorder: theme.button.types.danger.activeBorder,
+    activeBg: theme.button.types.danger.activeBg,
+    focusBorder: theme.button.types.danger.focusBorder,
+    focusBg: theme.button.types.danger.focusBg,
+    loadingBorder: theme.button.types.danger.loadingBorder,
+    disabledBorder: theme.button.types.danger.disabledBorder,
+    disabledBg: theme.button.types.danger.disabledBg,
+    focusOffset: theme.button.types.danger.focusOffset,
+    loaderColor: theme.button.types.danger.loaderColor,
+    borderRadius: theme.button.types.danger.borderRadius
+  }),
 }))
 export default class Button extends Component {
 
@@ -185,7 +221,7 @@ export default class Button extends Component {
     /**
      * Тип стиля кнопки
      */
-    type: PropTypes.oneOf(['primary', 'secondary', 'outline']),
+    type: PropTypes.oneOf(['primary', 'secondary', 'outline', 'flat', 'danger']),
     /**
      * Если указан href, то кнопка будет ссылкой
      */
