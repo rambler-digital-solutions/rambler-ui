@@ -31,6 +31,10 @@ export default class ButtonExample extends Component {
               <Button style={{margin: 20}} disabled>Disabled</Button>
               <Button style={{margin: 20}} type="outline" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>
               <Button style={{margin: 20}} type="outline" disabled>disabled</Button>
+              <Button style={{margin: 20}} type="danger" onClick={::this.handleClick} loading={this.state.loading}>Удалить мой профиль</Button>
+              <Button style={{margin: 20}} type="danger" disabled>disabled</Button>
+              <Button style={{margin: 20}} type="flat" onClick={::this.handleClick} loading={this.state.loading}>Отменить</Button>
+              <Button style={{margin: 20}} type="flat" disabled>disabled</Button>
             </div>
             <div style={{width: 300, padding: 20, margin: 20, background: '#fafafa', border: '1px solid #eee'}}>
               <Button icon={<RamblerMailIcon/>} style={{marginBottom: 20}} block={true} size="small" onClick={::this.handleClick} loading={this.state.loading}>Кнопка-загрузка</Button>

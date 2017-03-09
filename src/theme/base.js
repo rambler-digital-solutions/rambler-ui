@@ -148,7 +148,45 @@ export default {
         loadingDot: '#315efb',
         disabledBorder: '#eee',
         disabledBg: '#eee',
-        focusOffset: 0
+        focusOffset: 0,
+        borderRadius: 0
+      },
+      flat: {
+        textColor: '#262626',
+        loaderColor: '#315efb',
+        disabledTextColor: 'rgba(38, 38, 38, .4)',
+        defaultBg: '#fff',
+        defaultBorder: '#fff',
+        hoverBorder: '#f9f9f9',
+        hoverBg: '#f9f9f9',
+        activeBorder: '#ccc',
+        activeBg: '#eee',
+        focusBorder: '#315efb',
+        focusBg: '#fff',
+        loadingBorder: '#ccc',
+        loadingDot: '#315efb',
+        disabledBorder: '#fff',
+        disabledBg: '#fff',
+        focusOffset: 0,
+        borderRadius: 0
+      },
+      danger: {
+        textColor: '#fff',
+        loaderColor: '#fff',
+        disabledTextColor: 'rgba(255, 255, 255, .4)',
+        defaultBg: '#ff564c',
+        defaultBorder: '#ff564c',
+        hoverBorder: '#f0473d',
+        hoverBg: '#f0473d',
+        activeBorder: '#e63d33',
+        activeBg: '#e63d33',
+        focusBorder: '#fa5147',
+        focusBg: '#fa5147',
+        loadingBorder: '#315efb',
+        disabledBorder: '#ff564c',
+        disabledBg: '#ff564c',
+        focusOffset: 3,
+        borderRadius: 0
       }
     },
     buttonMixin: styleButtonBaseMixin
