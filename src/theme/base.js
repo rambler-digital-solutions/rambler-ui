@@ -35,7 +35,9 @@ const styleButtonBaseMixin = (type, options) => ({
       color: `${options.disabledTextColor} !important`,
       background: options.disabledBg
     },
-    '& $loaderDot': { background: options.loaderColor }
+    ...options.loaderColor && {
+      '& $loaderDot': { background: options.loaderColor }
+    }
   }
 })
 
@@ -190,6 +192,19 @@ export default {
       }
     },
     buttonMixin: styleButtonBaseMixin
+  },
+  iconButton: {
+    borderRadius: '50%',
+    sizes: {
+      medium: {
+        size: 40,
+        icon: 20
+      },
+      small: {
+        size: 23,
+        icon: 11
+      }
+    }
   },
   radio: {
     borderRadius: '50%',
