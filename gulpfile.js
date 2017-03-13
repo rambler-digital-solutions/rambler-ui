@@ -62,7 +62,8 @@ gulp.task('build:js', () =>
 gulp.task('copy:build', () =>
   gulp.src([
     __dirname + '/package.json',
-    __dirname + '/.npmignore'
+    __dirname + '/.npmignore',
+    __dirname + '/README.md'
   ])
   .pipe(gulp.dest(buildDir))
 )
