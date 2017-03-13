@@ -50,7 +50,19 @@ export default class SideNavigationItem extends Component {
     /**
      * Выбран ли элемент (автоматически проставляется компонентом `<SideNavigation/>`)
      */
-    isSelected: PropTypes.bool
+    isSelected: PropTypes.bool,
+    /**
+     * Если указан href, то элемент будет ссылкой
+     */
+    href: PropTypes.string,
+    /**
+     * Атрибут target для ссылки, если указан атрибут href
+     */
+    target: PropTypes.string,
+    /**
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
+     */
+    container: PropTypes.element
   }
 
   render() {
