@@ -20,7 +20,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     color: 'inherit'
   }
 }))
-export default class SideNavigationItem extends Component {
+export default class SideNavItem extends Component {
 
   static propTypes = {
     /**
@@ -40,7 +40,7 @@ export default class SideNavigationItem extends Component {
      */
     icon: PropTypes.node,
     /**
-     * Размер компонента (автоматически проставляется компонентом `<SideNavigation/>`)
+     * Размер компонента (автоматически проставляется компонентом `<SideNav/>`)
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
@@ -48,7 +48,7 @@ export default class SideNavigationItem extends Component {
      */
     value: PropTypes.any,
     /**
-     * Выбран ли элемент (автоматически проставляется компонентом `<SideNavigation/>`)
+     * Выбран ли элемент (автоматически проставляется компонентом `<SideNav/>`)
      */
     isSelected: PropTypes.bool,
     /**

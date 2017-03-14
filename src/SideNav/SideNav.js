@@ -17,7 +17,7 @@ import { isolateMixin } from '../style/mixins'
     }
   }
 }))
-export default class SideNavigation extends Component {
+export default class SideNav extends Component {
 
   static propTypes = {
     /**
@@ -29,7 +29,7 @@ export default class SideNavigation extends Component {
      */
     style: PropTypes.object,
     /**
-     * Элементы навигации, обязаны быть компонентами типа `<SideNavigationItem/>`
+     * Элементы навигации, обязаны быть компонентами типа `<SideNavItem/>`
      */
     children: PropTypes.node,
     /**
