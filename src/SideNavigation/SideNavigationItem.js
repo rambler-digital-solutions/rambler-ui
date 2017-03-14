@@ -46,7 +46,7 @@ export default class SideNavigationItem extends Component {
     /**
      * Значение, соответствующее этому элементу
      */
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
     /**
      * Выбран ли элемент (автоматически проставляется компонентом `<SideNavigation/>`)
      */
