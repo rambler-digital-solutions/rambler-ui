@@ -209,8 +209,10 @@ export default class Checkbox extends Component {
       checkboxStyle,
       labelClassName,
       labelStyle,
+      children,
       theme,
-      sheet: { classes: css }
+      sheet: { classes: css },
+      ...other
     } = this.props
     const { checked = false, focused } = this.state
     const stateClasses = {
@@ -222,6 +224,7 @@ export default class Checkbox extends Component {
     return (
       <div className={resultClassName} style={style}>
         <input
+          {...other}
           ref={input => { this.input = input }}
           checked={ checked }
           name={ name }
@@ -235,7 +238,7 @@ export default class Checkbox extends Component {
           <TickIcon className={ css.icon } size={ 12 } color={ theme.checkbox.activeBorderColor } />
         </span>
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
-          { this.props.children }
+          { children }
         </span>
       </div>
     )
