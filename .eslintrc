@@ -35,7 +35,7 @@
     consistent-return: ["off"]
     no-underscore-dangle: ["error", { "allowAfterThis": true }]
     no-nested-ternary: ["off"]
-    import/no-unresolved: ["warn"]
+    import/no-unresolved: ["off"]
     func-names: ["off"]
   settings:
     import/core-modules: [ react ]

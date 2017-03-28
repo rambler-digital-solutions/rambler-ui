@@ -8,7 +8,8 @@
     "dev": "cd site && npm run dev",
     "release": "npm run build && cd build && npm publish",
     "build": "NODE_ENV=production gulp build",
-    "precommit": "gulp precommit && npm run test"
+    "precommit": "npm run eslint && npm run test",
+    "eslint": "./node_modules/eslint/bin/eslint.js \"./**/*.js\" --fix"
   },
   "repository": {
     "type": "git",

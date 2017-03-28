@@ -144,7 +144,7 @@ export default class PropTypesTable extends Component {
         defaultValue = prop.defaultValue.value.replace(/\n/g, '')
 
       if (prop.required) {
-        key = `<span style="color: #31a148">${key} \*</span>`
+        key = `<span style="color: #31a148">${key} *</span>`
         requiredProps += 1
       }
 

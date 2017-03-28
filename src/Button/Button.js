@@ -213,7 +213,7 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     focusOffset: theme.button.types.danger.focusOffset,
     loaderColor: theme.button.types.danger.loaderColor,
     borderRadius: theme.button.types.danger.borderRadius
-  }),
+  })
 }))
 export default class Button extends Component {
 
