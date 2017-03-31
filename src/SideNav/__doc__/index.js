@@ -12,7 +12,7 @@ export const title = 'Боковая навигация'
 export default () => (
   <div>
     <Playground code={examplesCode} title="Пример" />
-    <Playground code={examplesCodeHref} canEdit={false} showPreview={false} title="Пример со ссылками" />
+    <Playground code={examplesCodeHref} title="Пример со ссылками" />
     <Playground code={examplesCodeRouter} canEdit={false} showPreview={false} title="Пример использования с react-router" />
     <PropTypesTable code={codeSideNav} header="### Свойства `<SideNav/>`" />
     <PropTypesTable code={codeSideNavItem} header="### Свойства `<SideNavItem/>`" />
