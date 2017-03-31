@@ -1,5 +1,7 @@
+import React, { cloneElement } from 'react'
 import { findDOMNode } from 'react-dom'
 import { mount as enzymeMount } from 'enzyme'
+import { ApplyTheme } from '../theme'
 import once from 'lodash/once'
 
 const provideContainer = once(() => {
@@ -25,7 +27,25 @@ export function getNodeStyles(node) {
   return resultStyles
 }
 
+export function getComponent(wrappedComponent) {
+  return wrappedComponent.get(0)
+}
+
+export function getWrapperNode(wrappedComponent) {
+  return findDOMNode(getComponent(wrappedComponent))
+}
+
 export function getStyles(wrappedComponent) {
-  const node = findDOMNode(wrappedComponent.get(0))
-  return getNodeStyles(node)
+  return getNodeStyles(getWrapperNode(wrappedComponent))
+}
+
+export function applyTheme(children) {
+  return <ApplyTheme>{ children }</ApplyTheme>
+}
+
+export function withTheme(element) {
+  const Result = (props) =>
+    <ApplyTheme>{ cloneElement(element, props) }</ApplyTheme>
+  Result.displayName = element.displayName
+  return <Result />
 }

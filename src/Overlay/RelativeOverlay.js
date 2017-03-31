@@ -1,9 +1,13 @@
 import React, { PureComponent, PropTypes, cloneElement } from 'react'
 import { findOverflowedParent } from '../utils/scroll'
+import { injectSheet } from '../theme'
 import classnames from 'classnames'
 import pickBy from 'lodash/pickBy'
 import EventEmitter from 'events'
 
+/**
+ * Правила переноса контента, если он выходит за пределы видимости
+ */
 const mappingPoints = {
   right: 'left',
   left: 'right',
@@ -12,6 +16,10 @@ const mappingPoints = {
   top: 'bottom'
 }
 
+/**
+ * Не все браузеры содержат width и height
+ * Дополняем этими свойствами результат
+ */
 function boundingRect(element) {
   const rect = element.getBoundingClientRect()
   if (rect.height === undefined)
@@ -54,6 +62,7 @@ function getPositionOptions(params) {
   } = params
 
   let left, right, top, bottom, translateX = '0%', translateY = '0%', overflowX = 0, overflowY = 0
+  let newAnchorPointX, newAnchorPointY
 
   if (contentPointX === 'left') {
     if (anchorPointX === 'left') {
@@ -77,6 +86,12 @@ function getPositionOptions(params) {
         overflowX = anchorRect.left + contentWidth / 2 - parentRect.right
     } else if (anchorPointX === 'center') {
       left = '50%'
+      if (autoPositionX) {
+        const overflowXLeft = parentRect.left - (anchorRect.left + anchorRect.width / 2 - contentWidth / 2)
+        const overflowXRight = (anchorRect.left + anchorRect.width / 2 + contentWidth / 2) - parentRect.right
+        overflowX = Math.max(overflowXRight, overflowXLeft)
+        newAnchorPointX = overflowXLeft > overflowXRight ? 'left' : 'right'
+      }
     } else if (anchorPointX === 'right') {
       left = '100%'
       if (autoPositionX)
@@ -132,6 +147,12 @@ function getPositionOptions(params) {
       }
     } else if (anchorPointY === 'center') {
       top = '50%'
+      if (autoPositionX) {
+        const overflowXTop = parentRect.top - (anchorRect.top + anchorRect.height / 2 - contentHeight / 2)
+        const overflowXBottom = (anchorRect.top + anchorRect.height / 2 + contentHeight / 2) - parentRect.bottom
+        overflowY = Math.max(overflowXTop, overflowXBottom)
+        newAnchorPointY = overflowXTop > overflowXBottom ? 'top' : 'right'
+      }
     } else if (anchorPointY === 'bottom') {
       top = '100%'
       if (autoPositionY) {
@@ -165,33 +186,34 @@ function getPositionOptions(params) {
     }
   }
 
-
-  if (overflowX > 0 && !noRecalculate) {
-    const result = getPositionOptions({
-      ...params,
-      anchorPointX: mappingPoints[anchorPointX],
-      contentPointX: mappingPoints[contentPointX],
-      noRecalculate: true
-    })
-    if (result.overflowX < overflowX) {
-      left = result.left
-      right = result.right
-      translateX = result.translateX
-      overflowX = result.overflowX
+  if (!noRecalculate) {
+    if (overflowX > 0) {
+      const result = getPositionOptions({
+        ...params,
+        anchorPointX: newAnchorPointX || mappingPoints[anchorPointX],
+        contentPointX: newAnchorPointX || mappingPoints[contentPointX],
+        noRecalculate: true
+      })
+      if (result.overflowX < overflowX) {
+        left = result.left
+        right = result.right
+        translateX = result.translateX
+        overflowX = result.overflowX
+      }
     }
-  }
-  if (overflowX > 0 && !noRecalculate) {
-    const result = getPositionOptions({
-      ...params,
-      anchorPointY: mappingPoints[anchorPointY],
-      contentPointY: mappingPoints[contentPointY],
-      noRecalculate: true
-    })
-    if (result.overflowY < overflowY) {
-      top = result.top
-      bottom = result.bottom
-      translateY = result.translateY
-      overflowY = result.overflowY
+    if (overflowY > 0) {
+      const result = getPositionOptions({
+        ...params,
+        anchorPointY: newAnchorPointY || mappingPoints[anchorPointY],
+        contentPointY: newAnchorPointY || mappingPoints[contentPointY],
+        noRecalculate: true
+      })
+      if (result.overflowY < overflowY) {
+        top = result.top
+        bottom = result.bottom
+        translateY = result.translateY
+        overflowY = result.overflowY
+      }
     }
   }
 
@@ -238,6 +260,16 @@ function getContentProps(params) {
 /**
  * Оверлей, который оборачивает внутри children, и позиционируется относительно children рядом с ними
  */
+@injectSheet(() => ({
+  container: {
+    position: 'relative',
+    display: 'inline-block'
+  },
+  content: {
+    position: 'absolute',
+    zIndex: 1
+  }
+}))
 export default class RelativeOverlay extends PureComponent {
 
   static propTypes = {
@@ -250,37 +282,33 @@ export default class RelativeOverlay extends PureComponent {
      */
     style: PropTypes.object,
     /**
-     * Класс обертки оверлея
-     */
-    contentClassName: PropTypes.string,
-    /**
      * Флаг управления показом оверлея
      */
-    isShown: PropTypes.bool,
+    isShown: PropTypes.bool.isRequired,
     /**
      * Точка прицепления для achor X
      */
-    anchorPointX: PropTypes.oneOf(['left', 'right', 'center']),
+    anchorPointX: PropTypes.oneOf(['left', 'right', 'center']).isRequired,
     /**
      * Точка прицепления для achor Y
      */
-    anchorPointY: PropTypes.oneOf(['top', 'bottom', 'center']),
+    anchorPointY: PropTypes.oneOf(['top', 'bottom', 'center']).isRequired,
     /**
      * Точка прицепления для overlay X
      */
-    contentPointX: PropTypes.oneOf(['left', 'right', 'center']),
+    contentPointX: PropTypes.oneOf(['left', 'right', 'center']).isRequired,
     /**
      * Точка прицепления для overlay Y
      */
-    contentPointY: PropTypes.oneOf(['top', 'bottom', 'center']),
+    contentPointY: PropTypes.oneOf(['top', 'bottom', 'center']).isRequired,
     /**
      * Автоматическое позиционирование, если контент по оси X выходи за пределы scroll-контейнера
      */
-    autoPositionX: true,
+    autoPositionX: PropTypes.bool,
     /**
      * Автоматическое позиционирование, если контент по оси Y выходи за пределы scroll-контейнера
      */
-    autoPositionY: true,
+    autoPositionY: PropTypes.bool,
     /**
      * Элемент вокруг которого показываем overlay
      */
@@ -308,13 +336,6 @@ export default class RelativeOverlay extends PureComponent {
      */
     onContentShow: PropTypes.func
   };
-
-  /**
-   * Показан ли оверлей в данный момент
-   */
-  get isShown() {
-    return this.state.isContentVisible
-  }
 
   constructor(props) {
     super(props)
@@ -353,12 +374,19 @@ export default class RelativeOverlay extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.isShown !== undefined && nextProps.isShown !== this.props.isShown)
-      if (nextProps.isShown)
+  componentWillReceiveProps({isShown, anchorPointX, anchorPointY, contentPointX, contentPointY}) {
+    if (isShown !== undefined && isShown !== this.props.isShown)
+      if (isShown)
         this.show()
       else
         this.hide()
+
+    else if (isShown &&
+      (this.props.anchorPointX !== anchorPointX ||
+        this.props.anchorPointY !== anchorPointY ||
+        this.props.contentPointX !== contentPointX ||
+        this.props.contentPointY !== contentPointY))
+      this.show()
 
   }
 
@@ -389,7 +417,7 @@ export default class RelativeOverlay extends PureComponent {
 
   onContentMount = (element) => {
     this.contentElement = element
-    this.calculateContentPosition()
+    this.updateContentPosition()
   };
 
   onContainerMount = (element) => {
@@ -399,7 +427,7 @@ export default class RelativeOverlay extends PureComponent {
   /**
    * Вычислить позицию
    */
-  calculateContentPosition() {
+  updateContentPosition() {
     if (!this.state.isContentInDom || !this.contentElement)
       return
     // Вычисляем новый contentPoint, если нужно, в зависимости от ширины и высоты contentElement
@@ -415,7 +443,6 @@ export default class RelativeOverlay extends PureComponent {
     } = this.props
 
     const parent = findOverflowedParent(this.containerElement, true)
-
     const containerRect = boundingRect(this.containerElement)
     const parentRect = boundingRect(parent)
 
@@ -432,7 +459,7 @@ export default class RelativeOverlay extends PureComponent {
       autoPositionY
     })
 
-    this.events.emit('updateContentStyle', contentProps)
+    this.events.emit('newContentPosition', contentProps)
   }
 
   /**
@@ -444,15 +471,17 @@ export default class RelativeOverlay extends PureComponent {
       isContentInDom: true
     })
 
-    const whenPositioned = new Promise((resolve) => {
+    const whenPositioned = new Promise((resolve, reject) => {
       const handler = (result) => {
-        if (transactionIndex === this.transactionIndex) {
+        if (transactionIndex === this.transactionIndex)
           resolve(result)
-          this.events.removeListener('updateContentStyle', handler)
-        }
+        if (transactionIndex <= this.transactionIndex)
+          this.events.removeListener('newContentPosition', handler)
+        if (transactionIndex < this.transactionIndex)
+          reject()
       }
-      this.events.on('updateContentStyle', handler)
-      this.calculateContentPosition()
+      this.events.on('newContentPosition', handler)
+      this.updateContentPosition()
     })
 
     whenPositioned.then(({style, pointX, pointY}) => {
@@ -466,16 +495,22 @@ export default class RelativeOverlay extends PureComponent {
       })
     })
 
-    const whenVisible = new Promise((resolve) => {
+    const whenVisible = new Promise((resolve, reject) => {
       const handler = () => {
-        if (transactionIndex === this.transactionIndex) {
+        if (transactionIndex === this.transactionIndex)
           resolve()
+        if (transactionIndex <= this.transactionIndex)
           this.events.removeListener('contentVisible', handler)
-        }
+        if (transactionIndex < this.transactionIndex)
+          reject()
       }
+      this.events.on('contentVisible', handler)
     })
 
-    return Promise.all([whenPositioned, whenVisible])
+    return Promise.all([whenPositioned, whenVisible]).then(() => {
+      if (this.props.onContentShow)
+        this.props.onContentShow()
+    })
   }
 
   /**
@@ -486,22 +521,25 @@ export default class RelativeOverlay extends PureComponent {
     this.setState({
       isContentVisible: false
     })
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       const handler = () => {
-        if (transactionIndex === this.transactionIndex) {
-          resolve()
-          this.setState({isContentInDom: false})
-          this.events.removeListener('contentInvisible')
-        }
+        if (transactionIndex === this.transactionIndex)
+          this.setState({isContentInDom: false}, resolve)
+        if (transactionIndex <= this.transactionIndex)
+          this.events.removeListener('contentInvisible', handler)
+        if (transactionIndex < this.transactionIndex)
+          reject()
       }
-      this.events.once('contentInvisible', handler)
+      this.events.on('contentInvisible', handler)
+    }).then(() => {
+      if (this.props.onContentHide)
+        this.props.onContentHide()
     })
   }
 
   render() {
     const {
       className,
-      contentClassName,
       style,
       anchor,
       content,
@@ -520,25 +558,25 @@ export default class RelativeOverlay extends PureComponent {
     if (isContentInDom)
       contentElement = (
         <div
-          className={ classnames(contentClassName, css.content, this.getContentPositionClassNames()) }
+          className={ css.content }
           style={ contentStyle }
           ref={ this.onContentMount} >
-        {
-          cloneElement(content, {
-            isVisible: isContentVisible,
-            pointX: contentPointX,
-            pointY: contentPointY,
-            anchorWidth,
-            anchorHeight,
-            onBecomeVisible: this.onContentBecomeVisible,
-            onBecomeInvisible: this.onContentBecomeInvisible
-          })
-        }
+          {
+            cloneElement(content, {
+              isVisible: isContentVisible,
+              pointX: contentPointX,
+              pointY: contentPointY,
+              anchorWidth,
+              anchorHeight,
+              onBecomeVisible: this.onContentBecomeVisible,
+              onBecomeInvisible: this.onContentBecomeInvisible
+            })
+          }
         </div>
       )
     return (
       <div
-        className={classnames(className, css.container, this.getContainerPositionClassNames())}
+        className={classnames(className, css.container)}
         style={style}
         ref={this.onContainerMount}>
         {anchor}
