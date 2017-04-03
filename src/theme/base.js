@@ -74,7 +74,6 @@ export default {
     }
   },
   sideNav: {
-    color: '#000',
     iconColor: 'rgba(94, 94, 94, 0.4)',
     selectedIconColor: '#262626',
     selectedBorderColor: '#315efb',
