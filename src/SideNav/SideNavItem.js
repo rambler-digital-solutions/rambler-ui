@@ -146,8 +146,10 @@ class SideNavItem extends Component {
 
     const resultClassName = classnames(
       css.sideNavItem,
-      mediumSize && css.medium,
-      isSelected && css.isSelected,
+      {
+        [css.medium]: mediumSize,
+        [css.isSelected]: isSelected && !container
+      },
       className
     )
 
