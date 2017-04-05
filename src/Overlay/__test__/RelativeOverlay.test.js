@@ -142,32 +142,50 @@ describe('<RelativeOverlay />', () => {
     done()
   })
 
-  // xit('props.isShown is false', () => {
+  it('anchor: right/center, content: left/center, autoPositionY=true', async (done) => {
+    wrapper = mountWrapper({
+      anchorPointX: 'left',
+      anchorPointY: 'top',
+      contentPointX: 'left',
+      contentPointY: 'bottom',
+      autoPositionY: true,
+      style: {
+        position: 'fixed',
+        right: 0,
+        top: 0
+      }
+    })
+    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await whenContentShow
+    const rootNode = getWrapperNode(wrapper)
+    const contentNode = rootNode.querySelector('.anchor + div')
+    expect(contentNode.style.left).toBe('0%')
+    expect(contentNode.style.top).toBe('100%')
+    expect(contentNode.style.transform).toBe('translate(0%, 0%)')
+    done()
+  })
 
-  // })
-
-  // xit('show', () => {
-
-  // })
-
-  // xit('hide', () => {
-
-  // })
-
-
-  // Проверить, что правильно скрывается/открывается
-  // 1. Метод show
-  // 2. Метод hide
-  // 3. Выставление props.isShown = true
-  // 4. Выставление props.isShown = false
-  // 5. Вызывается метод props.onContentShow
-  // 6. Вызывается метод props.onContentHide
-  //
-  // Проверить правильное позиционирование
-  // всевозможные варианты anchorPointX/anchorPointY/contentPointX/contentPointY
-  //
-  // Проверить смену позиционирования
-  // autoPositionX
-  // autoPositionY
+  it('anchor: center/bottom, content: center/top, autoPositionX=true', async (done) => {
+    wrapper = mountWrapper({
+      anchorPointX: 'center',
+      anchorPointY: 'bottom',
+      contentPointX: 'center',
+      contentPointY: 'top',
+      autoPositionX: true,
+      style: {
+        position: 'fixed',
+        right: 0,
+        top: 0
+      }
+    })
+    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await whenContentShow
+    const rootNode = getWrapperNode(wrapper)
+    const contentNode = rootNode.querySelector('.anchor + div')
+    expect(contentNode.style.right).toBe('0%')
+    expect(contentNode.style.top).toBe('100%')
+    expect(contentNode.style.transform).toBe('translate(0%, 0%)')
+    done()
+  })
 
 })

@@ -4,6 +4,11 @@ import { mount as enzymeMount } from 'enzyme'
 import { ApplyTheme } from '../theme'
 import once from 'lodash/once'
 
+const bodyStyle = document.body.style
+const htmlStyle = document.documentElement.style
+
+bodyStyle.height = bodyStyle.minHeight = htmlStyle.height = htmlStyle.minHeight = '100%'
+
 const provideContainer = once(() => {
   const container = document.createElement('div')
   container.className = 'test-container'

@@ -6,8 +6,8 @@
  */
 export function findScrollableParent(element, noCheckScrollHeight) {
   element = element.parentElement
-  if (!element || element === document.documentElement)
-    return document.documentElement
+  if (!element || element === document.body)
+    return document.body
   if (noCheckScrollHeight || element.scrollHeight > element.clientHeight ||
     element === document.body ||
     element === document.documentElement) {

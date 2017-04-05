@@ -201,12 +201,13 @@ function getPositionOptions(params) {
       }
     }
     if (autoPositionY && overflowY > 0) {
-      const result = getPositionOptions({
+      const newParams = {
         ...params,
         anchorPointY: newAnchorPointY || mappingPoints[anchorPointY],
         contentPointY: newAnchorPointY || mappingPoints[contentPointY],
         noRecalculate: true
-      })
+      }
+      const result = getPositionOptions(newParams)
       if (result.overflowY < overflowY) {
         top = result.top
         bottom = result.bottom
