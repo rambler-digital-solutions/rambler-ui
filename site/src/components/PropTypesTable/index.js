@@ -1,10 +1,4 @@
-/*
-  eslint
-  no-case-declarations: ['off'],
-  no-useless-concat: ['off'],
-  no-restricted-syntax: ['off'],
-  guard-for-in: ['off']
- */
+/* eslint no-case-declarations: ["off"], no-useless-concat: ["off"], no-restricted-syntax: ["off"], guard-for-in: ["off"] */
 /**
  * @see https://github.com/callemall/material-ui/blob/master/docs/src/app/components/PropTypeDescription.js
  */

@@ -1,6 +1,4 @@
-/* eslint strict: ['off'] */
-'use strict'
-
+/* eslint strict: ["off"] */
 const _ = require('lodash')
 const async = require('async')
 const gulp = require('gulp')

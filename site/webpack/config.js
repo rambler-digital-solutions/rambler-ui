@@ -1,11 +1,4 @@
-/*
-  eslint
-  strict: ['off'],
-  no-console: ['off'],
-  global-require: ['off']
-*/
-'use strict'
-
+/* eslint strict: ["off"], no-console: ["off"], global-require: ["off"] */
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')

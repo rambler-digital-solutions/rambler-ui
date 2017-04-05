@@ -1,4 +1,4 @@
-/* eslint global-require: ['off'] */
+/* eslint global-require: ["off"] */
 
 import {Component, PropTypes} from 'react'
 import marked from 'marked'

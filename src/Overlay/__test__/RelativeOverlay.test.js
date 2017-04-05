@@ -34,91 +34,112 @@ class Content extends Component {
   }
 }
 
-function Anchor() {
-  return <div className="anchor" style={{border: '1px solid black', padding: '10px'}}>anchor</div>
+function Anchor({style = {}}) {
+  return <div className="anchor" style={{border: '1px solid black', padding: '10px', ...style}}>anchor</div>
 }
 
 describe('<RelativeOverlay />', () => {
+  let callbacks, whenContentShow, whenContentHide, wrapper
 
-  // const anchor = <Anchor />
-  // const content = <Content />
-  // const overlayProps = {
-  //   anchor,
-  //   content,
-  //   className,
-  //   contentClassName: 'content',
-  //   isShown,
-  //   anchorPointX,
-  //   anchorPointY,
-  //   contentPointX,
-  //   contentPointY,
-  //   autoPositionX,
-  //   autoPositionY,
-  //   onContentHide,
-  //   onContentShow
-  // }
+  const mountWrapper = (props, anchorProps = {}) => (
+    mount(
+      withTheme(
+        <RelativeOverlay
+          isShown={false}
+          anchor={<Anchor {...anchorProps} />}
+          content={<Content />}
+          onContentShow={callbacks.onContentShow}
+          onContentHide={callbacks.onContentHide}
+          {...props}
+        />
+      )
+    )
+  )
 
-  // beforeEach(() => {
-
-  // })
-
-  it('props.isShown is true', (done) => {
-    const callbacks = {}
-    const whenContentShow = new Promise((resolve) => {
+  beforeEach(() => {
+    callbacks = {}
+    whenContentShow = new Promise((resolve) => {
       callbacks.onContentShow = resolve
     })
-    const whenContentHide = new Promise((resolve) => {
+    whenContentHide = new Promise((resolve) => {
       callbacks.onContentHide = resolve
     })
     spyOn(callbacks, 'onContentShow').and.callThrough()
     spyOn(callbacks, 'onContentHide').and.callThrough()
-    const wrapper = mount(
-      withTheme(
-        <RelativeOverlay
-          isShown={false}
-          anchor={<Anchor />}
-          content={<Content />}
-          anchorPointX="right"
-          anchorPointY="center"
-          contentPointX="left"
-          contentPointY="center"
-          onContentShow={callbacks.onContentShow}
-          onContentHide={callbacks.onContentHide}
-        />
-      )
-    )
+  })
 
-    wrapper.setProps({
-      isShown: true
-    }, () => {
-      expect(callbacks.onContentShow).not.toHaveBeenCalled()
-      expect(callbacks.onContentHide).not.toHaveBeenCalled()
-      whenContentShow.then(() => {
-        const rootNode = getWrapperNode(wrapper)
-        const contentNode = rootNode.querySelector('.anchor + div')
-        const rootStyles = getNodeStyles(rootNode)
-        const contentBodyStyles = getNodeStyles(contentNode.querySelector('.content-body'))
-        const contentStyles = getNodeStyles(contentNode)
-        expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
-        expect(callbacks.onContentHide).not.toHaveBeenCalled()
-        expect(contentBodyStyles.opacity).toBe('1')
-        expect(rootStyles.display).toBe('inline-block')
-        expect(rootStyles.position).toBe('relative')
-        expect(contentStyles.position).toBe('absolute')
-        expect(contentNode.style.left).toBe('100%')
-        expect(contentNode.style.top).toBe('50%')
-        expect(contentNode.style.transform).toBe('translate(0%, -50%)')
-        wrapper.setProps({
-          isShown: false
-        }, () => {
-          whenContentHide.then(() => {
-            expect(callbacks.onContentHide).toHaveBeenCalledTimes(1)
-            expect(rootNode.querySelector('.anchor + div')).toBe(null)
-            done()
-          })
-        })
-      })
+  afterEach(() => {
+    wrapper.unmount()
+  })
+
+  it('show/hide', async (done) => {
+    wrapper = mountWrapper({
+      anchorPointX: 'right',
+      anchorPointY: 'center',
+      contentPointX: 'left',
+      contentPointY: 'center'
     })
+    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    expect(callbacks.onContentShow).not.toHaveBeenCalled()
+    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    await whenContentShow
+    const rootNode = getWrapperNode(wrapper)
+    const contentNode = rootNode.querySelector('.anchor + div')
+    const rootStyles = getNodeStyles(rootNode)
+    const contentBodyStyles = getNodeStyles(contentNode.querySelector('.content-body'))
+    const contentStyles = getNodeStyles(contentNode)
+    expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    expect(contentBodyStyles.opacity).toBe('1')
+    expect(rootStyles.display).toBe('inline-block')
+    expect(rootStyles.position).toBe('relative')
+    expect(contentStyles.position).toBe('absolute')
+    await new Promise((resolve) => { wrapper.setProps({isShown: false}, resolve) })
+    await whenContentHide
+    expect(callbacks.onContentHide).toHaveBeenCalledTimes(1)
+    expect(rootNode.querySelector('.anchor + div')).toBe(null)
+    done()
+  })
+
+
+  it('anchor: right/center, content: left/center', async (done) => {
+    wrapper = mountWrapper({
+      anchorPointX: 'right',
+      anchorPointY: 'center',
+      contentPointX: 'left',
+      contentPointY: 'center'
+    })
+    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await whenContentShow
+    const rootNode = getWrapperNode(wrapper)
+    const contentNode = rootNode.querySelector('.anchor + div')
+    expect(contentNode.style.left).toBe('100%')
+    expect(contentNode.style.top).toBe('50%')
+    expect(contentNode.style.transform).toBe('translate(0%, -50%)')
+    done()
+  })
+
+  it('anchor: right/center, content: left/center, autoPositionX=true', async (done) => {
+    wrapper = mountWrapper({
+      anchorPointX: 'right',
+      anchorPointY: 'center',
+      contentPointX: 'left',
+      contentPointY: 'center',
+      autoPositionX: true,
+      style: {
+        position: 'fixed',
+        right: 0,
+        top: 0
+      }
+    })
+    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await whenContentShow
+    const rootNode = getWrapperNode(wrapper)
+    const contentNode = rootNode.querySelector('.anchor + div')
+    expect(contentNode.style.right).toBe('100%')
+    expect(contentNode.style.top).toBe('50%')
+    expect(contentNode.style.transform).toBe('translate(0%, -50%)')
+    done()
   })
 
   // xit('props.isShown is false', () => {

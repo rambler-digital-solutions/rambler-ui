@@ -2,7 +2,6 @@ import React, { PureComponent, PropTypes, cloneElement } from 'react'
 import { findOverflowedParent } from '../utils/scroll'
 import { injectSheet } from '../theme'
 import classnames from 'classnames'
-import pickBy from 'lodash/pickBy'
 import EventEmitter from 'events'
 
 /**
@@ -187,7 +186,7 @@ function getPositionOptions(params) {
   }
 
   if (!noRecalculate) {
-    if (overflowX > 0) {
+    if (autoPositionX && overflowX > 0) {
       const result = getPositionOptions({
         ...params,
         anchorPointX: newAnchorPointX || mappingPoints[anchorPointX],
@@ -201,7 +200,7 @@ function getPositionOptions(params) {
         overflowX = result.overflowX
       }
     }
-    if (overflowY > 0) {
+    if (autoPositionY && overflowY > 0) {
       const result = getPositionOptions({
         ...params,
         anchorPointY: newAnchorPointY || mappingPoints[anchorPointY],
@@ -244,13 +243,13 @@ function getContentProps(params) {
     contentPointY
   } = getPositionOptions(params)
   return {
-    style: pickBy({
+    style: {
       left,
       right,
       top,
       bottom,
       transform: `translate(${translateX}, ${translateY})`
-    }),
+    },
     pointX: contentPointX,
     pointY: contentPointY
   }
@@ -431,8 +430,6 @@ export default class RelativeOverlay extends PureComponent {
     if (!this.state.isContentInDom || !this.contentElement)
       return
     // Вычисляем новый contentPoint, если нужно, в зависимости от ширины и высоты contentElement
-    const eh = this.contentElement.offsetHeight
-    const ew = this.contentElement.offsetWidth
     const {
       anchorPointX,
       anchorPointY,
@@ -443,20 +440,20 @@ export default class RelativeOverlay extends PureComponent {
     } = this.props
 
     const parent = findOverflowedParent(this.containerElement, true)
-    const containerRect = boundingRect(this.containerElement)
+    const anchorRect = boundingRect(this.containerElement)
     const parentRect = boundingRect(parent)
 
     const contentProps = getContentProps({
-      containerRect,
+      anchorRect,
       parentRect,
-      eh,
-      ew,
       anchorPointX,
       anchorPointY,
       contentPointX,
       contentPointY,
       autoPositionX,
-      autoPositionY
+      autoPositionY,
+      contentHeight: this.contentElement.offsetHeight,
+      contentWidth: this.contentElement.offsetWidth
     })
 
     this.events.emit('newContentPosition', contentProps)

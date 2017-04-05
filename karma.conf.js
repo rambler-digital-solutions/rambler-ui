@@ -6,7 +6,7 @@ module.exports = function (config) {
     frameworks: ['jasmine'],
     files: [
       'node_modules/babel-polyfill/dist/polyfill.js',
-      'src/**/*.test.js'
+      'src/**/RelativeOverlay.test.js'
     ],
 
     preprocessors: {
