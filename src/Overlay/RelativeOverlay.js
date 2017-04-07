@@ -1,9 +1,8 @@
 import React, { PureComponent, PropTypes, cloneElement } from 'react'
-import { findOverflowedParent } from '../utils/scroll'
+import { findOverflowedParent, getBoundingClientRect } from '../utils/DOM'
 import { injectSheet } from '../theme'
 import classnames from 'classnames'
 import EventEmitter from 'events'
-
 /**
  * Правила переноса контента, если он выходит за пределы видимости
  */
@@ -16,20 +15,7 @@ const mappingPoints = {
 }
 
 /**
- * Не все браузеры содержат width и height
- * Дополняем этими свойствами результат
- */
-function boundingRect(element) {
-  const rect = element.getBoundingClientRect()
-  if (rect.height === undefined)
-    rect.height = rect.bottom - rect.top
-  if (rect.width === undefined)
-    rect.width = rect.left - rect.right
-  return rect
-}
-
-/**
- * Получить стиль и, если необходимо, новые оффсеты
+ * Получить опции позиции контента
  * @param  {Object}  params       -
  * @param  {Object}  params.anchorRect    - объект с полями {left, right, top, bottom}
  * @param  {Object}  params.parentRect    - объект с полями {left, right, top, bottom}
@@ -53,11 +39,14 @@ function getPositionOptions(params) {
     contentWidth,
     anchorPointX,
     anchorPointY,
-    contentPointX,
-    contentPointY,
     autoPositionX,
     autoPositionY,
     noRecalculate
+  } = params
+
+  let {
+    contentPointX,
+    contentPointY
   } = params
 
   let left, right, top, bottom, translateX = '0%', translateY = '0%', overflowX = 0, overflowY = 0
@@ -82,7 +71,7 @@ function getPositionOptions(params) {
     if (anchorPointX === 'left') {
       left = '0%'
       if (autoPositionX)
-        overflowX = anchorRect.left + contentWidth / 2 - parentRect.right
+        overflowX = parentRect.left - (anchorRect.left - contentWidth / 2)
     } else if (anchorPointX === 'center') {
       left = '50%'
       if (autoPositionX) {
@@ -198,6 +187,7 @@ function getPositionOptions(params) {
         right = result.right
         translateX = result.translateX
         overflowX = result.overflowX
+        contentPointX = result.contentPointX
       }
     }
     if (autoPositionY && overflowY > 0) {
@@ -213,6 +203,7 @@ function getPositionOptions(params) {
         bottom = result.bottom
         translateY = result.translateY
         overflowY = result.overflowY
+        contentPointY = result.contentPointY
       }
     }
   }
@@ -387,7 +378,6 @@ export default class RelativeOverlay extends PureComponent {
         this.props.contentPointX !== contentPointX ||
         this.props.contentPointY !== contentPointY))
       this.show()
-
   }
 
   componentWillUnmount() {
@@ -441,8 +431,8 @@ export default class RelativeOverlay extends PureComponent {
     } = this.props
 
     const parent = findOverflowedParent(this.containerElement, true)
-    const anchorRect = boundingRect(this.containerElement)
-    const parentRect = boundingRect(parent)
+    const anchorRect = getBoundingClientRect(this.containerElement)
+    const parentRect = getBoundingClientRect(parent)
 
     const contentProps = getContentProps({
       anchorRect,

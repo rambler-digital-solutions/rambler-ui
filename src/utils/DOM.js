@@ -1,4 +1,19 @@
 /**
+ * Полифилл для MutationObserver
+ */
+export const MutationObserver =
+  window.MutationObserver ||
+  window.WebKitMutationObserver ||
+  window.MozMutationObserver ||
+  ((callback) => {
+    let interval
+    return {
+      observe() { interval = setInterval(callback, 2e3) },
+      disconnect() { clearInterval(interval) }
+    }
+  })
+
+/**
  * Найти родителя, которого скроллим
  * @param  {HTMLElement} element - элемент, для которого ищет родительский элемент
  * @paran  {Boolean} noCheckScrollHeight - проверять
@@ -36,4 +51,17 @@ export function getScroll(element) {
   if (element === document.body || element === document.documentElement)
     return document.body.scrollTop || document.documentElement.scrollTop
   return element.scrollTop
+}
+
+/**
+ * Не все браузеры содержат width и height
+ * Дополняем этими свойствами результат
+ */
+export function getBoundingClientRect(element) {
+  const rect = element.getBoundingClientRect()
+  if (rect.height === undefined)
+    rect.height = rect.bottom - rect.top
+  if (rect.width === undefined)
+    rect.width = rect.left - rect.right
+  return rect
 }
