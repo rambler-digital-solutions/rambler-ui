@@ -281,14 +281,6 @@ export default class FixedOverlay extends PureComponent {
 
   static propTypes = {
     /**
-     * Класс контейнера
-     */
-    className: PropTypes.string,
-    /**
-     * Стиль контейнера
-     */
-    style: PropTypes.object,
-    /**
      * Флаг управления показом оверлея
      */
     isShown: PropTypes.bool.isRequired,
@@ -335,6 +327,10 @@ export default class FixedOverlay extends PureComponent {
      */
     content: PropTypes.node,
     /**
+     * Функция, которая вызывается при маунтинге/анмаунтинге контейнера для контента
+     */
+    contentWrapperRef: PropTypes.func,
+    /**
      * Колбек, который дергается, когда контент открыт
      */
     onContentHide: PropTypes.func,
@@ -379,8 +375,8 @@ export default class FixedOverlay extends PureComponent {
     this.anchorNode = findDOMNode(this)
     if (!this.anchorNode)
       throw new Error('Anchor node for FixedOverlay does not found')
-    this.anchorNodeObserver = new MutationObserver(this.updatePosition)
-    this.anchorNodeObserver.observe({ subtree: true, childList: true, attributes: true })
+    this.anchorNodeObserver = new MutationObserver(debounce(this.updatePosition))
+    this.anchorNodeObserver.observe(this.anchorNode, { subtree: true, childList: true, attributes: true })
     if (this.props.isShown)
       this.show()
   }
@@ -399,7 +395,7 @@ export default class FixedOverlay extends PureComponent {
     this.events.emit('contentInvisible')
   };
 
-  updatePosition = debounce(() => {
+  updatePosition = () => {
     if (!this.contentContainerNode || !this.portal)
       return
     const {
@@ -434,7 +430,7 @@ export default class FixedOverlay extends PureComponent {
       left: options.left + 'px',
       top: options.top + this.scrollY + 'px'
     })
-  });
+  };
 
   mountPortal() {
     if (this.portal)
@@ -474,16 +470,16 @@ export default class FixedOverlay extends PureComponent {
   subscribeListeners() {
     if (this.subscribedWinListeners)
       return
-    this.props.winEvents.on('resize', this.updatePosition)
-    this.props.winEvents.on('scroll', this.updatePosition)
+    this.props.windowEvents.on('resize', this.updatePosition)
+    this.props.windowEvents.on('scroll', this.updatePosition)
     this.subscribedWinListeners = true
   }
 
   unsubscribeListeners() {
     if (!this.subscribedWinListeners)
       return
-    this.props.winEvents.removeListener('resize', this.updatePosition)
-    this.props.winEvents.removeListener('scroll', this.updatePosition)
+    this.props.windowEvents.removeListener('resize', this.updatePosition)
+    this.props.windowEvents.removeListener('scroll', this.updatePosition)
     this.subscribedWinListeners = false
   }
 
@@ -495,7 +491,6 @@ export default class FixedOverlay extends PureComponent {
     return this.mountPortal().then(() => {
       if (transactionIndex < this.transactionIndex)
         return Promise.reject()
-      this.updatePosition()
       return new Promise((resolve, reject) => {
         const handler = () => {
           if (transactionIndex === this.transactionIndex)
@@ -506,11 +501,12 @@ export default class FixedOverlay extends PureComponent {
             reject()
         }
         this.events.on('contentVisible', handler)
+        this.updatePosition()
       })
     }).then(() => {
       if (!this.contentNodeObserver) {
-        this.contentNodeObserver = new MutationObserver(this.updatePosition)
-        this.contentNodeObserver.observe({ subtree: true, childList: true, attributes: true })
+        this.contentNodeObserver = new MutationObserver(debounce(this.updatePosition))
+        this.contentNodeObserver.observe(this.contentNode, { subtree: true, childList: true, attributes: true })
       }
       if (this.props.onContentShow)
         this.props.onContentShow()
@@ -524,7 +520,6 @@ export default class FixedOverlay extends PureComponent {
     if (!this.portal)
       return Promise.resolve()
     const transactionIndex = ++this.transactionIndex
-    this.portal.updateContentProps({ isVisible: false })
     return new Promise((resolve, reject) => {
       const handler = () => {
         if (transactionIndex === this.transactionIndex)
@@ -535,6 +530,7 @@ export default class FixedOverlay extends PureComponent {
           reject()
       }
       this.events.on('contentInvisible', handler)
+      this.portal.updateContentProps({ isVisible: false })
     }).then(() => {
       this.unmountPortal()
       if (this.props.onContentHide)
@@ -550,6 +546,8 @@ export default class FixedOverlay extends PureComponent {
         zIndex: this.props.zIndex
       })
       document.body.appendChild(this.contentContainerNode)
+      if (this.props.contentWrapperRef)
+        this.props.contentWrapperRef(this.contentContainerNode)
     }
     return this.contentContainerNode
   }
@@ -558,6 +556,8 @@ export default class FixedOverlay extends PureComponent {
     if (this.contentContainerNode) {
       document.body.removeChild(this.contentContainerNode)
       this.contentContainerNode = null
+      if (this.props.contentWrapperRef)
+        this.props.contentWrapperRef(this.contentContainerNode)
     }
   }
 
