@@ -108,16 +108,14 @@ function getPositionOptions(params) {
     anchorPointY,
     autoPositionX,
     autoPositionY,
-    noRecalculate
+    noRecalculate,
+    windowSize
   } = params
 
   let {
     contentPointX,
     contentPointY
   } = params
-
-  const winHeight = window.innerHeight
-  const winWidth = window.innerWidth
 
   let left, top, overflowX = 0, overflowY = 0
   let newAnchorPointX, newAnchorPointY
@@ -131,7 +129,7 @@ function getPositionOptions(params) {
     else if (anchorPointX === 'right')
       left = anchorRect.left + anchorRect.width
     if (autoPositionX)
-      overflowX = left + contentWidth - winWidth
+      overflowX = left + contentWidth - windowSize.width
 
   } else if (contentPointX === 'center') {
 
@@ -143,14 +141,14 @@ function getPositionOptions(params) {
       left = anchorRect.left + anchorRect.width / 2 - contentWidth / 2
       if (autoPositionX) {
         const overflowXLeft = -left
-        const overflowXRight = left + contentWidth - winWidth
+        const overflowXRight = left + contentWidth - windowSize.width
         overflowX = Math.max(overflowXLeft, overflowXRight)
         newAnchorPointX = overflowXLeft > overflowXRight ? 'left' : 'right'
       }
     } else if (anchorPointX === 'right') {
       left = anchorRect.right - contentWidth / 2
       if (autoPositionX)
-        overflowX = left + contentWidth / 2 - winWidth
+        overflowX = left + contentWidth / 2 - windowSize.width
     }
 
   } else if (contentPointX === 'right') {
@@ -175,7 +173,7 @@ function getPositionOptions(params) {
     else if (anchorPointY === 'bottom')
       top = anchorRect.bottom
     if (autoPositionX)
-      overflowY = top + contentHeight - winHeight
+      overflowY = top + contentHeight - windowSize.height
 
   } else if (contentPointY === 'center') {
 
@@ -187,14 +185,14 @@ function getPositionOptions(params) {
       top = anchorRect.top - contentHeight / 2 + anchorRect.height / 2
       if (autoPositionY) {
         const overflowYTop = -top
-        const overflowYBottom = top + contentHeight - winHeight
+        const overflowYBottom = top + contentHeight - windowSize.height
         overflowY = Math.max(overflowYTop, overflowYBottom)
         newAnchorPointY = overflowYTop > overflowYBottom ? 'top' : 'bottom'
       }
     } else if (anchorPointY === 'bottom') {
       top = anchorRect.bottom - contentHeight / 2
       if (autoPositionY)
-        overflowY = top + contentHeight - winHeight
+        overflowY = top + contentHeight - windowSize.height
     }
 
   } else if (contentPointY === 'bottom') {
@@ -337,7 +335,21 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Колбек, который дергается, когда контент закрыт
      */
-    onContentShow: PropTypes.func
+    onContentShow: PropTypes.func,
+    /**
+     * Функция для получения размеров окно
+     * Нужна для подсчета того, что элемента выходит за пределы окна, нужна исключительно для iframe
+     */
+    getWindowSize: PropTypes.func
+  };
+
+  static defaultProps = {
+    getWindowSize() {
+      return {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+    }
   };
 
   constructor(props) {
@@ -404,7 +416,8 @@ export default class FixedOverlay extends PureComponent {
       contentPointX,
       contentPointY,
       autoPositionX,
-      autoPositionY
+      autoPositionY,
+      getWindowSize
     } = this.props
     this.scrollY = getYScroll()
     const anchorRect = getBoundingClientRect(this.anchorNode)
@@ -417,7 +430,8 @@ export default class FixedOverlay extends PureComponent {
       autoPositionX,
       autoPositionY,
       contentHeight: this.contentNode.offsetHeight,
-      contentWidth: this.contentNode.offsetWidth
+      contentWidth: this.contentNode.offsetWidth,
+      windowSize: getWindowSize()
     })
     this.portal.updateContentProps({
       isVisible: true,

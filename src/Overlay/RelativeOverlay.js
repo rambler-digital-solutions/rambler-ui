@@ -1,5 +1,5 @@
 import React, { PureComponent, PropTypes, cloneElement } from 'react'
-import { findOverflowedParent, getBoundingClientRect } from '../utils/DOM'
+import { findOverflowedParent, getBoundingClientRect as originalGetBoundingClientRect } from '../utils/DOM'
 import { injectSheet } from '../theme'
 import classnames from 'classnames'
 import EventEmitter from 'events'
@@ -41,7 +41,8 @@ function getPositionOptions(params) {
     anchorPointY,
     autoPositionX,
     autoPositionY,
-    noRecalculate
+    noRecalculate,
+    windowSize
   } = params
 
   let {
@@ -107,21 +108,21 @@ function getPositionOptions(params) {
       if (autoPositionY) {
         overflowY = anchorRect.top + contentHeight - parentRect.bottom
         if (overflowY < 0)
-          overflowY = anchorRect.top + contentHeight - window.innerHeight
+          overflowY = anchorRect.top + contentHeight - windowSize.height
       }
     } else if (anchorPointY === 'center') {
       top = '50%'
       if (autoPositionY) {
         overflowY = anchorRect.top + anchorRect.height / 2 + contentHeight - parentRect.bottom
         if (overflowY < 0)
-          overflowY = anchorRect.top + anchorRect.height / 2 + contentHeight - window.innerHeight
+          overflowY = anchorRect.top + anchorRect.height / 2 + contentHeight - windowSize.height
       }
     } else if (anchorPointY === 'bottom') {
       top = '100%'
       if (autoPositionY) {
         overflowY = anchorRect.bottom + contentHeight - parentRect.bottom
         if (overflowY < 0)
-          overflowY = anchorRect.bottom + contentHeight - window.innerHeight
+          overflowY = anchorRect.bottom + contentHeight - windowSize.height
       }
     }
   } else if (contentPointY === 'center') {
@@ -146,7 +147,7 @@ function getPositionOptions(params) {
       if (autoPositionY) {
         overflowY = anchorRect.bottom + contentHeight / 2 - parentRect.bottom
         if (overflowY < 0)
-          overflowY = anchorRect.bottom + contentHeight / 2 - window.innerHeight
+          overflowY = anchorRect.bottom + contentHeight / 2 - windowSize.height
       }
     }
   } else if (contentPointY === 'bottom') {
@@ -325,7 +326,27 @@ export default class RelativeOverlay extends PureComponent {
     /**
      * Колбек, который дергается, когда контент закрыт
      */
-    onContentShow: PropTypes.func
+    onContentShow: PropTypes.func,
+    /**
+     * Функция для получения размеров окно
+     * Нужна для подсчета того, что элемента выходит за пределы окна, нужна исключительно для iframe
+     */
+    getWindowSize: PropTypes.func,
+    /**
+     * Функция для подсчета границ и размеров элемента
+     * Нужна исключительно внутри iframe
+     */
+    getElementRect: PropTypes.func
+  };
+
+  static defaultProps = {
+    getWindowSize() {
+      return {
+        width: window.innerWidth,
+        height: window.innerHeight
+      }
+    },
+    getElementRect: originalGetBoundingClientRect
   };
 
   constructor(props) {
@@ -427,12 +448,14 @@ export default class RelativeOverlay extends PureComponent {
       contentPointX,
       contentPointY,
       autoPositionX,
-      autoPositionY
+      autoPositionY,
+      getWindowSize,
+      getElementRect
     } = this.props
 
     const parent = findOverflowedParent(this.containerElement, true)
-    const anchorRect = getBoundingClientRect(this.containerElement)
-    const parentRect = getBoundingClientRect(parent)
+    const anchorRect = getElementRect(this.containerElement)
+    const parentRect = getElementRect(parent)
 
     const contentProps = getContentProps({
       anchorRect,
@@ -444,7 +467,8 @@ export default class RelativeOverlay extends PureComponent {
       autoPositionX,
       autoPositionY,
       contentHeight: this.contentElement.offsetHeight,
-      contentWidth: this.contentElement.offsetWidth
+      contentWidth: this.contentElement.offsetWidth,
+      windowSize: getWindowSize()
     })
 
     this.events.emit('newContentPosition', contentProps)
