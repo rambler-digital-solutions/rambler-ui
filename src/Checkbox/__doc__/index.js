@@ -4,7 +4,7 @@ import code from '!!raw!../Checkbox.js'
 import PropTypesTable from 'components/PropTypesTable'
 import Playground from 'components/Playground'
 
-export const title = 'Чекбоксы'
+export const title = 'Checkbox'
 
 export default () => (
   <div>

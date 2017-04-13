@@ -9,18 +9,9 @@ import debounce from 'lodash/debounce'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
 import { DROPDOWN_ZINDEX } from '../constants/z-indexes'
+import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
 import { getBoundingClientRect, MutationObserver } from '../utils/DOM'
 
-/**
- * Правила переноса контента, если он выходит за пределы видимости
- */
-const mappingPoints = {
-  right: 'left',
-  left: 'right',
-  center: 'center',
-  bottom: 'top',
-  top: 'bottom'
-}
 
 // 1. Рендерим анкор
 // 2. После маунта анкора, если нужно показать контент, маунтим контент в отдельный контейнер
@@ -40,6 +31,10 @@ class ContentElementWrapper extends Component {
      */
     contentProps: PropTypes.object
   };
+
+  get isVisible() {
+    return this.contentProps.isVisible
+  }
 
   constructor(props) {
     super(props)
@@ -212,8 +207,8 @@ function getPositionOptions(params) {
     if (autoPositionX && overflowX > 0) {
       const result = getPositionOptions({
         ...params,
-        anchorPointX: newAnchorPointX || mappingPoints[anchorPointX],
-        contentPointX: newAnchorPointX || mappingPoints[contentPointX],
+        anchorPointX: newAnchorPointX || MAPPING_POINTS[anchorPointX],
+        contentPointX: newAnchorPointX || MAPPING_POINTS[contentPointX],
         noRecalculate: true
       })
       if (result.overflowX < overflowX) {
@@ -225,8 +220,8 @@ function getPositionOptions(params) {
     if (autoPositionY && overflowY > 0) {
       const newParams = {
         ...params,
-        anchorPointY: newAnchorPointY || mappingPoints[anchorPointY],
-        contentPointY: newAnchorPointY || mappingPoints[contentPointY],
+        anchorPointY: newAnchorPointY || MAPPING_POINTS[anchorPointY],
+        contentPointY: newAnchorPointY || MAPPING_POINTS[contentPointY],
         noRecalculate: true
       }
       const result = getPositionOptions(newParams)
@@ -285,19 +280,19 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Точка прицепления для achor X
      */
-    anchorPointX: PropTypes.oneOf(['left', 'right', 'center']).isRequired,
+    anchorPointX: PropTypes.oneOf(POINTS_X).isRequired,
     /**
      * Точка прицепления для achor Y
      */
-    anchorPointY: PropTypes.oneOf(['top', 'bottom', 'center']).isRequired,
+    anchorPointY: PropTypes.oneOf(POINTS_X).isRequired,
     /**
      * Точка прицепления для overlay X
      */
-    contentPointX: PropTypes.oneOf(['left', 'right', 'center']).isRequired,
+    contentPointX: PropTypes.oneOf(POINTS_X).isRequired,
     /**
      * Точка прицепления для overlay Y
      */
-    contentPointY: PropTypes.oneOf(['top', 'bottom', 'center']).isRequired,
+    contentPointY: PropTypes.oneOf(POINTS_Y).isRequired,
     /**
      * Автоматическое позиционирование, если контент по оси X выходи за пределы scroll-контейнера
      */
@@ -309,7 +304,7 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Элемент вокруг которого показываем overlay
      */
-    anchor: PropTypes.node,
+    anchor: PropTypes.node.isRequired,
     /**
      * Инстанс компонент контента
      * Получает автоматически на вход следующие props:
@@ -323,7 +318,7 @@ export default class FixedOverlay extends PureComponent {
      * - anchorWidth: ширина anchor
      * - anchorHeight: высота anchor
      */
-    content: PropTypes.node,
+    content: PropTypes.node.isRequired,
     /**
      * Функция, которая вызывается при маунтинге/анмаунтинге контейнера для контента
      */
@@ -431,7 +426,8 @@ export default class FixedOverlay extends PureComponent {
       autoPositionY,
       contentHeight: this.contentNode.offsetHeight,
       contentWidth: this.contentNode.offsetWidth,
-      windowSize: getWindowSize()
+      windowSize: getWindowSize(),
+      noRecalculate: this.portal.isVisible
     })
     this.portal.updateContentProps({
       isVisible: true,

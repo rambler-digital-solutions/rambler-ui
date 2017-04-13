@@ -5,7 +5,7 @@ import codeToggleOption from '!!raw!../ToggleOption.js'
 import PropTypesTable from 'components/PropTypesTable'
 import Playground from 'components/Playground'
 
-export const title = 'Переключатели'
+export const title = 'Toggle'
 
 export default () => (
   <div>

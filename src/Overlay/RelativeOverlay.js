@@ -1,18 +1,9 @@
 import React, { PureComponent, PropTypes, cloneElement } from 'react'
 import { findOverflowedParent, getBoundingClientRect as originalGetBoundingClientRect } from '../utils/DOM'
 import { injectSheet } from '../theme'
+import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
 import classnames from 'classnames'
 import EventEmitter from 'events'
-/**
- * Правила переноса контента, если он выходит за пределы видимости
- */
-const mappingPoints = {
-  right: 'left',
-  left: 'right',
-  center: 'center',
-  bottom: 'top',
-  top: 'bottom'
-}
 
 /**
  * Получить опции позиции контента
@@ -179,8 +170,8 @@ function getPositionOptions(params) {
     if (autoPositionX && overflowX > 0) {
       const result = getPositionOptions({
         ...params,
-        anchorPointX: newAnchorPointX || mappingPoints[anchorPointX],
-        contentPointX: newAnchorPointX || mappingPoints[contentPointX],
+        anchorPointX: newAnchorPointX || MAPPING_POINTS[anchorPointX],
+        contentPointX: newAnchorPointX || MAPPING_POINTS[contentPointX],
         noRecalculate: true
       })
       if (result.overflowX < overflowX) {
@@ -194,8 +185,8 @@ function getPositionOptions(params) {
     if (autoPositionY && overflowY > 0) {
       const newParams = {
         ...params,
-        anchorPointY: newAnchorPointY || mappingPoints[anchorPointY],
-        contentPointY: newAnchorPointY || mappingPoints[contentPointY],
+        anchorPointY: newAnchorPointY || MAPPING_POINTS[anchorPointY],
+        contentPointY: newAnchorPointY || MAPPING_POINTS[contentPointY],
         noRecalculate: true
       }
       const result = getPositionOptions(newParams)
@@ -280,19 +271,19 @@ export default class RelativeOverlay extends PureComponent {
     /**
      * Точка прицепления для achor X
      */
-    anchorPointX: PropTypes.oneOf(['left', 'right', 'center']).isRequired,
+    anchorPointX: PropTypes.oneOf(POINTS_X).isRequired,
     /**
      * Точка прицепления для achor Y
      */
-    anchorPointY: PropTypes.oneOf(['top', 'bottom', 'center']).isRequired,
+    anchorPointY: PropTypes.oneOf(POINTS_Y).isRequired,
     /**
      * Точка прицепления для overlay X
      */
-    contentPointX: PropTypes.oneOf(['left', 'right', 'center']).isRequired,
+    contentPointX: PropTypes.oneOf(POINTS_X).isRequired,
     /**
      * Точка прицепления для overlay Y
      */
-    contentPointY: PropTypes.oneOf(['top', 'bottom', 'center']).isRequired,
+    contentPointY: PropTypes.oneOf(POINTS_Y).isRequired,
     /**
      * Автоматическое позиционирование, если контент по оси X выходи за пределы scroll-контейнера
      */
@@ -304,7 +295,7 @@ export default class RelativeOverlay extends PureComponent {
     /**
      * Элемент вокруг которого показываем overlay
      */
-    anchor: PropTypes.node,
+    anchor: PropTypes.node.isRequired,
     /**
      * Инстанс компонент контента
      * Получает автоматически на вход следующие props:
@@ -318,7 +309,7 @@ export default class RelativeOverlay extends PureComponent {
      * - anchorWidth: ширина anchor
      * - anchorHeight: высота anchor
      */
-    content: PropTypes.node,
+    content: PropTypes.node.isRequired,
     /**
      * Колбек, который дергается, когда контент открыт
      */

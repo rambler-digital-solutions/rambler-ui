@@ -257,5 +257,8 @@ export default {
       right: 40,
       fill: 'initial !important'
     }
+  },
+  dropdown: {
+    animationDuration: 250
   }
 }

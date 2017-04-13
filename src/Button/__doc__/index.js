@@ -6,7 +6,7 @@ import code from '!!raw!../Button.js'
 import PropTypesTable from 'components/PropTypesTable'
 import Playground from 'components/Playground'
 
-export const title = 'Кнопки'
+export const title = 'Button'
 
 export default () => (
   <div>
