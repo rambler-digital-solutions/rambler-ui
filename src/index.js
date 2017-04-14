@@ -1,6 +1,7 @@
 export const version = '$VERSION'
 export Button from './Button'
 export Dropdown from './Dropdown'
+export Tooltip from './Tooltip'
 export IconButton from './IconButton'
 export Checkbox from './Checkbox'
 export * as theme from './theme'

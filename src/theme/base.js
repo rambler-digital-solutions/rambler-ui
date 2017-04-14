@@ -260,5 +260,8 @@ export default {
   },
   dropdown: {
     animationDuration: 200
+  },
+  tooltip: {
+    animationDuration: 200
   }
 }

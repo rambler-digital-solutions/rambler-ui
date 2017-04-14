@@ -75,11 +75,18 @@ class DropdownContainer extends PureComponent {
       }
   }
 
+  clearAnimationTimeout() {
+    if (this.animationTimeout) {
+      clearTimeout(this.animationTimeout)
+      this.animationTimeout = null
+    }
+  }
+
   hide() {
     if (this.status === 'hiding')
       return
     this.status = 'hiding'
-    clearTimeout(this.animationTimeout)
+    this.clearAnimationTimeout()
     this.setState({ isVisible: false })
     this.animationTimeout = setTimeout(
       () => {
@@ -94,7 +101,7 @@ class DropdownContainer extends PureComponent {
     if (this.status === 'showing')
       return
     this.status = 'showing'
-    clearTimeout(this.animationTimeout)
+    this.clearAnimationTimeout()
     this.setState({ isVisible: true })
     this.animationTimeout = setTimeout(
       () => {
