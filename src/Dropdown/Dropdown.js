@@ -2,28 +2,31 @@ import React, { PropTypes, PureComponent } from 'react'
 import classnames from 'classnames'
 import { FixedOverlay, RelativeOverlay } from '../Overlay'
 import OnClickOutside from '../events/OnClickOutside'
-import { POINTS_X } from '../constants/overlay'
+import { POINTS_Y } from '../constants/overlay'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
 @injectSheet((theme) => ({
   dropdown: {
     ...isolateMixin,
+    boxSizing: 'border-box',
     opacity: '0',
     pointerEvents: 'none',
     position: 'relative',
     transition: `all ${theme.dropdown.animationDuration}ms`,
-    background: '#fff'
+    background: '#fff',
+    boxShadow: '1px 2px 7px 0 rgba(123, 129, 133, 0.34)'
   },
   isVisible: {
-    opacity: '1',
-    top: 0
+    opacity: '1 !important',
+    pointerEvents: 'initial !important',
+    top: '0px'
   },
-  'pointX-bottom:not($isVisible)': {
-    top: -10
+  'pointY-bottom': {
+    '&:not($isVisible)': { top: -10 }
   },
-  'pointX-top:not($isVisible)': {
-    top: 10
+  'pointY-top': {
+    '&:not($isVisible)': { top: 10 }
   }
 }))
 class DropdownContainer extends PureComponent {
@@ -32,23 +35,26 @@ class DropdownContainer extends PureComponent {
     isVisible: PropTypes.bool.isRequired,
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
+    hide: PropTypes.func,
     anchorWidth: PropTypes.number,
     anchorFullWidth: PropTypes.bool,
     closeOnClickOutside: PropTypes.bool,
-    pointX: PropTypes.oneOf(POINTS_X),
+    pointY: PropTypes.oneOf(POINTS_Y),
     padding: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
   };
 
   static defaultProps = {
-    padding: '20px'
+    padding: '20px',
+    closeOnClickOutside: true
   };
 
   // hiding/showing
   status = null;
+  state = {};
 
   onClickOutside = () => {
     if (this.props.isVisible)
-      this.hide()
+      this.props.hide()
   }
 
   get css() {
@@ -57,31 +63,51 @@ class DropdownContainer extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.isVisible !== nextProps.isVisible)
-      if (nextProps.isVisible)
-        this.show()
-      else
+      if (nextProps.isVisible) {
+        if (!this.state.pointY)
+          this.setState({ pointY: nextProps.pointY }, () => {
+            setTimeout(this.show, 15) // задержка нужна для анимации
+          })
+        else
+          this.show()
+      } else {
         this.hide()
+      }
   }
 
   hide() {
     if (this.status === 'hiding')
       return
+    this.status = 'hiding'
     clearTimeout(this.animationTimeout)
     this.setState({ isVisible: false })
-    this.animationTimeout = setTimeout(this.props.onBecomeInvisible, this.props.theme.dropdown.animationDuration)
+    this.animationTimeout = setTimeout(
+      () => {
+        this.status = null
+        this.props.onBecomeInvisible()
+      },
+      this.props.theme.dropdown.animationDuration
+    )
   }
 
-  show() {
+  show = () => {
     if (this.status === 'showing')
       return
+    this.status = 'showing'
     clearTimeout(this.animationTimeout)
     this.setState({ isVisible: true })
-    this.animationTimeout = setTimeout(this.props.onBecomeVisible, this.props.theme.dropdown.animationDuration)
-  }
+    this.animationTimeout = setTimeout(
+      () => {
+        this.status = null
+        this.props.onBecomeVisible()
+      },
+      this.props.theme.dropdown.animationDuration
+    )
+  };
 
   render() {
-    const { children, pointX, anchorWidth, anchorFullWidth, closeOnClickOutside, className, style, padding } = this.props
-    const { isVisible } = this.state
+    const { children, anchorWidth, anchorFullWidth, closeOnClickOutside, className, style, padding } = this.props
+    const { isVisible, pointY } = this.state
     let resultStyle = {}
     if (anchorWidth && anchorFullWidth)
       resultStyle.width = anchorWidth + 'px'
@@ -93,12 +119,12 @@ class DropdownContainer extends PureComponent {
     }
     const content = (
       <div
-        className={classnames(className, isVisible && this.css.isVisible, this.css.dropdown, this.css['pointX-' + pointX])}
+        className={classnames(className, isVisible && this.css.isVisible, this.css.dropdown, this.css['pointY-' + pointY])}
         style={resultStyle}>
         { children }
       </div>
     )
-    if (closeOnClickOutside)
+    if (!closeOnClickOutside)
       return content
     return (
       <OnClickOutside handler={this.onClickOutside}>
@@ -128,6 +154,10 @@ export default class Dropdown extends PureComponent {
      */
     className: PropTypes.string,
     /**
+     * css класс только для контейнера оверлея (только RelativeOverlay)
+     */
+    overlayClassName: PropTypes.string,
+    /**
      * Стили для контейнера dropdown
      */
     style: PropTypes.object,
@@ -135,7 +165,7 @@ export default class Dropdown extends PureComponent {
      * Показывать ли дропдаун
      * Укажите этот параметр, если хотите контроллировать состояние открытия
      */
-    isShown: PropTypes.bool,
+    isOpened: PropTypes.bool,
     /**
      * Колбек открытия попапа
      */
@@ -149,17 +179,21 @@ export default class Dropdown extends PureComponent {
      */
     closeOnClickOutside: PropTypes.bool,
     /**
-     * Выравнивание контента по оси X относительно anchor
-     * `left` - левая часть контента прибивается к левой части anchor
-     * `right` - правая часть контента прибивается к правой части anchor
+     * Точка прикрепления контента по оси X
      */
-    contentAlignX: PropTypes.oneOf(['left', 'right']),
+    contentPointX: PropTypes.oneOf(['left', 'right', 'center']),
     /**
-     * Выравнивание контента по оси Y относительно anchor
-     * `top` - контент показывается выше anchor
-     * `bottom` - контент показывается ниже anchor
+     * Точка прикрепления anchor по оси X
      */
-    contentAlignY: PropTypes.oneOf(['top', 'bottom']),
+    anchorPointX: PropTypes.oneOf(['left', 'right', 'center']),
+    /**
+     * Точка прикрепления контента по оси Y
+     */
+    contentPointY: PropTypes.oneOf(['top', 'bottom', 'center']),
+    /**
+     * Точка прикрепления anchor по оси Y
+     */
+    anchorPointY: PropTypes.oneOf(['top', 'bottom', 'center']),
     /**
      * Автоматическое позиционирование по оси Y (если выходит за пределы экрана)
      */
@@ -167,7 +201,7 @@ export default class Dropdown extends PureComponent {
     /**
      * Тянуть контент на всю ширину anchor
      */
-    contentFullWidth: PropTypes.bool,
+    anchorFullWidth: PropTypes.bool,
     /**
      * Вставлять ли dropdown внутри body
      */
@@ -181,8 +215,10 @@ export default class Dropdown extends PureComponent {
 
   static defaultProps = {
     closeOnClickOutside: true,
-    contentAlignX: 'left',
-    contentAlignY: 'bottom',
+    contentPointX: 'left',
+    anchorPointX: 'left',
+    contentPointY: 'top',
+    anchorPointY: 'bottom',
     autoPositionY: true,
     appendToBody: false
   };
@@ -194,19 +230,22 @@ export default class Dropdown extends PureComponent {
 
   render() {
     const {
-      isShown,
+      isOpened,
       anchor,
       children,
       autoPositionY,
       anchorFullWidth,
       closeOnClickOutside,
-      contentAlignX,
-      contentAlignY,
+      contentPointX,
+      anchorPointX,
+      contentPointY,
+      anchorPointY,
       onOpen,
       onClose,
       className,
       style,
-      padding
+      padding,
+      overlayClassName
     } = this.props
     const dropdownProps = {
       closeOnClickOutside,
@@ -216,27 +255,17 @@ export default class Dropdown extends PureComponent {
       padding
     }
     const overlayProps = {
-      isShown,
       anchor,
+      contentPointX,
+      anchorPointX,
       autoPositionY,
+      contentPointY,
+      anchorPointY,
+      className: overlayClassName,
+      isShown: isOpened,
       onContentShow: onOpen,
       onContentHide: onClose,
       content: <DropdownContainer { ...dropdownProps }>{ children }</DropdownContainer>
-    }
-    if (contentAlignX === 'left') {
-      overlayProps.anchorPointX = 'left'
-      overlayProps.contentPointX = 'left'
-    } else {
-      overlayProps.anchorPointX = 'right'
-      overlayProps.contentPointX = 'right'
-    }
-
-    if (contentAlignY === 'bottom') {
-      overlayProps.anchorPointY = 'bottom'
-      overlayProps.contentPointY = 'top'
-    } else {
-      overlayProps.anchorPointY = 'top'
-      overlayProps.contentPointY = 'bottom'
     }
 
     return <this.Overlay { ...overlayProps } />

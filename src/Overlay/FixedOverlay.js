@@ -10,7 +10,7 @@ import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
 import { DROPDOWN_ZINDEX } from '../constants/z-indexes'
 import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
-import { getBoundingClientRect, MutationObserver } from '../utils/DOM'
+import { getBoundingClientRect as originalGetBoundingClientRect, MutationObserver } from '../utils/DOM'
 
 
 // 1. Рендерим анкор
@@ -72,7 +72,7 @@ class ContentElementWrapper extends Component {
  * Получить scrollY
  * @return {Number}
  */
-function getYScroll() {
+function originalGetYScroll() {
   if (window.pageYOffset !== undefined)
     return window.pageYOffset
   return document.documentElement.scrollTop || document.body.scrollTop
@@ -106,7 +106,6 @@ function getPositionOptions(params) {
     noRecalculate,
     windowSize
   } = params
-
   let {
     contentPointX,
     contentPointY
@@ -167,7 +166,7 @@ function getPositionOptions(params) {
       top = anchorRect.top + anchorRect.height / 2
     else if (anchorPointY === 'bottom')
       top = anchorRect.bottom
-    if (autoPositionX)
+    if (autoPositionY)
       overflowY = top + contentHeight - windowSize.height
 
   } else if (contentPointY === 'center') {
@@ -284,7 +283,7 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Точка прицепления для achor Y
      */
-    anchorPointY: PropTypes.oneOf(POINTS_X).isRequired,
+    anchorPointY: PropTypes.oneOf(POINTS_Y).isRequired,
     /**
      * Точка прицепления для overlay X
      */
@@ -315,6 +314,7 @@ export default class FixedOverlay extends PureComponent {
      * - pointY: точка присоединения overlay к anchor, в зависимости от этой опции на тултипе можно рисоваться стрелочка по разному
      * - onBecomeVisible - колбек, который должен вызваться, когда контент стал видимым
      * - onBecomeInvisible - колбек, который должен вызваться, когда контент стал невидимым
+     * - hide - функция, которая должна вызываться, если контент нужно закрыть
      * - anchorWidth: ширина anchor
      * - anchorHeight: высота anchor
      */
@@ -335,7 +335,17 @@ export default class FixedOverlay extends PureComponent {
      * Функция для получения размеров окно
      * Нужна для подсчета того, что элемента выходит за пределы окна, нужна исключительно для iframe
      */
-    getWindowSize: PropTypes.func
+    getWindowSize: PropTypes.func,
+    /**
+     * Функция для подсчета границ и размеров элемента
+     * Нужна исключительно внутри iframe
+     */
+    getElementRect: PropTypes.func,
+    /**
+     * Функция для получения Y скролла на странице
+     * Нужна исключительно внутри iframe
+     */
+    getYScroll: PropTypes.func
   };
 
   static defaultProps = {
@@ -344,7 +354,9 @@ export default class FixedOverlay extends PureComponent {
         width: window.innerWidth,
         height: window.innerHeight
       }
-    }
+    },
+    getElementRect: originalGetBoundingClientRect,
+    getYScroll: originalGetYScroll
   };
 
   constructor(props) {
@@ -403,7 +415,7 @@ export default class FixedOverlay extends PureComponent {
   };
 
   updatePosition = () => {
-    if (!this.contentContainerNode || !this.portal)
+    if (!this.contentContainerNode || !this.portal || !this.isShown)
       return
     const {
       anchorPointX,
@@ -412,10 +424,13 @@ export default class FixedOverlay extends PureComponent {
       contentPointY,
       autoPositionX,
       autoPositionY,
-      getWindowSize
+      getWindowSize,
+      getElementRect,
+      getYScroll
     } = this.props
+    // TODO получать от клиента
     this.scrollY = getYScroll()
-    const anchorRect = getBoundingClientRect(this.anchorNode)
+    const anchorRect = getElementRect(this.anchorNode)
     const options = getPositionOptions({
       anchorRect,
       anchorPointX,
@@ -426,8 +441,7 @@ export default class FixedOverlay extends PureComponent {
       autoPositionY,
       contentHeight: this.contentNode.offsetHeight,
       contentWidth: this.contentNode.offsetWidth,
-      windowSize: getWindowSize(),
-      noRecalculate: this.portal.isVisible
+      windowSize: getWindowSize()
     })
     this.portal.updateContentProps({
       isVisible: true,
@@ -452,7 +466,8 @@ export default class FixedOverlay extends PureComponent {
         contentProps={{
           isVisible: false,
           onBecomeVisible: this.onContentBecomeVisible,
-          onBecomeInvisible: this.onContentBecomeInvisible
+          onBecomeInvisible: this.onContentBecomeInvisible,
+          hide: this.hide
         }}
       />
       renderSubtreeIntoContainer(this, element, this.getContentContainerNode())
@@ -497,18 +512,19 @@ export default class FixedOverlay extends PureComponent {
    * Показать оверлей
    */
   show() {
+    this.isShown = true
     const transactionIndex = ++this.transactionIndex
     return this.mountPortal().then(() => {
       if (transactionIndex < this.transactionIndex)
         return Promise.reject()
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         const handler = () => {
           if (transactionIndex === this.transactionIndex)
             resolve()
           if (transactionIndex <= this.transactionIndex)
             this.events.removeListener('contentVisible', handler)
-          if (transactionIndex < this.transactionIndex)
-            reject()
+          // if (transactionIndex < this.transactionIndex)
+          //   reject()
         }
         this.events.on('contentVisible', handler)
         this.updatePosition()
@@ -526,18 +542,19 @@ export default class FixedOverlay extends PureComponent {
   /**
    * Скрыть оверлей
    */
-  hide() {
+  hide = () => {
+    this.isShown = false
     if (!this.portal)
       return Promise.resolve()
     const transactionIndex = ++this.transactionIndex
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const handler = () => {
         if (transactionIndex === this.transactionIndex)
           resolve()
         if (transactionIndex <= this.transactionIndex)
           this.events.removeListener('contentInvisible', handler)
-        if (transactionIndex < this.transactionIndex)
-          reject()
+        // if (transactionIndex < this.transactionIndex)
+        //   reject()
       }
       this.events.on('contentInvisible', handler)
       this.portal.updateContentProps({ isVisible: false })
@@ -546,7 +563,7 @@ export default class FixedOverlay extends PureComponent {
       if (this.props.onContentHide)
         this.props.onContentHide()
     })
-  }
+  };
 
   getContentContainerNode() {
     if (!this.contentContainerNode) {

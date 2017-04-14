@@ -306,6 +306,7 @@ export default class RelativeOverlay extends PureComponent {
      * - pointY: точка присоединения overlay к anchor, в зависимости от этой опции на тултипе можно рисоваться стрелочка по разному
      * - onBecomeVisible - колбек, который должен вызваться, когда контент стал видимым
      * - onBecomeInvisible - колбек, который должен вызваться, когда контент стал невидимым
+     * - hide - функция, которая должна вызываться, если контент нужно закрыть
      * - anchorWidth: ширина anchor
      * - anchorHeight: высота anchor
      */
@@ -498,14 +499,14 @@ export default class RelativeOverlay extends PureComponent {
       })
     })
 
-    const whenVisible = new Promise((resolve, reject) => {
+    const whenVisible = new Promise((resolve) => {
       const handler = () => {
         if (transactionIndex === this.transactionIndex)
           resolve()
         if (transactionIndex <= this.transactionIndex)
           this.events.removeListener('contentVisible', handler)
-        if (transactionIndex < this.transactionIndex)
-          reject()
+        // if (transactionIndex < this.transactionIndex)
+        //   reject()
       }
       this.events.on('contentVisible', handler)
     })
@@ -519,26 +520,28 @@ export default class RelativeOverlay extends PureComponent {
   /**
    * Скрыть оверлей
    */
-  hide() {
+  hide = () => {
+    if (!this.contentElement)
+      return
     const transactionIndex = ++this.transactionIndex
     this.setState({
       isContentVisible: false
     })
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       const handler = () => {
         if (transactionIndex === this.transactionIndex)
           this.setState({isContentInDom: false}, resolve)
         if (transactionIndex <= this.transactionIndex)
           this.events.removeListener('contentInvisible', handler)
-        if (transactionIndex < this.transactionIndex)
-          reject()
+        // if (transactionIndex < this.transactionIndex)
+        //   reject()
       }
       this.events.on('contentInvisible', handler)
     }).then(() => {
       if (this.props.onContentHide)
         this.props.onContentHide()
     })
-  }
+  };
 
   render() {
     const {
@@ -572,7 +575,8 @@ export default class RelativeOverlay extends PureComponent {
               anchorWidth,
               anchorHeight,
               onBecomeVisible: this.onContentBecomeVisible,
-              onBecomeInvisible: this.onContentBecomeInvisible
+              onBecomeInvisible: this.onContentBecomeInvisible,
+              hide: this.hide
             })
           }
         </div>

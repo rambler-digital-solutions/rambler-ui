@@ -30,7 +30,7 @@ export function findScrollableParent(element, noCheckScrollHeight) {
     if (overflowY === 'auto' || overflowY === 'scroll')
       return element
   }
-  return findScrollableParent(element)
+  return findScrollableParent(element, noCheckScrollHeight)
 }
 
 /**

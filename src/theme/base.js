@@ -259,6 +259,6 @@ export default {
     }
   },
   dropdown: {
-    animationDuration: 250
+    animationDuration: 200
   }
 }
