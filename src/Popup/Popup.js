@@ -106,10 +106,6 @@ export default class Popup extends Component {
      */
     closeOnOverlayClick: PropTypes.bool,
     /**
-     * Рендер произойдет в отдельный контейнер
-     */
-    portal: PropTypes.bool,
-    /**
      * Коллбек вызывающийся после открытия попапа
      */
     onOpened: PropTypes.func,
@@ -125,7 +121,6 @@ export default class Popup extends Component {
 
   static defaultProps = {
     isOpen: false,
-    portal: true,
     showClose: true,
     closeOnEsc: true,
     closeOnOverlayClick: true
@@ -137,37 +132,21 @@ export default class Popup extends Component {
   }
 
   componentDidMount() {
-    if (this.props.portal)
-      this.renderContainer()
-    else
-      this.invokeCallback()
+    this.renderContainer()
   }
 
-  componentDidUpdate(prevProps) {
-    const { portal, isOpen } = this.props
-
-    if (portal)
-      this.renderContainer()
-    else if (isOpen !== prevProps.isOpen)
-      this.invokeCallback()
+  componentDidUpdate() {
+    this.renderContainer()
   }
 
   componentWillUnmount() {
-    if (this.props.portal)
-      this.unrenderContainer()
-    else
-      this.invokeCallback()
-  }
-
-  invokeCallback() {
-    const { isOpen, onOpened, onClosed } = this.props
-    const callback = isOpen ? onOpened : onClosed
-
-    if (callback) callback()
+    this.unrenderContainer()
   }
 
   renderContainer() {
-    if (this.props.isOpen) {
+    const { isOpen, onOpened } = this.props
+
+    if (isOpen) {
       if (!this.node) {
         this.node = document.createElement('div')
         document.body.appendChild(this.node)
@@ -181,18 +160,21 @@ export default class Popup extends Component {
         this.node
       )
 
-      this.invokeCallback()
+      if (onOpened) onOpened()
     } else {
       this.unrenderContainer()
     }
   }
 
   unrenderContainer() {
+    const { onClosed } = this.props
+
     if (this.node) {
       ReactDOM.unmountComponentAtNode(this.node)
       document.body.removeChild(this.node)
       this.node = null
-      this.invokeCallback()
+
+      if (onClosed) onClosed()
     }
   }
 
@@ -255,7 +237,7 @@ export default class Popup extends Component {
   }
 
   render() {
-    return this.props.portal ? null : this.renderPopup()
+    return null
   }
 
 }

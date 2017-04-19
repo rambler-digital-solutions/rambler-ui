@@ -48,7 +48,6 @@ export default function providePopup(Target) {
         key,
         onOpened,
         isOpen: true,
-        portal: false,
         onClose: onReject
       })
 
