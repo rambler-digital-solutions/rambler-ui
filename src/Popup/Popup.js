@@ -4,6 +4,8 @@
  */
 
 import React, { Component, PropTypes, cloneElement } from 'react'
+import ReactDOM from 'react-dom'
+import classnames from 'classnames'
 import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin } from '../style/mixins'
@@ -12,7 +14,52 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
 @injectSheet((theme) => ({
   popup: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font)
+    ...fontStyleMixin(theme.font),
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    boxSizing: 'border-box',
+    borderRadius: 2,
+    boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
+    padding: '20px 30px 30px',
+    width: 350,
+    backgroundColor: 'white',
+    fontSize: '13px'
+  },
+  title: {
+    marginBottom: 15,
+    fontSize: '16px',
+    fontWeight: 500,
+    lineHeight: 1.25
+  },
+  close: {
+    position: 'absolute',
+    top: 20,
+    right: 25,
+    border: 0,
+    margin: 0,
+    padding: 0,
+    width: 20,
+    height: 20,
+    background: 'transparent',
+    color: '#ccc',
+    cursor: 'pointer',
+    '&::after': {
+      content: '"\\D7"',
+      fontSize: '24px',
+      lineHeight: '20px'
+    }
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: 25
+  },
+  button: {
+    '& + $button': {
+      marginLeft: '12%'
+    }
   }
 }))
 export default class Popup extends Component {
@@ -35,13 +82,9 @@ export default class Popup extends Component {
      */
     title: PropTypes.node,
     /**
-     * Затемняющий слой под попапом
-     */
-    overlay: PropTypes.bool,
-    /**
      * Контролирует видимость попапа
      */
-    open: PropTypes.bool,
+    isOpen: PropTypes.bool,
     /**
      * Кнопка успешного действия (если она одна, то будет расятнута на все ширину)
      */
@@ -63,64 +106,156 @@ export default class Popup extends Component {
      */
     closeOnOverlayClick: PropTypes.bool,
     /**
+     * Рендер произойдет в отдельный контейнер
+     */
+    portal: PropTypes.bool,
+    /**
+     * Коллбек вызывающийся после открытия попапа
+     */
+    onOpened: PropTypes.func,
+    /**
+     * Коллбек вызывающийся при нажатии на крестик (автоматически проставляется, если используется `@providePopup`)
+     */
+    onClose: PropTypes.func,
+    /**
      * Коллбек вызывающийся после закрытия попапа
      */
-    onClose: PropTypes.func
+    onClosed: PropTypes.func
   };
 
   static defaultProps = {
-    overlay: false,
-    open: false,
-    showClose: false,
-    closeOnEsc: false,
-    closeOnOverlayClick: false
+    isOpen: false,
+    portal: true,
+    showClose: true,
+    closeOnEsc: true,
+    closeOnOverlayClick: true
   };
 
-  render() {
-    const { children } = this.props
-
-    return <div>{children}</div>
+  get css() {
+    const { sheet: { classes: css } } = this.props
+    return css
   }
 
-}
+  componentDidMount() {
+    if (this.props.portal)
+      this.renderContainer()
+    else
+      this.invokeCallback()
+  }
 
-export function providePopup(Target) {
-  return class extends Component {
-    state = {
-      open: false
-    }
+  componentDidUpdate(prevProps) {
+    const { portal, isOpen } = this.props
 
-    closePopup() {
-      this.popup = null
+    if (portal)
+      this.renderContainer()
+    else if (isOpen !== prevProps.isOpen)
+      this.invokeCallback()
+  }
 
-      this.setState({
-        open: false
-      })
-    }
+  componentWillUnmount() {
+    if (this.props.portal)
+      this.unrenderContainer()
+    else
+      this.invokeCallback()
+  }
 
-    openPopup(popup) {
-      this.popup = popup
+  invokeCallback() {
+    const { isOpen, onOpened, onClosed } = this.props
+    const callback = isOpen ? onOpened : onClosed
 
-      this.setState({
-        open: true
-      })
+    if (callback) callback()
+  }
 
-      return {
-        close: this.closePopup
+  renderContainer() {
+    if (this.props.isOpen) {
+      if (!this.node) {
+        this.node = document.createElement('div')
+        document.body.appendChild(this.node)
       }
-    }
 
-    render() {
-      const { open } = this.state
+      const popupElement = this.renderPopup()
 
-      const popup = open && cloneElement(this.popup, { open })
-
-      return (
-        <div>
-          {popup}
-          <Target {...this.props} openPopup={this.openPopup} />
-        </div>
+      this.popup = ReactDOM.unstable_renderSubtreeIntoContainer(
+        this,
+        popupElement,
+        this.node
       )
+
+      this.invokeCallback()
+    } else {
+      this.unrenderContainer()
     }
   }
+
+  unrenderContainer() {
+    if (this.node) {
+      ReactDOM.unmountComponentAtNode(this.node)
+      document.body.removeChild(this.node)
+      this.node = null
+      this.invokeCallback()
+    }
+  }
+
+  renderPopup() {
+    const {
+      children,
+      className,
+      title,
+      showClose,
+      okButton,
+      cancelButton,
+      onClose
+    } = this.props
+
+    const css = this.css
+    const withButtons = !!okButton || !!cancelButton
+
+    const resultClassName = classnames(
+      css.popup,
+      className
+    )
+
+    const okButtonEl = this.renderButton(okButton)
+    const cancelButtonEl = this.renderButton(cancelButton)
+
+    return (
+      <div className={resultClassName}>
+        {showClose &&
+          <button type="button" className={css.close} onClick={onClose} />
+        }
+        {title &&
+          <header className={css.title}>
+            {title}
+          </header>
+        }
+        {children}
+        {withButtons &&
+          <footer className={css.buttons}>
+            {okButtonEl}
+            {cancelButtonEl}
+          </footer>
+        }
+      </div>
+    )
+  }
+
+  renderButton(button) {
+    if (button) {
+      const { className, ...other } = button.props
+      const css = this.css
+      const resultClassName = classnames(className, css.button)
+
+      return cloneElement(button, {
+        ...other,
+        block: true,
+        size: 'small',
+        className: resultClassName
+      })
+    }
+  }
+
+  render() {
+    return this.props.portal ? null : this.renderPopup()
+  }
+
 }
