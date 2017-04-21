@@ -5,6 +5,7 @@
 
 import React, { Component, PropTypes, cloneElement } from 'react'
 import ReactDOM from 'react-dom'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
@@ -25,7 +26,16 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     padding: '20px 30px 30px',
     width: 350,
     backgroundColor: 'white',
-    fontSize: '13px'
+    fontSize: '13px',
+    transition: 'margin-top .2s ease, opacity .2s ease'
+  },
+  appear: {
+    marginTop: -10,
+    opacity: 0.01
+  },
+  appearActive: {
+    marginTop: 0,
+    opacity: 1
   },
   title: {
     marginBottom: 15,
@@ -144,9 +154,7 @@ export default class Popup extends Component {
   }
 
   renderContainer() {
-    const { isOpen, onOpened } = this.props
-
-    if (isOpen) {
+    if (this.props.isOpen) {
       if (!this.node) {
         this.node = document.createElement('div')
         document.body.appendChild(this.node)
@@ -154,13 +162,13 @@ export default class Popup extends Component {
 
       const popupElement = this.renderPopup()
 
-      this.popup = ReactDOM.unstable_renderSubtreeIntoContainer(
+      ReactDOM.unstable_renderSubtreeIntoContainer(
         this,
         popupElement,
         this.node
       )
 
-      if (onOpened) onOpened()
+      this.node.addEventListener('transitionend', this.handleTransitionEnd)
     } else {
       this.unrenderContainer()
     }
@@ -176,6 +184,14 @@ export default class Popup extends Component {
 
       if (onClosed) onClosed()
     }
+  }
+
+  handleTransitionEnd = () => {
+    const { onOpened } = this.props
+
+    this.node.removeEventListener('transitionend', this.handleTransitionEnd)
+
+    if (onOpened) onOpened()
   }
 
   renderPopup() {
@@ -201,23 +217,33 @@ export default class Popup extends Component {
     const cancelButtonEl = this.renderButton(cancelButton)
 
     return (
-      <div className={resultClassName}>
-        {showClose &&
-          <button type="button" className={css.close} onClick={onClose} />
-        }
-        {title &&
-          <header className={css.title}>
-            {title}
-          </header>
-        }
-        {children}
-        {withButtons &&
-          <footer className={css.buttons}>
-            {okButtonEl}
-            {cancelButtonEl}
-          </footer>
-        }
-      </div>
+      <ReactCSSTransitionGroup
+        transitionName={{
+          appear: css.appear,
+          appearActive: css.appearActive
+        }}
+        transitionAppear={true}
+        transitionAppearTimeout={200}
+        transitionEnter={false}
+        transitionLeave={false}>
+        <div className={resultClassName} ref={el => { this.popup = el }}>
+          {showClose &&
+            <button type="button" className={css.close} onClick={onClose} />
+          }
+          {title &&
+            <header className={css.title}>
+              {title}
+            </header>
+          }
+          {children}
+          {withButtons &&
+            <footer className={css.buttons}>
+              {okButtonEl}
+              {cancelButtonEl}
+            </footer>
+          }
+        </div>
+      </ReactCSSTransitionGroup>
     )
   }
 
