@@ -13,6 +13,8 @@ import ClearIcon from '../icons/forms/ClearIcon'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
+const ESCAPE = 27
+
 @pure
 @injectSheet((theme) => ({
   popup: {
@@ -103,7 +105,7 @@ export default class Popup extends Component {
     /**
      * Закрытие попапа по клику вне него
      */
-    closeOnOverlayClick: PropTypes.bool,
+    closeOnOutsideClick: PropTypes.bool,
     /**
      * Коллбек вызывающийся после открытия попапа
      */
@@ -122,7 +124,10 @@ export default class Popup extends Component {
     isOpen: false,
     showClose: true,
     closeOnEsc: true,
-    closeOnOverlayClick: true
+    closeOnOutsideClick: true,
+    onOpened: () => {},
+    onClose: () => {},
+    onClosed: () => {}
   };
 
   get css() {
@@ -157,6 +162,12 @@ export default class Popup extends Component {
         this.node
       )
 
+      if (this.props.closeOnEsc)
+        document.addEventListener('keydown', this.handleKeyDown)
+
+      if (this.props.closeOnOutsideClick)
+        document.addEventListener('click', this.handleOutsideClick)
+
       this.node.addEventListener('transitionend', this.handleTransitionEnd)
     } else {
       this.unrenderContainer()
@@ -164,23 +175,35 @@ export default class Popup extends Component {
   }
 
   unrenderContainer() {
-    const { onClosed } = this.props
-
     if (this.node) {
       ReactDOM.unmountComponentAtNode(this.node)
       document.body.removeChild(this.node)
       this.node = null
 
-      if (onClosed) onClosed()
+      if (this.props.closeOnEsc)
+        document.removeEventListener('keydown', this.handleKeyDown)
+
+      if (this.props.closeOnOutsideClick)
+        document.removeEventListener('click', this.handleOutsideClick)
+
+      this.props.onClosed()
+    }
+  }
+
+  handleKeyDown = event => {
+    if (event.keyCode === ESCAPE) this.props.onClose()
+  }
+
+  handleOutsideClick = event => {
+    if (!this.node.contains(event.target)) {
+      event.stopPropagation()
+      this.props.onClose()
     }
   }
 
   handleTransitionEnd = () => {
-    const { onOpened } = this.props
-
     this.node.removeEventListener('transitionend', this.handleTransitionEnd)
-
-    if (onOpened) onOpened()
+    this.props.onOpened()
   }
 
   renderPopup() {
