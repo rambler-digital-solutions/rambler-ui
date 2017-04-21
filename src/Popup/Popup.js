@@ -8,6 +8,8 @@ import ReactDOM from 'react-dom'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
+import IconButton from '../IconButton'
+import ClearIcon from '../icons/forms/ClearIcon'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
@@ -44,22 +46,9 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     lineHeight: 1.25
   },
   close: {
-    position: 'absolute',
-    top: 20,
-    right: 25,
-    border: 0,
-    margin: 0,
-    padding: 0,
-    width: 20,
-    height: 20,
-    background: 'transparent',
-    color: '#ccc',
-    cursor: 'pointer',
-    '&::after': {
-      content: '"\\D7"',
-      fontSize: '24px',
-      lineHeight: '20px'
-    }
+    position: 'absolute !important',
+    top: 18,
+    right: 23
   },
   buttons: {
     display: 'flex',
@@ -228,7 +217,14 @@ export default class Popup extends Component {
         transitionLeave={false}>
         <div className={resultClassName} ref={el => { this.popup = el }}>
           {showClose &&
-            <button type="button" className={css.close} onClick={onClose} />
+            <IconButton
+              type="flat"
+              buttonType="button"
+              size="small"
+              className={css.close}
+              onClick={onClose}>
+              <ClearIcon color="#ccc" />
+            </IconButton>
           }
           {title &&
             <header className={css.title}>
