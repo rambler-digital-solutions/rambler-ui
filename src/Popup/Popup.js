@@ -25,12 +25,12 @@ const ESCAPE = 27
     left: '50%',
     transform: 'translate(-50%, -50%)',
     boxSizing: 'border-box',
-    borderRadius: 2,
-    boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
-    padding: '20px 30px 30px',
-    width: 350,
-    backgroundColor: 'white',
-    fontSize: '13px',
+    borderRadius: theme.popup.borderRadius,
+    boxShadow: theme.popup.boxShadow,
+    padding: theme.popup.padding,
+    width: theme.popup.width,
+    backgroundColor: theme.popup.background,
+    fontSize: theme.popup.font.size,
     transition: 'margin-top .2s ease, opacity .2s ease'
   },
   appear: {

@@ -212,6 +212,16 @@ export default {
     activeRadioColor: '#315efb',
     font: {size: 14}
   },
+  popup: {
+    borderRadius: 2,
+    boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
+    padding: '20px 30px 30px',
+    width: 350,
+    background: 'white',
+    font: {
+      size: 13
+    }
+  },
   input: {
     padding: '0 13px 2px 13px',
     border: '1px solid #e8e8e8',
