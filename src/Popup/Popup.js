@@ -117,7 +117,11 @@ export default class Popup extends Component {
     /**
      * Коллбек вызывающийся после закрытия попапа
      */
-    onClosed: PropTypes.func
+    onClosed: PropTypes.func,
+    /**
+     * Коллбек вызывающийся при монтировании/размонтировании контейнера
+     */
+    containerRef: PropTypes.func
   };
 
   static defaultProps = {
@@ -127,7 +131,8 @@ export default class Popup extends Component {
     closeOnOutsideClick: true,
     onOpened: () => {},
     onClose: () => {},
-    onClosed: () => {}
+    onClosed: () => {},
+    containerRef: () => {}
   };
 
   get css() {
@@ -152,13 +157,12 @@ export default class Popup extends Component {
       if (!this.node) {
         this.node = document.createElement('div')
         document.body.appendChild(this.node)
+        this.props.containerRef(this.node)
       }
-
-      const popupElement = this.renderPopup()
 
       ReactDOM.unstable_renderSubtreeIntoContainer(
         this,
-        popupElement,
+        this.renderPopup(),
         this.node
       )
 
@@ -187,6 +191,7 @@ export default class Popup extends Component {
         document.removeEventListener('click', this.handleOutsideClick)
 
       this.props.onClosed()
+      this.props.containerRef()
     }
   }
 
@@ -238,7 +243,7 @@ export default class Popup extends Component {
         transitionAppearTimeout={200}
         transitionEnter={false}
         transitionLeave={false}>
-        <div className={resultClassName} ref={el => { this.popup = el }}>
+        <div className={resultClassName}>
           {showClose &&
             <IconButton
               type="flat"
