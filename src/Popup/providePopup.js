@@ -30,12 +30,12 @@ export default function providePopup(Target) {
 
       popup.closed = new Promise((resolve, reject) => {
         onResolve = arg => {
-          this.closePopup(popup)
+          this.removePopup(popup)
           resolve(arg)
         }
 
         onReject = arg => {
-          this.closePopup(popup)
+          this.removePopup(popup)
           reject(arg)
         }
       })
@@ -60,6 +60,10 @@ export default function providePopup(Target) {
     }
 
     closePopup = popup => {
+      popup.close()
+    }
+
+    removePopup = popup => {
       if (this.popups.indexOf(popup.element) > -1) {
         this.popups = this.popups.filter(el => el !== popup.element)
         this.renderContainer()

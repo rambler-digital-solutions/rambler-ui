@@ -25,6 +25,10 @@ describe('<Popup />', () => {
     )
   )
 
+  beforeEach(() => {
+    containerNode = undefined
+  })
+
   it('container node should be undefined if popup is not open', () => {
     mountWrapper()
 
@@ -40,7 +44,7 @@ describe('<Popup />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should open/close Popup when change props.isOpen', () => {
+  it('should open/close popup when change props.isOpen', () => {
     const wrapper = mountWrapper()
 
     expect(containerNode).toBeUndefined()
