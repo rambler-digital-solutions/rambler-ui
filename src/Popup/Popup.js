@@ -4,7 +4,10 @@
  */
 
 import React, { Component, PropTypes, cloneElement } from 'react'
-import ReactDOM from 'react-dom'
+import {
+  unmountComponentAtNode,
+  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer
+} from 'react-dom'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
@@ -160,7 +163,7 @@ export default class Popup extends Component {
         this.props.containerRef(this.node)
       }
 
-      ReactDOM.unstable_renderSubtreeIntoContainer(
+      renderSubtreeIntoContainer(
         this,
         this.renderPopup(),
         this.node
@@ -180,7 +183,7 @@ export default class Popup extends Component {
 
   unrenderContainer() {
     if (this.node) {
-      ReactDOM.unmountComponentAtNode(this.node)
+      unmountComponentAtNode(this.node)
       document.body.removeChild(this.node)
       this.node = null
 

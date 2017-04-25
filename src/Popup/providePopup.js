@@ -3,7 +3,10 @@
  */
 
 import React, { Component, cloneElement } from 'react'
-import ReactDOM from 'react-dom'
+import {
+  unmountComponentAtNode,
+  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer
+} from 'react-dom'
 import uniqueId from 'lodash/uniqueId'
 
 export default function providePopup(Target) {
@@ -81,7 +84,7 @@ export default function providePopup(Target) {
           <div>{this.popups}</div>
         )
 
-        ReactDOM.unstable_renderSubtreeIntoContainer(
+        renderSubtreeIntoContainer(
           this,
           listElement,
           this.node
@@ -93,7 +96,7 @@ export default function providePopup(Target) {
 
     unrenderContainer() {
       if (this.node) {
-        ReactDOM.unmountComponentAtNode(this.node)
+        unmountComponentAtNode(this.node)
         document.body.removeChild(this.node)
         this.node = null
       }
