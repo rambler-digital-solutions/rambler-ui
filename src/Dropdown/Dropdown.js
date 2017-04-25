@@ -10,10 +10,11 @@ import { isolateMixin } from '../style/mixins'
   dropdown: {
     ...isolateMixin,
     boxSizing: 'border-box',
-    opacity: '0',
+    opacity: '0.01',
     pointerEvents: 'none',
     position: 'relative',
-    transition: `all ${theme.dropdown.animationDuration}ms`,
+    transitionDuration: `${theme.dropdown.animationDuration}ms`,
+    transitionProperty: 'opacity, top',
     background: '#fff',
     boxShadow: '1px 2px 7px 0 rgba(123, 129, 133, 0.34)'
   },
@@ -66,7 +67,7 @@ class DropdownContainer extends PureComponent {
       if (nextProps.isVisible) {
         if (!this.state.pointY)
           this.setState({ pointY: nextProps.pointY }, () => {
-            setTimeout(this.show, 15) // задержка нужна для анимации
+            setTimeout(this.show, 33) // задержка нужна для анимации
           })
         else
           this.show()

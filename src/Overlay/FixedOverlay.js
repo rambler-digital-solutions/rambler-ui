@@ -6,6 +6,7 @@ import {
 import React, { Children, PureComponent, Component, PropTypes, cloneElement } from 'react'
 import EventEmitter from 'events'
 import debounce from 'lodash/debounce'
+import pick from 'lodash/pick'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
 import { DROPDOWN_ZINDEX } from '../constants/z-indexes'
@@ -23,10 +24,6 @@ class ContentElementWrapper extends Component {
 
   static propTypes = {
     /**
-     * React-элемент с контентом
-     */
-    content: PropTypes.node,
-    /**
      * Свойства контента
      */
     contentProps: PropTypes.object
@@ -38,8 +35,8 @@ class ContentElementWrapper extends Component {
 
   constructor(props) {
     super(props)
-    this.state = props
     this.contentProps = props.contentProps || {}
+    this.state = {contentProps: this.contentProps}
   }
 
   updateContentProps(newContentProps) {
@@ -62,8 +59,8 @@ class ContentElementWrapper extends Component {
   }
 
   render() {
-    const { content, contentProps = {} } = this.state
-    return cloneElement(content, contentProps)
+    const { content, ...props } = this.state.contentProps
+    return cloneElement(content, props)
   }
 
 }
@@ -99,8 +96,6 @@ function getPositionOptions(params) {
     anchorRect,
     contentHeight,
     contentWidth,
-    anchorPointX,
-    anchorPointY,
     autoPositionX,
     autoPositionY,
     noRecalculate,
@@ -108,7 +103,9 @@ function getPositionOptions(params) {
   } = params
   let {
     contentPointX,
-    contentPointY
+    contentPointY,
+    anchorPointX,
+    anchorPointY
   } = params
 
   let left, top, overflowX = 0, overflowY = 0
@@ -214,6 +211,7 @@ function getPositionOptions(params) {
         left = result.left
         overflowX = result.overflowX
         contentPointX = result.contentPointX
+        anchorPointX = result.anchorPointX
       }
     }
     if (autoPositionY && overflowY > 0) {
@@ -228,6 +226,7 @@ function getPositionOptions(params) {
         top = result.top
         overflowY = result.overflowY
         contentPointY = result.contentPointY
+        anchorPointY = result.anchorPointY
       }
     }
   }
@@ -241,7 +240,9 @@ function getPositionOptions(params) {
     overflowX,
     overflowY,
     contentPointX,
-    contentPointY
+    contentPointY,
+    anchorPointX,
+    anchorPointY
   }
 }
 
@@ -324,11 +325,11 @@ export default class FixedOverlay extends PureComponent {
      */
     contentWrapperRef: PropTypes.func,
     /**
-     * Колбек, который дергается, когда контент открыт
+     * Колбек, который дергается, когда контент закрыт
      */
     onContentHide: PropTypes.func,
     /**
-     * Колбек, который дергается, когда контент закрыт
+     * Колбек, который дергается, когда контент открыт
      */
     onContentShow: PropTypes.func,
     /**
@@ -345,7 +346,15 @@ export default class FixedOverlay extends PureComponent {
      * Функция для получения Y скролла на странице
      * Нужна исключительно внутри iframe
      */
-    getYScroll: PropTypes.func
+    getYScroll: PropTypes.func,
+    /**
+     * Обновлять при ресайзе
+     */
+    cachePositionOptions: PropTypes.bool,
+    /**
+     * Скрывать элемент при скролле
+     */
+    hideOnScroll: PropTypes.bool
   };
 
   static defaultProps = {
@@ -356,7 +365,9 @@ export default class FixedOverlay extends PureComponent {
       }
     },
     getElementRect: originalGetBoundingClientRect,
-    getYScroll: originalGetYScroll
+    getYScroll: originalGetYScroll,
+    cachePositionOptions: false,
+    hideOnScroll: false
   };
 
   constructor(props) {
@@ -367,6 +378,9 @@ export default class FixedOverlay extends PureComponent {
      * @type {Number}
      */
     this.transactionIndex = 0
+    /**
+     * Текущий статус показа hiding/showing
+     */
   }
 
   componentWillUnmount() {
@@ -375,7 +389,7 @@ export default class FixedOverlay extends PureComponent {
       this.anchorNodeObserver.disconnect()
   }
 
-  componentWillReceiveProps({isShown, anchorPointX, anchorPointY, contentPointX, contentPointY}) {
+  componentWillReceiveProps({isShown, anchorPointX, anchorPointY, contentPointX, contentPointY, content}) {
     if (isShown !== undefined && isShown !== this.props.isShown)
       if (isShown)
         this.show()
@@ -386,7 +400,8 @@ export default class FixedOverlay extends PureComponent {
       (this.props.anchorPointX !== anchorPointX ||
         this.props.anchorPointY !== anchorPointY ||
         this.props.contentPointX !== contentPointX ||
-        this.props.contentPointY !== contentPointY))
+        this.props.contentPointY !== contentPointY ||
+        this.props.content !== content))
       this.show()
   }
 
@@ -395,7 +410,7 @@ export default class FixedOverlay extends PureComponent {
     if (!this.anchorNode)
       throw new Error('Anchor node for FixedOverlay does not found')
     this.anchorNodeObserver = new MutationObserver(debounce(this.updatePosition))
-    this.anchorNodeObserver.observe(this.anchorNode, { subtree: true, childList: true, attributes: true })
+    this.anchorNodeObserver.observe(this.anchorNode, { subtree: true, childList: true, attributes: true, characterData: true })
     if (this.props.isShown)
       this.show()
   }
@@ -418,6 +433,7 @@ export default class FixedOverlay extends PureComponent {
     if (!this.contentContainerNode || !this.portal || !this.isShown)
       return
     const {
+      content,
       anchorPointX,
       anchorPointY,
       contentPointX,
@@ -426,24 +442,30 @@ export default class FixedOverlay extends PureComponent {
       autoPositionY,
       getWindowSize,
       getElementRect,
-      getYScroll
+      getYScroll,
+      cachePositionOptions
     } = this.props
     // TODO получать от клиента
     this.scrollY = getYScroll()
     const anchorRect = getElementRect(this.anchorNode)
-    const options = getPositionOptions({
+    const options = getPositionOptions(Object.assign({
       anchorRect,
       anchorPointX,
       anchorPointY,
       contentPointX,
       contentPointY,
-      autoPositionX,
-      autoPositionY,
+      autoPositionX: !this.cachedOptions && autoPositionX,
+      autoPositionY: !this.cachedOptions && autoPositionY,
       contentHeight: this.contentNode.offsetHeight,
       contentWidth: this.contentNode.offsetWidth,
       windowSize: getWindowSize()
-    })
+    }, this.cachedOptions))
+
+    if (cachePositionOptions)
+      this.cachedOptions = pick(options, 'anchorPointX', 'anchorPointY', 'contentPointX', 'contentPointY')
+
     this.portal.updateContentProps({
+      content,
       isVisible: true,
       pointX: options.contentPointX,
       pointY: options.contentPointY,
@@ -462,11 +484,11 @@ export default class FixedOverlay extends PureComponent {
     return new Promise((resolve) => {
       const element = <ContentElementWrapper
         ref={resolve}
-        content={this.props.content}
         contentProps={{
           isVisible: false,
           onBecomeVisible: this.onContentBecomeVisible,
           onBecomeInvisible: this.onContentBecomeInvisible,
+          content: this.props.content,
           hide: this.hide
         }}
       />
@@ -492,19 +514,26 @@ export default class FixedOverlay extends PureComponent {
     }
   }
 
+  onScroll = () => {
+    if (this.props.hideOnScroll)
+      this.hide(true)
+    else
+      this.updatePosition()
+  };
+
   subscribeListeners() {
     if (this.subscribedWinListeners)
       return
-    this.props.windowEvents.on('resize', this.updatePosition)
-    this.props.windowEvents.on('scroll', this.updatePosition)
+    this.props.windowEvents.on('resize', this.onScroll)
+    this.props.windowEvents.on('scroll', this.onScroll)
     this.subscribedWinListeners = true
   }
 
   unsubscribeListeners() {
     if (!this.subscribedWinListeners)
       return
-    this.props.windowEvents.removeListener('resize', this.updatePosition)
-    this.props.windowEvents.removeListener('scroll', this.updatePosition)
+    this.props.windowEvents.removeListener('resize', this.onScroll)
+    this.props.windowEvents.removeListener('scroll', this.onScroll)
     this.subscribedWinListeners = false
   }
 
@@ -526,13 +555,14 @@ export default class FixedOverlay extends PureComponent {
           // if (transactionIndex < this.transactionIndex)
           //   reject()
         }
+        this.events.removeAllListeners('contentVisible')
         this.events.on('contentVisible', handler)
         this.updatePosition()
       })
     }).then(() => {
       if (!this.contentNodeObserver) {
         this.contentNodeObserver = new MutationObserver(debounce(this.updatePosition))
-        this.contentNodeObserver.observe(this.contentNode, { subtree: true, childList: true, attributes: true })
+        this.contentNodeObserver.observe(this.contentNode, { subtree: true, childList: true, attributes: true, characterData: true })
       }
       if (this.props.onContentShow)
         this.props.onContentShow()
@@ -542,12 +572,16 @@ export default class FixedOverlay extends PureComponent {
   /**
    * Скрыть оверлей
    */
-  hide = () => {
+  hide = (force) => {
     this.isShown = false
     if (!this.portal)
       return Promise.resolve()
-    const transactionIndex = ++this.transactionIndex
     return new Promise((resolve) => {
+      if (force) {
+        resolve()
+        return
+      }
+      const transactionIndex = ++this.transactionIndex
       const handler = () => {
         if (transactionIndex === this.transactionIndex)
           resolve()
@@ -556,12 +590,14 @@ export default class FixedOverlay extends PureComponent {
         // if (transactionIndex < this.transactionIndex)
         //   reject()
       }
+      this.events.removeAllListeners('contentInvisible')
       this.events.on('contentInvisible', handler)
       this.portal.updateContentProps({ isVisible: false })
     }).then(() => {
       this.unmountPortal()
       if (this.props.onContentHide)
         this.props.onContentHide()
+      this.cachedOptions = null
     })
   };
 

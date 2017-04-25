@@ -1,5 +1,6 @@
 import React, { PropTypes, PureComponent, cloneElement } from 'react'
 import classnames from 'classnames'
+import OnClickOutside from '../events/OnClickOutside'
 import { FixedOverlay } from '../Overlay'
 import { injectSheet } from '../theme'
 import { POINTS_Y } from '../constants/overlay'
@@ -9,10 +10,11 @@ import { isolateMixin, fontStyleMixin } from '../style/mixins'
   content: {
     ...isolateMixin,
     ...fontStyleMixin(theme.font),
-    opacity: '0',
-    pointerEvents: 'none',
+    opacity: '0.01',
     position: 'relative',
-    transition: `all ${theme.tooltip.animationDuration}ms`
+    pointerEvents: 'none',
+    transitionDuration: `${theme.tooltip.animationDuration}ms`,
+    transitionProperty: 'opacity, top'
   },
   body: {
     background: 'rgba(0, 0, 0, .8)',
@@ -23,25 +25,17 @@ import { isolateMixin, fontStyleMixin } from '../style/mixins'
     borderRadius: 3
   },
   isVisible: {
-    opacity: '1 !important',
-    top: '0px'
-  },
-  'pointY-bottom': {
-    paddingBottom: 10,
-    '&:not($isVisible)': { top: -10 }
-  },
-  'pointY-top': {
-    paddingTop: 10,
-    '&:not($isVisible)': { top: 10 }
+    opacity: '1 !important'
   }
 }))
 class TooltipContent extends PureComponent {
 
   static propTypes = {
     style: PropTypes.object,
-    className: PropTypes.string,
+    bodyClassName: PropTypes.string,
     isVisible: PropTypes.bool.isRequired,
     onBecomeVisible: PropTypes.func,
+    onOutsideClick: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     pointY: PropTypes.oneOf(POINTS_Y),
     children: PropTypes.node
@@ -56,11 +50,27 @@ class TooltipContent extends PureComponent {
   state = {};
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.isVisible !== nextProps.isVisible)
-      if (nextProps.isVisible)
-        this.show()
+    if (this.props.isVisible !== nextProps.isVisible) {
+      const isVisible = nextProps.isVisible
+      // Делаем задержку, т.к. стили добавляются позже
+      this.clearDelayTimeout()
+      if (isVisible)
+        this.delayTimeout = setTimeout(this.show, 60)
       else
         this.hide()
+    }
+  }
+
+  componentWillUnmount() {
+    this.clearAnimationTimeout()
+    this.clearDelayTimeout()
+  }
+
+  clearDelayTimeout() {
+    if (this.delayTimeout) {
+      clearTimeout(this.delayTimeout)
+      this.delayTimeout = null
+    }
   }
 
   clearAnimationTimeout() {
@@ -70,7 +80,7 @@ class TooltipContent extends PureComponent {
     }
   }
 
-  hide() {
+  hide = () => {
     if (this.status === 'hiding')
       return
     this.status = 'hiding'
@@ -83,7 +93,7 @@ class TooltipContent extends PureComponent {
       },
       this.props.theme.tooltip.animationDuration
     )
-  }
+  };
 
   show = () => {
     if (this.status === 'showing')
@@ -98,18 +108,26 @@ class TooltipContent extends PureComponent {
       },
       this.props.theme.tooltip.animationDuration
     )
-  };
+  }; // нужна задержка для начала анимации
 
   render() {
-    const { children, className, style, pointY } = this.props
+    const { children, className, bodyClassName, style, pointY, onOutsideClick } = this.props
     const { isVisible } = this.state
+    let top
+    if (isVisible)
+      top = pointY === 'top' ? '3px' : '-3px'
+    else if (pointY)
+      top = pointY === 'top' ? '10px' : '-10px'
     return (
-      <div
-        className={ classnames(isVisible && this.css.isVisible, this.css.content, this.css['pointY-' + pointY]) }>
-        <div style={ style } className={ classnames(className, this.css.body) }>
-          { children }
+      <OnClickOutside handler={onOutsideClick}>
+        <div
+          style={{top, pointerEvents: 'none', paddingTop: '3px', paddingBottom: '3px'}}
+          className={ classnames(className, isVisible && this.css.isVisible, this.css.content) }>
+          <div style={ style } className={ classnames(bodyClassName, this.css.body) }>
+            { children }
+          </div>
         </div>
-      </div>
+      </OnClickOutside>
     )
   }
 
@@ -156,11 +174,27 @@ export default class Tooltip extends PureComponent {
      * Флаг показа тултипа
      * Если вы не указываете его, тултип будет показываться при hover
      */
-    isShown: PropTypes.bool
+    isShown: PropTypes.bool,
+    /**
+     * Позиция тултипа по оси Y
+     * top - сверху элемента, bottom - снизу элемента
+     */
+    positionY: PropTypes.oneOf(['top', 'bottom']),
+    /**
+     * Закрывать при клике вне тултипа
+     */
+    closeOnOutsideClick: PropTypes.bool,
+    /**
+     * Скрывать при скролле страницы
+     */
+    hideOnScroll: PropTypes.bool
   };
 
   static defaultProps = {
-    delay: 0
+    delay: 0,
+    positionY: 'top',
+    closeOnOutsideClick: false,
+    hideOnScroll: true
   };
 
   state = {
@@ -195,11 +229,15 @@ export default class Tooltip extends PureComponent {
   }
 
   show() {
+    if (this.state.isShown)
+      return
     this.clearDelayTimeout()
     this.setState({ isShown: true })
   }
 
   hide() {
+    if (!this.state.isShown)
+      return
     this.clearDelayTimeout()
     if (!this.props.delay)
       this.setState({ isShown: false })
@@ -208,6 +246,13 @@ export default class Tooltip extends PureComponent {
         this.setState({ isShown: false })
       }, this.props.delay)
   }
+
+  onOutsideClick = () => {
+    if (!this.props.closeOnOutsideClick)
+      return
+    this.clearDelayTimeout()
+    this.setState({ isShown: false })
+  };
 
   renderAnchor() {
     const { className, style, children } = this.props
@@ -223,17 +268,23 @@ export default class Tooltip extends PureComponent {
   render() {
     if (!this.props.content)
       return this.renderAnchor()
-    const {contentClassName, contentStyle, content} = this.props
+    const {contentClassName, contentStyle, content, positionY, hideOnScroll} = this.props
     return (
       <FixedOverlay
         isShown={this.state.isShown}
         anchor={this.renderAnchor()}
-        content={<TooltipContent className={ contentClassName } style={ contentStyle }>{ content }</TooltipContent>}
+        content={<TooltipContent
+          onOutsideClick={this.onOutsideClick}
+          bodyClassName={contentClassName}
+          style={ contentStyle }>{ content }
+        </TooltipContent>}
         autoPositionY={true}
-        anchorPointY="top"
-        contentPointY="bottom"
+        anchorPointY={positionY === 'top' ? 'top' : 'bottom'}
+        contentPointY={positionY === 'top' ? 'bottom' : 'top'}
         anchorPointX="center"
         contentPointX="center"
+        cachePositionOptions={false}
+        hideOnScroll={hideOnScroll}
       />
     )
   }
