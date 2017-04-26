@@ -269,7 +269,7 @@ function wrapChildren(children) {
  */
 
 @zIndexStack(DROPDOWN_ZINDEX)
-@windowEvents
+@windowEvents('scroll', 'resize')
 export default class FixedOverlay extends PureComponent {
 
   static propTypes = {

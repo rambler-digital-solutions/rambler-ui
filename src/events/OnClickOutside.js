@@ -1,20 +1,10 @@
 import {Component, PropTypes} from 'react'
 import {findDOMNode} from 'react-dom'
-import EventEmitter from 'events'
 import debounce from 'lodash/debounce'
-
-const clickEvents = new EventEmitter
-clickEvents.setMaxListeners(0)
-
-window.addEventListener('click', (event) => {
-  clickEvents.emit('click', event)
-}, true)
-
-window.addEventListener('touchstart', (event) => {
-  clickEvents.emit('touchstart', event)
-}, true)
+import windowEvents from '../hoc/window-events'
 
 
+@windowEvents('touchstart', 'click')
 export default class OnClickOutside extends Component {
 
   static propTypes = {
@@ -41,13 +31,13 @@ export default class OnClickOutside extends Component {
 
   componentDidMount() {
     this.componentNode = findDOMNode(this)
-    clickEvents.on('click', this.onClick)
-    clickEvents.on('touchstart', this.onClick)
+    this.props.windowEvents.on('click', this.onClick)
+    this.props.windowEvents.on('touchstart', this.onClick)
   }
 
   componentWillUnmount() {
-    clickEvents.removeListener('click', this.onClick)
-    clickEvents.removeListener('touchstart', this.onClick)
+    this.props.windowEvents.removeListener('click', this.onClick)
+    this.props.windowEvents.removeListener('touchstart', this.onClick)
   }
 
   render() {
