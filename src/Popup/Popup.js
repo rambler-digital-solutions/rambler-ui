@@ -235,7 +235,9 @@ export default class Popup extends Component {
     const {
       children,
       className,
+      style,
       backdropClassName,
+      backdropStyle,
       title,
       showClose,
       okButton,
@@ -269,8 +271,8 @@ export default class Popup extends Component {
         transitionAppearTimeout={200}
         transitionEnter={false}
         transitionLeave={false}>
-        <div className={resultBackdropClassName}>
-          <div className={resultClassName} ref={el => { this.popup = el }}>
+        <div style={backdropStyle} className={resultBackdropClassName}>
+          <div style={style} className={resultClassName} ref={el => { this.popup = el }}>
             {showClose &&
               <IconButton
                 type="flat"

@@ -122,11 +122,15 @@ describe('<Popup />', () => {
   })
 
   it('should append styles', () => {
-    const color = 'rgb(0, 0, 0)'
+    const backgroundColor = 'rgb(255, 0, 0)'
+    const backdropBackgroundColor = 'rgb(0, 0, 0)'
 
     mountWrapper({
-      styles: {
-        color
+      style: {
+        backgroundColor
+      },
+      backdropStyle: {
+        backgroundColor: backdropBackgroundColor
       },
       isOpen: true
     })
@@ -134,7 +138,12 @@ describe('<Popup />', () => {
     const popupNode = containerNode.querySelector('.test-popup')
     const popupStyles = getNodeStyles(popupNode)
 
-    expect(popupStyles.color).toEqual(color)
+    expect(popupStyles['background-color']).toEqual(backgroundColor)
+
+    const backdropNode = popupNode.parentElement
+    const backdropStyles = getNodeStyles(backdropNode)
+
+    expect(backdropStyles['background-color']).toEqual(backdropBackgroundColor)
   })
 
   it('should append title', () => {
