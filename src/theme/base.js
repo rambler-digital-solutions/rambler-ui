@@ -219,8 +219,11 @@ export default {
     width: 350,
     background: 'white',
     backdropBackground: 'rgba(0, 0, 0, 0.1)',
+    closeColor: '#cccccc',
+    animationDuration: 200,
     font: {
-      size: 13
+      size: 13,
+      titleSize: 16
     }
   },
   input: {

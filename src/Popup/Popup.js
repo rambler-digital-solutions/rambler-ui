@@ -43,7 +43,8 @@ const ESCAPE = 27
     bottom: 0,
     zIndex: 1000,
     backgroundColor: theme.popup.backdropBackground,
-    transition: 'margin-top .2s ease, opacity .2s ease'
+    transitionDuration: theme.popup.animationDuration,
+    transitionProperty: 'margin-top, opacity'
   },
   appear: {
     marginTop: -10,
@@ -55,7 +56,7 @@ const ESCAPE = 27
   },
   title: {
     marginBottom: 15,
-    fontSize: '16px',
+    fontSize: theme.popup.font.titleSize,
     fontWeight: 500,
     lineHeight: 1.25
   },
@@ -242,22 +243,11 @@ export default class Popup extends Component {
       showClose,
       okButton,
       cancelButton,
-      onClose
+      onClose,
+      theme
     } = this.props
 
     const css = this.css
-    const withButtons = !!okButton || !!cancelButton
-
-    const resultClassName = classnames(
-      css.popup,
-      className
-    )
-
-    const resultBackdropClassName = classnames(
-      css.backdrop,
-      backdropClassName
-    )
-
     const okButtonEl = this.renderButton(okButton)
     const cancelButtonEl = this.renderButton(cancelButton)
 
@@ -271,8 +261,13 @@ export default class Popup extends Component {
         transitionAppearTimeout={200}
         transitionEnter={false}
         transitionLeave={false}>
-        <div style={backdropStyle} className={resultBackdropClassName}>
-          <div style={style} className={resultClassName} ref={el => { this.popup = el }}>
+        <div
+          style={backdropStyle}
+          className={classnames(css.backdrop, backdropClassName)}>
+          <div
+            ref={el => { this.popup = el }}
+            style={style}
+            className={classnames(css.popup, className)}>
             {showClose &&
               <IconButton
                 type="flat"
@@ -280,7 +275,7 @@ export default class Popup extends Component {
                 size="small"
                 className={css.close}
                 onClick={onClose}>
-                <ClearIcon color="#ccc" />
+                <ClearIcon color={theme.popup.closeColor} />
               </IconButton>
             }
             {title &&
@@ -289,7 +284,7 @@ export default class Popup extends Component {
               </header>
             }
             {children}
-            {withButtons &&
+            {(okButton || cancelButton) &&
               <footer className={css.buttons}>
                 {okButtonEl}
                 {cancelButtonEl}
@@ -305,13 +300,12 @@ export default class Popup extends Component {
     if (button) {
       const { className, ...other } = button.props
       const css = this.css
-      const resultClassName = classnames(className, css.button)
 
       return cloneElement(button, {
         ...other,
         block: true,
         size: 'small',
-        className: resultClassName
+        className: classnames(className, css.button)
       })
     }
   }
