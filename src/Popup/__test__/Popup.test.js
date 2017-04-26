@@ -85,6 +85,15 @@ describe('<Popup />', () => {
     expect(popupStyles['padding-left']).toEqual('30px')
     expect(popupStyles['padding-right']).toEqual('30px')
     expect(popupStyles['padding-bottom']).toEqual('30px')
+
+    const backdropNode = popupNode.parentElement
+    const backdropStyles = getNodeStyles(backdropNode)
+
+    expect(backdropStyles.position).toEqual('fixed')
+    expect(backdropStyles.top).toEqual('0px')
+    expect(backdropStyles.left).toEqual('0px')
+    expect(backdropStyles.right).toEqual('0px')
+    expect(backdropStyles.bottom).toEqual('0px')
   })
 
   it('should not append title, buttons', () => {
@@ -103,10 +112,13 @@ describe('<Popup />', () => {
 
   it('should append className', () => {
     mountWrapper({
-      isOpen: true
+      isOpen: true,
+      className: 'test-popup',
+      backdropClassName: 'test-backdrop'
     })
 
     expect(containerNode.querySelector('.test-popup')).not.toBeUndefined()
+    expect(containerNode.querySelector('.test-backdrop')).not.toBeUndefined()
   })
 
   it('should append styles', () => {

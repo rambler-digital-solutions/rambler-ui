@@ -218,6 +218,7 @@ export default {
     padding: '20px 30px 30px',
     width: 350,
     background: 'white',
+    backdropBackground: 'rgba(0, 0, 0, 0.1)',
     font: {
       size: 13
     }

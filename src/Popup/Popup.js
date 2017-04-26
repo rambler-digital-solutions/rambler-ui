@@ -33,7 +33,16 @@ const ESCAPE = 27
     padding: theme.popup.padding,
     width: theme.popup.width,
     backgroundColor: theme.popup.background,
-    fontSize: theme.popup.font.size,
+    fontSize: theme.popup.font.size
+  },
+  backdrop: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1000,
+    backgroundColor: theme.popup.backdropBackground,
     transition: 'margin-top .2s ease, opacity .2s ease'
   },
   appear: {
@@ -77,6 +86,14 @@ export default class Popup extends Component {
      * Inline-стили
      */
     style: PropTypes.object,
+    /**
+     * Css-класс для фонового слоя
+     */
+    backdropClassName: PropTypes.string,
+    /**
+     * Inline-стили для фонового слоя
+     */
+    backdropStyle: PropTypes.object,
     /**
      * Контент для попапа
      */
@@ -203,7 +220,7 @@ export default class Popup extends Component {
   }
 
   handleOutsideClick = event => {
-    if (!this.node.contains(event.target)) {
+    if (!this.popup.contains(event.target)) {
       event.stopPropagation()
       this.props.onClose()
     }
@@ -218,6 +235,7 @@ export default class Popup extends Component {
     const {
       children,
       className,
+      backdropClassName,
       title,
       showClose,
       okButton,
@@ -233,6 +251,11 @@ export default class Popup extends Component {
       className
     )
 
+    const resultBackdropClassName = classnames(
+      css.backdrop,
+      backdropClassName
+    )
+
     const okButtonEl = this.renderButton(okButton)
     const cancelButtonEl = this.renderButton(cancelButton)
 
@@ -246,29 +269,31 @@ export default class Popup extends Component {
         transitionAppearTimeout={200}
         transitionEnter={false}
         transitionLeave={false}>
-        <div className={resultClassName}>
-          {showClose &&
-            <IconButton
-              type="flat"
-              buttonType="button"
-              size="small"
-              className={css.close}
-              onClick={onClose}>
-              <ClearIcon color="#ccc" />
-            </IconButton>
-          }
-          {title &&
-            <header className={css.title}>
-              {title}
-            </header>
-          }
-          {children}
-          {withButtons &&
-            <footer className={css.buttons}>
-              {okButtonEl}
-              {cancelButtonEl}
-            </footer>
-          }
+        <div className={resultBackdropClassName}>
+          <div className={resultClassName} ref={el => { this.popup = el }}>
+            {showClose &&
+              <IconButton
+                type="flat"
+                buttonType="button"
+                size="small"
+                className={css.close}
+                onClick={onClose}>
+                <ClearIcon color="#ccc" />
+              </IconButton>
+            }
+            {title &&
+              <header className={css.title}>
+                {title}
+              </header>
+            }
+            {children}
+            {withButtons &&
+              <footer className={css.buttons}>
+                {okButtonEl}
+                {cancelButtonEl}
+              </footer>
+            }
+          </div>
         </div>
       </ReactCSSTransitionGroup>
     )
