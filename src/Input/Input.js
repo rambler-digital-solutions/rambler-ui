@@ -77,7 +77,7 @@ import { Eye } from '../icons/forms'
   success: {
     '& > input': {
       borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
-      paddingBottom: '1px',
+      paddingBottom: '1px'
     },
     '& $iconLeft > svg': {
       fill: theme.inputRequiredProps.icon.fill
@@ -89,7 +89,7 @@ import { Eye } from '../icons/forms'
   error: {
     '& > input': {
       borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
-      paddingBottom: '1px',
+      paddingBottom: '1px'
     },
     '& $iconLeft > svg': {
       fill: theme.inputRequiredProps.icon.fill
@@ -101,7 +101,7 @@ import { Eye } from '../icons/forms'
   warning: {
     '& > input': {
       borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
-      paddingBottom: '1px',
+      paddingBottom: '1px'
     },
     '& $iconLeft > svg': {
       fill: theme.inputRequiredProps.icon.fill

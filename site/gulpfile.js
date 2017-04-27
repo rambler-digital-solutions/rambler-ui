@@ -1,8 +1,6 @@
-/* eslint strict: ['off'] */
+/* eslint strict: ["off"] */
 // 1. Клонируем ветку gh-pages в определенную папку
 // 2. Собираем через вебкак + gulp папку
-
-'use strict'
 
 const _ = require('lodash')
 const gulp = require('gulp')

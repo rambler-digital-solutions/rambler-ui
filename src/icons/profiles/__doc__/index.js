@@ -1,7 +1,7 @@
 import css from './index.css'
 import * as icons from '../index'
 
-export const title = 'Иконки профилей'
+export const title = 'Profile icons'
 export default function Doc() {
 
   return (

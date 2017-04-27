@@ -87,7 +87,7 @@ describe('<Toggle />', () => {
     const togOptStyles2 = getStyles(wrapper.find('.toggleOption'))
     expect(toggleStyles['margin-bottom']).toEqual('20px')
     expect(toggleStyles.width).toEqual('480px')
-    expect(toggleStyles.opacity).toEqual('0.5')
+    expect(toggleStyles.opacity.replace(',', '.')).toEqual('0.5')
     expect(togOptStyles.height).toEqual('45px')
     expect(togOptStyles.width).toEqual(togOptStyles2.width)
     expect(togOptStyles['pointer-events']).toEqual('none')

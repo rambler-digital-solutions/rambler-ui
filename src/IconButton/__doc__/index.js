@@ -4,7 +4,7 @@ import code from '!!raw!../IconButton.js'
 import PropTypesTable from 'components/PropTypesTable'
 import Playground from 'components/Playground'
 
-export const title = 'Кнопки-иконки'
+export const title = 'IconButton'
 
 export default () => (
   <div>

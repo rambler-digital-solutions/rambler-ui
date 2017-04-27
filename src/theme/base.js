@@ -268,5 +268,11 @@ export default {
       right: 40,
       fill: 'initial !important'
     }
+  },
+  dropdown: {
+    animationDuration: 200
+  },
+  tooltip: {
+    animationDuration: 200
   }
 }

@@ -1,6 +1,4 @@
-/*
-  eslint global-require: ['off']
- */
+/* eslint global-require: ["off"] */
 const cp = require('child_process')
 const env = process.env.NODE_ENV || 'development'
 const _ = require('lodash')
