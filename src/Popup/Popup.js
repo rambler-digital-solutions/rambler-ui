@@ -16,38 +16,46 @@ import ClearIcon from '../icons/forms/ClearIcon'
 import zIndexStack from '../hoc/z-index-stack'
 import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
 const ESCAPE = 27
 
 @pure
 @zIndexStack(POPUP_ZINDEX)
 @injectSheet((theme) => ({
-  popup: {
-    ...isolateMixin,
-    ...fontStyleMixin(theme.font),
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    boxSizing: 'border-box',
-    borderRadius: theme.popup.borderRadius,
-    boxShadow: theme.popup.boxShadow,
-    padding: theme.popup.padding,
-    width: theme.popup.width,
-    backgroundColor: theme.popup.background,
-    fontSize: theme.popup.font.size
-  },
   backdrop: {
+    ...isolateMixin,
+    ...middleMixin,
+    ...fontStyleMixin(theme.font),
     position: 'fixed',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    zIndex: 1000,
+    paddingTop: 20,
+    paddingBottom: 20,
     backgroundColor: theme.popup.backdropBackground,
+    textAlign: 'center',
+    overflowY: 'auto',
+    overflowX: 'hidden',
     transitionDuration: theme.popup.animationDuration,
     transitionProperty: 'margin-top, opacity'
+  },
+  popup: {
+    position: 'relative',
+    display: 'inline-block',
+    boxSizing: 'border-box',
+    borderRadius: theme.popup.borderRadius,
+    boxShadow: theme.popup.boxShadow,
+    padding: theme.popup.padding,
+    width: 300,
+    backgroundColor: theme.popup.background,
+    fontSize: theme.popup.font.size,
+    textAlign: 'left',
+    ...ifDesktop({
+      width: 'auto',
+      minWidth: 350
+    })
   },
   appear: {
     marginTop: -10,
@@ -59,6 +67,7 @@ const ESCAPE = 27
   },
   title: {
     marginBottom: 15,
+    paddingRight: 25,
     fontSize: theme.popup.font.titleSize,
     fontWeight: 500,
     lineHeight: 1.25
@@ -74,9 +83,10 @@ const ESCAPE = 27
     marginTop: 25
   },
   button: {
-    '& + $button': {
-      marginLeft: '12%'
-    }
+    width: 114,
+    ...ifDesktop({
+      width: 129
+    })
   }
 }))
 export default class Popup extends Component {
@@ -308,7 +318,6 @@ export default class Popup extends Component {
 
       return cloneElement(button, {
         ...other,
-        block: true,
         size: 'small',
         className: classnames(className, css.button)
       })

@@ -15,7 +15,7 @@ class WithPopup extends Component {
         title="Ошибка"
         showClose
         okButton={
-          <Button type="primary" onClick={resolve}>
+          <Button type="primary" block onClick={resolve}>
             Ок
           </Button>
         }

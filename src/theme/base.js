@@ -227,15 +227,14 @@ export default {
     borderRadius: 2,
     boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
     padding: '20px 30px 30px',
-    width: 350,
     background: 'white',
     backdropBackground: 'rgba(0, 0, 0, 0.1)',
     closeColor: '#cccccc',
-    animationDuration: 200,
     font: {
       size: 13,
       titleSize: 16
-    }
+    },
+    animationDuration: 200
   },
   input: {
     padding: '0 13px 2px 13px',

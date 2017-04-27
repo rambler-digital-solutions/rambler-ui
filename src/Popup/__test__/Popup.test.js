@@ -73,13 +73,14 @@ describe('<Popup />', () => {
     const popupNode = containerNode.querySelector('.popup')
     const popupStyles = getNodeStyles(popupNode)
 
-    expect(popupStyles.position).toEqual('absolute')
-    expect(popupStyles.top).toEqual('50%')
-    expect(popupStyles.left).toEqual('50%')
+    expect(popupStyles.position).toEqual('relative')
+    expect(popupStyles.display).toEqual('inline-block')
     expect(popupStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(popupStyles['font-size']).toEqual('13px')
+    expect(popupStyles['text-align']).toEqual('left')
     expect(popupStyles['background-color']).toEqual('rgb(255, 255, 255)')
     expect(popupStyles.width).toEqual('350px')
+    expect(popupStyles['min-width']).toEqual('350px')
     expect(popupStyles['padding-top']).toEqual('20px')
     expect(popupStyles['padding-left']).toEqual('30px')
     expect(popupStyles['padding-right']).toEqual('30px')
@@ -93,6 +94,26 @@ describe('<Popup />', () => {
     expect(backdropStyles.left).toEqual('0px')
     expect(backdropStyles.right).toEqual('0px')
     expect(backdropStyles.bottom).toEqual('0px')
+    expect(backdropStyles['padding-top']).toEqual('20px')
+    expect(backdropStyles['padding-bottom']).toEqual('20px')
+    expect(backdropStyles['overflow-y']).toEqual('auto')
+    expect(backdropStyles['overflow-x']).toEqual('hidden')
+  })
+
+  it('should apply custom width', () => {
+    mountWrapper({
+      isOpen: true,
+      children: (
+        <div style={{ width: 400 }}>
+          Hi
+        </div>
+      )
+    })
+
+    const popupNode = containerNode.querySelector('.popup')
+    const popupStyles = getNodeStyles(popupNode)
+
+    expect(popupStyles.width).toEqual('460px')
   })
 
   it('should not append title, buttons', () => {
