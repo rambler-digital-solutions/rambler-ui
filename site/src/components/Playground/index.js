@@ -1,7 +1,4 @@
-/*
-  eslint
-  no-new-func: ['off']
- */
+/* eslint no-new-func: ["off"] */
 /**
  * Плейграунд
  */

@@ -49,7 +49,7 @@ export default class Layout extends Component {
       route: '/contribute'
     }]
     return (
-      <div className={ classnames(css.Layout, css.Layout + '_route_' + location.pathname.match(/^\/?([^\/]+)/)[1]) }>
+      <div className={ classnames(css.Layout, css.Layout + '_route_' + location.pathname.match(/^\/?([^/]+)/)[1]) }>
         <Helmet titleTemplate="Rambler UI - %s" defaultTitle="Rambler UI" />
         <div className={ css.Layout__left }>
           <SideMenu docModules={ docModules } />

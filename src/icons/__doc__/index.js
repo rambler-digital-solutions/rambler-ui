@@ -1,4 +1,4 @@
-export const title = 'Иконки'
+export const title = 'Icons'
 
 import examplesCode from '!!raw!./examples.js'
 import svgIconCode from '!!raw!../SvgIcon/SvgIcon.js'

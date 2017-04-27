@@ -6,7 +6,7 @@
 import React, { Component, PropTypes, cloneElement } from 'react'
 import {
   unmountComponentAtNode,
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer
+  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
 } from 'react-dom'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import classnames from 'classnames'

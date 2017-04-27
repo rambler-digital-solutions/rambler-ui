@@ -1,10 +1,4 @@
-/*
-  eslint
-  no-case-declarations: ['off'],
-  no-useless-concat: ['off'],
-  no-restricted-syntax: ['off'],
-  guard-for-in: ['off']
- */
+/* eslint no-case-declarations: ["off"], no-useless-concat: ["off"], no-restricted-syntax: ["off"], guard-for-in: ["off"] */
 /**
  * @see https://github.com/callemall/material-ui/blob/master/docs/src/app/components/PropTypeDescription.js
  */
@@ -144,7 +138,7 @@ export default class PropTypesTable extends Component {
         defaultValue = prop.defaultValue.value.replace(/\n/g, '')
 
       if (prop.required) {
-        key = `<span style="color: #31a148">${key} \*</span>`
+        key = `<span style="color: #31a148">${key} *</span>`
         requiredProps += 1
       }
 

@@ -3,6 +3,7 @@ import React from 'react'
 import { ApplyTheme } from '../../theme'
 import { mount, getStyles} from '../../utils/test-utils'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
+import color from 'color'
 
 const applyTheme = (children) => (
   <ApplyTheme>{ children }</ApplyTheme>
@@ -45,7 +46,7 @@ describe('<IconButton />', () => {
     expect(styles['background-color']).toEqual('rgb(49, 94, 251)')
     expect(stylesIcon.width).toEqual('20px')
     expect(stylesIcon.height).toEqual('20px')
-    expect(stylesIcon.fill).toEqual('#ffffff')
+    expect(color(stylesIcon.fill).toString()).toEqual('rgb(255, 255, 255)')
   })
 
   it('expect type="secondary" size="small" affect style', () => {
@@ -54,10 +55,10 @@ describe('<IconButton />', () => {
     const stylesIcon = getStyles(wrapper.find('svg'))
     expect(styles.width).toEqual('23px')
     expect(styles.height).toEqual('23px')
-    expect(styles['background-color']).toEqual('rgb(234, 239, 255)')
+    expect(color(styles['background-color']).toString()).toEqual('rgb(234, 239, 255)')
     expect(stylesIcon.width).toEqual('11px')
     expect(stylesIcon.height).toEqual('11px')
-    expect(stylesIcon.fill).toEqual('#315efb')
+    expect(color(stylesIcon.fill).toString()).toEqual('rgb(49, 94, 251)')
   })
 
   it('callback onClick', () => {

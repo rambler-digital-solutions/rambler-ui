@@ -23,7 +23,7 @@ export const provideDocModules = memoize(
         name,
         linkToComponent: getLinkToComponent(name),
         linkToCode: getLinkToCode(name),
-        selfName: name.match(/\/?([^\/]*)$/)[1],
+        selfName: name.match(/\/?([^/]*)$/)[1],
         module: reqContext(key),
         childrenDocModules: []
       }

@@ -9,7 +9,7 @@ import codeInputStatus from '!!raw!../../InputStatus/InputStatus'
 import Playground from 'components/Playground'
 import PropTypesTable from 'components/PropTypesTable'
 
-export const title = 'Инпут'
+export const title = 'Input'
 
 export default () => (
   <div>

@@ -5,7 +5,7 @@
 import React, { Component, cloneElement } from 'react'
 import {
   unmountComponentAtNode,
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer
+  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
 } from 'react-dom'
 import uniqueId from 'lodash/uniqueId'
 

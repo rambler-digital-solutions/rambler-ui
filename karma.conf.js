@@ -62,7 +62,7 @@ module.exports = function (config) {
     browsers: ['Chrome', 'PhantomJS_custom'],
     singleRun: false,
     customLaunchers: {
-      'PhantomJS_custom': {
+      PhantomJS_custom: {
         base: 'PhantomJS',
         options: {
           viewportSize: {

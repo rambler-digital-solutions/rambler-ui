@@ -1,12 +1,7 @@
 import Button from '../Button'
 import React from 'react'
-import { ApplyTheme } from '../../theme'
-import { mount, getStyles} from '../../utils/test-utils'
+import { mount, getStyles, applyTheme } from '../../utils/test-utils'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
-
-const applyTheme = (children) => (
-  <ApplyTheme>{ children }</ApplyTheme>
-)
 
 describe('<Button />', () => {
   const defaultProps = {

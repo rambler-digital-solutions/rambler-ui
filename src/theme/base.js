@@ -73,6 +73,17 @@ export default {
       }
     }
   },
+  sideNav: {
+    iconColor: 'rgba(94, 94, 94, 0.4)',
+    selectedIconColor: '#262626',
+    selectedBorderColor: '#315efb',
+    height: 25,
+    sideMargin: 17,
+    betweenMargin: 20,
+    font: {
+      size: 14
+    }
+  },
   checkbox: {
     bgColor: '#fff',
     borderColor: '#ddd',
@@ -271,5 +282,11 @@ export default {
       right: 40,
       fill: 'initial !important'
     }
+  },
+  dropdown: {
+    animationDuration: 200
+  },
+  tooltip: {
+    animationDuration: 200
   }
 }
