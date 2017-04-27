@@ -1,14 +1,7 @@
-import React, { cloneElement } from 'react'
+import React from 'react'
 import Popup from '../Popup'
 import Button from '../../Button/Button'
-import { ApplyTheme } from '../../theme'
-import { mount, getNodeStyles } from '../../utils/test-utils'
-
-const withTheme = element => {
-  const Result = props => <ApplyTheme>{cloneElement(element, props)}</ApplyTheme>
-  Result.displayName = element.displayName
-  return <Result />
-}
+import { withTheme, mount, getNodeStyles } from '../../utils/test-utils'
 
 describe('<Popup />', () => {
   let containerNode
@@ -16,7 +9,7 @@ describe('<Popup />', () => {
   const mountWrapper = props => mount(
     withTheme(
       <Popup
-        className="test-popup"
+        className="popup"
         containerRef={ref => {
           containerNode = ref
         }}
@@ -71,7 +64,7 @@ describe('<Popup />', () => {
       isOpen: true
     })
 
-    const popupNode = containerNode.querySelector('.test-popup')
+    const popupNode = containerNode.querySelector('.popup')
     const popupStyles = getNodeStyles(popupNode)
 
     expect(popupStyles.position).toEqual('absolute')
@@ -102,7 +95,7 @@ describe('<Popup />', () => {
       showClose: false
     })
 
-    const popupNode = containerNode.querySelector('.test-popup')
+    const popupNode = containerNode.querySelector('.popup')
     const title = popupNode.querySelectorAll('header')
     const buttons = popupNode.querySelectorAll('button')
 
@@ -113,11 +106,11 @@ describe('<Popup />', () => {
   it('should append className', () => {
     mountWrapper({
       isOpen: true,
-      className: 'test-popup',
+      className: 'popup',
       backdropClassName: 'test-backdrop'
     })
 
-    expect(containerNode.querySelector('.test-popup')).not.toBeUndefined()
+    expect(containerNode.querySelector('.popup')).not.toBeUndefined()
     expect(containerNode.querySelector('.test-backdrop')).not.toBeUndefined()
   })
 
@@ -135,7 +128,7 @@ describe('<Popup />', () => {
       isOpen: true
     })
 
-    const popupNode = containerNode.querySelector('.test-popup')
+    const popupNode = containerNode.querySelector('.popup')
     const popupStyles = getNodeStyles(popupNode)
 
     expect(popupStyles['background-color']).toEqual(backgroundColor)
@@ -154,7 +147,7 @@ describe('<Popup />', () => {
       isOpen: true
     })
 
-    const titleNode = containerNode.querySelector('.test-popup header')
+    const titleNode = containerNode.querySelector('.popup header')
     const titleStyles = getNodeStyles(titleNode)
 
     expect(titleNode.textContent).toEqual(title)
@@ -174,7 +167,7 @@ describe('<Popup />', () => {
       isOpen: true
     })
 
-    const childNode = containerNode.querySelector('.test-popup p')
+    const childNode = containerNode.querySelector('.popup p')
 
     expect(childNode.tagName).toEqual('P')
     expect(childNode.textContent).toEqual(title)
@@ -186,7 +179,7 @@ describe('<Popup />', () => {
       showClose: true
     })
 
-    const buttonNode = containerNode.querySelector('.test-popup button')
+    const buttonNode = containerNode.querySelector('.popup button')
     const buttonStyles = getNodeStyles(buttonNode)
 
     expect(buttonStyles.position).toEqual('absolute')
@@ -209,7 +202,7 @@ describe('<Popup />', () => {
       )
     })
 
-    const popupNode = containerNode.querySelector('.test-popup')
+    const popupNode = containerNode.querySelector('.popup')
     const okButtonNode = popupNode.querySelector('.ok-button')
     const cancelButtonNode = popupNode.querySelector('.cancel-button')
 
@@ -250,7 +243,7 @@ describe('<Popup />', () => {
     spyOn(props, 'onClose').and.callThrough()
     mountWrapper(props)
     expect(props.onClose).not.toHaveBeenCalled()
-    containerNode.querySelector('.test-popup button').click()
+    containerNode.querySelector('.popup button').click()
     await whenRequestClose
     expect(props.onClose).toHaveBeenCalledTimes(1)
     done()

@@ -5,7 +5,7 @@ import code from '!!raw!../Popup.js'
 import PropTypesTable from 'components/PropTypesTable'
 import Playground from 'components/Playground'
 
-export const title = 'Попап'
+export const title = 'Popup'
 
 export default () => (
   <div>

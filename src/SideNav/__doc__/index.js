@@ -7,7 +7,7 @@ import codeSideNavItem from '!!raw!../SideNavItem.js'
 import PropTypesTable from 'components/PropTypesTable'
 import Playground from 'components/Playground'
 
-export const title = 'Боковая навигация'
+export const title = 'SideNav'
 
 export default () => (
   <div>
