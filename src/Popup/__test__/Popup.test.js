@@ -1,6 +1,7 @@
 import React from 'react'
 import Popup from '../Popup'
 import Button from '../../Button/Button'
+import { POPUP_ZINDEX } from '../../constants/z-indexes'
 import { withTheme, mount, getNodeStyles } from '../../utils/test-utils'
 
 describe('<Popup />', () => {
@@ -63,6 +64,11 @@ describe('<Popup />', () => {
     mountWrapper({
       isOpen: true
     })
+
+    const containerStyles = getNodeStyles(containerNode)
+
+    expect(containerStyles.position).toEqual('absolute')
+    expect(containerStyles['z-index']).toEqual(`${POPUP_ZINDEX}`)
 
     const popupNode = containerNode.querySelector('.popup')
     const popupStyles = getNodeStyles(popupNode)

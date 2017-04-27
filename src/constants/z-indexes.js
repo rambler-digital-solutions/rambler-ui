@@ -1,7 +1,7 @@
 /**
- * Модальное окно
+ * Попап
  */
-export const MODAL_ZINDEX = 10000
+export const POPUP_ZINDEX = 10000
 
 /*
  * Дропдаун

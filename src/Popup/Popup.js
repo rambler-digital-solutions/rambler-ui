@@ -13,12 +13,15 @@ import classnames from 'classnames'
 import pure from 'recompose/pure'
 import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
+import zIndexStack from '../hoc/z-index-stack'
+import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
 const ESCAPE = 27
 
 @pure
+@zIndexStack(POPUP_ZINDEX)
 @injectSheet((theme) => ({
   popup: {
     ...isolateMixin,
@@ -177,6 +180,8 @@ export default class Popup extends Component {
     if (this.props.isOpen) {
       if (!this.node) {
         this.node = document.createElement('div')
+        this.node.style.position = 'absolute'
+        this.node.style.zIndex = this.props.zIndex
         document.body.appendChild(this.node)
         this.props.containerRef(this.node)
       }
