@@ -6,8 +6,6 @@ import { ApplyTheme } from 'rambler-ui/theme'
 class WithPopup extends Component {
 
   state = {
-    alert: false,
-    confirm: false,
     latestEvent: 'none'
   }
 
@@ -28,19 +26,16 @@ class WithPopup extends Component {
 
     this.alertPopup.opened.then(() => {
       this.setState({
-        alert: true,
         latestEvent: 'alert opened'
       })
     })
 
     this.alertPopup.closed.then(() => {
       this.setState({
-        alert: false,
         latestEvent: 'alert closed'
       })
     }, () => {
       this.setState({
-        alert: false,
         latestEvent: 'alert closed'
       })
     })
@@ -68,44 +63,30 @@ class WithPopup extends Component {
 
     this.confirmPopup.opened.then(() => {
       this.setState({
-        confirm: true,
         latestEvent: 'confirm opened'
       })
     })
 
     this.confirmPopup.closed.then(() => {
       this.setState({
-        confirm: false,
         latestEvent: 'confirm closed with resolve'
       })
     }, () => {
       this.setState({
-        confirm: false,
         latestEvent: 'confirm closed with reject'
       })
     })
-  }
-
-  closeAll = () => {
-    if (this.alertPopup)
-      this.alertPopup.close()
-
-    if (this.confirmPopup)
-      this.confirmPopup.close()
   }
 
   render() {
     return (
       <div>
         <div style={{ marginBottom: 20 }}>
-          <Button disabled={this.state.alert} onClick={this.openAlert}>
+          <Button onClick={this.openAlert}>
             Алерт
           </Button>
-          <Button disabled={this.state.confirm} style={{ marginLeft: 20 }} onClick={this.openConfirm}>
+          <Button style={{ marginLeft: 20 }} onClick={this.openConfirm}>
             Подтверждение
-          </Button>
-          <Button type="flat" style={{ marginLeft: 20 }} onClick={this.closeAll}>
-            Закрыть все
           </Button>
         </div>
         <div>this.state.latestEvent: <b>{this.state.latestEvent}</b></div>
