@@ -242,7 +242,7 @@ export default class Popup extends Component {
   }
 
   handleOutsideClick = event => {
-    if (!this.popup.contains(event.target)) {
+    if (event.target === this.backdrop) {
       event.stopPropagation()
       this.props.onClose()
     }
@@ -283,10 +283,10 @@ export default class Popup extends Component {
         transitionEnter={false}
         transitionLeave={false}>
         <div
+          ref={el => { this.backdrop = el }}
           style={backdropStyle}
           className={classnames(css.backdrop, backdropClassName)}>
           <div
-            ref={el => { this.popup = el }}
             style={style}
             className={classnames(css.popup, className)}>
             {showClose &&
