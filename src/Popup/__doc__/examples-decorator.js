@@ -15,7 +15,7 @@ class WithPopup extends Component {
         title="Ошибка"
         showClose
         okButton={
-          <Button type="primary" block onClick={resolve}>
+          <Button type="primary" size="small" onClick={resolve}>
             Ок
           </Button>
         }
@@ -47,12 +47,12 @@ class WithPopup extends Component {
         title="Удаление почты"
         showClose
         okButton={
-          <Button type="primary" onClick={resolve}>
+          <Button type="primary" size="small" onClick={resolve}>
             Ок
           </Button>
         }
         cancelButton={
-          <Button type="flat" onClick={reject}>
+          <Button type="flat" size="small" onClick={reject}>
             Нет
           </Button>
         }

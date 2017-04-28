@@ -3,7 +3,7 @@
  * Скетч: * https://zpl.io/ZTWunL
  */
 
-import React, { Component, PropTypes, cloneElement } from 'react'
+import React, { Component, PropTypes } from 'react'
 import {
   unmountComponentAtNode,
   unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
@@ -86,7 +86,13 @@ const ESCAPE = 27
     width: 114,
     ...ifDesktop({
       width: 129
-    })
+    }),
+    '&:only-child': {
+      width: '100%'
+    },
+    '& > *': {
+      width: '100%'
+    }
   }
 }))
 export default class Popup extends Component {
@@ -313,14 +319,13 @@ export default class Popup extends Component {
 
   renderButton(button) {
     if (button) {
-      const { className, ...other } = button.props
       const css = this.css
 
-      return cloneElement(button, {
-        ...other,
-        size: 'small',
-        className: classnames(className, css.button)
-      })
+      return (
+        <div className={css.button}>
+          {button}
+        </div>
+      )
     }
   }
 

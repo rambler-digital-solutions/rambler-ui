@@ -30,12 +30,12 @@ export default class PopupExample extends Component {
             showClose
             isOpen={this.state.isOpen}
             okButton={
-              <Button type="primary" onClick={this.closePopup}>
+              <Button type="primary" size="small" onClick={this.closePopup}>
                 Ок
               </Button>
             }
             cancelButton={
-              <Button type="flat" onClick={this.closePopup}>
+              <Button type="flat" size="small" onClick={this.closePopup}>
                 Нет
               </Button>
             }
