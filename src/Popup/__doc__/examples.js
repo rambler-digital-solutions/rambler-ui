@@ -1,23 +1,33 @@
 import React, { Component } from 'react'
 import Button from 'rambler-ui/Button'
+import Input from 'rambler-ui/Input'
 import { Popup } from 'rambler-ui/Popup'
 import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class PopupExample extends Component {
 
   state = {
-    isOpen: false
+    inputValue: 'foo@ramber.ru',
+    baseIsOpen: false,
+    customIsOpen: false
   }
 
-  openPopup = () => {
+  openPopup = type => {
     this.setState({
-      isOpen: true
+      [`${type}IsOpen`]: true
     })
   }
 
   closePopup = () => {
     this.setState({
-      isOpen: false
+      baseIsOpen: false,
+      customIsOpen: false
+    })
+  }
+
+  updateValue = (e, value) => {
+    this.setState({
+      inputValue: value
     })
   }
 
@@ -28,7 +38,7 @@ export default class PopupExample extends Component {
           <Popup
             title="Удаление почты"
             showClose
-            isOpen={this.state.isOpen}
+            isOpen={this.state.baseIsOpen}
             okButton={
               <Button type="primary" size="small" onClick={this.closePopup}>
                 Ок
@@ -43,12 +53,44 @@ export default class PopupExample extends Component {
           >
             Вы готовы удалить почту
           </Popup>
+
+          <Popup
+            title="Укажите почту"
+            showClose
+            isOpen={this.state.customIsOpen}
+            okButton={
+              <Button type="primary" size="small" onClick={this.closePopup}>
+                Ок
+              </Button>
+            }
+            cancelButton={
+              <Button type="flat" size="small" onClick={this.closePopup}>
+                Отмена
+              </Button>
+            }
+            onClose={this.closePopup}
+          >
+            <div style={{ width: 400 }}>
+              <Input
+                type="email"
+                autoFocus
+                value={this.state.inputValue}
+                onChange={this.updateValue} />
+            </div>
+          </Popup>
+
           <div style={{ marginBottom: 20 }}>
-            <Button onClick={this.openPopup}>
-              Показать попап
+            <Button onClick={() => this.openPopup('base')}>
+              Базовый попап
+            </Button>
+            <Button style={{ marginLeft: 20 }} onClick={() => this.openPopup('custom')}>
+              Попап произвольной ширины
             </Button>
           </div>
-          <div>this.state.isOpen: <b>{this.state.isOpen ? 'true' : 'false'}</b></div>
+
+          <div>this.state.baseIsOpen: <b>{this.state.baseIsOpen ? 'true' : 'false'}</b></div>
+          <div>this.state.customIsOpen: <b>{this.state.customIsOpen ? 'true' : 'false'}</b></div>
+          <div>this.state.inputValue: <b>{this.state.inputValue}</b></div>
         </div>
       </ApplyTheme>
     )
