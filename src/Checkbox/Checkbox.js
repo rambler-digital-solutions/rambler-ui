@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
+import omit from 'lodash/omit'
 import TickIcon from '../icons/forms/TickIcon'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
@@ -213,7 +214,7 @@ export default class Checkbox extends Component {
       theme,
       sheet: { classes: css },
       ...other
-    } = this.props
+    } = omit(this.props, 'onCheck')
     const { checked = false, focused } = this.state
     const stateClasses = {
       [css.isFocused]: focused,

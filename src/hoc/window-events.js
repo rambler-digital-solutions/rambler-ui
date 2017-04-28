@@ -51,9 +51,8 @@ export default function windowEvents(...types) {
       componentWillUnmount() {
         types.forEach((type) => {
           handlers[type].listenersCount--
-          if (!handlers[type].listenersCount) {
+          if (!handlers[type].listenersCount)
             window.removeEventListener(type, handlers[type].handler, handlers[type].capture)
-          }
         })
       }
 
