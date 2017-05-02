@@ -83,7 +83,7 @@ export default class PopupExample extends Component {
             <Button onClick={() => this.openPopup('base')}>
               Базовый попап
             </Button>
-            <Button style={{ marginLeft: 20 }} onClick={() => this.openPopup('custom')}>
+            <Button type="secondary" style={{ marginLeft: 20 }} onClick={() => this.openPopup('custom')}>
               Попап произвольной ширины
             </Button>
           </div>

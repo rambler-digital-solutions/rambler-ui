@@ -85,7 +85,7 @@ class WithPopup extends Component {
           <Button onClick={this.openAlert}>
             Алерт
           </Button>
-          <Button style={{ marginLeft: 20 }} onClick={this.openConfirm}>
+          <Button type="outline" style={{ marginLeft: 20 }} onClick={this.openConfirm}>
             Подтверждение
           </Button>
         </div>
