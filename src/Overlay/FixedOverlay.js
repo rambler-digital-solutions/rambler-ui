@@ -331,7 +331,7 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Колбек, который дергается, когда контент открыт
      */
-    onContentShow: PropTypes.func,
+    onContentOpen: PropTypes.func,
     /**
      * Функция для получения размеров окно
      * Нужна для подсчета того, что элемента выходит за пределы окна, нужна исключительно для iframe
@@ -564,8 +564,8 @@ export default class FixedOverlay extends PureComponent {
         this.contentNodeObserver = new MutationObserver(debounce(this.updatePosition))
         this.contentNodeObserver.observe(this.contentNode, { subtree: true, childList: true, attributes: true, characterData: true })
       }
-      if (this.props.onContentShow)
-        this.props.onContentShow()
+      if (this.props.onContentOpen)
+        this.props.onContentOpen()
     })
   }
 

@@ -47,7 +47,7 @@ describe('<FixedOverlay />', () => {
           isOpened={false}
           anchor={<Anchor {...anchorProps} />}
           content={<Content />}
-          onContentShow={callbacks.onContentShow}
+          onContentOpen={callbacks.onContentOpen}
           onContentClose={callbacks.onContentClose}
           contentWrapperRef={callbacks.contentWrapperRef}
           {...props}
@@ -61,7 +61,7 @@ describe('<FixedOverlay />', () => {
   beforeEach(() => {
     callbacks = {}
     whenContentShow = new Promise((resolve) => {
-      callbacks.onContentShow = resolve
+      callbacks.onContentOpen = resolve
     })
     whenContentHide = new Promise((resolve) => {
       callbacks.onContentClose = resolve
@@ -69,7 +69,7 @@ describe('<FixedOverlay />', () => {
     callbacks.contentWrapperRef = (ref) => {
       contentWrapperNode = ref
     }
-    spyOn(callbacks, 'onContentShow').and.callThrough()
+    spyOn(callbacks, 'onContentOpen').and.callThrough()
     spyOn(callbacks, 'onContentClose').and.callThrough()
     spyOn(callbacks, 'contentWrapperRef').and.callThrough()
   })
@@ -86,13 +86,13 @@ describe('<FixedOverlay />', () => {
       contentPointY: 'center'
     })
     await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
-    expect(callbacks.onContentShow).not.toHaveBeenCalled()
+    expect(callbacks.onContentOpen).not.toHaveBeenCalled()
     expect(callbacks.onContentClose).not.toHaveBeenCalled()
     await whenContentShow
     const contentWrapperNodeStyles = getNodeStyles(contentWrapperNode)
     const contentBodyNode = contentWrapperNode.querySelector('.content-body')
     const contentBodyStyles = getNodeStyles(contentBodyNode)
-    expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentOpen).toHaveBeenCalledTimes(1)
     expect(callbacks.onContentClose).not.toHaveBeenCalled()
     expect(contentBodyStyles.opacity).toBe('1')
     expect(document.body.contains(contentBodyNode)).toBe(true)

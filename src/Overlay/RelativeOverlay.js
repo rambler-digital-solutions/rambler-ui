@@ -312,13 +312,13 @@ export default class RelativeOverlay extends PureComponent {
      */
     content: PropTypes.node.isRequired,
     /**
-     * Колбек, который дергается, когда контент открыт
+     * Колбек, который дергается, когда контент закрыт
      */
     onContentClose: PropTypes.func,
     /**
-     * Колбек, который дергается, когда контент закрыт
+     * Колбек, который дергается, когда контент открыт
      */
-    onContentShow: PropTypes.func,
+    onContentOpen: PropTypes.func,
     /**
      * Функция для получения размеров окно
      * Нужна для подсчета того, что элемента выходит за пределы окна, нужна исключительно для iframe
@@ -512,8 +512,8 @@ export default class RelativeOverlay extends PureComponent {
     })
 
     return Promise.all([whenPositioned, whenVisible]).then(() => {
-      if (this.props.onContentShow)
-        this.props.onContentShow()
+      if (this.props.onContentOpen)
+        this.props.onContentOpen()
     })
   }
 

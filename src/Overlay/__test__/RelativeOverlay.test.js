@@ -48,7 +48,7 @@ describe('<RelativeOverlay />', () => {
           isOpened={false}
           anchor={<Anchor {...anchorProps} />}
           content={<Content />}
-          onContentShow={callbacks.onContentShow}
+          onContentOpen={callbacks.onContentOpen}
           onContentClose={callbacks.onContentClose}
           {...props}
         />
@@ -59,12 +59,12 @@ describe('<RelativeOverlay />', () => {
   beforeEach(() => {
     callbacks = {}
     whenContentShow = new Promise((resolve) => {
-      callbacks.onContentShow = resolve
+      callbacks.onContentOpen = resolve
     })
     whenContentHide = new Promise((resolve) => {
       callbacks.onContentClose = resolve
     })
-    spyOn(callbacks, 'onContentShow').and.callThrough()
+    spyOn(callbacks, 'onContentOpen').and.callThrough()
     spyOn(callbacks, 'onContentClose').and.callThrough()
   })
 
@@ -80,7 +80,7 @@ describe('<RelativeOverlay />', () => {
       contentPointY: 'center'
     })
     await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
-    expect(callbacks.onContentShow).not.toHaveBeenCalled()
+    expect(callbacks.onContentOpen).not.toHaveBeenCalled()
     expect(callbacks.onContentClose).not.toHaveBeenCalled()
     await whenContentShow
     const rootNode = getWrapperNode(wrapper)
@@ -88,7 +88,7 @@ describe('<RelativeOverlay />', () => {
     const rootStyles = getNodeStyles(rootNode)
     const contentBodyStyles = getNodeStyles(contentNode.querySelector('.content-body'))
     const contentStyles = getNodeStyles(contentNode)
-    expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentOpen).toHaveBeenCalledTimes(1)
     expect(callbacks.onContentClose).not.toHaveBeenCalled()
     expect(contentBodyStyles.opacity).toBe('1')
     expect(rootStyles.display).toBe('inline-block')
