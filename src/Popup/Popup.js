@@ -153,7 +153,7 @@ export default class Popup extends Component {
     /**
      * Коллбек вызывающийся при нажатии на крестик (автоматически проставляется, если используется `@providePopup`)
      */
-    onClose: PropTypes.func,
+    onRequestClose: PropTypes.func,
     /**
      * Коллбек вызывающийся после закрытия попапа
      */
@@ -170,7 +170,7 @@ export default class Popup extends Component {
     closeOnEsc: true,
     closeOnClickOutside: true,
     onOpened: () => {},
-    onClose: () => {},
+    onRequestClose: () => {},
     onClosed: () => {},
     containerRef: () => {}
   };
@@ -238,13 +238,13 @@ export default class Popup extends Component {
   }
 
   handleKeyDown = event => {
-    if (event.keyCode === ESCAPE) this.props.onClose()
+    if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
   handleClickOutside = event => {
     if (event.target === this.backdrop) {
       event.stopPropagation()
-      this.props.onClose()
+      this.props.onRequestClose()
     }
   }
 
@@ -264,7 +264,7 @@ export default class Popup extends Component {
       showClose,
       okButton,
       cancelButton,
-      onClose,
+      onRequestClose,
       theme
     } = this.props
 
@@ -295,7 +295,7 @@ export default class Popup extends Component {
                 buttonType="button"
                 size="small"
                 className={css.close}
-                onClick={onClose}>
+                onClick={onRequestClose}>
                 <ClearIcon color={theme.popup.closeColor} />
               </IconButton>
             }

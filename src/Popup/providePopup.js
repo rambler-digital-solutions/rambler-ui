@@ -51,7 +51,7 @@ export default function providePopup(Target) {
         key,
         onOpened,
         isOpen: true,
-        onClose: onReject
+        onRequestClose: onReject
       })
 
       popup.close = onReject

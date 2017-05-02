@@ -49,7 +49,7 @@ export default class PopupExample extends Component {
                 Нет
               </Button>
             }
-            onClose={this.closePopup}
+            onRequestClose={this.closePopup}
           >
             Вы готовы удалить почту
           </Popup>
@@ -68,7 +68,7 @@ export default class PopupExample extends Component {
                 Отмена
               </Button>
             }
-            onClose={this.closePopup}
+            onRequestClose={this.closePopup}
           >
             <div style={{ width: 400 }}>
               <Input

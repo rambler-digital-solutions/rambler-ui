@@ -257,22 +257,22 @@ describe('<Popup />', () => {
     done()
   })
 
-  it('should call props.onClose() when click on close button', async done => {
+  it('should call props.onRequestClose() when click on close button', async done => {
     const props = {
       isOpen: true,
       showClose: true
     }
 
     const whenRequestClose = new Promise(resolve => {
-      props.onClose = resolve
+      props.onRequestClose = resolve
     })
 
-    spyOn(props, 'onClose').and.callThrough()
+    spyOn(props, 'onRequestClose').and.callThrough()
     mountWrapper(props)
-    expect(props.onClose).not.toHaveBeenCalled()
+    expect(props.onRequestClose).not.toHaveBeenCalled()
     containerNode.querySelector('.popup button').click()
     await whenRequestClose
-    expect(props.onClose).toHaveBeenCalledTimes(1)
+    expect(props.onRequestClose).toHaveBeenCalledTimes(1)
     done()
   })
 
