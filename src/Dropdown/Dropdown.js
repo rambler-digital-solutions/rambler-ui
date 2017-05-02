@@ -272,7 +272,7 @@ export default class Dropdown extends PureComponent {
       isOpened,
       className: overlayClassName,
       onContentShow: onOpen,
-      onContentHide: onClose,
+      onContentClose: onClose,
       content: <DropdownContainer { ...dropdownProps }>{ children }</DropdownContainer>
     }
 

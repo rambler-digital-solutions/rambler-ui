@@ -314,7 +314,7 @@ export default class RelativeOverlay extends PureComponent {
     /**
      * Колбек, который дергается, когда контент открыт
      */
-    onContentHide: PropTypes.func,
+    onContentClose: PropTypes.func,
     /**
      * Колбек, который дергается, когда контент закрыт
      */
@@ -538,8 +538,8 @@ export default class RelativeOverlay extends PureComponent {
       }
       this.events.on('contentInvisible', handler)
     }).then(() => {
-      if (this.props.onContentHide)
-        this.props.onContentHide()
+      if (this.props.onContentClose)
+        this.props.onContentClose()
     })
   };
 

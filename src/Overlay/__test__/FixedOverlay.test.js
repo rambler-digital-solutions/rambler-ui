@@ -48,7 +48,7 @@ describe('<FixedOverlay />', () => {
           anchor={<Anchor {...anchorProps} />}
           content={<Content />}
           onContentShow={callbacks.onContentShow}
-          onContentHide={callbacks.onContentHide}
+          onContentClose={callbacks.onContentClose}
           contentWrapperRef={callbacks.contentWrapperRef}
           {...props}
         />
@@ -64,13 +64,13 @@ describe('<FixedOverlay />', () => {
       callbacks.onContentShow = resolve
     })
     whenContentHide = new Promise((resolve) => {
-      callbacks.onContentHide = resolve
+      callbacks.onContentClose = resolve
     })
     callbacks.contentWrapperRef = (ref) => {
       contentWrapperNode = ref
     }
     spyOn(callbacks, 'onContentShow').and.callThrough()
-    spyOn(callbacks, 'onContentHide').and.callThrough()
+    spyOn(callbacks, 'onContentClose').and.callThrough()
     spyOn(callbacks, 'contentWrapperRef').and.callThrough()
   })
 
@@ -87,20 +87,20 @@ describe('<FixedOverlay />', () => {
     })
     await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     expect(callbacks.onContentShow).not.toHaveBeenCalled()
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     await whenContentShow
     const contentWrapperNodeStyles = getNodeStyles(contentWrapperNode)
     const contentBodyNode = contentWrapperNode.querySelector('.content-body')
     const contentBodyStyles = getNodeStyles(contentBodyNode)
     expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     expect(contentBodyStyles.opacity).toBe('1')
     expect(document.body.contains(contentBodyNode)).toBe(true)
     expect(contentWrapperNodeStyles.display).toBe('block')
     expect(contentWrapperNodeStyles.position).toBe('absolute')
     await new Promise((resolve) => { wrapper.setProps({isOpened: false}, resolve) })
     await whenContentHide
-    expect(callbacks.onContentHide).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentClose).toHaveBeenCalledTimes(1)
     expect(contentWrapperNode).toBe(null)
     expect(document.body.contains(contentBodyNode)).toBe(false)
     done()

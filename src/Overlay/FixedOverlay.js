@@ -327,7 +327,7 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Колбек, который дергается, когда контент закрыт
      */
-    onContentHide: PropTypes.func,
+    onContentClose: PropTypes.func,
     /**
      * Колбек, который дергается, когда контент открыт
      */
@@ -595,8 +595,8 @@ export default class FixedOverlay extends PureComponent {
       this.portal.updateContentProps({ isVisible: false })
     }).then(() => {
       this.unmountPortal()
-      if (this.props.onContentHide)
-        this.props.onContentHide()
+      if (this.props.onContentClose)
+        this.props.onContentClose()
       this.cachedOptions = null
     })
   };

@@ -49,7 +49,7 @@ describe('<RelativeOverlay />', () => {
           anchor={<Anchor {...anchorProps} />}
           content={<Content />}
           onContentShow={callbacks.onContentShow}
-          onContentHide={callbacks.onContentHide}
+          onContentClose={callbacks.onContentClose}
           {...props}
         />
       )
@@ -62,10 +62,10 @@ describe('<RelativeOverlay />', () => {
       callbacks.onContentShow = resolve
     })
     whenContentHide = new Promise((resolve) => {
-      callbacks.onContentHide = resolve
+      callbacks.onContentClose = resolve
     })
     spyOn(callbacks, 'onContentShow').and.callThrough()
-    spyOn(callbacks, 'onContentHide').and.callThrough()
+    spyOn(callbacks, 'onContentClose').and.callThrough()
   })
 
   afterEach(() => {
@@ -81,7 +81,7 @@ describe('<RelativeOverlay />', () => {
     })
     await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     expect(callbacks.onContentShow).not.toHaveBeenCalled()
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     await whenContentShow
     const rootNode = getWrapperNode(wrapper)
     const contentNode = rootNode.querySelector('.anchor + div')
@@ -89,14 +89,14 @@ describe('<RelativeOverlay />', () => {
     const contentBodyStyles = getNodeStyles(contentNode.querySelector('.content-body'))
     const contentStyles = getNodeStyles(contentNode)
     expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     expect(contentBodyStyles.opacity).toBe('1')
     expect(rootStyles.display).toBe('inline-block')
     expect(rootStyles.position).toBe('relative')
     expect(contentStyles.position).toBe('absolute')
     await new Promise((resolve) => { wrapper.setProps({isOpened: false}, resolve) })
     await whenContentHide
-    expect(callbacks.onContentHide).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentClose).toHaveBeenCalledTimes(1)
     expect(rootNode.querySelector('.anchor + div')).toBe(null)
     done()
   })
