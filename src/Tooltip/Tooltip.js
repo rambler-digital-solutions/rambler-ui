@@ -187,14 +187,14 @@ export default class Tooltip extends PureComponent {
     /**
      * Скрывать при скролле страницы
      */
-    hideOnScroll: PropTypes.bool
+    closeOnScroll: PropTypes.bool
   };
 
   static defaultProps = {
     delay: 0,
     positionY: 'top',
     closeOnClickOutside: false,
-    hideOnScroll: true
+    closeOnScroll: true
   };
 
   state = {
@@ -268,7 +268,7 @@ export default class Tooltip extends PureComponent {
   render() {
     if (!this.props.content)
       return this.renderAnchor()
-    const {contentClassName, contentStyle, content, positionY, hideOnScroll} = this.props
+    const {contentClassName, contentStyle, content, positionY, closeOnScroll} = this.props
     return (
       <FixedOverlay
         isOpened={this.state.isOpened}
@@ -284,7 +284,7 @@ export default class Tooltip extends PureComponent {
         anchorPointX="center"
         contentPointX="center"
         cachePositionOptions={false}
-        hideOnScroll={hideOnScroll}
+        closeOnScroll={closeOnScroll}
       />
     )
   }

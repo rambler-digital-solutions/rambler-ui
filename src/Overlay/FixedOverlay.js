@@ -354,7 +354,7 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Скрывать элемент при скролле
      */
-    hideOnScroll: PropTypes.bool
+    closeOnScroll: PropTypes.bool
   };
 
   static defaultProps = {
@@ -367,7 +367,7 @@ export default class FixedOverlay extends PureComponent {
     getElementRect: originalGetBoundingClientRect,
     getYScroll: originalGetYScroll,
     cachePositionOptions: false,
-    hideOnScroll: false
+    closeOnScroll: false
   };
 
   constructor(props) {
@@ -515,7 +515,7 @@ export default class FixedOverlay extends PureComponent {
   }
 
   onScroll = () => {
-    if (this.props.hideOnScroll)
+    if (this.props.closeOnScroll)
       this.hide(true)
     else
       this.updatePosition()
