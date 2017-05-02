@@ -145,7 +145,7 @@ export default class Popup extends Component {
     /**
      * Закрытие попапа по клику вне него
      */
-    closeOnOutsideClick: PropTypes.bool,
+    closeOnClickOutside: PropTypes.bool,
     /**
      * Коллбек вызывающийся после открытия попапа
      */
@@ -168,7 +168,7 @@ export default class Popup extends Component {
     isOpen: false,
     showClose: true,
     closeOnEsc: true,
-    closeOnOutsideClick: true,
+    closeOnClickOutside: true,
     onOpened: () => {},
     onClose: () => {},
     onClosed: () => {},
@@ -211,8 +211,8 @@ export default class Popup extends Component {
       if (this.props.closeOnEsc)
         document.addEventListener('keydown', this.handleKeyDown)
 
-      if (this.props.closeOnOutsideClick)
-        document.addEventListener('click', this.handleOutsideClick)
+      if (this.props.closeOnClickOutside)
+        document.addEventListener('click', this.handleClickOutside)
 
       this.node.addEventListener('transitionend', this.handleTransitionEnd)
     } else {
@@ -229,8 +229,8 @@ export default class Popup extends Component {
       if (this.props.closeOnEsc)
         document.removeEventListener('keydown', this.handleKeyDown)
 
-      if (this.props.closeOnOutsideClick)
-        document.removeEventListener('click', this.handleOutsideClick)
+      if (this.props.closeOnClickOutside)
+        document.removeEventListener('click', this.handleClickOutside)
 
       this.props.onClosed()
       this.props.containerRef()
@@ -241,7 +241,7 @@ export default class Popup extends Component {
     if (event.keyCode === ESCAPE) this.props.onClose()
   }
 
-  handleOutsideClick = event => {
+  handleClickOutside = event => {
     if (event.target === this.backdrop) {
       event.stopPropagation()
       this.props.onClose()
