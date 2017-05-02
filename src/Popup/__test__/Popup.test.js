@@ -237,23 +237,23 @@ describe('<Popup />', () => {
     expect(cancelButtonNode.textContent).toEqual('Cancel')
   })
 
-  it('should call props.onOpened() when popup opens', async done => {
+  it('should call props.onOpen() when popup opens', async done => {
     const props = {}
 
     const whenOpen = new Promise(resolve => {
-      props.onOpened = resolve
+      props.onOpen = resolve
     })
 
-    spyOn(props, 'onOpened').and.callThrough()
+    spyOn(props, 'onOpen').and.callThrough()
     const wrapper = mountWrapper(props)
-    expect(props.onOpened).not.toHaveBeenCalled()
+    expect(props.onOpen).not.toHaveBeenCalled()
 
     wrapper.setProps({
       isOpen: true
     })
 
     await whenOpen
-    expect(props.onOpened).toHaveBeenCalledTimes(1)
+    expect(props.onOpen).toHaveBeenCalledTimes(1)
     done()
   })
 

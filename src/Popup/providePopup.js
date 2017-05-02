@@ -23,12 +23,12 @@ export default function providePopup(Target) {
     openPopup = createElement => {
       const popup = {}
 
-      let onOpened
+      let onOpen
       let onResolve
       let onReject
 
       popup.opened = new Promise(resolve => {
-        onOpened = resolve
+        onOpen = resolve
       })
 
       popup.closed = new Promise((resolve, reject) => {
@@ -49,7 +49,7 @@ export default function providePopup(Target) {
       popup.element = cloneElement(element, {
         ...element.props,
         key,
-        onOpened,
+        onOpen,
         isOpen: true,
         onRequestClose: onReject
       })

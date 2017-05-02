@@ -149,7 +149,7 @@ export default class Popup extends Component {
     /**
      * Коллбек вызывающийся после открытия попапа
      */
-    onOpened: PropTypes.func,
+    onOpen: PropTypes.func,
     /**
      * Коллбек вызывающийся при нажатии на крестик (автоматически проставляется, если используется `@providePopup`)
      */
@@ -169,7 +169,7 @@ export default class Popup extends Component {
     showClose: true,
     closeOnEsc: true,
     closeOnClickOutside: true,
-    onOpened: () => {},
+    onOpen: () => {},
     onRequestClose: () => {},
     onClosed: () => {},
     containerRef: () => {}
@@ -250,7 +250,7 @@ export default class Popup extends Component {
 
   handleTransitionEnd = () => {
     this.node.removeEventListener('transitionend', this.handleTransitionEnd)
-    this.props.onOpened()
+    this.props.onOpen()
   }
 
   renderPopup() {
