@@ -30,10 +30,6 @@ export default class RadioButtonGroup extends Component {
     */
     name: PropTypes.string,
     /**
-    * Значение по умолчанию выбранного radio
-    */
-    defaultSelect: PropTypes.any,
-    /**
      * Дочерние узлы - radio
      */
     children: PropTypes.node,
