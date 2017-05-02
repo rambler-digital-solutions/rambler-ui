@@ -29,22 +29,22 @@ describe('<Popup />', () => {
     expect(containerNode).toBeUndefined()
   })
 
-  it('should append popup to document.body if props.isOpen is true', () => {
+  it('should append popup to document.body if props.isOpened is true', () => {
     mountWrapper({
-      isOpen: true
+      isOpened: true
     })
 
     expect(document.body.lastElementChild).toEqual(containerNode)
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should open/close popup when change props.isOpen', () => {
+  it('should open/close popup when change props.isOpened', () => {
     const wrapper = mountWrapper()
 
     expect(containerNode).toBeUndefined()
 
     wrapper.setProps({
-      isOpen: true
+      isOpened: true
     })
 
     const mountNode = document.body.lastElementChild
@@ -53,7 +53,7 @@ describe('<Popup />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
 
     wrapper.setProps({
-      isOpen: false
+      isOpened: false
     })
 
     expect(containerNode).toBeUndefined()
@@ -62,7 +62,7 @@ describe('<Popup />', () => {
 
   it('should apply default styles', () => {
     mountWrapper({
-      isOpen: true
+      isOpened: true
     })
 
     const containerStyles = getNodeStyles(containerNode)
@@ -102,7 +102,7 @@ describe('<Popup />', () => {
 
   it('should apply custom width', () => {
     mountWrapper({
-      isOpen: true,
+      isOpened: true,
       children: (
         <div style={{ width: 400 }}>
           Hi
@@ -118,7 +118,7 @@ describe('<Popup />', () => {
 
   it('should not append title, buttons', () => {
     mountWrapper({
-      isOpen: true,
+      isOpened: true,
       showClose: false
     })
 
@@ -132,7 +132,7 @@ describe('<Popup />', () => {
 
   it('should append className', () => {
     mountWrapper({
-      isOpen: true,
+      isOpened: true,
       className: 'popup',
       backdropClassName: 'test-backdrop'
     })
@@ -152,7 +152,7 @@ describe('<Popup />', () => {
       backdropStyle: {
         backgroundColor: backdropBackgroundColor
       },
-      isOpen: true
+      isOpened: true
     })
 
     const popupNode = containerNode.querySelector('.popup')
@@ -171,7 +171,7 @@ describe('<Popup />', () => {
 
     mountWrapper({
       title,
-      isOpen: true
+      isOpened: true
     })
 
     const titleNode = containerNode.querySelector('.popup header')
@@ -191,7 +191,7 @@ describe('<Popup />', () => {
       children: (
         <p>{title}</p>
       ),
-      isOpen: true
+      isOpened: true
     })
 
     const childNode = containerNode.querySelector('.popup p')
@@ -202,7 +202,7 @@ describe('<Popup />', () => {
 
   it('should append close button', () => {
     mountWrapper({
-      isOpen: true,
+      isOpened: true,
       showClose: true
     })
 
@@ -216,7 +216,7 @@ describe('<Popup />', () => {
 
   it('should append action buttons', () => {
     mountWrapper({
-      isOpen: true,
+      isOpened: true,
       okButton: (
         <Button className="ok-button">
           Ok
@@ -249,7 +249,7 @@ describe('<Popup />', () => {
     expect(props.onOpen).not.toHaveBeenCalled()
 
     wrapper.setProps({
-      isOpen: true
+      isOpened: true
     })
 
     await whenOpen
@@ -259,7 +259,7 @@ describe('<Popup />', () => {
 
   it('should call props.onRequestClose() when click on close button', async done => {
     const props = {
-      isOpen: true,
+      isOpened: true,
       showClose: true
     }
 
@@ -278,7 +278,7 @@ describe('<Popup />', () => {
 
   it('should call props.onClose() when popup closes', async done => {
     const props = {
-      isOpen: true
+      isOpened: true
     }
 
     const whenClose = new Promise(resolve => {
@@ -290,7 +290,7 @@ describe('<Popup />', () => {
     expect(props.onClose).not.toHaveBeenCalled()
 
     wrapper.setProps({
-      isOpen: false
+      isOpened: false
     })
 
     await whenClose

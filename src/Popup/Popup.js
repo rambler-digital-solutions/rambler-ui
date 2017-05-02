@@ -125,7 +125,7 @@ export default class Popup extends Component {
     /**
      * Контролирует видимость попапа
      */
-    isOpen: PropTypes.bool,
+    isOpened: PropTypes.bool,
     /**
      * Кнопка успешного действия (если она одна, то будет расятнута на все ширину)
      */
@@ -165,7 +165,7 @@ export default class Popup extends Component {
   };
 
   static defaultProps = {
-    isOpen: false,
+    isOpened: false,
     showClose: true,
     closeOnEsc: true,
     closeOnClickOutside: true,
@@ -193,7 +193,7 @@ export default class Popup extends Component {
   }
 
   renderContainer() {
-    if (this.props.isOpen) {
+    if (this.props.isOpened) {
       if (!this.node) {
         this.node = document.createElement('div')
         this.node.style.position = 'absolute'

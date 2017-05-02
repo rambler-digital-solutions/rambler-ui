@@ -50,7 +50,7 @@ export default function providePopup(Target) {
         ...element.props,
         key,
         onOpen,
-        isOpen: true,
+        isOpened: true,
         onRequestClose: onReject
       })
 
