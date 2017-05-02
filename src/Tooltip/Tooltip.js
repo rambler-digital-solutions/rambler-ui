@@ -35,7 +35,7 @@ class TooltipContent extends PureComponent {
     bodyClassName: PropTypes.string,
     isVisible: PropTypes.bool.isRequired,
     onBecomeVisible: PropTypes.func,
-    onOutsideClick: PropTypes.func,
+    onClickOutside: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     pointY: PropTypes.oneOf(POINTS_Y),
     children: PropTypes.node
@@ -111,7 +111,7 @@ class TooltipContent extends PureComponent {
   }; // нужна задержка для начала анимации
 
   render() {
-    const { children, className, bodyClassName, style, pointY, onOutsideClick } = this.props
+    const { children, className, bodyClassName, style, pointY, onClickOutside } = this.props
     const { isVisible } = this.state
     let top
     if (isVisible)
@@ -119,7 +119,7 @@ class TooltipContent extends PureComponent {
     else if (pointY)
       top = pointY === 'top' ? '10px' : '-10px'
     return (
-      <OnClickOutside handler={onOutsideClick}>
+      <OnClickOutside handler={onClickOutside}>
         <div
           style={{top, pointerEvents: 'none', paddingTop: '3px', paddingBottom: '3px'}}
           className={ classnames(className, isVisible && this.css.isVisible, this.css.content) }>
@@ -183,7 +183,7 @@ export default class Tooltip extends PureComponent {
     /**
      * Закрывать при клике вне тултипа
      */
-    closeOnOutsideClick: PropTypes.bool,
+    closeOnClickOutside: PropTypes.bool,
     /**
      * Скрывать при скролле страницы
      */
@@ -193,7 +193,7 @@ export default class Tooltip extends PureComponent {
   static defaultProps = {
     delay: 0,
     positionY: 'top',
-    closeOnOutsideClick: false,
+    closeOnClickOutside: false,
     hideOnScroll: true
   };
 
@@ -247,8 +247,8 @@ export default class Tooltip extends PureComponent {
       }, this.props.delay)
   }
 
-  onOutsideClick = () => {
-    if (!this.props.closeOnOutsideClick)
+  onClickOutside = () => {
+    if (!this.props.closeOnClickOutside)
       return
     this.clearDelayTimeout()
     this.setState({ isOpened: false })
@@ -274,7 +274,7 @@ export default class Tooltip extends PureComponent {
         isOpened={this.state.isOpened}
         anchor={this.renderAnchor()}
         content={<TooltipContent
-          onOutsideClick={this.onOutsideClick}
+          onClickOutside={this.onClickOutside}
           bodyClassName={contentClassName}
           style={ contentStyle }>{ content }
         </TooltipContent>}
