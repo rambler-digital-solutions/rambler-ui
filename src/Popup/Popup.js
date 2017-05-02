@@ -157,7 +157,7 @@ export default class Popup extends Component {
     /**
      * Коллбек вызывающийся после закрытия попапа
      */
-    onClosed: PropTypes.func,
+    onClose: PropTypes.func,
     /**
      * Коллбек вызывающийся при монтировании/размонтировании контейнера
      */
@@ -171,7 +171,7 @@ export default class Popup extends Component {
     closeOnClickOutside: true,
     onOpen: () => {},
     onRequestClose: () => {},
-    onClosed: () => {},
+    onClose: () => {},
     containerRef: () => {}
   };
 
@@ -232,7 +232,7 @@ export default class Popup extends Component {
       if (this.props.closeOnClickOutside)
         document.removeEventListener('click', this.handleClickOutside)
 
-      this.props.onClosed()
+      this.props.onClose()
       this.props.containerRef()
     }
   }

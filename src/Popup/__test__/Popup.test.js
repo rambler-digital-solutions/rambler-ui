@@ -276,25 +276,25 @@ describe('<Popup />', () => {
     done()
   })
 
-  it('should call props.onClosed() when popup closes', async done => {
+  it('should call props.onClose() when popup closes', async done => {
     const props = {
       isOpen: true
     }
 
     const whenClose = new Promise(resolve => {
-      props.onClosed = resolve
+      props.onClose = resolve
     })
 
-    spyOn(props, 'onClosed').and.callThrough()
+    spyOn(props, 'onClose').and.callThrough()
     const wrapper = mountWrapper(props)
-    expect(props.onClosed).not.toHaveBeenCalled()
+    expect(props.onClose).not.toHaveBeenCalled()
 
     wrapper.setProps({
       isOpen: false
     })
 
     await whenClose
-    expect(props.onClosed).toHaveBeenCalledTimes(1)
+    expect(props.onClose).toHaveBeenCalledTimes(1)
     done()
   })
 
