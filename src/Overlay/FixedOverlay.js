@@ -276,7 +276,7 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Флаг управления показом оверлея
      */
-    isShown: PropTypes.bool.isRequired,
+    isOpened: PropTypes.bool.isRequired,
     /**
      * Точка прицепления для achor X
      */
@@ -389,14 +389,14 @@ export default class FixedOverlay extends PureComponent {
       this.anchorNodeObserver.disconnect()
   }
 
-  componentWillReceiveProps({isShown, anchorPointX, anchorPointY, contentPointX, contentPointY, content}) {
-    if (isShown !== undefined && isShown !== this.props.isShown)
-      if (isShown)
+  componentWillReceiveProps({isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY, content}) {
+    if (isOpened !== undefined && isOpened !== this.props.isOpened)
+      if (isOpened)
         this.show()
       else
         this.hide()
 
-    else if (isShown &&
+    else if (isOpened &&
       (this.props.anchorPointX !== anchorPointX ||
         this.props.anchorPointY !== anchorPointY ||
         this.props.contentPointX !== contentPointX ||
@@ -411,7 +411,7 @@ export default class FixedOverlay extends PureComponent {
       throw new Error('Anchor node for FixedOverlay does not found')
     this.anchorNodeObserver = new MutationObserver(debounce(this.updatePosition))
     this.anchorNodeObserver.observe(this.anchorNode, { subtree: true, childList: true, attributes: true, characterData: true })
-    if (this.props.isShown)
+    if (this.props.isOpened)
       this.show()
   }
 
@@ -430,7 +430,7 @@ export default class FixedOverlay extends PureComponent {
   };
 
   updatePosition = () => {
-    if (!this.contentContainerNode || !this.portal || !this.isShown)
+    if (!this.contentContainerNode || !this.portal || !this.isOpened)
       return
     const {
       content,
@@ -541,7 +541,7 @@ export default class FixedOverlay extends PureComponent {
    * Показать оверлей
    */
   show() {
-    this.isShown = true
+    this.isOpened = true
     const transactionIndex = ++this.transactionIndex
     return this.mountPortal().then(() => {
       if (transactionIndex < this.transactionIndex)
@@ -573,7 +573,7 @@ export default class FixedOverlay extends PureComponent {
    * Скрыть оверлей
    */
   hide = (force) => {
-    this.isShown = false
+    this.isOpened = false
     if (!this.portal)
       return Promise.resolve()
     return new Promise((resolve) => {

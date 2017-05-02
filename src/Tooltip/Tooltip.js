@@ -174,7 +174,7 @@ export default class Tooltip extends PureComponent {
      * Флаг показа тултипа
      * Если вы не указываете его, тултип будет показываться при hover
      */
-    isShown: PropTypes.bool,
+    isOpened: PropTypes.bool,
     /**
      * Позиция тултипа по оси Y
      * top - сверху элемента, bottom - снизу элемента
@@ -198,7 +198,7 @@ export default class Tooltip extends PureComponent {
   };
 
   state = {
-    isShown: false
+    isOpened: false
   };
 
   get css() {
@@ -206,8 +206,8 @@ export default class Tooltip extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isShown !== undefined && nextProps.isShown !== this.props.isShown)
-      if (nextProps.isShown)
+    if (nextProps.isOpened !== undefined && nextProps.isOpened !== this.props.isOpened)
+      if (nextProps.isOpened)
         this.show()
       else
         this.hide()
@@ -229,21 +229,21 @@ export default class Tooltip extends PureComponent {
   }
 
   show() {
-    if (this.state.isShown)
+    if (this.state.isOpened)
       return
     this.clearDelayTimeout()
-    this.setState({ isShown: true })
+    this.setState({ isOpened: true })
   }
 
   hide() {
-    if (!this.state.isShown)
+    if (!this.state.isOpened)
       return
     this.clearDelayTimeout()
     if (!this.props.delay)
-      this.setState({ isShown: false })
+      this.setState({ isOpened: false })
     else
       this.delayTimeout = setTimeout(() => {
-        this.setState({ isShown: false })
+        this.setState({ isOpened: false })
       }, this.props.delay)
   }
 
@@ -251,13 +251,13 @@ export default class Tooltip extends PureComponent {
     if (!this.props.closeOnOutsideClick)
       return
     this.clearDelayTimeout()
-    this.setState({ isShown: false })
+    this.setState({ isOpened: false })
   };
 
   renderAnchor() {
     const { className, style, children } = this.props
     const anchor = <span style={ style } className={classnames(className, this.css.anchor)}>{ children }</span>
-    if (this.props.isShown !== undefined)
+    if (this.props.isOpened !== undefined)
       return anchor
     return cloneElement(anchor, {
       onMouseEnter: this.onMouseEnter,
@@ -271,7 +271,7 @@ export default class Tooltip extends PureComponent {
     const {contentClassName, contentStyle, content, positionY, hideOnScroll} = this.props
     return (
       <FixedOverlay
-        isShown={this.state.isShown}
+        isOpened={this.state.isOpened}
         anchor={this.renderAnchor()}
         content={<TooltipContent
           onOutsideClick={this.onOutsideClick}
