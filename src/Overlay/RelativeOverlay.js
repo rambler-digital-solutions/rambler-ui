@@ -267,7 +267,7 @@ export default class RelativeOverlay extends PureComponent {
     /**
      * Флаг управления показом оверлея
      */
-    isShown: PropTypes.bool.isRequired,
+    isOpened: PropTypes.bool.isRequired,
     /**
      * Точка прицепления для achor X
      */
@@ -312,13 +312,13 @@ export default class RelativeOverlay extends PureComponent {
      */
     content: PropTypes.node.isRequired,
     /**
-     * Колбек, который дергается, когда контент открыт
-     */
-    onContentHide: PropTypes.func,
-    /**
      * Колбек, который дергается, когда контент закрыт
      */
-    onContentShow: PropTypes.func,
+    onContentClose: PropTypes.func,
+    /**
+     * Колбек, который дергается, когда контент открыт
+     */
+    onContentOpen: PropTypes.func,
     /**
      * Функция для получения размеров окно
      * Нужна для подсчета того, что элемента выходит за пределы окна, нужна исключительно для iframe
@@ -350,7 +350,7 @@ export default class RelativeOverlay extends PureComponent {
       /**
        * Вставлен ли контент в DOM
        */
-      isContentInDom: props.isShown || false,
+      isContentInDom: props.isOpened || false,
       /**
        * является ли content видимым
        */
@@ -378,14 +378,14 @@ export default class RelativeOverlay extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({isShown, anchorPointX, anchorPointY, contentPointX, contentPointY}) {
-    if (isShown !== undefined && isShown !== this.props.isShown)
-      if (isShown)
+  componentWillReceiveProps({isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY}) {
+    if (isOpened !== undefined && isOpened !== this.props.isOpened)
+      if (isOpened)
         this.show()
       else
         this.hide()
 
-    else if (isShown &&
+    else if (isOpened &&
       (this.props.anchorPointX !== anchorPointX ||
         this.props.anchorPointY !== anchorPointY ||
         this.props.contentPointX !== contentPointX ||
@@ -400,7 +400,7 @@ export default class RelativeOverlay extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.isShown)
+    if (this.props.isOpened)
       this.show()
   }
 
@@ -512,8 +512,8 @@ export default class RelativeOverlay extends PureComponent {
     })
 
     return Promise.all([whenPositioned, whenVisible]).then(() => {
-      if (this.props.onContentShow)
-        this.props.onContentShow()
+      if (this.props.onContentOpen)
+        this.props.onContentOpen()
     })
   }
 
@@ -538,8 +538,8 @@ export default class RelativeOverlay extends PureComponent {
       }
       this.events.on('contentInvisible', handler)
     }).then(() => {
-      if (this.props.onContentHide)
-        this.props.onContentHide()
+      if (this.props.onContentClose)
+        this.props.onContentClose()
     })
   };
 

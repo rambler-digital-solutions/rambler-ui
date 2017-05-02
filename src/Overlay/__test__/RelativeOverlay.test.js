@@ -45,11 +45,11 @@ describe('<RelativeOverlay />', () => {
     wrapper = mount(
       withTheme(
         <RelativeOverlay
-          isShown={false}
+          isOpened={false}
           anchor={<Anchor {...anchorProps} />}
           content={<Content />}
-          onContentShow={callbacks.onContentShow}
-          onContentHide={callbacks.onContentHide}
+          onContentOpen={callbacks.onContentOpen}
+          onContentClose={callbacks.onContentClose}
           {...props}
         />
       )
@@ -59,13 +59,13 @@ describe('<RelativeOverlay />', () => {
   beforeEach(() => {
     callbacks = {}
     whenContentShow = new Promise((resolve) => {
-      callbacks.onContentShow = resolve
+      callbacks.onContentOpen = resolve
     })
     whenContentHide = new Promise((resolve) => {
-      callbacks.onContentHide = resolve
+      callbacks.onContentClose = resolve
     })
-    spyOn(callbacks, 'onContentShow').and.callThrough()
-    spyOn(callbacks, 'onContentHide').and.callThrough()
+    spyOn(callbacks, 'onContentOpen').and.callThrough()
+    spyOn(callbacks, 'onContentClose').and.callThrough()
   })
 
   afterEach(() => {
@@ -79,24 +79,24 @@ describe('<RelativeOverlay />', () => {
       contentPointX: 'left',
       contentPointY: 'center'
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
-    expect(callbacks.onContentShow).not.toHaveBeenCalled()
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
+    expect(callbacks.onContentOpen).not.toHaveBeenCalled()
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     await whenContentShow
     const rootNode = getWrapperNode(wrapper)
     const contentNode = rootNode.querySelector('.anchor + div')
     const rootStyles = getNodeStyles(rootNode)
     const contentBodyStyles = getNodeStyles(contentNode.querySelector('.content-body'))
     const contentStyles = getNodeStyles(contentNode)
-    expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    expect(callbacks.onContentOpen).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     expect(contentBodyStyles.opacity).toBe('1')
     expect(rootStyles.display).toBe('inline-block')
     expect(rootStyles.position).toBe('relative')
     expect(contentStyles.position).toBe('absolute')
-    await new Promise((resolve) => { wrapper.setProps({isShown: false}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: false}, resolve) })
     await whenContentHide
-    expect(callbacks.onContentHide).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentClose).toHaveBeenCalledTimes(1)
     expect(rootNode.querySelector('.anchor + div')).toBe(null)
     done()
   })
@@ -109,7 +109,7 @@ describe('<RelativeOverlay />', () => {
       contentPointX: 'left',
       contentPointY: 'center'
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     const rootNode = getWrapperNode(wrapper)
     const contentNode = rootNode.querySelector('.anchor + div')
@@ -132,7 +132,7 @@ describe('<RelativeOverlay />', () => {
         top: 0
       }
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     const rootNode = getWrapperNode(wrapper)
     const contentNode = rootNode.querySelector('.anchor + div')
@@ -155,7 +155,7 @@ describe('<RelativeOverlay />', () => {
         top: 0
       }
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     const rootNode = getWrapperNode(wrapper)
     const contentNode = rootNode.querySelector('.anchor + div')
@@ -178,7 +178,7 @@ describe('<RelativeOverlay />', () => {
         top: 0
       }
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     const rootNode = getWrapperNode(wrapper)
     const contentNode = rootNode.querySelector('.anchor + div')

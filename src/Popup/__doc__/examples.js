@@ -8,20 +8,20 @@ export default class PopupExample extends Component {
 
   state = {
     inputValue: 'foo@ramber.ru',
-    baseIsOpen: false,
-    customIsOpen: false
+    baseIsOpened: false,
+    customIsOpened: false
   }
 
   openPopup = type => {
     this.setState({
-      [`${type}IsOpen`]: true
+      [`${type}IsOpened`]: true
     })
   }
 
   closePopup = () => {
     this.setState({
-      baseIsOpen: false,
-      customIsOpen: false
+      baseIsOpened: false,
+      customIsOpened: false
     })
   }
 
@@ -38,7 +38,7 @@ export default class PopupExample extends Component {
           <Popup
             title="Удаление почты"
             showClose
-            isOpen={this.state.baseIsOpen}
+            isOpened={this.state.baseIsOpened}
             okButton={
               <Button type="primary" size="small" onClick={this.closePopup}>
                 Ок
@@ -49,7 +49,7 @@ export default class PopupExample extends Component {
                 Нет
               </Button>
             }
-            onClose={this.closePopup}
+            onRequestClose={this.closePopup}
           >
             Вы готовы удалить почту
           </Popup>
@@ -57,7 +57,7 @@ export default class PopupExample extends Component {
           <Popup
             title="Укажите почту"
             showClose
-            isOpen={this.state.customIsOpen}
+            isOpened={this.state.customIsOpened}
             okButton={
               <Button type="primary" size="small" onClick={this.closePopup}>
                 Ок
@@ -68,7 +68,7 @@ export default class PopupExample extends Component {
                 Отмена
               </Button>
             }
-            onClose={this.closePopup}
+            onRequestClose={this.closePopup}
           >
             <div style={{ width: 400 }}>
               <Input
@@ -83,13 +83,13 @@ export default class PopupExample extends Component {
             <Button onClick={() => this.openPopup('base')}>
               Базовый попап
             </Button>
-            <Button style={{ marginLeft: 20 }} onClick={() => this.openPopup('custom')}>
+            <Button type="secondary" style={{ marginLeft: 20 }} onClick={() => this.openPopup('custom')}>
               Попап произвольной ширины
             </Button>
           </div>
 
-          <div>this.state.baseIsOpen: <b>{this.state.baseIsOpen ? 'true' : 'false'}</b></div>
-          <div>this.state.customIsOpen: <b>{this.state.customIsOpen ? 'true' : 'false'}</b></div>
+          <div>this.state.baseIsOpened: <b>{this.state.baseIsOpened ? 'true' : 'false'}</b></div>
+          <div>this.state.customIsOpened: <b>{this.state.customIsOpened ? 'true' : 'false'}</b></div>
           <div>this.state.inputValue: <b>{this.state.inputValue}</b></div>
         </div>
       </ApplyTheme>

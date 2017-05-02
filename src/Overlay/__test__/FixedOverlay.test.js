@@ -44,11 +44,11 @@ describe('<FixedOverlay />', () => {
     wrapper = mount(
       withTheme(
         <FixedOverlay
-          isShown={false}
+          isOpened={false}
           anchor={<Anchor {...anchorProps} />}
           content={<Content />}
-          onContentShow={callbacks.onContentShow}
-          onContentHide={callbacks.onContentHide}
+          onContentOpen={callbacks.onContentOpen}
+          onContentClose={callbacks.onContentClose}
           contentWrapperRef={callbacks.contentWrapperRef}
           {...props}
         />
@@ -61,16 +61,16 @@ describe('<FixedOverlay />', () => {
   beforeEach(() => {
     callbacks = {}
     whenContentShow = new Promise((resolve) => {
-      callbacks.onContentShow = resolve
+      callbacks.onContentOpen = resolve
     })
     whenContentHide = new Promise((resolve) => {
-      callbacks.onContentHide = resolve
+      callbacks.onContentClose = resolve
     })
     callbacks.contentWrapperRef = (ref) => {
       contentWrapperNode = ref
     }
-    spyOn(callbacks, 'onContentShow').and.callThrough()
-    spyOn(callbacks, 'onContentHide').and.callThrough()
+    spyOn(callbacks, 'onContentOpen').and.callThrough()
+    spyOn(callbacks, 'onContentClose').and.callThrough()
     spyOn(callbacks, 'contentWrapperRef').and.callThrough()
   })
 
@@ -85,22 +85,22 @@ describe('<FixedOverlay />', () => {
       contentPointX: 'left',
       contentPointY: 'center'
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
-    expect(callbacks.onContentShow).not.toHaveBeenCalled()
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
+    expect(callbacks.onContentOpen).not.toHaveBeenCalled()
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     await whenContentShow
     const contentWrapperNodeStyles = getNodeStyles(contentWrapperNode)
     const contentBodyNode = contentWrapperNode.querySelector('.content-body')
     const contentBodyStyles = getNodeStyles(contentBodyNode)
-    expect(callbacks.onContentShow).toHaveBeenCalledTimes(1)
-    expect(callbacks.onContentHide).not.toHaveBeenCalled()
+    expect(callbacks.onContentOpen).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentClose).not.toHaveBeenCalled()
     expect(contentBodyStyles.opacity).toBe('1')
     expect(document.body.contains(contentBodyNode)).toBe(true)
     expect(contentWrapperNodeStyles.display).toBe('block')
     expect(contentWrapperNodeStyles.position).toBe('absolute')
-    await new Promise((resolve) => { wrapper.setProps({isShown: false}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: false}, resolve) })
     await whenContentHide
-    expect(callbacks.onContentHide).toHaveBeenCalledTimes(1)
+    expect(callbacks.onContentClose).toHaveBeenCalledTimes(1)
     expect(contentWrapperNode).toBe(null)
     expect(document.body.contains(contentBodyNode)).toBe(false)
     done()
@@ -114,7 +114,7 @@ describe('<FixedOverlay />', () => {
       contentPointX: 'left',
       contentPointY: 'center'
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     expect(parseInt(contentWrapperNode.style.left)).toBe(Math.round(wrapperNodeRect.right))
     expect(parseInt(contentWrapperNode.style.top))
@@ -136,7 +136,7 @@ describe('<FixedOverlay />', () => {
         top: 0
       }
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     expect(parseInt(contentWrapperNode.style.left)).toBe(Math.round(wrapperNodeRect.left - contentWrapperNode.offsetWidth))
     expect(parseInt(contentWrapperNode.style.top))
@@ -158,7 +158,7 @@ describe('<FixedOverlay />', () => {
         top: 0
       }
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     expect(parseInt(contentWrapperNode.style.left)).toBe(Math.round(wrapperNodeRect.left - contentWrapperNode.offsetWidth))
     expect(parseInt(contentWrapperNode.style.top)).toBe(wrapperNodeRect.top)
@@ -179,7 +179,7 @@ describe('<FixedOverlay />', () => {
         top: 0
       }
     })
-    await new Promise((resolve) => { wrapper.setProps({isShown: true}, resolve) })
+    await new Promise((resolve) => { wrapper.setProps({isOpened: true}, resolve) })
     await whenContentShow
     expect(parseInt(contentWrapperNode.style.left)).toBe(Math.round(wrapperNodeRect.right - contentWrapperNode.offsetWidth))
     expect(parseInt(contentWrapperNode.style.top)).toBe(Math.round(wrapperNodeRect.bottom))

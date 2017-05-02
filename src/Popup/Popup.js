@@ -125,7 +125,7 @@ export default class Popup extends Component {
     /**
      * Контролирует видимость попапа
      */
-    isOpen: PropTypes.bool,
+    isOpened: PropTypes.bool,
     /**
      * Кнопка успешного действия (если она одна, то будет расятнута на все ширину)
      */
@@ -145,19 +145,19 @@ export default class Popup extends Component {
     /**
      * Закрытие попапа по клику вне него
      */
-    closeOnOutsideClick: PropTypes.bool,
+    closeOnClickOutside: PropTypes.bool,
     /**
      * Коллбек вызывающийся после открытия попапа
      */
-    onOpened: PropTypes.func,
+    onOpen: PropTypes.func,
     /**
      * Коллбек вызывающийся при нажатии на крестик (автоматически проставляется, если используется `@providePopup`)
      */
-    onClose: PropTypes.func,
+    onRequestClose: PropTypes.func,
     /**
      * Коллбек вызывающийся после закрытия попапа
      */
-    onClosed: PropTypes.func,
+    onClose: PropTypes.func,
     /**
      * Коллбек вызывающийся при монтировании/размонтировании контейнера
      */
@@ -165,13 +165,13 @@ export default class Popup extends Component {
   };
 
   static defaultProps = {
-    isOpen: false,
+    isOpened: false,
     showClose: true,
     closeOnEsc: true,
-    closeOnOutsideClick: true,
-    onOpened: () => {},
+    closeOnClickOutside: true,
+    onOpen: () => {},
+    onRequestClose: () => {},
     onClose: () => {},
-    onClosed: () => {},
     containerRef: () => {}
   };
 
@@ -193,7 +193,7 @@ export default class Popup extends Component {
   }
 
   renderContainer() {
-    if (this.props.isOpen) {
+    if (this.props.isOpened) {
       if (!this.node) {
         this.node = document.createElement('div')
         this.node.style.position = 'absolute'
@@ -211,8 +211,8 @@ export default class Popup extends Component {
       if (this.props.closeOnEsc)
         document.addEventListener('keydown', this.handleKeyDown)
 
-      if (this.props.closeOnOutsideClick)
-        document.addEventListener('click', this.handleOutsideClick)
+      if (this.props.closeOnClickOutside)
+        document.addEventListener('click', this.handleClickOutside)
 
       this.node.addEventListener('transitionend', this.handleTransitionEnd)
     } else {
@@ -229,28 +229,28 @@ export default class Popup extends Component {
       if (this.props.closeOnEsc)
         document.removeEventListener('keydown', this.handleKeyDown)
 
-      if (this.props.closeOnOutsideClick)
-        document.removeEventListener('click', this.handleOutsideClick)
+      if (this.props.closeOnClickOutside)
+        document.removeEventListener('click', this.handleClickOutside)
 
-      this.props.onClosed()
+      this.props.onClose()
       this.props.containerRef()
     }
   }
 
   handleKeyDown = event => {
-    if (event.keyCode === ESCAPE) this.props.onClose()
+    if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
-  handleOutsideClick = event => {
+  handleClickOutside = event => {
     if (event.target === this.backdrop) {
       event.stopPropagation()
-      this.props.onClose()
+      this.props.onRequestClose()
     }
   }
 
   handleTransitionEnd = () => {
     this.node.removeEventListener('transitionend', this.handleTransitionEnd)
-    this.props.onOpened()
+    this.props.onOpen()
   }
 
   renderPopup() {
@@ -264,7 +264,7 @@ export default class Popup extends Component {
       showClose,
       okButton,
       cancelButton,
-      onClose,
+      onRequestClose,
       theme
     } = this.props
 
@@ -295,7 +295,7 @@ export default class Popup extends Component {
                 buttonType="button"
                 size="small"
                 className={css.close}
-                onClick={onClose}>
+                onClick={onRequestClose}>
                 <ClearIcon color={theme.popup.closeColor} />
               </IconButton>
             }
