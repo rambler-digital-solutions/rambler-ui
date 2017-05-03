@@ -8,7 +8,6 @@ import {
   unmountComponentAtNode,
   unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
 } from 'react-dom'
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import IconButton from '../IconButton'
@@ -38,8 +37,14 @@ const ESCAPE = 27
     textAlign: 'center',
     overflowY: 'auto',
     overflowX: 'hidden',
+    marginTop: -10,
+    opacity: 0,
     transitionDuration: theme.popup.animationDuration,
     transitionProperty: 'margin-top, opacity'
+  },
+  visible: {
+    marginTop: 0,
+    opacity: 1
   },
   popup: {
     position: 'relative',
@@ -56,14 +61,6 @@ const ESCAPE = 27
       width: 'auto',
       minWidth: 350
     })
-  },
-  appear: {
-    marginTop: -10,
-    opacity: 0.01
-  },
-  appearActive: {
-    marginTop: 0,
-    opacity: 1
   },
   title: {
     marginBottom: 15,
@@ -175,9 +172,12 @@ export default class Popup extends Component {
     containerRef: () => {}
   };
 
+  state = {
+    visible: false
+  }
+
   get css() {
-    const { sheet: { classes: css } } = this.props
-    return css
+    return this.props.sheet.classes
   }
 
   componentDidMount() {
@@ -208,6 +208,13 @@ export default class Popup extends Component {
         this.node
       )
 
+      if (!this.openTimeout)
+        this.openTimeout = setTimeout(() => {
+          this.setState({
+            visible: true
+          })
+        }, 60)
+
       if (this.props.closeOnEsc)
         document.addEventListener('keydown', this.handleKeyDown)
 
@@ -225,6 +232,15 @@ export default class Popup extends Component {
       unmountComponentAtNode(this.node)
       document.body.removeChild(this.node)
       this.node = null
+
+      this.setState({
+        visible: false
+      })
+
+      if (this.openTimeout) {
+        clearTimeout(this.openTimeout)
+        this.openTimeout = null
+      }
 
       if (this.props.closeOnEsc)
         document.removeEventListener('keydown', this.handleKeyDown)
@@ -254,6 +270,8 @@ export default class Popup extends Component {
   }
 
   renderPopup() {
+    const { visible } = this.state
+
     const {
       children,
       className,
@@ -273,47 +291,37 @@ export default class Popup extends Component {
     const cancelButtonEl = this.renderButton(cancelButton)
 
     return (
-      <ReactCSSTransitionGroup
-        transitionName={{
-          appear: css.appear,
-          appearActive: css.appearActive
-        }}
-        transitionAppear={true}
-        transitionAppearTimeout={200}
-        transitionEnter={false}
-        transitionLeave={false}>
+      <div
+        ref={el => { this.backdrop = el }}
+        style={backdropStyle}
+        className={classnames(css.backdrop, visible && css.visible, backdropClassName)}>
         <div
-          ref={el => { this.backdrop = el }}
-          style={backdropStyle}
-          className={classnames(css.backdrop, backdropClassName)}>
-          <div
-            style={style}
-            className={classnames(css.popup, className)}>
-            {showClose &&
-              <IconButton
-                type="flat"
-                buttonType="button"
-                size="small"
-                className={css.close}
-                onClick={onRequestClose}>
-                <ClearIcon color={theme.popup.closeColor} />
-              </IconButton>
-            }
-            {title &&
-              <header className={css.title}>
-                {title}
-              </header>
-            }
-            {children}
-            {(okButton || cancelButton) &&
-              <footer className={css.buttons}>
-                {okButtonEl}
-                {cancelButtonEl}
-              </footer>
-            }
-          </div>
+          style={style}
+          className={classnames(css.popup, className)}>
+          {showClose &&
+            <IconButton
+              type="flat"
+              buttonType="button"
+              size="small"
+              className={css.close}
+              onClick={onRequestClose}>
+              <ClearIcon color={theme.popup.closeColor} />
+            </IconButton>
+          }
+          {title &&
+            <header className={css.title}>
+              {title}
+            </header>
+          }
+          {children}
+          {(okButton || cancelButton) &&
+            <footer className={css.buttons}>
+              {okButtonEl}
+              {cancelButtonEl}
+            </footer>
+          }
         </div>
-      </ReactCSSTransitionGroup>
+      </div>
     )
   }
 
