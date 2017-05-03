@@ -240,6 +240,7 @@ export default {
     padding: '0 13px 2px 13px',
     border: '1px solid #e8e8e8',
     height: 44,
+    fontSize: 13,
     '&:focus': {
       borderBottom: '2px solid #315efb',
       paddingBottom: 1

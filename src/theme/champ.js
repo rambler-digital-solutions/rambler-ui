@@ -130,6 +130,7 @@ export default {
     borderBottom: '1px solid #d5d5d5',
     height: 36,
     opacity: 0.7,
+    fontSize: 14,
     '&:focus': {
       borderBottom: '1px solid #000'
     }
