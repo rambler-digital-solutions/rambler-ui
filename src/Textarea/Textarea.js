@@ -36,15 +36,34 @@ import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
   },
   success: {
     borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
-    paddingBottom: 10
+    paddingBottom: 12
   },
   error: {
     borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
-    paddingBottom: 10
+    paddingBottom: 12
   },
   warning: {
     borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
-    paddingBottom: 10
+    paddingBottom: 12
+  },
+  withLeftIcon: {
+    paddingLeft: 40
+  },
+  withRightIcon: {
+    paddingRight: 40
+  },
+  root: {
+    position: 'relative'
+  },
+  iconLeft: {
+    position: 'absolute',
+    top: 12,
+    left: 12
+  },
+  iconRight: {
+    position: 'absolute',
+    top: 12,
+    right: 12
   }
 }))
 export default class Textarea extends Component {
@@ -102,16 +121,24 @@ export default class Textarea extends Component {
     /**
      * Обработчик нажания клавиши
      */
-    onKeyDown: PropTypes.func
+    onKeyDown: PropTypes.func,
+    /**
+     * Иконка слева
+     */
+    iconLeft: PropTypes.node,
+    /**
+     * Иконка справа
+     */
+    iconRight: PropTypes.node
   };
 
   static defaultProps = {
-    status: null,
-    onChange: () => {}
+    status: null
   };
 
   onChange = event => {
-    this.props.onChange(event, event.target.value)
+    if (this.props.onChange)
+      this.props.onChange(event, event.target.value)
   }
 
   render() {
@@ -122,21 +149,45 @@ export default class Textarea extends Component {
       style,
       placeholder,
       status,
+      iconLeft,
+      iconRight,
       sheet: { classes: css },
       ...other
     } = omit(this.props, ['theme', 'onChange'])
 
+    const resultClassName = classnames(
+      css.textarea,
+      css[status],
+      {
+        [css.withLeftIcon]: !!iconLeft,
+        [css.withRightIcon]: !!iconRight
+      },
+      className
+    )
+
     return (
-      <textarea
-        name={name}
-        disabled={disabled}
-        placeholder={placeholder}
-        className={classnames(css.textarea, css[status], className)}
-        style={style}
-        onChange={this.onChange}
-        tabIndex='0'
-        {...other}
-      />
+      <div className={css.root}>
+        {iconLeft &&
+          <div className={css.iconLeft}>
+            {iconLeft}
+          </div>
+        }
+        <textarea
+          name={name}
+          disabled={disabled}
+          placeholder={placeholder}
+          className={resultClassName}
+          style={style}
+          onChange={this.onChange}
+          tabIndex='0'
+          {...other}
+        />
+        {iconRight &&
+          <div className={css.iconRight}>
+            {iconRight}
+          </div>
+        }
+      </div>
     )
   }
 }

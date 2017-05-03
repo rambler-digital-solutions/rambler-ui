@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Textarea from 'rambler-ui/Textarea'
 import FormGroup from 'rambler-ui/FormGroup'
 import InputStatus from 'rambler-ui/InputStatus'
+import InfoIcon from 'rambler-ui/icons/forms/InfoIcon'
 import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class TextareaExample extends Component {
@@ -28,8 +29,7 @@ export default class TextareaExample extends Component {
                 name='value1'
                 value={this.state.value}
                 onChange={this.onChange}
-                placeholder='Имя'
-              />
+                placeholder='Имя' />
             </InputStatus>
           </FormGroup>
 
@@ -41,8 +41,20 @@ export default class TextareaExample extends Component {
                 name='value2'
                 value={this.state.value}
                 onChange={this.onChange}
-                placeholder='Фамилия'
-              />
+                iconRight={
+                  <InfoIcon />
+                }
+                placeholder='Фамилия' />
+            </InputStatus>
+          </FormGroup>
+
+          <FormGroup inline={true} label='Disabled' style={{ width: 300 }}>
+            <InputStatus type='warning' message='Disabled'>
+              <Textarea
+                status='warning'
+                value=''
+                onChange={this.onChange}
+                disabled />
             </InputStatus>
           </FormGroup>
 
