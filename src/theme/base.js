@@ -282,6 +282,15 @@ export default {
       fill: 'initial !important'
     }
   },
+  textarea: {
+    padding: '11px 13px',
+    border: '1px solid #e8e8e8',
+    height: 75,
+    '&:focus': {
+      borderBottom: '2px solid #315efb',
+      paddingBottom: 10
+    }
+  },
   dropdown: {
     animationDuration: 200
   },
