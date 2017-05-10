@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes, cloneElement } from 'react'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import QuestionIcon from '../icons/forms/QuestionIcon'
@@ -30,10 +30,11 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   },
   icon: {
     position: 'absolute',
-    top: 14
+    top: 14,
+    fill: theme.button.types.primary.defaultBg
   },
   left: {
-    left: -31,
+    left: -15,
     paddingLeft: 47,
     paddingRight: 24,
     '& $icon': {
@@ -41,7 +42,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     }
   },
   right: {
-    left: 31,
+    left: 15,
     paddingLeft: 24,
     paddingRight: 47,
     '& $icon': {
@@ -54,7 +55,8 @@ class HintContent extends Component {
   static propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
-    children: PropTypes.node,
+    icon: PropTypes.node.isRequired,
+    children: PropTypes.node.isRequired,
     isVisible: PropTypes.bool.isRequired,
     pointX: PropTypes.oneOf(POINTS_X),
     onMouseLeave: PropTypes.func,
@@ -135,23 +137,21 @@ class HintContent extends Component {
     const {
       className,
       style,
+      icon,
       children,
       pointX,
-      theme,
       onMouseLeave
     } = this.props
 
     const css = this.css
+    const anchor = cloneElement(icon, { className: css.icon })
 
     return (
       <div
         className={classnames(css.hint, css[pointX], isVisible && css.isVisible, className)}
         style={style}
         onMouseLeave={onMouseLeave}>
-        <QuestionIcon
-          className={css.icon}
-          size={16}
-          color={theme.button.types.primary.defaultBg} />
+        {anchor}
         {children}
       </div>
     )
@@ -159,9 +159,10 @@ class HintContent extends Component {
 }
 
 @pure
-@injectSheet(() => ({
+@injectSheet(theme => ({
   icon: {
-    display: 'inline-block'
+    display: 'inline-block',
+    fill: theme.button.types.primary.defaultBg
   }
 }))
 export default class Hint extends Component {
@@ -175,6 +176,10 @@ export default class Hint extends Component {
      * Стили якоря
      */
     style: PropTypes.object,
+    /**
+     * Иконка, по-умолчанию `<QuestionIcon />`
+     */
+    icon: PropTypes.node.isRequired,
     /**
      * Класс контента подсказки
      */
@@ -203,7 +208,10 @@ export default class Hint extends Component {
 
   static defaultProps = {
     positionX: 'right',
-    closeOnScroll: true
+    closeOnScroll: true,
+    icon: (
+      <QuestionIcon size={16} />
+    )
   };
 
   constructor(props) {
@@ -246,36 +254,37 @@ export default class Hint extends Component {
       style,
       contentClassName,
       contentStyle,
+      icon,
       children,
-      theme,
       positionX,
       closeOnScroll
     } = this.props
 
     const css = this.css
+    const pointX = positionX === 'left' ? 'right' : 'left'
+
+    const anchor = cloneElement(icon, {
+      style,
+      className: classnames(css.icon, className),
+      onMouseEnter: this.show
+    })
 
     return (
       <FixedOverlay
         isOpened={this.state.isOpened}
-        anchor={
-          <QuestionIcon
-            className={classnames(css.icon, className)}
-            style={style}
-            size={16}
-            color={theme.button.types.primary.defaultBg}
-            onMouseEnter={this.show} />
-        }
+        anchor={anchor}
         content={
           <HintContent
             className={contentClassName}
             style={contentStyle}
+            icon={icon}
             onMouseLeave={this.hide}>
             {children}
           </HintContent>
         }
         autoPositionX={true}
-        anchorPointX={positionX}
-        contentPointX={positionX === 'left' ? 'right' : 'left'}
+        anchorPointX={pointX}
+        contentPointX={pointX}
         anchorPointY="top"
         contentPointY="top"
         cachePositionOptions={false}
