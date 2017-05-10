@@ -1,5 +1,11 @@
 # Changelog
 
+## v-2.5.0
+
+* Добавлены Hint, Textarea
+* Поправлен `font-size` для Input
+* Поправлена анимация появления Popup
+
 ## v-2.4.0
 
 * Добавлены Tooltip, Dropdown, SideNav, Popup

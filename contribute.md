@@ -9,9 +9,9 @@
 - [x] Dropdown
 - [x] Tooltip
 - [x] Popup
-- [ ] Hint
+- [x] Hint
 - [x] Input
-- [ ] Textarea
+- [x] Textarea
 - [ ] Snackbar
 - [ ] InputSuggest
 
