@@ -288,5 +288,8 @@ export default {
   },
   tooltip: {
     animationDuration: 200
+  },
+  hint: {
+    animationDuration: 200
   }
 }
