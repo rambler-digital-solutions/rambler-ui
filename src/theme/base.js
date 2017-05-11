@@ -301,5 +301,20 @@ export default {
   },
   hint: {
     animationDuration: 200
+  },
+  snackbar: {
+    borderRadius: 2,
+    padding: '0 20px',
+    color: '#fff',
+    background: {
+      main: '#262626',
+      primary: '#315efb',
+      success: '#28bc00',
+      danger: '#ff564e'
+    },
+    font: {
+      size: 14
+    },
+    animationDuration: 200
   }
 }
