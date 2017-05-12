@@ -11,8 +11,6 @@ import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
-const ESCAPE = 27
-
 @pure
 @zIndexStack(SNACKBAR_ZINDEX)
 @injectSheet((theme) => ({
@@ -152,10 +150,6 @@ export default class Snackbar extends Component {
      */
     showClose: PropTypes.bool,
     /**
-     * Закрытие кнопкой esc
-     */
-    closeOnEsc: PropTypes.bool,
-    /**
      * Закрытие по клику вне
      */
     closeOnClickOutside: PropTypes.bool,
@@ -164,10 +158,6 @@ export default class Snackbar extends Component {
      */
     autoCloseDuration: PropTypes.number,
     /**
-     * Коллбек вызывающийся после открытия
-     */
-    onOpen: PropTypes.func,
-    /**
      * Коллбек вызывающийся при нажатии на кнопку действия (автоматически проставляется, если используется `@provideSnackbar`)
      */
     onAction: PropTypes.func,
@@ -175,10 +165,6 @@ export default class Snackbar extends Component {
      * Коллбек вызывающийся при всех вариантах закрытия (автоматически проставляется, если используется `@provideSnackbar`)
      */
     onRequestClose: PropTypes.func,
-    /**
-     * Коллбек вызывающийся после закрытия
-     */
-    onClose: PropTypes.func,
     /**
      * Коллбек вызывающийся при монтировании/размонтировании контейнера
      */
@@ -190,13 +176,10 @@ export default class Snackbar extends Component {
     isOpened: false,
     positionX: 'center',
     showClose: false,
-    closeOnEsc: true,
-    closeOnClickOutside: true,
-    autoCloseDuration: 0,
-    onOpen: () => {},
+    closeOnClickOutside: false,
+    autoCloseDuration: 4000,
     onAction: () => {},
     onRequestClose: () => {},
-    onClose: () => {},
     containerRef: () => {}
   };
 
@@ -232,7 +215,6 @@ export default class Snackbar extends Component {
     clearTimeout(this.autoCloseTimeout)
     clearTimeout(this.animationTimeout)
     this.unrenderPortal()
-    this.props.onClose()
   }
 
   show = () => {
@@ -256,7 +238,6 @@ export default class Snackbar extends Component {
 
     this.animationTimeout = setTimeout(() => {
       this.status = null
-      this.props.onOpen()
     }, this.props.theme.tooltip.animationDuration)
   }
 
@@ -274,7 +255,6 @@ export default class Snackbar extends Component {
       clearTimeout(this.delayTimeout)
       clearTimeout(this.autoCloseTimeout)
       this.unrenderPortal()
-      this.props.onClose()
     }, this.props.theme.tooltip.animationDuration)
   }
 
@@ -285,9 +265,6 @@ export default class Snackbar extends Component {
       this.node.style.zIndex = this.props.zIndex
       document.body.appendChild(this.node)
       this.props.containerRef(this.node)
-
-      if (this.props.closeOnEsc)
-        document.addEventListener('keydown', this.handleKeyDown)
 
       if (this.props.closeOnClickOutside)
         document.addEventListener('click', this.handleClickOutside)
@@ -307,16 +284,9 @@ export default class Snackbar extends Component {
       this.node = null
       this.props.containerRef()
 
-      if (this.props.closeOnEsc)
-        document.removeEventListener('keydown', this.handleKeyDown)
-
       if (this.props.closeOnClickOutside)
         document.removeEventListener('click', this.handleClickOutside)
     }
-  }
-
-  handleKeyDown = event => {
-    if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
   handleClickOutside = event => {

@@ -39,13 +39,18 @@ describe('<Snackbar />', () => {
   })
 
   it('should open/close snackbar when change props.isOpened', async done => {
-    const props = {}
+    let onClose
 
     const whenClose = new Promise(resolve => {
-      props.onClose = resolve
+      onClose = resolve
     })
 
-    const wrapper = mountWrapper(props)
+    const wrapper = mountWrapper({
+      containerRef: ref => {
+        containerNode = ref
+        if (!ref) onClose()
+      }
+    })
 
     expect(containerNode).toBeUndefined()
 
@@ -207,26 +212,6 @@ describe('<Snackbar />', () => {
     expect(buttonStyles['font-size']).toEqual('14px')
   })
 
-  it('should call props.onOpen() when snackbar opens', async done => {
-    const props = {}
-
-    const whenOpen = new Promise(resolve => {
-      props.onOpen = resolve
-    })
-
-    spyOn(props, 'onOpen').and.callThrough()
-    const wrapper = mountWrapper(props)
-    expect(props.onOpen).not.toHaveBeenCalled()
-
-    wrapper.setProps({
-      isOpened: true
-    })
-
-    await whenOpen
-    expect(props.onOpen).toHaveBeenCalledTimes(1)
-    done()
-  })
-
   it('should call props.onAction() when click on action button', async done => {
     const props = {
       isOpened: true,
@@ -262,28 +247,6 @@ describe('<Snackbar />', () => {
     containerNode.querySelector('.snackbar button').click()
     await whenRequestClose
     expect(props.onRequestClose).toHaveBeenCalledTimes(1)
-    done()
-  })
-
-  it('should call props.onClose() when snackbar closes', async done => {
-    const props = {
-      isOpened: true
-    }
-
-    const whenClose = new Promise(resolve => {
-      props.onClose = resolve
-    })
-
-    spyOn(props, 'onClose').and.callThrough()
-    const wrapper = mountWrapper(props)
-    expect(props.onClose).not.toHaveBeenCalled()
-
-    wrapper.setProps({
-      isOpened: false
-    })
-
-    await whenClose
-    expect(props.onClose).toHaveBeenCalledTimes(1)
     done()
   })
 

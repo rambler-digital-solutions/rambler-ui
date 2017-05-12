@@ -28,27 +28,38 @@ describe('provideSnackbar()', () => {
   const mountSnackbar = (props) => {
     const wrapper = mountWrapper()
     const { openSnackbar, closeSnackbar } = wrapper.find('WithSnackbar').props()
+    let onOpen
+    let onClose
+
+    const whenOpen = new Promise(resolve => {
+      onOpen = resolve
+    })
+
+    const whenClose = new Promise(resolve => {
+      onClose = resolve
+    })
 
     const snackbar = openSnackbar(
       <Snackbar
         className="snackbar"
         containerRef={ref => {
           containerNode = ref
+
+          if (ref)
+            onOpen()
+          else
+            onClose()
         }}
         {...props}>
         Hi
       </Snackbar>
     )
 
-    const whenClose = new Promise((resolve, reject) => {
-      snackbar.closed.then(resolve, reject)
-    })
-
     return {
       snackbar,
       closeSnackbar,
-      whenClose,
-      whenOpen: snackbar.opened
+      whenOpen,
+      whenClose
     }
   }
 
@@ -74,39 +85,31 @@ describe('provideSnackbar()', () => {
     done()
   })
 
-  it('should close snackbar with reject when call props.closeSnackbar', async done => {
+  it('should close snackbar when call props.closeSnackbar', async done => {
     const { snackbar, closeSnackbar, whenOpen, whenClose } = mountSnackbar()
 
     await whenOpen
     expect(document.body.lastElementChild).toEqual(containerNode)
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
     closeSnackbar(snackbar)
-
-    try {
-      await whenClose
-    } catch (err) {
-      expect(containerNode).toBeUndefined()
-      done()
-    }
+    await whenClose
+    expect(containerNode).toBeUndefined()
+    done()
   })
 
-  it('should close snackbar with reject when call snackbar.close', async done => {
+  it('should close snackbar when call snackbar.close', async done => {
     const { snackbar, whenOpen, whenClose } = mountSnackbar()
 
     await whenOpen
     expect(document.body.lastElementChild).toEqual(containerNode)
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
     snackbar.close()
-
-    try {
-      await whenClose
-    } catch (err) {
-      expect(containerNode).toBeUndefined()
-      done()
-    }
+    await whenClose
+    expect(containerNode).toBeUndefined()
+    done()
   })
 
-  it('should close snackbar with reject when click on close button', async done => {
+  it('should close snackbar when click on close button', async done => {
     const { whenOpen, whenClose } = mountSnackbar({
       showClose: true
     })
@@ -115,18 +118,17 @@ describe('provideSnackbar()', () => {
     expect(document.body.lastElementChild).toEqual(containerNode)
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
     containerNode.querySelector('.snackbar button').click()
-
-    try {
-      await whenClose
-    } catch (err) {
-      expect(containerNode).toBeUndefined()
-      done()
-    }
+    await whenClose
+    expect(containerNode).toBeUndefined()
+    done()
   })
 
-  it('should close snackbar with resolve when click on action button', async done => {
-    const { whenOpen, whenClose } = mountSnackbar({
-      actionButton: 'Ok'
+  it('should close snackbar when click on action button', async done => {
+    const { snackbar, whenOpen, whenClose } = mountSnackbar({
+      actionButton: 'Ok',
+      onAction: () => {
+        snackbar.close()
+      }
     })
 
     await whenOpen

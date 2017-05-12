@@ -39,7 +39,7 @@ export default class SnackbarExample extends Component {
             type="success"
             positionX="left"
             showClose={true}
-            autoCloseDuration={3000}
+            autoCloseDuration={0}
             onRequestClose={() => this.closeSnackbar('withDelay')}>
             Почта удалена
           </Snackbar>
@@ -48,6 +48,7 @@ export default class SnackbarExample extends Component {
             isOpened={this.state.withIconIsOpened}
             type="danger"
             positionX="right"
+            autoCloseDuration={0}
             icon={
               <QuestionIcon color="white" />
             }
@@ -62,16 +63,13 @@ export default class SnackbarExample extends Component {
               Базовый снэкбар
             </Button>
             <Button type="secondary" style={{ marginLeft: 20 }} onClick={() => this.openSnackbar('withDelay')}>
-              Слева окна с автозакрытием
+              Слева окна без автозакрытия
             </Button>
             <Button type="flat" style={{ marginLeft: 20 }} onClick={() => this.openSnackbar('withIcon')}>
               С иконкой и кнопкой действия
             </Button>
           </div>
 
-          <div>this.state.baseIsOpened: <b>{this.state.baseIsOpened ? 'true' : 'false'}</b></div>
-          <div>this.state.withDelayIsOpened: <b>{this.state.withDelayIsOpened ? 'true' : 'false'}</b></div>
-          <div>this.state.withIconIsOpened: <b>{this.state.withIconIsOpened ? 'true' : 'false'}</b></div>
         </div>
       </ApplyTheme>
     )

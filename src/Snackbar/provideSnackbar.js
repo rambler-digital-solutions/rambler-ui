@@ -18,36 +18,16 @@ export default function provideSnackbar(Target) {
 
     openSnackbar = element => {
       const snackbar = {}
-
-      let onOpen
-      let onResolve
-      let onReject
-
-      snackbar.opened = new Promise(resolve => {
-        onOpen = resolve
-      })
-
-      snackbar.closed = new Promise((resolve, reject) => {
-        onResolve = () => {
-          this.removeSnackbar(snackbar).then(resolve)
-        }
-
-        onReject = () => {
-          this.removeSnackbar(snackbar).then(reject)
-        }
-      })
-
       const key = uniqueId()
+      const close = () => this.removeSnackbar(snackbar)
 
       snackbar.element = cloneElement(element, {
         key,
-        onOpen,
         isOpened: true,
-        onAction: onResolve,
-        onRequestClose: onReject
+        onRequestClose: close
       })
 
-      snackbar.close = onReject
+      snackbar.close = close
 
       this.elements.push(snackbar.element)
       this.renderContainer()
@@ -65,9 +45,14 @@ export default function provideSnackbar(Target) {
       if (elementIndex < 0) return
 
       return new Promise(resolve => {
+        const { containerRef } = snackbar.element.props
+
         const closedElement = cloneElement(snackbar.element, {
           isOpened: false,
-          onClose: resolve
+          containerRef: ref => {
+            resolve()
+            containerRef(ref)
+          }
         })
 
         this.elements[elementIndex] = closedElement
