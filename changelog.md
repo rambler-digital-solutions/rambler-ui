@@ -1,5 +1,9 @@
 # Changelog
 
+## v-2.6.0
+
+* Добавлен Snackbar
+
 ## v-2.5.0
 
 * Добавлены Hint, Textarea
