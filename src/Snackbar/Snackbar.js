@@ -25,13 +25,14 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     alignItems: 'center',
     padding: theme.snackbar.padding,
     width: '100%',
-    height: theme.sizes.medium.height,
+    height: theme.snackbar.height,
     color: theme.snackbar.color,
     fontSize: theme.snackbar.font.size,
     opacity: 0,
     transitionDuration: theme.snackbar.animationDuration,
     transitionProperty: 'bottom, opacity',
     ...ifDesktop({
+      bottom: 0,
       width: 'auto',
       minWidth: 350,
       maxWidth: 750,
@@ -40,17 +41,26 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
   },
   visible: {
     bottom: 0,
-    opacity: 1
+    opacity: 1,
+    ...ifDesktop({
+      bottom: 10
+    })
   },
   left: {
-    left: 0
+    left: 0,
+    ...ifDesktop({
+      left: 10
+    })
   },
   center: {
     left: '50%',
     transform: 'translateX(-50%)'
   },
   right: {
-    right: 0
+    right: 0,
+    ...ifDesktop({
+      right: 10
+    })
   },
   main: {
     backgroundColor: theme.snackbar.background.main

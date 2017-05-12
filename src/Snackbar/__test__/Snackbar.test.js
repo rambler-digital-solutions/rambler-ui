@@ -89,7 +89,7 @@ describe('<Snackbar />', () => {
     expect(snackbarStyles.position).toEqual('fixed')
     expect(snackbarStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(snackbarStyles['font-size']).toEqual('14px')
-    expect(snackbarStyles['background-color']).toEqual('rgb(38, 38, 38)')
+    expect(snackbarStyles['background-color']).toEqual('rgba(0, 0, 0, 0.8)')
     expect(snackbarStyles.color).toEqual('rgb(255, 255, 255)')
     expect(snackbarStyles.width).toEqual('350px')
     expect(snackbarStyles['min-width']).toEqual('350px')
