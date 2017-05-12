@@ -154,11 +154,7 @@ export default class Popup extends Component {
     /**
      * Коллбек вызывающийся после закрытия попапа
      */
-    onClose: PropTypes.func,
-    /**
-     * Коллбек вызывающийся при монтировании/размонтировании контейнера
-     */
-    containerRef: PropTypes.func
+    onClose: PropTypes.func
   };
 
   static defaultProps = {
@@ -168,8 +164,7 @@ export default class Popup extends Component {
     closeOnClickOutside: true,
     onOpen: () => {},
     onRequestClose: () => {},
-    onClose: () => {},
-    containerRef: () => {}
+    onClose: () => {}
   };
 
   state = {
@@ -199,7 +194,9 @@ export default class Popup extends Component {
         this.node.style.position = 'absolute'
         this.node.style.zIndex = this.props.zIndex
         document.body.appendChild(this.node)
-        this.props.containerRef(this.node)
+
+        if (this.props.containerRef)
+          this.props.containerRef(this.node)
       }
 
       renderSubtreeIntoContainer(
@@ -248,8 +245,10 @@ export default class Popup extends Component {
       if (this.props.closeOnClickOutside)
         document.removeEventListener('click', this.handleClickOutside)
 
+      if (this.props.containerRef)
+        this.props.containerRef()
+
       this.props.onClose()
-      this.props.containerRef()
     }
   }
 
