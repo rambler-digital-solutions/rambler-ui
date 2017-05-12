@@ -50,8 +50,9 @@ export default function provideSnackbar(Target) {
         const closedElement = cloneElement(snackbar.element, {
           isOpened: false,
           containerRef: ref => {
+            if (containerRef)
+              containerRef(ref)
             resolve()
-            containerRef(ref)
           }
         })
 
