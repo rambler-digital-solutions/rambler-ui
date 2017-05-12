@@ -13,6 +13,10 @@ export const DROPDOWN_ZINDEX = 100
  */
 export const HINT_ZINDEX = 500
 
+/**
+ * Снэкбар
+ */
+export const SNACKBAR_ZINDEX = 3000
 
 /**
  * Тултип
