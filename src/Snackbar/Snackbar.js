@@ -174,11 +174,7 @@ export default class Snackbar extends Component {
     /**
      * Коллбек вызывающийся при всех вариантах закрытия (автоматически проставляется, если используется `@provideSnackbar`)
      */
-    onRequestClose: PropTypes.func,
-    /**
-     * Коллбек вызывающийся при монтировании/размонтировании контейнера
-     */
-    containerRef: PropTypes.func
+    onRequestClose: PropTypes.func
   };
 
   static defaultProps = {
@@ -189,8 +185,7 @@ export default class Snackbar extends Component {
     closeOnClickOutside: false,
     autoCloseDuration: 4000,
     onAction: () => {},
-    onRequestClose: () => {},
-    containerRef: () => {}
+    onRequestClose: () => {}
   };
 
   status = null
@@ -274,7 +269,9 @@ export default class Snackbar extends Component {
       this.node.style.position = 'absolute'
       this.node.style.zIndex = this.props.zIndex
       document.body.appendChild(this.node)
-      this.props.containerRef(this.node)
+
+      if (this.props.containerRef)
+        this.props.containerRef(this.node)
 
       if (this.props.closeOnClickOutside)
         document.addEventListener('click', this.handleClickOutside)
@@ -292,7 +289,9 @@ export default class Snackbar extends Component {
       unmountComponentAtNode(this.node)
       document.body.removeChild(this.node)
       this.node = null
-      this.props.containerRef()
+
+      if (this.props.containerRef)
+        this.props.containerRef()
 
       if (this.props.closeOnClickOutside)
         document.removeEventListener('click', this.handleClickOutside)
