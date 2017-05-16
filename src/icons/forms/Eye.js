@@ -5,7 +5,7 @@ import pure from 'recompose/pure'
 @pure
 export default class Eye extends Component {
 
-  static displayName = 'Глаз'
+  static displayName = 'Eye'
 
   render() {
     return (
