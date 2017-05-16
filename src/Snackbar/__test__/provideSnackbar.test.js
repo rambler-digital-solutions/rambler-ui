@@ -74,18 +74,9 @@ describe('provideSnackbar()', () => {
     expect(wrappedNode.text()).toEqual('Hi')
   })
 
-  it('should open snackbar when call props.openSnackbar', async done => {
+  it('should open/close snackbar when call props.{openSnackbar,closeSnackbar}', async done => {
     expect(containerNode).toBeUndefined()
 
-    const { whenOpen } = mountSnackbar()
-
-    await whenOpen
-    expect(document.body.lastElementChild).toEqual(containerNode)
-    expect(document.body.lastElementChild.childElementCount).toEqual(1)
-    done()
-  })
-
-  it('should close snackbar when call props.closeSnackbar', async done => {
     const { snackbar, closeSnackbar, whenOpen, whenClose } = mountSnackbar()
 
     await whenOpen

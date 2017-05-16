@@ -4,14 +4,11 @@
  */
 
 import React, { Component, PropTypes } from 'react'
-import {
-  unmountComponentAtNode,
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
-} from 'react-dom'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
+import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
@@ -21,6 +18,7 @@ const ESCAPE = 27
 
 @pure
 @zIndexStack(POPUP_ZINDEX)
+@renderToLayer
 @injectSheet((theme) => ({
   backdrop: {
     ...isolateMixin,
@@ -42,7 +40,7 @@ const ESCAPE = 27
     transitionDuration: theme.popup.animationDuration,
     transitionProperty: 'margin-top, opacity'
   },
-  visible: {
+  isVisible: {
     marginTop: 0,
     opacity: 1
   },
@@ -167,8 +165,10 @@ export default class Popup extends Component {
     onClose: () => {}
   };
 
+  status = null
+
   state = {
-    visible: false
+    isVisible: false
   }
 
   get css() {
@@ -176,80 +176,66 @@ export default class Popup extends Component {
   }
 
   componentDidMount() {
-    this.renderContainer()
+    if (this.props.isOpened)
+      this.delayTimeout = setTimeout(this.show, 60)
   }
 
-  componentDidUpdate() {
-    this.renderContainer()
+  componentWillReceiveProps({ isOpened }) {
+    if (isOpened !== this.props.isOpened) {
+      clearTimeout(this.delayTimeout)
+
+      if (isOpened)
+        this.delayTimeout = setTimeout(this.show, 60)
+      else
+        this.hide()
+    }
   }
 
   componentWillUnmount() {
-    this.unrenderContainer()
+    clearTimeout(this.delayTimeout)
+    clearTimeout(this.animationTimeout)
   }
 
-  renderContainer() {
-    if (this.props.isOpened) {
-      if (!this.node) {
-        this.node = document.createElement('div')
-        this.node.style.position = 'absolute'
-        this.node.style.zIndex = this.props.zIndex
-        document.body.appendChild(this.node)
+  show = () => {
+    if (this.status === 'showing') return
+    this.status = 'showing'
+    clearTimeout(this.animationTimeout)
 
-        if (this.props.containerRef)
-          this.props.containerRef(this.node)
-      }
+    this.setState({
+      isVisible: true
+    })
 
-      renderSubtreeIntoContainer(
-        this,
-        this.renderPopup(),
-        this.node
-      )
+    if (this.props.closeOnEsc)
+      document.addEventListener('keydown', this.handleKeyDown)
 
-      if (!this.openTimeout)
-        this.openTimeout = setTimeout(() => {
-          this.setState({
-            visible: true
-          })
-        }, 60)
+    if (this.props.closeOnClickOutside)
+      document.addEventListener('click', this.handleClickOutside)
 
-      if (this.props.closeOnEsc)
-        document.addEventListener('keydown', this.handleKeyDown)
-
-      if (this.props.closeOnClickOutside)
-        document.addEventListener('click', this.handleClickOutside)
-
-      this.node.addEventListener('transitionend', this.handleTransitionEnd)
-    } else {
-      this.unrenderContainer()
-    }
+    this.animationTimeout = setTimeout(() => {
+      this.status = null
+      this.props.onOpen()
+    }, this.props.theme.tooltip.animationDuration)
   }
 
-  unrenderContainer() {
-    if (this.node) {
-      unmountComponentAtNode(this.node)
-      document.body.removeChild(this.node)
-      this.node = null
+  hide = () => {
+    if (this.status === 'hiding') return
+    this.status = 'hiding'
+    clearTimeout(this.animationTimeout)
 
-      this.setState({
-        visible: false
-      })
+    this.setState({
+      isVisible: false
+    })
 
-      if (this.openTimeout) {
-        clearTimeout(this.openTimeout)
-        this.openTimeout = null
-      }
+    if (this.props.closeOnEsc)
+      document.removeEventListener('keydown', this.handleKeyDown)
 
-      if (this.props.closeOnEsc)
-        document.removeEventListener('keydown', this.handleKeyDown)
+    if (this.props.closeOnClickOutside)
+      document.removeEventListener('click', this.handleClickOutside)
 
-      if (this.props.closeOnClickOutside)
-        document.removeEventListener('click', this.handleClickOutside)
-
-      if (this.props.containerRef)
-        this.props.containerRef()
-
+    this.animationTimeout = setTimeout(() => {
+      this.status = null
       this.props.onClose()
-    }
+    }, this.props.theme.tooltip.animationDuration)
   }
 
   handleKeyDown = event => {
@@ -263,13 +249,20 @@ export default class Popup extends Component {
     }
   }
 
-  handleTransitionEnd = () => {
-    this.node.removeEventListener('transitionend', this.handleTransitionEnd)
-    this.props.onOpen()
+  renderButton(button) {
+    if (button) {
+      const css = this.css
+
+      return (
+        <div className={css.button}>
+          {button}
+        </div>
+      )
+    }
   }
 
-  renderPopup() {
-    const { visible } = this.state
+  render() {
+    const { isVisible } = this.state
 
     const {
       children,
@@ -293,7 +286,7 @@ export default class Popup extends Component {
       <div
         ref={el => { this.backdrop = el }}
         style={backdropStyle}
-        className={classnames(css.backdrop, visible && css.visible, backdropClassName)}>
+        className={classnames(css.backdrop, isVisible && css.isVisible, backdropClassName)}>
         <div
           style={style}
           className={classnames(css.popup, className)}>
@@ -322,22 +315,6 @@ export default class Popup extends Component {
         </div>
       </div>
     )
-  }
-
-  renderButton(button) {
-    if (button) {
-      const css = this.css
-
-      return (
-        <div className={css.button}>
-          {button}
-        </div>
-      )
-    }
-  }
-
-  render() {
-    return null
   }
 
 }
