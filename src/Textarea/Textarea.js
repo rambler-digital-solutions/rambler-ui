@@ -22,6 +22,7 @@ import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
     fontWeight: 400,
     appearance: 'none',
     lineHeight: 'normal',
+    maxWidth: '100%',
     ...theme.textarea,
     transition: 'border-color 0.3s ease',
     ...placeholderMixin({color: theme.inputRequiredProps.baseColor}),
