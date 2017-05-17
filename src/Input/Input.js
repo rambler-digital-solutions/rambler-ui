@@ -33,12 +33,23 @@ import { Eye } from '../icons/forms'
       cursor: 'default'
     }
   },
+  medium: {
+    height: theme.input.height || theme.sizes.medium.height
+  },
+  small: {
+    height: theme.input.height || theme.sizes.small.height
+  },
   root: {
     position: 'relative'
   },
-  password: {
+  icon: {
     position: 'absolute',
-    top: theme.inputRequiredProps.inputEye.top,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    fontSize: 0
+  },
+  password: {
+    extend: 'icon',
     right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
@@ -53,8 +64,7 @@ import { Eye } from '../icons/forms'
     }
   },
   text: {
-    position: 'absolute',
-    top: theme.inputRequiredProps.inputEye.top,
+    extend: 'icon',
     right: theme.inputRequiredProps.inputEye.right,
     border: 0,
     outline: 0,
@@ -122,19 +132,16 @@ import { Eye } from '../icons/forms'
     }
   },
   iconLeft: {
-    position: 'absolute',
-    left: theme.inputRequiredProps.icon.left,
-    top: theme.inputRequiredProps.icon.top
+    extend: 'icon',
+    left: theme.inputRequiredProps.icon.left
   },
   iconRight: {
-    position: 'absolute',
-    right: theme.inputRequiredProps.icon.right,
-    top: theme.inputRequiredProps.icon.top
+    extend: 'icon',
+    right: theme.inputRequiredProps.icon.right
   },
   iconRightWithoutPass: {
-    position: 'absolute',
-    right: theme.inputRequiredProps.inputIconRightWithoutPass.right,
-    top: theme.inputRequiredProps.icon.top
+    extend: 'icon',
+    right: theme.inputRequiredProps.inputIconRightWithoutPass.right
   },
   inputIconLeft: theme.inputRequiredProps.inputPaddingLeft,
   inputOneIconRight: theme.inputRequiredProps.inputOneIconRight,
@@ -167,6 +174,10 @@ export default class Input extends Component {
     * Тип поля (на данный момент, cо временем добавим другие типы полей).
     */
     type: PropTypes.oneOf(['text', 'password', 'email', 'tel']),
+    /**
+     * Размер инпута
+     */
+    size: PropTypes.oneOf(['small', 'medium']),
     /**
     * Имя элемента
     */
@@ -230,7 +241,8 @@ export default class Input extends Component {
   };
 
   static defaultProps = {
-    status: null
+    status: null,
+    size: 'medium'
   };
 
   inputTypeHelper = () => {
@@ -248,6 +260,7 @@ export default class Input extends Component {
       disabled,
       inputStyle,
       name,
+      size,
       style,
       placeholder,
       iconLeft,
@@ -260,7 +273,7 @@ export default class Input extends Component {
     const { type } = this.state
     const trueType = this.props.type
     const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'}, css[status])
-    const resultClassName = classnames(css.normal, {
+    const resultClassName = classnames(css.normal, css[size], {
       [css.inputIconLeft]: !!iconLeft,
       [css.inputTwoIconRight]: !!iconRight && trueType === 'password',
       [css.inputOneIconRight]: !!iconRight || trueType === 'password'

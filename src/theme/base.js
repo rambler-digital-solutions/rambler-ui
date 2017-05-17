@@ -239,7 +239,6 @@ export default {
   input: {
     padding: '0 13px 2px 13px',
     border: '1px solid #e8e8e8',
-    height: 44,
     fontSize: 13,
     '&:focus': {
       borderBottom: '2px solid #315efb',
@@ -285,12 +284,19 @@ export default {
   },
   textarea: {
     border: '1px solid #e8e8e8',
-    padding: 13,
-    height: 75,
     fontSize: 13,
-    '&:focus': {
-      borderBottom: '2px solid #315efb',
-      paddingBottom: 10
+    focusedBorderBottom: '2px solid #315efb',
+    sizes: {
+      small: {
+        padding: '8px 13px',
+        height: 75,
+        focusedPaddingBottom: 7
+      },
+      medium: {
+        padding: 13,
+        height: 85,
+        focusedPaddingBottom: 12
+      }
     }
   },
   dropdown: {
