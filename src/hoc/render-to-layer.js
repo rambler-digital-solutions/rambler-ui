@@ -4,6 +4,33 @@ import {
   unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
 } from 'react-dom'
 
+/**
+ * Монтирует дерево оборачиваемого `Target` в отдельную ноду в DOM.
+ *
+ *  @renderToLayer
+ *  class Popup extends Components {
+ *
+ *    render() {
+ *      const {
+ *        isOpened,
+ *        children,
+ *        ...other
+ *      } = this.props
+ *
+ *      return (
+ *        <div {...other} style={{ display: isOpened ? 'block' : 'none' }}>
+ *          {children}
+ *        </div>
+ *      )
+ *    }
+ *
+ *  }
+ *
+ * Передает в оборачиваемый компонент следующие props:
+ * - isOpened - контролирует видимость контента
+ * - onOpen() - коллбек, который нужно вызвать в `Target` после открытия, например после окончания всех анимаций
+ * - onClose() - коллбек, который нужно вызвать в `Target` после закрытия, например после окончания всех анимаций
+ */
 export default function renderToLayer(Target) {
 
   return class RenderToLayer extends Component {

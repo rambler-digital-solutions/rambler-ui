@@ -5,6 +5,40 @@ import {
 } from 'react-dom'
 import uniqueId from 'lodash/uniqueId'
 
+/**
+ * Предоставляет в оборачиваемый `Target` методы монтирования/размонтирования в отделную ноду в DOM.
+ *
+ *  @provideRenderToLayer
+ *  class Popup extends Components {
+ *
+ *    openPopup = () => {
+ *      this.popupElement = this.props.renderToLayer(
+ *        <div>
+ *          <button onClick={this.closePopup}>
+ *            Закрыть попап
+ *          </button>
+ *        </div>
+ *      )
+ *    }
+ *
+ *    closePopup = () => {
+ *      this.props.unrenderAtLayer(this.popupElement)
+ *    }
+ *
+ *    render() {
+ *      return (
+ *        <button onClich={this.openPopup}>
+ *          Открыть попап
+ *        </button>
+ *      )
+ *    }
+ *
+ *  }
+ *
+ * Передает в оборачиваемый компонент следующие props:
+ * - renderToLayer(element) - монтирует переданный `element` в отделную ноду
+ * - unrenderAtLayer(element) - размонтирует `element`
+ */
 export default function provideRenderToLayer(Target) {
 
   return class ProvideRenderToLayer extends Component {
