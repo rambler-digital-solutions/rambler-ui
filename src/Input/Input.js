@@ -34,10 +34,10 @@ import { Eye } from '../icons/forms'
     }
   },
   medium: {
-    height: theme.sizes.medium.height
+    height: theme.input.height || theme.sizes.medium.height
   },
   small: {
-    height: theme.sizes.small.height
+    height: theme.input.height || theme.sizes.small.height
   },
   root: {
     position: 'relative'
