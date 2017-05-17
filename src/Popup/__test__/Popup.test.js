@@ -38,8 +38,14 @@ describe('<Popup />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should open/close popup when change props.isOpened', () => {
-    const wrapper = mountWrapper()
+  it('should open/close popup when change props.isOpened', async done => {
+    const props = {}
+
+    const whenClose = new Promise(resolve => {
+      props.onClose = resolve
+    })
+
+    const wrapper = mountWrapper(props)
 
     expect(containerNode).toBeUndefined()
 
@@ -56,8 +62,10 @@ describe('<Popup />', () => {
       isOpened: false
     })
 
+    await whenClose
     expect(containerNode).toBeUndefined()
     expect(mountNode).not.toEqual(document.body.lastElementChild)
+    done()
   })
 
   it('should apply default styles', () => {

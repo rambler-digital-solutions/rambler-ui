@@ -1,11 +1,8 @@
 import React, { Component, PropTypes } from 'react'
-import {
-  unmountComponentAtNode,
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
-} from 'react-dom'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import ClearIcon from '../icons/forms/ClearIcon'
+import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
@@ -13,6 +10,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
 
 @pure
 @zIndexStack(SNACKBAR_ZINDEX)
+@renderToLayer
 @injectSheet((theme) => ({
   snackbar: {
     ...isolateMixin,
@@ -39,7 +37,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
       borderRadius: theme.snackbar.borderRadius
     })
   },
-  visible: {
+  isVisible: {
     bottom: 0,
     opacity: 1,
     ...ifDesktop({
@@ -191,7 +189,7 @@ export default class Snackbar extends Component {
   status = null
 
   state = {
-    visible: false
+    isVisible: false
   }
 
   get css() {
@@ -199,50 +197,47 @@ export default class Snackbar extends Component {
   }
 
   componentDidMount() {
-    if (this.props.isOpened) this.show()
+    if (this.props.isOpened)
+      this.delayTimeout = setTimeout(this.show, 60)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { isOpened } = this.props
+  componentWillReceiveProps({ isOpened }) {
+    if (isOpened !== this.props.isOpened) {
+      clearTimeout(this.delayTimeout)
 
-    if (isOpened !== prevProps.isOpened)
       if (isOpened)
-        this.show()
+        this.delayTimeout = setTimeout(this.show, 60)
       else
         this.hide()
-
-    else if (isOpened || this.state.visible !== prevState.visible)
-      this.renderPortal()
+    }
   }
 
   componentWillUnmount() {
     clearTimeout(this.delayTimeout)
     clearTimeout(this.autoCloseTimeout)
     clearTimeout(this.animationTimeout)
-    this.unrenderPortal()
   }
 
   show = () => {
-    this.renderPortal()
     if (this.status === 'showing') return
     this.status = 'showing'
     clearTimeout(this.animationTimeout)
 
-    if (this.state.visible === false) {
-      this.delayTimeout = setTimeout(() => {
-        this.setState({
-          visible: true
-        })
-      }, 60)
+    this.setState({
+      isVisible: true
+    })
 
-      if (this.props.autoCloseDuration)
-        this.autoCloseTimeout = setTimeout(() => {
-          this.props.onRequestClose()
-        }, this.props.autoCloseDuration)
-    }
+    if (this.props.autoCloseDuration)
+      this.autoCloseTimeout = setTimeout(() => {
+        this.props.onRequestClose()
+      }, this.props.autoCloseDuration)
+
+    if (this.props.closeOnClickOutside)
+      document.addEventListener('click', this.handleClickOutside)
 
     this.animationTimeout = setTimeout(() => {
       this.status = null
+      if (this.props.onOpen) this.props.onOpen()
     }, this.props.theme.tooltip.animationDuration)
   }
 
@@ -252,50 +247,17 @@ export default class Snackbar extends Component {
     clearTimeout(this.animationTimeout)
 
     this.setState({
-      visible: false
+      isVisible: false
     })
+
+    if (this.props.closeOnClickOutside)
+      document.removeEventListener('click', this.handleClickOutside)
 
     this.animationTimeout = setTimeout(() => {
       this.status = null
-      clearTimeout(this.delayTimeout)
       clearTimeout(this.autoCloseTimeout)
-      this.unrenderPortal()
+      if (this.props.onClose) this.props.onClose()
     }, this.props.theme.tooltip.animationDuration)
-  }
-
-  renderPortal() {
-    if (!this.node) {
-      this.node = document.createElement('div')
-      this.node.style.position = 'absolute'
-      this.node.style.zIndex = this.props.zIndex
-      document.body.appendChild(this.node)
-
-      if (this.props.containerRef)
-        this.props.containerRef(this.node)
-
-      if (this.props.closeOnClickOutside)
-        document.addEventListener('click', this.handleClickOutside)
-    }
-
-    renderSubtreeIntoContainer(
-      this,
-      this.renderSnackbar(),
-      this.node
-    )
-  }
-
-  unrenderPortal() {
-    if (this.node) {
-      unmountComponentAtNode(this.node)
-      document.body.removeChild(this.node)
-      this.node = null
-
-      if (this.props.containerRef)
-        this.props.containerRef()
-
-      if (this.props.closeOnClickOutside)
-        document.removeEventListener('click', this.handleClickOutside)
-    }
   }
 
   handleClickOutside = event => {
@@ -305,8 +267,8 @@ export default class Snackbar extends Component {
     }
   }
 
-  renderSnackbar() {
-    const { visible } = this.state
+  render() {
+    const { isVisible } = this.state
 
     const {
       children,
@@ -328,7 +290,7 @@ export default class Snackbar extends Component {
       <div
         ref={el => { this.snackbar = el }}
         style={style}
-        className={classnames(css.snackbar, css[positionX], css[type], visible && css.visible, className)}>
+        className={classnames(css.snackbar, css[positionX], css[type], isVisible && css.isVisible, className)}>
         {icon &&
           <div className={css.icon}>
             {icon}
@@ -349,10 +311,6 @@ export default class Snackbar extends Component {
         }
       </div>
     )
-  }
-
-  render() {
-    return null
   }
 
 }

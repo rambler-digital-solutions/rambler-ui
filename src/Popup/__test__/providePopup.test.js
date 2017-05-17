@@ -83,18 +83,9 @@ describe('providePopup()', () => {
     expect(wrappedNode.text()).toEqual('Hi')
   })
 
-  it('should open popup when call props.openPopup', async done => {
+  it('should open/close popup with reject when call props.{openPopup,closePopup}', async done => {
     expect(containerNode).toBeUndefined()
 
-    const { whenOpen } = mountPopup()
-
-    await whenOpen
-    expect(document.body.lastElementChild).toEqual(containerNode)
-    expect(document.body.lastElementChild.childElementCount).toEqual(1)
-    done()
-  })
-
-  it('should close popup with reject when call props.closePopup', async done => {
     const { popup, closePopup, whenOpen, whenClose } = mountPopup()
 
     await whenOpen
