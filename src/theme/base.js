@@ -317,5 +317,18 @@ export default {
       size: 14
     },
     animationDuration: 200
+  },
+  notification: {
+    borderRadius: 2,
+    boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)',
+    padding: '20px 25px 20px 20px',
+    background: '#fff',
+    color: '#262626',
+    closeColor: 'rgba(38, 38, 38, 0.6)',
+    font: {
+      size: 13,
+      titleSize: 14
+    },
+    animationDuration: 200
   }
 }

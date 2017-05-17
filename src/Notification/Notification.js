@@ -1,7 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
+import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
+import ChevronRightIcon from '../icons/forms/ChevronRightIcon'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
@@ -12,113 +14,99 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
 @zIndexStack(SNACKBAR_ZINDEX)
 @renderToLayer
 @injectSheet((theme) => ({
-  snackbar: {
+  notification: {
     ...isolateMixin,
     ...fontStyleMixin(theme.font),
     position: 'fixed',
-    bottom: -10,
+    left: 15,
+    right: 15,
+    bottom: 5,
     boxSizing: 'border-box',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: theme.snackbar.padding,
-    width: '100%',
-    height: theme.snackbar.height,
-    color: theme.snackbar.color,
-    fontSize: theme.snackbar.font.size,
+    boxShadow: theme.notification.boxShadow,
+    padding: theme.notification.padding,
+    backgroundColor: theme.notification.background,
+    color: theme.notification.color,
+    fontSize: theme.notification.font.size,
     opacity: 0,
-    transitionDuration: theme.snackbar.animationDuration,
+    transitionDuration: theme.notification.animationDuration,
     transitionProperty: 'bottom, opacity',
     ...ifDesktop({
-      bottom: 0,
-      width: 'auto',
-      minWidth: 350,
-      maxWidth: 750,
-      borderRadius: theme.snackbar.borderRadius
+      width: 335,
+      borderRadius: theme.notification.borderRadius
     })
   },
   isVisible: {
-    bottom: 0,
-    opacity: 1,
-    ...ifDesktop({
-      bottom: 10
-    })
+    bottom: 15,
+    opacity: 1
   },
-  left: {
-    left: 0,
-    ...ifDesktop({
-      left: 10
-    })
-  },
-  center: {
-    left: '50%',
-    transform: 'translateX(-50%)'
-  },
-  right: {
-    right: 0,
-    ...ifDesktop({
-      right: 10
-    })
-  },
-  main: {
-    backgroundColor: theme.snackbar.background.main
-  },
-  primary: {
-    backgroundColor: theme.snackbar.background.primary
-  },
-  success: {
-    backgroundColor: theme.snackbar.background.success
-  },
-  danger: {
-    backgroundColor: theme.snackbar.background.danger
+  ...ifDesktop({
+    left: {
+      right: 'auto'
+    },
+    center: {
+      left: '50%',
+      right: 'auto',
+      transform: 'translateX(-50%)'
+    },
+    right: {
+      left: 'auto',
+      right: 15
+    }
+  }),
+  title: {
+    ...middleMixin,
+    fontSize: theme.notification.titleSize,
+    fontWeight: 500
   },
   icon: {
     ...middleMixin,
-    marginRight: 15
+    display: 'inline-block',
+    borderRadius: '50%',
+    marginRight: 10,
+    width: 39,
+    height: 39,
+    backgroundColor: '#eef2f4',
+    textAlign: 'center'
   },
-  content: {
-    flexGrow: 1,
-    textAlign: 'left',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+  body: {
+    marginTop: 10
   },
-  button: {
+  actionButton: {
+    ...middleMixin,
     boxSizing: 'border-box',
     outline: 'none',
     border: 0,
-    borderRadius: theme.snackbar.borderRadius,
+    margin: 0,
+    marginTop: 12,
+    padding: 0,
     height: 20,
-    marginLeft: 15,
-    padding: '0 10px',
     backgroundColor: 'transparent',
-    color: theme.snackbar.color,
-    fontSize: theme.snackbar.font.size,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
+    color: theme.button.types.primary.defaultBg,
+    fontSize: theme.notification.font.size,
+    fontWeight: 500,
     cursor: 'pointer',
-    transitionDuration: '.2s',
-    transitionProperty: 'background-color, border',
+    transitionDuration: theme.notification.animationDuration,
+    transitionProperty: 'color',
     '&:hover:not(:active)': {
-      backgroundColor: 'rgba(0, 0, 0, 0.05)'
+      color: theme.button.types.primary.hoverBg
     },
     '&:focus:not(:active)': {
-      border: '1px solid'
+      color: theme.button.types.primary.focusBg
     },
     '&:active': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1)'
+      color: theme.button.types.primary.activeBg
+    },
+    '& svg': {
+      marginLeft: 7
     }
   },
   close: {
-    extend: 'button',
-    ...middleMixin,
-    borderRadius: '50%',
-    width: 20,
-    padding: 0
+    position: 'absolute !important',
+    top: 13,
+    right: 13
   }
 }))
-export default class Snackbar extends Component {
+export default class Notification extends Component {
 
   static propTypes = {
     /**
@@ -130,21 +118,21 @@ export default class Snackbar extends Component {
      */
     style: PropTypes.object,
     /**
-     * Контент снэкбара
-     */
-    children: PropTypes.node.isRequired,
-    /**
-     * Контролирует видимость снэкбара
+     * Контролирует видимость уведомления
      */
     isOpened: PropTypes.bool,
-    /**
-     * Тип цвета снэкбара
-     */
-    type: PropTypes.oneOf(['main', 'primary', 'success', 'danger']),
     /**
      * Иконка
      */
     icon: PropTypes.node,
+    /**
+     * Тайтл
+     */
+    title: PropTypes.node.isRequired,
+    /**
+     * Сообщение
+     */
+    body: PropTypes.node.isRequired,
     /**
      * Кнопка действия
      */
@@ -162,26 +150,20 @@ export default class Snackbar extends Component {
      */
     closeOnClickOutside: PropTypes.bool,
     /**
-     * Таймаут авто-закрытия
-     */
-    autoCloseDuration: PropTypes.number,
-    /**
      * Коллбек вызывающийся при нажатии на кнопку действия
      */
     onAction: PropTypes.func,
     /**
-     * Коллбек вызывающийся при всех вариантах закрытия (автоматически проставляется, если используется `@provideSnackbar`)
+     * Коллбек вызывающийся при всех вариантах закрытия (автоматически проставляется, если используется `@provideNotification`)
      */
     onRequestClose: PropTypes.func
   };
 
   static defaultProps = {
-    type: 'main',
     isOpened: false,
-    positionX: 'center',
-    showClose: false,
+    positionX: 'right',
+    showClose: true,
     closeOnClickOutside: false,
-    autoCloseDuration: 4000,
     onAction: () => {},
     onRequestClose: () => {}
   };
@@ -214,7 +196,6 @@ export default class Snackbar extends Component {
 
   componentWillUnmount() {
     clearTimeout(this.delayTimeout)
-    clearTimeout(this.autoCloseTimeout)
     clearTimeout(this.animationTimeout)
   }
 
@@ -226,11 +207,6 @@ export default class Snackbar extends Component {
     this.setState({
       isVisible: true
     })
-
-    if (this.props.autoCloseDuration)
-      this.autoCloseTimeout = setTimeout(() => {
-        this.props.onRequestClose()
-      }, this.props.autoCloseDuration)
 
     if (this.props.closeOnClickOutside)
       document.addEventListener('click', this.handleClickOutside)
@@ -255,13 +231,12 @@ export default class Snackbar extends Component {
 
     this.animationTimeout = setTimeout(() => {
       this.status = null
-      clearTimeout(this.autoCloseTimeout)
       if (this.props.onClose) this.props.onClose()
     }, this.props.theme.tooltip.animationDuration)
   }
 
   handleClickOutside = event => {
-    if (!this.snackbar.contains(event.target)) {
+    if (!this.notification.contains(event.target)) {
       event.stopPropagation()
       this.props.onRequestClose()
     }
@@ -271,13 +246,13 @@ export default class Snackbar extends Component {
     const { isVisible } = this.state
 
     const {
-      children,
       className,
       positionX,
-      type,
       style,
       theme,
       icon,
+      title,
+      body,
       showClose,
       actionButton,
       onAction,
@@ -288,25 +263,34 @@ export default class Snackbar extends Component {
 
     return (
       <div
-        ref={el => { this.snackbar = el }}
+        ref={el => { this.notification = el }}
         style={style}
-        className={classnames(css.snackbar, css[positionX], css[type], isVisible && css.isVisible, className)}>
-        {icon &&
-          <div className={css.icon}>
-            {icon}
-          </div>
+        className={classnames(css.notification, css[positionX], isVisible && css.isVisible, className)}>
+        {showClose &&
+          <IconButton
+            type="flat"
+            buttonType="button"
+            size="small"
+            className={css.close}
+            onClick={onRequestClose}>
+            <ClearIcon color={theme.notification.closeColor} />
+          </IconButton>
         }
-        <div className={css.content}>
-          {children}
+        <div className={css.title}>
+          {icon &&
+            <div className={css.icon}>
+              {icon}
+            </div>
+          }
+          {title}
+        </div>
+        <div className={css.body}>
+          {body}
         </div>
         {actionButton &&
-          <button type="button" className={css.button} onClick={onAction}>
+          <button type="button" className={css.actionButton} onClick={onAction}>
             {actionButton}
-          </button>
-        }
-        {showClose &&
-          <button type="button" className={css.close} onClick={onRequestClose}>
-            <ClearIcon size={10} color={theme.snackbar.color} />
+            <ChevronRightIcon size={9} color={theme.button.types.primary.defaultBg} />
           </button>
         }
       </div>
