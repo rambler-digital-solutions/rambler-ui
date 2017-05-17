@@ -92,7 +92,7 @@ describe('<Input style={{width: 200}}/>', () => {
     expect(inputWithoutStatusStyles['border-bottom-color']).toEqual('rgb(232, 232, 232)')
     expect(inputWithoutStatusStyles['border-bottom-style']).toEqual('solid')
     expect(inputWithoutStatusStyles['border-bottom-width']).toEqual('1px')
-    expect(inputSuccessStyles.height).toEqual('44px')
+    expect(inputSuccessStyles.height).toEqual('45px')
   })
 
   it('Проверяем колбэки onChange, onBlur, onFocus, onKeyUp, onKeyDown', () => {
@@ -170,10 +170,10 @@ describe('<Input style={{width: 200}}/>', () => {
     const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0].parentNode)
     const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode)
     // расположение iconLeft
-    expect(iconLeftStyles.top).toEqual('13px')
+    expect(iconLeftStyles.top).toEqual('50%')
     expect(iconLeftStyles.left).toEqual('13px')
     // расположение iconEye для password
-    expect(iconEyeStyles.top).toEqual('13px')
+    expect(iconEyeStyles.top).toEqual('50%')
     expect(iconEyeStyles.right).toEqual('13px')
   })
 
@@ -196,5 +196,24 @@ describe('<Input style={{width: 200}}/>', () => {
     expect(inputTextStyles['padding-right']).toEqual('40px')
     expect(inputPassStyles['padding-right']).toEqual('70px')
     expect(inputPassStyles['padding-left']).toEqual('13px')
+  })
+
+  it('Проверяем size small', () => {
+    const sizeProps = {
+      size: 'small'
+    }
+
+    const wrapper = mount(applyTheme(
+      <FormGroup {...formGroupProps}>
+        <InputStatus>
+          <Input {...defaultProps} {...sizeProps} />
+        </InputStatus>
+      </FormGroup>
+    ))
+
+    const inputText = wrapper.find('.inputCls')
+    const inputTextStyles = getStyles(inputText)
+
+    expect(inputTextStyles.height).toEqual('35px')
   })
 })

@@ -53,6 +53,19 @@ export default class InputExample extends Component {
             </InputStatus>
           </FormGroup>
         </ApplyTheme>
+        <ApplyTheme>
+          <FormGroup inline={false} label='size small' fieldId='name' className='formGroup' style={{width: 350}}>
+            <Input
+              type='text'
+              name='value4'
+              size='small'
+              value={this.state.value4}
+              onChange={::this.onChange}
+              placeholder='Отчество'
+              iconLeft={<RamblerMailIcon />}
+            />
+          </FormGroup>
+        </ApplyTheme>
 
         <h3>FormGroup inline=true</h3>
         <ApplyTheme>

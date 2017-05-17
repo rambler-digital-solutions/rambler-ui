@@ -23,21 +23,18 @@ export default class TextareaExample extends Component {
 
           <h3>FormGroup inline=false</h3>
           <FormGroup inline={false} label='Имя' style={{ width: 300 }}>
-            <InputStatus type='success' message='Успешно'>
-              <Textarea
-                status='success'
-                name='value1'
-                value={this.state.value}
-                onChange={this.onChange}
-                placeholder='Имя' />
-            </InputStatus>
+            <Textarea
+              name='value1'
+              value={this.state.value}
+              onChange={this.onChange}
+              placeholder='Имя' />
           </FormGroup>
 
           <h3>FormGroup inline=true</h3>
           <FormGroup inline={true} label='Фамилия' style={{ width: 600 }}>
-            <InputStatus type='error' message='Ошибка'>
+            <InputStatus type='success' message='Успех'>
               <Textarea
-                status='error'
+                status='success'
                 name='value2'
                 value={this.state.value}
                 onChange={this.onChange}
@@ -45,6 +42,18 @@ export default class TextareaExample extends Component {
                   <InfoIcon />
                 }
                 placeholder='Фамилия' />
+            </InputStatus>
+          </FormGroup>
+
+          <FormGroup inline={true} label='size small' style={{ width: 400 }}>
+            <InputStatus type='error' message='Ошибка'>
+              <Textarea
+                status='error'
+                name='value2'
+                size='small'
+                value={this.state.value}
+                onChange={this.onChange}
+                placeholder='Отчество' />
             </InputStatus>
           </FormGroup>
 

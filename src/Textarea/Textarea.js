@@ -23,7 +23,8 @@ import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
     appearance: 'none',
     lineHeight: 'normal',
     maxWidth: '100%',
-    ...theme.textarea,
+    border: theme.textarea.border,
+    fontSize: theme.textarea.fontSize,
     transition: 'border-color 0.3s ease',
     ...placeholderMixin({color: theme.inputRequiredProps.baseColor}),
     '&::-ms-reveal': {
@@ -33,19 +34,51 @@ import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
       backgroundColor: '#eee',
       borderColor: '#eee',
       cursor: 'default'
+    },
+    '&:focus': {
+      borderBottom: theme.textarea.focusedBorderBottom
+    }
+  },
+  small: {
+    height: theme.textarea.sizes.small.height,
+    padding: theme.textarea.sizes.small.padding,
+    '&:focus': {
+      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+    },
+    '&$success': {
+      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+    },
+    '&$warning': {
+      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+    },
+    '&$error': {
+      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+    }
+  },
+  medium: {
+    height: theme.textarea.sizes.medium.height,
+    padding: theme.textarea.sizes.medium.padding,
+    '&:focus': {
+      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
+    },
+    '&$success': {
+      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
+    },
+    '&$warning': {
+      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
+    },
+    '&$error': {
+      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
     }
   },
   success: {
-    borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
-    paddingBottom: 12
+    borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom
   },
   error: {
-    borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
-    paddingBottom: 12
+    borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom
   },
   warning: {
-    borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
-    paddingBottom: 12
+    borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom
   },
   withLeftIcon: {
     paddingLeft: 40
@@ -96,6 +129,10 @@ export default class Textarea extends Component {
       null
     ]),
     /**
+     * Размер елемента
+     */
+    size: PropTypes.oneOf(['small', 'medium']),
+    /**
      * Класс компонента
      */
     className: PropTypes.string,
@@ -134,7 +171,8 @@ export default class Textarea extends Component {
   };
 
   static defaultProps = {
-    status: null
+    status: null,
+    size: 'medium'
   };
 
   onChange = event => {
@@ -149,6 +187,7 @@ export default class Textarea extends Component {
       disabled,
       style,
       placeholder,
+      size,
       status,
       iconLeft,
       iconRight,
@@ -158,6 +197,7 @@ export default class Textarea extends Component {
 
     const resultClassName = classnames(
       css.textarea,
+      css[size],
       css[status],
       {
         [css.withLeftIcon]: !!iconLeft,

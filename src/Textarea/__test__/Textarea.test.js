@@ -19,7 +19,7 @@ describe('<Textarea />', () => {
 
     const textareaStyles = getStyles(wrapper.find('.textarea'))
 
-    expect(textareaStyles.height).toEqual('75px')
+    expect(textareaStyles.height).toEqual('85px')
     expect(textareaStyles['border-bottom-width']).toEqual('1px')
     expect(textareaStyles['border-bottom-style']).toEqual('solid')
     expect(textareaStyles['border-bottom-color']).toEqual('rgb(232, 232, 232)')
@@ -58,6 +58,22 @@ describe('<Textarea />', () => {
     const textareaStyles = getStyles(wrapper.find('.textarea'))
 
     expect(textareaStyles['background-color']).toEqual(backgroundColor)
+  })
+
+  it('should append size', () => {
+    const wrapper = mount(
+      withTheme(
+        <Textarea {...defaultProps} size="small" />
+      )
+    )
+
+    const textareaStyles = getStyles(wrapper.find('.textarea'))
+
+    expect(textareaStyles.height).toEqual('75px')
+    expect(textareaStyles['padding-top']).toEqual('8px')
+    expect(textareaStyles['padding-left']).toEqual('13px')
+    expect(textareaStyles['padding-right']).toEqual('13px')
+    expect(textareaStyles['padding-bottom']).toEqual('8px')
   })
 
   it('should append value, disabled, name, placeholder', () => {
