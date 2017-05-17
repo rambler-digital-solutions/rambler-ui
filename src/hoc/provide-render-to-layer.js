@@ -27,7 +27,7 @@ import uniqueId from 'lodash/uniqueId'
  *
  *    render() {
  *      return (
- *        <button onClich={this.openPopup}>
+ *        <button onClick={this.openPopup}>
  *          Открыть попап
  *        </button>
  *      )
