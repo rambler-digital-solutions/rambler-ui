@@ -194,6 +194,14 @@ export default class Popup extends Component {
   componentWillUnmount() {
     clearTimeout(this.delayTimeout)
     clearTimeout(this.animationTimeout)
+
+    if (this.state.isVisible) {
+      if (this.props.closeOnEsc)
+        document.removeEventListener('keydown', this.handleKeyDown)
+
+      if (this.props.closeOnClickOutside)
+        document.removeEventListener('click', this.handleClickOutside)
+    }
   }
 
   show = () => {
