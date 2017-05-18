@@ -13,7 +13,7 @@
 - [x] Input
 - [x] Textarea
 - [x] Snackbar
-- [ ] Notification
+- [x] Notification
 - [ ] InputSuggest
 
 ## Установка

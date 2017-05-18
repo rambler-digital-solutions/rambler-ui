@@ -1,5 +1,10 @@
 # Changelog
 
+## v-2.7.0
+
+* Добавлен Notification
+* Добавлен размер `small` для Input и Textarea
+
 ## v-2.6.0
 
 * Добавлен Snackbar
