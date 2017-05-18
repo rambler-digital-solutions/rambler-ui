@@ -102,8 +102,8 @@ export default function renderToLayer(Target) {
           this.node.style.zIndex = this.props.zIndex
           document.body.appendChild(this.node)
           this.props.containerRef(this.node)
-          this.renderPortal()
           this.resolveOpening = resolve
+          this.renderPortal()
         }).then(() => {
           this.resolveOpening = null
           this.props.onOpen()
@@ -123,8 +123,8 @@ export default function renderToLayer(Target) {
       if (this.node)
         new Promise(resolve => {
           if (force) resolve()
-          this.renderPortal()
           this.resolveClosing = resolve
+          this.renderPortal()
         }).then(() => {
           unmountComponentAtNode(this.node)
           document.body.removeChild(this.node)
