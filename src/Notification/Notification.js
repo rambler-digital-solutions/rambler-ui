@@ -252,7 +252,6 @@ export default class Notification extends Component {
 
     const content = (
       <div
-        ref={el => { this.notification = el }}
         style={style}
         className={classnames(css.notification, css[positionX], isVisible && css.isVisible, className)}>
         {showClose &&

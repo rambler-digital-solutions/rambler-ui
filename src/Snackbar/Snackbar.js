@@ -282,7 +282,6 @@ export default class Snackbar extends Component {
 
     const content = (
       <div
-        ref={el => { this.snackbar = el }}
         style={style}
         className={classnames(css.snackbar, css[positionX], css[type], isVisible && css.isVisible, className)}>
         {icon &&
