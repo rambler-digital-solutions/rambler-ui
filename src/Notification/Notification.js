@@ -4,6 +4,7 @@ import pure from 'recompose/pure'
 import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
 import ChevronRightIcon from '../icons/forms/ChevronRightIcon'
+import OnClickOutside from '../events/OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
@@ -35,24 +36,19 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
       borderRadius: theme.notification.borderRadius
     })
   },
-  isVisible: {
-    bottom: 15,
-    opacity: 1
-  },
   ...ifDesktop({
     left: {
       right: 'auto'
-    },
-    center: {
-      left: '50%',
-      right: 'auto',
-      transform: 'translateX(-50%)'
     },
     right: {
       left: 'auto',
       right: 15
     }
   }),
+  isVisible: {
+    bottom: 15,
+    opacity: 1
+  },
   title: {
     ...middleMixin,
     fontSize: theme.notification.titleSize,
@@ -65,7 +61,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     marginRight: 10,
     width: 39,
     height: 39,
-    backgroundColor: '#eef2f4',
+    backgroundColor: theme.notification.iconBackground,
     textAlign: 'center'
   },
   body: {
@@ -140,7 +136,7 @@ export default class Notification extends Component {
     /**
      * Позиция по оси X
      */
-    positionX: PropTypes.oneOf(['left', 'center', 'right']),
+    positionX: PropTypes.oneOf(['left', 'right']),
     /**
      * Кнопка закрытия
      */
@@ -208,9 +204,6 @@ export default class Notification extends Component {
       isVisible: true
     })
 
-    if (this.props.closeOnClickOutside)
-      document.addEventListener('click', this.handleClickOutside)
-
     this.animationTimeout = setTimeout(() => {
       this.status = null
       if (this.props.onOpen) this.props.onOpen()
@@ -226,20 +219,15 @@ export default class Notification extends Component {
       isVisible: false
     })
 
-    if (this.props.closeOnClickOutside)
-      document.removeEventListener('click', this.handleClickOutside)
-
     this.animationTimeout = setTimeout(() => {
       this.status = null
       if (this.props.onClose) this.props.onClose()
     }, this.props.theme.tooltip.animationDuration)
   }
 
-  handleClickOutside = event => {
-    if (!this.notification.contains(event.target)) {
-      event.stopPropagation()
+  handleClickOutside = () => {
+    if (this.state.isVisible)
       this.props.onRequestClose()
-    }
   }
 
   render() {
@@ -256,12 +244,13 @@ export default class Notification extends Component {
       showClose,
       actionButton,
       onAction,
-      onRequestClose
+      onRequestClose,
+      closeOnClickOutside
     } = this.props
 
     const css = this.css
 
-    return (
+    const content = (
       <div
         ref={el => { this.notification = el }}
         style={style}
@@ -295,6 +284,15 @@ export default class Notification extends Component {
         }
       </div>
     )
+
+    if (closeOnClickOutside)
+      return (
+        <OnClickOutside handler={this.handleClickOutside}>
+          {content}
+        </OnClickOutside>
+      )
+
+    return content
   }
 
 }

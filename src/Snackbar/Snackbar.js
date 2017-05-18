@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import ClearIcon from '../icons/forms/ClearIcon'
+import OnClickOutside from '../events/OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
@@ -232,9 +233,6 @@ export default class Snackbar extends Component {
         this.props.onRequestClose()
       }, this.props.autoCloseDuration)
 
-    if (this.props.closeOnClickOutside)
-      document.addEventListener('click', this.handleClickOutside)
-
     this.animationTimeout = setTimeout(() => {
       this.status = null
       if (this.props.onOpen) this.props.onOpen()
@@ -250,9 +248,6 @@ export default class Snackbar extends Component {
       isVisible: false
     })
 
-    if (this.props.closeOnClickOutside)
-      document.removeEventListener('click', this.handleClickOutside)
-
     this.animationTimeout = setTimeout(() => {
       this.status = null
       clearTimeout(this.autoCloseTimeout)
@@ -260,11 +255,9 @@ export default class Snackbar extends Component {
     }, this.props.theme.tooltip.animationDuration)
   }
 
-  handleClickOutside = event => {
-    if (!this.snackbar.contains(event.target)) {
-      event.stopPropagation()
+  handleClickOutside = () => {
+    if (this.state.isVisible)
       this.props.onRequestClose()
-    }
   }
 
   render() {
@@ -281,12 +274,13 @@ export default class Snackbar extends Component {
       showClose,
       actionButton,
       onAction,
-      onRequestClose
+      onRequestClose,
+      closeOnClickOutside
     } = this.props
 
     const css = this.css
 
-    return (
+    const content = (
       <div
         ref={el => { this.snackbar = el }}
         style={style}
@@ -311,6 +305,15 @@ export default class Snackbar extends Component {
         }
       </div>
     )
+
+    if (closeOnClickOutside)
+      return (
+        <OnClickOutside handler={this.handleClickOutside}>
+          {content}
+        </OnClickOutside>
+      )
+
+    return content
   }
 
 }

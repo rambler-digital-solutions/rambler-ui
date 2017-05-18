@@ -323,6 +323,7 @@ export default {
     boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)',
     padding: '20px 25px 20px 20px',
     background: '#fff',
+    iconBackground: '#eef2f4',
     color: '#262626',
     closeColor: 'rgba(38, 38, 38, 0.6)',
     font: {
