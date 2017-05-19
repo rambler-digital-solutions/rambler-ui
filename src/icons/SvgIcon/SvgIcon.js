@@ -16,6 +16,10 @@ export default class SvgIcon extends Component {
      */
     color: PropTypes.string,
     /**
+     * Применять ли свойство `color`, используется исключительно для иконок `icons/profiles`
+     */
+    applyColor: PropTypes.bool,
+    /**
      * Элементы, которые отрисуются внутри svg-элемента
      */
     children: PropTypes.node,
