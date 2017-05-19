@@ -13,9 +13,9 @@ import { isolateMixin, fontStyleMixin } from '../style/mixins'
     ...fontStyleMixin(theme.font),
     opacity: '0.01',
     position: 'relative',
-    pointerEvents: 'none',
     transitionDuration: `${theme.tooltip.animationDuration}ms`,
-    transitionProperty: 'opacity, top'
+    transitionProperty: 'opacity, top',
+    pointerEvents: 'none'
   },
   body: {
     background: 'rgba(0, 0, 0, .8)',
@@ -26,7 +26,19 @@ import { isolateMixin, fontStyleMixin } from '../style/mixins'
     borderRadius: 3
   },
   isVisible: {
-    opacity: '1 !important'
+    opacity: '1 !important',
+    '&$top': {
+      top: 3
+    },
+    '&$bottom': {
+      top: -3
+    }
+  },
+  top: {
+    top: 10
+  },
+  bottom: {
+    top: -10
   }
 }))
 class TooltipContent extends PureComponent {
@@ -59,11 +71,6 @@ class TooltipContent extends PureComponent {
       onBecomeVisible,
       onBecomeInvisible
     } = this.props
-    let top
-    if (isVisible)
-      top = pointY === 'top' ? '3px' : '-3px'
-    else if (pointY)
-      top = pointY === 'top' ? '10px' : '-10px'
     return (
       <OnClickOutside handler={onClickOutside}>
         <VisibilityAnimation
@@ -73,8 +80,8 @@ class TooltipContent extends PureComponent {
           onVisible={onBecomeVisible}
           onInvisible={onBecomeInvisible}>
           <div
-            style={{top, pointerEvents: 'none', paddingTop: '3px', paddingBottom: '3px'}}
-            className={ classnames(className, this.css.content) }>
+            style={{paddingTop: '3px', paddingBottom: '3px'}}
+            className={ classnames(className, this.css.content, this.css[pointY]) }>
             <div style={ style } className={ classnames(bodyClassName, this.css.body) }>
               { children }
             </div>
