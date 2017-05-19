@@ -16,7 +16,7 @@ import classnames from 'classnames'
  *        <VisibilityAnimation
  *          isVisible={this.props.isOpened}
  *          className={css.normal}
- *          visibleClassName={css.active}
+ *          activeClassName={css.active}
  *          animationDuration={200}
  *          onVisible={this.props.onOpen}
  *          onInvisible={this.props.onClose}>
@@ -37,7 +37,7 @@ export default class VisibilityAnimation extends Component {
     /**
      * Начальный css-класс
      */
-    className: PropTypes.string.isRequired,
+    className: PropTypes.string,
     /**
      * CSS-класс активного состояния
      */

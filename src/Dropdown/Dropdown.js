@@ -1,6 +1,7 @@
 import React, { PropTypes, PureComponent } from 'react'
 import classnames from 'classnames'
 import { FixedOverlay, RelativeOverlay } from '../Overlay'
+import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../events/OnClickOutside'
 import { POINTS_Y } from '../constants/overlay'
 import { injectSheet } from '../theme'
@@ -49,73 +50,39 @@ class DropdownContainer extends PureComponent {
     closeOnClickOutside: true
   };
 
-  // hiding/showing
-  status = null;
   state = {};
-
-  onClickOutside = () => {
-    if (this.props.isVisible)
-      this.props.hide()
-  }
 
   get css() {
     return this.props.sheet.classes
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.isVisible !== nextProps.isVisible)
-      if (nextProps.isVisible) {
-        if (!this.state.pointY)
-          this.setState({ pointY: nextProps.pointY }, () => {
-            setTimeout(this.show, 33) // задержка нужна для анимации
-          })
-        else
-          this.show()
-      } else {
-        this.hide()
-      }
+    if (this.props.isVisible !== nextProps.isVisible && nextProps.isVisible && !this.state.pointY)
+      this.setState({
+        pointY: nextProps.pointY
+      })
   }
 
-  clearAnimationTimeout() {
-    if (this.animationTimeout) {
-      clearTimeout(this.animationTimeout)
-      this.animationTimeout = null
-    }
+  onClickOutside = () => {
+    if (this.props.isVisible)
+      this.props.hide()
   }
-
-  hide() {
-    if (this.status === 'hiding')
-      return
-    this.status = 'hiding'
-    this.clearAnimationTimeout()
-    this.setState({ isVisible: false })
-    this.animationTimeout = setTimeout(
-      () => {
-        this.status = null
-        this.props.onBecomeInvisible()
-      },
-      this.props.theme.dropdown.animationDuration
-    )
-  }
-
-  show = () => {
-    if (this.status === 'showing')
-      return
-    this.status = 'showing'
-    this.clearAnimationTimeout()
-    this.setState({ isVisible: true })
-    this.animationTimeout = setTimeout(
-      () => {
-        this.status = null
-        this.props.onBecomeVisible()
-      },
-      this.props.theme.dropdown.animationDuration
-    )
-  };
 
   render() {
-    const { children, anchorWidth, anchorFullWidth, closeOnClickOutside, className, style, padding } = this.props
-    const { isVisible, pointY } = this.state
+    const {
+      isVisible,
+      children,
+      anchorWidth,
+      anchorFullWidth,
+      closeOnClickOutside,
+      className,
+      style,
+      theme,
+      padding,
+      onBecomeVisible,
+      onBecomeInvisible
+    } = this.props
+    const { pointY } = this.state
     let resultStyle = {}
     if (anchorWidth && anchorFullWidth)
       resultStyle.width = anchorWidth + 'px'
@@ -126,11 +93,18 @@ class DropdownContainer extends PureComponent {
       style
     }
     const content = (
-      <div
-        className={classnames(className, isVisible && this.css.isVisible, this.css.dropdown, this.css['pointY-' + pointY])}
-        style={resultStyle}>
-        { children }
-      </div>
+      <VisibilityAnimation
+        isVisible={isVisible}
+        activeClassName={this.css.isVisible}
+        animationDuration={theme.dropdown.animationDuration}
+        onVisible={onBecomeVisible}
+        onInvisible={onBecomeInvisible}>
+        <div
+          className={classnames(className, this.css.dropdown, this.css['pointY-' + pointY])}
+          style={resultStyle}>
+          { children }
+        </div>
+      </VisibilityAnimation>
     )
     if (!closeOnClickOutside)
       return content

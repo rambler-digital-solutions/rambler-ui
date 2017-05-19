@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import ClearIcon from '../icons/forms/ClearIcon'
+import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../events/OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
@@ -187,83 +188,33 @@ export default class Snackbar extends Component {
     onRequestClose: () => {}
   };
 
-  status = null
-
-  state = {
-    isVisible: false
-  }
-
   get css() {
     return this.props.sheet.classes
   }
 
-  componentDidMount() {
-    if (this.props.isOpened)
-      this.delayTimeout = setTimeout(this.show, 60)
-  }
-
-  componentWillReceiveProps({ isOpened }) {
-    if (isOpened !== this.props.isOpened) {
-      clearTimeout(this.delayTimeout)
-
-      if (isOpened)
-        this.delayTimeout = setTimeout(this.show, 60)
-      else
-        this.hide()
-    }
-  }
-
   componentWillUnmount() {
-    clearTimeout(this.delayTimeout)
-    clearTimeout(this.autoCloseTimeout)
-    clearTimeout(this.animationTimeout)
+    this.onWillInvisible()
   }
 
-  show = () => {
-    if (this.status === 'showing') return
-    this.status = 'showing'
-    clearTimeout(this.animationTimeout)
-
-    this.setState({
-      isVisible: true
-    })
-
+  onWillVisible = () => {
     if (this.props.autoCloseDuration)
       this.autoCloseTimeout = setTimeout(() => {
         this.props.onRequestClose()
       }, this.props.autoCloseDuration)
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      if (this.props.onOpen) this.props.onOpen()
-    }, this.props.theme.tooltip.animationDuration)
   }
 
-  hide = () => {
-    if (this.status === 'hiding') return
-    this.status = 'hiding'
-    clearTimeout(this.animationTimeout)
-
-    this.setState({
-      isVisible: false
-    })
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      clearTimeout(this.autoCloseTimeout)
-      if (this.props.onClose) this.props.onClose()
-    }, this.props.theme.tooltip.animationDuration)
+  onWillInvisible = () => {
+    clearTimeout(this.autoCloseTimeout)
   }
 
-  handleClickOutside = () => {
+  onClickOutside = () => {
     if (this.state.isVisible)
       this.props.onRequestClose()
   }
 
   render() {
-    const { isVisible } = this.state
-
     const {
+      isOpened,
       children,
       className,
       positionX,
@@ -275,39 +226,48 @@ export default class Snackbar extends Component {
       actionButton,
       onAction,
       onRequestClose,
-      closeOnClickOutside
+      closeOnClickOutside,
+      onClose
     } = this.props
 
     const css = this.css
 
     const content = (
-      <div
-        style={style}
-        className={classnames(css.snackbar, css[positionX], css[type], isVisible && css.isVisible, className)}>
-        {icon &&
-          <div className={css.icon}>
-            {icon}
+      <VisibilityAnimation
+        isVisible={isOpened}
+        activeClassName={css.isVisible}
+        animationDuration={theme.snackbar.animationDuration}
+        onWillVisible={this.onWillVisible}
+        onWillInvisible={this.onWillInvisible}
+        onInvisible={onClose}>
+        <div
+          style={style}
+          className={classnames(css.snackbar, css[positionX], css[type], className)}>
+          {icon &&
+            <div className={css.icon}>
+              {icon}
+            </div>
+          }
+          <div className={css.content}>
+            {children}
           </div>
-        }
-        <div className={css.content}>
-          {children}
+          {actionButton &&
+            <button type="button" className={css.button} onClick={onAction}>
+              {actionButton}
+            </button>
+          }
+          {showClose &&
+            <button type="button" className={css.close} onClick={onRequestClose}>
+              <ClearIcon size={10} color={theme.snackbar.color} />
+            </button>
+          }
         </div>
-        {actionButton &&
-          <button type="button" className={css.button} onClick={onAction}>
-            {actionButton}
-          </button>
-        }
-        {showClose &&
-          <button type="button" className={css.close} onClick={onRequestClose}>
-            <ClearIcon size={10} color={theme.snackbar.color} />
-          </button>
-        }
-      </div>
+      </VisibilityAnimation>
     )
 
     if (closeOnClickOutside)
       return (
-        <OnClickOutside handler={this.handleClickOutside}>
+        <OnClickOutside handler={this.onClickOutside}>
           {content}
         </OnClickOutside>
       )
