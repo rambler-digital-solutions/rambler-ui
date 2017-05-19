@@ -47,9 +47,17 @@ export default class VisibilityAnimation extends Component {
      */
     animationDuration: PropTypes.number.isRequired,
     /**
+     * Коллбек вызывающийся перед показом
+     */
+    onWillVisible: PropTypes.func,
+    /**
      * Коллбек вызывающийся после показа
      */
     onVisible: PropTypes.func,
+    /**
+     * Коллбек вызывающийся перед скрытием
+     */
+    onWillInvisible: PropTypes.func,
     /**
      * Коллбек вызывающийся после скрытия
      */
@@ -58,7 +66,9 @@ export default class VisibilityAnimation extends Component {
 
   static defaultProps = {
     isVisible: false,
+    onWillVisible: () => {},
     onVisible: () => {},
+    onWillInvisible: () => {},
     onInvisible: () => {}
   };
 
@@ -92,6 +102,7 @@ export default class VisibilityAnimation extends Component {
   show = () => {
     if (this.status === 'showing') return
     this.status = 'showing'
+    this.props.onWillVisible()
     clearTimeout(this.animationTimeout)
 
     this.setState({
@@ -107,6 +118,7 @@ export default class VisibilityAnimation extends Component {
   hide = () => {
     if (this.status === 'hiding') return
     this.status = 'hiding'
+    this.props.onWillInvisible()
     clearTimeout(this.animationTimeout)
 
     this.setState({
