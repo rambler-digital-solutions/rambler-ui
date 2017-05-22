@@ -20,7 +20,7 @@ export default function Doc() {
           const Icon = icons[iconName]
           return (
             <div key={ i } className={ css.CircleIcon } title={ `<${iconName} />` }>
-              <Icon size={12} color="white" applyColor />
+              <Icon size={12} color="white" />
             </div>
           )
         })}

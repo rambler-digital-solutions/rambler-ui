@@ -307,7 +307,7 @@ export default class Button extends Component {
       const { theme, size, type, disabled } = this.props
       const iconProps = {
         size: theme.sizes[size].icon,
-        color: theme.button.types[type][disabled ? 'disabledTextColor' : 'textColor']
+        color: theme.button.types[type][disabled ? 'disabledTextColor' : 'iconColor']
       }
       const initialProps = icon.props || {}
       const className = classnames(initialProps.className, this.css.icon)

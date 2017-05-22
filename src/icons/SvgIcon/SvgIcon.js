@@ -16,10 +16,6 @@ export default class SvgIcon extends Component {
      */
     color: PropTypes.string,
     /**
-     * Применять ли свойство `color`, используется исключительно для иконок `icons/profiles`
-     */
-    applyColor: PropTypes.bool,
-    /**
      * Элементы, которые отрисуются внутри svg-элемента
      */
     children: PropTypes.node,
@@ -39,7 +35,8 @@ export default class SvgIcon extends Component {
   static defaultProps = {
     viewBox: '0 0 20 20',
     size: 'medium',
-    style: {}
+    style: {},
+    color: 'black'
   };
 
   sizeMap = {

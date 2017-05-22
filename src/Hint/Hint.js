@@ -140,11 +140,17 @@ class HintContent extends Component {
       icon,
       children,
       pointX,
+      theme,
       onMouseLeave
     } = this.props
 
     const css = this.css
-    const anchor = cloneElement(icon, { className: css.icon })
+    const iconProps = icon.props || {}
+
+    const anchor = cloneElement(icon, {
+      className: css.icon,
+      color: iconProps.color || theme.button.types.primary.defaultBg
+    })
 
     return (
       <div
@@ -159,10 +165,9 @@ class HintContent extends Component {
 }
 
 @pure
-@injectSheet(theme => ({
+@injectSheet(() => ({
   icon: {
-    display: 'inline-block',
-    fill: theme.button.types.primary.defaultBg
+    display: 'inline-block'
   }
 }))
 export default class Hint extends Component {
@@ -257,15 +262,18 @@ export default class Hint extends Component {
       icon,
       children,
       positionX,
+      theme,
       closeOnScroll
     } = this.props
 
     const css = this.css
     const pointX = positionX === 'left' ? 'right' : 'left'
+    const iconProps = icon.props || {}
 
     const anchor = cloneElement(icon, {
       style,
       className: classnames(css.icon, className),
+      color: iconProps.color || theme.button.types.primary.defaultBg,
       onMouseEnter: this.show
     })
 
