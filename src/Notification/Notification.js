@@ -4,6 +4,7 @@ import pure from 'recompose/pure'
 import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
 import ChevronRightIcon from '../icons/forms/ChevronRightIcon'
+import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../events/OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
@@ -164,76 +165,18 @@ export default class Notification extends Component {
     onRequestClose: () => {}
   };
 
-  status = null
-
-  state = {
-    isVisible: false
-  }
-
   get css() {
     return this.props.sheet.classes
   }
 
-  componentDidMount() {
-    if (this.props.isOpened)
-      this.delayTimeout = setTimeout(this.show, 60)
-  }
-
-  componentWillReceiveProps({ isOpened }) {
-    if (isOpened !== this.props.isOpened) {
-      clearTimeout(this.delayTimeout)
-
-      if (isOpened)
-        this.delayTimeout = setTimeout(this.show, 60)
-      else
-        this.hide()
-    }
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.delayTimeout)
-    clearTimeout(this.animationTimeout)
-  }
-
-  show = () => {
-    if (this.status === 'showing') return
-    this.status = 'showing'
-    clearTimeout(this.animationTimeout)
-
-    this.setState({
-      isVisible: true
-    })
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      if (this.props.onOpen) this.props.onOpen()
-    }, this.props.theme.tooltip.animationDuration)
-  }
-
-  hide = () => {
-    if (this.status === 'hiding') return
-    this.status = 'hiding'
-    clearTimeout(this.animationTimeout)
-
-    this.setState({
-      isVisible: false
-    })
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      if (this.props.onClose) this.props.onClose()
-    }, this.props.theme.tooltip.animationDuration)
-  }
-
-  handleClickOutside = () => {
+  onClickOutside = () => {
     if (this.state.isVisible)
       this.props.onRequestClose()
   }
 
   render() {
-    const { isVisible } = this.state
-
     const {
+      isOpened,
       className,
       positionX,
       style,
@@ -245,48 +188,55 @@ export default class Notification extends Component {
       actionButton,
       onAction,
       onRequestClose,
-      closeOnClickOutside
+      closeOnClickOutside,
+      onClose
     } = this.props
 
     const css = this.css
 
     const content = (
-      <div
-        style={style}
-        className={classnames(css.notification, css[positionX], isVisible && css.isVisible, className)}>
-        {showClose &&
-          <IconButton
-            type="flat"
-            buttonType="button"
-            size="small"
-            className={css.close}
-            onClick={onRequestClose}>
-            <ClearIcon color={theme.notification.closeColor} />
-          </IconButton>
-        }
-        <div className={css.title}>
-          {icon &&
-            <div className={css.icon}>
-              {icon}
-            </div>
+      <VisibilityAnimation
+        isVisible={isOpened}
+        activeClassName={css.isVisible}
+        animationDuration={theme.notification.animationDuration}
+        onInvisible={onClose}>
+        <div
+          style={style}
+          className={classnames(css.notification, css[positionX], className)}>
+          {showClose &&
+            <IconButton
+              type="flat"
+              buttonType="button"
+              size="small"
+              className={css.close}
+              onClick={onRequestClose}>
+              <ClearIcon color={theme.notification.closeColor} />
+            </IconButton>
           }
-          {title}
+          <div className={css.title}>
+            {icon &&
+              <div className={css.icon}>
+                {icon}
+              </div>
+            }
+            {title}
+          </div>
+          <div className={css.body}>
+            {body}
+          </div>
+          {actionButton &&
+            <button type="button" className={css.actionButton} onClick={onAction}>
+              {actionButton}
+              <ChevronRightIcon size={9} color={theme.button.types.primary.defaultBg} />
+            </button>
+          }
         </div>
-        <div className={css.body}>
-          {body}
-        </div>
-        {actionButton &&
-          <button type="button" className={css.actionButton} onClick={onAction}>
-            {actionButton}
-            <ChevronRightIcon size={9} color={theme.button.types.primary.defaultBg} />
-          </button>
-        }
-      </div>
+      </VisibilityAnimation>
     )
 
     if (closeOnClickOutside)
       return (
-        <OnClickOutside handler={this.handleClickOutside}>
+        <OnClickOutside handler={this.onClickOutside}>
           {content}
         </OnClickOutside>
       )

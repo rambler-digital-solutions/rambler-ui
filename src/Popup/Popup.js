@@ -8,6 +8,7 @@ import classnames from 'classnames'
 import pure from 'recompose/pure'
 import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
+import VisibilityAnimation from '../VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { POPUP_ZINDEX } from '../constants/z-indexes'
@@ -165,92 +166,35 @@ export default class Popup extends Component {
     onClose: () => {}
   };
 
-  status = null
-
-  state = {
-    isVisible: false
-  }
-
   get css() {
     return this.props.sheet.classes
   }
 
-  componentDidMount() {
-    if (this.props.isOpened)
-      this.delayTimeout = setTimeout(this.show, 60)
-  }
-
-  componentWillReceiveProps({ isOpened }) {
-    if (isOpened !== this.props.isOpened) {
-      clearTimeout(this.delayTimeout)
-
-      if (isOpened)
-        this.delayTimeout = setTimeout(this.show, 60)
-      else
-        this.hide()
-    }
-  }
-
   componentWillUnmount() {
-    clearTimeout(this.delayTimeout)
-    clearTimeout(this.animationTimeout)
-
-    if (this.state.isVisible) {
-      if (this.props.closeOnEsc)
-        document.removeEventListener('keydown', this.handleKeyDown)
-
-      if (this.props.closeOnClickOutside)
-        document.removeEventListener('click', this.handleClickOutside)
-    }
+    this.onWillInvisible()
   }
 
-  show = () => {
-    if (this.status === 'showing') return
-    this.status = 'showing'
-    clearTimeout(this.animationTimeout)
-
-    this.setState({
-      isVisible: true
-    })
-
+  onWillVisible = () => {
     if (this.props.closeOnEsc)
-      document.addEventListener('keydown', this.handleKeyDown)
+      document.addEventListener('keydown', this.onKeyDown)
 
     if (this.props.closeOnClickOutside)
-      document.addEventListener('click', this.handleClickOutside)
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      this.props.onOpen()
-    }, this.props.theme.tooltip.animationDuration)
+      document.addEventListener('click', this.onClickOutside)
   }
 
-  hide = () => {
-    if (this.status === 'hiding') return
-    this.status = 'hiding'
-    clearTimeout(this.animationTimeout)
-
-    this.setState({
-      isVisible: false
-    })
-
+  onWillInvisible = () => {
     if (this.props.closeOnEsc)
-      document.removeEventListener('keydown', this.handleKeyDown)
+      document.removeEventListener('keydown', this.onKeyDown)
 
     if (this.props.closeOnClickOutside)
-      document.removeEventListener('click', this.handleClickOutside)
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      this.props.onClose()
-    }, this.props.theme.tooltip.animationDuration)
+      document.removeEventListener('click', this.onClickOutside)
   }
 
-  handleKeyDown = event => {
+  onKeyDown = event => {
     if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
-  handleClickOutside = event => {
+  onClickOutside = event => {
     if (event.target === this.backdrop) {
       event.stopPropagation()
       this.props.onRequestClose()
@@ -270,9 +214,8 @@ export default class Popup extends Component {
   }
 
   render() {
-    const { isVisible } = this.state
-
     const {
+      isOpened,
       children,
       className,
       style,
@@ -283,7 +226,9 @@ export default class Popup extends Component {
       okButton,
       cancelButton,
       onRequestClose,
-      theme
+      theme,
+      onOpen,
+      onClose
     } = this.props
 
     const css = this.css
@@ -291,37 +236,46 @@ export default class Popup extends Component {
     const cancelButtonEl = this.renderButton(cancelButton)
 
     return (
-      <div
-        ref={el => { this.backdrop = el }}
-        style={backdropStyle}
-        className={classnames(css.backdrop, isVisible && css.isVisible, backdropClassName)}>
+      <VisibilityAnimation
+        isVisible={isOpened}
+        activeClassName={css.isVisible}
+        animationDuration={theme.popup.animationDuration}
+        onWillVisible={this.onWillVisible}
+        onVisible={onOpen}
+        onWillInvisible={this.onWillInvisible}
+        onInvisible={onClose}>
         <div
-          style={style}
-          className={classnames(css.popup, className)}>
-          {showClose &&
-            <IconButton
-              type="flat"
-              buttonType="button"
-              size="small"
-              className={css.close}
-              onClick={onRequestClose}>
-              <ClearIcon color={theme.popup.closeColor} />
-            </IconButton>
-          }
-          {title &&
-            <header className={css.title}>
-              {title}
-            </header>
-          }
-          {children}
-          {(okButton || cancelButton) &&
-            <footer className={css.buttons}>
-              {okButtonEl}
-              {cancelButtonEl}
-            </footer>
-          }
+          ref={el => { this.backdrop = el }}
+          style={backdropStyle}
+          className={classnames(css.backdrop, backdropClassName)}>
+          <div
+            style={style}
+            className={classnames(css.popup, className)}>
+            {showClose &&
+              <IconButton
+                type="flat"
+                buttonType="button"
+                size="small"
+                className={css.close}
+                onClick={onRequestClose}>
+                <ClearIcon color={theme.popup.closeColor} />
+              </IconButton>
+            }
+            {title &&
+              <header className={css.title}>
+                {title}
+              </header>
+            }
+            {children}
+            {(okButton || cancelButton) &&
+              <footer className={css.buttons}>
+                {okButtonEl}
+                {cancelButtonEl}
+              </footer>
+            }
+          </div>
         </div>
-      </div>
+      </VisibilityAnimation>
     )
   }
 
