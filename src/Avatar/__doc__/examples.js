@@ -7,7 +7,7 @@ export default function AvatarExample() {
     style: {
       marginLeft: 10
     },
-    src: 'http://s4.thingpic.com/images/43/kXzoimWAgfNywwu6TV4fAu52.jpeg'
+    src: './static/unicorn.jpeg'
   }
 
   return (
