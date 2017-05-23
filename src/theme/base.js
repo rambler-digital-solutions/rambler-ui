@@ -150,7 +150,6 @@ export default {
       outline: {
         textColor: '#262626',
         loaderColor: '#315efb',
-        iconColor: undefined,
         disabledTextColor: 'rgba(38, 38, 38, .4)',
         defaultBg: '#fff',
         defaultBorder: '#ccc',
@@ -170,7 +169,6 @@ export default {
       flat: {
         textColor: '#262626',
         loaderColor: '#315efb',
-        iconColor: undefined,
         disabledTextColor: 'rgba(38, 38, 38, .4)',
         defaultBg: '#fff',
         defaultBorder: '#fff',
