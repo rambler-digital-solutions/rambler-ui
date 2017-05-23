@@ -111,6 +111,7 @@ export default {
       primary: {
         textColor: '#fff',
         loaderColor: '#fff',
+        iconColor: '#fff',
         disabledTextColor: 'rgba(255, 255, 255, .4)',
         defaultBg: '#315efb',
         defaultBorder: '#315efb',
@@ -129,6 +130,7 @@ export default {
       secondary: {
         textColor: '#315efb',
         loaderColor: '#315efb',
+        iconColor: '#315efb',
         disabledTextColor: 'rgba(49, 94, 251, .4)',
         defaultBg: '#eaefff',
         defaultBorder: '#eaefff',
@@ -186,6 +188,7 @@ export default {
       danger: {
         textColor: '#fff',
         loaderColor: '#fff',
+        iconColor: '#fff',
         disabledTextColor: 'rgba(255, 255, 255, .4)',
         defaultBg: '#ff564c',
         defaultBorder: '#ff564c',
