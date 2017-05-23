@@ -2,6 +2,7 @@ import React, { Component, PropTypes, cloneElement } from 'react'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import QuestionIcon from '../icons/forms/QuestionIcon'
+import VisibilityAnimation from '../VisibilityAnimation'
 import { FixedOverlay } from '../Overlay'
 import { POINTS_X } from '../constants/overlay'
 import { injectSheet } from '../theme'
@@ -64,84 +65,22 @@ class HintContent extends Component {
     onBecomeInvisible: PropTypes.func
   }
 
-  status = null
-  state = {}
-
   get css() {
     return this.props.sheet.classes
   }
 
-  componentWillReceiveProps({ isVisible }) {
-    if (isVisible !== this.props.isVisible) {
-      this.clearDelayTimeout()
-
-      if (isVisible)
-        this.delayTimeout = setTimeout(this.show, 60)
-      else
-        this.hide()
-    }
-  }
-
-  componentWillUnmount() {
-    this.clearAnimationTimeout()
-    this.clearDelayTimeout()
-  }
-
-  clearDelayTimeout() {
-    if (this.delayTimeout) {
-      clearTimeout(this.delayTimeout)
-      this.delayTimeout = null
-    }
-  }
-
-  clearAnimationTimeout() {
-    if (this.animationTimeout) {
-      clearTimeout(this.animationTimeout)
-      this.animationTimeout = null
-    }
-  }
-
-  hide = () => {
-    if (this.status === 'hiding') return
-    this.status = 'hiding'
-    this.clearAnimationTimeout()
-
-    this.setState({
-      isVisible: false
-    })
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      this.props.onBecomeInvisible()
-    }, this.props.theme.hint.animationDuration)
-  }
-
-  show = () => {
-    if (this.status === 'showing') return
-    this.status = 'showing'
-    this.clearAnimationTimeout()
-
-    this.setState({
-      isVisible: true
-    })
-
-    this.animationTimeout = setTimeout(() => {
-      this.status = null
-      this.props.onBecomeVisible()
-    }, this.props.theme.hint.animationDuration)
-  }
-
   render() {
-    const { isVisible } = this.state
-
     const {
+      isVisible,
       className,
       style,
       icon,
       children,
       pointX,
       theme,
-      onMouseLeave
+      onMouseLeave,
+      onBecomeVisible,
+      onBecomeInvisible
     } = this.props
 
     const css = this.css
@@ -153,13 +92,20 @@ class HintContent extends Component {
     })
 
     return (
-      <div
-        className={classnames(css.hint, css[pointX], isVisible && css.isVisible, className)}
-        style={style}
-        onMouseLeave={onMouseLeave}>
-        {anchor}
-        {children}
-      </div>
+      <VisibilityAnimation
+        isVisible={isVisible}
+        activeClassName={css.isVisible}
+        animationDuration={theme.hint.animationDuration}
+        onVisible={onBecomeVisible}
+        onInvisible={onBecomeInvisible}>
+        <div
+          className={classnames(css.hint, css[pointX], className)}
+          style={style}
+          onMouseLeave={onMouseLeave}>
+          {anchor}
+          {children}
+        </div>
+      </VisibilityAnimation>
     )
   }
 }
