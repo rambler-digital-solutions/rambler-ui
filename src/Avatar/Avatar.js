@@ -14,6 +14,9 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     verticalAlign: 'middle',
     fontSize: 0
   },
+  image: {
+    boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, .15)'
+  },
   circle: {
     borderRadius: '50%',
     '& + $profile': {
@@ -153,7 +156,7 @@ export default class Avatar extends Component {
             width: size,
             height: size
           }}
-          className={this.css[shape]}
+          className={classnames(this.css.image, this.css[shape])}
           alt="" />
         {profileType &&
           <div className={classnames(this.css.profile, this.css[profileType])}>
