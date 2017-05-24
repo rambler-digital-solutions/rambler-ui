@@ -11,19 +11,14 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
-    const rootStyles = getStyles(root)
-    const image = root.find('img')
+    const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
 
-    expect(rootStyles.display).toEqual('inline-block')
-    expect(rootStyles.width).toEqual('40px')
-    expect(rootStyles.height).toEqual('40px')
-    expect(rootStyles['vertical-align']).toEqual('middle')
-
-    expect(image.getDOMNode().getAttribute('src')).toEqual('image.png')
+    expect(imageStyles.display).toEqual('inline-block')
     expect(imageStyles.width).toEqual('40px')
     expect(imageStyles.height).toEqual('40px')
+    expect(imageStyles['vertical-align']).toEqual('middle')
+    expect(imageStyles['background-image']).toEqual(`url(${window.location.origin}/image.png)`)
     expect(imageStyles['border-top-left-radius']).toEqual('50%')
     expect(imageStyles['border-top-right-radius']).toEqual('50%')
     expect(imageStyles['border-bottom-left-radius']).toEqual('50%')
@@ -37,8 +32,8 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
-    const imageStyles = getStyles(root.find('img'))
+    const image = wrapper.find(Avatar)
+    const imageStyles = getStyles(image)
 
     expect(imageStyles['border-top-left-radius']).toEqual('7%')
     expect(imageStyles['border-top-right-radius']).toEqual('7%')
@@ -53,8 +48,8 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
-    const imageStyles = getStyles(root.find('img'))
+    const image = wrapper.find(Avatar)
+    const imageStyles = getStyles(image)
 
     expect(imageStyles['border-top-left-radius']).toEqual('0px')
     expect(imageStyles['border-top-right-radius']).toEqual('0px')
@@ -69,12 +64,8 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
-    const rootStyles = getStyles(root)
-    const imageStyles = getStyles(root.find('img'))
-
-    expect(rootStyles.width).toEqual('75px')
-    expect(rootStyles.height).toEqual('75px')
+    const image = wrapper.find(Avatar)
+    const imageStyles = getStyles(image)
 
     expect(imageStyles.width).toEqual('75px')
     expect(imageStyles.height).toEqual('75px')
@@ -87,9 +78,9 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
+    const image = wrapper.find(Avatar)
 
-    expect(root.hasClass('avatar')).toBe(true)
+    expect(image.hasClass('avatar')).toBe(true)
   })
 
   it('should append style', () => {
@@ -99,10 +90,10 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
-    const rootStyles = getStyles(root)
+    const image = wrapper.find(Avatar)
+    const imageStyles = getStyles(image)
 
-    expect(rootStyles['margin-left']).toEqual('10px')
+    expect(imageStyles['margin-left']).toEqual('10px')
   })
 
   it('should append backgroundColor', () => {
@@ -114,10 +105,10 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
-    const rootStyles = getStyles(root)
+    const image = wrapper.find(Avatar)
+    const imageStyles = getStyles(image)
 
-    expect(rootStyles['background-color']).toEqual(color)
+    expect(imageStyles['background-color']).toEqual(color)
   })
 
 
@@ -128,9 +119,9 @@ describe('<Avatar />', () => {
       )
     )
 
-    const root = wrapper.find(Avatar)
-    const iconStyles = getStyles(root.find('svg'))
-    const iconContainerStyles = getStyles(root.find('img + div'))
+    const image = wrapper.find(Avatar)
+    const iconStyles = getStyles(image.find('svg'))
+    const iconContainerStyles = getStyles(image.find('div > div'))
 
     expect(iconStyles.fill).toEqual('#ffffff')
     expect(iconStyles.width).toEqual('10px')

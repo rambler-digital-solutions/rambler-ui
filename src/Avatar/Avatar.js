@@ -12,14 +12,14 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     position: 'relative',
     display: 'inline-block',
     verticalAlign: 'middle',
-    fontSize: 0
-  },
-  image: {
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
     boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, .15)'
   },
   circle: {
     borderRadius: '50%',
-    '& + $profile': {
+    '& $profile': {
       transform: 'translate(20%, 20%)'
     }
   },
@@ -36,6 +36,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     borderRadius: '50%',
     width: '40%',
     height: '40%',
+    fontSize: 0,
     textAlign: 'center'
   },
   facebook: {
@@ -141,23 +142,20 @@ export default class Avatar extends Component {
       profileType
     } = this.props
 
+    const styles = Object.assign({}, style, {
+      backgroundColor,
+      width: size,
+      height: size,
+      backgroundImage: `url(${src})`
+    })
+
     const ProfileIcon = profileType &&
       profileIcons[`${profileType.replace(/^\w/, m => m.toUpperCase())}Icon`]
 
     return (
       <div
-        style={Object.assign({}, style, {
-          backgroundColor
-        })}
-        className={classnames(this.css.avatar, className)}>
-        <img
-          src={src}
-          style={{
-            width: size,
-            height: size
-          }}
-          className={classnames(this.css.image, this.css[shape])}
-          alt="" />
+        style={styles}
+        className={classnames(this.css.avatar, this.css[shape], className)}>
         {profileType &&
           <div className={classnames(this.css.profile, this.css[profileType])}>
             <ProfileIcon color="white" className={this.css.icon} />
