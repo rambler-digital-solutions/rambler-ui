@@ -340,5 +340,8 @@ export default {
       titleSize: 14
     },
     animationDuration: 200
+  },
+  spinner: {
+    dotColor: '#315efb'
   }
 }
