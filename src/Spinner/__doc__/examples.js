@@ -2,7 +2,7 @@ import React from 'react'
 import Spinner from 'rambler-ui/Spinner'
 import { ApplyTheme } from 'rambler-ui/theme'
 
-export default function AvatarExample() {
+export default function SpinnerExample() {
   return (
     <div>
 

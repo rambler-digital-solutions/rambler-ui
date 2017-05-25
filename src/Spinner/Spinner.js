@@ -26,7 +26,8 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     left: 0,
     right: 0,
     bottom: 0,
-    textAlign: 'center'
+    textAlign: 'center',
+    pointerEvents: 'none'
   },
   dot: {
     display: 'inline-block',
