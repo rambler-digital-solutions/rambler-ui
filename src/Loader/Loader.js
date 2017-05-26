@@ -115,15 +115,19 @@ export default class Loader extends Component {
 
     return (
       <div
-        className={this.css.loader}>
+        style={style}
+        className={classnames(this.css.loader, className, loading && loadingClassName)}>
         {loading &&
           <Spinner className={spinnerClassName} color={spinnerColor} />
         }
-        <div
-          style={style}
-          className={classnames(className, loading && loadingClassName, loading && blurContent && this.css.blur)}>
-          {!(loading && hideContent) && children}
-        </div>
+        {!(loading && hideContent) && (
+          blurContent ? (
+            <div className={loading && blurContent && this.css.blur}>
+              {children}
+            </div>
+          ) :
+          children
+        )}
       </div>
     )
   }

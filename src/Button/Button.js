@@ -320,13 +320,13 @@ export default class Button extends Component {
     const resultChildren = (
       <Loader
         loading={loading}
-        className={css.content}
-        loadingClassName={css.isLoading}
         spinnerColor={theme.button.types[type].loaderColor}>
-        { iconLeft && iconEl }
-        { children }
-        { !iconLeft && iconEl }
-        { overlay && cloneElement(overlay, {className: css.overlay}) }
+        <div className={classnames(css.content, loading && css.isLoading)}>
+          { iconLeft && iconEl }
+          { children }
+          { !iconLeft && iconEl }
+          { overlay && cloneElement(overlay, {className: css.overlay}) }
+        </div>
       </Loader>
     )
 
