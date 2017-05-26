@@ -3,18 +3,13 @@ import classnames from 'classnames'
 import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet(() => ({
   loader: {
-    ...isolateMixin,
     position: 'relative',
     width: '100%',
     minHeight: '100%'
-  },
-  content: {
-    width: '100%'
   },
   blur: {
     filter: 'blur(1px)'
@@ -120,16 +115,15 @@ export default class Loader extends Component {
 
     return (
       <div
-        style={style}
-        className={classnames(this.css.loader, className, loading && loadingClassName)}>
-        {loading === true &&
+        className={this.css.loader}>
+        {loading &&
           <Spinner className={spinnerClassName} color={spinnerColor} />
         }
-        {!(loading === true && hideContent) &&
-          <div className={classnames(this.css.content, loading === true && blurContent && this.css.blur)}>
-            {children}
-          </div>
-        }
+        <div
+          style={style}
+          className={classnames(className, loading && loadingClassName, loading && blurContent && this.css.blur)}>
+          {!(loading && hideContent) && children}
+        </div>
       </div>
     )
   }

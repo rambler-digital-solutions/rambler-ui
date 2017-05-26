@@ -37,8 +37,7 @@ const styleButtonChampMixin = (type, options) => ({
       extend: null,
       color: `${options.disabledTextColor} !important`,
       background: options.disabledBg
-    },
-    '& $loaderDot': { background: options.loaderColor }
+    }
   }
 })
 

@@ -34,9 +34,6 @@ const styleButtonBaseMixin = (type, options) => ({
       extend: borderMixin(options.defaultBorder),
       color: `${options.disabledTextColor} !important`,
       background: options.disabledBg
-    },
-    ...options.loaderColor && {
-      '& $loaderDot': { background: options.loaderColor }
     }
   }
 })

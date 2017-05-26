@@ -100,23 +100,24 @@ describe('<Loader />', () => {
     )
 
     const loader = wrapper.find(Loader)
+    const content = loader.children().last()
 
-    expect(loader.hasClass('normal')).toBe(true)
-    expect(loader.hasClass('loading')).toBe(false)
+    expect(content.hasClass('normal')).toBe(true)
+    expect(content.hasClass('loading')).toBe(false)
 
     wrapper.setProps({
       loading: true
     })
 
-    expect(loader.hasClass('normal')).toBe(true)
-    expect(loader.hasClass('loading')).toBe(true)
+    expect(content.hasClass('normal')).toBe(true)
+    expect(content.hasClass('loading')).toBe(true)
 
     wrapper.setProps({
       loading: false
     })
 
-    expect(loader.hasClass('normal')).toBe(true)
-    expect(loader.hasClass('loading')).toBe(false)
+    expect(content.hasClass('normal')).toBe(true)
+    expect(content.hasClass('loading')).toBe(false)
   })
 
   it('should append styles', () => {
@@ -129,9 +130,9 @@ describe('<Loader />', () => {
     )
 
     const loader = wrapper.find(Loader)
-    const loaderStyles = getStyles(loader)
+    const contentStyles = getStyles(loader.children().last())
 
-    expect(loaderStyles.height).toEqual('500px')
+    expect(contentStyles.height).toEqual('500px')
   })
 
   it('should append spinnerClassName and spinnerColor', () => {
