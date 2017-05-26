@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import omit from 'lodash/omit'
 import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet(theme => ({
@@ -23,68 +23,67 @@ import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
     appearance: 'none',
     lineHeight: 'normal',
     maxWidth: '100%',
-    border: theme.textarea.border,
-    fontSize: theme.textarea.fontSize,
+    border: theme.field.border,
+    fontSize: theme.field.fontSize,
     transition: 'border-color 0.3s ease',
-    ...placeholderMixin({color: theme.inputRequiredProps.baseColor}),
     '&::-ms-reveal': {
       display: 'none'
+    },
+    '&:focus': {
+      borderBottom: theme.field.focusBorderBottom
     },
     '&:disabled': {
       backgroundColor: '#eee',
       borderColor: '#eee',
       cursor: 'default'
-    },
-    '&:focus': {
-      borderBottom: theme.textarea.focusedBorderBottom
     }
   },
   small: {
     height: theme.textarea.sizes.small.height,
     padding: theme.textarea.sizes.small.padding,
     '&:focus': {
-      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.small.focusPaddingBottom
     },
     '&$success': {
-      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.small.focusPaddingBottom
     },
     '&$warning': {
-      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.small.focusPaddingBottom
     },
     '&$error': {
-      paddingBottom: theme.textarea.sizes.small.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.small.focusPaddingBottom
     }
   },
   medium: {
     height: theme.textarea.sizes.medium.height,
     padding: theme.textarea.sizes.medium.padding,
     '&:focus': {
-      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.medium.focusPaddingBottom
     },
     '&$success': {
-      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.medium.focusPaddingBottom
     },
     '&$warning': {
-      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.medium.focusPaddingBottom
     },
     '&$error': {
-      paddingBottom: theme.textarea.sizes.medium.focusedPaddingBottom
+      paddingBottom: theme.textarea.sizes.medium.focusPaddingBottom
     }
   },
   success: {
-    borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom
+    borderBottom: theme.field.successBorderBottom
   },
   error: {
-    borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom
+    borderBottom: theme.field.errorBorderBottom
   },
   warning: {
-    borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom
+    borderBottom: theme.field.warningBorderBottom
   },
   withLeftIcon: {
-    paddingLeft: 40
+    paddingLeft: theme.field.withIconPadding
   },
   withRightIcon: {
-    paddingRight: 40
+    paddingRight: theme.field.withIconPadding
   },
   root: {
     position: 'relative'
@@ -92,12 +91,12 @@ import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
   iconLeft: {
     position: 'absolute',
     top: 12,
-    left: 12
+    left: theme.field.iconMargin
   },
   iconRight: {
     position: 'absolute',
     top: 12,
-    right: 12
+    right: theme.field.iconMargin
   }
 }))
 export default class Textarea extends Component {
@@ -195,16 +194,10 @@ export default class Textarea extends Component {
       ...other
     } = omit(this.props, ['theme', 'onChange'])
 
-    const resultClassName = classnames(
-      css.textarea,
-      css[size],
-      css[status],
-      {
-        [css.withLeftIcon]: !!iconLeft,
-        [css.withRightIcon]: !!iconRight
-      },
-      className
-    )
+    const resultClassName = classnames(css.textarea, css[size], css[status], {
+      [css.withLeftIcon]: !!iconLeft,
+      [css.withRightIcon]: !!iconRight
+    }, className)
 
     return (
       <div className={css.root}>

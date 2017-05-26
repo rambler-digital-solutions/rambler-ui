@@ -239,66 +239,37 @@ export default {
     },
     animationDuration: 200
   },
+  field: {
+    border: '1px solid #e8e8e8',
+    focusBorderBottom: '2px solid #315efb',
+    successBorderBottom: '2px solid #28bc00',
+    errorBorderBottom: '2px solid #ff564e',
+    warningBorderBottom: '2px solid #f4c914',
+    filledBorderBottom: 0,
+    withIconPadding: 40,
+    withIconsPadding: 70,
+    color: '#aebbc9',
+    activeIconColor: '#315efb',
+    filledIconColor: null,
+    fontSize: 13,
+    iconMargin: 13
+  },
   input: {
     padding: '0 13px 2px 13px',
-    border: '1px solid #e8e8e8',
-    fontSize: 13,
-    '&:focus': {
-      borderBottom: '2px solid #315efb',
-      paddingBottom: 1
-    }
-  },
-  inputRequiredProps: {
-    successBorderBottom: {
-      borderBottom: '2px solid #28bc00 !important'
-    },
-    errorBorderBottom: {
-      borderBottom: '2px solid #ff564e !important'
-    },
-    warningBorderBottom: {
-      borderBottom: '2px solid #f4c914 !important'
-    },
-    inputBaseColor: {
-      color: '#aebbc9'
-    },
-    inputPaddingLeft: {
-      paddingLeft: 40
-    },
-    inputOneIconRight: {
-      paddingRight: 40
-    },
-    inputTwoIconRight: {
-      paddingRight: '70px !important'
-    },
-    inputIconRightWithoutPass: {
-      right: 13
-    },
-    inputEye: {
-      top: 13,
-      right: 13,
-      fill: '#315efb'
-    },
-    icon: {
-      top: 13,
-      left: 13,
-      right: 40,
-      fill: 'initial !important'
-    }
+    focusPaddingBottom: 1,
+    eyeMargin: 13
   },
   textarea: {
-    border: '1px solid #e8e8e8',
-    fontSize: 13,
-    focusedBorderBottom: '2px solid #315efb',
     sizes: {
       small: {
         padding: '8px 13px',
         height: 75,
-        focusedPaddingBottom: 7
+        focusPaddingBottom: 7
       },
       medium: {
         padding: 13,
         height: 85,
-        focusedPaddingBottom: 12
+        focusPaddingBottom: 12
       }
     }
   },
