@@ -13,8 +13,11 @@ import { isolateMixin } from '../style/mixins'
     width: '100%',
     minHeight: '100%'
   },
-  overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.85)'
+  content: {
+    width: '100%'
+  },
+  blur: {
+    filter: 'blur(1px)'
   }
 }))
 export default class Loader extends Component {
@@ -52,19 +55,19 @@ export default class Loader extends Component {
      */
     children: PropTypes.node,
     /**
-     * Сверху контента будет показана полупрозрачная плашка
-     */
-    overlay: PropTypes.bool,
-    /**
      * Скрытие контента во время загрузки
      */
-    hideContent: PropTypes.bool
+    hideContent: PropTypes.bool,
+    /**
+     * Блюрить контент во время загрузки
+     */
+    blurContent: PropTypes.bool
   }
 
   static defaultProps = {
     loading: false,
-    overlay: false,
-    hideContent: false
+    hideContent: false,
+    blurContent: false
   }
 
   state = {
@@ -111,8 +114,8 @@ export default class Loader extends Component {
       spinnerClassName,
       spinnerColor,
       children,
-      overlay,
-      hideContent
+      hideContent,
+      blurContent
     } = this.props
 
     return (
@@ -120,11 +123,13 @@ export default class Loader extends Component {
         style={style}
         className={classnames(this.css.loader, className, loading && loadingClassName)}>
         {loading === true &&
-          <Spinner
-            className={classnames(spinnerClassName, overlay && this.css.overlay)}
-            color={spinnerColor} />
+          <Spinner className={spinnerClassName} color={spinnerColor} />
         }
-        {!(loading === true && hideContent) && children}
+        {!(loading === true && hideContent) &&
+          <div className={classnames(this.css.content, loading === true && blurContent && this.css.blur)}>
+            {children}
+          </div>
+        }
       </div>
     )
   }

@@ -146,25 +146,25 @@ describe('<Loader />', () => {
     )
 
     const spinner = wrapper.find(Spinner)
-    const dotStyles = getStyles(spinner.find('div > div'))
+    const dotStyles = getStyles(spinner.children().first())
 
     expect(spinner.hasClass('spinner')).toBe(true)
     expect(dotStyles['background-color']).toEqual(color)
   })
 
-  it('should append overlay when loading = true', () => {
+  it('should blur content when loading = true', () => {
     const wrapper = mount(
       withTheme(
-        <Loader loading={true} overlay={true}>
+        <Loader loading={true} blurContent={true}>
           {contentEl}
         </Loader>
       )
     )
 
-    const spinner = wrapper.find(Spinner)
-    const spinnerStyles = getStyles(spinner)
+    const loader = wrapper.find(Loader)
+    const content = loader.children().last()
 
-    expect(/^rgba\(255, 255, 255, 0\.85/.test(spinnerStyles['background-color'])).toBe(true)
+    expect(/blur/.test(content.html())).toBe(true)
   })
 
   it('should hide content when loading = true', () => {

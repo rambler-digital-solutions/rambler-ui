@@ -34,14 +34,21 @@ export default class LoaderExample extends Component {
         <ApplyTheme>
           <div>
             <div style={{ height: 200, position: 'relative' }}>
-              <Loader loading={this.state.loading} overlay={true}>
+              <Loader loading={this.state.loading} blurContent={true}>
                 Hello world
+                <Button
+                  type="secondary"
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    bottom: 0
+                  }}
+                  loading={this.state.buttonLoading}
+                  onClick={this.load}>
+                  Загрузить
+                </Button>
               </Loader>
             </div>
-
-            <Button type="secondary" loading={this.state.buttonLoading} onClick={this.load}>
-              Загрузить
-            </Button>
           </div>
         </ApplyTheme>
 
