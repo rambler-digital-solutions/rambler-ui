@@ -124,52 +124,27 @@ export default {
     },
     buttonMixin: styleButtonChampMixin
   },
+  field: {
+    border: 0,
+    borderBottom: '1px solid #d5d5d5',
+    focusBorderBottom: '1px solid #000',
+    successBorderBottom: '1px solid #28bc00',
+    errorBorderBottom: '1px solid #ff564e',
+    warningBorderBottom: '1px solid #f4c914',
+    filledBorderBottom: '1px solid #000',
+    withIconPadding: 30,
+    withIconsPadding: 60,
+    color: '#bebebe',
+    activeIconColor: '#ff4800',
+    filledIconColor: '#ff4800',
+    fontSize: 14,
+    iconMargin: 0
+  },
   input: {
     padding: '0 5px 1px 5px',
-    border: 'none',
-    borderBottom: '1px solid #d5d5d5',
+    focusPaddingBottom: 1,
     height: 36,
     opacity: 0.7,
-    fontSize: 14,
-    '&:focus': {
-      borderBottom: '1px solid #000'
-    }
-  },
-  inputRequiredProps: {
-    successBorderBottom: {
-      borderBottom: '1px solid #28bc00 !important'
-    },
-    errorBorderBottom: {
-      borderBottom: '1px solid #ff564e !important'
-    },
-    warningBorderBottom: {
-      borderBottom: '1px solid #f4c914 !important'
-    },
-    inputBaseColor: {
-      color: '#BEBEBE'
-    },
-    inputPaddingLeft: {
-      paddingLeft: 30
-    },
-    inputOneIconRight: {
-      paddingRight: 30
-    },
-    inputTwoIconRight: {
-      paddingRight: '60px !important'
-    },
-    inputIconRightWithoutPass: {
-      right: 0
-    },
-    inputEye: {
-      top: 7,
-      right: 3,
-      fill: '#ff4800'
-    },
-    icon: {
-      top: 7,
-      left: 0,
-      right: 30,
-      fill: '#ff4800 !important'
-    }
+    eyeMargin: 3
   }
 }

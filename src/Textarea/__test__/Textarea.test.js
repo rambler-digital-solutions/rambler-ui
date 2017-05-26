@@ -123,11 +123,11 @@ describe('<Textarea />', () => {
 
     expect(leftIconContainerStyles.position).toEqual('absolute')
     expect(leftIconContainerStyles.top).toEqual('12px')
-    expect(leftIconContainerStyles.left).toEqual('12px')
+    expect(leftIconContainerStyles.left).toEqual('13px')
 
     expect(rightIconContainerStyles.position).toEqual('absolute')
     expect(rightIconContainerStyles.top).toEqual('12px')
-    expect(rightIconContainerStyles.right).toEqual('12px')
+    expect(rightIconContainerStyles.right).toEqual('13px')
   })
 
   it('should call props.onChange() when change value', () => {

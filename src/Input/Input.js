@@ -1,11 +1,11 @@
 /**
  * Компонент Input
  */
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes, cloneElement } from 'react'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, placeholderMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin } from '../style/mixins'
 import { Eye } from '../icons/forms'
 
 @injectSheet(theme => ({
@@ -21,11 +21,20 @@ import { Eye } from '../icons/forms'
     fontWeight: 400,
     appearance: 'none',
     lineHeight: 'normal',
-    ...theme.input,
+    borderTop: theme.field.border,
+    borderLeft: theme.field.border,
+    borderRight: theme.field.border,
+    borderBottom: theme.field.borderBottom || theme.field.border,
+    padding: theme.input.padding,
+    fontSize: theme.field.fontSize,
+    opacity: theme.input.opacity || 1,
     transition: 'border-color 0.3s ease',
-    ...placeholderMixin({color: theme.inputRequiredProps.baseColor}),
     '&::-ms-reveal': {
       display: 'none'
+    },
+    '&:focus': {
+      borderBottom: theme.field.focusBorderBottom,
+      paddingBottom: theme.field.focusPaddingBottom
     },
     '&:disabled': {
       backgroundColor: '#eee',
@@ -39,6 +48,41 @@ import { Eye } from '../icons/forms'
   small: {
     height: theme.input.height || theme.sizes.small.height
   },
+  success: {
+    borderBottom: theme.field.successBorderBottom,
+    paddingBottom: theme.field.focusPaddingBottom,
+    opacity: 1
+  },
+  error: {
+    borderBottom: theme.field.errorBorderBottom,
+    paddingBottom: theme.field.focusPaddingBottom,
+    opacity: 1
+  },
+  warning: {
+    borderBottom: theme.field.warningBorderBottom,
+    paddingBottom: theme.field.focusPaddingBottom,
+    opacity: 1
+  },
+  filled: {
+    borderBottom: theme.field.filledBorderBottom,
+    paddingBottom: theme.field.focusPaddingBottom,
+    opacity: 1
+  },
+  withLeftIcon: {
+    paddingLeft: theme.field.withIconPadding
+  },
+  withRightIcon: {
+    paddingRight: theme.field.withIconPadding
+  },
+  withEye: {
+    paddingRight: theme.field.withIconPadding,
+    '&$withRightIcon': {
+      paddingRight: theme.field.withIconsPadding
+    },
+    '& ~ $iconRight': {
+      right: theme.field.withIconPadding
+    }
+  },
   root: {
     position: 'relative'
   },
@@ -48,104 +92,26 @@ import { Eye } from '../icons/forms'
     transform: 'translateY(-50%)',
     fontSize: 0
   },
-  password: {
-    extend: 'icon',
-    right: theme.inputRequiredProps.inputEye.right,
-    border: 0,
-    outline: 0,
-    height: '20px',
-    width: '20px',
-    backgroundSize: 'contain',
-    cursor: 'pointer',
-    color: 'gray',
-    background: 'none',
-    '& $eye': {
-      fill: theme.inputRequiredProps.inputBaseColor.color
-    }
-  },
-  text: {
-    extend: 'icon',
-    right: theme.inputRequiredProps.inputEye.right,
-    border: 0,
-    outline: 0,
-    height: '20px',
-    width: '20px',
-    backgroundSize: 'contain',
-    cursor: 'pointer',
-    background: 'none',
-    '& $eye': {
-      fill: theme.inputRequiredProps.inputEye.fill
-    }
-  },
   eye: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '18px',
-    height: '18px'
-  },
-  success: {
-    '& > input': {
-      borderBottom: theme.inputRequiredProps.successBorderBottom.borderBottom,
-      paddingBottom: '1px'
-    },
-    '& $iconLeft > svg': {
-      fill: theme.inputRequiredProps.icon.fill
-    },
-    '& $normal': {
-      opacity: 1
-    }
-  },
-  error: {
-    '& > input': {
-      borderBottom: theme.inputRequiredProps.errorBorderBottom.borderBottom,
-      paddingBottom: '1px'
-    },
-    '& $iconLeft > svg': {
-      fill: theme.inputRequiredProps.icon.fill
-    },
-    '& $normal': {
-      opacity: 1
-    }
-  },
-  warning: {
-    '& > input': {
-      borderBottom: theme.inputRequiredProps.warningBorderBottom.borderBottom,
-      paddingBottom: '1px'
-    },
-    '& $iconLeft > svg': {
-      fill: theme.inputRequiredProps.icon.fill
-    },
-    '& $normal': {
-      opacity: 1
-    }
-  },
-  filled: {
-    '& > input': {
-      borderBottom: '1px solid #000'
-    },
-    '& $iconLeft > svg': {
-      fill: theme.inputRequiredProps.icon.fill
-    },
-    '& $normal': {
-      opacity: 1
-    }
+    extend: 'icon',
+    right: theme.input.eyeMargin,
+    border: 0,
+    outline: 0,
+    padding: 1,
+    height: theme.sizes.medium.icon,
+    width: theme.sizes.medium.icon,
+    backgroundSize: 'contain',
+    cursor: 'pointer',
+    background: 'none'
   },
   iconLeft: {
     extend: 'icon',
-    left: theme.inputRequiredProps.icon.left
+    left: theme.field.iconMargin
   },
   iconRight: {
     extend: 'icon',
-    right: theme.inputRequiredProps.icon.right
-  },
-  iconRightWithoutPass: {
-    extend: 'icon',
-    right: theme.inputRequiredProps.inputIconRightWithoutPass.right
-  },
-  inputIconLeft: theme.inputRequiredProps.inputPaddingLeft,
-  inputOneIconRight: theme.inputRequiredProps.inputOneIconRight,
-  inputTwoIconRight: theme.inputRequiredProps.inputTwoIconRight
+    right: theme.field.iconMargin
+  }
 }))
 
 export default class Input extends Component {
@@ -267,28 +233,28 @@ export default class Input extends Component {
       iconRight,
       status,
       sheet: { classes: css },
+      theme,
       ...other
-    } = omit(this.props, ['theme', 'onChange'])
+    } = omit(this.props, ['onChange'])
 
     const { type } = this.state
     const trueType = this.props.type
-    const rootClassName = classnames(css.root, {[css.filled]: status === 'filled'}, css[status])
-    const resultClassName = classnames(css.normal, css[size], {
-      [css.inputIconLeft]: !!iconLeft,
-      [css.inputTwoIconRight]: !!iconRight && trueType === 'password',
-      [css.inputOneIconRight]: !!iconRight || trueType === 'password'
+
+    const resultClassName = classnames(css.normal, css[size], css[status], {
+      [css.withLeftIcon]: !!iconLeft,
+      [css.withRightIcon]: !!iconRight,
+      [css.withEye]: trueType === 'password'
     }, className)
 
-    const resultIconRight = (iconRight && trueType === 'password') ?
-                              <div className={css.iconRight}>{iconRight}</div> :
-                                (iconRight && trueType !== 'password') ?
-                                  <div className={css.iconRightWithoutPass}>{iconRight}</div> :
-                                    null
+    const resultIconLeft = iconLeft && cloneElement(iconLeft, {
+      color: status && theme.field.filledIconColor
+    })
+
     return (
-      <div style={style} className={rootClassName}>
-        { iconLeft &&
+      <div style={style} className={css.root}>
+        {iconLeft &&
           <div className={css.iconLeft}>
-            {iconLeft}
+            {resultIconLeft}
           </div>
         }
         <input
@@ -302,12 +268,18 @@ export default class Input extends Component {
           placeholder={placeholder}
           {...other}
         />
-          { resultIconRight }
-          { trueType === 'password' &&
-            <button type='button' tabIndex="-1" className={css[type]} onClick={this.inputTypeHelper} >
-              <Eye className={css.eye} />
-            </button>
-          }
+        {iconRight &&
+          <div className={css.iconRight}>
+            {iconRight}
+          </div>
+        }
+        {trueType === 'password' &&
+          <button type='button' tabIndex="-1" className={css.eye} onClick={this.inputTypeHelper} >
+            <Eye
+              size={18}
+              color={type === 'password' ? theme.field.color : theme.field.activeIconColor} />
+          </button>
+        }
       </div>
     )
   }
