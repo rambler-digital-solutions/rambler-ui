@@ -146,7 +146,7 @@ describe('<Loader />', () => {
     )
 
     const spinner = wrapper.find(Spinner)
-    const dotStyles = getStyles(spinner.children().first())
+    const dotStyles = getStyles(spinner.children().last())
 
     expect(spinner.hasClass('spinner')).toBe(true)
     expect(dotStyles['background-color']).toEqual(color)
@@ -162,9 +162,24 @@ describe('<Loader />', () => {
     )
 
     const loader = wrapper.find(Loader)
-    const content = loader.children().last()
+    const content = loader.children().first()
 
     expect(/blur/.test(content.html())).toBe(true)
+  })
+
+  it('should show overlay when loading = true', () => {
+    const wrapper = mount(
+      withTheme(
+        <Loader loading={true} overlayClassName="overlay">
+          {contentEl}
+        </Loader>
+      )
+    )
+
+    const loader = wrapper.find(Loader)
+    const overlay = loader.childAt(1)
+
+    expect(overlay.hasClass('overlay')).toBe(true)
   })
 
   it('should hide content when loading = true', () => {

@@ -5,11 +5,33 @@ import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
 
 @pure
-@injectSheet(() => ({
+@injectSheet((theme) => ({
   loader: {
     position: 'relative',
     width: '100%',
     minHeight: '100%'
+  },
+  overlay: {
+    position: 'absolute',
+    background: theme.loader.color,
+    transitionProperty: 'opacity',
+    pointerEvents: 'none',
+    transitionDuration: theme.loader.animationDuration,
+    opacity: 0,
+    zIndex: -1,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0
+  },
+  isLoading: {
+    '&$overlay': {
+      opacity: 0.6,
+      zIndex: 'initial'
+    },
+    '&$loader': {
+      pointerEvents: 'none'
+    }
   },
   blur: {
     filter: 'blur(1px)'
@@ -26,6 +48,10 @@ export default class Loader extends Component {
      * CSS-класс состояния загрузки
      */
     loadingClassName: PropTypes.string,
+    /**
+     * CSS-класс полупрозрачного оверлея
+     */
+    overlayClassName: PropTypes.string,
     /**
      * Inline-стили
      */
@@ -105,6 +131,7 @@ export default class Loader extends Component {
     const {
       className,
       loadingClassName,
+      overlayClassName,
       style,
       spinnerClassName,
       spinnerColor,
@@ -116,10 +143,7 @@ export default class Loader extends Component {
     return (
       <div
         style={style}
-        className={classnames(this.css.loader, className, loading && loadingClassName)}>
-        {loading &&
-          <Spinner className={spinnerClassName} color={spinnerColor} />
-        }
+        className={classnames(this.css.loader, className, loading && classnames(loadingClassName, this.css.isLoading))}>
         {!(loading && hideContent) && (
           blurContent ? (
             <div className={loading && blurContent && this.css.blur}>
@@ -128,6 +152,10 @@ export default class Loader extends Component {
           ) :
           children
         )}
+        <div className={classnames(this.css.overlay, overlayClassName, loading && this.css.isLoading)} />
+        {loading &&
+          <Spinner className={classnames(this.css.spinner, spinnerClassName)} color={spinnerColor} />
+        }
       </div>
     )
   }

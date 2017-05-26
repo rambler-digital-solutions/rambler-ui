@@ -228,7 +228,7 @@ export default {
     boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
     padding: '20px 30px 30px',
     background: 'white',
-    backdropBackground: 'rgba(0, 0, 0, 0.1)',
+    backdropBackground: 'rgba(0, 0, 0, 0.5)',
     closeColor: '#cccccc',
     font: {
       size: 13,
@@ -311,5 +311,9 @@ export default {
   },
   spinner: {
     dotColor: '#315efb'
+  },
+  loader: {
+    animationDuration: 200,
+    color: '#fff'
   }
 }
