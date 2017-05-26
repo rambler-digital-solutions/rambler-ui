@@ -7,7 +7,7 @@ import React, { Component, PropTypes, cloneElement, isValidElement } from 'react
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import pure from 'recompose/pure'
-import Loader from '../Loader'
+import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
 
@@ -37,6 +37,11 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
       position: 'absolute'
     },
     '&[disabled]': { pointerEvents: 'none' }
+  },
+  isRounded: {
+    '&$button, &$button:focus:before': {
+      borderRadius: '9999px !important'
+    }
   },
   isLoading: {
     pointerEvents: 'none',
@@ -249,7 +254,11 @@ export default class Button extends Component {
     /**
      * Показывать индикатор загрузки
      */
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    /**
+     * Закругленная кнопка
+     */
+    rounded: PropTypes.bool
   };
 
   static defaultProps = {
@@ -295,6 +304,7 @@ export default class Button extends Component {
       overlay,
       width,
       iconPosition,
+      rounded,
       style = {},
       theme,
       ...other
@@ -309,6 +319,7 @@ export default class Button extends Component {
     }
     const resultClassName = classnames(
       css.button,
+      rounded && css.isRounded,
       css[`type-${type}`],
       css[`size-${size}`],
       css[`iconPosition-${iconPosition}`],
@@ -318,16 +329,12 @@ export default class Button extends Component {
       })
 
     const resultChildren = (
-      <Loader
-        loading={loading}
-        spinnerColor={theme.button.types[type].loaderColor}>
-        <div className={classnames(css.content, loading && css.isLoading)}>
-          { iconLeft && iconEl }
-          { children }
-          { !iconLeft && iconEl }
-          { overlay && cloneElement(overlay, {className: css.overlay}) }
-        </div>
-      </Loader>
+      <div className={classnames(css.content, loading && css.isLoading)}>
+        { iconLeft && iconEl }
+        { children }
+        { !iconLeft && iconEl }
+        { overlay && cloneElement(overlay, {className: css.overlay}) }
+      </div>
     )
 
     const resultProps = {
@@ -342,6 +349,11 @@ export default class Button extends Component {
       <a href={ href } /> : overlay ?
       <div /> : <button type={ buttonType } />
 
-    return cloneElement(resultContainer, resultProps, resultChildren)
+    return cloneElement(
+      resultContainer,
+      resultProps,
+      resultChildren,
+      loading && <Spinner color={theme.button.types[type].loaderColor} />
+    )
   }
 }

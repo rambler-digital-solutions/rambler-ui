@@ -112,57 +112,20 @@ describe('<Button />', () => {
     expect(btnComponent.props.buttonType).toEqual('button')
   })
 
+  it('should be rounded', () => {
+    const wrapper = mount(applyTheme(<Button {...defaultProps} buttonType='button' rounded={true}>test</Button>))
+    const stylesBtn = getStyles(wrapper.find('button'))
+    expect(stylesBtn['border-top-left-radius']).toEqual('9999px')
+    expect(stylesBtn['border-top-right-radius']).toEqual('9999px')
+    expect(stylesBtn['border-bottom-left-radius']).toEqual('9999px')
+    expect(stylesBtn['border-bottom-right-radius']).toEqual('9999px')
+  })
+
   it('Проверяем кнопку на наличие контейнера, который является родительским для icon', () => {
     const wrapper = mount(applyTheme(<Button icon={<RamblerMailIcon/>} {...defaultProps}>Почта</Button>))
     const button = wrapper.find('button')
     const icon = wrapper.find('svg')
-    expect(button.childAt(0).childAt(0).node).toEqual(icon.node.parentNode)
+    expect(button.childAt(0).node).toEqual(icon.node.parentNode)
   })
-  // Проверить callback onClick - done
-  // Проверить href и target = '_blank - done
-  // Проверить children - done
-  // Проверить disabled - done
-  // Проверить button type - done
-  // Проверить width - done
-  // подумать как проверить icon - done
-  // it('href', () => {
-
-  // })
-
-  // it('target', () => {
-
-  // })
-
-  // it('className', () => {
-
-  // })
-
-  // it('style', () => {
-
-  // })
-
-  // it('children', () => {
-
-  // })
-
-  // it('icon', () => {
-
-  // })
-
-  // it('size', () => {
-
-  // })
-
-  // it('onClick', () => {
-
-  // })
-
-  // it('container', () => {
-
-  // })
-
-  // it('overlay', () => {
-
-  // })
 
 })
