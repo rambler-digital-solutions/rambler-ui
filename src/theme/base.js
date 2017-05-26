@@ -34,9 +34,6 @@ const styleButtonBaseMixin = (type, options) => ({
       extend: borderMixin(options.defaultBorder),
       color: `${options.disabledTextColor} !important`,
       background: options.disabledBg
-    },
-    ...options.loaderColor && {
-      '& $loaderDot': { background: options.loaderColor }
     }
   }
 })
@@ -311,5 +308,8 @@ export default {
       titleSize: 14
     },
     animationDuration: 200
+  },
+  spinner: {
+    dotColor: '#315efb'
   }
 }

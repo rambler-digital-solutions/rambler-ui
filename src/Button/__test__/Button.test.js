@@ -116,7 +116,7 @@ describe('<Button />', () => {
     const wrapper = mount(applyTheme(<Button icon={<RamblerMailIcon/>} {...defaultProps}>Почта</Button>))
     const button = wrapper.find('button')
     const icon = wrapper.find('svg')
-    expect(button.childAt(0).node).toEqual(icon.node.parentNode)
+    expect(button.childAt(0).childAt(0).node).toEqual(icon.node.parentNode)
   })
   // Проверить callback onClick - done
   // Проверить href и target = '_blank - done

@@ -5,19 +5,14 @@
 
 import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
 import classnames from 'classnames'
-import range from 'lodash/range'
 import omit from 'lodash/omit'
 import pure from 'recompose/pure'
+import Loader from '../Loader'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet((theme) => ({
-  '@keyframes ruiAnimateDot': {
-    '20%': { transform: 'scale(1)' },
-    '40%': { transform: 'scale(1) translate3d(0, 5px, 0)' },
-    '100%': { transform: 'scale(1)  translate3d(0, 0, 0)' }
-  },
   button: {
     ...isolateMixin,
     ...fontStyleMixin(theme.font),
@@ -45,7 +40,7 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
   },
   isLoading: {
     pointerEvents: 'none',
-    '& $content': { opacity: 0 }
+    opacity: 0
   },
   content: {
     ...middleMixin,
@@ -71,33 +66,6 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     '& $content': {
       height: theme.sizes.small.height
     }
-  },
-  loader: {
-    ...middleMixin,
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    width: '100%',
-    textAlign: 'center'
-  },
-  loaderDot: {
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    height: 5,
-    width: 5,
-    position: 'relative',
-    top: -2,
-    borderRadius: '50%',
-    transition: 'transform .6s ease-out',
-    transform: 'translate3d(0, 0, 0)',
-    animation: 'ruiAnimateDot .6s ease-out',
-    animationFillMode: 'forwards',
-    animationIterationCount: 'infinite',
-    '&:nth-child(1)': { animationDelay: '0s' },
-    '&:nth-child(2)': { animationDelay: '.08s', margin: '0 5px' },
-    '&:nth-child(3)': { animationDelay: '.16s' }
   },
   overlay: {
     position: 'absolute',
@@ -138,7 +106,6 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     disabledBorder: theme.button.types.primary.disabledBorder,
     disabledBg: theme.button.types.primary.disabledBg,
     focusOffset: theme.button.types.primary.focusOffset,
-    loaderColor: theme.button.types.primary.loaderColor,
     borderRadius: theme.button.types.primary.borderRadius
   }),
   ...theme.button.buttonMixin('secondary', {
@@ -156,7 +123,6 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     disabledBorder: theme.button.types.secondary.disabledBorder,
     disabledBg: theme.button.types.secondary.disabledBg,
     focusOffset: theme.button.types.secondary.focusOffset,
-    loaderColor: theme.button.types.secondary.loaderColor,
     activeTextColor: theme.button.types.secondary.activeTextColor,
     borderRadius: theme.button.types.secondary.borderRadius
   }),
@@ -175,7 +141,6 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     disabledBorder: theme.button.types.outline.disabledBorder,
     disabledBg: theme.button.types.outline.disabledBg,
     focusOffset: theme.button.types.outline.focusOffset,
-    loaderColor: theme.button.types.outline.loaderColor,
     activeTextColor: theme.button.types.outline.activeTextColor
   }),
   ...theme.button.buttonMixin('flat', {
@@ -193,7 +158,6 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     disabledBorder: theme.button.types.flat.disabledBorder,
     disabledBg: theme.button.types.flat.disabledBg,
     focusOffset: theme.button.types.flat.focusOffset,
-    loaderColor: theme.button.types.flat.loaderColor,
     activeTextColor: theme.button.types.flat.activeTextColor
   }),
   ...theme.button.buttonMixin('danger', {
@@ -211,7 +175,6 @@ import { fontStyleMixin, middleMixin, isolateMixin } from '../style/mixins'
     disabledBorder: theme.button.types.danger.disabledBorder,
     disabledBg: theme.button.types.danger.disabledBg,
     focusOffset: theme.button.types.danger.focusOffset,
-    loaderColor: theme.button.types.danger.loaderColor,
     borderRadius: theme.button.types.danger.borderRadius
   })
 }))
@@ -316,13 +279,6 @@ export default class Button extends Component {
     }
   }
 
-  renderLoader() {
-    const css = this.css
-    return <div className={ css.loader } key='loader'>
-      {range(3).map(i => (<div className={ css.loaderDot } key={i}></div>))}
-    </div>
-  }
-
   render() {
     const {
       icon,
@@ -340,8 +296,9 @@ export default class Button extends Component {
       width,
       iconPosition,
       style = {},
+      theme,
       ...other
-    } = omit(this.props, 'sheet', 'theme')
+    } = omit(this.props, 'sheet')
     const css = this.css
     const iconLeft = iconPosition === 'left'
     const iconEl = this.renderIcon(icon)
@@ -357,19 +314,21 @@ export default class Button extends Component {
       css[`iconPosition-${iconPosition}`],
       className,
       {
-        [css.isLoading]: loading,
         [css.block]: block
       })
 
-    const resultChildren = [
-      <div className={css.content}>
-        { iconLeft && iconEl }
-        { children }
-        { !iconLeft && iconEl }
-        { overlay && cloneElement(overlay, {className: css.overlay}) }
-      </div>,
-      loading && this.renderLoader()
-    ]
+    const resultChildren = (
+      <Loader
+        loading={loading}
+        spinnerColor={theme.button.types[type].loaderColor}>
+        <div className={classnames(css.content, loading && css.isLoading)}>
+          { iconLeft && iconEl }
+          { children }
+          { !iconLeft && iconEl }
+          { overlay && cloneElement(overlay, {className: css.overlay}) }
+        </div>
+      </Loader>
+    )
 
     const resultProps = {
       ...other,
@@ -383,6 +342,6 @@ export default class Button extends Component {
       <a href={ href } /> : overlay ?
       <div /> : <button type={ buttonType } />
 
-    return cloneElement(resultContainer, resultProps, ...resultChildren)
+    return cloneElement(resultContainer, resultProps, resultChildren)
   }
 }
