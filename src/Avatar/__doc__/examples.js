@@ -7,7 +7,7 @@ export default function AvatarExample() {
     style: {
       marginLeft: 10
     },
-    src: './static/unicorn.jpeg'
+    src: '//api.adorable.io/avatars/face/eyes4/nose5/mouth7/8e8895/'
   }
 
   return (
