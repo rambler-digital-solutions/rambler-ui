@@ -1,23 +1,9 @@
-import { create } from 'themed-react-jss'
-import { create as createJss } from 'jss'
+import { createProvider, createJss as createOriginalJss } from 'themed-react-jss'
+import defaultProps from 'recompose/defaultProps'
 import preset from 'jss-preset-default'
 import base from './base'
-import champ from './champ'
 
-
-export const provider = create({
-  contextFieldName: 'ruiThemeProvider',
-  jss: createJss(preset())
-})
-
-provider.defineTheme('base', base, {
-  isDefault: true
-})
-
-provider.defineTheme('champ', champ, {
-  inherit: ['base']
-})
-
-export const jss = provider.jss
-export const ApplyTheme = provider.ApplyTheme
+export const createJss = () => createOriginalJss(preset())
+export const provider = createProvider({contextFieldName: 'RamblerUI'})
+export const ApplyTheme = defaultProps({theme: base, jss: createJss()})(provider.ApplyTheme)
 export const injectSheet = provider.injectSheet

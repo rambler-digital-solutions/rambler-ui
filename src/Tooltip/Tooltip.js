@@ -1,4 +1,5 @@
-import React, { PropTypes, PureComponent, cloneElement } from 'react'
+import React, { PureComponent, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import OnClickOutside from '../events/OnClickOutside'
 import VisibilityAnimation from '../VisibilityAnimation'

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes, cloneElement } from 'react'
+import React, { Component, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
 import QuestionIcon from '../icons/forms/QuestionIcon'

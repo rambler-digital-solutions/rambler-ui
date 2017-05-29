@@ -1,7 +1,8 @@
 /**
  * Компонент боковой навигации
  */
-import React, { Component, PropTypes, Children, cloneElement } from 'react'
+import React, { Component, Children, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'

@@ -40,23 +40,6 @@ export default class CheckboxExample extends Component {
             </div>
           </div>
         </ApplyTheme>
-
-        <ApplyTheme name='champ'>
-          <div>
-            <div style={{marginTop: 20}}>
-              <Checkbox
-                name="checkbox6"
-                labelStyle={{color: '#f00'}}
-                checked={this.state.checked}
-                onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
-              <Checkbox
-                checkboxStyle={{marginRight: 5}}
-                style={{marginLeft: 20}}
-                name="checkbox6"
-                onCheck={(event, checked) => alert(`Checked: ${checked}`)}>Получать уведомления по почте</Checkbox>
-            </div>
-          </div>
-        </ApplyTheme>
       </div>
     )
   }

@@ -1,4 +1,5 @@
-import React, { PureComponent, PropTypes, cloneElement } from 'react'
+import React, { PureComponent, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import { findOverflowedParent, getBoundingClientRect as originalGetBoundingClientRect } from '../utils/DOM'
 import { injectSheet } from '../theme'
 import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'

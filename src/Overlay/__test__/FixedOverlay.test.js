@@ -1,5 +1,6 @@
 import FixedOverlay from '../FixedOverlay'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { withTheme, mount, getWrapperNode, getNodeStyles } from '../../utils/test-utils'
 
 class Content extends Component {

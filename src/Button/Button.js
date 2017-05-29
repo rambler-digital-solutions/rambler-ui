@@ -3,7 +3,8 @@
  * Скетч: https://app.zeplin.io/project.html#pid=5788d29d450aa06b5691c466&sid=5788d41ba2e261bb69d6c68e
  */
 
-import React, { Component, PropTypes, cloneElement, isValidElement } from 'react'
+import React, { Component, cloneElement, isValidElement } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import pure from 'recompose/pure'

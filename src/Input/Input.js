@@ -1,7 +1,8 @@
 /**
  * Компонент Input
  */
-import React, { Component, PropTypes, cloneElement } from 'react'
+import React, { Component, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
@@ -145,19 +146,13 @@ export default class Input extends Component {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
-    * Имя элемента
-    */
+     * Имя элемента
+     */
     name: PropTypes.string,
     /**
-    * Валидация input'a - border снизу. 'filled' - для чемпа. Остальные - дефолтные
-    */
-    status: PropTypes.oneOf([
-      'error',
-      'warning',
-      'success',
-      'filled',
-      null
-    ]),
+     * Валидация input'a - border снизу
+     */
+    status: PropTypes.oneOf(['error', 'warning', 'success', 'filled', null]),
     /**
      * Класс компонента
      */

@@ -1,5 +1,5 @@
 import { Component } from 'react'
-import { DocModules } from 'prop-types'
+import { DocModules } from 'internal-prop-types'
 import { Link } from 'react-router'
 
 import css from './index.css'

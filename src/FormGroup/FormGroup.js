@@ -2,7 +2,8 @@
  * Компонент FormGroup
  */
 
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import { ifDesktop } from '../style/mixins'

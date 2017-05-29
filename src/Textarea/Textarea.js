@@ -1,7 +1,8 @@
 /**
  * Компонент Textarea
  */
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import pure from 'recompose/pure'

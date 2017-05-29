@@ -1,5 +1,6 @@
 import RelativeOverlay from '../RelativeOverlay'
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { withTheme, mount, getNodeStyles, getWrapperNode } from '../../utils/test-utils'
 
 

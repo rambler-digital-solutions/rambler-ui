@@ -3,7 +3,8 @@ import {
   unmountComponentAtNode,
   findDOMNode
 } from 'react-dom'
-import React, { Children, PureComponent, Component, PropTypes, cloneElement } from 'react'
+import React, { Children, PureComponent, Component, cloneElement } from 'react'
+import PropTypes from 'prop-types'
 import EventEmitter from 'events'
 import debounce from 'lodash/debounce'
 import pick from 'lodash/pick'

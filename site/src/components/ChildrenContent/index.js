@@ -1,6 +1,6 @@
 import { Component, PropTypes } from 'react'
 import { Link } from 'react-router'
-import { DocModules } from 'prop-types'
+import { DocModules } from 'internal-prop-types'
 
 import css from './index.css'
 
