@@ -14,6 +14,10 @@
 - [x] Textarea
 - [x] Snackbar
 - [x] Notification
+- [x] Avatar
+- [x] Loader
+- [x] Spinner
+- [ ] Select
 - [ ] InputSuggest
 
 ## Установка

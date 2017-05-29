@@ -1,5 +1,11 @@
 # Changelog
 
+## v-2.8.0
+
+* Добавлен Avatar, Spinner, Loader
+* Добавлено свойство `rounded` в Button
+* Добавлены одноцветные иконки социальных профилей
+
 ## v-2.7.0
 
 * Добавлен Notification
