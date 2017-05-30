@@ -35,7 +35,7 @@ import { Eye } from '../icons/forms'
     },
     '&:focus': {
       borderBottom: theme.field.focusBorderBottom,
-      paddingBottom: theme.field.focusPaddingBottom
+      paddingBottom: theme.input.focusPaddingBottom
     },
     '&:disabled': {
       backgroundColor: '#eee',
@@ -52,28 +52,28 @@ import { Eye } from '../icons/forms'
   success: {
     '&$input': {
       borderBottom: theme.field.successBorderBottom,
-      paddingBottom: theme.field.focusPaddingBottom,
+      paddingBottom: theme.input.focusPaddingBottom,
       opacity: 1
     }
   },
   error: {
     '&$input': {
       borderBottom: theme.field.errorBorderBottom,
-      paddingBottom: theme.field.focusPaddingBottom,
+      paddingBottom: theme.input.focusPaddingBottom,
       opacity: 1
     }
   },
   warning: {
     '&$input': {
       borderBottom: theme.field.warningBorderBottom,
-      paddingBottom: theme.field.focusPaddingBottom,
+      paddingBottom: theme.input.focusPaddingBottom,
       opacity: 1
     }
   },
   filled: {
     '&$input': {
       borderBottom: theme.field.filledBorderBottom,
-      paddingBottom: theme.field.focusPaddingBottom,
+      paddingBottom: theme.input.focusPaddingBottom,
       opacity: 1
     }
   },
