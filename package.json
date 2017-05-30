@@ -33,7 +33,7 @@
     "jss-preset-default": "^0.5.0",
     "lodash": "^4.13.1",
     "recompose": "^0.20.2",
-    "themed-react-jss": "^2.1.0"
+    "themed-react-jss": "^2.1.1"
   },
   "devDependencies": {
     "async": "^2.0.0-rc.6",
