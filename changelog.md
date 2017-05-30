@@ -1,5 +1,9 @@
 # Changelog
 
+## v-2.9.0
+
+* Обновлен пакет themed-react-jss и способ работы с темами
+
 ## v-2.8.0
 
 * Добавлен Avatar, Spinner, Loader
