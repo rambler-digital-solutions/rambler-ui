@@ -270,6 +270,11 @@ export default {
       }
     }
   },
+  select: {
+    padding: '1px 40px 1px 13px',
+    focusPaddingBottom: 0,
+    animationDuration: 200
+  },
   dropdown: {
     animationDuration: 200
   },

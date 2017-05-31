@@ -177,18 +177,18 @@ export default class Popup extends Component {
 
   onWillVisible = () => {
     if (this.props.closeOnEsc)
-      document.addEventListener('keydown', this.onKeyDown)
+      window.addEventListener('keydown', this.onKeyDown)
 
     if (this.props.closeOnClickOutside)
-      document.addEventListener('click', this.onClickOutside)
+      window.addEventListener('click', this.onClickOutside)
   }
 
   onWillInvisible = () => {
     if (this.props.closeOnEsc)
-      document.removeEventListener('keydown', this.onKeyDown)
+      window.removeEventListener('keydown', this.onKeyDown)
 
     if (this.props.closeOnClickOutside)
-      document.removeEventListener('click', this.onClickOutside)
+      window.removeEventListener('click', this.onClickOutside)
   }
 
   onKeyDown = event => {
