@@ -73,26 +73,29 @@ describe('<Input style={{width: 200}}/>', () => {
     const inputError = wrapper.find('.inputCls3')
     const inputWithoutStatus = wrapper.find('.inputCls4')
 
-    const inputSuccessStyles = getStyles(inputSuccess)
-    const inputWarningStyles = getStyles(inputWarning)
-    const inputErrorStyles = getStyles(inputError)
-    const inputWithoutStatusStyles = getStyles(inputWithoutStatus)
     // Стили border - success
+    const inputSuccessStyles = getStyles(inputSuccess)
     expect(inputSuccessStyles['border-bottom-color']).toEqual('rgb(40, 188, 0)')
     expect(inputSuccessStyles['border-bottom-style']).toEqual('solid')
     expect(inputSuccessStyles['border-bottom-width']).toEqual('2px')
+    expect(inputSuccessStyles.height).toEqual('45px')
+
     // border - warning
+    const inputWarningStyles = getStyles(inputWarning)
     expect(inputWarningStyles['border-bottom-color']).toEqual('rgb(244, 201, 20)')
+
     // border - error
+    const inputErrorStyles = getStyles(inputError)
     expect(inputErrorStyles['border-bottom-color']).toEqual('rgb(255, 86, 78)')
+
     // Станратные стили input'a
+    const inputWithoutStatusStyles = getStyles(inputWithoutStatus)
     expect(inputWithoutStatusStyles['border-top-color']).toEqual('rgb(232, 232, 232)')
     expect(inputWithoutStatusStyles['border-top-style']).toEqual('solid')
     expect(inputWithoutStatusStyles['border-top-width']).toEqual('1px')
     expect(inputWithoutStatusStyles['border-bottom-color']).toEqual('rgb(232, 232, 232)')
     expect(inputWithoutStatusStyles['border-bottom-style']).toEqual('solid')
     expect(inputWithoutStatusStyles['border-bottom-width']).toEqual('1px')
-    expect(inputSuccessStyles.height).toEqual('45px')
   })
 
   it('Проверяем колбэки onChange, onBlur, onFocus, onKeyUp, onKeyDown', () => {
@@ -216,4 +219,5 @@ describe('<Input style={{width: 200}}/>', () => {
 
     expect(inputTextStyles.height).toEqual('35px')
   })
+
 })
