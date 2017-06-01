@@ -103,7 +103,7 @@ class SelectOption extends PureComponent {
     const optionRect = getBoundingClientRect(this.option)
     const parentRect = getBoundingClientRect(parent)
 
-    parent.scrollTop += optionRect.y - parentRect.y - (parentRect.height / 2)
+    parent.scrollTop += optionRect.top - parentRect.top - (parentRect.height / 2)
   }
 
   render() {
