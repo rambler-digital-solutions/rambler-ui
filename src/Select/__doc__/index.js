@@ -10,7 +10,7 @@ export const title = 'Select'
 export default () => (
   <div>
     <Playground code={examplesCode} title="Пример" />
-    <PropTypesTable code={codeSelect} />
-    <PropTypesTable code={codeSelectOption} />
+    <PropTypesTable code={codeSelect} header="### Свойства `<Select />`" />
+    <PropTypesTable code={codeSelectOption} header="### Свойства `<SelectOption />`" />
   </div>
 )

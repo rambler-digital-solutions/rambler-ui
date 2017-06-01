@@ -101,7 +101,7 @@ export default class SelectExample extends Component {
               onChange={this.setValue('value3')}>
               {[...Array(5)].map((item, i) => (
                 <SelectOption value={i} key={i}>
-                  Baz{i}
+                  <PhoneIcon /> Baz{i}
                 </SelectOption>
               ))}
             </Select>
@@ -114,9 +114,9 @@ export default class SelectExample extends Component {
             </Button>
           </div>
 
-          <div>this.state.value1: <b>{this.state.value1 || 'null'}</b></div>
-          <div>this.state.value2: <b>{this.state.value2 || 'null'}</b></div>
-          <div>this.state.value3: <b>{this.state.value3 || 'null'}</b></div>
+          <div>this.state.value1: <b>{`${this.state.value1}`}</b></div>
+          <div>this.state.value2: <b>{`${this.state.value2}`}</b></div>
+          <div>this.state.value3: <b>{`${this.state.value3}`}</b></div>
 
         </div>
       </ApplyTheme>

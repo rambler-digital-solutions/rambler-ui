@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Dropdown from '../Dropdown'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
 const ESCAPE = 27
 const ENTER = 13
@@ -16,13 +16,12 @@ const DOWN = 40
   },
   label: {
     ...isolateMixin,
-    ...middleMixin,
     ...fontStyleMixin(theme.font),
     boxSizing: 'border-box',
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
     borderRadius: 0,
     outline: 0,
-    width: '100%',
     background: '#fff',
     fontWeight: 400,
     appearance: 'none',
