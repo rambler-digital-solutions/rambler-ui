@@ -1,14 +1,11 @@
-import React, { PureComponent, Children, cloneElement } from 'react'
+import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Menu from '../Menu/Menu'
 import Dropdown from '../Dropdown'
+import { UP, DOWN } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin } from '../style/mixins'
-
-const ESCAPE = 27
-const ENTER = 13
-const UP = 38
-const DOWN = 40
 
 @injectSheet(theme => ({
   select: {
@@ -113,14 +110,6 @@ const DOWN = 40
       pointerEvents: 'none',
       transform: 'rotate(-45deg)'
     }
-  },
-  options: {
-    ...isolateMixin,
-    ...fontStyleMixin(theme.font),
-    boxSizing: 'border-box',
-    padding: '8px 0',
-    maxHeight: 189,
-    overflowY: 'auto'
   }
 }))
 export default class Select extends PureComponent {
@@ -167,7 +156,7 @@ export default class Select extends PureComponent {
      */
     disabled: PropTypes.bool,
     /**
-     * Опции поля, обязаны быть компонентами типа `<SelectOption />`
+     * Опции поля, обязаны быть компонентами типа `<MenuItem />`
      */
     children: PropTypes.node,
     /**
@@ -216,8 +205,7 @@ export default class Select extends PureComponent {
 
   state = {
     isOpened: false,
-    value: null,
-    focusedValue: null
+    value: null
   }
 
   get css() {
@@ -237,46 +225,31 @@ export default class Select extends PureComponent {
     this.setValue(value)
   }
 
-  getValues() {
-    return Children.map(this.props.children, child =>
-      child.props && child.props.value
-    )
-  }
-
   setValue(value) {
-    if (value !== this.value) {
-      this.value = value
+    if (value === this.value)
+      return
 
-      this.setState({
-        value
-      })
-
-      this.props.onChange(value)
-    }
-  }
-
-  focusOption = value => {
-    if (!this.state.isOpened)
-      this.open()
+    this.value = value
 
     this.setState({
-      focusedValue: value
+      value
     })
   }
 
-  selectOption = value => {
+  changeValue = value => {
     this.setValue(value)
+    this.props.onChange(value)
     this.close()
+    this.label.focus()
   }
 
   open = () => {
-    if (!this.props.disabled) {
-      this.setState({
-        isOpened: true
-      })
+    if (this.props.disabled)
+      return
 
-      this.label.focus()
-    }
+    this.setState({
+      isOpened: true
+    })
   }
 
   close = () => {
@@ -285,40 +258,24 @@ export default class Select extends PureComponent {
     })
   }
 
-  toggle = () => {
-    if (this.state.isOpened)
-      this.close()
-    else
-      this.open()
+  closeOnEsc = event => {
+    event.stopPropagation()
+    this.close()
+    this.label.focus()
   }
 
   keyDown = event => {
     const code = event.keyCode
-    const { isOpened, focusedValue } = this.state
 
-    if (isOpened && code === ESCAPE) {
-      event.stopPropagation()
-      this.close()
-    } else if (isOpened && code === ENTER) {
-      event.stopPropagation()
-      this.selectOption(focusedValue)
-    } else if (code === UP || code === DOWN) {
-      const values = this.getValues()
-      const length = values.length
-      const currentIndex = values.indexOf(focusedValue)
-
-      const nextIndex = (focusedValue === null ?
-        (code === UP ? length - 1 : 0) :
-        (currentIndex + (isOpened ? (code === UP ? - 1 : 1) : 0)) + length) % length
-
+    if (!this.state.isOpened && (code === UP || code === DOWN)) {
       event.preventDefault()
-      this.focusOption(values[nextIndex])
+      this.open()
     }
   }
 
   blur = event => {
-    this.close()
-    this.props.onBlur(event)
+    if (!this.state.isOpened)
+      this.props.onBlur(event)
   }
 
   preventBlur = event => {
@@ -345,8 +302,8 @@ export default class Select extends PureComponent {
     const label = value === null ?
       placeholder :
       Children.map(children, child => {
-        if (!child.type || child.type.displayName !== 'ruiSelectOption')
-          throw new Error('Child component should be instance of <SelectOption />')
+        if (!child.type || child.type.displayName !== 'ruiMenuItem')
+          throw new Error('Child component should be instance of <MenuItem />')
 
         if (child.props.value !== value)
           return undefined
@@ -380,7 +337,7 @@ export default class Select extends PureComponent {
           ref={el => { this.label = el }}
           tabIndex={disabled ? null : '0'}
           onFocus={onFocus}
-          onClick={this.toggle}
+          onClick={this.open}
           onBlur={this.blur}
           onKeyDown={this.keyDown}>
           {label}
@@ -390,32 +347,7 @@ export default class Select extends PureComponent {
           tabIndex="-1"
           className={this.css.arrow}
           onMouseDown={this.preventBlur}
-          onClick={this.toggle} />
-      </div>
-    )
-  }
-
-  renderOptions() {
-    const options = Children.map(this.props.children, child => {
-      if (!child.type || child.type.displayName !== 'ruiSelectOption')
-        throw new Error('Child component should be instance of <SelectOption />')
-
-      const value = child.props.value
-
-      return cloneElement(child, {
-        key: value,
-        isFocused: value === this.state.focusedValue,
-        isSelected: value === this.state.value,
-        onFocus: this.focusOption,
-        onSelect: this.selectOption
-      })
-    })
-
-    return (
-      <div
-        className={this.css.options}
-        onMouseDown={this.preventBlur}>
-        {options}
+          onClick={this.open} />
       </div>
     )
   }
@@ -423,7 +355,8 @@ export default class Select extends PureComponent {
   render() {
     const {
       dropdownClassName,
-      dropdownStyle
+      dropdownStyle,
+      children
     } = this.props
 
     return (
@@ -438,9 +371,16 @@ export default class Select extends PureComponent {
         autoPositionY={true}
         anchorPointY="top"
         contentPointY="top"
-        closeOnClickOutside={false}
+        closeOnClickOutside={true}
         cachePositionOptions={false}>
-        {this.renderOptions()}
+        <Menu
+          autoFocus={true}
+          maxHeight={189}
+          value={this.state.value}
+          onChange={this.changeValue}
+          onEscKeyDown={this.closeOnEsc}>
+          {children}
+        </Menu>
       </Dropdown>
     )
   }

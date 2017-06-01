@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Button from 'rambler-ui/Button'
 import { Popup } from 'rambler-ui/Popup'
-import { Select, SelectOption } from 'rambler-ui/Select'
+import Select from 'rambler-ui/Select'
+import { MenuItem } from 'rambler-ui/Menu'
 import PhoneIcon from 'rambler-ui/icons/forms/PhoneIcon'
 import { ApplyTheme } from 'rambler-ui/theme'
 
@@ -45,9 +46,9 @@ export default class SelectExample extends Component {
               value={this.state.value1}
               onChange={this.setValue('value1')}>
               {[...Array(5)].map((item, i) => (
-                <SelectOption value={i} key={i}>
+                <MenuItem value={i} key={i}>
                   Foo{i}
-                </SelectOption>
+                </MenuItem>
               ))}
             </Select>
           </div>
@@ -62,9 +63,9 @@ export default class SelectExample extends Component {
               value={this.state.value2}
               onChange={this.setValue('value2')}>
               {[...Array(15)].map((item, i) => (
-                <SelectOption value={i} key={i}>
+                <MenuItem value={i} key={i}>
                   Bar{i}
-                </SelectOption>
+                </MenuItem>
               ))}
             </Select>
           </div>
@@ -77,9 +78,9 @@ export default class SelectExample extends Component {
               value={this.state.value3}
               onChange={this.setValue('value3')}>
               {[...Array(5)].map((item, i) => (
-                <SelectOption value={i} key={i}>
+                <MenuItem value={i} key={i}>
                   Baz{i}
-                </SelectOption>
+                </MenuItem>
               ))}
             </Select>
           </div>
@@ -100,9 +101,9 @@ export default class SelectExample extends Component {
               value={this.state.value3}
               onChange={this.setValue('value3')}>
               {[...Array(5)].map((item, i) => (
-                <SelectOption value={i} key={i}>
+                <MenuItem value={i} key={i}>
                   <PhoneIcon /> Baz{i}
-                </SelectOption>
+                </MenuItem>
               ))}
             </Select>
           </Popup>

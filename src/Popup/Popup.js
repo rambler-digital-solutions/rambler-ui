@@ -12,11 +12,10 @@ import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
+import { ESCAPE } from '../constants/keys'
 import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
-
-const ESCAPE = 27
 
 @pure
 @zIndexStack(POPUP_ZINDEX)
