@@ -102,6 +102,7 @@ export default class SelectExample extends Component {
               placeholder="Type something..."
               searchable={true}
               value={this.state.value1}
+              onBlur={() => { console.log('blur') }}
               onChange={this.setValue('value1')}>
               {[...Array(5)].map((item, i) => (
                 <MenuItem value={i} key={i} text={`Foo${i}`} />

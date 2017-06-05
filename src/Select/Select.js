@@ -4,15 +4,42 @@ import classnames from 'classnames'
 import Menu from '../Menu/Menu'
 import Input from '../Input'
 import Dropdown from '../Dropdown'
-import { UP, DOWN, ESCAPE } from '../constants/keys'
+import { TAB, UP, DOWN, RIGHT, ESCAPE } from '../constants/keys'
 import { injectSheet } from '../theme'
 
 @injectSheet(theme => ({
   select: {
-    position: 'relative'
+    position: 'relative',
+    backgroundColor: '#fff'
   },
-  readonly: {
-    userSelect: 'none'
+  disabled: {
+    backgroundColor: '#eee'
+  },
+  input: {
+    backgroundColor: 'transparent !important',
+    '&:read-only': {
+      userSelect: 'none'
+    }
+  },
+  suggest: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    border: '1px solid transparent',
+    padding: theme.input.padding,
+    color: 'rgba(38, 38, 38, 0.4)',
+    fontSize: theme.field.fontSize,
+  },
+  medium: {
+    lineHeight: '41px'
+  },
+  small: {
+    lineHeight: '31px'
+  },
+  withIcon: {
+    paddingLeft: theme.field.withIconPadding
   },
   arrow: {
     position: 'absolute',
@@ -54,13 +81,21 @@ export default class Select extends PureComponent {
      */
     style: PropTypes.object,
     /**
-     * Дополнительный CSS-класс дропдауна
+     * Дополнительный CSS-класс `<Dropdown />`
      */
     dropdownClassName: PropTypes.string,
     /**
-     * Inline-стили дропдауна
+     * Inline-стили `<Dropdown />`
      */
     dropdownStyle: PropTypes.object,
+    /**
+     * Дополнительный CSS-класс `<Menu />`
+     */
+    menuClassName: PropTypes.string,
+    /**
+     * Inline-стили `<Menu />`
+     */
+    menuStyle: PropTypes.object,
     /**
     * Идентификатор элемента
     */
@@ -82,7 +117,7 @@ export default class Select extends PureComponent {
      */
     placeholder: PropTypes.string,
     /**
-     * Поиск по элементам
+     * С поиском по элементам
      */
     searchable: PropTypes.bool,
     /**
@@ -90,7 +125,7 @@ export default class Select extends PureComponent {
      */
     filter: PropTypes.func,
     /**
-     * Доступность инпута
+     * Доступность элемента
      */
     disabled: PropTypes.bool,
     /**
@@ -213,6 +248,8 @@ export default class Select extends PureComponent {
 
     if (code === ESCAPE) {
       this.closeOnEsc(event)
+    } else if (code === TAB) {
+      this.close()
     } else if (code === UP || code === DOWN) {
       event.preventDefault()
 
@@ -222,6 +259,18 @@ export default class Select extends PureComponent {
 
       if (!this.async && !this.state.isOpened)
         this.open()
+    } else if (code === RIGHT) {
+      const suggest = this.getSuggest()
+
+      if (suggest) {
+        event.preventDefault()
+
+        this.setState({
+          searchText: suggest
+        })
+
+        this.props.onSearch(suggest)
+      }
     }
   }
 
@@ -253,7 +302,9 @@ export default class Select extends PureComponent {
   }
 
   blurDropdown = () => {
-    if (this.state.isOpened) {
+    const filteredChildren = this.getFilteredChildren()
+
+    if (this.state.isOpened && filteredChildren.length > 0) {
       this.close()
       this.props.onBlur()
     }
@@ -263,11 +314,66 @@ export default class Select extends PureComponent {
     event.preventDefault()
   }
 
-  renderInput() {
+  getLabel() {
     const {
       value,
       searchText
     } = this.state
+
+    if (value === null)
+      return searchText
+
+    return Children.map(this.props.children, child => {
+      if (!child.type || child.type.displayName !== 'ruiMenuItem')
+        throw new Error('Child component should be instance of <MenuItem />')
+
+      if (child.props.value !== value)
+        return undefined
+
+      return child.props.text
+    })
+  }
+
+  getSuggest() {
+    const {
+      isOpened,
+      searchText
+    } = this.state
+
+    const filteredChildren = this.getFilteredChildren()
+
+    const suggest = this.props.searchable &&
+      isOpened && searchText &&
+      filteredChildren.length > 0 && filteredChildren[0].props.text
+
+    return searchText !== suggest && suggest
+  }
+
+  getFilteredChildren() {
+    const { searchText } = this.state
+
+    const {
+      children,
+      filter,
+      searchable
+    } = this.props
+
+    if (searchable)
+      return Children.map(children, child => {
+        if (!child.type || child.type.displayName !== 'ruiMenuItem')
+          throw new Error('Child component should be instance of <MenuItem />')
+
+        if (this.async || searchText === '' || filter(searchText, child.props.text))
+          return child
+
+        return undefined
+      })
+
+    return children
+  }
+
+  renderInput() {
+    const { value } = this.state
 
     const {
       style,
@@ -277,36 +383,31 @@ export default class Select extends PureComponent {
       name,
       size,
       icon,
-      children,
       searchable,
       autoFocus,
       disabled,
       placeholder
     } = this.props
 
-    const inputValue = value === null ?
-      searchText :
-      Children.map(children, child => {
-        if (!child.type || child.type.displayName !== 'ruiMenuItem')
-          throw new Error('Child component should be instance of <MenuItem />')
-
-        if (child.props.value !== value)
-          return undefined
-
-        return child.props.text
-      })
+    const label = this.getLabel()
+    const suggest = this.getSuggest()
 
     return (
-      <div className={this.css.select}>
+      <div className={classnames(this.css.select, disabled && this.css.disabled)}>
         <input
           type="hidden"
           id={id}
           name={name}
           value={value === null ? '' : value} />
+        {suggest &&
+          <div className={classnames(this.css.suggest, this.css[size], icon && this.css.withIcon)}>
+            {suggest}
+          </div>
+        }
         <Input
           inputRef={el => { this.input = el }}
           style={style}
-          className={classnames(!searchable && this.css.readonly, className)}
+          className={classnames(this.css.input, className)}
           size={size}
           status={status}
           iconLeft={icon}
@@ -314,7 +415,7 @@ export default class Select extends PureComponent {
           disabled={disabled}
           placeholder={placeholder}
           readOnly={!searchable}
-          value={inputValue}
+          value={label}
           onFocus={this.focus}
           onClick={!searchable && this.open}
           onBlur={this.blur}
@@ -336,36 +437,22 @@ export default class Select extends PureComponent {
     const {
       value,
       isOpened,
-      searchText,
       focusedIndex
     } = this.state
 
-
     const {
-      dropdownClassName,
       dropdownStyle,
-      children,
-      filter,
+      dropdownClassName,
+      menuStyle,
+      menuClassName,
       searchable
     } = this.props
 
-    const filteredChildren = !searchable ?
-      children :
-      Children.map(children, child => {
-        if (!child.type || child.type.displayName !== 'ruiMenuItem')
-          throw new Error('Child component should be instance of <MenuItem />')
-
-        if (this.async || searchText === '' || filter(searchText, child.props.text))
-          return child
-
-        return undefined
-      })
-
-    const openDropdown = filteredChildren.length > 0 && isOpened
+    const filteredChildren = this.getFilteredChildren()
 
     return (
       <Dropdown
-        isOpened={openDropdown}
+        isOpened={isOpened && filteredChildren.length > 0}
         anchor={this.renderInput()}
         padding={false}
         style={dropdownStyle}
@@ -377,8 +464,10 @@ export default class Select extends PureComponent {
         contentPointY="top"
         closeOnClickOutside={true}
         cachePositionOptions={false}
-        onClose={openDropdown ? this.blurDropdown : null}>
+        onClose={this.blurDropdown}>
         <Menu
+          style={menuStyle}
+          className={menuClassName}
           maxHeight={189}
           autoFocus={true}
           focusedIndex={focusedIndex}
