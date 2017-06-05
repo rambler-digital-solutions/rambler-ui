@@ -126,7 +126,11 @@ export default class Select extends PureComponent {
     /**
      * Коллбек вызывающийся при изменении состояния
      */
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    /**
+     * Коллбек вызывающийся при изменении поискового запроса
+     */
+    onSearch: PropTypes.func
   };
 
   static defaultProps = {
@@ -138,7 +142,8 @@ export default class Select extends PureComponent {
     filter: (searchText, text) => searchText !== '' && text.indexOf(searchText) > -1,
     onFocus: () => {},
     onBlur: () => {},
-    onChange: () => {}
+    onChange: () => {},
+    onSearch: () => {}
   };
 
   value = null
@@ -155,6 +160,7 @@ export default class Select extends PureComponent {
   }
 
   componentWillMount() {
+    this.async = this.props.children.length === 0
     this.setValue(this.props.value)
   }
 
@@ -214,7 +220,7 @@ export default class Select extends PureComponent {
         focusedIndex: this.props.value ? null : (code === UP ? -1 : 0)
       })
 
-      if (!this.state.isOpened)
+      if (!this.async && !this.state.isOpened)
         this.open()
     }
   }
@@ -223,14 +229,16 @@ export default class Select extends PureComponent {
     const searchText = event.target.value
 
     this.setValue(null)
-    this.props.onChange(null)
 
     this.setState({
       searchText,
       focusedIndex: null
     })
 
-    if (!this.state.isOpened && searchText)
+    this.props.onChange(null)
+    this.props.onSearch(searchText)
+
+    if (searchText)
       setTimeout(this.open, 0)
   }
 
@@ -312,12 +320,14 @@ export default class Select extends PureComponent {
           onBlur={this.blur}
           onChange={this.filter}
           onKeyDown={this.keyDown} />
-        <button
-          type="button"
-          tabIndex="-1"
-          className={this.css.arrow}
-          onMouseDown={this.preventBlur}
-          onClick={this.open} />
+        {!this.async &&
+          <button
+            type="button"
+            tabIndex="-1"
+            className={this.css.arrow}
+            onMouseDown={this.preventBlur}
+            onClick={this.open} />
+        }
       </div>
     )
   }
@@ -325,9 +335,11 @@ export default class Select extends PureComponent {
   render() {
     const {
       value,
+      isOpened,
       searchText,
       focusedIndex
     } = this.state
+
 
     const {
       dropdownClassName,
@@ -343,15 +355,17 @@ export default class Select extends PureComponent {
         if (!child.type || child.type.displayName !== 'ruiMenuItem')
           throw new Error('Child component should be instance of <MenuItem />')
 
-        if (searchText === '' || filter(searchText, child.props.text))
+        if (this.async || searchText === '' || filter(searchText, child.props.text))
           return child
 
         return undefined
       })
 
+    const openDropdown = filteredChildren.length > 0 && isOpened
+
     return (
       <Dropdown
-        isOpened={filteredChildren.length > 0 && this.state.isOpened}
+        isOpened={openDropdown}
         anchor={this.renderInput()}
         padding={false}
         style={dropdownStyle}
@@ -363,7 +377,7 @@ export default class Select extends PureComponent {
         contentPointY="top"
         closeOnClickOutside={true}
         cachePositionOptions={false}
-        onClose={this.blurDropdown}>
+        onClose={openDropdown ? this.blurDropdown : null}>
         <Menu
           maxHeight={189}
           autoFocus={true}

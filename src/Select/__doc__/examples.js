@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Button from 'rambler-ui/Button'
 import { Popup } from 'rambler-ui/Popup'
+import Loader from 'rambler-ui/Loader'
 import Select from 'rambler-ui/Select'
 import { MenuItem } from 'rambler-ui/Menu'
 import PhoneIcon from 'rambler-ui/icons/forms/PhoneIcon'
@@ -12,6 +13,8 @@ export default class SelectExample extends Component {
     value1: null,
     value2: 1,
     value3: null,
+    asyncData: [],
+    asyncValue: null,
     popupIsOpened: false
   }
 
@@ -31,6 +34,33 @@ export default class SelectExample extends Component {
     this.setState({
       [key]: value
     })
+  }
+
+  requestData = search => {
+    this.setState({
+      asyncData: []
+    })
+
+    clearTimeout(this.requestTimeout)
+
+    this.requestTimeout = setTimeout(() => {
+      const data = [...Array(5)].map((item, i) => ({
+        value: i,
+        text: `Foo${i}`
+      }))
+
+      this.setState({
+        asyncData: new Promise(resolve => {
+          setTimeout(() => {
+            resolve(data.filter(item => search !== '' && item.text.indexOf(search) > -1))
+          }, 500)
+        }).then(asyncData => {
+          this.setState({
+            asyncData
+          })
+        })
+      })
+    }, 250)
   }
 
   render() {
@@ -77,6 +107,22 @@ export default class SelectExample extends Component {
                 <MenuItem value={i} key={i} text={`Foo${i}`} />
               ))}
             </Select>
+          </div>
+
+          <div style={{ width: '50%', marginBottom: 15 }}>
+            <h3>Асинхронный</h3>
+            <Loader loading={!!this.state.asyncData.then}>
+              <Select
+                placeholder="Type something..."
+                searchable={true}
+                value={this.state.asyncValue}
+                onChange={this.setValue('asyncValue')}
+                onSearch={this.requestData}>
+                {!!this.state.asyncData.then ? [] : this.state.asyncData.map(({ text, value }) => (
+                  <MenuItem value={value} key={value} text={text} />
+                ))}
+              </Select>
+            </Loader>
           </div>
 
           <div style={{ width: '66%', marginBottom: 15 }}>
