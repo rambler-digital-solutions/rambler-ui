@@ -46,9 +46,7 @@ export default class SelectExample extends Component {
               value={this.state.value1}
               onChange={this.setValue('value1')}>
               {[...Array(5)].map((item, i) => (
-                <MenuItem value={i} key={i}>
-                  Foo{i}
-                </MenuItem>
+                <MenuItem value={i} key={i} text={`Foo${i}`} />
               ))}
             </Select>
           </div>
@@ -63,9 +61,20 @@ export default class SelectExample extends Component {
               value={this.state.value2}
               onChange={this.setValue('value2')}>
               {[...Array(15)].map((item, i) => (
-                <MenuItem value={i} key={i}>
-                  Bar{i}
-                </MenuItem>
+                <MenuItem value={i} key={i} text={`Bar${i}`} />
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ width: '50%', marginBottom: 15 }}>
+            <h3>С поиском</h3>
+            <Select
+              placeholder="Type something..."
+              searchable={true}
+              value={this.state.value1}
+              onChange={this.setValue('value1')}>
+              {[...Array(5)].map((item, i) => (
+                <MenuItem value={i} key={i} text={`Foo${i}`} />
               ))}
             </Select>
           </div>
@@ -78,9 +87,7 @@ export default class SelectExample extends Component {
               value={this.state.value3}
               onChange={this.setValue('value3')}>
               {[...Array(5)].map((item, i) => (
-                <MenuItem value={i} key={i}>
-                  Baz{i}
-                </MenuItem>
+                <MenuItem value={i} key={i} text={`Baz${i}`} />
               ))}
             </Select>
           </div>
@@ -101,9 +108,7 @@ export default class SelectExample extends Component {
               value={this.state.value3}
               onChange={this.setValue('value3')}>
               {[...Array(5)].map((item, i) => (
-                <MenuItem value={i} key={i}>
-                  <PhoneIcon /> Baz{i}
-                </MenuItem>
+                <MenuItem value={i} key={i} text={`Baz${i}`} />
               ))}
             </Select>
           </Popup>

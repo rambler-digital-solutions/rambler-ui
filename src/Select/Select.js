@@ -2,94 +2,24 @@ import React, { PureComponent, Children } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Menu from '../Menu/Menu'
+import Input from '../Input'
 import Dropdown from '../Dropdown'
-import { UP, DOWN } from '../constants/keys'
+import { UP, DOWN, ESCAPE } from '../constants/keys'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   select: {
     position: 'relative'
   },
-  label: {
-    ...isolateMixin,
-    ...fontStyleMixin(theme.font),
-    boxSizing: 'border-box',
-    display: 'flex',
-    alignItems: 'center',
-    borderRadius: 0,
-    outline: 0,
-    background: '#fff',
-    fontWeight: 400,
-    appearance: 'none',
-    lineHeight: 'normal',
-    borderTop: theme.field.border,
-    borderLeft: theme.field.border,
-    borderRight: theme.field.border,
-    borderBottom: theme.field.borderBottom || theme.field.border,
-    padding: theme.select.padding,
-    fontSize: theme.field.fontSize,
-    transitionProperty: 'border-color',
-    transitionDuration: theme.select.animationDuration,
-    cursor: 'pointer',
-    userSelect: 'none',
-    '&:focus': {
-      borderBottom: theme.field.focusBorderBottom,
-      paddingBottom: theme.select.focusPaddingBottom
-    }
-  },
-  empty: {
-    color: 'rgba(38, 38, 38, 0.4)'
-  },
-  medium: {
-    height: theme.select.height || theme.sizes.medium.height
-  },
-  small: {
-    height: theme.select.height || theme.sizes.small.height
-  },
-  disabled: {
-    backgroundColor: '#eee',
-    borderColor: '#eee',
-    cursor: 'default'
-  },
-  success: {
-    '&$label': {
-      borderBottom: theme.field.successBorderBottom,
-      paddingBottom: theme.select.focusPaddingBottom
-    }
-  },
-  error: {
-    '&$label': {
-      borderBottom: theme.field.errorBorderBottom,
-      paddingBottom: theme.select.focusPaddingBottom
-    }
-  },
-  warning: {
-    '&$label': {
-      borderBottom: theme.field.warningBorderBottom,
-      paddingBottom: theme.select.focusPaddingBottom
-    }
-  },
-  filled: {
-    '&$label': {
-      borderBottom: theme.field.filledBorderBottom,
-      paddingBottom: theme.select.focusPaddingBottom
-    }
-  },
-  withIcon: {
-    paddingLeft: theme.field.withIconPadding
-  },
-  icon: {
-    position: 'absolute',
-    top: '50%',
-    left: theme.field.iconMargin,
-    transform: 'translateY(-50%)',
-    fontSize: 0
+  readonly: {
+    userSelect: 'none'
   },
   arrow: {
-    extend: 'icon',
-    left: 'auto',
+    position: 'absolute',
+    top: '50%',
     right: theme.field.iconMargin,
+    transform: 'translateY(-50%)',
+    fontSize: 0,
     border: 0,
     outline: 0,
     margin: 0,
@@ -152,6 +82,14 @@ export default class Select extends PureComponent {
      */
     placeholder: PropTypes.string,
     /**
+     * Поиск по элементам
+     */
+    searchable: PropTypes.bool,
+    /**
+     * Функция фильтрации
+     */
+    filter: PropTypes.func,
+    /**
      * Доступность инпута
      */
     disabled: PropTypes.bool,
@@ -196,6 +134,8 @@ export default class Select extends PureComponent {
     status: null,
     size: 'medium',
     disabled: false,
+    searchable: false,
+    filter: (searchText, text) => searchText !== '' && text.indexOf(searchText) > -1,
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {}
@@ -205,7 +145,9 @@ export default class Select extends PureComponent {
 
   state = {
     isOpened: false,
-    value: null
+    value: null,
+    searchText: '',
+    focusedIndex: null
   }
 
   get css() {
@@ -214,11 +156,6 @@ export default class Select extends PureComponent {
 
   componentWillMount() {
     this.setValue(this.props.value)
-  }
-
-  componentDidMount() {
-    if (this.props.autoFocus)
-      this.label.focus()
   }
 
   componentWillReceiveProps({ value }) {
@@ -232,7 +169,8 @@ export default class Select extends PureComponent {
     this.value = value
 
     this.setState({
-      value
+      value,
+      searchText: ''
     })
   }
 
@@ -240,13 +178,10 @@ export default class Select extends PureComponent {
     this.setValue(value)
     this.props.onChange(value)
     this.close()
-    this.label.focus()
+    this.input.focus()
   }
 
   open = () => {
-    if (this.props.disabled)
-      return
-
     this.setState({
       isOpened: true
     })
@@ -254,23 +189,54 @@ export default class Select extends PureComponent {
 
   close = () => {
     this.setState({
-      isOpened: false
+      isOpened: false,
+      focusedIndex: null
     })
   }
 
   closeOnEsc = event => {
-    event.stopPropagation()
-    this.close()
-    this.label.focus()
+    if (this.state.isOpened) {
+      event.stopPropagation()
+      this.close()
+      this.input.focus()
+    }
   }
 
   keyDown = event => {
     const code = event.keyCode
 
-    if (!this.state.isOpened && (code === UP || code === DOWN)) {
+    if (code === ESCAPE) {
+      this.closeOnEsc(event)
+    } else if (code === UP || code === DOWN) {
       event.preventDefault()
-      this.open()
+
+      this.setState({
+        focusedIndex: this.props.value ? null : (code === UP ? -1 : 0)
+      })
+
+      if (!this.state.isOpened)
+        this.open()
     }
+  }
+
+  filter = event => {
+    const searchText = event.target.value
+
+    this.setValue(null)
+    this.props.onChange(null)
+
+    this.setState({
+      searchText,
+      focusedIndex: null
+    })
+
+    if (!this.state.isOpened && searchText)
+      setTimeout(this.open, 0)
+  }
+
+  focus = event => {
+    if (!this.state.isOpened)
+      this.props.onFocus(event)
   }
 
   blur = event => {
@@ -278,12 +244,22 @@ export default class Select extends PureComponent {
       this.props.onBlur(event)
   }
 
+  blurDropdown = () => {
+    if (this.state.isOpened) {
+      this.close()
+      this.props.onBlur()
+    }
+  }
+
   preventBlur = event => {
     event.preventDefault()
   }
 
-  renderLabel() {
-    const { value } = this.state
+  renderInput() {
+    const {
+      value,
+      searchText
+    } = this.state
 
     const {
       style,
@@ -294,13 +270,14 @@ export default class Select extends PureComponent {
       size,
       icon,
       children,
+      searchable,
+      autoFocus,
       disabled,
-      placeholder,
-      onFocus
+      placeholder
     } = this.props
 
-    const label = value === null ?
-      placeholder :
+    const inputValue = value === null ?
+      searchText :
       Children.map(children, child => {
         if (!child.type || child.type.displayName !== 'ruiMenuItem')
           throw new Error('Child component should be instance of <MenuItem />')
@@ -308,7 +285,7 @@ export default class Select extends PureComponent {
         if (child.props.value !== value)
           return undefined
 
-        return child.props.label || child.props.children
+        return child.props.text
       })
 
     return (
@@ -318,30 +295,23 @@ export default class Select extends PureComponent {
           id={id}
           name={name}
           value={value === null ? '' : value} />
-        {icon &&
-          <div className={this.css.icon}>
-            {icon}
-          </div>
-        }
-        <div
+        <Input
+          inputRef={el => { this.input = el }}
           style={style}
-          className={classnames(
-            this.css.label,
-            this.css[size],
-            this.css[status],
-            icon && this.css.withIcon,
-            value === null && this.css.empty,
-            disabled && this.css.disabled,
-            className
-          )}
-          ref={el => { this.label = el }}
-          tabIndex={disabled ? null : '0'}
-          onFocus={onFocus}
-          onClick={this.open}
+          className={classnames(!searchable && this.css.readonly, className)}
+          size={size}
+          status={status}
+          iconLeft={icon}
+          autoFocus={autoFocus}
+          disabled={disabled}
+          placeholder={placeholder}
+          readOnly={!searchable}
+          value={inputValue}
+          onFocus={this.focus}
+          onClick={!searchable && this.open}
           onBlur={this.blur}
-          onKeyDown={this.keyDown}>
-          {label}
-        </div>
+          onChange={this.filter}
+          onKeyDown={this.keyDown} />
         <button
           type="button"
           tabIndex="-1"
@@ -354,32 +324,54 @@ export default class Select extends PureComponent {
 
   render() {
     const {
+      value,
+      searchText,
+      focusedIndex
+    } = this.state
+
+    const {
       dropdownClassName,
       dropdownStyle,
-      children
+      children,
+      filter,
+      searchable
     } = this.props
+
+    const filteredChildren = !searchable ?
+      children :
+      Children.map(children, child => {
+        if (!child.type || child.type.displayName !== 'ruiMenuItem')
+          throw new Error('Child component should be instance of <MenuItem />')
+
+        if (searchText === '' || filter(searchText, child.props.text))
+          return child
+
+        return undefined
+      })
 
     return (
       <Dropdown
-        isOpened={this.state.isOpened}
-        anchor={this.renderLabel()}
+        isOpened={filteredChildren.length > 0 && this.state.isOpened}
+        anchor={this.renderInput()}
         padding={false}
         style={dropdownStyle}
         className={dropdownClassName}
         appendToBody={true}
         anchorFullWidth={true}
         autoPositionY={true}
-        anchorPointY="top"
+        anchorPointY={searchable ? 'bottom' : 'top'}
         contentPointY="top"
         closeOnClickOutside={true}
-        cachePositionOptions={false}>
+        cachePositionOptions={false}
+        onClose={this.blurDropdown}>
         <Menu
-          autoFocus={true}
           maxHeight={189}
-          value={this.state.value}
+          autoFocus={true}
+          focusedIndex={focusedIndex}
+          value={value}
           onChange={this.changeValue}
           onEscKeyDown={this.closeOnEsc}>
-          {children}
+          {filteredChildren}
         </Menu>
       </Dropdown>
     )

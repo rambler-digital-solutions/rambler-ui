@@ -44,9 +44,13 @@ class MenuItem extends PureComponent {
      */
     value: PropTypes.any.isRequired,
     /**
-     * Контент опции
+     * Контент опции, например для осуществления поиска
      */
-    children: PropTypes.node.isRequired,
+    text: PropTypes.string.isRequired,
+    /**
+     * Кастомный контент опции
+     */
+    children: PropTypes.node,
     /**
      * Есть ли фокус на опции (автоматически проставляется компонентом `<Menu />`)
      */
@@ -98,6 +102,7 @@ class MenuItem extends PureComponent {
     const {
       className,
       style,
+      text,
       children,
       isSelected,
       onFocus,
@@ -113,7 +118,7 @@ class MenuItem extends PureComponent {
         onFocus={onFocus}
         onClick={onSelect}
         onKeyDown={this.pressKey}>
-        {children}
+        {children || text}
       </div>
     )
   }

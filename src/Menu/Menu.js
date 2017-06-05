@@ -34,6 +34,10 @@ export default class Menu extends PureComponent {
      */
     autoFocus: PropTypes.bool,
     /**
+     * Фокус элемента по индексу
+     */
+    focusedIndex: PropTypes.number,
+    /**
      * Максимальная высота компонента
      */
     maxHeight: PropTypes.number,
@@ -59,6 +63,7 @@ export default class Menu extends PureComponent {
     multiple: false,
     autoFocus: false,
     maxHeight: null,
+    focusedIndex: null,
     value: null,
     onChange: () => {},
     onEscKeyDown: () => {}
@@ -84,12 +89,15 @@ export default class Menu extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.autoFocus)
-      this.setFocusIndex(this.getLastSelectedIndex())
+    if (this.props.autoFocus || this.props.focusedIndex !== null)
+      this.setFocusIndex(this.props.focusedIndex || this.getLastSelectedIndex())
   }
 
-  componentWillReceiveProps({ value }) {
+  componentWillReceiveProps({ value, focusedIndex }) {
     this.setValue(value)
+
+    if (focusedIndex !== this.props.focusedIndex)
+      this.setFocusIndex(focusedIndex)
   }
 
   setValue(value) {
@@ -112,7 +120,7 @@ export default class Menu extends PureComponent {
     } = this.props
 
     const lastSelectedValue = multiple ? value[value.length - 1] : value
-    let lastSelectedIndex = 0
+    let lastSelectedIndex = null
 
     Children.forEach(children, (child, index) => {
       if (child.props && child.props.value === lastSelectedValue)
@@ -138,7 +146,7 @@ export default class Menu extends PureComponent {
 
   setFocusIndex(index) {
     const length = this.props.children.length
-    const normalizedIndex = (index + length) % length
+    const normalizedIndex = index === null ? index : (index + length) % length
 
     this.setState({
       focusedIndex: normalizedIndex
