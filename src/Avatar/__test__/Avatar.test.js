@@ -14,6 +14,7 @@ describe('<Avatar />', () => {
     const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
 
+    expect(image.getDOMNode().nodeName).toEqual('DIV')
     expect(imageStyles.display).toEqual('inline-block')
     expect(imageStyles.width).toEqual('40px')
     expect(imageStyles.height).toEqual('40px')
@@ -131,6 +132,47 @@ describe('<Avatar />', () => {
     expect(iconContainerStyles.width).toEqual('16px')
     expect(iconContainerStyles.height).toEqual('16px')
     expect(iconContainerStyles['background-color']).toEqual('rgb(70, 97, 163)')
+  })
+
+  it('should append `<a />` as container', () => {
+    const wrapper = mount(
+      withTheme(
+        <Avatar src="image.png" href="/foo" />
+      )
+    )
+
+    const image = wrapper.find(Avatar)
+    const imageNode = image.getDOMNode()
+
+    expect(imageNode.nodeName).toEqual('A')
+    expect(imageNode.getAttribute('href')).toEqual('/foo')
+  })
+
+  it('should append container', () => {
+    const wrapper = mount(
+      withTheme(
+        <Avatar src="image.png" container={ <span /> } />
+      )
+    )
+
+    const image = wrapper.find(Avatar)
+
+    expect(image.getDOMNode().nodeName).toEqual('SPAN')
+  })
+
+  it('should call props.onClick() when click on avatar', () => {
+    let event
+
+    const wrapper = mount(
+      withTheme(
+        <Avatar src="image.png" onClick={e => { event = e }} />
+      )
+    )
+
+    const image = wrapper.find(Avatar)
+
+    image.simulate('click')
+    expect(event.type).toEqual('click')
   })
 
 })
