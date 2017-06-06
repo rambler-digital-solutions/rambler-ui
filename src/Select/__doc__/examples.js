@@ -44,20 +44,22 @@ export default class SelectExample extends Component {
     clearTimeout(this.requestTimeout)
 
     this.requestTimeout = setTimeout(() => {
-      const data = [...Array(5)].map((item, i) => ({
-        value: i,
-        text: `Foo${i}`
-      }))
+      if (search === '')
+        return
 
       this.setState({
         asyncData: new Promise(resolve => {
           setTimeout(() => {
-            resolve(data.filter(item => search !== '' && item.text.indexOf(search) > -1))
+            this.setState({
+              asyncData: [
+                search,
+                `${search}${search}`,
+                `${search}${search}${search}`
+              ]
+            })
+
+            resolve()
           }, 500)
-        }).then(asyncData => {
-          this.setState({
-            asyncData
-          })
         })
       })
     }, 250)
@@ -119,8 +121,8 @@ export default class SelectExample extends Component {
                 value={this.state.asyncValue}
                 onChange={this.setValue('asyncValue')}
                 onSearch={this.requestData}>
-                {!!this.state.asyncData.then ? [] : this.state.asyncData.map(({ text, value }) => (
-                  <MenuItem value={value} key={value} text={text} />
+                {!!this.state.asyncData.then ? [] : this.state.asyncData.map(item => (
+                  <MenuItem value={item} key={item} text={item} />
                 ))}
               </Select>
             </Loader>

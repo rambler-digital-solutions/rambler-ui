@@ -16,10 +16,11 @@ import { injectSheet } from '../theme'
     backgroundColor: '#eee'
   },
   input: {
-    backgroundColor: 'transparent !important',
-    '&:read-only': {
-      userSelect: 'none'
-    }
+    backgroundColor: 'transparent !important'
+  },
+  readonly: {
+    cursor: 'pointer !important',
+    userSelect: 'none'
   },
   suggest: {
     position: 'absolute',
@@ -30,7 +31,7 @@ import { injectSheet } from '../theme'
     border: '1px solid transparent',
     padding: theme.input.padding,
     color: 'rgba(38, 38, 38, 0.4)',
-    fontSize: theme.field.fontSize,
+    fontSize: theme.field.fontSize
   },
   medium: {
     lineHeight: '41px'
@@ -407,7 +408,7 @@ export default class Select extends PureComponent {
         <Input
           inputRef={el => { this.input = el }}
           style={style}
-          className={classnames(this.css.input, className)}
+          className={classnames(this.css.input, !searchable && this.css.readonly, className)}
           size={size}
           status={status}
           iconLeft={icon}
