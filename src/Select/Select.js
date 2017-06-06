@@ -341,7 +341,9 @@ export default class Select extends PureComponent {
       searchText
     } = this.state
 
-    const filteredChildren = this.getFilteredChildren()
+    const filteredChildren = this.getFilteredChildren(
+      (search, text) => search !== '' && text.indexOf(search) === 0
+    )
 
     const suggest = this.props.searchable &&
       isOpened && searchText &&
@@ -350,7 +352,7 @@ export default class Select extends PureComponent {
     return searchText !== suggest && suggest
   }
 
-  getFilteredChildren() {
+  getFilteredChildren(customFilter) {
     const { searchText } = this.state
 
     const {
@@ -359,12 +361,14 @@ export default class Select extends PureComponent {
       searchable
     } = this.props
 
+    const match = customFilter || filter
+
     if (searchable)
       return Children.map(children, child => {
         if (!child.type || child.type.displayName !== 'ruiMenuItem')
           throw new Error('Child component should be instance of <MenuItem />')
 
-        if (this.async || searchText === '' || filter(searchText, child.props.text))
+        if (this.async || searchText === '' || match(searchText, child.props.text))
           return child
 
         return undefined
