@@ -1,9 +1,12 @@
 .SideMenu {
   background: #333;
   flex: 1;
+  overflow-y: auto;
 }
 
 .List {
+  padding-top: 10px;
+  padding-bottom: 10px;
 
   &[data-level='1'] { margin-left: 15px; }
   &[data-level='2'] { margin-left: 30px; }
@@ -16,7 +19,7 @@
   }
 
   &[data-level='0'] > &__item {
-    padding: 20px 15px 0;
+    padding: 10px 15px;
   }
 
   &__link {
