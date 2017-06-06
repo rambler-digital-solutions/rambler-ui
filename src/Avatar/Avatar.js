@@ -1,6 +1,7 @@
 import React, { Component, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import omit from 'lodash/omit'
 import pure from 'recompose/pure'
 import * as profileIcons from '../icons/profiles'
 import { injectSheet } from '../theme'
@@ -128,17 +129,12 @@ export default class Avatar extends Component {
     /**
      * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
      */
-    container: PropTypes.element,
-    /**
-     * Коллбек вызывающийся при клике на аватар
-     */
-    onClick: PropTypes.func
+    container: PropTypes.element
   }
 
   static defaultProps = {
     size: 40,
-    shape: 'circle',
-    onClick: () => {}
+    shape: 'circle'
   }
 
   get css() {
@@ -171,8 +167,8 @@ export default class Avatar extends Component {
       size,
       shape,
       profileType,
-      onClick
-    } = this.props
+      ...other
+    } = omit(this.props, 'sheet', 'theme', 'href', 'container')
 
     const styles = Object.assign({}, style, {
       backgroundColor,
@@ -193,7 +189,7 @@ export default class Avatar extends Component {
     return cloneElement(
       this.getContainer(),
       {
-        onClick,
+        ...other,
         style: styles,
         className: classnames(this.css.avatar, this.css[shape], className)
       },
