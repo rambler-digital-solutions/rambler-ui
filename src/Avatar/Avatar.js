@@ -1,6 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import omit from 'lodash/omit'
 import pure from 'recompose/pure'
 import * as profileIcons from '../icons/profiles'
 import { injectSheet } from '../theme'
@@ -120,7 +121,15 @@ export default class Avatar extends Component {
       'rambler',
       'twitter',
       'vkontakte'
-    ])
+    ]),
+    /**
+     * Если указан, аватар будет ссылкой
+     */
+    href: PropTypes.string,
+    /**
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
+     */
+    container: PropTypes.element
   }
 
   static defaultProps = {
@@ -132,6 +141,23 @@ export default class Avatar extends Component {
     return this.props.sheet.classes
   }
 
+  getContainer() {
+    const {
+      href,
+      container
+    } = this.props
+
+    if (isValidElement(container))
+      return container
+
+    if (href)
+      return (
+        <a href={href} />
+      )
+
+    return <div />
+  }
+
   render() {
     const {
       className,
@@ -140,8 +166,9 @@ export default class Avatar extends Component {
       src,
       size,
       shape,
-      profileType
-    } = this.props
+      profileType,
+      ...other
+    } = omit(this.props, 'sheet', 'theme', 'href', 'container')
 
     const styles = Object.assign({}, style, {
       backgroundColor,
@@ -153,16 +180,20 @@ export default class Avatar extends Component {
     const ProfileIcon = profileType &&
       profileIcons[`${profileType.replace(/^\w/, m => m.toUpperCase())}Icon`]
 
-    return (
-      <div
-        style={styles}
-        className={classnames(this.css.avatar, this.css[shape], className)}>
-        {profileType &&
-          <div className={classnames(this.css.profile, this.css[profileType])}>
-            <ProfileIcon color="white" className={this.css.icon} />
-          </div>
-        }
+    const children = profileType && (
+      <div className={classnames(this.css.profile, this.css[profileType])}>
+        <ProfileIcon color="white" className={this.css.icon} />
       </div>
+    )
+
+    return cloneElement(
+      this.getContainer(),
+      {
+        ...other,
+        style: styles,
+        className: classnames(this.css.avatar, this.css[shape], className)
+      },
+      children
     )
   }
 
