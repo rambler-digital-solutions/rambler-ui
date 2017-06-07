@@ -42,9 +42,13 @@ export default class Menu extends PureComponent {
      */
     maxHeight: PropTypes.number,
     /**
-     * Выбранное значение
+     * Выбранное значение, по-умолчанию считается, что это примитив
      */
     value: PropTypes.any,
+    /**
+     * Проверка равенства значений, задается, если значением является объект
+     */
+    valuesEquality: PropTypes.func,
     /**
      * Опции поля, обязаны быть компонентами типа `<MenuItem />`
      */
@@ -65,6 +69,7 @@ export default class Menu extends PureComponent {
     maxHeight: null,
     focusedIndex: null,
     value: null,
+    valuesEquality: (a, b) => a === b,
     onChange: () => {},
     onEscKeyDown: () => {}
   };
@@ -101,7 +106,7 @@ export default class Menu extends PureComponent {
   }
 
   setValue(value) {
-    if (value === this.value)
+    if (this.props.valuesEquality(value, this.value))
       return
 
     this.value = value
@@ -116,14 +121,15 @@ export default class Menu extends PureComponent {
 
     const {
       multiple,
-      children
+      children,
+      valuesEquality
     } = this.props
 
     const lastSelectedValue = multiple ? value[value.length - 1] : value
     let lastSelectedIndex = null
 
     Children.forEach(children, (child, index) => {
-      if (child.props && child.props.value === lastSelectedValue)
+      if (child.props && valuesEquality(child.props.value, lastSelectedValue))
         lastSelectedIndex = index
     })
 
@@ -182,14 +188,18 @@ export default class Menu extends PureComponent {
   }
 
   render() {
-    const { value } = this.state
+    const {
+      value,
+      focusedIndex
+    } = this.state
 
     const {
       style,
       className,
       multiple,
       maxHeight,
-      children
+      children,
+      valuesEquality
     } = this.props
 
     const items = Children.map(children, (child, index) => {
@@ -200,8 +210,10 @@ export default class Menu extends PureComponent {
 
       return cloneElement(child, {
         key: childValue,
-        isFocused: index === this.state.focusedIndex,
-        isSelected: multiple ? value.indexOf(childValue) > -1 : childValue === value,
+        isFocused: index === focusedIndex,
+        isSelected: multiple ?
+          value.reduce((prev, val) => valuesEquality(val, childValue) || prev, false) :
+          valuesEquality(childValue, value),
         onFocus: () => this.setFocusIndex(index),
         onSelect: () => this.changeValue(childValue)
       })

@@ -20,6 +20,7 @@ describe('<Select />', () => {
     const selectStyles = getStyles(select)
 
     expect(selectStyles.position).toEqual('relative')
+    expect(selectStyles.height).toEqual('45px')
     expect(selectStyles['background-color']).toEqual('rgb(255, 255, 255)')
 
     const input = wrapper.find(Input)
@@ -35,6 +36,22 @@ describe('<Select />', () => {
     expect(arrowStyles.width).toEqual('20px')
     expect(arrowStyles.height).toEqual('20px')
     expect(arrowStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')
+  })
+
+  it('should apply size', () => {
+    const wrapper = mount(
+      withTheme(
+        <Select size="small">
+          <MenuItem text="foo" value="foo" />
+          <MenuItem text="bar" value="bar" />
+        </Select>
+      )
+    )
+
+    const select = wrapper.find(Select)
+    const selectStyles = getStyles(select)
+
+    expect(selectStyles.height).toEqual('35px')
   })
 
 })

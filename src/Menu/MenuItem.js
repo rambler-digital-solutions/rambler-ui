@@ -40,17 +40,13 @@ class MenuItem extends PureComponent {
      */
     style: PropTypes.object,
     /**
-     * Значение опции
+     * Значение опции, по-умолчанию считается, что это примитив
      */
     value: PropTypes.any.isRequired,
     /**
-     * Контент опции, например для осуществления поиска
+     * Контент опции
      */
-    text: PropTypes.string.isRequired,
-    /**
-     * Кастомный контент опции
-     */
-    children: PropTypes.node,
+    children: PropTypes.node.isRequired,
     /**
      * Есть ли фокус на опции (автоматически проставляется компонентом `<Menu />`)
      */

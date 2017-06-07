@@ -1,10 +1,10 @@
-import React, { PureComponent, Children } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Menu from '../Menu/Menu'
 import Input from '../Input'
 import Dropdown from '../Dropdown'
-import { TAB, UP, DOWN, RIGHT, ESCAPE } from '../constants/keys'
+import { TAB, UP, DOWN, ESCAPE } from '../constants/keys'
 import { injectSheet } from '../theme'
 
 @injectSheet(theme => ({
@@ -13,16 +13,22 @@ import { injectSheet } from '../theme'
     backgroundColor: '#fff'
   },
   disabled: {
-    backgroundColor: '#eee'
+    backgroundColor: '#eee',
+    '& $arrow': {
+      cursor: 'default'
+    }
   },
   input: {
-    backgroundColor: 'transparent !important'
+    backgroundColor: 'transparent !important',
+    '&:disabled': {
+      cursor: 'default !important'
+    }
   },
   readonly: {
     cursor: 'pointer !important',
     userSelect: 'none'
   },
-  suggest: {
+  current: {
     position: 'absolute',
     top: 0,
     left: 0,
@@ -30,7 +36,6 @@ import { injectSheet } from '../theme'
     bottom: 0,
     border: '1px solid transparent',
     padding: theme.input.padding,
-    color: 'rgba(38, 38, 38, 0.4)',
     fontSize: theme.field.fontSize
   },
   medium: {
@@ -55,6 +60,7 @@ import { injectSheet } from '../theme'
     width: 20,
     height: 20,
     background: 'transparent',
+    cursor: 'pointer',
     '&::after': {
       position: 'absolute',
       top: 4,
@@ -110,21 +116,21 @@ export default class Select extends PureComponent {
      */
     autoFocus: PropTypes.bool,
     /**
-     * Выбранное значение
+     * Выбранное значение, по-умолчанию считается, что это примитив
      */
     value: PropTypes.any,
+    /**
+     * Проверка равенства значений, задается, если значением является объект
+     */
+    valuesEquality: PropTypes.func,
+    /**
+     * Функция рендера выбранного значения в поле, задается, если значением является объект
+     */
+    labelRenderer: PropTypes.func,
     /**
      * Плэйсхолдер
      */
     placeholder: PropTypes.string,
-    /**
-     * С поиском по элементам
-     */
-    searchable: PropTypes.bool,
-    /**
-     * Функция фильтрации
-     */
-    filter: PropTypes.func,
     /**
      * Доступность элемента
      */
@@ -174,18 +180,18 @@ export default class Select extends PureComponent {
     status: null,
     size: 'medium',
     disabled: false,
-    searchable: false,
-    filter: (searchText, text) => searchText !== '' && text.indexOf(searchText) > -1,
+    valuesEquality: (a, b) => a === b,
+    labelRenderer: value => value,
     onFocus: () => {},
     onBlur: () => {},
-    onChange: () => {},
-    onSearch: () => {}
+    onChange: () => {}
   };
 
   value = null
 
   state = {
     isOpened: false,
+    isFocused: false,
     value: null,
     searchText: '',
     focusedIndex: null
@@ -196,7 +202,7 @@ export default class Select extends PureComponent {
   }
 
   componentWillMount() {
-    this.async = this.props.children.length === 0
+    this.showArrow = this.props.children.length > 0
     this.setValue(this.props.value)
   }
 
@@ -205,14 +211,29 @@ export default class Select extends PureComponent {
   }
 
   setValue(value) {
-    if (value === this.value)
+    if (this.props.valuesEquality(value, this.value))
       return
 
-    this.value = value
-
     this.setState({
-      value,
-      searchText: ''
+      value
+    })
+
+    this.value = value
+    this.setSearchText('')
+  }
+
+  setSearchText(searchText) {
+    this.setState({
+      searchText
+    })
+
+    if (this.props.onSearch)
+      this.props.onSearch(searchText)
+  }
+
+  setFocusIndex(index) {
+    this.setState({
+      focusedIndex: index
     })
   }
 
@@ -224,15 +245,28 @@ export default class Select extends PureComponent {
   }
 
   open = () => {
-    this.setState({
-      isOpened: true
-    })
+    if (!this.props.disabled)
+      this.setState({
+        isOpened: true
+      })
+  }
+
+  openOnAction = () => {
+    this.open()
+    this.keepFocus = true
+
+    if (this.props.onSearch && this.state.value !== null)
+      setTimeout(() => {
+        this.setFocusIndex(null)
+        this.input.focus()
+      }, 0)
   }
 
   close = () => {
+    this.setFocusIndex(null)
+
     this.setState({
-      isOpened: false,
-      focusedIndex: null
+      isOpened: false
     })
   }
 
@@ -252,133 +286,69 @@ export default class Select extends PureComponent {
     } else if (code === TAB) {
       this.close()
     } else if (code === UP || code === DOWN) {
+      const {
+        value,
+        isOpened
+      } = this.state
+
       event.preventDefault()
+      this.setFocusIndex(!isOpened && value !== null ? null : (code === UP ? -1 : 0))
 
-      this.setState({
-        focusedIndex: this.props.value ? null : (code === UP ? -1 : 0)
-      })
-
-      if (!this.async && !this.state.isOpened)
+      if (!isOpened)
         this.open()
-    } else if (code === RIGHT) {
-      const suggest = this.getSuggest()
-
-      if (suggest) {
-        event.preventDefault()
-
-        this.setState({
-          searchText: suggest
-        })
-
-        this.props.onSearch(suggest)
-      }
     }
   }
 
   filter = event => {
-    const searchText = event.target.value
-
-    this.setValue(null)
-
-    this.setState({
-      searchText,
-      focusedIndex: null
-    })
-
-    this.props.onChange(null)
-    this.props.onSearch(searchText)
-
-    if (searchText)
-      setTimeout(this.open, 0)
+    this.setSearchText(event.target.value)
+    setTimeout(this.openOnAction, 0)
   }
 
   focus = event => {
+    this.setState({
+      isFocused: true
+    })
+
     if (!this.state.isOpened)
       this.props.onFocus(event)
   }
 
   blur = event => {
-    if (!this.state.isOpened)
-      this.props.onBlur(event)
+    if (!this.keepFocus)
+      this.setState({
+        isFocused: false
+      })
+
+    this.setSearchText('')
+    this.props.onBlur(event)
   }
 
-  blurDropdown = () => {
-    const filteredChildren = this.getFilteredChildren()
+  blurInput = event => {
+    if (!this.state.isOpened)
+      this.blur(event)
 
-    if (this.state.isOpened && filteredChildren.length > 0) {
+    this.keepFocus = false
+  }
+
+  blurDropdown = event => {
+    if (this.state.isOpened && this.props.children.length > 0) {
       this.close()
-      this.props.onBlur()
+      this.blur(event)
     }
+
+    this.keepFocus = false
   }
 
   preventBlur = event => {
     event.preventDefault()
   }
 
-  getLabel() {
+  renderInput() {
     const {
+      isFocused,
       value,
       searchText
     } = this.state
-
-    if (value === null)
-      return searchText
-
-    return Children.map(this.props.children, child => {
-      if (!child.type || child.type.displayName !== 'ruiMenuItem')
-        throw new Error('Child component should be instance of <MenuItem />')
-
-      if (child.props.value !== value)
-        return undefined
-
-      return child.props.text
-    })
-  }
-
-  getSuggest() {
-    const {
-      isOpened,
-      searchText
-    } = this.state
-
-    const filteredChildren = this.getFilteredChildren(
-      (search, text) => search !== '' && text.indexOf(search) === 0
-    )
-
-    const suggest = this.props.searchable &&
-      isOpened && searchText &&
-      filteredChildren.length > 0 && filteredChildren[0].props.text
-
-    return searchText !== suggest && suggest
-  }
-
-  getFilteredChildren(customFilter) {
-    const { searchText } = this.state
-
-    const {
-      children,
-      filter,
-      searchable
-    } = this.props
-
-    const match = customFilter || filter
-
-    if (searchable)
-      return Children.map(children, child => {
-        if (!child.type || child.type.displayName !== 'ruiMenuItem')
-          throw new Error('Child component should be instance of <MenuItem />')
-
-        if (this.async || searchText === '' || match(searchText, child.props.text))
-          return child
-
-        return undefined
-      })
-
-    return children
-  }
-
-  renderInput() {
-    const { value } = this.state
 
     const {
       style,
@@ -388,14 +358,14 @@ export default class Select extends PureComponent {
       name,
       size,
       icon,
-      searchable,
       autoFocus,
       disabled,
-      placeholder
+      placeholder,
+      labelRenderer,
+      onSearch
     } = this.props
 
-    const label = this.getLabel()
-    const suggest = this.getSuggest()
+    const label = labelRenderer(value)
 
     return (
       <div className={classnames(this.css.select, disabled && this.css.disabled)}>
@@ -404,29 +374,29 @@ export default class Select extends PureComponent {
           id={id}
           name={name}
           value={value === null ? '' : value} />
-        {suggest &&
-          <div className={classnames(this.css.suggest, this.css[size], icon && this.css.withIcon)}>
-            {suggest}
+        {onSearch && isFocused && searchText === '' &&
+          <div className={classnames(this.css.current, this.css[size], icon && this.css.withIcon)}>
+            {label}
           </div>
         }
         <Input
           inputRef={el => { this.input = el }}
-          style={style}
-          className={classnames(this.css.input, !searchable && this.css.readonly, className)}
+          inputStyle={style}
+          className={classnames(this.css.input, !onSearch && this.css.readonly, className)}
           size={size}
           status={status}
           iconLeft={icon}
           autoFocus={autoFocus}
           disabled={disabled}
-          placeholder={placeholder}
-          readOnly={!searchable}
-          value={label}
+          placeholder={label === null ? placeholder : ''}
+          readOnly={!onSearch}
+          value={onSearch && isFocused ? searchText : (label === null ? '' : label)}
           onFocus={this.focus}
-          onClick={!searchable && this.open}
-          onBlur={this.blur}
+          onClick={this.openOnAction}
+          onBlur={this.blurInput}
           onChange={this.filter}
           onKeyDown={this.keyDown} />
-        {!this.async &&
+        {this.showArrow &&
           <button
             type="button"
             tabIndex="-1"
@@ -450,14 +420,14 @@ export default class Select extends PureComponent {
       dropdownClassName,
       menuStyle,
       menuClassName,
-      searchable
+      valuesEquality,
+      onSearch,
+      children
     } = this.props
-
-    const filteredChildren = this.getFilteredChildren()
 
     return (
       <Dropdown
-        isOpened={isOpened && filteredChildren.length > 0}
+        isOpened={isOpened && children.length > 0}
         anchor={this.renderInput()}
         padding={false}
         style={dropdownStyle}
@@ -465,7 +435,7 @@ export default class Select extends PureComponent {
         appendToBody={true}
         anchorFullWidth={true}
         autoPositionY={true}
-        anchorPointY={searchable ? 'bottom' : 'top'}
+        anchorPointY={onSearch ? 'bottom' : 'top'}
         contentPointY="top"
         closeOnClickOutside={true}
         cachePositionOptions={false}
@@ -477,9 +447,10 @@ export default class Select extends PureComponent {
           autoFocus={true}
           focusedIndex={focusedIndex}
           value={value}
+          valuesEquality={valuesEquality}
           onChange={this.changeValue}
           onEscKeyDown={this.closeOnEsc}>
-          {filteredChildren}
+          {children}
         </Menu>
       </Dropdown>
     )

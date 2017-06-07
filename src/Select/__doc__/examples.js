@@ -7,12 +7,22 @@ import { MenuItem } from 'rambler-ui/Menu'
 import PhoneIcon from 'rambler-ui/icons/forms/PhoneIcon'
 import { ApplyTheme } from 'rambler-ui/theme'
 
+const data = [...Array(5)].map((item, i) => `Foo${i}`)
+
+const objectData = [...Array(15)].map((item, i) => ({
+  id: i,
+  key: `Baz${i}`
+}))
+
 export default class SelectExample extends Component {
 
   state = {
     value1: null,
-    value2: 1,
+    value2: 'Bar1',
     value3: null,
+    data,
+    objectData,
+    objectValue: null,
     asyncData: [],
     asyncValue: null,
     popupIsOpened: false
@@ -33,6 +43,26 @@ export default class SelectExample extends Component {
   setValue = key => value => {
     this.setState({
       [key]: value
+    })
+  }
+
+  filterData = search => {
+    const filteredData = search === '' ?
+      data :
+      data.filter(item => search !== '' && item.indexOf(search) > -1)
+
+    this.setState({
+      data: filteredData
+    })
+  }
+
+  filterObjectData = search => {
+    const filteredData = search === '' ?
+      objectData :
+      objectData.filter(item => search !== '' && item.key.indexOf(search) > -1)
+
+    this.setState({
+      objectData: filteredData
     })
   }
 
@@ -78,7 +108,9 @@ export default class SelectExample extends Component {
               value={this.state.value1}
               onChange={this.setValue('value1')}>
               {[...Array(5)].map((item, i) => (
-                <MenuItem value={i} key={i} text={`Foo${i}`} />
+                <MenuItem value={`Foo${i}`} key={i}>
+                  Foo{i}
+                </MenuItem>
               ))}
             </Select>
           </div>
@@ -93,7 +125,9 @@ export default class SelectExample extends Component {
               value={this.state.value2}
               onChange={this.setValue('value2')}>
               {[...Array(15)].map((item, i) => (
-                <MenuItem value={i} key={i} text={`Bar${i}`} />
+                <MenuItem value={`Bar${i}`} key={i}>
+                  Bar{i}
+                </MenuItem>
               ))}
             </Select>
           </div>
@@ -102,11 +136,13 @@ export default class SelectExample extends Component {
             <h3>С поиском</h3>
             <Select
               placeholder="Type something..."
-              searchable={true}
               value={this.state.value1}
-              onChange={this.setValue('value1')}>
-              {[...Array(5)].map((item, i) => (
-                <MenuItem value={i} key={i} text={`Foo${i}`} />
+              onChange={this.setValue('value1')}
+              onSearch={this.filterData}>
+              {this.state.data.map((item) => (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
               ))}
             </Select>
           </div>
@@ -121,10 +157,29 @@ export default class SelectExample extends Component {
                 onChange={this.setValue('asyncValue')}
                 onSearch={this.requestData}>
                 {!!this.state.asyncData.then ? [] : this.state.asyncData.map(item => (
-                  <MenuItem value={item} key={item} text={item} />
+                  <MenuItem value={item} key={item}>
+                    {item}
+                  </MenuItem>
                 ))}
               </Select>
             </Loader>
+          </div>
+
+          <div style={{ width: '45%', marginBottom: 15 }}>
+            <h3>Со значениями-объектами</h3>
+            <Select
+              placeholder="Type something..."
+              value={this.state.objectValue}
+              labelRenderer={value => value && value.key}
+              valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
+              onChange={this.setValue('objectValue')}
+              onSearch={this.filterObjectData}>
+              {this.state.objectData.map((item) => (
+                <MenuItem value={item} key={item.id}>
+                  <PhoneIcon /> {item.key}
+                </MenuItem>
+              ))}
+            </Select>
           </div>
 
           <div style={{ width: '66%', marginBottom: 15 }}>
@@ -135,7 +190,9 @@ export default class SelectExample extends Component {
               value={this.state.value3}
               onChange={this.setValue('value3')}>
               {[...Array(5)].map((item, i) => (
-                <MenuItem value={i} key={i} text={`Baz${i}`} />
+                <MenuItem value={`Baz${i}`} key={i}>
+                  Baz{i}
+                </MenuItem>
               ))}
             </Select>
           </div>
@@ -156,7 +213,9 @@ export default class SelectExample extends Component {
               value={this.state.value3}
               onChange={this.setValue('value3')}>
               {[...Array(5)].map((item, i) => (
-                <MenuItem value={i} key={i} text={`Baz${i}`} />
+                <MenuItem value={`Baz${i}`} key={i}>
+                  Baz{i}
+                </MenuItem>
               ))}
             </Select>
           </Popup>
