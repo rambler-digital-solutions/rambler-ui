@@ -1,8 +1,11 @@
 import React, { PureComponent, Children, cloneElement } from 'react'
+import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import omit from 'lodash/omit'
 import { ESCAPE, UP, DOWN, TAB } from '../constants/keys'
 import { injectSheet } from '../theme'
+import { getBoundingClientRect } from '../utils/DOM'
 import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
@@ -34,10 +37,6 @@ export default class Menu extends PureComponent {
      */
     autoFocus: PropTypes.bool,
     /**
-     * Фокус элемента по индексу
-     */
-    focusedIndex: PropTypes.number,
-    /**
      * Максимальная высота компонента
      */
     maxHeight: PropTypes.number,
@@ -46,7 +45,8 @@ export default class Menu extends PureComponent {
      */
     value: PropTypes.any,
     /**
-     * Проверка равенства значений, задается, если значением является объект
+     * Проверка равенства значений, задается, если
+     * значением является объект. Ожидается, что возвращает `Boolean`
      */
     valuesEquality: PropTypes.func,
     /**
@@ -67,42 +67,54 @@ export default class Menu extends PureComponent {
     multiple: false,
     autoFocus: false,
     maxHeight: null,
-    focusedIndex: null,
     value: null,
     valuesEquality: (a, b) => a === b,
     onChange: () => {},
     onEscKeyDown: () => {}
   };
 
-  value = null
-
   constructor(props) {
     super(props)
 
+    const nextValue = props.value || (props.multiple ? [] : null)
+    const selectedIndex = this.getLastSelectedIndex(props)
+    const nextFocusIndex = props.autoFocus ? (selectedIndex > -1 ? selectedIndex : 0) : -1
+
     this.state = {
-      value: props.multiple ? [] : null,
-      focusedIndex: null
+      value: nextValue,
+      focusIndex: nextFocusIndex
     }
+
+    this.value = nextValue
   }
 
   get css() {
     return this.props.sheet.classes
   }
 
-  componentWillMount() {
-    this.setValue(this.props.value)
-  }
-
   componentDidMount() {
-    if (this.props.autoFocus || this.props.focusedIndex !== null)
-      this.setFocusIndex(this.props.focusedIndex || this.getLastSelectedIndex())
+    this.scrollToLastSelected()
   }
 
-  componentWillReceiveProps({ value, focusedIndex }) {
-    this.setValue(value)
+  componentWillReceiveProps(nextProps) {
+    this.setValue(nextProps.value)
 
-    if (focusedIndex !== this.props.focusedIndex)
-      this.setFocusIndex(focusedIndex)
+    const lastSelectedIndex = this.getLastSelectedIndex(nextProps)
+    const selectedIndex = lastSelectedIndex > -1 ? lastSelectedIndex : this.state.selectedIndex
+
+    const nextFocusIndex = nextProps.autoFocus ? (selectedIndex > -1 ? selectedIndex : 0) : -1
+
+    if (nextFocusIndex !== this.state.focusIndex)
+      this.setFocusIndex(nextFocusIndex)
+  }
+
+  scrollToLastSelected() {
+    if (this.selectedItem) {
+      const menuRect = getBoundingClientRect(this.menu)
+      const itemRect = getBoundingClientRect(findDOMNode(this.selectedItem))
+
+      this.menu.scrollTop += itemRect.top - menuRect.top - (menuRect.height / 2)
+    }
   }
 
   setValue(value) {
@@ -116,17 +128,16 @@ export default class Menu extends PureComponent {
     })
   }
 
-  getLastSelectedIndex() {
-    const { value } = this.state
-
+  getLastSelectedIndex(props) {
     const {
+      value,
       multiple,
       children,
       valuesEquality
-    } = this.props
+    } = props
 
     const lastSelectedValue = multiple ? value[value.length - 1] : value
-    let lastSelectedIndex = null
+    let lastSelectedIndex = -1
 
     Children.forEach(children, (child, index) => {
       if (child.props && valuesEquality(child.props.value, lastSelectedValue))
@@ -137,25 +148,23 @@ export default class Menu extends PureComponent {
   }
 
   decrementFocusIndex() {
-    const { focusedIndex } = this.state
-    const nextIndex = focusedIndex === null ? -1 : focusedIndex - 1
+    const { focusIndex } = this.state
+    const nextFocusIndex = focusIndex === 0 ? 0 : focusIndex - 1
 
-    this.setFocusIndex(nextIndex)
+    this.setFocusIndex(nextFocusIndex)
   }
 
   incrementFocusIndex() {
-    const { focusedIndex } = this.state
-    const nextIndex = focusedIndex === null ? 0 : focusedIndex + 1
+    const { focusIndex } = this.state
+    const maxIndex = this.props.children.length
+    const nextFocusIndex = focusIndex === maxIndex ? maxIndex : focusIndex + 1
 
-    this.setFocusIndex(nextIndex)
+    this.setFocusIndex(nextFocusIndex)
   }
 
-  setFocusIndex(index) {
-    const length = this.props.children.length
-    const normalizedIndex = index === null ? index : (index + length) % length
-
+  setFocusIndex(nextFocusIndex) {
     this.setState({
-      focusedIndex: normalizedIndex
+      focusIndex: nextFocusIndex
     })
   }
 
@@ -187,20 +196,32 @@ export default class Menu extends PureComponent {
     }
   }
 
+  getMenuProps() {
+    return omit(this.props, [
+      'autoFocus',
+      'value',
+      'sheet',
+      'theme',
+      'onChange',
+      'onEscKeyDown'
+    ])
+  }
+
   render() {
     const {
       value,
-      focusedIndex
+      focusIndex
     } = this.state
 
     const {
-      style,
       className,
+      style,
       multiple,
       maxHeight,
+      valuesEquality,
       children,
-      valuesEquality
-    } = this.props
+      ...other
+    } = this.getMenuProps()
 
     const items = Children.map(children, (child, index) => {
       if (!child.type || child.type.displayName !== 'ruiMenuItem')
@@ -208,20 +229,25 @@ export default class Menu extends PureComponent {
 
       const childValue = child.props.value
 
-      return cloneElement(child, {
-        key: childValue,
-        isFocused: index === focusedIndex,
-        isSelected: multiple ?
+      const isSelected = multiple ?
           value.reduce((prev, val) => valuesEquality(val, childValue) || prev, false) :
-          valuesEquality(childValue, value),
+          valuesEquality(childValue, value)
+
+      return cloneElement(child, {
+        isSelected,
+        isFocused: index === focusIndex,
+        key: childValue,
         onFocus: () => this.setFocusIndex(index),
-        onSelect: () => this.changeValue(childValue)
+        onSelect: () => this.changeValue(childValue),
+        ref: isSelected ? item => { this.selectedItem = item } : null
       })
     })
 
     return (
       <div
-        style={Object.assign({}, style, { maxHeight })}
+        {...other}
+        ref={el => { this.menu = el }}
+        style={{ ...style, maxHeight }}
         className={classnames(this.css.menu, className)}
         onKeyDown={this.keyDown}>
         {items}

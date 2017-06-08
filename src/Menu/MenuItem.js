@@ -56,11 +56,11 @@ class MenuItem extends PureComponent {
      */
     isSelected: PropTypes.bool,
     /**
-     * Колбек наведения на опцию (автоматически проставляется компонентом `<Menu />`)
+     * Коллбек наведения на опцию (автоматически проставляется компонентом `<Menu />`)
      */
     onFocus: PropTypes.func,
     /**
-     * Колбек выбора опции (автоматически проставляется компонентом `<Menu />`)
+     * Коллбек выбора опции (автоматически проставляется компонентом `<Menu />`)
      */
     onSelect: PropTypes.func
   };
@@ -77,7 +77,7 @@ class MenuItem extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.isSelected && !this.props.isFocused)
+    if (this.props.isFocused)
       this.item.focus()
   }
 
@@ -98,7 +98,6 @@ class MenuItem extends PureComponent {
     const {
       className,
       style,
-      text,
       children,
       isSelected,
       onFocus,
@@ -114,7 +113,7 @@ class MenuItem extends PureComponent {
         onFocus={onFocus}
         onClick={onSelect}
         onKeyDown={this.pressKey}>
-        {children || text}
+        {children}
       </div>
     )
   }

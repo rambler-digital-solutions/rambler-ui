@@ -10,8 +10,12 @@ describe('<Select />', () => {
     const wrapper = mount(
       withTheme(
         <Select>
-          <MenuItem text="foo" value="foo" />
-          <MenuItem text="bar" value="bar" />
+          <MenuItem value="foo">
+            foo
+          </MenuItem>
+          <MenuItem value="bar">
+            baz
+          </MenuItem>
         </Select>
       )
     )
@@ -42,8 +46,12 @@ describe('<Select />', () => {
     const wrapper = mount(
       withTheme(
         <Select size="small">
-          <MenuItem text="foo" value="foo" />
-          <MenuItem text="bar" value="bar" />
+          <MenuItem value="foo">
+            foo
+          </MenuItem>
+          <MenuItem value="bar">
+            baz
+          </MenuItem>
         </Select>
       )
     )

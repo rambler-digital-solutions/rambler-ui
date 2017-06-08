@@ -1,21 +1,31 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import omit from 'lodash/omit'
 import Menu from '../Menu/Menu'
 import Input from '../Input'
 import Dropdown from '../Dropdown'
-import { TAB, UP, DOWN, ESCAPE } from '../constants/keys'
+import OnClickOutside from '../events/OnClickOutside'
+import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
 
 @injectSheet(theme => ({
   select: {
     position: 'relative',
-    backgroundColor: '#fff'
+    backgroundColor: '#fff',
+    '&:hover:not($disabled) $arrow:after': {
+      borderColor: theme.field.activeIconColor
+    }
   },
   disabled: {
     backgroundColor: '#eee',
     '& $arrow': {
       cursor: 'default'
+    }
+  },
+  focused: {
+    '& $arrow:after': {
+      borderColor: theme.field.activeIconColor
     }
   },
   input: {
@@ -104,29 +114,19 @@ export default class Select extends PureComponent {
      */
     menuStyle: PropTypes.object,
     /**
-    * Идентификатор элемента
-    */
-    id: PropTypes.string,
-    /**
-    * Имя элемента
-    */
-    name: PropTypes.string,
-    /**
-     * Автофокус элемента
-     */
-    autoFocus: PropTypes.bool,
-    /**
      * Выбранное значение, по-умолчанию считается, что это примитив
      */
     value: PropTypes.any,
     /**
-     * Проверка равенства значений, задается, если значением является объект
+     * Проверка равенства значений, задается, если
+     * значением является объект. Ожидается, что возвращает `Boolean`
      */
     valuesEquality: PropTypes.func,
     /**
-     * Функция рендера выбранного значения в поле, задается, если значением является объект
+     * Функция рендера выбранного значения в поле, задается, если
+     * значением является объект. Ожидается, что возвращает `String`
      */
-    labelRenderer: PropTypes.func,
+    inputValueRenderer: PropTypes.func,
     /**
      * Плэйсхолдер
      */
@@ -181,29 +181,28 @@ export default class Select extends PureComponent {
     size: 'medium',
     disabled: false,
     valuesEquality: (a, b) => a === b,
-    labelRenderer: value => value,
+    inputValueRenderer: value => value,
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {}
   };
 
-  value = null
-
-  state = {
-    isOpened: false,
-    isFocused: false,
-    value: null,
-    searchText: '',
-    focusedIndex: null
-  }
-
   get css() {
     return this.props.sheet.classes
   }
 
-  componentWillMount() {
-    this.showArrow = this.props.children.length > 0
-    this.setValue(this.props.value)
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      isOpened: false,
+      inputFocused: false,
+      value: props.value,
+      searchText: ''
+    }
+
+    this.value = props.value
+    this.showArrow = props.children.length > 0
   }
 
   componentWillReceiveProps({ value }) {
@@ -231,155 +230,168 @@ export default class Select extends PureComponent {
       this.props.onSearch(searchText)
   }
 
-  setFocusIndex(index) {
+  requestItems = event => {
     this.setState({
-      focusedIndex: index
+      isOpened: true
     })
+
+    this.setSearchText(event.target.value)
   }
 
   changeValue = value => {
-    this.setValue(value)
-    this.props.onChange(value)
-    this.close()
-    this.input.focus()
-  }
-
-  open = () => {
-    if (!this.props.disabled)
-      this.setState({
-        isOpened: true
-      })
-  }
-
-  openOnAction = () => {
-    this.open()
-    this.keepFocus = true
-
-    if (this.props.onSearch && this.state.value !== null)
-      setTimeout(() => {
-        this.setFocusIndex(null)
-        this.input.focus()
-      }, 0)
-  }
-
-  close = () => {
-    this.setFocusIndex(null)
-
     this.setState({
       isOpened: false
     })
+
+    this.setValue(value)
+    this.props.onChange(value)
+    this.input.focus()
   }
 
-  closeOnEsc = event => {
-    if (this.state.isOpened) {
-      event.stopPropagation()
-      this.close()
-      this.input.focus()
-    }
-  }
-
-  keyDown = event => {
-    const code = event.keyCode
-
-    if (code === ESCAPE) {
-      this.closeOnEsc(event)
-    } else if (code === TAB) {
-      this.close()
-    } else if (code === UP || code === DOWN) {
-      const {
-        value,
-        isOpened
-      } = this.state
-
-      event.preventDefault()
-      this.setFocusIndex(!isOpened && value !== null ? null : (code === UP ? -1 : 0))
-
-      if (!isOpened)
-        this.open()
-    }
-  }
-
-  filter = event => {
-    this.setSearchText(event.target.value)
-    setTimeout(this.openOnAction, 0)
-  }
-
-  focus = event => {
+  focusInput = event => {
     this.setState({
-      isFocused: true
+      inputFocused: true
     })
 
     if (!this.state.isOpened)
       this.props.onFocus(event)
   }
 
-  blur = event => {
-    if (!this.keepFocus)
+  blurInput = event => {
+    if (this.state.inputFocused) {
       this.setState({
-        isFocused: false
+        isOpened: false,
+        inputFocused: false
       })
 
-    this.setSearchText('')
-    this.props.onBlur(event)
-  }
-
-  blurInput = event => {
-    if (!this.state.isOpened)
-      this.blur(event)
-
-    this.keepFocus = false
-  }
-
-  blurDropdown = event => {
-    if (this.state.isOpened && this.props.children.length > 0) {
-      this.close()
-      this.blur(event)
+      this.setSearchText('')
+      this.props.onBlur(event)
     }
-
-    this.keepFocus = false
   }
 
-  preventBlur = event => {
+  preventBlurInput = event => {
     event.preventDefault()
+  }
+
+  open = () => {
+    if (!this.props.disabled && !this.state.isOpened)
+      this.setState({
+        isOpened: true
+      })
+  }
+
+  openOnArrow(event) {
+    event.preventDefault()
+
+    this.setState({
+      inputFocused: false
+    })
+
+    if (!this.state.isOpened)
+      this.setState({
+        isOpened: true
+      })
+  }
+
+  clearValueOnBackspace() {
+    const {
+      searchText,
+      inputFocused
+    } = this.state
+
+    if (this.props.onSearch && inputFocused && searchText === '')
+      this.changeValue(null)
+  }
+
+  closeOnEsc = event => {
+    if (this.state.isOpened) {
+      event.stopPropagation()
+
+      this.setState({
+        isOpened: false
+      })
+
+      this.input.focus()
+    }
+  }
+
+  closeOnClickOutside = event => {
+    if (this.state.isOpened && !this.state.inputFocused) {
+      this.setState({
+        isOpened: false,
+        inputFocused: false
+      })
+
+      this.props.onBlur(event)
+    }
+  }
+
+  keyDown = event => {
+    const code = event.keyCode
+
+    if (code === ESCAPE)
+      this.closeOnEsc(event)
+    else if (code === TAB)
+      this.setState({
+        isOpened: false
+      })
+    else if (code === UP || code === DOWN)
+      this.openOnArrow(event)
+    else if (code === DELETE || code === BACKSPACE)
+      this.clearValueOnBackspace(event)
+  }
+
+  getInputProps() {
+    return omit(this.props, [
+      'dropdownClassName',
+      'dropdownStyle',
+      'menuClassName',
+      'menuStyle',
+      'valuesEquality',
+      'children',
+      'value',
+      'sheet',
+      'theme',
+      'onFocus',
+      'onBlur',
+      'onChange'
+    ])
   }
 
   renderInput() {
     const {
-      isFocused,
       value,
-      searchText
+      searchText,
+      isOpened,
+      inputFocused
     } = this.state
 
     const {
-      style,
       className,
-      status,
-      id,
-      name,
-      size,
-      icon,
+      style,
       autoFocus,
-      disabled,
+      inputValueRenderer,
       placeholder,
-      labelRenderer,
-      onSearch
-    } = this.props
+      disabled,
+      icon,
+      size,
+      status,
+      onSearch,
+      ...other
+    } = this.getInputProps()
 
-    const label = labelRenderer(value)
+    const focuseInput = inputFocused || isOpened
+    const inputValue = inputValueRenderer(value)
 
     return (
-      <div className={classnames(this.css.select, disabled && this.css.disabled)}>
-        <input
-          type="hidden"
-          id={id}
-          name={name}
-          value={value === null ? '' : value} />
-        {onSearch && isFocused && searchText === '' &&
+      <div className={classnames(this.css.select, disabled && this.css.disabled, focuseInput && this.css.focused)}>
+        {onSearch && focuseInput && searchText === '' &&
           <div className={classnames(this.css.current, this.css[size], icon && this.css.withIcon)}>
-            {label}
+            {inputValue}
           </div>
         }
         <Input
+          {...other}
           inputRef={el => { this.input = el }}
           inputStyle={style}
           className={classnames(this.css.input, !onSearch && this.css.readonly, className)}
@@ -388,20 +400,20 @@ export default class Select extends PureComponent {
           iconLeft={icon}
           autoFocus={autoFocus}
           disabled={disabled}
-          placeholder={label === null ? placeholder : ''}
+          placeholder={inputValue === null ? placeholder : ''}
           readOnly={!onSearch}
-          value={onSearch && isFocused ? searchText : (label === null ? '' : label)}
-          onFocus={this.focus}
-          onClick={this.openOnAction}
+          value={onSearch && focuseInput ? searchText : (inputValue === null ? '' : inputValue)}
+          onFocus={this.focusInput}
+          onClick={this.open}
           onBlur={this.blurInput}
-          onChange={this.filter}
+          onChange={this.requestItems}
           onKeyDown={this.keyDown} />
         {this.showArrow &&
           <button
             type="button"
             tabIndex="-1"
             className={this.css.arrow}
-            onMouseDown={this.preventBlur}
+            onMouseDown={this.preventBlurInput}
             onClick={this.open} />
         }
       </div>
@@ -412,7 +424,7 @@ export default class Select extends PureComponent {
     const {
       value,
       isOpened,
-      focusedIndex
+      inputFocused
     } = this.state
 
     const {
@@ -437,21 +449,22 @@ export default class Select extends PureComponent {
         autoPositionY={true}
         anchorPointY={onSearch ? 'bottom' : 'top'}
         contentPointY="top"
-        closeOnClickOutside={true}
-        cachePositionOptions={false}
-        onClose={this.blurDropdown}>
-        <Menu
-          style={menuStyle}
-          className={menuClassName}
-          maxHeight={189}
-          autoFocus={true}
-          focusedIndex={focusedIndex}
-          value={value}
-          valuesEquality={valuesEquality}
-          onChange={this.changeValue}
-          onEscKeyDown={this.closeOnEsc}>
-          {children}
-        </Menu>
+        closeOnClickOutside={false}
+        cachePositionOptions={false}>
+        <OnClickOutside handler={this.closeOnClickOutside}>
+          <Menu
+            style={menuStyle}
+            className={menuClassName}
+            maxHeight={189}
+            autoFocus={!inputFocused}
+            value={value}
+            valuesEquality={valuesEquality}
+            onChange={this.changeValue}
+            onMouseDown={this.preventBlurInput}
+            onEscKeyDown={this.closeOnEsc}>
+            {children}
+          </Menu>
+        </OnClickOutside>
       </Dropdown>
     )
   }

@@ -152,7 +152,6 @@ export default class SelectExample extends Component {
             <Loader loading={!!this.state.asyncData.then}>
               <Select
                 placeholder="Type something..."
-                searchable={true}
                 value={this.state.asyncValue}
                 onChange={this.setValue('asyncValue')}
                 onSearch={this.requestData}>
@@ -170,7 +169,7 @@ export default class SelectExample extends Component {
             <Select
               placeholder="Type something..."
               value={this.state.objectValue}
-              labelRenderer={value => value && value.key}
+              inputValueRenderer={value => value && value.key}
               valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
               onChange={this.setValue('objectValue')}
               onSearch={this.filterObjectData}>

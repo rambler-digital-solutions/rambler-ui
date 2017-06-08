@@ -9,8 +9,10 @@ describe('<Menu />', () => {
     const wrapper = mount(
       withTheme(
         <Menu>
-          <MenuItem className="foo" text="foo" value="foo" />
-          <MenuItem className="bar" text="bar" value="bar">
+          <MenuItem className="foo" value="foo">
+            foo
+          </MenuItem>
+          <MenuItem className="bar" value="bar">
             baz
           </MenuItem>
         </Menu>
@@ -46,7 +48,9 @@ describe('<Menu />', () => {
     const wrapper = mount(
       withTheme(
         <Menu maxHeight={200}>
-          <MenuItem text="foo" value="foo" />
+          <MenuItem value="foo">
+            foo
+          </MenuItem>
         </Menu>
       )
     )
@@ -61,7 +65,9 @@ describe('<Menu />', () => {
     const wrapper = mount(
       withTheme(
         <Menu className="menu">
-          <MenuItem className="item" text="foo" value="foo" />
+          <MenuItem className="item" value="foo">
+            foo
+          </MenuItem>
         </Menu>
       )
     )
@@ -77,7 +83,9 @@ describe('<Menu />', () => {
     const wrapper = mount(
       withTheme(
         <Menu style={{ marginLeft: 10 }}>
-          <MenuItem style={{ paddingLeft: 0 }} text="foo" value="foo" />
+          <MenuItem style={{ paddingLeft: 0 }} value="foo">
+            foo
+          </MenuItem>
         </Menu>
       )
     )
@@ -99,8 +107,12 @@ describe('<Menu />', () => {
     const wrapper = mount(
       withTheme(
         <Menu value={value} onChange={v => { value = v }}>
-          <MenuItem className="foo" text="foo" value="foo" />
-          <MenuItem className="bar" text="bar" value="bar" />
+          <MenuItem className="foo" value="foo">
+            foo
+          </MenuItem>
+          <MenuItem className="bar" value="bar">
+            bar
+          </MenuItem>
         </Menu>
       )
     )
