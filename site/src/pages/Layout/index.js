@@ -16,6 +16,9 @@ export default class Layout extends Component {
 
   componentDidMount() {
     this.fetchVersions()
+    const script = document.createElement('script')
+    script.src = 'https://buttons.github.io/buttons.js'
+    document.body.appendChild(script)
   }
 
   onVersionChange(e) {
@@ -62,6 +65,9 @@ export default class Layout extends Component {
                   <Link key={ i } className={ css.Menu__item } activeClassName={ css['is-active'] } to={ item.route }>{ item.name }</Link>
                 )
               }
+            </div>
+            <div className={ css.Menu__stars }>
+              <a className="github-button" href="https://github.com/rambler-digital-solutions/rambler-ui" data-size="large" data-show-count="true">Star</a>
             </div>
             <div className={ css.Menu__version } >
               <select value={ currentVersion && currentVersion.path } onChange={ ::this.onVersionChange }>

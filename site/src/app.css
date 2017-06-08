@@ -3,10 +3,14 @@
 
 html, body {
   height: 100%;
+  background: #fff;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  box-sizing: border-box;
   display: flex;
   flex-flow: row nowrap;
   max-height: 100%;

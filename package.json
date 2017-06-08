@@ -1,6 +1,6 @@
 {
   "name": "rambler-ui",
-  "version": "2.9.0",
+  "version": "2.10.0",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "author": "Rambler team",
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.rambler.ru/rambler-ui/rambler-ui/issues"
+    "url": "https://github.com/rambler-digital-solutions/rambler-ui/issues"
   },
   "homepage": "https://rambler-digital-solutions.github.io/rambler-ui",
   "ghPagesRepository": {

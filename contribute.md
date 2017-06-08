@@ -1,5 +1,4 @@
 # Гайд по разработке RamblerUI
-[Telegram-чат](https://telegram.me/joinchat/Bng9hD9JHKkROhi5fpbwkw)
 
 ## Roadmap
 - [x] Buttons

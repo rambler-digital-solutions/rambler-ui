@@ -43,4 +43,9 @@
     right: 15px;
     top: 14px;
   }
+  &__stars {
+    position: absolute;
+    right: 165px;
+    top: 9px;
+  }
 }

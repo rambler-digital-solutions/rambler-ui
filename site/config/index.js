@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV || 'development'
 const _ = require('lodash')
 
 module.exports = {
-  repoLink: 'https://gitlab.rambler.ru/rambler-ui/rambler-ui',
+  repoLink: 'https://github.com/rambler-digital-solutions/rambler-ui/',
   ghPagesRepo: 'git@github.com:rambler-digital-solutions/rambler-ui.git',
   branch: cp.execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
 }
