@@ -16,8 +16,8 @@
 - [x] Avatar
 - [x] Loader
 - [x] Spinner
-- [ ] Select
-- [ ] InputSuggest
+- [x] Select
+- [x] Suggest
 
 ## Установка
 ```
