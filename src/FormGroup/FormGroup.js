@@ -35,7 +35,10 @@ import { ifDesktop } from '../style/mixins'
       marginBottom: '30px',
       display: 'flex',
       '& $label': {},
-      '& $inner': {}
+      '& $inner': {
+        flexGrow: 1,
+        width: 'auto'
+      }
     },
     label: {
       marginBottom: 0,
