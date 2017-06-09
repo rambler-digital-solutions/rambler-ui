@@ -91,7 +91,7 @@ class DropdownContainer extends PureComponent {
       resultStyle.padding = padding
     resultStyle = {
       ...resultStyle,
-      style
+      ...style
     }
     const content = (
       <VisibilityAnimation

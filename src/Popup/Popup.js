@@ -12,11 +12,10 @@ import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
+import { ESCAPE } from '../constants/keys'
 import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
-
-const ESCAPE = 27
 
 @pure
 @zIndexStack(POPUP_ZINDEX)
@@ -177,18 +176,18 @@ export default class Popup extends Component {
 
   onWillVisible = () => {
     if (this.props.closeOnEsc)
-      document.addEventListener('keydown', this.onKeyDown)
+      window.addEventListener('keydown', this.onKeyDown)
 
     if (this.props.closeOnClickOutside)
-      document.addEventListener('click', this.onClickOutside)
+      window.addEventListener('click', this.onClickOutside)
   }
 
   onWillInvisible = () => {
     if (this.props.closeOnEsc)
-      document.removeEventListener('keydown', this.onKeyDown)
+      window.removeEventListener('keydown', this.onKeyDown)
 
     if (this.props.closeOnClickOutside)
-      document.removeEventListener('click', this.onClickOutside)
+      window.removeEventListener('click', this.onClickOutside)
   }
 
   onKeyDown = event => {

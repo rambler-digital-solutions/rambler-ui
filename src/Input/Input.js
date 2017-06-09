@@ -237,6 +237,7 @@ export default class Input extends Component {
       status,
       sheet: { classes: css },
       theme,
+      inputRef,
       ...other
     } = omit(this.props, ['onChange'])
 
@@ -261,7 +262,11 @@ export default class Input extends Component {
           </div>
         }
         <input
-          ref={input => (this.input = input)}
+          ref={input => {
+            this.input = input
+            if (inputRef)
+              inputRef(input)
+          }}
           className={resultClassName}
           disabled={disabled}
           style={inputStyle}
