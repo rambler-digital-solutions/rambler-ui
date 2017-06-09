@@ -46,6 +46,7 @@ import { injectSheet } from '../theme'
     bottom: 0,
     border: '1px solid transparent',
     padding: theme.input.padding,
+    color: 'rgba(38, 38, 38, 0.6)',
     fontSize: theme.field.fontSize
   },
   medium: {
