@@ -72,13 +72,19 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     }
   },
   success: {
-    borderBottom: theme.field.successBorderBottom
+    '&$textarea': {
+      borderBottom: theme.field.successBorderBottom
+    }
   },
   error: {
-    borderBottom: theme.field.errorBorderBottom
+    '&$textarea': {
+      borderBottom: theme.field.errorBorderBottom
+    }
   },
   warning: {
-    borderBottom: theme.field.warningBorderBottom
+    '&$textarea': {
+      borderBottom: theme.field.warningBorderBottom
+    }
   },
   withLeftIcon: {
     paddingLeft: theme.field.withIconPadding
