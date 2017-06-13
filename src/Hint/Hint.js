@@ -23,6 +23,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     width: 275,
     backgroundColor: '#fff',
     fontSize: 13,
+    lineHeight: 1.31,
     opacity: 0.01,
     transitionDuration: `${theme.hint.animationDuration}ms`,
     transitionProperty: 'opacity'
