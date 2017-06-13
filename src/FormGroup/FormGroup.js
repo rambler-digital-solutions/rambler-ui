@@ -34,17 +34,16 @@ import { ifDesktop } from '../style/mixins'
     inline: {
       marginBottom: '30px',
       display: 'flex',
-      '& $label': {},
+      '& $label': {
+        marginLeft: 0,
+        marginBottom: 0,
+        width: '172px',
+        lineHeight: '44px'
+      },
       '& $inner': {
         flex: 1,
         width: 'auto'
       }
-    },
-    label: {
-      marginBottom: 0,
-      width: '172px',
-      lineHeight: '44px',
-      marginLeft: 0
     },
     inner: {
       display: 'inline-block',
