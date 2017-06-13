@@ -344,6 +344,10 @@ export default class Select extends PureComponent {
       this.clearValueOnBackspace(event)
   }
 
+  isValueEmpty(value) {
+    return value == null || value === ''
+  }
+
   getInputProps() {
     return omit(this.props, [
       'dropdownClassName',
@@ -403,9 +407,9 @@ export default class Select extends PureComponent {
           iconLeft={icon}
           autoFocus={autoFocus}
           disabled={disabled}
-          placeholder={inputValue === null ? placeholder : ''}
+          placeholder={this.isValueEmpty(inputValue) ? placeholder : ''}
           readOnly={!onSearch}
-          value={onSearch && focuseInput ? searchText : (inputValue === null ? '' : inputValue)}
+          value={onSearch && focuseInput ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
           onFocus={this.focusInput}
           onClick={this.open}
           onBlur={this.blurInput}
