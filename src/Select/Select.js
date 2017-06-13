@@ -284,14 +284,16 @@ export default class Select extends PureComponent {
   openOnArrow(event) {
     event.preventDefault()
 
-    this.setState({
-      inputFocused: false
-    })
-
     if (!this.state.isOpened)
       this.setState({
         isOpened: true
       })
+
+    setTimeout(() => {
+      this.setState({
+        inputFocused: false
+      })
+    }, 0)
   }
 
   clearValueOnBackspace() {
@@ -340,6 +342,10 @@ export default class Select extends PureComponent {
       this.openOnArrow(event)
     else if (code === DELETE || code === BACKSPACE)
       this.clearValueOnBackspace(event)
+  }
+
+  isValueEmpty(value) {
+    return value == null || value === ''
   }
 
   getInputProps() {
@@ -401,9 +407,9 @@ export default class Select extends PureComponent {
           iconLeft={icon}
           autoFocus={autoFocus}
           disabled={disabled}
-          placeholder={inputValue === null ? placeholder : ''}
+          placeholder={this.isValueEmpty(inputValue) ? placeholder : ''}
           readOnly={!onSearch}
-          value={onSearch && focuseInput ? searchText : (inputValue === null ? '' : inputValue)}
+          value={onSearch && focuseInput ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
           onFocus={this.focusInput}
           onClick={this.open}
           onBlur={this.blurInput}
