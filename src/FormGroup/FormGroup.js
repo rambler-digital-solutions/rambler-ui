@@ -36,7 +36,7 @@ import { ifDesktop } from '../style/mixins'
       display: 'flex',
       '& $label': {},
       '& $inner': {
-        flexGrow: 1,
+        flex: 1,
         width: 'auto'
       }
     },
