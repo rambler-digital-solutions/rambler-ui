@@ -284,14 +284,16 @@ export default class Select extends PureComponent {
   openOnArrow(event) {
     event.preventDefault()
 
-    this.setState({
-      inputFocused: false
-    })
-
     if (!this.state.isOpened)
       this.setState({
         isOpened: true
       })
+
+    setTimeout(() => {
+      this.setState({
+        inputFocused: false
+      })
+    }, 0)
   }
 
   clearValueOnBackspace() {
