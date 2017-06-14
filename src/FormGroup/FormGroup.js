@@ -10,8 +10,7 @@ import { ifDesktop } from '../style/mixins'
 
 @injectSheet(() => ({
   normal: {
-    marginBottom: '15px',
-    '& $label': {}
+    marginBottom: '15px'
   },
   inline: {
     marginBottom: '15px'
@@ -45,6 +44,7 @@ import { ifDesktop } from '../style/mixins'
         width: 'auto'
       }
     },
+    label: {},
     inner: {
       display: 'inline-block',
       verticalAlign: 'top',
