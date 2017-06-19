@@ -15,83 +15,79 @@ import { Eye } from '../icons/forms'
     ...fontStyleMixin(theme.font),
     boxSizing: 'border-box',
     display: 'block',
-    borderRadius: 0,
+    borderRadius: theme.field.borderRadius,
     outline: 0,
     width: '100%',
-    background: '#fff',
+    background: theme.field.colors.default.background,
     fontWeight: 400,
+    fontSize: theme.field.fontSize,
     appearance: 'none',
     lineHeight: 'normal',
-    borderTop: theme.field.border,
-    borderLeft: theme.field.border,
-    borderRight: theme.field.border,
-    borderBottom: theme.field.borderBottom || theme.field.border,
+    border: `1px solid ${theme.field.colors.default.border}`,
     padding: theme.input.padding,
-    fontSize: theme.field.fontSize,
-    opacity: theme.input.opacity || 1,
-    transition: 'border-color 0.3s ease',
+    transition: `border-color ${theme.field.animationDuration}ms ease`,
     '&::-ms-reveal': {
       display: 'none'
     },
     '&:focus': {
-      borderBottom: theme.field.focusBorderBottom,
-      paddingBottom: theme.input.focusPaddingBottom
+      borderBottom: `2px solid ${theme.field.colors.focus.border}`,
+      paddingBottom: 1
     },
     '&:disabled': {
-      backgroundColor: '#eee',
-      borderColor: '#eee',
-      cursor: 'default'
+      backgroundColor: theme.field.colors.disabled.background,
+      borderColor: theme.field.colors.disabled.border,
+      color: theme.field.colors.disabled.color,
+      cursor: 'not-allowed'
     }
   },
-  medium: {
-    height: theme.input.height || theme.sizes.medium.height
-  },
-  small: {
-    height: theme.input.height || theme.sizes.small.height
-  },
+  ...['medium', 'small'].reduce((result, size) => ({
+    ...result,
+    [size]: {
+      height: theme.field.sizes[size].height,
+      fontSize: theme.field.sizes[size].fontSize,
+      '& $eye': {
+        height: theme.field.sizes[size].eyeIcon,
+        width: theme.field.sizes[size].eyeIcon,
+        lineHeight: theme.field.sizes[size].eyeIcon + 'px'
+      },
+      '&$withLeftIcon': {
+        paddingLeft: theme.field.sizes[size].withIconPadding
+      },
+      '&$withRightIcon': {
+        paddingRight: theme.field.sizes[size].withIconPadding
+      },
+      '&$withEye': {
+        paddingRight: theme.field.sizes[size].withIconPadding,
+        '&$withRightIcon': {
+          paddingRight: theme.field.sizes[size].withIconsPadding
+        },
+        '& ~ $iconRight': {
+          right: theme.field.sizes[size].withIconPadding
+        }
+      }
+    }
+  }), {}),
   success: {
     '&$input': {
-      borderBottom: theme.field.successBorderBottom,
-      paddingBottom: theme.input.focusPaddingBottom,
-      opacity: 1
+      borderBottom: `2px solid ${theme.field.colors.success.border}`,
+      paddingBottom: 1
     }
   },
   error: {
     '&$input': {
-      borderBottom: theme.field.errorBorderBottom,
-      paddingBottom: theme.input.focusPaddingBottom,
-      opacity: 1
+      borderBottom: `2px solid ${theme.field.colors.error.border}`,
+      paddingBottom: 1
     }
   },
   warning: {
     '&$input': {
-      borderBottom: theme.field.warningBorderBottom,
-      paddingBottom: theme.input.focusPaddingBottom,
-      opacity: 1
+      borderBottom: `2px solid ${theme.field.colors.warn.border}`,
+      paddingBottom: 1
     }
   },
-  filled: {
-    '&$input': {
-      borderBottom: theme.field.filledBorderBottom,
-      paddingBottom: theme.input.focusPaddingBottom,
-      opacity: 1
-    }
-  },
-  withLeftIcon: {
-    paddingLeft: theme.field.withIconPadding
-  },
-  withRightIcon: {
-    paddingRight: theme.field.withIconPadding
-  },
-  withEye: {
-    paddingRight: theme.field.withIconPadding,
-    '&$withRightIcon': {
-      paddingRight: theme.field.withIconsPadding
-    },
-    '& ~ $iconRight': {
-      right: theme.field.withIconPadding
-    }
-  },
+  withLeftIcon: {},
+  withRightIcon: {},
+  withEye: {},
   root: {
     position: 'relative'
   },
@@ -107,11 +103,7 @@ import { Eye } from '../icons/forms'
     border: 0,
     outline: 0,
     padding: 1,
-    height: theme.sizes.medium.icon,
-    width: theme.sizes.medium.icon,
-    backgroundSize: 'contain',
-    cursor: 'pointer',
-    background: 'none'
+    cursor: 'pointer'
   },
   iconLeft: {
     extend: 'icon',
@@ -160,7 +152,7 @@ export default class Input extends Component {
     /**
      * Валидация input'a - border снизу
      */
-    status: PropTypes.oneOf(['error', 'warning', 'success', 'filled', null]),
+    status: PropTypes.oneOf(['error', 'warning', 'success', null]),
     /**
      * Класс компонента
      */
@@ -219,7 +211,7 @@ export default class Input extends Component {
     this.setState({ type: this.input.type })
   }
 
-  onChangeHelper = e => {
+  onChangeHelper = (e) => {
     if (this.props.onChange) this.props.onChange(e, e.target.value)
   }
 
@@ -251,12 +243,16 @@ export default class Input extends Component {
     }, className)
 
     const resultIconLeft = iconLeft && cloneElement(iconLeft, {
-      color: status && theme.field.filledIconColor
+      color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || theme.field.colors.default.text)
+    })
+
+    const resultIconRight = iconRight && cloneElement(iconRight, {
+      color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || theme.field.colors.default.text)
     })
 
     return (
       <div style={style} className={css.root}>
-        {iconLeft &&
+        {resultIconLeft &&
           <div className={css.iconLeft}>
             {resultIconLeft}
           </div>
@@ -276,9 +272,9 @@ export default class Input extends Component {
           placeholder={placeholder}
           {...other}
         />
-        {iconRight &&
+        {resultIconRight &&
           <div className={css.iconRight}>
-            {iconRight}
+            {resultIconRight}
           </div>
         }
         {trueType === 'password' &&

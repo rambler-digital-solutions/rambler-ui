@@ -11,6 +11,7 @@ import { isolateMixin } from '../style/mixins'
 @injectSheet((theme) => ({
   dropdown: {
     ...isolateMixin,
+    borderRadius: theme.dropdown.borderRadius,
     boxSizing: 'border-box',
     opacity: '0.01',
     pointerEvents: 'none',
@@ -18,7 +19,7 @@ import { isolateMixin } from '../style/mixins'
     transitionDuration: `${theme.dropdown.animationDuration}ms`,
     transitionProperty: 'opacity, top',
     background: '#fff',
-    boxShadow: '1px 2px 7px 0 rgba(123, 129, 133, 0.34)'
+    boxShadow: theme.dropdown.boxShadow
   },
   isVisible: {
     opacity: '1 !important',

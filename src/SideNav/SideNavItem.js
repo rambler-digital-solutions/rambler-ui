@@ -18,12 +18,12 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     userSelect: 'none',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
-    color: 'inherit !important',
     position: 'relative',
     textDecoration: 'none',
-    fontSize: theme.sideNav.font.size,
+    fontSize: theme.sideNav.fontSize,
     height: theme.sideNav.height,
-    margin: `${theme.sideNav.betweenMargin}px ${theme.sideNav.sideMargin}px`
+    margin: `${theme.sideNav.betweenMargin}px ${theme.sideNav.sideMargin}px`,
+    color: theme.sideNav.colors.default.text
   },
   icon: {
     display: 'inline-block'
@@ -43,7 +43,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
       bottom: 0,
       display: 'block',
       width: 2,
-      backgroundColor: theme.sideNav.selectedBorderColor,
+      backgroundColor: theme.sideNav.colors.selected.border,
       content: '""',
       pointerEvents: 'none'
     }
@@ -119,7 +119,7 @@ class SideNavItem extends Component {
       } = this.props
 
       const iconProps = {
-        color: isSelected ? theme.sideNav.selectedIconColor : theme.sideNav.iconColor
+        color: isSelected ? theme.sideNav.colors.selected.icon : theme.sideNav.colors.default.icon
       }
 
       const initialProps = icon.props || {}

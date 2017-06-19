@@ -2,6 +2,7 @@
  * Компонент переключателя
  */
 import React, { Component, cloneElement } from 'react'
+import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
@@ -21,14 +22,15 @@ const whenDomReady = new Promise((resolve) => {
     display: 'inline-block',
     '&$block': { display: 'flex' },
     '&, & *': {
-      transitionDuration: '.2s',
+      transitionDuration: theme.toggle.animationDuration + 'ms',
       transitionProperty: 'background, opacity, border, box-shadow'
     }
   },
   option: {
     textAlign: 'center',
     borderStyle: 'solid',
-    borderColor: theme.toggle.borderColor,
+    borderColor: theme.toggle.colors.default.border,
+    color: theme.toggle.colors.default.text,
     borderWidth: '1px 0px 1px 1px',
     cursor: 'pointer',
     userSelect: 'none',
@@ -44,15 +46,29 @@ const whenDomReady = new Promise((resolve) => {
       right: -1,
       bottom: -1
     },
-    '&:last-child': { borderWidth: 1 },
-    '&:active, &:active$isSelected': { background: theme.toggle.activeBgColor },
-    '&:hover': { zIndex: 2 },
-    '&:hover:before': borderMixin(theme.toggle.hoverColor),
-    '&$isSelected': {
-      background: theme.toggle.selectedBgColor,
-      color: theme.toggle.selectedColor
+    '&:last-child': {
+      borderWidth: 1,
+      borderTopRightRadius: theme.toggle.borderRadius,
+      borderBottomRightRadius: theme.toggle.borderRadius
     },
-    '&$isSelected:before': borderMixin(theme.toggle.selectedColor)
+    '&:first-child': {
+      borderTopLeftRadius: theme.toggle.borderRadius,
+      borderBottomLeftRadius: theme.toggle.borderRadius
+    },
+    '&:hover': {
+      zIndex: 2,
+      '&:before': borderMixin(theme.toggle.colors.hover.border),
+      color: theme.toggle.colors.checked.text
+    },
+    '&$isSelected': {
+      '&:before': borderMixin(theme.toggle.colors.checked.border),
+      color: theme.toggle.colors.checked.text
+    },
+    '&:active': {
+      '&:before': borderMixin(theme.toggle.colors.active.border),
+      color: theme.toggle.colors.active.text,
+      background: theme.toggle.colors.active.background
+    }
   },
   block: {
     flexDirection: 'row',
@@ -163,6 +179,7 @@ export default class Toggle extends Component {
   calcMinWidth() {
     let minWidth = 0
     this.optionsElements.forEach(el => {
+      el = findDOMNode(el)
       minWidth = Math.max(el ? el.offsetWidth : 0, minWidth)
     })
     return minWidth
@@ -204,22 +221,16 @@ export default class Toggle extends Component {
       if (this.shouldCalcMinWidth())
         ref = (el) => { this.optionsElements.push(el) }
 
-      return (
-        <div
-          ref={ ref }
-          className={ resultClassName }
-          key={ ++i }
-          style={{ minWidth: this.state.minWidth }} >
-        {
-          cloneElement(child, {
-            isSelected,
-            size,
-            onPress: this.onValueChange
-          })
-        }
-        </div>
-      )
-    }, this)
+      return cloneElement(child, {
+        ref,
+        size,
+        isSelected,
+        key: ++i,
+        onPress: this.onValueChange,
+        className: classnames(child.props.style, resultClassName),
+        style: {...child.props.style, minWidth: this.state.minWidth}
+      })
+    })
 
     const resultClassName = classnames(
       css.toggle,

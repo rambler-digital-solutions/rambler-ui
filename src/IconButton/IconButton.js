@@ -7,145 +7,107 @@ import React, { Component, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
+import omitBy from 'lodash/omitBy'
 import pure from 'recompose/pure'
+import merge from 'lodash/merge'
 import { injectSheet } from '../theme'
-import { middleMixin, isolateMixin } from '../style/mixins'
+import { middleMixin, isolateMixin, borderMixin } from '../style/mixins'
 
 @pure
-@injectSheet((theme) => ({
-  button: {
-    ...isolateMixin,
-    textAlign: 'center',
-    cursor: 'pointer',
-    boxSizing: 'border-box',
-    borderRadius: theme.iconButton.borderRadius,
-    lineHeight: 1,
-    outline: 'none',
-    position: 'relative',
-    display: 'inline-block',
-    border: 'none',
-    userSelect: 'none',
-    '&, & *': {
-      transition: 'background-color .2s, border .2s, box-shadow .2s'
+@injectSheet((theme) => {
+  const css = {
+    button: {
+      ...isolateMixin,
+      textAlign: 'center',
+      cursor: 'pointer',
+      boxSizing: 'border-box',
+      borderRadius: theme.iconButton.borderRadius,
+      lineHeight: 1,
+      outline: 'none',
+      position: 'relative',
+      display: 'inline-block',
+      border: 'none',
+      userSelect: 'none',
+      '&, & *': {
+        transition: 'background-color .2s, border .2s, box-shadow .2s'
+      },
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        pointerEvents: 'none',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        border: '1px solid transparent',
+        transition: 'all .2s'
+      },
+      '&[disabled]': {
+        pointerEvents: 'none'
+      }
     },
-    '&:focus:before': {
-      content: '""',
-      display: 'block',
+    content: {
+      ...middleMixin
+    },
+    'size-medium': {
+      '& $content': {
+        width: theme.iconButton.sizes.medium.size,
+        height: theme.iconButton.sizes.medium.size
+      }
+    },
+    'size-small': {
+      '& $content': {
+        width: theme.iconButton.sizes.small.size,
+        height: theme.iconButton.sizes.small.size
+      }
+    },
+    overlay: {
       position: 'absolute',
-      borderRadius: theme.iconButton.borderRadius
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      zIndex: 1,
+      opacity: 0,
+      width: '100%',
+      cursor: 'pointer'
     },
-    '&[disabled]': {
-      pointerEvents: 'none'
+    icon: {
+      display: 'inline-block'
     }
-  },
-  content: {
-    ...middleMixin
-  },
-  'size-medium': {
-    '& $content': {
-      width: theme.iconButton.sizes.medium.size,
-      height: theme.iconButton.sizes.medium.size
-    }
-  },
-  'size-small': {
-    '& $content': {
-      width: theme.iconButton.sizes.small.size,
-      height: theme.iconButton.sizes.small.size
-    }
-  },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1,
-    opacity: 0,
-    width: '100%',
-    cursor: 'pointer'
-  },
-  icon: {
-    display: 'inline-block'
-  },
-  ...theme.button.buttonMixin('primary', {
-    defaultBg: theme.button.types.primary.defaultBg,
-    defaultBorder: theme.button.types.primary.defaultBorder,
-    textColor: theme.button.types.primary.textColor,
-    disabledTextColor: theme.button.types.primary.disabledTextColor,
-    hoverBorder: theme.button.types.primary.hoverBorder,
-    hoverBg: theme.button.types.primary.hoverBg,
-    activeBorder: theme.button.types.primary.activeBorder,
-    activeBg: theme.button.types.primary.activeBg,
-    focusBorder: theme.button.types.primary.focusBorder,
-    focusBg: theme.button.types.primary.focusBg,
-    disabledBorder: theme.button.types.primary.disabledBorder,
-    disabledBg: theme.button.types.primary.disabledBg,
-    focusOffset: theme.button.types.primary.focusOffset
-  }),
-  ...theme.button.buttonMixin('secondary', {
-    defaultBg: theme.button.types.secondary.defaultBg,
-    defaultBorder: theme.button.types.secondary.defaultBorder,
-    textColor: theme.button.types.secondary.textColor,
-    disabledTextColor: theme.button.types.secondary.disabledTextColor,
-    hoverBorder: theme.button.types.secondary.hoverBorder,
-    hoverBg: theme.button.types.secondary.hoverBg,
-    activeBorder: theme.button.types.secondary.activeBorder,
-    activeBg: theme.button.types.secondary.activeBg,
-    focusBorder: theme.button.types.secondary.focusBorder,
-    focusBg: theme.button.types.secondary.focusBg,
-    disabledBorder: theme.button.types.secondary.disabledBorder,
-    disabledBg: theme.button.types.secondary.disabledBg,
-    focusOffset: theme.button.types.secondary.focusOffset,
-    activeTextColor: theme.button.types.secondary.activeTextColor
-  }),
-  ...theme.button.buttonMixin('outline', {
-    defaultBg: theme.button.types.outline.defaultBg,
-    defaultBorder: theme.button.types.outline.defaultBorder,
-    textColor: theme.button.types.outline.textColor,
-    disabledTextColor: theme.button.types.outline.disabledTextColor,
-    hoverBorder: theme.button.types.outline.hoverBorder,
-    hoverBg: theme.button.types.outline.hoverBg,
-    activeBorder: theme.button.types.outline.activeBorder,
-    activeBg: theme.button.types.outline.activeBg,
-    focusBorder: theme.button.types.outline.focusBorder,
-    focusBg: theme.button.types.outline.focusBg,
-    disabledBorder: theme.button.types.outline.disabledBorder,
-    disabledBg: theme.button.types.outline.disabledBg,
-    focusOffset: theme.button.types.outline.focusOffset,
-    activeTextColor: theme.button.types.outline.activeTextColor
-  }),
-  ...theme.button.buttonMixin('flat', {
-    defaultBg: theme.button.types.flat.defaultBg,
-    defaultBorder: theme.button.types.flat.defaultBorder,
-    textColor: theme.button.types.flat.textColor,
-    disabledTextColor: theme.button.types.flat.disabledTextColor,
-    hoverBorder: theme.button.types.flat.hoverBorder,
-    hoverBg: theme.button.types.flat.hoverBg,
-    activeBorder: theme.button.types.flat.activeBorder,
-    activeBg: theme.button.types.flat.activeBg,
-    focusBorder: theme.button.types.flat.focusBorder,
-    focusBg: theme.button.types.flat.focusBg,
-    disabledBorder: theme.button.types.flat.disabledBorder,
-    disabledBg: theme.button.types.flat.disabledBg,
-    focusOffset: theme.button.types.flat.focusOffset,
-    activeTextColor: theme.button.types.flat.activeTextColor
-  }),
-  ...theme.button.buttonMixin('danger', {
-    defaultBg: theme.button.types.danger.defaultBg,
-    defaultBorder: theme.button.types.danger.defaultBorder,
-    textColor: theme.button.types.danger.textColor,
-    disabledTextColor: theme.button.types.danger.disabledTextColor,
-    hoverBorder: theme.button.types.danger.hoverBorder,
-    hoverBg: theme.button.types.danger.hoverBg,
-    activeBorder: theme.button.types.danger.activeBorder,
-    activeBg: theme.button.types.danger.activeBg,
-    focusBorder: theme.button.types.danger.focusBorder,
-    focusBg: theme.button.types.danger.focusBg,
-    disabledBorder: theme.button.types.danger.disabledBorder,
-    disabledBg: theme.button.types.danger.disabledBg,
-    focusOffset: theme.button.types.danger.focusOffset
-  })
-}))
+  }
+
+  merge(css, ['primary', 'secondary', 'outline', 'flat', 'danger'].reduce((result, type) => {
+    const conf = theme.button.types[type]
+    const offset = conf.outlineOffset || 0
+
+    const setThemeForSelector = (colors, outlineOffset) => omitBy({
+      background: colors.background,
+      color: colors.text,
+      ...colors.border && borderMixin(colors.border),
+      '&:before': colors.outline && {
+        left: -outlineOffset,
+        right: -outlineOffset,
+        top: -outlineOffset,
+        bottom: -outlineOffset,
+        borderColor: colors.outline
+      }
+    })
+
+    return merge(result, {
+      [`type-${type}`]: {
+        ...setThemeForSelector(conf.colors.default, offset),
+        '&:hover': setThemeForSelector(conf.colors.hover, offset),
+        '&:active': setThemeForSelector(conf.colors.active, offset),
+        '&:focus': setThemeForSelector(conf.colors.focus, offset),
+        '&[disabled]': setThemeForSelector(conf.colors.disabled, offset)
+      }
+    })
+  }, {}))
+
+  return css
+})
 export default class IconButton extends Component {
 
   static propTypes = {
@@ -216,7 +178,7 @@ export default class IconButton extends Component {
       const { theme, size, type, disabled } = this.props
       const iconProps = {
         size: theme.iconButton.sizes[size].icon,
-        color: theme.button.types[type][disabled ? 'disabledTextColor' : 'iconColor']
+        color: theme.button.types[type].colors[disabled ? 'disabled' : 'default'].text
       }
       const initialProps = icon.props || {}
       const className = classnames(initialProps.className, this.css.icon)

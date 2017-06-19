@@ -16,13 +16,15 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     ...fontStyleMixin(theme.font),
     position: 'relative',
     top: -14,
+    color: theme.hint.colors.text,
+    borderRadius: theme.hint.borderRadius,
     boxSizing: 'border-box',
-    boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)',
+    boxShadow: theme.hint.boxShadow,
     paddingTop: 15,
     paddingBottom: 20,
     width: 275,
-    backgroundColor: '#fff',
-    fontSize: 13,
+    backgroundColor: theme.hint.colors.background,
+    fontSize: theme.hint.fontSize,
     lineHeight: 1.31,
     opacity: 0.01,
     transitionDuration: `${theme.hint.animationDuration}ms`,
@@ -33,8 +35,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   },
   icon: {
     position: 'absolute',
-    top: 14,
-    fill: theme.button.types.primary.defaultBg
+    top: 14
   },
   left: {
     left: -15,
@@ -90,7 +91,7 @@ class HintContent extends Component {
 
     const anchor = cloneElement(icon, {
       className: css.icon,
-      color: iconProps.color || theme.button.types.primary.defaultBg
+      color: iconProps.color || theme.hint.colors.icon
     })
 
     return (

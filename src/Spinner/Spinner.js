@@ -38,7 +38,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     position: 'relative',
     top: -2,
     borderRadius: '50%',
-    backgroundColor: theme.spinner.dotColor,
+    backgroundColor: theme.spinner.color,
     transition: 'transform .6s ease-out',
     transform: 'translate3d(0, 0, 0)',
     animation: 'ruiAnimateDot .6s ease-out',

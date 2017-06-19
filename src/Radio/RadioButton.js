@@ -10,28 +10,26 @@ import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
 
 @injectSheet(theme => ({
-  normal: {
+  root: {
     ...isolateMixin,
     ...middleMixin,
     ...fontStyleMixin(theme.font),
-    fontSize: theme.radio.font.size,
+    fontSize: theme.radio.fontSize,
     display: 'inline-block',
     width: '100%',
     cursor: 'pointer',
     position: 'relative',
+    color: theme.radio.colors.default.background,
     '& input': {
       position: 'absolute',
       opacity: '0',
       appearance: 'none'
     },
     '& input:checked + $radio': {
-      borderColor: theme.radio.activeRadioColor
+      borderColor: theme.radio.colors.checked.border
     },
     '& input:checked + $radio:after': {
-      opacity: '1'
-    },
-    '&--enter radio': {
-      borderColor: theme.radio.activeRadioColor
+      opacity: 1
     }
   },
   label: {
@@ -40,18 +38,18 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
   },
   radio: {
     '&:hover': {
-      borderColor: theme.radio.activeRadioColor
+      borderColor: theme.radio.colors.hover.border
     },
     display: 'inline-block',
     verticalAlign: 'middle',
     position: 'relative',
     boxSizing: 'border-box',
-    border: theme.radio.baseRadioBorder,
-    borderRadius: theme.radio.borderRadius,
-    width: '16px',
-    height: '16px',
-    marginTop: '-1px',
-    marginRight: '20px',
+    border: `1px solid ${theme.radio.colors.default.border}`,
+    borderRadius: '50%',
+    width: 16,
+    height: 16,
+    marginTop: -1,
+    marginRight: 20,
     textAlign: 'center',
     transition: 'border-color 0.1s ease',
     '&:after': {
@@ -59,34 +57,40 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
       top: '50%',
       left: '50%',
       display: 'inline-block',
-      borderRadius: theme.radio.borderRadius,
+      borderRadius: '50%',
       content: '""',
-      backgroundColor: theme.radio.activeRadioColor,
+      backgroundColor: theme.radio.colors.default.background,
       opacity: 0,
       transition: 'opacity 0.1s ease',
       margin: '-3px 0 0 -3px',
-      width: '6px',
-      height: '6px'
+      width: 6,
+      height: 6
     },
     '@media (max-width: 768px)': {
-      width: '18px',
-      height: '18px',
+      width: 18,
+      height: 18,
       '&:after': {
         margin: '-4px 0 0 -4px',
-        width: '8px',
-        height: '8px'
+        width: 8,
+        height: 8
       }
     }
   },
   isLabelLeft: {
-    margin: '0',
+    margin: 0,
     position: 'absolute',
-    right: '0',
-    top: '0'
+    right: 0,
+    top: 0
   },
   isDisabled: {
-    opacity: '0.5',
-    pointerEvents: 'none'
+    pointerEvents: 'none',
+    color: theme.radio.colors.disabled.color,
+    '& $radio': {
+      borderColor: theme.radio.colors.disabled.border,
+      '&:after': {
+        background: theme.radio.colors.disabled.background
+      }
+    }
   }
 }))
 class RadioButton extends Component {
@@ -172,7 +176,7 @@ class RadioButton extends Component {
     /* eslint-enable no-unused-vars */
     const isLabelLeft = labelPosition === 'left'
 
-    const rootClassName = classnames(css.normal, className, {
+    const rootClassName = classnames(css.root, className, {
       [css.isDisabled]: disabled })
 
     const resultRadioClassName = classnames(css.radio, radioClassName, {

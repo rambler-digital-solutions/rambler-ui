@@ -66,3 +66,8 @@ export const placeholderMixin = (options) => ({
   '&:-ms-input-placeholder': options,
   '&:-moz-placeholder': options
 })
+
+export const uppercaseMixin = {
+  textTransform: 'uppercase',
+  letterSpacing: 1.3
+}

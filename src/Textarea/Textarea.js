@@ -16,27 +16,28 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     ...fontStyleMixin(theme.font),
     boxSizing: 'border-box',
     display: 'block',
-    borderRadius: 0,
+    borderRadius: theme.field.borderRadius,
     outline: 0,
     width: '100%',
-    background: '#fff',
+    background: theme.field.colors.default.background,
     fontWeight: 400,
     appearance: 'none',
     lineHeight: 'normal',
     maxWidth: '100%',
-    border: theme.field.border,
+    border: `1px solid ${theme.field.colors.default.border}`,
     fontSize: theme.field.fontSize,
-    transition: 'border-color 0.3s ease',
+    transition: `border-color ${theme.field.animationDuration}ms ease`,
     '&::-ms-reveal': {
       display: 'none'
     },
     '&:focus': {
-      borderBottom: theme.field.focusBorderBottom
+      borderBottom: `2px solid ${theme.field.colors.focus.border}`
     },
     '&:disabled': {
-      backgroundColor: '#eee',
-      borderColor: '#eee',
-      cursor: 'default'
+      backgroundColor: theme.field.colors.disabled.background,
+      borderColor: theme.field.colors.disabled.border,
+      color: theme.field.colors.disabled.color,
+      cursor: 'not-allowed'
     }
   },
   small: {
@@ -73,37 +74,21 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   },
   success: {
     '&$textarea': {
-      borderBottom: theme.field.successBorderBottom
+      borderBottom: `2px solid ${theme.field.colors.success.border}`
     }
   },
   error: {
     '&$textarea': {
-      borderBottom: theme.field.errorBorderBottom
+      borderBottom: `2px solid ${theme.field.colors.error.border}`
     }
   },
   warning: {
     '&$textarea': {
-      borderBottom: theme.field.warningBorderBottom
+      borderBottom: `2px solid ${theme.field.colors.warn.border}`
     }
-  },
-  withLeftIcon: {
-    paddingLeft: theme.field.withIconPadding
-  },
-  withRightIcon: {
-    paddingRight: theme.field.withIconPadding
   },
   root: {
     position: 'relative'
-  },
-  iconLeft: {
-    position: 'absolute',
-    top: 12,
-    left: theme.field.iconMargin
-  },
-  iconRight: {
-    position: 'absolute',
-    top: 12,
-    right: theme.field.iconMargin
   }
 }))
 export default class Textarea extends Component {
@@ -165,15 +150,7 @@ export default class Textarea extends Component {
     /**
      * Обработчик нажания клавиши
      */
-    onKeyDown: PropTypes.func,
-    /**
-     * Иконка слева
-     */
-    iconLeft: PropTypes.node,
-    /**
-     * Иконка справа
-     */
-    iconRight: PropTypes.node
+    onKeyDown: PropTypes.func
   };
 
   static defaultProps = {
@@ -208,11 +185,6 @@ export default class Textarea extends Component {
 
     return (
       <div className={css.root}>
-        {iconLeft &&
-          <div className={css.iconLeft}>
-            {iconLeft}
-          </div>
-        }
         <textarea
           name={name}
           disabled={disabled}
@@ -223,11 +195,6 @@ export default class Textarea extends Component {
           tabIndex='0'
           {...other}
         />
-        {iconRight &&
-          <div className={css.iconRight}>
-            {iconRight}
-          </div>
-        }
       </div>
     )
   }

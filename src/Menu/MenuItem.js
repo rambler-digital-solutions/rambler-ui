@@ -12,20 +12,21 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    color: theme.menu.colors.default.text,
+    backgroundColor: theme.menu.colors.default.background,
     cursor: 'pointer',
     padding: '7px 14px',
     outline: 0,
-    fontSize: theme.field.fontSize,
+    fontSize: 13,
     '&:hover': {
-      backgroundColor: '#f0f0f0'
+      backgroundColor: theme.menu.colors.hover.background
     },
     '&:focus': {
-      backgroundColor: '#f0f0f0'
+      backgroundColor: theme.menu.colors.focus.background
     }
   },
   isSelected: {
-    color: theme.field.activeIconColor
+    color: theme.menu.colors.hover.text
   }
 }))
 class MenuItem extends PureComponent {

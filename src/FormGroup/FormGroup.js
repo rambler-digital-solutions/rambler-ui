@@ -10,15 +10,15 @@ import { ifDesktop } from '../style/mixins'
 
 @injectSheet(() => ({
   normal: {
-    marginBottom: '15px'
+    marginBottom: 15
   },
   inline: {
-    marginBottom: '15px'
+    marginBottom: 15
   },
   label: {
     width: '100%',
     display: 'inline-block',
-    marginBottom: '5px'
+    marginBottom: 5
   },
   inner: {
     position: 'relative'
@@ -28,16 +28,16 @@ import { ifDesktop } from '../style/mixins'
       '& $label': {
         width: '100%'
       },
-      marginBottom: '30px'
+      marginBottom: 30
     },
     inline: {
-      marginBottom: '30px',
+      marginBottom: 30,
       display: 'flex',
       '& $label': {
         marginLeft: 0,
         marginBottom: 0,
-        width: '172px',
-        lineHeight: '44px'
+        maxWidth: 172,
+        lineHeight: 44
       },
       '& $inner': {
         flex: 1,

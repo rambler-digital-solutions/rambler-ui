@@ -5,27 +5,28 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { fontStyleMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   success: {
     '& $message': {
-      color: ' #28bc00'
+      color: theme.colors.success
     }
   },
   warning: {
     '& $message': {
-      color: '#f4c914'
+      color: theme.colors.warn
     }
   },
   error: {
     '& $message': {
-      color: '#ff564e'
+      color: theme.colors.error
     }
   },
   message: {
+    ...isolateMixin,
     ...fontStyleMixin(theme.font),
-    marginTop: '7px',
+    marginTop: 7,
     textAlign: 'left'
   }
 }))

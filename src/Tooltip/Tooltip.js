@@ -19,12 +19,12 @@ import { isolateMixin, fontStyleMixin } from '../style/mixins'
     pointerEvents: 'none'
   },
   body: {
-    background: 'rgba(0, 0, 0, .8)',
-    fontSize: 13,
-    color: '#fff',
+    background: theme.tooltip.colors.background,
+    fontSize: theme.tooltip.fontSize,
+    color: theme.tooltip.colors.text,
     padding: '8px 12px',
     boxSizing: 'border-box',
-    borderRadius: 3
+    borderRadius: theme.tooltip.borderRadius
   },
   isVisible: {
     opacity: '1 !important',

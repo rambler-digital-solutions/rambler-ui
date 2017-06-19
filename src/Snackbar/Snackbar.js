@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
@@ -27,8 +27,8 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     padding: theme.snackbar.padding,
     width: '100%',
     height: theme.snackbar.height,
-    color: theme.snackbar.color,
-    fontSize: theme.snackbar.font.size,
+    color: theme.snackbar.colors.text,
+    fontSize: theme.snackbar.fontSize,
     opacity: 0,
     transitionDuration: theme.snackbar.animationDuration,
     transitionProperty: 'bottom, opacity',
@@ -64,16 +64,16 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     })
   },
   main: {
-    backgroundColor: theme.snackbar.background.main
+    backgroundColor: theme.snackbar.colors.background.main
   },
   primary: {
-    backgroundColor: theme.snackbar.background.primary
+    backgroundColor: theme.snackbar.colors.background.primary
   },
   success: {
-    backgroundColor: theme.snackbar.background.success
+    backgroundColor: theme.snackbar.colors.background.success
   },
   danger: {
-    backgroundColor: theme.snackbar.background.danger
+    backgroundColor: theme.snackbar.colors.background.danger
   },
   icon: {
     ...middleMixin,
@@ -95,8 +95,8 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     marginLeft: 15,
     padding: '0 10px',
     backgroundColor: 'transparent',
-    color: theme.snackbar.color,
-    fontSize: theme.snackbar.font.size,
+    color: theme.snackbar.colors.actionButton,
+    fontSize: theme.snackbar.fontSize,
     textAlign: 'center',
     textTransform: 'uppercase',
     letterSpacing: 1,
@@ -246,7 +246,7 @@ export default class Snackbar extends Component {
           className={classnames(css.snackbar, css[positionX], css[type], className)}>
           {icon &&
             <div className={css.icon}>
-              {icon}
+              {cloneElement(icon, {color: icon.props.color || theme.snackbar.colors.text})}
             </div>
           }
           <div className={css.content}>
@@ -259,7 +259,7 @@ export default class Snackbar extends Component {
           }
           {showClose &&
             <button type="button" className={css.close} onClick={onRequestClose}>
-              <ClearIcon size={10} color={theme.snackbar.color} />
+              <ClearIcon size={10} color={theme.snackbar.colors.text} />
             </button>
           }
         </div>

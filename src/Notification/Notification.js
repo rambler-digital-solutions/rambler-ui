@@ -27,9 +27,9 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     boxSizing: 'border-box',
     boxShadow: theme.notification.boxShadow,
     padding: theme.notification.padding,
-    backgroundColor: theme.notification.background,
-    color: theme.notification.color,
-    fontSize: theme.notification.font.size,
+    backgroundColor: theme.notification.colors.background,
+    color: theme.notification.colors.text,
+    fontSize: theme.notification.fontSize,
     opacity: 0,
     transitionDuration: theme.notification.animationDuration,
     transitionProperty: 'bottom, opacity',
@@ -63,7 +63,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     marginRight: 10,
     width: 39,
     height: 39,
-    backgroundColor: theme.notification.iconBackground,
+    backgroundColor: theme.notification.colors.iconBackground,
     textAlign: 'center'
   },
   body: {
@@ -79,20 +79,17 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     padding: 0,
     height: 20,
     backgroundColor: 'transparent',
-    color: theme.button.types.primary.defaultBg,
-    fontSize: theme.notification.font.size,
+    color: theme.notification.actionButton.colors.default,
+    fontSize: theme.notification.actionButton.fontSize,
     fontWeight: 500,
     cursor: 'pointer',
     transitionDuration: theme.notification.animationDuration,
     transitionProperty: 'color',
     '&:hover:not(:active)': {
-      color: theme.button.types.primary.hoverBg
-    },
-    '&:focus:not(:active)': {
-      color: theme.button.types.primary.focusBg
+      color: theme.notification.actionButton.colors.hover
     },
     '&:active': {
-      color: theme.button.types.primary.activeBg
+      color: theme.notification.actionButton.colors.active
     },
     '& svg': {
       marginLeft: 7
@@ -211,7 +208,7 @@ export default class Notification extends Component {
               size="small"
               className={css.close}
               onClick={onRequestClose}>
-              <ClearIcon color={theme.notification.closeColor} />
+              <ClearIcon color={theme.notification.colors.close} />
             </IconButton>
           }
           <div className={css.title}>
@@ -228,7 +225,7 @@ export default class Notification extends Component {
           {actionButton &&
             <button type="button" className={css.actionButton} onClick={onAction}>
               {actionButton}
-              <ChevronRightIcon size={9} color={theme.button.types.primary.defaultBg} />
+              <ChevronRightIcon size={9} color={theme.notification.actionButton.colors.default} />
             </button>
           }
         </div>

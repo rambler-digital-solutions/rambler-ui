@@ -2,109 +2,108 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
+import omitBy from 'lodash/omitBy'
 import TickIcon from '../icons/forms/TickIcon'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
 
-@injectSheet((theme) => ({
-  checkbox: {
-    ...isolateMixin,
-    ...fontStyleMixin(theme.font),
-    fontSize: theme.checkbox.font.size,
-    overflow: 'hidden',
-    position: 'relative',
-    display: 'inline-block',
-    verticalAlign: 'top',
-    '&, & *': {
-      transition: 'all .2s'
+@injectSheet((theme) => {
+
+  const setThemeForSelector = (colors) => omitBy({
+    color: colors.color,
+    '& $fake': omitBy({
+      background: colors.background,
+      borderColor: colors.border
+    }),
+    '& $tick': omitBy({
+      fill: colors.tick
+    })
+  })
+
+  return {
+    checkbox: {
+      ...isolateMixin,
+      ...fontStyleMixin(theme.font),
+      fontSize: theme.checkbox.fontSize,
+      overflow: 'hidden',
+      position: 'relative',
+      display: 'inline-block',
+      verticalAlign: 'top',
+      '&, & *': {
+        transition: 'all .2s'
+      },
+      '&:hover': setThemeForSelector(theme.checkbox.colors.hover),
+      '&:active': setThemeForSelector(theme.checkbox.colors.active),
+      '&$isChecked': setThemeForSelector(theme.checkbox.colors.checked),
+      '&$isFocused': setThemeForSelector(theme.checkbox.colors.focused),
+      '&$isDisabled': setThemeForSelector(theme.checkbox.colors.disabled)
     },
-    '&:hover $fake': {
-      borderColor: theme.checkbox.hoverBorderColor
+    fake: {
+      ...middleMixin,
+      position: 'absolute',
+      boxSizing: 'border-box',
+      display: 'inline-block',
+      width: theme.checkbox.size,
+      height: theme.checkbox.size,
+      lineHeight: theme.checkbox.size + 'px',
+      borderStyle: 'solid',
+      borderWidth: 1,
+      borderRadius: theme.checkbox.borderRadius,
+      ...setThemeForSelector(theme.checkbox.colors.default)
     },
-    '&:active $fake': {
-      borderColor: theme.checkbox.activeBorderColor
+    real: {
+      position: 'absolute',
+      opacity: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      top: 0,
+      width: '100%',
+      height: '100%',
+      cursor: 'pointer',
+      zIndex: 1
     },
-    '&:not($isChecked):active $fake': {
-      background: theme.checkbox.activeBgColor,
-      borderColor: theme.checkbox.activeBorderColor
-    }
-  },
-  fake: {
-    ...middleMixin,
-    position: 'absolute',
-    boxSizing: 'border-box',
-    display: 'inline-block',
-    width: theme.checkbox.size,
-    height: theme.checkbox.size,
-    border: `1px solid ${theme.checkbox.borderColor}`,
-    borderRadius: theme.checkbox.borderRadius
-  },
-  real: {
-    position: 'absolute',
-    opacity: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    cursor: 'pointer',
-    zIndex: 1
-  },
-  label: {
-    cursor: 'pointer',
-    fontSize: 13,
-    lineHeight: '15px',
-    fontWeight: 'normal'
-  },
-  icon: {
-    ...isolateMixin,
-    position: 'relative',
-    left: 1,
-    top: -4,
-    opacity: 0
-  },
-  iconright: {
-    '& $fake': {
-      right: 0
+    label: {
+      cursor: 'pointer',
+      fontSize: 13,
+      lineHeight: '15px',
+      fontWeight: 'normal'
     },
-    '& $label': {
-      marginRight: theme.checkbox.size + theme.checkbox.iconMargin
-    }
-  },
-  iconleft: {
-    '& $fake': {
-      left: 0
+    tick: {
+      ...isolateMixin,
+      position: 'relative',
+      left: 1,
+      top: -4,
+      opacity: 0
     },
-    '& $label': {
-      marginLeft: theme.checkbox.size + theme.checkbox.iconMargin
-    }
-  },
-  isChecked: {
-    '& $icon': {
-      top: 2,
-      opacity: 1
+    iconright: {
+      '& $fake': {
+        right: 0
+      },
+      '& $label': {
+        marginRight: theme.checkbox.size + theme.checkbox.iconMargin
+      }
     },
-    '& $fake': {
-      borderColor: theme.checkbox.checkedBorderColor
-    }
-  },
-  isFocused: {
-    '& $fake': {
-      borderColor: theme.checkbox.activeBorderColor
-    }
-  },
-  isDisabled: {
-    pointerEvents: 'none',
-    '& $fake': {
-      borderColor: theme.checkbox.disabledBorderColor,
-      background: theme.checkbox.disabledBgColor
+    iconleft: {
+      '& $fake': {
+        left: 0
+      },
+      '& $label': {
+        marginLeft: theme.checkbox.size + theme.checkbox.iconMargin
+      }
     },
-    '& $label': {
-      color: theme.checkbox.disabledColor
+    isChecked: {
+      '& $tick': {
+        top: 2,
+        opacity: 1
+      }
+    },
+    isFocused: {},
+    isDisabled: {
+      pointerEvents: 'none'
     }
   }
-}))
+})
 export default class Checkbox extends Component {
 
   static propTypes = {
@@ -223,6 +222,7 @@ export default class Checkbox extends Component {
       [css.isDisabled]: disabled
     }
     const resultClassName = classnames(css.checkbox, css[`icon${iconPosition}`], className, stateClasses)
+    const tickColor = disabled ? theme.checkbox.colors.disabled.tick : theme.checkbox.colors.default.tick
     return (
       <div className={resultClassName} style={style}>
         <input
@@ -237,7 +237,7 @@ export default class Checkbox extends Component {
           onFocus={ this.onFocus }
           onBlur={ this.onBlur } />
         <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
-          <TickIcon className={ css.icon } size={ 12 } color={ theme.checkbox.activeBorderColor } />
+          <TickIcon className={ css.icon } size={ theme.tick.size } color={ tickColor } />
         </span>
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }

@@ -13,7 +13,6 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     ...middleMixin,
     ...isolateMixin,
     ...fontStyleMixin(theme.font),
-    fontSize: theme.toggle.font.size,
     display: 'block',
     textAlign: 'center',
     userSelect: 'none',
@@ -22,11 +21,13 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     color: 'inherit'
   },
   'size-small': {
-    height: theme.sizes.small.height,
+    fontSize: theme.toggle.sizes.small.fontSize,
+    height: theme.toggle.sizes.small.height,
     padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
   },
   'size-medium': {
-    height: theme.sizes.medium.height,
+    fontSize: theme.toggle.sizes.medium.fontSize,
+    height: theme.toggle.sizes.medium.height,
     padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
   },
   icon: {
@@ -111,10 +112,10 @@ class ToggleOption extends Component {
     /* eslint-enable no-unused-vars */
     const resultClassName = classnames(css.toggleOption, css[`size-${size}`], className)
     return (
-      <div { ...other } className={ resultClassName } onClick={ this.onClick }>
+      <span tabIndex="0" { ...other } className={ resultClassName } onClick={ this.onClick }>
         { this.renderIcon(icon) }
         { children }
-      </div>
+      </span>
     )
   }
 

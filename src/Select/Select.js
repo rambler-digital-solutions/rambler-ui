@@ -12,26 +12,26 @@ import { injectSheet } from '../theme'
 @injectSheet(theme => ({
   select: {
     position: 'relative',
-    backgroundColor: '#fff',
+    backgroundColor: theme.field.colors.default.background,
     '&:hover:not($disabled) $arrow:after': {
-      borderColor: theme.field.activeIconColor
+      borderColor: theme.field.colors.default.text
     }
   },
   disabled: {
-    backgroundColor: '#eee',
+    backgroundColor: theme.field.colors.disabled.background,
     '& $arrow': {
-      cursor: 'default'
+      cursor: 'not-allow'
     }
   },
   focused: {
     '& $arrow:after': {
-      borderColor: theme.field.activeIconColor
+      borderColor: theme.field.colors.focus.border
     }
   },
   input: {
     backgroundColor: 'transparent !important',
-    '&:disabled': {
-      cursor: 'default !important'
+    '&[disabled]': {
+      cursor: 'not-allow !important'
     }
   },
   readonly: {
@@ -46,22 +46,25 @@ import { injectSheet } from '../theme'
     bottom: 0,
     border: '1px solid transparent',
     padding: theme.input.padding,
-    color: 'rgba(38, 38, 38, 0.6)',
+    color: theme.field.colors.default.text,
     fontSize: theme.field.fontSize
   },
-  medium: {
-    lineHeight: '41px'
-  },
-  small: {
-    lineHeight: '31px'
-  },
-  withIcon: {
-    paddingLeft: theme.field.withIconPadding
-  },
+  ...['small', 'medium'].reduce((result, type) => ({
+    ...result,
+    [type]: {
+      lineHeight: theme.field.sizes.medium.height - 4,
+      '&$withIcon': {
+        paddingLeft: theme.field.sizes.medium.withIconPadding
+      },
+      '& $arrow': {
+        right: theme.field.sizes.medium.iconMargin
+      }
+    }
+  }), {}),
+  withIcon: {},
   arrow: {
     position: 'absolute',
     top: '50%',
-    right: theme.field.iconMargin,
     transform: 'translateY(-50%)',
     fontSize: 0,
     border: 0,
@@ -76,7 +79,8 @@ import { injectSheet } from '../theme'
       position: 'absolute',
       top: 4,
       left: 6,
-      border: '1px solid #ccc',
+      borderStyle: 'solid',
+      borderColor: theme.field.colors.default.border,
       borderWidth: '0 0 1px 1px',
       height: 8,
       width: 8,
