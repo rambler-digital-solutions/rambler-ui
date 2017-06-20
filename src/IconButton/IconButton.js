@@ -7,7 +7,7 @@ import React, { Component, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import omitBy from 'lodash/omitBy'
+import pickBy from 'lodash/pickBy'
 import pure from 'recompose/pure'
 import merge from 'lodash/merge'
 import { injectSheet } from '../theme'
@@ -82,7 +82,7 @@ import { middleMixin, isolateMixin, borderMixin } from '../style/mixins'
     const conf = theme.button.types[type]
     const offset = conf.outlineOffset || 0
 
-    const setThemeForSelector = (colors, outlineOffset) => omitBy({
+    const setThemeForSelector = (colors, outlineOffset) => pickBy({
       background: colors.background,
       color: colors.text,
       ...colors.border && borderMixin(colors.border),

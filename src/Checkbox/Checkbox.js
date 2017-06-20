@@ -2,20 +2,20 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import omitBy from 'lodash/omitBy'
+import pickBy from 'lodash/pickBy'
 import TickIcon from '../icons/forms/TickIcon'
 import { injectSheet } from '../theme'
 import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
 
 @injectSheet((theme) => {
 
-  const setThemeForSelector = (colors) => omitBy({
+  const setThemeForSelector = (colors) => pickBy({
     color: colors.color,
-    '& $fake': omitBy({
+    '& $fake': pickBy({
       background: colors.background,
       borderColor: colors.border
     }),
-    '& $tick': omitBy({
+    '& $tick': pickBy({
       fill: colors.tick
     })
   })

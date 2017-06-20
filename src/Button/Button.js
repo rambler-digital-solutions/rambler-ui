@@ -7,12 +7,12 @@ import React, { Component, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import omitBy from 'lodash/omitBy'
+import pickBy from 'lodash/pickBy'
 import merge from 'lodash/merge'
 import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, middleMixin, isolateMixin, uppercaseMixin, borderMixin } from '../style/mixins'
+import { fontStyleMixin, middleMixin, isolateMixin, uppercaseMixin } from '../style/mixins'
 
 function getIconColor(colorsConfig, isDisabled) {
   return isDisabled && colorsConfig.disabled.icon || colorsConfig.default.icon
@@ -29,7 +29,6 @@ function getIconColor(colorsConfig, isDisabled) {
       cursor: 'pointer',
       boxSizing: 'border-box',
       textDecoration: 'none',
-      fontWeight: 400,
       outline: 'none',
       position: 'relative',
       display: 'inline-block',
@@ -37,7 +36,7 @@ function getIconColor(colorsConfig, isDisabled) {
       userSelect: 'none',
       borderRadius: theme.button.borderRadius,
       '&, & *': { transition: 'background-color .2s, border .2s, box-shadow .2s' },
-      '&:before': {
+      '&:before, &:after': {
         content: '""',
         display: 'block',
         position: 'absolute',
@@ -47,13 +46,14 @@ function getIconColor(colorsConfig, isDisabled) {
         top: 0,
         bottom: 0,
         border: '1px solid transparent',
-        transition: 'all .2s'
+        transition: 'all .2s',
+        borderRadius: theme.button.borderRadius
       },
       '&[disabled]': { pointerEvents: 'none' }
 
     },
     isRounded: {
-      '&$button, &$button:focus:before': {
+      '&$button, &:before, &:after': {
         borderRadius: '9999px !important'
       }
     },
@@ -67,7 +67,7 @@ function getIconColor(colorsConfig, isDisabled) {
       overflow: 'hidden',
       textOverflow: 'ellipsis',
       fontSmoothing: 'antialiased',
-      fontWeight: 400
+      fontWeight: 500
     },
     block: {
       display: 'block',
@@ -101,16 +101,17 @@ function getIconColor(colorsConfig, isDisabled) {
       cursor: 'pointer'
     },
     icon: {
-      display: 'inline-block'
+      display: 'inline-block',
+      marginTop: -2
     },
     'iconPosition-right': {
       '& $icon': {
-        marginLeft: 10
+        marginLeft: 8
       }
     },
     'iconPosition-left': {
       '& $icon': {
-        marginRight: 10
+        marginRight: 8
       }
     }
   }
@@ -119,31 +120,32 @@ function getIconColor(colorsConfig, isDisabled) {
     const conf = theme.button.types[type]
     const offset = conf.outlineOffset || 0
 
-    const setThemeForSelector = (colors, outlineOffset) => omitBy({
+    const setThemeForSelector = (colors, outlineOffset) => pickBy({
       background: colors.background,
       color: colors.text,
-      ...colors.border && borderMixin(colors.border),
-      '&:before': colors.outline && {
+      '&:before': colors.border && {
+        borderColor: colors.border
+      },
+      '&:after': colors.outline && pickBy({
         left: -outlineOffset,
         right: -outlineOffset,
         top: -outlineOffset,
         bottom: -outlineOffset,
         borderColor: colors.outline,
-        borderRadius: theme.button.borderRadius + outlineOffset
-      }
+        borderRadius: theme.button.borderRadius + outlineOffset / 1.5
+      })
     })
-
-    return merge(result, {
+    return {
+      ...result,
       [`type-${type}`]: {
-        ...setThemeForSelector(conf.colors.default, offset),
         '&:hover': setThemeForSelector(conf.colors.hover, offset),
         '&:active': setThemeForSelector(conf.colors.active, offset),
         '&:focus': setThemeForSelector(conf.colors.focus, offset),
-        '&[disabled]': setThemeForSelector(conf.colors.disabled, offset)
+        '&[disabled]': setThemeForSelector(conf.colors.disabled, offset),
+        ...setThemeForSelector(conf.colors.default, offset)
       }
-    })
+    }
   }, {}))
-
   return css
 })
 export default class Button extends Component {
@@ -226,7 +228,7 @@ export default class Button extends Component {
 
   static defaultProps = {
     type: 'primary',
-    size: 'small',
+    size: 'medium',
     buttonType: 'button',
     iconPosition: 'left',
     block: false
@@ -316,7 +318,7 @@ export default class Button extends Component {
       resultContainer,
       resultProps,
       resultChildren,
-      loading && <Spinner color={theme.button.types[type].loaderColor} />
+      loading && <Spinner color={theme.button.types[type].colors.default.loader} />
     )
   }
 }

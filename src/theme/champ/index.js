@@ -1,4 +1,4 @@
 import colors from './colors'
-import createTheme from '../create'
+import { createTheme } from '../base/create'
 
 export default createTheme({ colors })

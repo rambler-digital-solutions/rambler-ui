@@ -49,9 +49,9 @@ function decomposeColor(color) {
   if (color.charAt(0) === '#')
     return decomposeColor(convertHexToRGB(color))
 
+  color = color.replace(/\s/g, '')
   const marker = color.indexOf('(')
-
-  if (marker !== -1)
+  if (marker === -1)
     throw new Error(`Rambler UI: The ${color} color was not parsed correctly,
       because it has an unsupported format (color name or RGB %). This may cause issues in component rendering.`)
 
@@ -114,6 +114,15 @@ function convertColorToString(color) {
     colorString += ')'
 
   return colorString
+}
+
+/**
+ * Normalize color
+ * @param  {String} color - Hex or rgba
+ * @return {String} color in rgba mode
+ */
+export function normalize(color) {
+  return convertColorToString(decomposeColor(color))
 }
 
 /**

@@ -1,7 +1,9 @@
 import Button from '../Button'
 import React from 'react'
+import theme from '../../theme/base'
+import {normalize as nc} from '../../utils/colors'
 import { mount, getStyles, applyTheme } from '../../utils/test-utils'
-import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
+import ChevronRightIcon from '../../icons/forms/ChevronRightIcon'
 
 describe('<Button />', () => {
   const defaultProps = {
@@ -37,16 +39,16 @@ describe('<Button />', () => {
     expect(styles.height).toEqual('45px')
     expect(styles['background-color']).toEqual('rgb(49, 94, 251)')
     expect(styles['font-family']).toEqual('Roboto, sans-serif')
-    expect(styles['font-size']).toEqual('12px')
+    expect(styles['font-size']).toEqual('11px')
   })
 
   it('expect type="secondary" size="small" affect style', () => {
     const wrapper = mount(applyTheme(<Button type="secondary" size="small">test</Button>))
     const styles = getStyles(wrapper)
     expect(styles.height).toEqual('35px')
-    expect(styles['background-color']).toEqual('rgb(234, 239, 255)')
+    expect(nc(styles['background-color'])).toEqual(nc(theme.button.types.secondary.colors.default.background))
     expect(styles['font-family']).toEqual('Roboto, sans-serif')
-    expect(styles['font-size']).toEqual('12px')
+    expect(styles['font-size']).toEqual('11px')
   })
 
   it('expect block={true} size="small" affect style', () => {
@@ -56,24 +58,8 @@ describe('<Button />', () => {
       </div>
     ))
 
-    const stylesWrap = getStyles(wrapper)
     const stylesBtn = getStyles(wrapper.find('button'))
 
-    expect(stylesWrap['padding-top']).toEqual('20px')
-    expect(stylesWrap['padding-bottom']).toEqual('20px')
-    expect(stylesWrap['padding-left']).toEqual('20px')
-    expect(stylesWrap['padding-right']).toEqual('20px')
-    expect(stylesWrap.width).toEqual('300px')
-    expect(stylesWrap['margin-top']).toEqual('20px')
-    expect(stylesWrap['margin-bottom']).toEqual('20px')
-    expect(stylesWrap['margin-left']).toEqual('20px')
-    expect(stylesWrap['margin-right']).toEqual('20px')
-    expect(stylesWrap['border-top-color']).toEqual('rgb(238, 238, 238)')
-    expect(stylesWrap['border-bottom-color']).toEqual('rgb(238, 238, 238)')
-    expect(stylesWrap['border-top-style']).toEqual('solid')
-    expect(stylesWrap['border-bottom-style']).toEqual('solid')
-    expect(stylesWrap['border-top-width']).toEqual('1px')
-    expect(stylesWrap['border-bottom-width']).toEqual('1px')
     expect(stylesBtn.height).toEqual('35px')
     expect(stylesBtn.width).toEqual('300px')
     expect(stylesBtn.display).toEqual('block')
@@ -122,7 +108,7 @@ describe('<Button />', () => {
   })
 
   it('Проверяем кнопку на наличие контейнера, который является родительским для icon', () => {
-    const wrapper = mount(applyTheme(<Button icon={<RamblerMailIcon/>} {...defaultProps}>Почта</Button>))
+    const wrapper = mount(applyTheme(<Button icon={<ChevronRightIcon/>} {...defaultProps}>Почта</Button>))
     const button = wrapper.find('button')
     const icon = wrapper.find('svg')
     expect(button.childAt(0).node).toEqual(icon.node.parentNode)

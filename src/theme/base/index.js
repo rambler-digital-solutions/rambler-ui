@@ -1,5 +1,5 @@
 import merge from 'lodash/merge'
-import {fade, darken, lighten} from 'utils/colors'
+import {fade, darken, lighten} from '../../utils/colors'
 import colorsConfig from './colors'
 
 /**
@@ -14,17 +14,17 @@ export function createTheme(config) {
     button: {
       sizes: {
         medium: {
-          fontSize: 12,
-          icon: 12,
-          height: 35
+          fontSize: 11,
+          icon: 9,
+          height: 45
         },
         small: {
           fontSize: 11,
-          icon: 10,
-          height: 45
+          icon: 9,
+          height: 35
         }
       },
-      borderRadius: 1.2,
+      borderRadius: 1,
       types: {
         primary: {
           outlineOffset: 3,
@@ -83,11 +83,13 @@ export function createTheme(config) {
               background: colors.controls.grey.background
             },
             hover: {
-              text: colors.primary
+              text: colors.primary,
+              background: darken(colors.controls.grey.background, 0.02)
             },
             active: {
               text: darken(colors.primary, 0.2),
-              icon: darken(colors.primary, 0.2)
+              icon: darken(colors.primary, 0.2),
+              background: darken(colors.controls.grey.background, 0.04)
             },
             disabled: {
               text: fade(colors.dark, 0.1),
@@ -104,7 +106,8 @@ export function createTheme(config) {
               text: colors.dark,
               icon: colors.primary,
               loader: colors.primary,
-              border: colors.controls.grey.default
+              border: colors.controls.grey.default,
+              background: 'transparent'
             },
             hover: {
               text: colors.primary,
@@ -117,8 +120,8 @@ export function createTheme(config) {
               background: colors.controls.grey.background
             },
             disabled: {
-              text: fade(colors.controls.text.dark, 0.1),
-              icon: fade(colors.controls.text.dark, 0.1),
+              text: colors.controls.grey.disabled,
+              icon: colors.controls.grey.disabled,
               border: colors.controls.grey.disabled
             },
             focus: {
@@ -131,17 +134,18 @@ export function createTheme(config) {
             default: {
               text: colors.dark,
               icon: colors.primary,
-              loader: colors.primary
+              loader: colors.primary,
+              background: 'transparent'
             },
             hover: {
               background: colors.controls.grey.background
             },
             active: {
-              background: darken(colors.controls.grey.background, 0.2)
+              background: colors.controls.grey.background
             },
             disabled: {
-              text: fade(colors.dark, 0.1),
-              icon: fade(colors.dark, 0.1)
+              text: colors.controls.grey.disabled,
+              icon: colors.controls.grey.disabled
             },
             focus: {
               outline: colors.primary
@@ -188,7 +192,7 @@ export function createTheme(config) {
     dropdown: {
       borderRadius: 1,
       animationDuration: 200,
-      boxShadow: '1px 2px 7px 0 rgba(123, 129, 133, 0.34)'
+      boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)'
     },
     hint: {
       borderRadius: 1,
@@ -274,7 +278,7 @@ export function createTheme(config) {
     },
     loader: {
       animationDuration: 200,
-      color: colors.controls.background.light
+      color: colors.controls.grey.lightBackground
     },
     menu: {
       colors: {
@@ -298,8 +302,8 @@ export function createTheme(config) {
       boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)',
       padding: '20px 25px 20px 20px',
       colors: {
-        background: colors.controls.background.light,
-        iconBackground: colors.controls.background.lightGrey,
+        background: colors.light,
+        iconBackground: colors.controls.grey.lightGrey,
         text: colors.dark,
         close: colors.controls.grey.icon
       },
@@ -404,12 +408,13 @@ export function createTheme(config) {
       boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
       padding: '20px 30px 30px',
       colors: {
+        text: colors.dark,
         background: colors.light,
         backdrop: fade(colors.fullDark, 0.6),
         close: colors.controls.grey.icon
       },
       font: {
-        size: 13,
+        fontSize: 13,
         titleSize: 16
       },
       animationDuration: 200
