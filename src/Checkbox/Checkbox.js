@@ -5,12 +5,12 @@ import omit from 'lodash/omit'
 import pickBy from 'lodash/pickBy'
 import TickIcon from '../icons/forms/TickIcon'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
+import { fontStyleMixin, isolateMixin } from '../style/mixins'
 
 @injectSheet((theme) => {
 
   const setThemeForSelector = (colors) => pickBy({
-    color: colors.color,
+    color: colors.text,
     '& $fake': pickBy({
       background: colors.background,
       borderColor: colors.border
@@ -25,27 +25,25 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
       ...isolateMixin,
       ...fontStyleMixin(theme.font),
       fontSize: theme.checkbox.fontSize,
-      overflow: 'hidden',
       position: 'relative',
       display: 'inline-block',
       verticalAlign: 'top',
+      lineHeight: theme.checkbox.size + 'px',
       '&, & *': {
         transition: 'all .2s'
       },
+      ...setThemeForSelector(theme.checkbox.colors.default),
       '&:hover': setThemeForSelector(theme.checkbox.colors.hover),
       '&:active': setThemeForSelector(theme.checkbox.colors.active),
+      '&$isDisabled': setThemeForSelector(theme.checkbox.colors.disabled),
       '&$isChecked': setThemeForSelector(theme.checkbox.colors.checked),
-      '&$isFocused': setThemeForSelector(theme.checkbox.colors.focused),
-      '&$isDisabled': setThemeForSelector(theme.checkbox.colors.disabled)
+      '&$isFocused': setThemeForSelector(theme.checkbox.colors.focus)
     },
     fake: {
-      ...middleMixin,
       position: 'absolute',
       boxSizing: 'border-box',
-      display: 'inline-block',
       width: theme.checkbox.size,
       height: theme.checkbox.size,
-      lineHeight: theme.checkbox.size + 'px',
       borderStyle: 'solid',
       borderWidth: 1,
       borderRadius: theme.checkbox.borderRadius,
@@ -65,15 +63,17 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     },
     label: {
       cursor: 'pointer',
-      fontSize: 13,
-      lineHeight: '15px',
-      fontWeight: 'normal'
+      fontSize: theme.checkbox.fontSize,
+      fontWeight: 'normal',
+      display: 'inline-block',
+      lineHeight: 1.43,
+      position: 'relative',
+      top: -1
     },
     tick: {
-      ...isolateMixin,
       position: 'relative',
-      left: 1,
-      top: -4,
+      left: theme.checkbox.tick.left,
+      top: theme.checkbox.tick.top - 5,
       opacity: 0
     },
     iconright: {
@@ -81,7 +81,7 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
         right: 0
       },
       '& $label': {
-        marginRight: theme.checkbox.size + theme.checkbox.iconMargin
+        paddingRight: theme.checkbox.size + theme.checkbox.labelMargin
       }
     },
     iconleft: {
@@ -89,18 +89,19 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
         left: 0
       },
       '& $label': {
-        marginLeft: theme.checkbox.size + theme.checkbox.iconMargin
+        paddingLeft: theme.checkbox.size + theme.checkbox.labelMargin
       }
     },
     isChecked: {
       '& $tick': {
-        top: 2,
+        top: theme.checkbox.tick.top,
         opacity: 1
       }
     },
     isFocused: {},
     isDisabled: {
-      pointerEvents: 'none'
+      pointerEvents: 'none',
+      color: theme.checkbox.colors.disabled.color
     }
   }
 })
@@ -237,7 +238,7 @@ export default class Checkbox extends Component {
           onFocus={ this.onFocus }
           onBlur={ this.onBlur } />
         <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
-          <TickIcon className={ css.icon } size={ theme.tick.size } color={ tickColor } />
+          <TickIcon className={ css.tick } size={ theme.checkbox.tick.size } color={ tickColor } />
         </span>
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }

@@ -1,5 +1,7 @@
 import Checkbox from '../Checkbox'
 import React from 'react'
+import theme from '../../theme/base'
+import {normalize as nc} from '../../utils/colors'
 import { ApplyTheme } from '../../theme'
 import { mount, getStyles } from '../../utils/test-utils'
 
@@ -10,7 +12,6 @@ const applyTheme = (children) => (
 describe('<Checkbox />', () => {
   const defaultProps = {
     name: 'checkbox6',
-    labelStyle: {color: '#f00'},
     className: 'container-cn',
     checkboxClassName: 'checkbox-cn',
     labelClassName: 'label-cn',
@@ -40,8 +41,8 @@ describe('<Checkbox />', () => {
 
     expect(containerStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(containerStyles['font-size']).toEqual('13px')
-    expect(checkboxStyles['border-top-color']).toEqual('rgb(49, 94, 251)')
-    expect(checkboxStyles['border-bottom-color']).toEqual('rgb(49, 94, 251)')
+    expect(nc(checkboxStyles['border-top-color'])).toEqual(nc(theme.checkbox.colors.checked.border))
+    expect(nc(checkboxStyles['border-bottom-color'])).toEqual(nc(theme.checkbox.colors.checked.border))
     expect(checkboxStyles['border-top-width']).toEqual('1px')
     expect(checkboxStyles['border-bottom-width']).toEqual('1px')
 
@@ -49,7 +50,7 @@ describe('<Checkbox />', () => {
     expect(checkboxStyles.height).toEqual('15px')
     expect(checkboxStyles.left).toEqual('0px')
     expect(inputStyles.opacity).toEqual('0')
-    expect(labelStyles['margin-left']).toEqual('25px')
+    expect(labelStyles['padding-left']).toEqual((theme.checkbox.size + theme.checkbox.labelMargin) + 'px')
     expect(labelStyles.cursor).toEqual('pointer')
 
   })
@@ -66,14 +67,14 @@ describe('<Checkbox />', () => {
 
     expect(checkboxStyles.right).toEqual('0px')
 
-    expect(checkboxStyles['border-top-color']).toEqual('rgb(238, 238, 238)')
-    expect(checkboxStyles['border-bottom-color']).toEqual('rgb(238, 238, 238)')
-    expect(checkboxStyles['background-color']).toEqual('rgb(238, 238, 238)')
+    expect(nc(checkboxStyles['border-top-color'])).toEqual(nc(theme.checkbox.colors.disabled.border))
+    expect(nc(checkboxStyles['border-bottom-color'])).toEqual(nc(theme.checkbox.colors.disabled.border))
+    expect(nc(checkboxStyles['background-color'])).toEqual(nc(theme.checkbox.colors.default.background))
     expect(checkboxStyles['margin-bottom']).toEqual('20px')
 
-    expect(labelStyles['margin-right']).toEqual('25px')
+    expect(labelStyles['padding-right']).toEqual('25px')
     expect(labelStyles['margin-bottom']).toEqual('20px')
-    expect(labelStyles.color).toEqual('rgba(38, 38, 38, 0.4)')
+    expect(nc(labelStyles.color)).toEqual(nc(theme.checkbox.colors.disabled.text))
 
     expect(input.node.disabled).toBeTruthy()
     expect(input.node.name).toEqual('checkbox6')

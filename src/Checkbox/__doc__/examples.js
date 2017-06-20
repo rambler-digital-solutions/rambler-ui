@@ -20,20 +20,12 @@ export default class CheckboxExample extends Component {
             <div style={{marginTop: 20}}>
               <Checkbox
                 name="checkbox6"
-                labelStyle={{color: '#f00'}}
                 checked={this.state.checked}
                 onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
               <Checkbox
-                checkboxStyle={{marginRight: 5}}
-                style={{marginLeft: 20}}
+                style={{marginLeft: 20, maxWidth: 200}}
                 name="checkbox6"
-                onCheck={(event, checked) => alert(`Checked: ${checked}`)}>Получать уведомления по почте</Checkbox>
-            </div>
-            <div style={{marginTop: 20}}>
-              <Checkbox
-                name="checkbox7"
-                checked={this.state.checked}
-                onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
+                onCheck={(event, checked) => alert(`Checked: ${checked}`)}>На протяжении многих веков правители семи народов вели непрерывные войны.</Checkbox>
             </div>
             <div style={{marginTop: 20}}>
               <Checkbox iconPosition="right" name="checkbox8" disabled>Получать уведомления по почте</Checkbox>

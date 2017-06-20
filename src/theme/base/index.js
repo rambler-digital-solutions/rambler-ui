@@ -15,12 +15,12 @@ export function createTheme(config) {
       sizes: {
         medium: {
           fontSize: 11,
-          icon: 9,
+          icon: 8,
           height: 45
         },
         small: {
           fontSize: 11,
-          icon: 9,
+          icon: 8,
           height: 35
         }
       },
@@ -161,7 +161,7 @@ export function createTheme(config) {
           background: colors.light,
           border: colors.controls.grey.default,
           tick: colors.primary,
-          color: colors.dark
+          text: colors.dark
         },
         active: {
           background: colors.controls.grey.activeBackground,
@@ -179,13 +179,15 @@ export function createTheme(config) {
         disabled: {
           tick: colors.controls.grey.disabled,
           border: colors.controls.grey.disabled,
-          color: colors.controls.grey.disabled
+          text: colors.controls.grey.disabled
         }
       },
       size: 15,
+      labelMargin: 10,
       tick: {
-        margin: 10,
-        size: 13
+        size: 10,
+        left: 2,
+        top: 1
       },
       fontSize: 13
     },
