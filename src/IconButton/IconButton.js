@@ -11,7 +11,7 @@ import pickBy from 'lodash/pickBy'
 import pure from 'recompose/pure'
 import merge from 'lodash/merge'
 import { injectSheet } from '../theme'
-import { middleMixin, isolateMixin, borderMixin } from '../style/mixins'
+import { middleMixin, isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet((theme) => {
@@ -31,11 +31,12 @@ import { middleMixin, isolateMixin, borderMixin } from '../style/mixins'
       '&, & *': {
         transition: 'background-color .2s, border .2s, box-shadow .2s'
       },
-      '&:before': {
+      '&:before, &:after': {
         content: '""',
         display: 'block',
         position: 'absolute',
         pointerEvents: 'none',
+        borderRadius: theme.iconButton.borderRadius,
         left: 0,
         right: 0,
         top: 0,
@@ -84,15 +85,19 @@ import { middleMixin, isolateMixin, borderMixin } from '../style/mixins'
 
     const setThemeForSelector = (colors, outlineOffset) => pickBy({
       background: colors.background,
-      color: colors.text,
-      ...colors.border && borderMixin(colors.border),
-      '&:before': colors.outline && {
+      '& $icon': {
+        fill: colors.text + '!important'
+      },
+      '&:before': colors.border && {
+        borderColor: colors.border
+      },
+      '&:after': colors.outline && pickBy({
         left: -outlineOffset,
         right: -outlineOffset,
         top: -outlineOffset,
         bottom: -outlineOffset,
         borderColor: colors.outline
-      }
+      })
     })
 
     return merge(result, {

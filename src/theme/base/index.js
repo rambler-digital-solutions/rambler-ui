@@ -84,12 +84,12 @@ export function createTheme(config) {
             },
             hover: {
               text: colors.primary,
-              background: darken(colors.controls.grey.background, 0.02)
+              background: colors.controls.grey.background
             },
             active: {
               text: darken(colors.primary, 0.2),
               icon: darken(colors.primary, 0.2),
-              background: darken(colors.controls.grey.background, 0.04)
+              background: colors.controls.grey.background
             },
             disabled: {
               text: fade(colors.dark, 0.1),

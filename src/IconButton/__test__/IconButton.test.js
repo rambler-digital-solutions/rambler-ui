@@ -2,8 +2,9 @@ import IconButton from '../IconButton'
 import React from 'react'
 import { ApplyTheme } from '../../theme'
 import { mount, getStyles} from '../../utils/test-utils'
+import theme from '../../theme/base'
+import {normalize as nc} from '../../utils/colors'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
-import color from 'color'
 
 const applyTheme = (children) => (
   <ApplyTheme>{ children }</ApplyTheme>
@@ -41,24 +42,24 @@ describe('<IconButton />', () => {
     const wrapper = mount(applyTheme(<IconButton type="primary" size="medium"><RamblerMailIcon /></IconButton>))
     const styles = getStyles(wrapper)
     const stylesIcon = getStyles(wrapper.find('svg'))
-    expect(styles.width).toEqual('40px')
-    expect(styles.height).toEqual('40px')
-    expect(styles['background-color']).toEqual('rgb(49, 94, 251)')
-    expect(stylesIcon.width).toEqual('20px')
-    expect(stylesIcon.height).toEqual('20px')
-    expect(color(stylesIcon.fill).toString()).toEqual('rgb(255, 255, 255)')
+    expect(styles.width).toEqual(theme.iconButton.sizes.medium.size + 'px')
+    expect(styles.height).toEqual(theme.iconButton.sizes.medium.size + 'px')
+    expect(nc(styles['background-color'])).toEqual(nc(theme.button.types.primary.colors.default.background))
+    expect(stylesIcon.width).toEqual(theme.iconButton.sizes.medium.icon + 'px')
+    expect(stylesIcon.height).toEqual(theme.iconButton.sizes.medium.icon + 'px')
+    expect(nc(stylesIcon.fill)).toEqual(nc(theme.button.types.primary.colors.default.text))
   })
 
   it('expect type="secondary" size="small" affect style', () => {
     const wrapper = mount(applyTheme(<IconButton type="secondary" size="small"><RamblerMailIcon /></IconButton>))
     const styles = getStyles(wrapper)
     const stylesIcon = getStyles(wrapper.find('svg'))
-    expect(styles.width).toEqual('23px')
-    expect(styles.height).toEqual('23px')
-    expect(color(styles['background-color']).toString()).toEqual('rgb(234, 239, 255)')
-    expect(stylesIcon.width).toEqual('11px')
-    expect(stylesIcon.height).toEqual('11px')
-    expect(color(stylesIcon.fill).toString()).toEqual('rgb(49, 94, 251)')
+    expect(styles.width).toEqual(theme.iconButton.sizes.small.size + 'px')
+    expect(styles.height).toEqual(theme.iconButton.sizes.small.size + 'px')
+    expect(nc(styles['background-color'])).toEqual(nc(theme.button.types.secondary.colors.default.background))
+    expect(stylesIcon.width).toEqual(theme.iconButton.sizes.small.icon + 'px')
+    expect(stylesIcon.height).toEqual(theme.iconButton.sizes.small.icon + 'px')
+    expect(nc(stylesIcon.fill)).toEqual(nc(theme.button.types.secondary.colors.default.text))
   })
 
   it('callback onClick', () => {
