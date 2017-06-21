@@ -20,13 +20,14 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   },
   error: {
     '& $message': {
-      color: theme.colors.error
+      color: theme.colors.danger
     }
   },
   message: {
     ...isolateMixin,
     ...fontStyleMixin(theme.font),
-    marginTop: 7,
+    marginTop: 10,
+    fontSize: theme.inputStatus.fontSize,
     textAlign: 'left'
   }
 }))

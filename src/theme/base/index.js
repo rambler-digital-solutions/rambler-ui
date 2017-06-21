@@ -196,6 +196,9 @@ export function createTheme(config) {
       animationDuration: 200,
       boxShadow: '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)'
     },
+    formGroup: {
+      fontSize: 13
+    },
     hint: {
       borderRadius: 1,
       animationDuration: 200,
@@ -228,9 +231,16 @@ export function createTheme(config) {
           active: colors.primary
         }
       },
+      eyeIcon: {
+        colors: {
+          default: colors.controls.grey.icon,
+          active: colors.primary
+        }
+      },
       colors: {
         default: {
-          border: colors.controls.grey.outline,
+          outline: colors.controls.grey.fieldOutline,
+          border: 'transparent',
           background: colors.light,
           text: colors.dark
         },
@@ -241,31 +251,22 @@ export function createTheme(config) {
         },
         focus: {
           border: colors.primary
-        },
-        success: {
-          border: colors.success
-        },
-        error: {
-          border: colors.error
-        },
-        warn: {
-          border: colors.warn
         }
       },
       sizes: {
         medium: {
-          height: 35,
+          height: 45,
           fontSize: 13,
-          icon: 20,
-          eyeIcon: 18,
+          icon: 18,
+          eyeIcon: 20,
           withIconPadding: 40,
           withIconsPadding: 70,
           iconMargin: 13
         },
         small: {
-          height: 45,
+          height: 35,
           fontSize: 12,
-          icon: 20,
+          icon: 16,
           eyeIcon: 18,
           withIconPadding: 40,
           withIconsPadding: 70,
@@ -275,12 +276,15 @@ export function createTheme(config) {
       animationDuration: 200
     },
     input: {
-      padding: '0 13px 2px 13px',
+      hrPadding: 13,
       eyeMargin: 13
+    },
+    inputStatus: {
+      fontSize: 13
     },
     loader: {
       animationDuration: 200,
-      color: colors.controls.grey.lightBackground
+      color: colors.light
     },
     menu: {
       colors: {
@@ -438,10 +442,10 @@ export function createTheme(config) {
     tooltip: {
       borderRadius: 1,
       animationDuration: 200,
-      fontSize: 13,
+      fontSize: 12,
       colors: {
         background: fade(colors.fullDark, 0.8),
-        text: colors.white
+        text: colors.light
       }
     },
     snackbar: {

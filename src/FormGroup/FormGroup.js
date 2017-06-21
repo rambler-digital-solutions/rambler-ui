@@ -6,9 +6,14 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { ifDesktop } from '../style/mixins'
+import { ifDesktop, fontStyleMixin, isolateMixin } from '../style/mixins'
 
-@injectSheet(() => ({
+@injectSheet((theme) => ({
+  root: {
+    ...isolateMixin,
+    ...fontStyleMixin(theme.font),
+    fontSize: theme.formGroup.fontSize
+  },
   normal: {
     marginBottom: 15
   },
@@ -17,8 +22,7 @@ import { ifDesktop } from '../style/mixins'
   },
   label: {
     width: '100%',
-    display: 'inline-block',
-    marginBottom: 5
+    display: 'inline-block'
   },
   inner: {
     position: 'relative'
@@ -26,7 +30,8 @@ import { ifDesktop } from '../style/mixins'
   ...ifDesktop({
     normal: {
       '& $label': {
-        width: '100%'
+        width: '100%',
+        marginBottom: 10
       },
       marginBottom: 30
     },
@@ -35,9 +40,8 @@ import { ifDesktop } from '../style/mixins'
       display: 'flex',
       '& $label': {
         marginLeft: 0,
-        marginBottom: 0,
         maxWidth: 172,
-        lineHeight: 44
+        lineHeight: '44px'
       },
       '& $inner': {
         flex: 1,
@@ -95,7 +99,7 @@ export default class FormGroup extends Component {
     } = this.props
 
     const rootClass = inline === true ? 'inline' : 'normal'
-    const rootClassName = classnames(css[rootClass], className)
+    const rootClassName = classnames(css[rootClass], css.root, className)
     const labelClassName = classnames(css.label)
     const innerClassName = classnames(css.inner)
 

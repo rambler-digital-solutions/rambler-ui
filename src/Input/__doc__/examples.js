@@ -7,142 +7,91 @@ import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
 
 export default class InputExample extends Component {
   state = {
-    value4: 'sdfsdfsdfsd',
-    value5: '',
-    value6: ''
+    value: ''
   }
 
   onChange(event, value) {
-    const {name} = event.target
-    this.setState({[name]: value})
+    this.setState({value})
   }
 
   render() {
     return (
-      <div>
-        <h3>FormGroup inline=false</h3>
-        <ApplyTheme>
-          <FormGroup inline={false} label='Имя' fieldId='name' className='formGroup' style={{width: 300}}>
-            <InputStatus
-              type='success'
-              message='Зелёный текст' >
-              <Input
-                status='success'
-                type='text'
-                name='value4'
-                value={this.state.value4}
-                onChange={::this.onChange}
-                placeholder='Имя'
-              />
-            </InputStatus>
-          </FormGroup>
-        </ApplyTheme>
-        <ApplyTheme>
-          <FormGroup inline={false} label='Фамилия' fieldId='name' className='formGroup' style={{width: 400}}>
-            <InputStatus
-              type='warning'
-              message='Текст предупреждения' >
-              <Input
-                status='warning'
-                type='text'
-                name='value4'
-                value={this.state.value4}
-                onChange={::this.onChange}
-                placeholder='Фамилия'
-              />
-            </InputStatus>
-          </FormGroup>
-        </ApplyTheme>
-        <ApplyTheme>
-          <FormGroup inline={false} label='size small' fieldId='name' className='formGroup' style={{width: 350}}>
-            <Input
-              type='text'
-              name='value4'
-              size='small'
-              value={this.state.value4}
-              onChange={::this.onChange}
-              placeholder='Отчество'
-              iconLeft={<RamblerMailIcon />}
-            />
-          </FormGroup>
-        </ApplyTheme>
-
-        <h3>FormGroup inline=true</h3>
-        <ApplyTheme>
-          <FormGroup inline={true} label='Отчество' fieldId='name' className='formGroup' style={{width: 550}}>
-            <InputStatus
-              type='error'
-              message='Текст ошибки' >
-              <Input
-                status='error'
-                type='text'
-                name='value5'
-                value={this.state.value5}
-                onChange={::this.onChange}
-                placeholder='placeholder'
-              />
-            </InputStatus>
-          </FormGroup>
-        </ApplyTheme>
-        <ApplyTheme>
-          <FormGroup inline={true} label='Input disabled' fieldId='name' className='formGroup' style={{width: 600}}>
-            <InputStatus message='Без статуса задизэйблена'>
-              <Input
-                type='text'
-                value=''
-                onChange={::this.onChange}
-                disabled
-              />
-            </InputStatus>
-          </FormGroup>
-        </ApplyTheme>
-        <ApplyTheme>
-          <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup' style={{width: 650}}>
-            <Input
-              type='password'
-              name='value6'
-              value={this.state.value6}
-              onChange={::this.onChange}
-              placeholder='Пароль'
-              onChange={::this.onChange}
-            />
-          </FormGroup>
-        </ApplyTheme>
-
-        <h3>Пример с iconLeft и iconRight</h3>
-        <ApplyTheme>
-          <FormGroup inline={true} label='Отчество' fieldId='name' className='formGroup' style={{width: 700}}>
-            <InputStatus
-              type='error'
-              message='Текст ошибки' >
-              <Input
-                status='error'
-                type='text'
-                name='value6'
-                style={{width: 300}}
-                value={this.state.value6}
-                onChange={::this.onChange}
-                placeholder='placeholder'
-                iconLeft={<RamblerMailIcon />}
-                iconRight={<RamblerMailIcon />}
-              />
-            </InputStatus>
-          </FormGroup>
-        </ApplyTheme>
-        <ApplyTheme>
-          <FormGroup inline={true} label='Пароль' fieldId='name' className='formGroup' style={{width: 750}}>
-            <Input
-              type='password'
-              name='value6'
-              value={this.state.value6}
-              onChange={::this.onChange}
-              placeholder='Пароль'
-              iconRight={<RamblerMailIcon />}
-              onChange={::this.onChange}
-            />
-          </FormGroup>
-        </ApplyTheme>
-      </div>
+      <ApplyTheme>
+        <div>
+          <div style={{width: '300px'}}>
+            <h3>Form groups</h3>
+            <FormGroup label='Input'>
+              <Input type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input password'>
+              <Input type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input success'>
+              <InputStatus type='success' message='Success message' >
+                <Input status="success" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              </InputStatus>
+            </FormGroup>
+            <FormGroup label='Input warning'>
+              <InputStatus type='warning' message='Warning message' >
+                <Input status="warning" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              </InputStatus>
+            </FormGroup>
+            <FormGroup label='Input error'>
+              <InputStatus type='error' message='Error message' >
+                <Input status="error" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              </InputStatus>
+            </FormGroup>
+            <FormGroup label='Input disabled'>
+              <Input disabled type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input small'>
+              <Input size="small" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input with left icon'>
+              <Input iconLeft={<RamblerMailIcon />} type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input with right icon'>
+              <Input iconRight={<RamblerMailIcon />} type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+          </div>
+          <div style={{width: '600px'}}>
+            <h3>Inline form groups</h3>
+            <FormGroup label='Input' inline={true}>
+              <Input type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input password' inline={true}>
+              <Input type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input success' inline={true}>
+              <InputStatus type='success' message='Success message' >
+                <Input status="success" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              </InputStatus>
+            </FormGroup>
+            <FormGroup label='Input warning' inline={true}>
+              <InputStatus type='warning' message='Warning message' >
+                <Input status="warning" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              </InputStatus>
+            </FormGroup>
+            <FormGroup label='Input error' inline={true}>
+              <InputStatus type='error' message='Error message' >
+                <Input status="error" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              </InputStatus>
+            </FormGroup>
+            <FormGroup label='Input disabled' inline={true}>
+              <Input disabled type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input small' inline={true}>
+              <Input size="small" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input with left icon' inline={true}>
+              <Input iconLeft={<RamblerMailIcon />} type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+            <FormGroup label='Input with right icon' inline={true}>
+              <Input iconRight={<RamblerMailIcon />} type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+            </FormGroup>
+          </div>
+        </div>
+      </ApplyTheme>
     )
   }
 

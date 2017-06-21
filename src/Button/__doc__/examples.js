@@ -30,6 +30,8 @@ export default class ButtonExample extends Component {
             <Button style={{margin: 20}} type="outline" disabled>Outline disabled</Button>
             <Button style={{margin: 20}} type="danger">Danger</Button>
             <Button style={{margin: 20}} type="danger" disabled>Danger disabled</Button>
+            <Button style={{margin: 20}} type="secondary">Secondary</Button>
+            <Button style={{margin: 20}} type="secondary" disabled>Secondary disabled</Button>
             <Button style={{margin: 20}} type="flat">Flat</Button>
             <Button style={{margin: 20}} type="flat" disabled>Flat disabled</Button>
           </div>
@@ -40,6 +42,8 @@ export default class ButtonExample extends Component {
             <Button size="small" style={{margin: 20}} type="outline" disabled>Outline disabled</Button>
             <Button size="small" style={{margin: 20}} type="danger">Danger</Button>
             <Button size="small" style={{margin: 20}} type="danger" disabled>Danger disabled</Button>
+            <Button size="small" style={{margin: 20}} type="secondary">Secondary</Button>
+            <Button size="small" style={{margin: 20}} type="secondary" disabled>Secondary disabled</Button>
             <Button size="small" style={{margin: 20}} type="flat">Flat</Button>
             <Button size="small" style={{margin: 20}} type="flat" disabled>Flat disabled</Button>
           </div>

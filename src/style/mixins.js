@@ -71,3 +71,8 @@ export const uppercaseMixin = {
   textTransform: 'uppercase',
   letterSpacing: 1.3
 }
+
+export const fontSmoothing = {
+  '-webkit-font-smoothing': 'antialiased',
+  '-moz-osx-font-smoothing': 'grayscale'
+}

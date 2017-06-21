@@ -4,13 +4,15 @@ import InputStatus from '../../InputStatus'
 import FormGroup from '../../FormGroup'
 import { ApplyTheme } from '../../theme'
 import { mount, getStyles, getNodeStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
+import {normalize as nc} from '../../utils/colors'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
 
 const applyTheme = (children) => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
-describe('<Input style={{width: 200}}/>', () => {
+describe('Input', () => {
   const formGroupProps = {
     inline: false,
     label: 'Label',
@@ -25,7 +27,7 @@ describe('<Input style={{width: 200}}/>', () => {
     name: 'name',
     value: '',
     placeholder: 'Name',
-    className: 'inputCls',
+    inputClassName: 'inputCls',
     onChange: () => {}
   }
 
@@ -35,7 +37,7 @@ describe('<Input style={{width: 200}}/>', () => {
     name: 'password',
     value: '',
     placeholder: 'Password',
-    className: 'passwordCls',
+    inputClassName: 'passwordCls',
     onChange: () => {}
   }
 
@@ -56,14 +58,14 @@ describe('<Input style={{width: 200}}/>', () => {
     spyOn(handlersProps, 'onKeyDown').and.callFake((e) => { event = e })
   })
 
-  it('Проверяем стили && объект style', () => {
+  it('style', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
           <Input {...defaultProps} />
-          <Input {...defaultProps} className='inputCls2' status='warning' />
-          <Input {...defaultProps} className='inputCls3' status='error' />
-          <Input {...defaultProps} className='inputCls4' status={null} />
+          <Input {...defaultProps} inputClassName='inputCls2' status='warning' />
+          <Input {...defaultProps} inputClassName='inputCls3' status='error' />
+          <Input {...defaultProps} inputClassName='inputCls4' status={null} />
         </InputStatus>
       </FormGroup>
     ))
@@ -75,30 +77,25 @@ describe('<Input style={{width: 200}}/>', () => {
 
     // Стили border - success
     const inputSuccessStyles = getStyles(inputSuccess)
-    expect(inputSuccessStyles['border-bottom-color']).toEqual('rgb(40, 188, 0)')
+    expect(nc(inputSuccessStyles['border-bottom-color'])).toEqual(nc(theme.colors.success))
     expect(inputSuccessStyles['border-bottom-style']).toEqual('solid')
     expect(inputSuccessStyles['border-bottom-width']).toEqual('2px')
     expect(inputSuccessStyles.height).toEqual('45px')
 
     // border - warning
     const inputWarningStyles = getStyles(inputWarning)
-    expect(inputWarningStyles['border-bottom-color']).toEqual('rgb(244, 201, 20)')
+    expect(nc(inputWarningStyles['border-bottom-color'])).toEqual(nc(theme.colors.warn))
 
     // border - error
     const inputErrorStyles = getStyles(inputError)
-    expect(inputErrorStyles['border-bottom-color']).toEqual('rgb(255, 86, 78)')
+    expect(nc(inputErrorStyles['border-bottom-color'])).toEqual(nc(theme.colors.danger))
 
     // Станратные стили input'a
     const inputWithoutStatusStyles = getStyles(inputWithoutStatus)
-    expect(inputWithoutStatusStyles['border-top-color']).toEqual('rgb(232, 232, 232)')
-    expect(inputWithoutStatusStyles['border-top-style']).toEqual('solid')
-    expect(inputWithoutStatusStyles['border-top-width']).toEqual('1px')
-    expect(inputWithoutStatusStyles['border-bottom-color']).toEqual('rgb(232, 232, 232)')
-    expect(inputWithoutStatusStyles['border-bottom-style']).toEqual('solid')
-    expect(inputWithoutStatusStyles['border-bottom-width']).toEqual('1px')
+    expect(inputWithoutStatusStyles['border-bottom-color']).toEqual('rgba(0, 0, 0, 0)')
   })
 
-  it('Проверяем колбэки onChange, onBlur, onFocus, onKeyUp, onKeyDown', () => {
+  it('events: onChange, onBlur, onFocus, onKeyUp, onKeyDown', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
@@ -121,12 +118,12 @@ describe('<Input style={{width: 200}}/>', () => {
     expect(event.type).toEqual('keydown')
   })
 
-  it('Проверяем value, type, placeholder, name, disabled && стили для disabled', () => {
+  it('value, type, placeholder, name, disabled', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
           <Input {...defaultProps} />
-          <Input {...defaultProps} value='Value' className='disabledInput' disabled/>
+          <Input {...defaultProps} value='Value' inputClassName='disabledInput' disabled />
           <Input {...passwordProps} />
         </InputStatus>
       </FormGroup>
@@ -155,12 +152,11 @@ describe('<Input style={{width: 200}}/>', () => {
     expect(inputDisabled.node.name).toEqual('name')
     expect(inputPass.node.name).toEqual('password')
     // Стили input disabled
-    expect(disabledInputStyles['background-color']).toEqual('rgb(238, 238, 238)')
-    expect(disabledInputStyles['border-top-color']).toEqual('rgb(238, 238, 238)')
-    expect(disabledInputStyles.cursor).toEqual('default')
+    expect(nc(disabledInputStyles['background-color'])).toEqual(nc(theme.field.colors.disabled.background))
+    expect(disabledInputStyles.cursor).toEqual('not-allowed')
   })
 
-  it('Проверяем iconLeft, eyeIcon для <input type="password" /> ', () => {
+  it('iconLeft, eyeIcon', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
@@ -170,8 +166,8 @@ describe('<Input style={{width: 200}}/>', () => {
     ))
 
     const arrOfIcons = wrapper.find('svg')
-    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0].parentNode)
-    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode)
+    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0])
+    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1])
     // расположение iconLeft
     expect(iconLeftStyles.top).toEqual('50%')
     expect(iconLeftStyles.left).toEqual('13px')
@@ -180,7 +176,7 @@ describe('<Input style={{width: 200}}/>', () => {
     expect(iconEyeStyles.right).toEqual('13px')
   })
 
-  it('Проверяем paddingHelpers', () => {
+  it('paddingHelpers', () => {
     const wrapper = mount(applyTheme(
       <FormGroup {...formGroupProps}>
         <InputStatus>
@@ -196,12 +192,12 @@ describe('<Input style={{width: 200}}/>', () => {
     const inputTextStyles = getStyles(inputText)
     const inputPassStyles = getStyles(inputPass)
 
-    expect(inputTextStyles['padding-right']).toEqual('40px')
-    expect(inputPassStyles['padding-right']).toEqual('70px')
-    expect(inputPassStyles['padding-left']).toEqual('13px')
+    expect(inputTextStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconPadding + 'px')
+    expect(inputPassStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconsPadding + 'px')
+    expect(inputPassStyles['padding-left']).toEqual(theme.input.hrPadding + 'px')
   })
 
-  it('Проверяем size small', () => {
+  it('size small', () => {
     const sizeProps = {
       size: 'small'
     }
@@ -217,7 +213,7 @@ describe('<Input style={{width: 200}}/>', () => {
     const inputText = wrapper.find('.inputCls')
     const inputTextStyles = getStyles(inputText)
 
-    expect(inputTextStyles.height).toEqual('35px')
+    expect(inputTextStyles.height).toEqual(theme.field.sizes.small.height + 'px')
   })
 
 })

@@ -12,7 +12,7 @@ import merge from 'lodash/merge'
 import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, middleMixin, isolateMixin, uppercaseMixin } from '../style/mixins'
+import { fontStyleMixin, middleMixin, isolateMixin, uppercaseMixin, fontSmoothing } from '../style/mixins'
 
 function getIconColor(colorsConfig, isDisabled) {
   return isDisabled && colorsConfig.disabled.icon || colorsConfig.default.icon
@@ -29,7 +29,7 @@ function getIconColor(colorsConfig, isDisabled) {
       cursor: 'pointer',
       boxSizing: 'border-box',
       textDecoration: 'none',
-      outline: 'none',
+      outline: 'none !important',
       position: 'relative',
       display: 'inline-block',
       border: 'none',
@@ -49,8 +49,11 @@ function getIconColor(colorsConfig, isDisabled) {
         transition: 'all .2s',
         borderRadius: theme.button.borderRadius
       },
-      '&[disabled]': { pointerEvents: 'none' }
-
+      '&[disabled]': { pointerEvents: 'none' },
+      '&::-moz-focus-inner': {
+        border: 'none !important',
+        outline: 'none !important'
+      }
     },
     isRounded: {
       '&$button, &:before, &:after': {
@@ -63,10 +66,10 @@ function getIconColor(colorsConfig, isDisabled) {
     },
     content: {
       ...middleMixin,
+      ...fontSmoothing,
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      fontSmoothing: 'antialiased',
       fontWeight: 500
     },
     block: {

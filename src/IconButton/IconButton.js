@@ -26,7 +26,7 @@ import { middleMixin, isolateMixin } from '../style/mixins'
       outline: 'none',
       position: 'relative',
       display: 'inline-block',
-      border: 'none',
+      border: 'none !important',
       userSelect: 'none',
       '&, & *': {
         transition: 'background-color .2s, border .2s, box-shadow .2s'
