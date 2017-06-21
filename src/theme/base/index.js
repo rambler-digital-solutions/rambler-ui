@@ -309,7 +309,7 @@ export function createTheme(config) {
       padding: '20px 25px 20px 20px',
       colors: {
         background: colors.light,
-        iconBackground: colors.controls.grey.lightGrey,
+        iconBackground: colors.controls.grey.lightBackground,
         text: colors.dark,
         close: colors.controls.grey.icon
       },

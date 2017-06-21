@@ -3,6 +3,8 @@ import Notification from '../Notification'
 import FaceIcon from '../../icons/forms/FaceIcon'
 import { SNACKBAR_ZINDEX } from '../../constants/z-indexes'
 import { withTheme, mount, getNodeStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
+import { normalize as nc } from '../../utils/colors'
 
 describe('<Notification />', () => {
   let containerNode
@@ -91,8 +93,8 @@ describe('<Notification />', () => {
     expect(notificationStyles.right).toEqual('15px')
     expect(notificationStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(notificationStyles['font-size']).toEqual('13px')
-    expect(notificationStyles['background-color']).toEqual('rgb(255, 255, 255)')
-    expect(notificationStyles.color).toEqual('rgb(38, 38, 38)')
+    expect(nc(notificationStyles['background-color'])).toEqual(nc(theme.notification.colors.background))
+    expect(nc(notificationStyles.color)).toEqual(nc(theme.notification.colors.text))
     expect(notificationStyles.width).toEqual('335px')
     expect(notificationStyles['padding-top']).toEqual('20px')
     expect(notificationStyles['padding-left']).toEqual('20px')
@@ -165,7 +167,7 @@ describe('<Notification />', () => {
     expect(iconContainerStyles.width).toEqual('39px')
     expect(iconContainerStyles.height).toEqual('39px')
     expect(iconContainerStyles['text-align']).toEqual('center')
-    expect(iconContainerStyles['background-color']).toEqual('rgb(238, 242, 244)')
+    expect(nc(iconContainerStyles['background-color'])).toEqual(nc(theme.notification.colors.iconBackground))
     expect(iconContainerStyles['margin-right']).toEqual('10px')
   })
 
@@ -221,7 +223,7 @@ describe('<Notification />', () => {
 
     expect(buttonNode.textContent).toEqual('Ok')
     expect(buttonStyles.height).toEqual('20px')
-    expect(buttonStyles.color).toEqual('rgb(49, 94, 251)')
+    expect(nc(buttonStyles.color)).toEqual(nc(theme.notification.actionButton.colors.default))
     expect(buttonStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')
     expect(buttonStyles['padding-top']).toEqual('0px')
     expect(buttonStyles['padding-left']).toEqual('0px')
