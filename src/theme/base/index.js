@@ -420,7 +420,7 @@ export function createTheme(config) {
         close: colors.controls.grey.icon
       },
       font: {
-        fontSize: 13,
+        textSize: 13,
         titleSize: 16
       },
       animationDuration: 200

@@ -3,6 +3,8 @@ import Popup from '../Popup'
 import Button from '../../Button/Button'
 import { POPUP_ZINDEX } from '../../constants/z-indexes'
 import { withTheme, mount, getNodeStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
+import { normalize as nc } from '../../utils/colors'
 
 describe('<Popup />', () => {
   let containerNode
@@ -84,9 +86,9 @@ describe('<Popup />', () => {
     expect(popupStyles.position).toEqual('relative')
     expect(popupStyles.display).toEqual('inline-block')
     expect(popupStyles['font-family']).toEqual('Roboto, sans-serif')
-    expect(popupStyles['font-size']).toEqual('13px')
+    expect(popupStyles['font-size']).toEqual(theme.popup.font.textSize + 'px')
     expect(popupStyles['text-align']).toEqual('left')
-    expect(popupStyles['background-color']).toEqual('rgb(255, 255, 255)')
+    expect(nc(popupStyles['background-color'])).toEqual(nc(theme.popup.colors.background))
     expect(popupStyles.width).toEqual('350px')
     expect(popupStyles['min-width']).toEqual('350px')
     expect(popupStyles['padding-top']).toEqual('20px')
@@ -150,8 +152,8 @@ describe('<Popup />', () => {
   })
 
   it('should append styles', () => {
-    const backgroundColor = 'rgb(255, 0, 0)'
-    const backdropBackgroundColor = 'rgb(0, 0, 0)'
+    const backgroundColor = nc('rgb(255, 0, 0)')
+    const backdropBackgroundColor = nc('rgb(0, 0, 0)')
 
     mountWrapper({
       style: {
@@ -166,12 +168,12 @@ describe('<Popup />', () => {
     const popupNode = containerNode.querySelector('.popup')
     const popupStyles = getNodeStyles(popupNode)
 
-    expect(popupStyles['background-color']).toEqual(backgroundColor)
+    expect(nc(popupStyles['background-color'])).toEqual(backgroundColor)
 
     const backdropNode = popupNode.parentElement
     const backdropStyles = getNodeStyles(backdropNode)
 
-    expect(backdropStyles['background-color']).toEqual(backdropBackgroundColor)
+    expect(nc(backdropStyles['background-color'])).toEqual(backdropBackgroundColor)
   })
 
   it('should append title', () => {

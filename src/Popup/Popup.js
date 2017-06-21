@@ -55,7 +55,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     color: theme.popup.colors.text,
     width: 300,
     backgroundColor: theme.popup.colors.background,
-    fontSize: theme.popup.font.fontSize,
+    fontSize: theme.popup.font.textSize,
     textAlign: 'left',
     ...ifDesktop({
       width: 'auto',
