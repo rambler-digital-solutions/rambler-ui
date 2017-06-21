@@ -1,7 +1,7 @@
 import { RadioButton, RadioButtonGroup} from '../../Radio'
 import { ApplyTheme } from '../../theme'
 import { mount, getStyles } from '../../utils/test-utils'
-
+import theme from '../../theme/base'
 import React from 'react'
 
 const applyTheme = (children) => (
@@ -184,8 +184,8 @@ describe('<RadioButton /> styles', () => {
     const styles = getStyles(wrapper.find('.my-class'))
     expect(styles['border-bottom-left-radius']).toEqual('50%')
     expect(styles['border-bottom-right-radius']).toEqual('50%')
-    expect(styles.height).toEqual('16px')
-    expect(styles.width).toEqual('16px')
+    expect(styles.height).toEqual(theme.radio.radioSize + 'px')
+    expect(styles.width).toEqual(theme.radio.radioSize + 'px')
     expect(styles['border-top-width']).toEqual('1px')
     expect(styles['border-bottom-width']).toEqual('1px')
     expect(styles['border-top-style']).toEqual('solid')
@@ -208,7 +208,7 @@ describe('<RadioButton /> styles', () => {
       </RadioButton>))
     const styles = getStyles(wrapper.find('.my-class2'))
     expect(styles['font-family']).toEqual('Roboto, sans-serif')
-    expect(styles['font-size']).toEqual('14px')
+    expect(styles['font-size']).toEqual(theme.radio.fontSize + 'px')
   })
 
   it('Проверяем стили RadioButtonGroup, display == block', () => {

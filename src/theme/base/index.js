@@ -330,30 +330,33 @@ export function createTheme(config) {
         default: {
           text: colors.dark,
           dot: colors.primary,
-          border: colors.controls.grey.outline,
-          background: colors.light
+          dotBorder: colors.controls.grey.outline,
+          dotBackground: colors.light
         },
         focus: {
-          border: lighten(colors.primary, 0.1)
+          dotBorder: lighten(colors.primary, 0.1)
         },
         checked: {
-          border: colors.primary
+          dotBorder: colors.primary
         },
         active: {
-          background: colors.controls.grey.activeBackground,
-          border: darken(colors.primary, 0.2)
+          dotBackground: colors.controls.grey.activeBackground,
+          dotBorder: darken(colors.primary, 0.2)
         },
         hover: {
-          border: darken(colors.primary, 0.1)
+          dotBorder: darken(colors.primary, 0.1)
         },
         disabled: {
           dot: colors.controls.grey.disabled,
           text: colors.controls.grey.disabled,
-          border: colors.controls.grey.disabled
+          dotBorder: colors.controls.grey.disabled
         }
       },
+      dotSize: 5,
       radioSize: 15,
-      fontSize: 13
+      fontSize: 13,
+      marginBottom: 15,
+      animationDuration: 200
     },
     toggle: {
       animationDuration: 200,

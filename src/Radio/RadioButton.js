@@ -3,7 +3,6 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
@@ -19,17 +18,17 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
     width: '100%',
     cursor: 'pointer',
     position: 'relative',
-    color: theme.radio.colors.default.background,
+    color: theme.radio.colors.default.text,
     '& input': {
       position: 'absolute',
       opacity: '0',
       appearance: 'none'
     },
     '& input:checked + $radio': {
-      borderColor: theme.radio.colors.checked.border
+      borderColor: theme.radio.colors.checked.dotBorder
     },
-    '& input:checked + $radio:after': {
-      opacity: 1
+    '& input:active + $radio': {
+      background: theme.radio.colors.active.dotBackground
     }
   },
   label: {
@@ -38,42 +37,32 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
   },
   radio: {
     '&:hover': {
-      borderColor: theme.radio.colors.hover.border
+      borderColor: theme.radio.colors.hover.dotBorder
     },
     display: 'inline-block',
     verticalAlign: 'middle',
     position: 'relative',
     boxSizing: 'border-box',
-    border: `1px solid ${theme.radio.colors.default.border}`,
+    background: theme.radio.colors.default.dotBackground,
+    border: `1px solid ${theme.radio.colors.default.dotBorder}`,
     borderRadius: '50%',
-    width: 16,
-    height: 16,
-    marginTop: -1,
-    marginRight: 20,
+    width: theme.radio.radioSize,
+    height: theme.radio.radioSize,
+    marginRight: 10,
     textAlign: 'center',
-    transition: 'border-color 0.1s ease',
-    '&:after': {
+    transition: `all ${theme.radio.animationDuration}ms`,
+    '& svg': {
       position: 'absolute',
       top: '50%',
       left: '50%',
-      display: 'inline-block',
-      borderRadius: '50%',
-      content: '""',
-      backgroundColor: theme.radio.colors.default.background,
+      fill: theme.radio.colors.default.dot,
+      transition: `all ${theme.radio.animationDuration}ms`,
+      transform: 'scale(0.5, 0.5)',
       opacity: 0,
-      transition: 'opacity 0.1s ease',
-      margin: '-3px 0 0 -3px',
-      width: 6,
-      height: 6
-    },
-    '@media (max-width: 768px)': {
-      width: 18,
-      height: 18,
-      '&:after': {
-        margin: '-4px 0 0 -4px',
-        width: 8,
-        height: 8
-      }
+      width: theme.radio.dotSize,
+      height: theme.radio.dotSize,
+      marginTop: -theme.radio.dotSize / 2,
+      marginLeft: -theme.radio.dotSize / 2
     }
   },
   isLabelLeft: {
@@ -84,12 +73,18 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
   },
   isDisabled: {
     pointerEvents: 'none',
-    color: theme.radio.colors.disabled.color,
+    color: theme.radio.colors.disabled.text,
     '& $radio': {
-      borderColor: theme.radio.colors.disabled.border,
-      '&:after': {
-        background: theme.radio.colors.disabled.background
+      borderColor: theme.radio.colors.disabled.dotBorder + '!important',
+      '& svg': {
+        fill: theme.radio.colors.disabled.dot
       }
+    }
+  },
+  isChecked: {
+    '& $radio svg': {
+      opacity: 1,
+      transform: 'scale(1, 1)'
     }
   }
 }))
@@ -158,7 +153,6 @@ class RadioButton extends Component {
   }
 
   render() {
-    /* eslint-enable no-unused-vars */
     const {
       name,
       value,
@@ -170,17 +164,21 @@ class RadioButton extends Component {
       labelClassName,
       style,
       labelStyle,
+      isSelected,
       sheet: { classes: css },
       ...other
-    } = omit(this.props, ['theme', 'isSelected'])
-    /* eslint-enable no-unused-vars */
+    } = omit(this.props, 'theme')
+
     const isLabelLeft = labelPosition === 'left'
 
     const rootClassName = classnames(css.root, className, {
-      [css.isDisabled]: disabled })
+      [css.isDisabled]: disabled,
+      [css.isChecked]: isSelected
+    })
 
     const resultRadioClassName = classnames(css.radio, radioClassName, {
-      [css.isLabelLeft]: isLabelLeft })
+      [css.isLabelLeft]: isLabelLeft
+    })
 
     const resultLabelClassName = classnames(css.label, labelClassName)
 
@@ -198,7 +196,11 @@ class RadioButton extends Component {
           value={value}
           disabled={disabled}
           {...other} />
-        <span className={resultRadioClassName}></span>
+        <span className={resultRadioClassName}>
+          <svg viewBox="0 0 10 10">
+            <circle cx="5" cy="5" r="5" />
+          </svg>
+        </span>
         { isLabelLeft === false &&
           labelElem
         }

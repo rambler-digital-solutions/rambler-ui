@@ -34,7 +34,7 @@ export default class LoaderExample extends Component {
         <ApplyTheme>
           <div>
             <div style={{ height: 200, position: 'relative' }}>
-              <Loader loading={this.state.loading} blurContent={true}>
+              <Loader loading={this.state.loading}>
                 Hello world
                 <Button
                   type="secondary"

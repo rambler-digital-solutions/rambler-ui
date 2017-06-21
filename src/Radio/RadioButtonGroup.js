@@ -12,13 +12,15 @@ function nameHelper() {
   return `RadioGroup-${((Math.floor(Math.random() * 10000)).toString(36))}`
 }
 
-@injectSheet(() => ({
+@injectSheet((theme) => ({
   radioButtonGroup: {
-    display: 'block'
+    ...isolateMixin
   },
   labelWrap: {
     ...isolateMixin,
-    width: '100%'
+    '&:not(:last-child)': {
+      marginBottom: theme.radio.marginBottom
+    }
   }
 }))
 export default class RadioButtonGroup extends Component {
@@ -40,7 +42,7 @@ export default class RadioButtonGroup extends Component {
     /**
     * Добавление стандартных стилей для группы
     */
-    styleForGroup: PropTypes.object,
+    style: PropTypes.object,
     /**
      * Позиция label - либо слева, либо справа
      */
@@ -57,7 +59,6 @@ export default class RadioButtonGroup extends Component {
 
   static defaultProps = {
     labelPosition: 'right',
-    styleForGroup: {},
     name: null,
     onChange: () => {}
   }
@@ -78,29 +79,26 @@ export default class RadioButtonGroup extends Component {
   }
 
   render() {
-    /* eslint-disable no-unused-vars */
     const {
       labelPosition,
-      styleForGroup,
       className,
-      sheet: { classes: css }
-    } = omit(this.props, 'theme')
+      sheet: { classes: css },
+      children,
+      ...otherRootProps
+    } = omit(this.props, 'theme', 'onChange', 'value')
     const name = this.state.name
-    /* eslint-disable no-unused-vars */
     const labelWrap = classnames(css.labelWrap, className)
     let i = 0
 
-    const options = React.Children.map(this.props.children, (child) => {
+    const options = React.Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiRadioButton')
         return child
 
-      /* eslint-disable no-unused-vars */
       const {
         value,
         onChange,
         ...other
       } = child.props
-      /* eslint-disable no-unused-vars */
       const isSelected = value === this.props.value
       return (
         <div className={labelWrap}>
@@ -126,8 +124,8 @@ export default class RadioButtonGroup extends Component {
     const resultClassName = classnames(css.radioButtonGroup, className)
 
     return (
-      <div className={resultClassName} style={styleForGroup}>
-          {options}
+      <div className={resultClassName} {...otherRootProps}>
+        {options}
       </div>
     )
 
