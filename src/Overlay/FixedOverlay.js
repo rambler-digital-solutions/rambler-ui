@@ -385,9 +385,7 @@ export default class FixedOverlay extends PureComponent {
   }
 
   componentWillUnmount() {
-    this.unmountPortal()
-    if (this.anchorNodeObserver)
-      this.anchorNodeObserver.disconnect()
+    this.cleanUp()
   }
 
   componentWillReceiveProps({isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY, content}) {
@@ -412,8 +410,29 @@ export default class FixedOverlay extends PureComponent {
       throw new Error('Anchor node for FixedOverlay does not found')
     this.anchorNodeObserver = new MutationObserver(debounce(this.updatePosition))
     this.anchorNodeObserver.observe(this.anchorNode, { subtree: true, childList: true, attributes: true, characterData: true })
+    this.bodyNodeObserver = new MutationObserver(debounce(this.onBodyMutation))
+    this.bodyNodeObserver.observe(document.body, { subtree: true, childList: true })
     if (this.props.isOpened)
       this.show()
+  }
+
+  cleanUp() {
+    this.unmountPortal()
+    if (this.anchorNodeObserver) {
+      this.anchorNodeObserver.disconnect()
+      this.anchorNodeObserver = null
+    }
+    if (this.bodyNodeObserver) {
+      this.bodyNodeObserver.disconnect()
+      this.bodyNodeObserver = null
+    }
+  }
+
+  onBodyMutation = () => {
+    if (!this.anchorNode)
+      return
+    if (!document.body.contains(this.anchorNode))
+      this.cleanUp()
   }
 
   /**

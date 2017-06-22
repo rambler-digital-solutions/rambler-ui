@@ -22,9 +22,11 @@ import { isolateMixin } from '../style/mixins'
     boxShadow: theme.dropdown.boxShadow
   },
   isVisible: {
-    opacity: '1 !important',
-    pointerEvents: 'initial !important',
-    top: '0px'
+    '&$dropdown': {
+      opacity: '1',
+      pointerEvents: 'auto',
+      top: '0px'
+    }
   },
   'pointY-bottom': {
     '&:not($isVisible)': { top: -10 }

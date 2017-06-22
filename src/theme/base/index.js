@@ -242,7 +242,8 @@ export function createTheme(config) {
           outline: colors.controls.grey.fieldOutline,
           border: 'transparent',
           background: colors.light,
-          text: colors.dark
+          text: colors.dark,
+          arrow: colors.controls.grey.icon
         },
         disabled: {
           border: colors.controls.grey.disabled,

@@ -2,6 +2,7 @@ import React from 'react'
 import Select from '../Select'
 import Input from '../../Input/Input'
 import MenuItem from '../../Menu/MenuItem'
+import theme from '../../theme/base'
 import { mount, withTheme, getStyles } from '../../utils/test-utils'
 
 describe('<Select />', () => {
@@ -59,7 +60,7 @@ describe('<Select />', () => {
     const select = wrapper.find(Select)
     const selectStyles = getStyles(select)
 
-    expect(selectStyles.height).toEqual('35px')
+    expect(selectStyles.height).toEqual(theme.field.sizes.small.height + 'px')
   })
 
 })

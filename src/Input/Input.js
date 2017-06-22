@@ -29,7 +29,7 @@ import { Eye } from '../icons/forms'
     borderStyle: 'solid',
     borderWidth: '0 0 2px 0',
     borderRadius: theme.field.borderRadius,
-    '&::-ms-reveal': {
+    '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
     },
     '&:focus': {

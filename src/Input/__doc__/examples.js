@@ -44,7 +44,7 @@ export default class InputExample extends Component {
             <FormGroup label='Input disabled'>
               <Input disabled type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
             </FormGroup>
-            <FormGroup label='Input small'>
+            <FormGroup label="Input small" size="small">
               <Input size="small" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
             </FormGroup>
             <FormGroup label='Input with left icon'>
@@ -80,7 +80,7 @@ export default class InputExample extends Component {
             <FormGroup label='Input disabled' inline={true}>
               <Input disabled type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
             </FormGroup>
-            <FormGroup label='Input small' inline={true}>
+            <FormGroup label="Input small" size="small" inline={true}>
               <Input size="small" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
             </FormGroup>
             <FormGroup label='Input with left icon' inline={true}>

@@ -27,6 +27,16 @@ import { ifDesktop, fontStyleMixin, isolateMixin } from '../style/mixins'
   inner: {
     position: 'relative'
   },
+  small: {
+    '&$inline $label': {
+      paddingTop: 12
+    }
+  },
+  medium: {
+    '&$inline $label': {
+      paddingTop: 15
+    }
+  },
   ...ifDesktop({
     normal: {
       '& $label': {
@@ -41,7 +51,7 @@ import { ifDesktop, fontStyleMixin, isolateMixin } from '../style/mixins'
       '& $label': {
         marginLeft: 0,
         maxWidth: 172,
-        lineHeight: '44px'
+        lineHeight: 1
       },
       '& $inner': {
         flex: 1,
@@ -70,6 +80,10 @@ export default class FormGroup extends Component {
      */
     label: PropTypes.string,
     /**
+     * Размер
+     */
+    size: PropTypes.oneOf(['small', 'medium']),
+    /**
     * Имя класса - className для FormGroup
     */
     className: PropTypes.string,
@@ -85,7 +99,11 @@ export default class FormGroup extends Component {
      * Style - объект со стилями
      */
     style: PropTypes.object
-  }
+  };
+
+  static defaultProps = {
+    size: 'medium'
+  };
 
   render() {
     const {
@@ -95,13 +113,14 @@ export default class FormGroup extends Component {
       className,
       children,
       style,
+      size,
       sheet: { classes: css }
     } = this.props
 
     const rootClass = inline === true ? 'inline' : 'normal'
-    const rootClassName = classnames(css[rootClass], css.root, className)
-    const labelClassName = classnames(css.label)
-    const innerClassName = classnames(css.inner)
+    const rootClassName = classnames(css[size], css[rootClass], css.root, className)
+    const labelClassName = css.label
+    const innerClassName = css.inner
 
     return (
       <section className={rootClassName} style={style}>

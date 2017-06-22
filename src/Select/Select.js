@@ -38,17 +38,17 @@ import { injectSheet } from '../theme'
     cursor: 'pointer !important',
     userSelect: 'none'
   },
-  current: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    border: '1px solid transparent',
-    padding: theme.input.padding,
-    color: theme.field.colors.default.text,
-    fontSize: theme.field.fontSize
-  },
+  // current: {
+  //   position: 'absolute',
+  //   top: 0,
+  //   left: 0,
+  //   right: 0,
+  //   bottom: 0,
+  //   border: '1px solid transparent',
+  //   padding: theme.input.padding,
+  //   color: theme.field.colors.default.text,
+  //   fontSize: theme.field.fontSize
+  // },
   ...['small', 'medium'].reduce((result, type) => ({
     ...result,
     [type]: {
@@ -80,7 +80,7 @@ import { injectSheet } from '../theme'
       top: 4,
       left: 6,
       borderStyle: 'solid',
-      borderColor: theme.field.colors.default.border,
+      borderColor: theme.field.colors.default.arrow,
       borderWidth: '0 0 1px 1px',
       height: 8,
       width: 8,
@@ -393,14 +393,10 @@ export default class Select extends PureComponent {
 
     const focuseInput = inputFocused || isOpened
     const inputValue = inputValueRenderer(value)
+    const resultPlaceholder = this.isValueEmpty(inputValue) ? placeholder : (onSearch && focuseInput && searchText === '' ? inputValue : '')
 
     return (
-      <div className={classnames(this.css.select, disabled && this.css.disabled, focuseInput && this.css.focused)}>
-        {onSearch && focuseInput && searchText === '' &&
-          <div className={classnames(this.css.current, this.css[size], icon && this.css.withIcon)}>
-            {inputValue}
-          </div>
-        }
+      <div className={classnames(this.css.select, this.css[size], disabled && this.css.disabled, focuseInput && this.css.focused)}>
         <Input
           {...other}
           inputRef={el => { this.input = el }}
@@ -411,9 +407,9 @@ export default class Select extends PureComponent {
           iconLeft={icon}
           autoFocus={autoFocus}
           disabled={disabled}
-          placeholder={this.isValueEmpty(inputValue) ? placeholder : ''}
+          placeholder={resultPlaceholder}
           readOnly={!onSearch}
-          value={onSearch && focuseInput ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
+          value={onSearch && focuseInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
           onFocus={this.focusInput}
           onClick={this.open}
           onBlur={this.blurInput}

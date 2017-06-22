@@ -14,21 +14,19 @@ export default class CheckboxExample extends Component {
 
   render() {
     return (
-      <div>
-        <ApplyTheme>
+      <ApplyTheme>
+        <div>
           <div>
-            <div style={{marginTop: 20}}>
-              <Checkbox
-                name="checkbox6"
-                checked={this.state.checked}
-                onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
-            </div>
-            <div style={{marginTop: 20}}>
-              <Checkbox name="checkbox8" disabled>На протяжении многих веков правители семи народов вели непрерывные войны.</Checkbox>
-            </div>
+            <Checkbox
+              name="checkbox6"
+              checked={this.state.checked}
+              onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
           </div>
-        </ApplyTheme>
-      </div>
+          <div style={{marginTop: 20}}>
+            <Checkbox name="checkbox8" disabled>На протяжении многих веков правители семи народов вели непрерывные войны.</Checkbox>
+          </div>
+        </div>
+      </ApplyTheme>
     )
   }
 }
