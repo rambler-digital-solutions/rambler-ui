@@ -277,7 +277,7 @@ export function createTheme(config) {
       animationDuration: 200
     },
     input: {
-      hrPadding: 13,
+      padding: 13,
       eyeMargin: 13
     },
     inputStatus: {

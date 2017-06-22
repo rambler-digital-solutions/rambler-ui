@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import Textarea from 'rambler-ui/Textarea'
 import FormGroup from 'rambler-ui/FormGroup'
 import InputStatus from 'rambler-ui/InputStatus'
-import InfoIcon from 'rambler-ui/icons/forms/InfoIcon'
 import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class TextareaExample extends Component {
@@ -20,53 +19,34 @@ export default class TextareaExample extends Component {
     return (
       <ApplyTheme>
         <div>
-
-          <h3>FormGroup inline=false</h3>
-          <FormGroup inline={false} label='Имя' style={{ width: 300 }}>
+          <FormGroup inline={true} label='Имя'>
             <Textarea
-              name='value1'
               value={this.state.value}
               onChange={this.onChange}
-              placeholder='Имя' />
+              placeholder='Имя'
+              style={{width: '500px'}}
+              textareaStyle={{minHeight: '100px'}} />
           </FormGroup>
 
-          <h3>FormGroup inline=true</h3>
-          <FormGroup inline={true} label='Фамилия' style={{ width: 600 }}>
-            <InputStatus type='success' message='Успех'>
-              <Textarea
-                status='success'
-                name='value2'
-                value={this.state.value}
-                onChange={this.onChange}
-                iconRight={
-                  <InfoIcon />
-                }
-                placeholder='Фамилия' />
-            </InputStatus>
-          </FormGroup>
-
-          <FormGroup inline={true} label='size small' style={{ width: 400 }}>
-            <InputStatus type='error' message='Ошибка'>
+          <FormGroup inline={true} label='With error status'>
+            <InputStatus type='error' message='Some error'>
               <Textarea
                 status='error'
-                name='value2'
                 size='small'
                 value={this.state.value}
                 onChange={this.onChange}
+                style={{width: '500px'}}
                 placeholder='Отчество' />
             </InputStatus>
           </FormGroup>
 
-          <FormGroup inline={true} label='Disabled' style={{ width: 300 }}>
-            <InputStatus type='warning' message='Disabled'>
-              <Textarea
-                status='warning'
-                value=''
-                onChange={this.onChange}
-                disabled />
-            </InputStatus>
+          <FormGroup inline={true} label='Disabled'>
+            <Textarea
+              value={this.state.value}
+              onChange={this.onChange}
+              style={{width: '500px'}}
+              disabled />
           </FormGroup>
-
         </div>
       </ApplyTheme>
     )

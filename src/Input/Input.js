@@ -1,7 +1,7 @@
 /**
  * Компонент Input
  */
-import React, { Component, cloneElement } from 'react'
+import React, { Component, createElement, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
@@ -21,14 +21,21 @@ import { Eye } from '../icons/forms'
     fontSize: theme.field.fontSize,
     appearance: 'none',
     lineHeight: 'normal',
-    paddingLeft: theme.input.hrPadding,
-    paddingRight: theme.input.hrPadding,
     background: 'transparent',
     transition: `border-color ${theme.field.animationDuration}ms ease`,
     borderColor: 'transparent',
     borderStyle: 'solid',
     borderWidth: '0 0 2px 0',
     borderRadius: theme.field.borderRadius,
+    'input&': {
+      paddingLeft: theme.input.padding,
+      paddingRight: theme.input.padding
+    },
+    'textarea&': {
+      resize: 'vertical',
+      height: '100%',
+      padding: theme.input.padding
+    },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
     },
@@ -49,8 +56,11 @@ import { Eye } from '../icons/forms'
     ...result,
     [size]: {
       '& $input': {
-        height: theme.field.sizes[size].height,
         fontSize: theme.field.sizes[size].fontSize
+      },
+      '& input$input': {
+        height: theme.field.sizes[size].height,
+        lineHeight: theme.field.sizes[size].height + 'px'
       },
       '& $eye': {
         height: theme.field.sizes[size].eyeIcon,
@@ -232,6 +242,7 @@ export default class Input extends Component {
 
   render() {
     const {
+      tag,
       className,
       style,
       disabled,
@@ -252,7 +263,6 @@ export default class Input extends Component {
 
     const { type } = this.state
     const trueType = this.props.type
-
     const resultClassName = classnames(className, css.root, css[size], css[status], {
       [css.withLeftIcon]: !!iconLeft,
       [css.withRightIcon]: !!iconRight,
@@ -271,25 +281,26 @@ export default class Input extends Component {
       className: classnames(iconRight.props.className, css.icon, css.iconRight)
     })
 
+    const inputElement = createElement(tag || 'input', {
+      name,
+      value,
+      disabled,
+      ref: input => {
+        this.input = input
+        if (inputRef)
+          inputRef(input)
+      },
+      className: classnames(css.input, inputClassName, value !== '' && value != null && css.filled),
+      style: inputStyle,
+      onChange: this.onChangeHelper,
+      tabIndex: '0',
+      placeholder,
+      ...other
+    })
     return (
       <div style={style} className={resultClassName}>
         {resultIconLeft}
-        <input
-          ref={input => {
-            this.input = input
-            if (inputRef)
-              inputRef(input)
-          }}
-          className={classnames(css.input, inputClassName, value !== '' && value != null && css.filled)}
-          disabled={disabled}
-          style={inputStyle}
-          name={name}
-          onChange={this.onChangeHelper}
-          tabIndex='0'
-          placeholder={placeholder}
-          value={value}
-          {...other}
-        />
+        {inputElement}
         {resultIconRight}
         {trueType === 'password' &&
           <Eye

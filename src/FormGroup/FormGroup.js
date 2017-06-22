@@ -48,6 +48,7 @@ import { ifDesktop, fontStyleMixin, isolateMixin } from '../style/mixins'
     inline: {
       marginBottom: 30,
       display: 'flex',
+      alignItems: 'flex-start',
       '& $label': {
         marginLeft: 0,
         maxWidth: 172,
