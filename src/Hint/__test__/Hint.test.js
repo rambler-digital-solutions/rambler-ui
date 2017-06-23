@@ -1,6 +1,8 @@
 import React from 'react'
 import Hint from '../Hint'
 import { withTheme, mount, getStyles, getNodeStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
+import { normalize as nc } from '../../utils/colors'
 
 describe('<Hint />', () => {
   const mountWrapper = props => mount(
@@ -39,7 +41,7 @@ describe('<Hint />', () => {
 
     expect(anchorStyles.width).toEqual('16px')
     expect(anchorStyles.height).toEqual('16px')
-    expect(anchorStyles.fill).toEqual('#315efb')
+    expect(nc(anchorStyles.fill)).toEqual(nc(theme.hint.colors.icon))
 
     const contentNode = document.querySelector('.content')
     const contentStyles = getNodeStyles(contentNode)
@@ -49,7 +51,7 @@ describe('<Hint />', () => {
     expect(contentStyles.width).toEqual('275px')
     expect(contentStyles['padding-top']).toEqual('15px')
     expect(contentStyles['padding-bottom']).toEqual('20px')
-    expect(contentStyles['background-color']).toEqual('rgb(255, 255, 255)')
-    expect(contentStyles['font-size']).toEqual('13px')
+    expect(nc(contentStyles['background-color'])).toEqual(nc(theme.hint.colors.background))
+    expect(contentStyles['font-size']).toEqual(theme.hint.fontSize + 'px')
   })
 })

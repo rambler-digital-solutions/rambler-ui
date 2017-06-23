@@ -194,7 +194,7 @@ describe('Input', () => {
 
     expect(inputTextStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconPadding + 'px')
     expect(inputPassStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconsPadding + 'px')
-    expect(inputPassStyles['padding-left']).toEqual(theme.input.hrPadding + 'px')
+    expect(inputPassStyles['padding-left']).toEqual(theme.input.padding + 'px')
   })
 
   it('size small', () => {

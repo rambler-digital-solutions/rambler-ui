@@ -90,7 +90,7 @@ class HintContent extends Component {
     const iconProps = icon.props || {}
 
     const anchor = cloneElement(icon, {
-      className: css.icon,
+      className: classnames(css.icon, iconProps.className),
       color: iconProps.color || theme.hint.colors.icon
     })
 
@@ -127,7 +127,7 @@ export default class Hint extends Component {
      */
     className: PropTypes.string,
     /**
-     * Стили якоря
+     * Стили якоря (Иконки)
      */
     style: PropTypes.object,
     /**
@@ -222,7 +222,7 @@ export default class Hint extends Component {
     const anchor = cloneElement(icon, {
       style,
       className: classnames(css.icon, className),
-      color: iconProps.color || theme.button.types.primary.defaultBg,
+      color: iconProps.color || theme.hint.colors.icon,
       onMouseEnter: this.show
     })
 
@@ -245,7 +245,8 @@ export default class Hint extends Component {
         anchorPointY="top"
         contentPointY="top"
         cachePositionOptions={false}
-        closeOnScroll={closeOnScroll} />
+        closeOnScroll={closeOnScroll}
+        onContentClose={this.hide} />
     )
   }
 
