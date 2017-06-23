@@ -1,14 +1,15 @@
+import React from 'react'
 import { Toggle, ToggleOption} from '../../Toggle'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles, getNodeStyles } from '../../utils/test-utils'
-
-import React from 'react'
+import { mount, getStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
+import { normalize as nc } from '../../utils/colors'
 
 const applyTheme = (children) => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
-describe('<Toggle />', () => {
+describe('Toggle', () => {
   const defaultPropsToggle = {
     value: 'Rambler',
     onChange: () => {},
@@ -28,7 +29,7 @@ describe('<Toggle />', () => {
     spyOn(defaultPropsToggle, 'onChange').and.callFake((e, val) => { event = e; value = val })
   })
 
-  it('Стили для toggle, toggleOptions', () => {
+  it('Style Toggle/ToggleOption small', () => {
     const wrapper = mount(applyTheme(
       <div style={{width: 480, marginBottom: 20}}>
         <Toggle {...defaultPropsToggle}
@@ -47,19 +48,18 @@ describe('<Toggle />', () => {
 
     const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
     const togOpt = getStyles(wrapper.find('.toggleActive'))
-    const togOptParent = getNodeStyles(wrapper.find('.toggleActive').node.parentNode)
 
     expect(toggleStyles.display).toEqual('inline-block')
-    expect(togOpt['font-family']).toEqual('Roboto, sans-serif')
-    expect(togOpt['font-size']).toEqual('13px')
-    expect(togOpt.height).toEqual('35px')
-    expect(togOptParent['border-top-width']).toEqual('1px')
-    expect(togOptParent['border-bottom-width']).toEqual('1px')
-    expect(togOptParent['border-top-style']).toEqual('solid')
-    expect(togOptParent.color).toEqual('rgb(49, 94, 251)')
+    expect(togOpt['font-family']).toEqual(theme.font.fontFamily)
+    expect(togOpt['font-size']).toEqual(theme.toggle.sizes.small.fontSize + 'px')
+    expect(nc(togOpt.color)).toEqual(nc(theme.toggle.colors.checked.text))
+    expect(togOpt.height).toEqual(theme.toggle.sizes.small.height + 'px')
+    expect(togOpt['border-top-width']).toEqual('1px')
+    expect(togOpt['border-bottom-width']).toEqual('1px')
+    expect(togOpt['border-top-style']).toEqual('solid')
   })
 
-  it('Стили для toggle, toggleOptions block = true, equalWidth = true, disabled = true', () => {
+  it('Style Toggle/ToggleOption medium', () => {
     const wrapper = mount(applyTheme(
       <div style={{width: 480, marginBottom: 20}}>
         <Toggle
@@ -73,11 +73,11 @@ describe('<Toggle />', () => {
           <ToggleOption
             {...defaultPropsToggleOption}
             className='toggleActive'
-            value="Rambler">Рамблер</ToggleOption>
+            value="Rambler">Rambler&Co</ToggleOption>
           <ToggleOption
             {...defaultPropsToggleOption}
             className='toggleOption'
-            value="Yandex">Яндекс</ToggleOption>
+            value="Yandex">Yandex</ToggleOption>
         </Toggle>
       </div>
     ))
@@ -87,8 +87,7 @@ describe('<Toggle />', () => {
     const togOptStyles2 = getStyles(wrapper.find('.toggleOption'))
     expect(toggleStyles['margin-bottom']).toEqual('20px')
     expect(toggleStyles.width).toEqual('480px')
-    expect(toggleStyles.opacity.replace(',', '.')).toEqual('0.5')
-    expect(togOptStyles.height).toEqual('45px')
+    expect(togOptStyles.height).toEqual(theme.toggle.sizes.medium.height + 'px')
     expect(togOptStyles.width).toEqual(togOptStyles2.width)
     expect(togOptStyles['pointer-events']).toEqual('none')
   })
@@ -101,11 +100,11 @@ describe('<Toggle />', () => {
           behavior='toggle'>
           <ToggleOption
             {...defaultPropsToggleOption}
-            value="Rambler">Рамблер</ToggleOption>
+            value="Rambler">Rambler&Co</ToggleOption>
           <ToggleOption
             {...defaultPropsToggleOption}
             className='toggleOption'
-            value="Yandex">Яндекс</ToggleOption>
+            value="Yandex">Yandex</ToggleOption>
         </Toggle>
       </div>
     ))

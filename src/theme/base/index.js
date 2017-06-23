@@ -364,7 +364,7 @@ export function createTheme(config) {
       borderRadius: 1,
       colors: {
         default: {
-          border: colors.controls.grey.outline
+          border: lighten(colors.controls.grey.outline, 0.7)
         },
         checked: {
           border: colors.primary,
@@ -374,8 +374,11 @@ export function createTheme(config) {
           border: colors.primary,
           text: colors.primary
         },
+        focus: {
+          text: colors.primary
+        },
         active: {
-          background: fade(colors.primary, 0.15),
+          background: fade(colors.primary, 0.2),
           border: colors.primary,
           text: colors.primary
         },
@@ -388,10 +391,12 @@ export function createTheme(config) {
         medium: {
           fontSize: 13,
           height: 45,
-          paddingHr: 25
+          paddingHr: 25,
+          icon: 13
         },
         small: {
           fontSize: 13,
+          icon: 13,
           height: 35,
           paddingHr: 15
         }

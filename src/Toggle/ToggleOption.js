@@ -13,21 +13,29 @@ import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
     ...middleMixin,
     ...isolateMixin,
     ...fontStyleMixin(theme.font),
-    display: 'block',
+    display: 'inline-block',
     textAlign: 'center',
     userSelect: 'none',
     whiteSpace: 'nowrap',
     cursor: 'inherit',
-    color: 'inherit'
+    color: 'inherit',
+    outline: 'none !important',
+    background: 'transparent',
+    '&::-moz-focus-inner': {
+      border: 'none !important',
+      outline: 'none !important'
+    }
   },
   'size-small': {
     fontSize: theme.toggle.sizes.small.fontSize,
     height: theme.toggle.sizes.small.height,
+    lineHeight: (theme.toggle.sizes.small.height - 1) + 'px',
     padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
   },
   'size-medium': {
     fontSize: theme.toggle.sizes.medium.fontSize,
     height: theme.toggle.sizes.medium.height,
+    lineHeight: (theme.toggle.sizes.medium.height - 1) + 'px',
     padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
   },
   icon: {
@@ -87,7 +95,7 @@ class ToggleOption extends Component {
         sheet: { classes: css }
       } = this.props
       const iconProps = {
-        size: theme.sizes[size].icon,
+        size: theme.toggle.sizes[size].icon,
         color: isSelected ? theme.toggle.selectedColor : theme.toggle.color
       }
       const initialProps = icon.props || {}
@@ -112,10 +120,10 @@ class ToggleOption extends Component {
     /* eslint-enable no-unused-vars */
     const resultClassName = classnames(css.toggleOption, css[`size-${size}`], className)
     return (
-      <span tabIndex="0" { ...other } className={ resultClassName } onClick={ this.onClick }>
+      <button type="button" tabIndex="0" { ...other } className={ resultClassName } onClick={ this.onClick }>
         { this.renderIcon(icon) }
         { children }
-      </span>
+      </button>
     )
   }
 

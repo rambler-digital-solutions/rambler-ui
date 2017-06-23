@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { borderMixin, isolateMixin } from '../style/mixins'
+import { isolateMixin, fontSmoothingMixin } from '../style/mixins'
 
 const whenDomReady = new Promise((resolve) => {
   if (document.readyState === 'complete')
@@ -27,24 +27,29 @@ const whenDomReady = new Promise((resolve) => {
     }
   },
   option: {
+    ...fontSmoothingMixin,
     textAlign: 'center',
     borderStyle: 'solid',
     borderColor: theme.toggle.colors.default.border,
     color: theme.toggle.colors.default.text,
-    borderWidth: '1px 0px 1px 1px',
+    borderWidth: 1,
     cursor: 'pointer',
     userSelect: 'none',
     position: 'relative',
     display: 'inline-block',
-    '&:before': {
-      content: '""',
-      display: 'block',
-      position: 'absolute',
-      pointerEvents: 'none',
-      left: -1,
-      top: -1,
-      right: -1,
-      bottom: -1
+    fontWeight: 500,
+    // '&:before': {
+    //   content: '""',
+    //   display: 'block',
+    //   position: 'absolute',
+    //   pointerEvents: 'none',
+    //   left: -1,
+    //   top: -1,
+    //   right: -1,
+    //   bottom: -1
+    // },
+    '&:not(:first-child)': {
+      marginLeft: -1
     },
     '&:last-child': {
       borderWidth: 1,
@@ -57,15 +62,21 @@ const whenDomReady = new Promise((resolve) => {
     },
     '&:hover': {
       zIndex: 2,
-      '&:before': borderMixin(theme.toggle.colors.hover.border),
+      borderColor: theme.toggle.colors.hover.border,
+      // '&:before': borderMixin(theme.toggle.colors.hover.border),
       color: theme.toggle.colors.checked.text
     },
+    '&:focus': {
+      zIndex: 2,
+      color: theme.toggle.colors.focus.text
+    },
     '&$isSelected': {
-      '&:before': borderMixin(theme.toggle.colors.checked.border),
+      zIndex: 3,
+      borderColor: theme.toggle.colors.checked.border,
       color: theme.toggle.colors.checked.text
     },
     '&:active': {
-      '&:before': borderMixin(theme.toggle.colors.active.border),
+      // '&:before': borderMixin(theme.toggle.colors.active.border),
       color: theme.toggle.colors.active.text,
       background: theme.toggle.colors.active.background
     }
@@ -227,7 +238,7 @@ export default class Toggle extends Component {
         isSelected,
         key: ++i,
         onPress: this.onValueChange,
-        className: classnames(child.props.style, resultClassName),
+        className: classnames(child.props.className, resultClassName),
         style: {...child.props.style, minWidth: this.state.minWidth}
       })
     })

@@ -1,7 +1,5 @@
 import { Toggle, ToggleOption } from 'rambler-ui/Toggle'
 import React, { Component } from 'react'
-import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
-import TickIcon from 'rambler-ui/icons/forms/TickIcon'
 import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class ToggleExample extends Component {
@@ -21,26 +19,26 @@ export default class ToggleExample extends Component {
         <div>
           <div style={{width: 480, marginBottom: 20}}>
             <Toggle value={this.state.toggleValue} className='toggle' onChange={::this.onChange} block={true} equalWidth={true}>
-              <ToggleOption value="Rambler" icon={ <RamblerMailIcon/> }>Рамблер</ToggleOption>
-              <ToggleOption value="Yandex">Яндекс</ToggleOption>
-              <ToggleOption value="Mail">Мейл</ToggleOption>
-              <ToggleOption value="Google">Гугл</ToggleOption>
+              <ToggleOption value="Rambler">Rambler&Co</ToggleOption>
+              <ToggleOption value="Yandex">Yandex</ToggleOption>
+              <ToggleOption value="Mail">Mail.ru</ToggleOption>
+              <ToggleOption value="Google">Google</ToggleOption>
             </Toggle>
           </div>
           <div style={{marginBottom: 20}}>
             <Toggle value={this.state.toggleValue} onChange={::this.onChange} equalWidth={true}>
-              <ToggleOption value="Yandex">Яндекс</ToggleOption>
-              <ToggleOption value="Google">Гугл</ToggleOption>
-              <ToggleOption value="Mail">Мейл</ToggleOption>
-              <ToggleOption value="Rambler" icon={ <TickIcon/> }>Рамблер</ToggleOption>
+              <ToggleOption value="Yandex">Yandex</ToggleOption>
+              <ToggleOption value="Google">Google</ToggleOption>
+              <ToggleOption value="Mail">Mail.ru</ToggleOption>
+              <ToggleOption value="Rambler">Rambler&Co</ToggleOption>
             </Toggle>
           </div>
           <div style={{marginBottom: 20}}>
             <Toggle value={this.state.toggleValue} onChange={::this.onChange} size="medium" behavior="toggle">
-              <ToggleOption value="Mail">Мейл</ToggleOption>
-              <ToggleOption value="Yandex">Яндекс</ToggleOption>
-              <ToggleOption value="Rambler">Рамблер</ToggleOption>
-              <ToggleOption value="Google">Гугл</ToggleOption>
+              <ToggleOption value="Mail">Mail.ru</ToggleOption>
+              <ToggleOption value="Yandex">Yandex</ToggleOption>
+              <ToggleOption value="Rambler">Rambler&Co</ToggleOption>
+              <ToggleOption value="Google">Google</ToggleOption>
             </Toggle>
           </div>
           <br/>

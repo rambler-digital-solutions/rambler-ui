@@ -72,7 +72,7 @@ export const uppercaseMixin = {
   letterSpacing: 1.3
 }
 
-export const fontSmoothing = {
+export const fontSmoothingMixin = {
   '-webkit-font-smoothing': 'antialiased',
   '-moz-osx-font-smoothing': 'grayscale'
 }
