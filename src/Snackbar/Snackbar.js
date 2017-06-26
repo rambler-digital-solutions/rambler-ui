@@ -9,7 +9,7 @@ import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
+import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
 @pure
 @zIndexStack(SNACKBAR_ZINDEX)
@@ -17,7 +17,8 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
 @injectSheet((theme) => ({
   snackbar: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    ...middleMixin,
+    fontFamily: 'inherit',
     position: 'fixed',
     bottom: -10,
     boxSizing: 'border-box',
@@ -27,6 +28,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     padding: theme.snackbar.padding,
     width: '100%',
     height: theme.snackbar.height,
+    lineHeight: theme.snackbar.height + 'px',
     color: theme.snackbar.colors.text,
     fontSize: theme.snackbar.fontSize,
     opacity: 0,
@@ -92,6 +94,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
     border: 0,
     borderRadius: theme.snackbar.borderRadius,
     height: 20,
+    lineHeight: 20 + 'px',
     marginLeft: 15,
     padding: '0 10px',
     backgroundColor: 'transparent',

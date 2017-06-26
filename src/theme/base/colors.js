@@ -7,6 +7,7 @@ export default {
   dark: '#262626',
   light: '#fff',
   fullDark: '#000',
+  blueDark: '#343b4c',
   controls: {
     grey: {
       default: '#ccc', // рамки кнопок

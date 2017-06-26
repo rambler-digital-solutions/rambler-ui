@@ -6,23 +6,24 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   root: {
     ...isolateMixin,
-    ...middleMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     fontSize: theme.radio.fontSize,
-    display: 'inline-block',
+    display: 'flex',
     width: '100%',
     cursor: 'pointer',
     position: 'relative',
     color: theme.radio.colors.default.text,
     '& input': {
+      fontFamily: 'inherit',
       position: 'absolute',
       opacity: '0',
-      appearance: 'none'
+      appearance: 'none',
+      pointerEvents: 'none'
     },
     '& input:checked + $radio': {
       borderColor: theme.radio.colors.checked.dotBorder
@@ -39,6 +40,7 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
     '&:hover': {
       borderColor: theme.radio.colors.hover.dotBorder
     },
+    flex: `0 0 ${theme.radio.radioSize}px`,
     display: 'inline-block',
     verticalAlign: 'middle',
     position: 'relative',
@@ -48,7 +50,8 @@ import { fontStyleMixin, isolateMixin, middleMixin} from '../style/mixins'
     borderRadius: '50%',
     width: theme.radio.radioSize,
     height: theme.radio.radioSize,
-    marginRight: 10,
+    marginRight: theme.radio.labelMargin,
+    marginTop: 1,
     textAlign: 'center',
     transition: `all ${theme.radio.animationDuration}ms`,
     '& svg': {

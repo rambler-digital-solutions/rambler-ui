@@ -234,7 +234,6 @@ function getPositionOptions(params) {
 
   left = Math.round(left)
   top = Math.round(top)
-
   return {
     left,
     top,
@@ -314,6 +313,8 @@ export default class FixedOverlay extends PureComponent {
      * если isVisible=true, а потом стал false, колбеки анимации должны отмениться
      * - pointX: точка присоединения overlay к anchor, в зависимости от этой опции на тултипе можно рисоваться стрелочка по разному
      * - pointY: точка присоединения overlay к anchor, в зависимости от этой опции на тултипе можно рисоваться стрелочка по разному
+     * - anchorPointX: точка присоединения контента к anchor по оси X
+     * - anchorPointY: точка присоединения контента к anchor по оси Y
      * - onBecomeVisible - колбек, который должен вызваться, когда контент стал видимым
      * - onBecomeInvisible - колбек, который должен вызваться, когда контент стал невидимым
      * - hide - функция, которая должна вызываться, если контент нужно закрыть
@@ -355,7 +356,11 @@ export default class FixedOverlay extends PureComponent {
     /**
      * Скрывать элемент при скролле
      */
-    closeOnScroll: PropTypes.bool
+    closeOnScroll: PropTypes.bool,
+    /**
+     * Дополнительные стили для DOM-ноды контейнера
+     */
+    containerNodeStyle: PropTypes.object
   };
 
   static defaultProps = {
@@ -463,21 +468,24 @@ export default class FixedOverlay extends PureComponent {
       getWindowSize,
       getElementRect,
       getYScroll,
-      cachePositionOptions
+      cachePositionOptions,
+      containerNodeStyle
     } = this.props
     // TODO получать от клиента
     this.scrollY = getYScroll()
     const anchorRect = getElementRect(this.anchorNode)
+    const contentWidth = this.contentNode.offsetWidth
+    const contentHeight = this.contentNode.offsetHeight
     const options = getPositionOptions(Object.assign({
       anchorRect,
       anchorPointX,
       anchorPointY,
       contentPointX,
       contentPointY,
+      contentWidth,
+      contentHeight,
       autoPositionX: !this.cachedOptions && autoPositionX,
       autoPositionY: !this.cachedOptions && autoPositionY,
-      contentHeight: this.contentNode.offsetHeight,
-      contentWidth: this.contentNode.offsetWidth,
       windowSize: getWindowSize()
     }, this.cachedOptions))
 
@@ -486,15 +494,20 @@ export default class FixedOverlay extends PureComponent {
 
     this.portal.updateContentProps({
       content,
+      contentWidth,
+      contentHeight,
       isVisible: true,
       pointX: options.contentPointX,
       pointY: options.contentPointY,
+      anchorPointX: options.anchorPointX,
+      anchorPointY: options.anchorPointY,
       anchorWidth: this.anchorNode.offsetWidth,
       anchorHeight: this.anchorNode.offsetHeight
     })
     Object.assign(this.contentContainerNode.style, {
       left: options.left + 'px',
-      top: options.top + this.scrollY + 'px'
+      top: options.top + this.scrollY + 'px',
+      ...containerNodeStyle
     })
   };
 
@@ -513,7 +526,8 @@ export default class FixedOverlay extends PureComponent {
         }}
       />
       renderSubtreeIntoContainer(this, element, this.getContentContainerNode())
-    }).then((portal) => {
+    })
+    .then((portal) => {
       this.portal = portal
       this.contentNode = findDOMNode(portal)
       this.subscribeListeners()
@@ -626,7 +640,9 @@ export default class FixedOverlay extends PureComponent {
       this.contentContainerNode = document.createElement('div')
       Object.assign(this.contentContainerNode.style, {
         position: 'absolute',
-        zIndex: this.props.zIndex
+        zIndex: this.props.zIndex,
+        left: '0px',
+        top: '0px'
       })
       document.body.appendChild(this.contentContainerNode)
       if (this.props.contentWrapperRef)

@@ -1,7 +1,3 @@
-export const fontStyleMixin = ({ fontFamily }) => ({
-  fontFamily
-})
-
 export const middleMixin = {
   '&:before': {
     display: 'inline-block',

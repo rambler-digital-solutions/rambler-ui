@@ -6,13 +6,13 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, middleMixin } from '../style/mixins'
+import { isolateMixin, middleMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   toggleOption: {
     ...middleMixin,
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     display: 'inline-block',
     textAlign: 'center',
     userSelect: 'none',

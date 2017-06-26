@@ -7,13 +7,13 @@ import VisibilityAnimation from '../VisibilityAnimation'
 import { FixedOverlay } from '../Overlay'
 import { POINTS_X } from '../constants/overlay'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet((theme) => ({
   hint: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     position: 'relative',
     top: -14,
     color: theme.hint.colors.text,

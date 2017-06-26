@@ -11,7 +11,7 @@ import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
+import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
 @pure
 @zIndexStack(SNACKBAR_ZINDEX)
@@ -19,7 +19,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
 @injectSheet((theme) => ({
   notification: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     position: 'fixed',
     left: 15,
     right: 15,

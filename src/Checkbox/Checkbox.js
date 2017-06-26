@@ -5,7 +5,7 @@ import omit from 'lodash/omit'
 import pickBy from 'lodash/pickBy'
 import TickIcon from '../icons/forms/TickIcon'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
 @injectSheet((theme) => {
 
@@ -23,14 +23,14 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   return {
     checkbox: {
       ...isolateMixin,
-      ...fontStyleMixin(theme.font),
+      fontFamily: 'inherit',
       fontSize: theme.checkbox.fontSize,
       position: 'relative',
       display: 'inline-block',
       verticalAlign: 'top',
       lineHeight: theme.checkbox.size + 'px',
       '&, & *': {
-        transition: 'all .2s'
+        transition: `all ${theme.checkbox.animationDuration}ms`
       },
       ...setThemeForSelector(theme.checkbox.colors.default),
       '&:hover': setThemeForSelector(theme.checkbox.colors.hover),

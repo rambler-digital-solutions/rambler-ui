@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   item: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',

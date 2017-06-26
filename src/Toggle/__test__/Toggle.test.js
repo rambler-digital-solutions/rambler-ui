@@ -50,7 +50,6 @@ describe('Toggle', () => {
     const togOpt = getStyles(wrapper.find('.toggleActive'))
 
     expect(toggleStyles.display).toEqual('inline-block')
-    expect(togOpt['font-family']).toEqual(theme.font.fontFamily)
     expect(togOpt['font-size']).toEqual(theme.toggle.sizes.small.fontSize + 'px')
     expect(nc(togOpt.color)).toEqual(nc(theme.toggle.colors.checked.text))
     expect(togOpt.height).toEqual(theme.toggle.sizes.small.height + 'px')

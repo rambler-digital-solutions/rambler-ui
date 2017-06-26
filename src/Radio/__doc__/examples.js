@@ -20,7 +20,7 @@ export default class RadioExample extends Component {
         <div>
           <div>
             <RadioButtonGroup
-              style={{marginBottom: 20}}
+              style={{marginBottom: 20, maxWidth: 300}}
               value={this.state.radioValue}
               onChange={::this.onChangeState}
               labelPosition="right">
@@ -30,7 +30,7 @@ export default class RadioExample extends Component {
                   onBlur={this.onBlur}
                   onChange={this.onChange}
                   onClick={this.onClick}
-                >Moscow</RadioButton>
+                >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique quis nisl quis fermentum. Praesent lectus ligula, tincidunt a orci in, cursus fermentum leo. Praesent egestas scelerisque consectetur."</RadioButton>
                 <RadioButton
                   value="Samara"
                   onFocus={this.onFocus}

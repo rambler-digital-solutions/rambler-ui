@@ -22,7 +22,7 @@ export default class CheckboxExample extends Component {
               checked={this.state.checked}
               onCheck={::this.onCheck}>Получать уведомления по почте</Checkbox>
           </div>
-          <div style={{marginTop: 20}}>
+          <div style={{marginTop: 20, maxWidth: 200}}>
             <Checkbox name="checkbox8" disabled>На протяжении многих веков правители семи народов вели непрерывные войны.</Checkbox>
           </div>
         </div>

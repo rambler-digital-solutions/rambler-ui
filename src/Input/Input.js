@@ -6,13 +6,13 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, borderMixin } from '../style/mixins'
+import { isolateMixin, borderMixin } from '../style/mixins'
 import { Eye } from '../icons/forms'
 
 @injectSheet(theme => ({
   input: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     boxSizing: 'border-box',
     display: 'block',
     outline: 0,
@@ -29,7 +29,8 @@ import { Eye } from '../icons/forms'
     borderRadius: theme.field.borderRadius,
     'input&': {
       paddingLeft: theme.input.padding,
-      paddingRight: theme.input.padding
+      paddingRight: theme.input.padding,
+      paddingTop: 1
     },
     'textarea&': {
       resize: 'vertical',
@@ -60,7 +61,7 @@ import { Eye } from '../icons/forms'
       },
       '& input$input': {
         height: theme.field.sizes[size].height,
-        lineHeight: theme.field.sizes[size].height + 'px'
+        lineHeight: 'normal'
       },
       '& $eye': {
         height: theme.field.sizes[size].eyeIcon,
@@ -111,14 +112,14 @@ import { Eye } from '../icons/forms'
     borderRadius: theme.field.borderRadius,
     position: 'relative',
     background: theme.field.colors.default.background,
-    boxSizing: 'border-box'
+    boxSizing: 'border-box',
+    fontFamily: 'inherit'
   },
   icon: {
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    fontSize: 0,
-    marginTop: -1
+    fontSize: 0
   },
   eye: {
     extend: 'icon',

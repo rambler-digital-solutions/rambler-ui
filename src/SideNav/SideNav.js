@@ -11,6 +11,7 @@ import { isolateMixin } from '../style/mixins'
 @injectSheet(() => ({
   sideNav: {
     ...isolateMixin,
+    fontFamily: 'inherit',
     display: 'inline-block',
     '&, & *': {
       transitionDuration: '.2s',

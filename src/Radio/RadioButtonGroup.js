@@ -14,10 +14,12 @@ function nameHelper() {
 
 @injectSheet((theme) => ({
   radioButtonGroup: {
-    ...isolateMixin
+    ...isolateMixin,
+    fontFamily: 'inherit'
   },
   labelWrap: {
     ...isolateMixin,
+    fontFamily: 'inherit',
     '&:not(:last-child)': {
       marginBottom: theme.radio.marginBottom
     }

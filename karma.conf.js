@@ -5,6 +5,7 @@ module.exports = function (config) {
     basePath: '',
     frameworks: ['jasmine'],
     files: [
+      'test/init.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
       'src/**/*.test.js'
     ],

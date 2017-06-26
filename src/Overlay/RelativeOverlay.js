@@ -225,9 +225,13 @@ function getContentProps(params) {
     translateX,
     translateY,
     contentPointX,
-    contentPointY
+    contentPointY,
+    anchorPointY,
+    anchorPointX
   } = getPositionOptions(params)
   return {
+    anchorPointY,
+    anchorPointX,
     style: {
       left,
       right,
@@ -305,6 +309,8 @@ export default class RelativeOverlay extends PureComponent {
      * если isVisible=true, а потом стал false, колбеки анимации должны отмениться
      * - pointX: точка присоединения overlay к anchor, в зависимости от этой опции на тултипе можно рисоваться стрелочка по разному
      * - pointY: точка присоединения overlay к anchor, в зависимости от этой опции на тултипе можно рисоваться стрелочка по разному
+     * - anchorPointX: точка присоединения контента к anchor по оси X
+     * - anchorPointY: точка присоединения контента к anchor по оси Y
      * - onBecomeVisible - колбек, который должен вызваться, когда контент стал видимым
      * - onBecomeInvisible - колбек, который должен вызваться, когда контент стал невидимым
      * - hide - функция, которая должна вызываться, если контент нужно закрыть
@@ -489,8 +495,10 @@ export default class RelativeOverlay extends PureComponent {
       this.updateContentPosition()
     })
 
-    whenPositioned.then(({style, pointX, pointY}) => {
+    whenPositioned.then(({style, pointX, pointY, anchorPointX, anchorPointY}) => {
       this.setState({
+        anchorPointX,
+        anchorPointY,
         contentStyle: style,
         contentPointX: pointX,
         contentPointY: pointY,
@@ -557,6 +565,8 @@ export default class RelativeOverlay extends PureComponent {
       isContentInDom,
       contentPointX,
       contentPointY,
+      anchorPointX,
+      anchorPointY,
       anchorWidth,
       anchorHeight,
       contentStyle
@@ -570,11 +580,13 @@ export default class RelativeOverlay extends PureComponent {
           ref={ this.onContentMount} >
           {
             cloneElement(content, {
+              anchorPointX,
+              anchorPointY,
+              anchorWidth,
+              anchorHeight,
               isVisible: isContentVisible,
               pointX: contentPointX,
               pointY: contentPointY,
-              anchorWidth,
-              anchorHeight,
               onBecomeVisible: this.onContentBecomeVisible,
               onBecomeInvisible: this.onContentBecomeInvisible,
               hide: this.hide

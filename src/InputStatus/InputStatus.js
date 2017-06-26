@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   success: {
@@ -25,7 +25,7 @@ import { fontStyleMixin, isolateMixin } from '../style/mixins'
   },
   message: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     marginTop: 10,
     fontSize: theme.inputStatus.fontSize,
     textAlign: 'left'

@@ -15,7 +15,7 @@ import zIndexStack from '../hoc/z-index-stack'
 import { ESCAPE } from '../constants/keys'
 import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
-import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
+import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
 @pure
 @zIndexStack(POPUP_ZINDEX)
@@ -24,7 +24,7 @@ import { fontStyleMixin, isolateMixin, middleMixin, ifDesktop } from '../style/m
   backdrop: {
     ...isolateMixin,
     ...middleMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     position: 'fixed',
     top: 0,
     left: 0,

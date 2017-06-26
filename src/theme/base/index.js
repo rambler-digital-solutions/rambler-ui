@@ -8,10 +8,8 @@ import colorsConfig from './colors'
 export function createTheme(config) {
   const { colors } = config
   return merge({
-    font: {
-      fontFamily: 'Roboto, sans-serif'
-    },
     button: {
+      fontFamily: 'Roboto, sans-serif',
       sizes: {
         medium: {
           fontSize: 11,
@@ -155,7 +153,6 @@ export function createTheme(config) {
       }
     },
     checkbox: {
-      borderRadius: 1,
       colors: {
         default: {
           background: colors.light,
@@ -182,6 +179,8 @@ export function createTheme(config) {
           text: colors.controls.grey.disabled
         }
       },
+      animationDuration: 200,
+      borderRadius: 1,
       size: 15,
       labelMargin: 10,
       tick: {
@@ -214,7 +213,7 @@ export function createTheme(config) {
       borderRadius: '50%',
       sizes: {
         medium: {
-          size: 40,
+          size: 45,
           icon: 20
         },
         small: {
@@ -355,6 +354,7 @@ export function createTheme(config) {
       },
       dotSize: 5,
       radioSize: 15,
+      labelMargin: 10,
       fontSize: 13,
       marginBottom: 15,
       animationDuration: 200
@@ -451,10 +451,21 @@ export function createTheme(config) {
     tooltip: {
       borderRadius: 1,
       animationDuration: 200,
-      fontSize: 12,
+      fontSize: 13,
       colors: {
-        background: fade(colors.fullDark, 0.8),
-        text: colors.light
+        default: {
+          background: fade(colors.blueDark, 0.95),
+          text: colors.light
+        },
+        error: {
+          background: fade(colors.danger, 0.9)
+        },
+        success: {
+          background: fade(colors.success, 0.9)
+        },
+        warning: {
+          background: fade(colors.warn, 0.9)
+        }
       }
     },
     snackbar: {
@@ -465,7 +476,7 @@ export function createTheme(config) {
         text: colors.light,
         actionButton: colors.light,
         background: {
-          main: fade(colors.fullDark, 0.8),
+          main: fade(colors.blueDark, 0.95),
           primary: fade(colors.primary, 0.9),
           success: fade(colors.success, 0.9),
           danger: fade(colors.danger, 0.9)

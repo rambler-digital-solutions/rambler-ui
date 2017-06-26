@@ -2,6 +2,8 @@ import React from 'react'
 import Snackbar from '../Snackbar'
 import { SNACKBAR_ZINDEX } from '../../constants/z-indexes'
 import { withTheme, mount, getNodeStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
+import { normalize as nc } from '../../utils/colors'
 
 describe('<Snackbar />', () => {
   let containerNode
@@ -89,7 +91,7 @@ describe('<Snackbar />', () => {
     expect(snackbarStyles.position).toEqual('fixed')
     expect(snackbarStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(snackbarStyles['font-size']).toEqual('14px')
-    expect(snackbarStyles['background-color']).toEqual('rgba(0, 0, 0, 0.8)')
+    expect(nc(snackbarStyles['background-color'])).toEqual(nc(theme.snackbar.colors.background.main))
     expect(snackbarStyles.color).toEqual('rgb(255, 255, 255)')
     expect(snackbarStyles.width).toEqual('350px')
     expect(snackbarStyles['min-width']).toEqual('350px')

@@ -109,7 +109,7 @@ function convertColorToString(color) {
     colorString = `${color.type}(${values[0]}, ${values[1]}, ${values[2]}`
 
   if (values.length === 4)
-    colorString += `, ${color.values[3]})`
+    colorString += `, ${color.values[3].toFixed(2)})`
   else
     colorString += ')'
 

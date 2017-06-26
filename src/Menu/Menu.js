@@ -6,12 +6,12 @@ import omit from 'lodash/omit'
 import { ESCAPE, UP, DOWN, TAB } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
-import { fontStyleMixin, isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
-@injectSheet(theme => ({
+@injectSheet(() => ({
   menu: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     boxSizing: 'border-box',
     padding: '8px 0',
     overflowY: 'auto'

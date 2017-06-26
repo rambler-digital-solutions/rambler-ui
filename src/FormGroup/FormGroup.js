@@ -6,12 +6,12 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { ifDesktop, fontStyleMixin, isolateMixin } from '../style/mixins'
+import { ifDesktop, isolateMixin } from '../style/mixins'
 
 @injectSheet((theme) => ({
   root: {
     ...isolateMixin,
-    ...fontStyleMixin(theme.font),
+    fontFamily: 'inherit',
     fontSize: theme.formGroup.fontSize
   },
   normal: {
