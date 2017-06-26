@@ -19,7 +19,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 @injectSheet((theme) => ({
   notification: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     position: 'fixed',
     left: 15,
     right: 15,

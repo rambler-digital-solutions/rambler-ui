@@ -15,7 +15,7 @@ const containerNodeStyle = {'pointer-events': 'none'}
     ...isolateMixin,
     ...fontSmoothingMixin,
     display: 'inline-block',
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     opacity: '0.01',
     position: 'relative',
     transitionDuration: `${theme.tooltip.animationDuration}ms`,

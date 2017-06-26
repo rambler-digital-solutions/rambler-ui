@@ -18,7 +18,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
   snackbar: {
     ...isolateMixin,
     ...middleMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     position: 'fixed',
     bottom: -10,
     boxSizing: 'border-box',

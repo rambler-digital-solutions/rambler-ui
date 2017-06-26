@@ -11,7 +11,7 @@ import { isolateMixin } from '../style/mixins'
 @injectSheet((theme) => ({
   dropdown: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     borderRadius: theme.dropdown.borderRadius,
     boxSizing: 'border-box',
     opacity: '0.01',

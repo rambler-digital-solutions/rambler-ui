@@ -23,7 +23,7 @@ import { isolateMixin } from '../style/mixins'
   return {
     checkbox: {
       ...isolateMixin,
-      fontFamily: 'inherit',
+      fontFamily: theme.fontFamily,
       fontSize: theme.checkbox.fontSize,
       position: 'relative',
       display: 'inline-block',

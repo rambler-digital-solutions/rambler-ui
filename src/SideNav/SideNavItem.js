@@ -12,7 +12,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
   sideNavItem: {
     ...middleMixin,
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     display: 'block',
     textAlign: 'left',
     userSelect: 'none',

@@ -11,7 +11,7 @@ import { isolateMixin } from '../style/mixins'
 @injectSheet(theme => ({
   root: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     fontSize: theme.radio.fontSize,
     display: 'flex',
     width: '100%',
@@ -19,7 +19,7 @@ import { isolateMixin } from '../style/mixins'
     position: 'relative',
     color: theme.radio.colors.default.text,
     '& input': {
-      fontFamily: 'inherit',
+      fontFamily: theme.fontFamily,
       position: 'absolute',
       opacity: '0',
       appearance: 'none',
@@ -34,7 +34,8 @@ import { isolateMixin } from '../style/mixins'
   },
   label: {
     display: 'inline-block',
-    verticalAlign: 'middle'
+    verticalAlign: 'middle',
+    lineHeight: 1.43
   },
   radio: {
     '&:hover': {

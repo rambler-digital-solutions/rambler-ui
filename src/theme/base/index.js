@@ -8,6 +8,7 @@ import colorsConfig from './colors'
 export function createTheme(config) {
   const { colors } = config
   return merge({
+    fontFamily: 'Roboto, sans-serif',
     button: {
       fontFamily: 'Roboto, sans-serif',
       sizes: {

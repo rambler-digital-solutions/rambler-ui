@@ -12,7 +12,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
   toggleOption: {
     ...middleMixin,
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     display: 'inline-block',
     textAlign: 'center',
     userSelect: 'none',
@@ -29,13 +29,13 @@ import { isolateMixin, middleMixin } from '../style/mixins'
   'size-small': {
     fontSize: theme.toggle.sizes.small.fontSize,
     height: theme.toggle.sizes.small.height,
-    lineHeight: (theme.toggle.sizes.small.height - 1) + 'px',
+    lineHeight: (theme.toggle.sizes.small.height - 2) + 'px',
     padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
   },
   'size-medium': {
     fontSize: theme.toggle.sizes.medium.fontSize,
     height: theme.toggle.sizes.medium.height,
-    lineHeight: (theme.toggle.sizes.medium.height - 1) + 'px',
+    lineHeight: (theme.toggle.sizes.medium.height - 2) + 'px',
     padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
   },
   icon: {

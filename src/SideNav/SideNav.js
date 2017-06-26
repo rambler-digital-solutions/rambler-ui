@@ -8,10 +8,10 @@ import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
-@injectSheet(() => ({
+@injectSheet((theme) => ({
   sideNav: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     display: 'inline-block',
     '&, & *': {
       transitionDuration: '.2s',

@@ -24,7 +24,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
   backdrop: {
     ...isolateMixin,
     ...middleMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     position: 'fixed',
     top: 0,
     left: 0,

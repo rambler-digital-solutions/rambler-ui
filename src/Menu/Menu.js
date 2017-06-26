@@ -8,10 +8,10 @@ import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
 import { isolateMixin } from '../style/mixins'
 
-@injectSheet(() => ({
+@injectSheet((theme) => ({
   menu: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     padding: '8px 0',
     overflowY: 'auto'

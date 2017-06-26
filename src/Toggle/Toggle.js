@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { isolateMixin, fontSmoothingMixin } from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
 const whenDomReady = new Promise((resolve) => {
   if (document.readyState === 'complete')
@@ -19,6 +19,7 @@ const whenDomReady = new Promise((resolve) => {
 @injectSheet(theme => ({
   toggle: {
     ...isolateMixin,
+    fontFamily: theme.fontFamily,
     display: 'inline-block',
     '&$block': { display: 'flex' },
     '&, & *': {
@@ -27,7 +28,7 @@ const whenDomReady = new Promise((resolve) => {
     }
   },
   option: {
-    ...fontSmoothingMixin,
+    fontFamily: theme.fontFamily,
     textAlign: 'center',
     borderStyle: 'solid',
     borderColor: theme.toggle.colors.default.border,

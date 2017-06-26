@@ -12,7 +12,7 @@ import { Eye } from '../icons/forms'
 @injectSheet(theme => ({
   input: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     display: 'block',
     outline: 0,
@@ -113,7 +113,7 @@ import { Eye } from '../icons/forms'
     position: 'relative',
     background: theme.field.colors.default.background,
     boxSizing: 'border-box',
-    fontFamily: 'inherit'
+    fontFamily: theme.fontFamily
   },
   icon: {
     position: 'absolute',

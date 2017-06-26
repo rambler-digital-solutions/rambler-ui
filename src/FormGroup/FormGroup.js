@@ -11,7 +11,7 @@ import { ifDesktop, isolateMixin } from '../style/mixins'
 @injectSheet((theme) => ({
   root: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     fontSize: theme.formGroup.fontSize
   },
   normal: {

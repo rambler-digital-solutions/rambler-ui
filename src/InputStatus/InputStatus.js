@@ -25,7 +25,7 @@ import { isolateMixin } from '../style/mixins'
   },
   message: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     marginTop: 10,
     fontSize: theme.inputStatus.fontSize,
     textAlign: 'left'

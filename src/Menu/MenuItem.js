@@ -8,7 +8,7 @@ import { isolateMixin } from '../style/mixins'
 @injectSheet(theme => ({
   item: {
     ...isolateMixin,
-    fontFamily: 'inherit',
+    fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
