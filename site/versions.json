@@ -1,6 +1,7 @@
 [
-  { "path": "", "title": "stable (2.12.0)" },
-  { "path": "master", "title": "master (2.12.0)" },
+  { "path": "", "title": "stable (2.13.0)" },
+  { "path": "master", "title": "master (2.13.0)" },
+  { "path": "2.13.0" },
   { "path": "2.12.0" },
   { "path": "2.11.2" },
   { "path": "2.11.1" },
