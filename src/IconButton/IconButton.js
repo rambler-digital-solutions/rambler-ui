@@ -45,6 +45,10 @@ import { isolateMixin } from '../style/mixins'
       },
       '&[disabled]': {
         pointerEvents: 'none'
+      },
+      '&::-moz-focus-inner': {
+        border: 'none !important',
+        outline: 'none !important'
       }
     },
     overlay: {
