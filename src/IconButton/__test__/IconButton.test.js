@@ -51,7 +51,7 @@ describe('<IconButton />', () => {
   })
 
   it('expect type="secondary" size="small" affect style', () => {
-    const wrapper = mount(applyTheme(<IconButton type="secondary" size="small"><RamblerMailIcon /></IconButton>))
+    const wrapper = mount(applyTheme(<IconButton type="secondary" size="small"><RamblerMailIcon color={theme.button.types.secondary.colors.default.text} /></IconButton>))
     const styles = getStyles(wrapper)
     const stylesIcon = getStyles(wrapper.find('svg'))
     expect(styles.width).toEqual(theme.iconButton.sizes.small + 'px')
