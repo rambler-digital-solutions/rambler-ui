@@ -1,7 +1,7 @@
 /**
  * Попап
  */
-export const POPUP_ZINDEX = 10000
+export const POPUP_ZINDEX = 5000
 
 /*
  * Дропдаун
@@ -16,7 +16,7 @@ export const HINT_ZINDEX = 500
 /**
  * Снэкбар
  */
-export const SNACKBAR_ZINDEX = 3000
+export const SNACKBAR_ZINDEX = 10000
 
 /**
  * Тултип
