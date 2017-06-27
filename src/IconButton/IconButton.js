@@ -81,9 +81,6 @@ import { isolateMixin } from '../style/mixins'
 
     const setThemeForSelector = (colors, outlineOffset) => pickBy({
       background: colors.background,
-      '& $icon': {
-        fill: colors.text + '!important'
-      },
       '&:before': colors.border && {
         borderColor: colors.border
       },
@@ -181,16 +178,16 @@ export default class IconButton extends Component {
   }
 
   renderIcon(icon) {
-    if (icon) {
-      const { theme, type, disabled } = this.props
-      const iconProps = {
-        color: theme.button.types[type].colors[disabled ? 'disabled' : 'default'].text
-      }
-      const initialProps = icon.props || {}
-      const className = classnames(initialProps.className, this.css.icon)
-      const resultProps = { ...iconProps, ...initialProps, className }
-      return cloneElement(icon, resultProps)
-    }
+    if (!icon)
+      return null
+    const { theme, type, disabled } = this.props
+    const iconProps = {}
+    if (type === 'primary' || type === 'danger' || disabled)
+      iconProps.color = theme.button.types[type].colors[disabled ? 'disabled' : 'default'].text
+    const initialProps = icon.props || {}
+    const className = classnames(initialProps.className, this.css.icon)
+    const resultProps = { ...iconProps, ...initialProps, className }
+    return cloneElement(icon, resultProps)
   }
 
   render() {
