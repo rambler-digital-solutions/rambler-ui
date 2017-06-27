@@ -212,15 +212,10 @@ export function createTheme(config) {
     },
     iconButton: {
       borderRadius: '50%',
+      iconPercentSize: 45,
       sizes: {
-        medium: {
-          size: 45,
-          icon: 20
-        },
-        small: {
-          size: 23,
-          icon: 11
-        }
+        medium: 45,
+        small: 23
       }
     },
     field: { // input, select, textarea
@@ -365,7 +360,8 @@ export function createTheme(config) {
       borderRadius: 1,
       colors: {
         default: {
-          border: lighten(colors.controls.grey.outline, 0.7)
+          border: lighten(colors.controls.grey.outline, 0.7),
+          background: colors.light
         },
         checked: {
           border: colors.primary,

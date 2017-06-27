@@ -11,23 +11,22 @@ import pickBy from 'lodash/pickBy'
 import pure from 'recompose/pure'
 import merge from 'lodash/merge'
 import { injectSheet } from '../theme'
-import { middleMixin, isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../style/mixins'
 
 @pure
 @injectSheet((theme) => {
   const css = {
     button: {
       ...isolateMixin,
-      textAlign: 'center',
       cursor: 'pointer',
       boxSizing: 'border-box',
       borderRadius: theme.iconButton.borderRadius,
-      lineHeight: 1,
       outline: 'none',
       position: 'relative',
       display: 'inline-block',
       border: 'none !important',
       userSelect: 'none',
+      verticalAlign: 'middle',
       '&, & *': {
         transition: 'background-color .2s, border .2s, box-shadow .2s'
       },
@@ -48,21 +47,6 @@ import { middleMixin, isolateMixin } from '../style/mixins'
         pointerEvents: 'none'
       }
     },
-    content: {
-      ...middleMixin
-    },
-    'size-medium': {
-      '& $content': {
-        width: theme.iconButton.sizes.medium.size,
-        height: theme.iconButton.sizes.medium.size
-      }
-    },
-    'size-small': {
-      '& $content': {
-        width: theme.iconButton.sizes.small.size,
-        height: theme.iconButton.sizes.small.size
-      }
-    },
     overlay: {
       position: 'absolute',
       top: 0,
@@ -75,7 +59,15 @@ import { middleMixin, isolateMixin } from '../style/mixins'
       cursor: 'pointer'
     },
     icon: {
-      display: 'inline-block'
+      width: `${theme.iconButton.iconPercentSize}% !important`,
+      height: `${theme.iconButton.iconPercentSize}% !important`,
+      position: 'absolute',
+      left: '50%',
+      top: '50%',
+      transform: 'translate(-50%, -50%)'
+    },
+    content: {
+      position: 'relative'
     }
   }
 
@@ -141,9 +133,9 @@ export default class IconButton extends Component {
      */
     children: PropTypes.node,
     /**
-     * Размер кнопки
+     * Размер кнопки - small/medium или размер в пикселях
      */
-    size: PropTypes.oneOf(['small', 'medium']),
+    size: PropTypes.oneOfType([PropTypes.number, PropTypes.oneOf(['small', 'medium'])]),
     /**
      * Обработчик клика
      */
@@ -178,11 +170,16 @@ export default class IconButton extends Component {
     return css
   }
 
+  get size() {
+    if (typeof this.props.size === 'number')
+      return this.props.size
+    return this.props.theme.iconButton.sizes[this.props.size]
+  }
+
   renderIcon(icon) {
     if (icon) {
-      const { theme, size, type, disabled } = this.props
+      const { theme, type, disabled } = this.props
       const iconProps = {
-        size: theme.iconButton.sizes[size].icon,
         color: theme.button.types[type].colors[disabled ? 'disabled' : 'default'].text
       }
       const initialProps = icon.props || {}
@@ -195,7 +192,6 @@ export default class IconButton extends Component {
   render() {
     const {
       children,
-      size,
       type,
       href,
       container,
@@ -206,10 +202,11 @@ export default class IconButton extends Component {
       width,
       style = {},
       ...other
-    } = omit(this.props, 'sheet', 'theme')
+    } = omit(this.props, 'sheet', 'theme', 'size')
 
     const css = this.css
     const iconEl = this.renderIcon(children)
+    const size = this.size
 
     const resultStyle = {
       width,
@@ -219,12 +216,11 @@ export default class IconButton extends Component {
     const resultClassName = classnames(
       css.button,
       css[`type-${type}`],
-      css[`size-${size}`],
       className
     )
 
     const resultChildren = [
-      <div className={css.content}>
+      <div className={css.content} style={{width: size, height: size}}>
         { iconEl }
         { overlay && cloneElement(overlay, {className: css.overlay}) }
       </div>

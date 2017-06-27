@@ -22,7 +22,7 @@ export const isolateMixin = {
   cursor: 'auto',
   direction: 'ltr',
   emptyCells: 'show',
-  fontFamily: 'serif',
+  fontFamily: 'inherit',
   fontSize: 'medium',
   fontStyle: 'normal',
   fontVariant: 'normal',
