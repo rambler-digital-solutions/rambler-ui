@@ -34,21 +34,12 @@ const whenDomReady = new Promise((resolve) => {
     borderColor: theme.toggle.colors.default.border,
     color: theme.toggle.colors.default.text,
     borderWidth: 1,
+    background: theme.toggle.colors.default.background,
     cursor: 'pointer',
     userSelect: 'none',
     position: 'relative',
     display: 'inline-block',
     fontWeight: 500,
-    // '&:before': {
-    //   content: '""',
-    //   display: 'block',
-    //   position: 'absolute',
-    //   pointerEvents: 'none',
-    //   left: -1,
-    //   top: -1,
-    //   right: -1,
-    //   bottom: -1
-    // },
     '&:not(:first-child)': {
       marginLeft: -1
     },
