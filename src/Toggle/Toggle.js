@@ -39,7 +39,6 @@ const whenDomReady = new Promise((resolve) => {
     userSelect: 'none',
     position: 'relative',
     display: 'inline-block',
-    fontWeight: 500,
     '&:not(:first-child)': {
       marginLeft: -1
     },

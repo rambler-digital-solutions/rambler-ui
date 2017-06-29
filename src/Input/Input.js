@@ -243,7 +243,7 @@ export default class Input extends Component {
 
   render() {
     const {
-      tag,
+      tag = 'input',
       className,
       style,
       disabled,
@@ -282,7 +282,7 @@ export default class Input extends Component {
       className: classnames(iconRight.props.className, css.icon, css.iconRight)
     })
 
-    const inputElement = createElement(tag || 'input', {
+    const inputElement = createElement(tag, {
       name,
       value,
       disabled,
