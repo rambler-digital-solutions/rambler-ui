@@ -22,26 +22,16 @@ import { ifDesktop, isolateMixin } from '../style/mixins'
   },
   label: {
     width: '100%',
-    display: 'inline-block'
+    display: 'inline-block',
+    marginBottom: 10
   },
   inner: {
     position: 'relative'
   },
-  small: {
-    '&$inline $label': {
-      paddingTop: 12
-    }
-  },
-  medium: {
-    '&$inline $label': {
-      paddingTop: 15
-    }
-  },
   ...ifDesktop({
     normal: {
       '& $label': {
-        width: '100%',
-        marginBottom: 10
+        width: '100%'
       },
       marginBottom: 30
     },
@@ -51,6 +41,7 @@ import { ifDesktop, isolateMixin } from '../style/mixins'
       alignItems: 'flex-start',
       '& $label': {
         marginLeft: 0,
+        marginBottom: 0,
         maxWidth: 172,
         lineHeight: 1
       },
@@ -65,6 +56,16 @@ import { ifDesktop, isolateMixin } from '../style/mixins'
       verticalAlign: 'top',
       width: '100%',
       marginLeft: 0
+    },
+    small: {
+      '&$inline $label': {
+        paddingTop: 12
+      }
+    },
+    medium: {
+      '&$inline $label': {
+        paddingTop: 15
+      }
     }
   })
 }))
