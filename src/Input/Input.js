@@ -162,7 +162,14 @@ export default class Input extends Component {
     /**
     * Тип поля (на данный момент, cо временем добавим другие типы полей).
     */
-    type: PropTypes.oneOf(['text', 'password', 'email', 'tel']),
+    type: PropTypes.oneOf([
+      'email',
+      'number',
+      'password',
+      'tel',
+      'text',
+      'url'
+    ]),
     /**
      * Размер инпута
      */
