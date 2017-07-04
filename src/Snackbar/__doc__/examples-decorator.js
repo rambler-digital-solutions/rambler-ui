@@ -8,6 +8,7 @@ class WithSnackbar extends Component {
   openAlert = () => {
     this.props.openSnackbar(
       <Snackbar
+        positionY="top"
         showClose
         type="danger">
         При удалении почты произошла ошибка
