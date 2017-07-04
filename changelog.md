@@ -1,5 +1,9 @@
 # Changelog
 
+## v-2.15.0
+
+* Добавлено свойство `positionY` в Snackbar
+
 ## v-2.14.0
 
 * Добавлены `type`: `number`, `url` в Input
