@@ -96,10 +96,10 @@ describe('<Snackbar />', () => {
     expect(snackbarStyles.width).toEqual('350px')
     expect(snackbarStyles['min-width']).toEqual('350px')
     expect(snackbarStyles['max-width']).toEqual('750px')
-    expect(snackbarStyles['padding-top']).toEqual('0px')
+    expect(snackbarStyles['padding-top']).toEqual('15px')
     expect(snackbarStyles['padding-left']).toEqual('20px')
     expect(snackbarStyles['padding-right']).toEqual('20px')
-    expect(snackbarStyles['padding-bottom']).toEqual('0px')
+    expect(snackbarStyles['padding-bottom']).toEqual('15px')
   })
 
   it('should apply custom width', () => {
@@ -168,8 +168,6 @@ describe('<Snackbar />', () => {
 
     expect(childNode.textContent).toEqual('Hi')
     expect(contentStyles['text-align']).toEqual('left')
-    expect(contentStyles['white-space']).toEqual('nowrap')
-    expect(contentStyles['text-overflow']).toEqual('ellipsis')
   })
 
   it('should append close button', () => {

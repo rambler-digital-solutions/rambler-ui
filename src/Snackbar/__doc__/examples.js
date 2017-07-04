@@ -47,6 +47,7 @@ export default class SnackbarExample extends Component {
           <Snackbar
             isOpened={this.state.withIconIsOpened}
             type="primary"
+            positionY="top"
             positionX="right"
             autoCloseDuration={0}
             icon={

@@ -467,8 +467,7 @@ export function createTheme(config) {
     },
     snackbar: {
       borderRadius: 2,
-      height: 50,
-      padding: '0 20px',
+      padding: '15px 20px',
       colors: {
         text: colors.light,
         actionButton: colors.light,
