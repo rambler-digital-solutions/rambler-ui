@@ -158,6 +158,10 @@ export default class Select extends PureComponent {
       null
     ]),
     /**
+     * Вставлять ли dropdown внутри body
+     */
+    appendToBody: PropTypes.bool,
+    /**
      * Коллбек вызывающийся при фокусе
      */
     onFocus: PropTypes.func,
@@ -180,6 +184,7 @@ export default class Select extends PureComponent {
     status: null,
     size: 'medium',
     disabled: false,
+    appendToBody: false,
     valuesEquality: (a, b) => a === b,
     inputValueRenderer: value => value,
     onFocus: () => {},
@@ -438,7 +443,8 @@ export default class Select extends PureComponent {
       menuClassName,
       valuesEquality,
       onSearch,
-      children
+      children,
+      appendToBody
     } = this.props
 
     return (
@@ -449,7 +455,7 @@ export default class Select extends PureComponent {
         style={dropdownStyle}
         className={dropdownClassName}
         overlayClassName={this.css.overlay}
-        appendToBody={false}
+        appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={true}
         anchorPointY={onSearch ? 'bottom' : 'top'}
