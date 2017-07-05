@@ -361,6 +361,7 @@ export default class Select extends PureComponent {
       'valuesEquality',
       'children',
       'value',
+      'appendToBody',
       'sheet',
       'theme',
       'onFocus',
