@@ -418,7 +418,6 @@ export function createTheme(config) {
     popup: {
       borderRadius: 2,
       boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
-      padding: '20px 30px 30px',
       colors: {
         text: colors.dark,
         background: colors.light,
