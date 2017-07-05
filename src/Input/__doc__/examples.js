@@ -24,7 +24,7 @@ export default class InputExample extends Component {
               <Input type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
             </FormGroup>
             <FormGroup label='Input password'>
-              <Input type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              <Input type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' passwordIconTooltip='Показать пароль' />
             </FormGroup>
             <FormGroup label='Input success'>
               <InputStatus type='success' message='Success message' >
@@ -60,7 +60,12 @@ export default class InputExample extends Component {
               <Input type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
             </FormGroup>
             <FormGroup label='Input password' inline={true}>
-              <Input type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' />
+              <Input
+                type="password"
+                value={this.state.value}
+                onChange={::this.onChange}
+                placeholder='placeholder'
+                passwordIconTooltip={type => type === 'password' ? 'Показать пароль' : 'Скрыть пароль'}/>
             </FormGroup>
             <FormGroup label='Input success' inline={true}>
               <InputStatus type='success' message='Success message' >
