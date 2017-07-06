@@ -338,7 +338,8 @@ export default class Tooltip extends PureComponent {
       this.show()
   }
 
-  onMouseEnter = () => {
+  onMouseEnter = (event) => {
+    event.stopPropagation()
     this.show()
   };
 
@@ -393,6 +394,7 @@ export default class Tooltip extends PureComponent {
       return anchor
     return cloneElement(anchor, {
       onMouseEnter: this.onMouseEnter,
+      onTouchStart: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave
     })
   }
