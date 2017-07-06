@@ -278,6 +278,11 @@ export default class Select extends PureComponent {
     event.preventDefault()
   }
 
+  preventSelect = event => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+
   open = () => {
     if (!this.props.disabled && !this.state.isOpened)
       this.setState({
@@ -414,7 +419,8 @@ export default class Select extends PureComponent {
           value={onSearch && focuseInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
           onFocus={this.focusInput}
           onClick={this.open}
-          onTouchEnd={this.open}
+          onTouchStart={this.open}
+          onTouchEnd={this.preventSelect}
           onBlur={this.blurInput}
           onChange={this.requestItems}
           onKeyDown={this.keyDown} />
