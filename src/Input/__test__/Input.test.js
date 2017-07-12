@@ -167,7 +167,7 @@ describe('Input', () => {
 
     const arrOfIcons = wrapper.find('svg')
     const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0])
-    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1])
+    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode)
     // расположение iconLeft
     expect(iconLeftStyles.top).toEqual('50%')
     expect(iconLeftStyles.left).toEqual('13px')

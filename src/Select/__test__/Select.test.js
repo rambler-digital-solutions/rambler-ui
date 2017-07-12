@@ -26,7 +26,6 @@ describe('<Select />', () => {
 
     expect(selectStyles.position).toEqual('relative')
     expect(selectStyles.height).toEqual('45px')
-    expect(selectStyles['background-color']).toEqual('rgb(255, 255, 255)')
 
     const input = wrapper.find(Input)
     const inputStyles = getStyles(input)

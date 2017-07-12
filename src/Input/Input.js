@@ -7,6 +7,7 @@ import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, borderMixin } from '../style/mixins'
+import Tooltip from '../Tooltip'
 import { Eye } from '../icons/forms'
 
 @injectSheet(theme => ({
@@ -126,7 +127,6 @@ import { Eye } from '../icons/forms'
     right: theme.input.eyeMargin,
     border: 0,
     outline: 0,
-    padding: 1,
     cursor: 'pointer'
   },
   withLeftIcon: {},
@@ -162,7 +162,14 @@ export default class Input extends Component {
     /**
     * Тип поля (на данный момент, cо временем добавим другие типы полей).
     */
-    type: PropTypes.oneOf(['text', 'password', 'email', 'tel']),
+    type: PropTypes.oneOf([
+      'email',
+      'number',
+      'password',
+      'tel',
+      'text',
+      'url'
+    ]),
     /**
      * Размер инпута
      */
@@ -224,7 +231,15 @@ export default class Input extends Component {
     /**
      *  icon справа
      */
-    iconRight: PropTypes.node
+    iconRight: PropTypes.node,
+    /**
+     * Текст подсказки для кнопки смены статуса типа password, ожидается `String`
+     * или функция возвращающая `String`: currentType => 'Показать пароль'
+     */
+    passwordIconTooltip: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func
+    ])
   };
 
   static defaultProps = {
@@ -239,6 +254,46 @@ export default class Input extends Component {
 
   onChangeHelper = (e) => {
     if (this.props.onChange) this.props.onChange(e, e.target.value)
+  }
+
+  renderPasswordIcon() {
+    const { type } = this.state
+
+    const {
+      type: trueType,
+      size,
+      theme,
+      sheet: { classes: css },
+      passwordIconTooltip
+    } = this.props
+
+    if (trueType !== 'password')
+      return null
+
+    const icon = (
+      <Eye
+        onClick={this.inputTypeHelper}
+        size={theme.field.sizes[size].eyeIcon}
+        color={type === 'password' ? theme.field.eyeIcon.colors.default : theme.field.eyeIcon.colors.active} />
+    )
+
+    if (passwordIconTooltip) {
+      const content = typeof passwordIconTooltip === 'function' ?
+        passwordIconTooltip(type) :
+        passwordIconTooltip
+
+      return (
+        <Tooltip className={css.eye} content={content}>
+          {icon}
+        </Tooltip>
+      )
+    }
+
+    return (
+      <div className={css.eye}>
+        {icon}
+      </div>
+    )
   }
 
   render() {
@@ -260,9 +315,8 @@ export default class Input extends Component {
       inputRef,
       value,
       ...other
-    } = omit(this.props, ['onChange'])
+    } = omit(this.props, ['onChange', 'passwordIconTooltip'])
 
-    const { type } = this.state
     const trueType = this.props.type
     const resultClassName = classnames(className, css.root, css[size], css[status], {
       [css.withLeftIcon]: !!iconLeft,
@@ -298,18 +352,13 @@ export default class Input extends Component {
       placeholder,
       ...other
     })
+
     return (
       <div style={style} className={resultClassName}>
         {resultIconLeft}
         {inputElement}
         {resultIconRight}
-        {trueType === 'password' &&
-          <Eye
-            className={css.eye}
-            onClick={this.inputTypeHelper}
-            size={theme.field.sizes[size].eyeIcon}
-            color={type === 'password' ? theme.field.eyeIcon.colors.default : theme.field.eyeIcon.colors.active} />
-        }
+        {this.renderPasswordIcon()}
       </div>
     )
   }

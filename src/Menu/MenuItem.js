@@ -26,7 +26,7 @@ import { isolateMixin } from '../style/mixins'
     }
   },
   isSelected: {
-    color: theme.menu.colors.hover.text
+    color: theme.menu.colors.checked.text
   }
 }))
 class MenuItem extends PureComponent {

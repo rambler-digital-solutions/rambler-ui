@@ -418,7 +418,6 @@ export function createTheme(config) {
     popup: {
       borderRadius: 2,
       boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
-      padding: '20px 30px 30px',
       colors: {
         text: colors.dark,
         background: colors.light,
@@ -467,8 +466,7 @@ export function createTheme(config) {
     },
     snackbar: {
       borderRadius: 2,
-      height: 50,
-      padding: '0 20px',
+      padding: '15px 20px',
       colors: {
         text: colors.light,
         actionButton: colors.light,

@@ -30,7 +30,7 @@ import { injectSheet } from '../theme'
   },
   input: {
     backgroundColor: 'transparent !important',
-    '&[disabled]': {
+    '& [disabled]': {
       cursor: 'not-allow !important'
     }
   },
@@ -38,17 +38,9 @@ import { injectSheet } from '../theme'
     cursor: 'pointer !important',
     userSelect: 'none'
   },
-  // current: {
-  //   position: 'absolute',
-  //   top: 0,
-  //   left: 0,
-  //   right: 0,
-  //   bottom: 0,
-  //   border: '1px solid transparent',
-  //   padding: theme.input.padding,
-  //   color: theme.field.colors.default.text,
-  //   fontSize: theme.field.fontSize
-  // },
+  withArrow: {
+    paddingRight: `${theme.field.sizes.medium.withIconPadding}px !important`
+  },
   ...['small', 'medium'].reduce((result, type) => ({
     ...result,
     [type]: {
@@ -89,6 +81,9 @@ import { injectSheet } from '../theme'
       pointerEvents: 'none',
       transform: 'rotate(-45deg)'
     }
+  },
+  overlay: {
+    display: 'block !important'
   }
 }))
 export default class Select extends PureComponent {
@@ -163,6 +158,10 @@ export default class Select extends PureComponent {
       null
     ]),
     /**
+     * Вставлять ли dropdown внутри body
+     */
+    appendToBody: PropTypes.bool,
+    /**
      * Коллбек вызывающийся при фокусе
      */
     onFocus: PropTypes.func,
@@ -185,6 +184,7 @@ export default class Select extends PureComponent {
     status: null,
     size: 'medium',
     disabled: false,
+    appendToBody: false,
     valuesEquality: (a, b) => a === b,
     inputValueRenderer: value => value,
     onFocus: () => {},
@@ -278,6 +278,11 @@ export default class Select extends PureComponent {
     event.preventDefault()
   }
 
+  preventSelect = event => {
+    event.preventDefault()
+    event.stopPropagation()
+  }
+
   open = () => {
     if (!this.props.disabled && !this.state.isOpened)
       this.setState({
@@ -361,6 +366,7 @@ export default class Select extends PureComponent {
       'valuesEquality',
       'children',
       'value',
+      'appendToBody',
       'sheet',
       'theme',
       'onFocus',
@@ -401,7 +407,8 @@ export default class Select extends PureComponent {
           {...other}
           inputRef={el => { this.input = el }}
           inputStyle={style}
-          className={classnames(this.css.input, !onSearch && this.css.readonly, className)}
+          className={this.css.input}
+          inputClassName={classnames(!onSearch && this.css.readonly, this.showArrow && this.css.withArrow, className)}
           size={size}
           status={status}
           iconLeft={icon}
@@ -412,6 +419,8 @@ export default class Select extends PureComponent {
           value={onSearch && focuseInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
           onFocus={this.focusInput}
           onClick={this.open}
+          onTouchStart={this.open}
+          onTouchEnd={this.preventSelect}
           onBlur={this.blurInput}
           onChange={this.requestItems}
           onKeyDown={this.keyDown} />
@@ -441,7 +450,8 @@ export default class Select extends PureComponent {
       menuClassName,
       valuesEquality,
       onSearch,
-      children
+      children,
+      appendToBody
     } = this.props
 
     return (
@@ -451,7 +461,8 @@ export default class Select extends PureComponent {
         padding={false}
         style={dropdownStyle}
         className={dropdownClassName}
-        appendToBody={true}
+        overlayClassName={this.css.overlay}
+        appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={true}
         anchorPointY={onSearch ? 'bottom' : 'top'}

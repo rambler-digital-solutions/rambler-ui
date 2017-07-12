@@ -20,33 +20,52 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     ...middleMixin,
     fontFamily: theme.fontFamily,
     position: 'fixed',
-    bottom: -10,
     boxSizing: 'border-box',
     display: 'flex',
     justifyContent: 'flex-start',
     alignItems: 'center',
     padding: theme.snackbar.padding,
     width: '100%',
-    height: theme.snackbar.height,
-    lineHeight: theme.snackbar.height + 'px',
+    lineHeight: 1.45,
     color: theme.snackbar.colors.text,
     fontSize: theme.snackbar.fontSize,
     opacity: 0,
     transitionDuration: theme.snackbar.animationDuration,
-    transitionProperty: 'bottom, opacity',
+    transitionProperty: 'top, bottom, opacity',
     ...ifDesktop({
-      bottom: 0,
       width: 'auto',
       minWidth: 350,
       maxWidth: 750,
       borderRadius: theme.snackbar.borderRadius
     })
   },
-  isVisible: {
-    bottom: 0,
-    opacity: 1,
+  top: {
+    top: -10,
     ...ifDesktop({
-      bottom: 10
+      top: 0
+    })
+  },
+  bottom: {
+    bottom: -10,
+    ...ifDesktop({
+      bottom: 0
+    })
+  },
+  isVisible: {
+    opacity: 1,
+    '&$top': {
+      top: 0
+    },
+    '&$bottom': {
+      bottom: 0
+    },
+    ...ifDesktop({
+      '&$top': {
+        top: 10
+      },
+      '&$bottom': {
+        bottom: 10
+      }
     })
   },
   left: {
@@ -83,10 +102,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
   },
   content: {
     flexGrow: 1,
-    textAlign: 'left',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textAlign: 'left'
   },
   button: {
     boxSizing: 'border-box',
@@ -160,6 +176,10 @@ export default class Snackbar extends Component {
      */
     positionX: PropTypes.oneOf(['left', 'center', 'right']),
     /**
+     * Позиция по оси Y
+     */
+    positionY: PropTypes.oneOf(['top', 'bottom']),
+    /**
      * Кнопка закрытия
      */
     showClose: PropTypes.bool,
@@ -185,6 +205,7 @@ export default class Snackbar extends Component {
     type: 'main',
     isOpened: false,
     positionX: 'center',
+    positionY: 'bottom',
     showClose: false,
     closeOnClickOutside: false,
     autoCloseDuration: 4000,
@@ -222,6 +243,7 @@ export default class Snackbar extends Component {
       children,
       className,
       positionX,
+      positionY,
       type,
       style,
       theme,
@@ -246,7 +268,7 @@ export default class Snackbar extends Component {
         onInvisible={onClose}>
         <div
           style={style}
-          className={classnames(css.snackbar, css[positionX], css[type], className)}>
+          className={classnames(css.snackbar, css[positionX], css[positionY], css[type], className)}>
           {icon &&
             <div className={css.icon}>
               {cloneElement(icon, {color: icon.props.color || theme.snackbar.colors.text})}
