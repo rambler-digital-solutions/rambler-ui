@@ -36,7 +36,7 @@ function isSimpleType(value) {
       appearance: 'none',
       pointerEvents: 'none'
     },
-    '& input:checked + $radio': {
+    '& input:checked + $radio, & input:focus + $radio': {
       borderColor: theme.radio.colors.checked.dotBorder
     },
     '& input:active + $radio': {
