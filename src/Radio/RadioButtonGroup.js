@@ -1,28 +1,20 @@
 /**
  * Компонент radioButtonGroup
  */
-import React, { Component, cloneElement} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
+import EventEmitter from 'events'
+import uuid from '../utils/uuid'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
-
-function nameHelper() {
-  return `RadioGroup-${((Math.floor(Math.random() * 10000)).toString(36))}`
-}
+import { RADIO_INPUT_CONTEXT } from '../constants/context'
 
 @injectSheet((theme) => ({
   radioButtonGroup: {
     ...isolateMixin,
     fontFamily: theme.fontFamily
-  },
-  labelWrap: {
-    ...isolateMixin,
-    fontFamily: theme.fontFamily,
-    '&:not(:last-child)': {
-      marginBottom: theme.radio.marginBottom
-    }
   }
 }))
 export default class RadioButtonGroup extends Component {
@@ -46,10 +38,6 @@ export default class RadioButtonGroup extends Component {
     */
     style: PropTypes.object,
     /**
-     * Позиция label - либо слева, либо справа
-     */
-    labelPosition: PropTypes.oneOf(['left', 'right']),
-    /**
      * Обязательный колбэк, который вызывается при нажатии на input и меняет state root-компонента.
      */
     onChange: PropTypes.func.isRequired,
@@ -57,77 +45,90 @@ export default class RadioButtonGroup extends Component {
      * Значение, выбранного в данный момент radio
      */
     value: PropTypes.any
-  }
+  };
+
+  static childContextTypes = {
+    [RADIO_INPUT_CONTEXT]: PropTypes.shape({
+      /**
+       * Получить текущее значение
+       */
+      getValue: PropTypes.func,
+      /**
+       * Получить атрибут name для input
+       */
+      getName: PropTypes.func,
+      /**
+       * Шина событий
+       * @newValue - событие установки нового значения, кидают компоненты RadioButton
+       * @updateValue - событие изменения значения, кидает компонент RadioButtonGroup
+       */
+      events: PropTypes.instanceOf(EventEmitter)
+    })
+  };
 
   static defaultProps = {
-    labelPosition: 'right',
     name: null,
     onChange: () => {}
+  };
+
+  getRadioInputName = () => {
+    this.resultRadioInputName = this.resultRadioInputName || this.props.name || `RadioGroup-${uuid()}`
+    return this.resultRadioInputName
   }
 
-  state = {
-    name: null
+  getChildContext() {
+    if (!this.radioInputEvents)
+      this.createRadioInputEvents()
+    return {
+      [RADIO_INPUT_CONTEXT]: {
+        events: this.radioInputEvents,
+        getName: this.getRadioInputName,
+        getValue: () => this.value
+      }
+    }
   }
 
   componentWillMount() {
-    this.setState({
-      name: this.props.name || nameHelper()
-    })
+    this.value = this.props.value
   }
 
-  onChangeValue = (event) => {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value) {
+      this.value = nextProps.value
+      if (this.radioInputEvents)
+        this.radioInputEvents.emit('updateValue', this.value)
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.radioInputEvents)
+      this.radioInputEvents.removeAllListeners()
+  }
+
+  createRadioInputEvents() {
+    this.radioInputEvents = new EventEmitter
+    this.radioInputEvents.setMaxListeners(0)
+    this.radioInputEvents.on('newValue', this.onNewValue)
+  }
+
+  onNewValue = (event, value) => {
     if (this.props.onChange)
-      this.props.onChange(event, event.target.value)
+      this.props.onChange(event, value)
   }
 
   render() {
     const {
-      labelPosition,
       className,
       sheet: { classes: css },
       children,
       ...otherRootProps
-    } = omit(this.props, 'theme', 'onChange', 'value')
-    const name = this.state.name
-    const labelWrap = classnames(css.labelWrap, className)
-    let i = 0
-
-    const options = React.Children.map(children, (child) => {
-      if (!child.type || child.type.displayName !== 'ruiRadioButton')
-        return child
-
-      const {
-        value,
-        onChange,
-        ...other
-      } = child.props
-      const isSelected = value === this.props.value
-      return (
-        <div className={labelWrap}>
-          {
-            cloneElement(child, {
-              name,
-              value,
-              labelPosition,
-              isSelected,
-              key: ++i,
-              onChange: (...args) => {
-                if (onChange)
-                  onChange(...args)
-                this.onChangeValue(...args)
-              },
-              ...other
-            })
-          }
-        </div>
-      )
-    }, this)
+    } = omit(this.props, 'theme', 'onChange', 'value', 'labelPosition')
 
     const resultClassName = classnames(css.radioButtonGroup, className)
 
     return (
       <div className={resultClassName} {...otherRootProps}>
-        {options}
+        {children}
       </div>
     )
 
