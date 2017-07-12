@@ -193,6 +193,9 @@ class RadioButton extends Component {
 
   onChange = (e) => {
     this.context[RADIO_INPUT_CONTEXT].events.emit('newValue', e, this.props.value)
+    // оставляем для обратной совместимости
+    if (this.props.onChange)
+      this.props.onChange(e, this.inputValue)
   }
 
   render() {
@@ -206,8 +209,10 @@ class RadioButton extends Component {
       style,
       labelStyle,
       sheet: { classes: css },
+      onFocus,
+      onBlur,
       ...other
-    } = omit(this.props, 'theme', 'value')
+    } = omit(this.props, 'theme', 'value', 'onChange')
 
     const isLabelLeft = labelPosition === 'left'
 
@@ -235,7 +240,9 @@ class RadioButton extends Component {
           name={this.context[RADIO_INPUT_CONTEXT].getName()}
           value={this.stringValue}
           disabled={disabled}
-          onChange={this.onChange} />
+          onChange={this.onChange}
+          onFocus={onFocus}
+          onBlur={onBlur} />
         <span className={resultRadioClassName}>
           <svg viewBox="0 0 10 10">
             <circle cx="5" cy="5" r="5" />
