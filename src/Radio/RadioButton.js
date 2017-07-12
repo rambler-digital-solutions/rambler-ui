@@ -5,8 +5,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
+import EventEmitter from 'events'
+import uuid from '../utils/uuid'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
+import { RADIO_INPUT_CONTEXT } from '../constants/context'
+
+function isSimpleType(value) {
+  const type = typeof value
+  return type === 'string' || type === 'number' || type === 'boolean' || value === null || value === 'undefined'
+}
 
 @injectSheet(theme => ({
   root: {
@@ -18,6 +26,9 @@ import { isolateMixin } from '../style/mixins'
     cursor: 'pointer',
     position: 'relative',
     color: theme.radio.colors.default.text,
+    '&:not(:last-child)': {
+      marginBottom: theme.radio.marginBottom
+    },
     '& input': {
       fontFamily: theme.fontFamily,
       position: 'absolute',
@@ -124,42 +135,68 @@ class RadioButton extends Component {
      */
     labelStyle: PropTypes.object,
     /**
-     * Колбэк onChange на input
+     * Позиция label - либо слева, либо справа
      */
-    onChange: PropTypes.func,
-    /**
-     * Колбэк onFocus на input
-     */
-    onFocus: PropTypes.func,
-   /**
-    * Колбэк onBlur на input
-    */
-    onBlur: PropTypes.func,
-    /**
-     * Колбэк onClick на input
-     */
-    onClick: PropTypes.func
+    labelPosition: PropTypes.oneOf(['left', 'right'])
   }
 
   static defaultProps = {
+    labelPosition: 'right',
     value: null,
     disabled: false,
     style: {},
     labelStyle: {}
   }
 
+  static contextTypes = {
+    [RADIO_INPUT_CONTEXT]: PropTypes.shape({
+      getValue: PropTypes.func,
+      getName: PropTypes.func,
+      events: PropTypes.instanceOf(EventEmitter)
+    })
+  }
+
+  get isChecked() {
+    return this.inputValue === this.context[RADIO_INPUT_CONTEXT].getValue()
+  }
+
+  componentWillMount() {
+    this.setInputValue(this.props.value)
+    this.context[RADIO_INPUT_CONTEXT].events.on('updateValue', this.onUpdateValue)
+  }
+
+  componentWillUnmount() {
+    this.context[RADIO_INPUT_CONTEXT].events.removeListener('updateValue', this.onUpdateValue)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.value !== this.props.value)
+      this.setInputValue(nextProps.value)
+  }
+
   componentDidMount() {
-    this.refs.radio.checked = this.props.isSelected
+    this.refs.radio.checked = this.isChecked
   }
 
   componentDidUpdate() {
-    this.refs.radio.checked = this.props.isSelected
+    this.refs.radio.checked = this.isChecked
+  }
+
+  setInputValue(value) {
+    this.inputValue = value
+    this.stringValue = isSimpleType(value) ? String(value) : uuid()
+  }
+
+  onUpdateValue = () => {
+    this.forceUpdate()
+  }
+
+  onChange = (e) => {
+    this.context[RADIO_INPUT_CONTEXT].events.emit('newValue', e, this.props.value)
   }
 
   render() {
     const {
-      name,
-      value,
       children,
       labelPosition,
       disabled,
@@ -168,16 +205,15 @@ class RadioButton extends Component {
       labelClassName,
       style,
       labelStyle,
-      isSelected,
       sheet: { classes: css },
       ...other
-    } = omit(this.props, 'theme')
+    } = omit(this.props, 'theme', 'value')
 
     const isLabelLeft = labelPosition === 'left'
 
     const rootClassName = classnames(css.root, className, {
       [css.isDisabled]: disabled,
-      [css.isChecked]: isSelected
+      [css.isChecked]: this.isChecked
     })
 
     const resultRadioClassName = classnames(css.radio, radioClassName, {
@@ -189,25 +225,23 @@ class RadioButton extends Component {
     const labelElem = <span className={resultLabelClassName} style={labelStyle}>{children}</span>
 
     return (
-      <label className={rootClassName} style={style}>
+      <label className={rootClassName} style={style} {...other}>
         { isLabelLeft === true &&
           labelElem
         }
         <input
           type="radio"
           ref="radio"
-          name={name}
-          value={value}
+          name={this.context[RADIO_INPUT_CONTEXT].getName()}
+          value={this.stringValue}
           disabled={disabled}
-          {...other} />
+          onChange={this.onChange} />
         <span className={resultRadioClassName}>
           <svg viewBox="0 0 10 10">
             <circle cx="5" cy="5" r="5" />
           </svg>
         </span>
-        { isLabelLeft === false &&
-          labelElem
-        }
+        { isLabelLeft === false && labelElem }
       </label>
     )
 

@@ -176,7 +176,6 @@ describe('<RadioButton /> styles', () => {
         <RadioButton
           name='group'
           radioClassName='my-class'
-          isSelected={true}
           {...defaultProps}>
           radio
         </RadioButton>
@@ -192,25 +191,6 @@ describe('<RadioButton /> styles', () => {
     expect(styles['border-bottom-style']).toEqual('solid')
   })
 
-  it('Проверяем стили span=label', () => {
-    const defaultProps = {
-      className: 'my-radio-button',
-      value: 1
-    }
-    const wrapper = mount(applyTheme(
-      <RadioButton
-        name='group'
-        radioClassName='my-class'
-        labelClassName='my-class2'
-        isSelected={true}
-        {...defaultProps}>
-        radio
-      </RadioButton>))
-    const styles = getStyles(wrapper.find('.my-class2'))
-    expect(styles['font-family']).toEqual('Roboto, sans-serif')
-    expect(styles['font-size']).toEqual(theme.radio.fontSize + 'px')
-  })
-
   it('Проверяем стили RadioButtonGroup, display == block', () => {
     const wrapper = mount(applyTheme(<RadioButtonGroup
                                       className='radio-group'
@@ -220,47 +200,4 @@ describe('<RadioButton /> styles', () => {
     expect(styles.display).toEqual('block')
   })
 
-  it('Наличие input внутри label', () => {
-    const defaultProps = {
-      className: 'my-radio-button',
-      value: 1
-    }
-    const wrapper = mount(applyTheme(
-      <RadioButton
-        name='group'
-        radioClassName='my-class'
-        labelClassName='my-class2'
-        isSelected={true}
-        {...defaultProps}>
-        radio
-      </RadioButton>))
-
-    expect(wrapper.find('.my-radio-button').children().length).toEqual(3)
-    expect(wrapper.find('.my-radio-button').childAt(0).type()).toEqual('input')
-    expect(wrapper.find('.my-radio-button').childAt(1).type()).toEqual('span')
-    expect(wrapper.find('.my-radio-button').childAt(2).type()).toEqual('span')
-  })
-
-  it('Наличие input внутри label, labelPosition=left', () => {
-    const defaultProps = {
-      className: 'my-radio-button',
-      value: 1
-    }
-
-    const wrapper = mount(applyTheme(
-      <RadioButton
-        name='group'
-        radioClassName='my-class'
-        labelClassName='my-class2'
-        labelPosition='left'
-        isSelected={true}
-        {...defaultProps}>
-        radio
-      </RadioButton>))
-
-    expect(wrapper.find('.my-radio-button').children().length).toEqual(3)
-    expect(wrapper.find('.my-radio-button').childAt(0).type()).toEqual('span')
-    expect(wrapper.find('.my-radio-button').childAt(1).type()).toEqual('input')
-    expect(wrapper.find('.my-radio-button').childAt(2).type()).toEqual('span')
-  })
 })

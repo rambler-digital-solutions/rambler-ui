@@ -5,51 +5,72 @@ import { ApplyTheme } from 'rambler-ui/theme'
 export default class RadioExample extends Component {
 
   state = {
-    radioValue: 'New-York'
+    objects: [{
+      name: 'Moscow'
+    }, {
+      name: 'Samara'
+    }, {
+      name: 'NewYork'
+    }],
+    strings: [
+      'Minsk',
+      'Saint-Petersburg',
+      'Washington'
+    ],
+    objectValue: null,
+    stringValue: null
   }
 
-  onChangeState(event, newValue) {
-    if (this.state.value !== newValue)
-      this.setState({ radioValue: newValue })
+  onObjectsChange(event, value) {
+    this.setState({ objectValue: value })
+  }
+
+  onStringsChange(event, value) {
+    this.setState({ stringValue: value })
   }
 
   render() {
-
+    const {objects, strings} = this.state
     return (
       <ApplyTheme>
         <div>
           <div>
             <RadioButtonGroup
+              style={{marginBottom: 40, maxWidth: 300}}
+              value={this.state.objectValue}
+              onChange={::this.onObjectsChange}>
+              {
+                objects.map((city, i) => <RadioButton key={i} value={city}>{city.name}</RadioButton>)
+              }
+            </RadioButtonGroup>
+            <RadioButtonGroup
+              name="city"
+              style={{marginBottom: 40, maxWidth: 300}}
+              value={this.state.stringValue}
+              onChange={::this.onStringsChange}>
+              {
+                strings.map((city, i) => <RadioButton key={i} value={city}>{city}</RadioButton>)
+              }
+            </RadioButtonGroup>
+            <RadioButtonGroup
               style={{marginBottom: 20, maxWidth: 300}}
-              value={this.state.radioValue}
-              onChange={::this.onChangeState}
-              labelPosition="right">
-                <RadioButton
-                  value="Moscow"
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  onChange={this.onChange}
-                  onClick={this.onClick}
-                >Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique quis nisl quis fermentum. Praesent lectus ligula, tincidunt a orci in, cursus fermentum leo. Praesent egestas scelerisque consectetur."</RadioButton>
-                <RadioButton
-                  value="Samara"
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  onChange={this.onChange}
-                  onClick={this.onClick}
-                >Samara</RadioButton>
-                <RadioButton
-                  value="New-York"
-                  disabled
-                  onFocus={this.onFocus}
-                  onBlur={this.onBlur}
-                  onChange={this.onChange}
-                  onClick={this.onClick}
-                >New-York</RadioButton>
+              value={this.state.objectValue}
+              onChange={::this.onObjectsChange}>
+              <div style={{background: '#eee', padding: '20px', borderRadius: '3px'}}>
+                {
+                  objects.map((city, i) =>
+                    <div key={i}>
+                      <RadioButton value={city}>{city.name}</RadioButton>
+                      { i + 1 < objects.length && <hr style={{marginBottom: '15px'}} /> }
+                    </div>
+                  )
+                }
+              </div>
             </RadioButtonGroup>
           </div>
           <div>
-            <div><span>this.state.radioValue:</span><b>{this.state.radioValue}</b></div>
+            <div style={{marginBottom: '20px'}}>this.state.objectValue: <b>{JSON.stringify(this.state.objectValue)}</b></div>
+            <div>this.state.stringValue: <b>{this.state.stringValue}</b></div>
           </div>
         </div>
       </ApplyTheme>
