@@ -13,7 +13,7 @@ import { RADIO_INPUT_CONTEXT } from '../constants/context'
 
 function isSimpleType(value) {
   const type = typeof value
-  return type === 'string' || type === 'number' || type === 'boolean' || value === null || value === 'undefined'
+  return type === 'string' || type === 'number' || type === 'boolean' || value === null || value === undefined
 }
 
 @injectSheet(theme => ({
@@ -111,7 +111,7 @@ class RadioButton extends Component {
     */
     value: PropTypes.any.isRequired,
     /**
-     * Если true, radioButoon задизэйблен
+     * Если true, RadioButton задизэйблен
      */
     disabled: PropTypes.bool,
     /**
