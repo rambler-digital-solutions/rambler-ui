@@ -59,7 +59,9 @@ import { isolateMixin } from '../style/mixins'
       width: '100%',
       height: '100%',
       cursor: 'pointer',
-      zIndex: 1
+      zIndex: 1,
+      margin: 0,
+      padding: 0
     },
     label: {
       cursor: 'pointer',
