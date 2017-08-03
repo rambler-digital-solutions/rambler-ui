@@ -126,6 +126,14 @@ export default class Switcher extends PureComponent {
      */
     switcherStyle: PropTypes.object,
     /**
+     * CSS-класс ползунка
+     */
+    trackClassName: PropTypes.string,
+    /**
+     * Стили ползунка
+     */
+    trackStyle: PropTypes.object,
+    /**
      * CSS-класс подписи
      */
     labelClassName: PropTypes.string,
@@ -142,18 +150,21 @@ export default class Switcher extends PureComponent {
      */
     checked: PropTypes.bool,
     /**
+     * Подпись переключателя
+     */
+    children: PropTypes.node,
+    /**
      * Коллбек изменения состояния переключателя `onChange(event, checked)`
      */
     onChange: PropTypes.func
   }
 
   static defaultProps = {
+    checked: false,
     disabled: false,
     iconPosition: 'left',
     onChange: () => {}
   }
-
-  checked = false
 
   state = {
     checked: false
@@ -196,13 +207,15 @@ export default class Switcher extends PureComponent {
       style,
       switcherClassName,
       switcherStyle,
+      trackClassName,
+      trackStyle,
       labelClassName,
       labelStyle,
       disabled,
       children,
       iconPosition,
       ...other
-    } = omit(this.props, 'theme', 'sheet', 'onChange')
+    } = omit(this.props, 'checked', 'theme', 'sheet', 'onChange')
 
     const rootClassName = classnames(
       this.css.root,
@@ -226,13 +239,17 @@ export default class Switcher extends PureComponent {
         <span
           style={switcherStyle}
           className={classnames(this.css.switcher, switcherClassName)}>
-          <span className={this.css.track} />
+          <span
+            style={trackStyle}
+            className={classnames(this.css.track, trackClassName)} />
         </span>
-        <span
-          style={labelStyle}
-          className={classnames(this.css.label, labelClassName)}>
-          {children}
-        </span>
+        {children &&
+          <span
+            style={labelStyle}
+            className={classnames(this.css.label, labelClassName)}>
+            {children}
+          </span>
+        }
       </div>
     )
   }
