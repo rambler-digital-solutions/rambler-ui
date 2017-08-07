@@ -419,8 +419,8 @@ export default class Select extends PureComponent {
           value={onSearch && focuseInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
           onFocus={this.focusInput}
           onClick={this.open}
-          onTouchStart={this.open}
-          onTouchEnd={this.preventSelect}
+          onTouchStart={onSearch ? null : this.open}
+          onTouchEnd={onSearch ? null : this.preventSelect}
           onBlur={this.blurInput}
           onChange={this.requestItems}
           onKeyDown={this.keyDown} />
