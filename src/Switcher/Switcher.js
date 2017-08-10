@@ -38,7 +38,7 @@ const setThemeForSelector = colors => pickBy({
     '&:active': setThemeForSelector(theme.switcher.colors.checked.active),
     '&$disabled': setThemeForSelector(theme.switcher.colors.checked.disabled),
     '& $track': {
-      left: theme.switcher.width - (theme.switcher.height / 2)
+      left: theme.switcher.width - theme.switcher.height + theme.switcher.trackMargin
     }
   },
   disabled: {
@@ -82,13 +82,11 @@ const setThemeForSelector = colors => pickBy({
   },
   track: {
     position: 'absolute',
-    top: '50%',
-    left: theme.switcher.height / 2,
-    border: '1px solid transparent',
-    borderRadius: theme.switcher.borderRadius,
-    width: theme.switcher.trackSize,
-    height: theme.switcher.trackSize,
-    transform: 'translate(-50%, -50%)',
+    top: theme.switcher.trackMargin,
+    left: theme.switcher.trackMargin,
+    width: theme.switcher.height - (2 * theme.switcher.trackMargin),
+    height: theme.switcher.height - (2 * theme.switcher.trackMargin),
+    borderRadius: theme.switcher.borderRadius - theme.switcher.trackMargin,
     transitionProperty: 'left, background',
     transitionDuration: theme.switcher.animationDuration
   },
@@ -148,22 +146,22 @@ export default class Switcher extends PureComponent {
     /**
      * Будет включен, если `true`
      */
-    checked: PropTypes.bool,
+    checked: PropTypes.bool.isRequired,
     /**
      * Подпись переключателя
      */
     children: PropTypes.node,
     /**
-     * Коллбек изменения состояния переключателя `onChange(event, checked)`
+     * Коллбек изменения состояния переключателя `onCheck(event, checked)`
      */
-    onChange: PropTypes.func
+    onCheck: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     checked: false,
     disabled: false,
     iconPosition: 'left',
-    onChange: () => {}
+    onCheck: () => {}
   }
 
   state = {
@@ -192,11 +190,11 @@ export default class Switcher extends PureComponent {
     }
   }
 
-  onChange = event => {
+  onCheck = event => {
     const checked = event.target.checked
 
     this.switch(checked)
-    this.props.onChange(event, checked)
+    this.props.onCheck(event, checked)
   }
 
   render() {
@@ -215,7 +213,7 @@ export default class Switcher extends PureComponent {
       children,
       iconPosition,
       ...other
-    } = omit(this.props, 'checked', 'theme', 'sheet', 'onChange')
+    } = omit(this.props, 'checked', 'theme', 'sheet', 'onCheck')
 
     const rootClassName = classnames(
       this.css.root,
@@ -235,7 +233,7 @@ export default class Switcher extends PureComponent {
           type="checkbox"
           checked={checked}
           disabled={disabled}
-          onChange={this.onChange} />
+          onChange={this.onCheck} />
         <span
           style={switcherStyle}
           className={classnames(this.css.switcher, switcherClassName)}>

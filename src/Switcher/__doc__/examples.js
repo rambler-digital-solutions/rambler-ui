@@ -7,7 +7,7 @@ export default class SwitcherExample extends Component {
     checked: false
   }
 
-  onChange = (event, checked) => {
+  onCheck = (event, checked) => {
     this.setState({
       checked
     })
@@ -20,7 +20,7 @@ export default class SwitcherExample extends Component {
           <div>
             <Switcher
               checked={this.state.checked}
-              onChange={this.onChange}>
+              onCheck={this.onCheck}>
               Получать уведомления по почте
             </Switcher>
           </div>
@@ -28,7 +28,7 @@ export default class SwitcherExample extends Component {
             <Switcher
               iconPosition="right"
               checked={this.state.checked}
-              onChange={this.onChange}>
+              onCheck={this.onCheck}>
               Получать уведомления по почте
             </Switcher>
           </div>

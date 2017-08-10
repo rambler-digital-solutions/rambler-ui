@@ -231,10 +231,10 @@ export function createTheme(config) {
         }
       },
       animationDuration: 200,
-      borderRadius: 15,
+      borderRadius: 8,
       width: 30,
       height: 15,
-      trackSize: 13,
+      trackMargin: 1,
       labelMargin: 10,
       fontSize: 13
     },

@@ -124,7 +124,7 @@ describe('<Switcher />', () => {
     expect(labelStyles['margin-right']).toEqual('10px')
   })
 
-  it('should handle `props.onChange`', () => {
+  it('should handle `props.onCheck`', () => {
     let event
     let checked
 
@@ -132,7 +132,7 @@ describe('<Switcher />', () => {
       withTheme(
         <Switcher
           className="root"
-          onChange={(e, c) => {
+          onCheck={(e, c) => {
             event = e
             checked = c
           }}>
