@@ -73,7 +73,7 @@ const setThemeForSelector = colors => pickBy({
   switcher: {
     position: 'relative',
     flexShrink: 0,
-    borderRadius: theme.switcher.borderRadius,
+    borderRadius: 9999,
     marginTop: 1,
     width: theme.switcher.width,
     height: theme.switcher.height,
@@ -86,7 +86,7 @@ const setThemeForSelector = colors => pickBy({
     left: theme.switcher.trackMargin,
     width: theme.switcher.height - (2 * theme.switcher.trackMargin),
     height: theme.switcher.height - (2 * theme.switcher.trackMargin),
-    borderRadius: theme.switcher.borderRadius - theme.switcher.trackMargin,
+    borderRadius: 9999,
     transitionProperty: 'left, background',
     transitionDuration: theme.switcher.animationDuration
   },

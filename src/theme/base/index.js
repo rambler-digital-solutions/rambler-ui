@@ -231,7 +231,6 @@ export function createTheme(config) {
         }
       },
       animationDuration: 200,
-      borderRadius: 8,
       width: 30,
       height: 15,
       trackMargin: 1,
