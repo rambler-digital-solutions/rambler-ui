@@ -191,6 +191,52 @@ export function createTheme(config) {
       },
       fontSize: 13
     },
+    switcher: {
+      colors: {
+        default: {
+          default: {
+            background: colors.controls.grey.default,
+            track: colors.light,
+            text: colors.dark
+          },
+          hover: {
+            background: colors.controls.grey.outline
+          },
+          active: {
+            track: fade(colors.light, 0.9)
+          },
+          disabled: {
+            background: lighten(colors.controls.grey.disabled, 0.5),
+            track: colors.light,
+            text: colors.controls.grey.disabled
+          }
+        },
+        checked: {
+          default: {
+            background: colors.primary,
+            track: colors.light,
+            text: colors.dark
+          },
+          hover: {
+            background: darken(colors.primary, 0.2)
+          },
+          active: {
+            track: fade(colors.light, 0.9)
+          },
+          disabled: {
+            background: colors.controls.grey.disabled,
+            track: colors.light,
+            text: colors.controls.grey.disabled
+          }
+        }
+      },
+      animationDuration: 200,
+      width: 30,
+      height: 15,
+      trackMargin: 1,
+      labelMargin: 10,
+      fontSize: 13
+    },
     dropdown: {
       borderRadius: 1,
       animationDuration: 200,
