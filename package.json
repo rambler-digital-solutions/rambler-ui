@@ -1,6 +1,6 @@
 {
   "name": "rambler-ui",
-  "version": "2.17.2",
+  "version": "2.18.0",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
     "release": "npm run build && cd build && npm publish",
     "build": "NODE_ENV=production gulp build",
     "precommit": "npm run eslint && npm run test",
-    "eslint": "./node_modules/eslint/bin/eslint.js \"./**/*.js\" --fix"
+    "eslint": "eslint \"./**/*.js\" --fix"
   },
   "repository": {
     "type": "git",

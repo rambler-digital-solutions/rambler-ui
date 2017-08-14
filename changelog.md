@@ -1,5 +1,9 @@
 # Changelog
 
+## v-2.18.0
+
+* Добавлен компонент `Switcher`
+
 ## v-2.17.2
 
 * Поправлено открытие searchable Select на touch устройствах
