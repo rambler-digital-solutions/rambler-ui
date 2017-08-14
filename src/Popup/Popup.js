@@ -12,6 +12,7 @@ import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
+import OnClickOutside from '../events/OnClickOutside'
 import { ESCAPE } from '../constants/keys'
 import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
@@ -181,28 +182,15 @@ export default class Popup extends Component {
   onWillVisible = () => {
     if (this.props.closeOnEsc)
       window.addEventListener('keydown', this.onKeyDown)
-
-    if (this.props.closeOnClickOutside)
-      window.addEventListener('click', this.onClickOutside)
   }
 
   onWillInvisible = () => {
     if (this.props.closeOnEsc)
       window.removeEventListener('keydown', this.onKeyDown)
-
-    if (this.props.closeOnClickOutside)
-      window.removeEventListener('click', this.onClickOutside)
   }
 
   onKeyDown = event => {
     if (event.keyCode === ESCAPE) this.props.onRequestClose()
-  }
-
-  onClickOutside = event => {
-    if (event.target === this.backdrop) {
-      event.stopPropagation()
-      this.props.onRequestClose()
-    }
   }
 
   renderButton(button) {
@@ -217,32 +205,76 @@ export default class Popup extends Component {
     }
   }
 
-  render() {
+  renderContent() {
     const {
-      isOpened,
       children,
       className,
       style,
-      backdropClassName,
-      backdropStyle,
       title,
       showClose,
       okButton,
       cancelButton,
       onRequestClose,
       theme,
+      closeOnClickOutside
+    } = this.props
+
+    const okButtonEl = this.renderButton(okButton)
+    const cancelButtonEl = this.renderButton(cancelButton)
+
+    const content = (
+      <div
+        style={style}
+        className={classnames(this.css.popup, className)}>
+        {showClose &&
+          <IconButton
+            type="flat"
+            buttonType="button"
+            size="small"
+            className={this.css.close}
+            onClick={onRequestClose}>
+            <ClearIcon color={theme.popup.closeColor} />
+          </IconButton>
+        }
+        {title &&
+          <header className={this.css.title}>
+            {title}
+          </header>
+        }
+        {children}
+        {(okButton || cancelButton) &&
+          <footer className={this.css.buttons}>
+            {okButtonEl}
+            {cancelButtonEl}
+          </footer>
+        }
+      </div>
+    )
+
+    if (closeOnClickOutside)
+      return (
+        <OnClickOutside handler={onRequestClose}>
+          {content}
+        </OnClickOutside>
+      )
+
+    return content
+  }
+
+  render() {
+    const {
+      isOpened,
+      backdropClassName,
+      backdropStyle,
+      theme,
       onOpen,
       onClose
     } = this.props
 
-    const css = this.css
-    const okButtonEl = this.renderButton(okButton)
-    const cancelButtonEl = this.renderButton(cancelButton)
-
     return (
       <VisibilityAnimation
         isVisible={isOpened}
-        activeClassName={css.isVisible}
+        activeClassName={this.css.isVisible}
         animationDuration={theme.popup.animationDuration}
         onWillVisible={this.onWillVisible}
         onVisible={onOpen}
@@ -251,33 +283,8 @@ export default class Popup extends Component {
         <div
           ref={el => { this.backdrop = el }}
           style={backdropStyle}
-          className={classnames(css.backdrop, backdropClassName)}>
-          <div
-            style={style}
-            className={classnames(css.popup, className)}>
-            {showClose &&
-              <IconButton
-                type="flat"
-                buttonType="button"
-                size="small"
-                className={css.close}
-                onClick={onRequestClose}>
-                <ClearIcon color={theme.popup.closeColor} />
-              </IconButton>
-            }
-            {title &&
-              <header className={css.title}>
-                {title}
-              </header>
-            }
-            {children}
-            {(okButton || cancelButton) &&
-              <footer className={css.buttons}>
-                {okButtonEl}
-                {cancelButtonEl}
-              </footer>
-            }
-          </div>
+          className={classnames(this.css.backdrop, backdropClassName)}>
+          {this.renderContent()}
         </div>
       </VisibilityAnimation>
     )
