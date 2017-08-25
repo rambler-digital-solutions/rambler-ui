@@ -27,6 +27,7 @@ const setThemeForSelector = colors => pickBy({
     alignItems: 'flex-start',
     verticalAlign: 'top',
     lineHeight: theme.switcher.height + 'px',
+    cursor: 'pointer',
     ...setThemeForSelector(theme.switcher.colors.default.default),
     '&:hover': setThemeForSelector(theme.switcher.colors.default.hover),
     '&:active': setThemeForSelector(theme.switcher.colors.default.active),
@@ -59,16 +60,8 @@ const setThemeForSelector = colors => pickBy({
   checkbox: {
     position: 'absolute',
     opacity: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    top: 0,
-    width: '100%',
-    height: '100%',
-    cursor: 'pointer',
-    zIndex: 1,
-    margin: 0,
-    padding: 0
+    appearance: 'none',
+    pointerEvents: 'none'
   },
   switcher: {
     position: 'relative',
@@ -226,7 +219,7 @@ export default class Switcher extends PureComponent {
     )
 
     return (
-      <div style={style} className={rootClassName}>
+      <label style={style} className={rootClassName}>
         <input
           {...other}
           className={this.css.checkbox}
@@ -248,7 +241,7 @@ export default class Switcher extends PureComponent {
             {children}
           </span>
         }
-      </div>
+      </label>
     )
   }
 
