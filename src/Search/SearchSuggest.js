@@ -3,13 +3,21 @@ import * as pt from 'prop-types'
 
 class SearchSuggest extends React.Component {
   static propTypes = {
-    // поисковый запрос
+    /**
+    /* поисковый запрос
+    */
     query: pt.string.isRequired,
-    // данные для отображения в саджесте
+    /**
+    /* данные для отображения в саджесте
+    */
     data: pt.arrayOf(pt.string).isRequired,
-    // айтем для подсветки
+    /**
+    /* айтем для подсветки
+    */
     selectedSuggestItem: pt.number.isRequired,
-    // признак видимости
+    /**
+    /* признак видимости
+    */
     visible: pt.bool.isRequired
   }
 

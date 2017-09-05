@@ -4,35 +4,50 @@ import SearchSuggest from './SearchSuggest'
 
 class Search extends React.Component {
   static propTypes = {
-    // надо ли показывать поисковую подсказку
+    /**
+    * Надо ли показывать поисковую подсказку
+    */
     showHint: pt.bool,
-    // надо ли показывать лого
-    showLogo: pt.bool,
-    // надо ли показывать ссылки внизу (сделать главной, например)
+    /**
+    /* Надо ли показывать ссылки внизу (сделать главной, например)
+    */
     showBottomButtons: pt.bool,
-    // максимальное количество строк в выдаче саджеста. 0 - выводим сколько есть.
-    suggestCount: pt.number
+    /**
+    /* максимальное количество строк в выдаче саджеста. 0 - выводим сколько есть.
+    */
+    suggestCount: pt.number,
+    /**
+    /* поисковая подсказка
+    */
+    searchHint: pt.string
   }
 
   static defaultProps = {
     showHint: true,
-    showLogo: true,
     showBottomButtons: true,
-    suggestCount: 0
-  }
-
-  state = {
-    // признак того, что в инпут что-то введено
-    notEmpty: false,
-    // проперти для управления видимостью саджеста
-    isSuggestVisible: false,
-    // данные от поиска для передачи в Саджест
-    suggestItems: [],
-    // поисковая подсказка
+    suggestCount: 0,
     searchHint: ''
   }
 
-  // ф-ция управления видимостью саджеста
+  state = {
+    /**
+    /* признак того, что в инпут что-то введено
+    */
+    notEmpty: false,
+    // проперти для управления видимостью саджеста
+    /**
+    /* признак того, что в инпут что-то введено
+    */
+    isSuggestVisible: false,
+    /**
+    /* данные от поиска для передачи в Саджест
+    */
+    suggestItems: []
+  }
+
+  /**
+  /* функция управления видимостью саджеста
+  */
   setSuggestVisibility() {
 
   }
@@ -49,12 +64,16 @@ class Search extends React.Component {
 
   }
 
-  // ф-ция фетча поисковой подсказки
+  /**
+  /* функция фетча поисковой подсказки
+  */
   fetchSearchHint() {
 
   }
 
-  // ф-ция подсветки строки в саджесте
+  /**
+  /* функция подсветки строки в саджесте
+  */
   selectSuggestItem() {
 
   }
