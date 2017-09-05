@@ -1,98 +1,80 @@
 import React from 'react'
 import * as pt from 'prop-types'
-import SearchSuggest from './SearchSuggest'
 
 class Search extends React.Component {
   static propTypes = {
     /**
-    * Надо ли показывать поисковую подсказку
+    * текущий поисковый запрос
     */
-    showHint: pt.bool,
+    value: pt.string,
     /**
-    /* Надо ли показывать ссылки внизу (сделать главной, например)
+    /* Выбранный SuggestItem
     */
-    showBottomButtons: pt.bool,
+    selectedItem: pt.any,
     /**
-    /* максимальное количество строк в выдаче саджеста. 0 - выводим сколько есть.
+    /* надпись на кнопке поиска
     */
-    suggestCount: pt.number,
+    searchButton: pt.string,
     /**
-    /* поисковая подсказка
+    /* имя раздела, по которому ищем
     */
-    searchHint: pt.string
+    division: pt.string,
+    /**
+    /* надо ли показывать имя раздела, по которому ищем
+    */
+    showDivision: pt.bool,
+    /**
+    /* хинт для поискового запроса
+    */
+    hint: pt.node,
+    /**
+    /* плейсхолдер поискового инпута
+    */
+    placeholder: pt.string,
+    /**
+    /* коллбек на изменение поискового запроса
+    */
+    onSearch: pt.func,
+    /**
+    /* коллбек на фокус поискового инпута
+    */
+    onFocus: pt.func,
+    /**
+    /* коллбек на блур поискового инпута
+    */
+    onBlur: pt.func,
+    /**
+    /* коллбек на выбор поискового запроса через стрелки
+    */
+    onSelectItem: pt.func,
+    /**
+    /* коллбек на удаление suggest-item
+    */
+    onRemoveItem: pt.func,
+    /**
+    /* коллбек на выбор конкретного SuggestItem (клик по SuggestItem, или нажатие на Enter сразу после выбора SuggestItem)
+    */
+    onChooseItem: pt.func,
+    /**
+    /* коллбек на нажатие на кнопку поиска или нажатие на Enter
+    */
+    onSubmit: pt.func
   }
 
   static defaultProps = {
-    showHint: true,
-    showBottomButtons: true,
-    suggestCount: 0,
-    searchHint: ''
-  }
-
-  state = {
-    /**
-    /* признак того, что в инпут что-то введено
-    */
-    notEmpty: false,
-    // проперти для управления видимостью саджеста
-    /**
-    /* признак того, что в инпут что-то введено
-    */
-    isSuggestVisible: false,
-    /**
-    /* данные от поиска для передачи в Саджест
-    */
-    suggestItems: []
-  }
-
-  /**
-  /* функция управления видимостью саджеста
-  */
-  setSuggestVisibility() {
-
-  }
-
-  receiveSuggestData() {
-
-  }
-
-  clearForm() {
-
-  }
-
-  onSearchInput() {
-
-  }
-
-  /**
-  /* функция фетча поисковой подсказки
-  */
-  fetchSearchHint() {
-
-  }
-
-  /**
-  /* функция подсветки строки в саджесте
-  */
-  selectSuggestItem() {
+    value: '',
+    selectedItem: null,
+    searchButton: 'Поиск',
+    division: 'Поиск',
+    showDivision: true,
+    hint: null,
+    placeholder: ''
 
   }
 
   render() {
-    const {
-      isSuggestVisible
-    } = this.state
-
-    const {
-      suggestCount
-    } = this.props
-
     return (
       <div>
-        <SearchSuggest
-          isSuggestVisible={isSuggestVisible}
-          suggestCount={suggestCount}
-        />
       </div>
     )
   }
