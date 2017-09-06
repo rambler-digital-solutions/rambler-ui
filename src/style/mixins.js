@@ -1,3 +1,5 @@
+import isArray from 'lodash/isArray'
+
 export const middleMixin = {
   '&:before': {
     display: 'inline-block',
@@ -47,13 +49,29 @@ export const isolateMixin = {
   margin: 0
 }
 
-export const ifDesktop = (options) => ({
-  '@media (min-width: 768px)': options
-})
+// https://github.com/cssinjs/jss/issues/446
+// Пока используем как временное решение
+const responsiveFactory = (rule) => {
+  const replaceResponsiveKeys = (options) => {
+    const result = {}
+    Object.keys(options).forEach((key) => {
+      const value = options[key]
+      if (/[\$&]/.test(key) && !(key === 'composes' && (isArray(value) || typeof value === 'string'))) {
+        result[key] = replaceResponsiveKeys(options[key])
+      } else {
+        if (!result[rule])
+          result[rule] = {}
+        result[rule][key] = value
+      }
+    })
+    return result
+  }
+  return replaceResponsiveKeys
+}
 
-export const ifMobile = (options) => ({
-  '@media (max-width: 768px)': options
-})
+export const ifDesktop = responsiveFactory('@media (min-width: 768px)')
+
+export const ifMobile = responsiveFactory('@media (max-width: 768px)')
 
 export const placeholderMixin = (options) => ({
   '&::placeholder': options,
