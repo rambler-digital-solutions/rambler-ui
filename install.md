@@ -27,15 +27,20 @@ export default function() {
 ## Использование с server-side-rendering
 См. как используется ssr с [JSS](https://github.com/cssinjs/jss/blob/master/docs/ssr.md)
 ```
-import { ApplyTheme, jss } from 'rambler-ui/theme'
+import { ApplyTheme, createJss, createSheetsRegistry } from 'rambler-ui/theme'
 
-const component = (
-  <ApplyTheme>
+function render() {
+    const jss = createJss()
+    const sheetsRegistry = createSheetsRegistry()
 
-  </ApplyTheme>
-)
-const html = renderToString(component)
-const css = jss.sheets.toString()
+    const component = (
+      <ApplyTheme jss={jss} sheetsRegistry={sheetsRegistry}>
+
+      </ApplyTheme>
+    )
+    const html = renderToString(component)
+    const css = sheetsRegistry.toString()
+}
 ```
 
 
