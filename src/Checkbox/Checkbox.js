@@ -29,6 +29,7 @@ import { isolateMixin } from '../style/mixins'
       display: 'inline-block',
       verticalAlign: 'top',
       lineHeight: theme.checkbox.size + 'px',
+      cursor: 'pointer',
       '&, & *': {
         transition: `all ${theme.checkbox.animationDuration}ms`
       },
@@ -52,16 +53,8 @@ import { isolateMixin } from '../style/mixins'
     real: {
       position: 'absolute',
       opacity: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      top: 0,
-      width: '100%',
-      height: '100%',
-      cursor: 'pointer',
-      zIndex: 1,
-      margin: 0,
-      padding: 0
+      appearance: 'none',
+      pointerEvents: 'none'
     },
     label: {
       cursor: 'pointer',
@@ -227,7 +220,7 @@ export default class Checkbox extends Component {
     const resultClassName = classnames(css.checkbox, css[`icon${iconPosition}`], className, stateClasses)
     const tickColor = disabled ? theme.checkbox.colors.disabled.tick : theme.checkbox.colors.default.tick
     return (
-      <div className={resultClassName} style={style}>
+      <label className={resultClassName} style={style}>
         <input
           {...other}
           ref={input => { this.input = input }}
@@ -245,7 +238,7 @@ export default class Checkbox extends Component {
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }
         </span>
-      </div>
+      </label>
     )
 
   }

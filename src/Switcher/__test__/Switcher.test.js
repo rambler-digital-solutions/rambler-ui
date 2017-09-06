@@ -31,10 +31,10 @@ describe('<Switcher />', () => {
 
     expect(rootStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(rootStyles['font-size']).toEqual('13px')
+    expect(rootStyles.cursor).toEqual('pointer')
     expect(nc(rootStyles.color)).toEqual(nc(theme.switcher.colors.default.default.text))
 
     expect(checkboxStyles.opacity).toEqual('0')
-    expect(checkboxStyles.cursor).toEqual('pointer')
 
     expect(switcherStyles.width).toEqual('30px')
     expect(switcherStyles.height).toEqual('15px')
