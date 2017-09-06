@@ -1,6 +1,29 @@
 import React from 'react'
 import * as pt from 'prop-types'
+import { injectSheet } from '../theme'
+import cn from 'classnames'
+import Button from '../Button'
+import { isolateMixin } from '../style/mixins'
 
+@injectSheet(theme => ({
+  root: {
+    ...isolateMixin,
+    fontFamily: theme.fontFamily,
+    fontSize: theme.radio.fontSize,
+    display: 'flex',
+    width: '100%'
+  },
+  inputWrapper: {
+    display: 'flex',
+    position: 'relative'
+  },
+  input: {
+
+  },
+  suggest: {
+
+  }
+}))
 class Search extends React.Component {
   static propTypes = {
     /**
@@ -60,10 +83,6 @@ class Search extends React.Component {
     */
     onRemoveItem: pt.func,
     /**
-    /* коллбек на выбор конкретного SuggestItem (клик по SuggestItem, или нажатие на Enter сразу после выбора SuggestItem)
-    */
-    onChooseItem: pt.func,
-    /**
     /* коллбек на нажатие на кнопку поиска или нажатие на Enter
     */
     onSubmit: pt.func
@@ -81,8 +100,24 @@ class Search extends React.Component {
   }
 
   render() {
+    const {
+      // children,
+      className,
+      style,
+      sheet: { classes: css },
+      ...other
+    } = this.props
+
     return (
-      <div>
+      <div className={cn(css.root, className)} style={style} {...other}>
+        <div className={css.inputWrapper}>
+          <input
+            className={css.input}
+          />
+          <Button />
+        </div>
+        <div className={css.suggest}>
+        </div>
       </div>
     )
   }
