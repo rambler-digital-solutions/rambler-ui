@@ -4,6 +4,14 @@ import * as pt from 'prop-types'
 class Search extends React.Component {
   static propTypes = {
     /**
+    * Переопределение стандартных стилей компонента Search
+    */
+    style: pt.object,
+    /**
+    * css-класс компонента
+    */
+    className: pt.string,
+    /**
     * текущий поисковый запрос
     */
     value: pt.string,
@@ -12,9 +20,9 @@ class Search extends React.Component {
     */
     selectedItem: pt.any,
     /**
-    /* надпись на кнопке поиска
+    /* кнопка поиска
     */
-    searchButton: pt.string,
+    searchButton: pt.node,
     /**
     /* имя раздела, по которому ищем
     */
