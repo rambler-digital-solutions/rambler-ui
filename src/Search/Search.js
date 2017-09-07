@@ -147,12 +147,32 @@ class Search extends React.Component {
     onSubmit: () => {}
   }
 
-  state = {
-    isDropdownOpened: false
+  componentDidMount() {
+    if (this.divisionNode) {
+      const styles = getComputedStyle(this.inputNode)
+      const newPadding = parseInt(styles.paddingLeft || 0, 10) + this.divisionNode.offsetWidth
+      this.inputNode.style.paddingLeft = `${newPadding}px`
+    }
   }
 
   submitSearch() {
     this.props.onSubmit()
+  }
+
+  onClickInput = () => {
+
+  }
+
+  onSearchInput = (e) => {
+    const value = e.target.value && e.target.value.trim()
+    this.props.onSearch && this.props.onSearch(value)
+  }
+
+  setNode(name) {
+    const that = this
+    return function (node) {
+      that[`${name}Node`] = node
+    }
   }
 
   renderInput() {
@@ -176,13 +196,23 @@ class Search extends React.Component {
         {...other}
       >
         <div className={css.inputWrapper}>
-          {showDivision && <div className={css.division}>{division}</div>}
+          {showDivision &&
+            <div
+              className={css.division}
+              ref={this.setNode('division')}
+            >{division}
+            </div>
+          }
           <input
             type="text"
+            onClick={this.onClickInput}
+            onChange={this.onSearchInput}
+            onKeyDown={this.onKeyDown}
             className={cn(
               css.input,
               {[css.withDivision]: showDivision}
             )}
+            ref={this.setNode('input')}
           />
           <ClearIcon
             className={css.clear}
