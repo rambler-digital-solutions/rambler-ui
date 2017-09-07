@@ -4,11 +4,15 @@ import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
 
 const queryResults = [
-  'результат один',
-  'результат два',
-  'результат три',
-  'результат четыре',
-  'результат пять'
+  ['base', 'это россия детка русские приколы 2015 выпуск 8', '10', ''],
+  ['base', 'это рыночная форма в которой на рынке доминирует небольшое количество продавцов', '8', ''],
+  ['base', 'это россия детка её не победить', '7', ''],
+  ['base', 'это ретро', '6', ''],
+  ['base', 'это русская наследница с первой до последней серии', '5', ''],
+  ['base', 'это рукопашный бой', '4', ''],
+  ['base', 'это расширение контролируется правилами и не может быть удалено или отключено', '3', ''],
+  ['base', 'это работает вк', '2', ''],
+  ['base', 'это россия детка ютуб', '1', '']
 ]
 
 export default class SearchExample extends Component {
@@ -24,14 +28,26 @@ export default class SearchExample extends Component {
     this.setState({items: queryResults})
   }
 
+  goToSearch = (query = '') => {
+    window.open(`https://nova.rambler.ru/search?query=${encodeURIComponent(query)}`)
+  }
+
   render() {
     return (
       <ApplyTheme>
         <div>
           <Search
             onSearch={this.fetchQuery.bind(this)}
+            onSubmit={this.goToSearch}
           >
-            {this.state.items.map(item => <SuggestItem>{item}</SuggestItem>)}
+            {this.state.items.map(item => (
+              <SuggestItem
+                key={item[0] + item[2]}
+                value={item[1]}
+              >
+                {item[1]}
+              </SuggestItem>)
+            )}
           </Search>
         </div>
       </ApplyTheme>

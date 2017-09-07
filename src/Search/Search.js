@@ -11,14 +11,10 @@ import ClearIcon from '../icons/forms/ClearIcon'
     fontFamily: theme.fontFamily,
     fontSize: theme.radio.fontSize,
     display: 'flex',
-    width: '765px',
-    position: 'relative'
-  },
-  inputWrapper: {
-    width: '100%',
-    position: 'relative',
+    width: '640px',
+    marginRight: '125px',
     height: '40px',
-    paddingRight: '125px'
+    position: 'relative'
   },
   division: {
     height: '30px',
@@ -49,7 +45,7 @@ import ClearIcon from '../icons/forms/ClearIcon'
   },
   searchButton: {
     position: 'absolute',
-    right: 0,
+    right: '-125px',
     top: 0,
     flexShrink: 0,
     width: '125px',
@@ -58,7 +54,7 @@ import ClearIcon from '../icons/forms/ClearIcon'
   },
   clear: {
     position: 'absolute',
-    right: '135px',
+    right: '10px',
     top: '50%',
     transform: 'translateY(-50%)',
     cursor: 'pointer'
@@ -147,6 +143,10 @@ class Search extends React.Component {
     onSubmit: () => {}
   }
 
+  state = {
+    isDropdownOpened: false
+  }
+
   componentDidMount() {
     if (this.divisionNode) {
       const styles = getComputedStyle(this.inputNode)
@@ -155,16 +155,25 @@ class Search extends React.Component {
     }
   }
 
-  submitSearch() {
-    this.props.onSubmit()
+  submitSearch = () => {
+    this.props.onSubmit(this.inputNode.value)
   }
 
-  onClickInput = () => {
-
+  onKeyDown = (e) => {
+    if (e.keyCode === 13)
+      this.props.onSubmit(this.inputNode.value)
   }
 
-  onSearchInput = (e) => {
-    const value = e.target.value && e.target.value.trim()
+  onFocus = () => {
+    this.setState({isDropdownOpened: true})
+  }
+
+  onBlur = () => {
+    this.setState({isDropdownOpened: false})
+  }
+
+  onSearchInput = () => {
+    const value = this.inputNode.value.trim()
     this.props.onSearch && this.props.onSearch(value)
   }
 
@@ -173,6 +182,11 @@ class Search extends React.Component {
     return function (node) {
       that[`${name}Node`] = node
     }
+  }
+
+  clearForm = () => {
+    this.inputNode.value = ''
+    this.onSearchInput()
   }
 
   renderInput() {
@@ -195,48 +209,48 @@ class Search extends React.Component {
         style={style}
         {...other}
       >
-        <div className={css.inputWrapper}>
-          {showDivision &&
-            <div
-              className={css.division}
-              ref={this.setNode('division')}
-            >{division}
-            </div>
-          }
-          <input
-            type="text"
-            onClick={this.onClickInput}
-            onChange={this.onSearchInput}
-            onKeyDown={this.onKeyDown}
-            className={cn(
-              css.input,
-              {[css.withDivision]: showDivision}
-            )}
-            ref={this.setNode('input')}
-          />
-          <ClearIcon
-            className={css.clear}
-            size={16}
-            color="#B8B8B9"
-          ></ClearIcon>
-          <Button
-            className={css.searchButton}
-            size="small"
-          >Поиск</Button>
-        </div>
-        <div className={css.suggest}>
-        </div>
+        {showDivision &&
+          <div
+            className={css.division}
+            ref={this.setNode('division')}
+          >{division}
+          </div>
+        }
+        <input
+          type="text"
+          onChange={this.onSearchInput}
+          onKeyDown={this.onKeyDown}
+          className={cn(
+            css.input,
+            {[css.withDivision]: showDivision}
+          )}
+          ref={this.setNode('input')}
+        />
+        <ClearIcon
+          className={css.clear}
+          size={16}
+          color="#B8B8B9"
+          onClick = {this.clearForm}
+        ></ClearIcon>
+        <Button
+          className={css.searchButton}
+          onClick={this.submitSearch}
+          size="small"
+        >Поиск</Button>
       </div>
     )
   }
 
   renderItems() {
     const {
-      children
+      children,
+      onSubmit
     } = this.props
 
-    return children.map(child => {
-      const props = {}
+    return children.map((child) => {
+      const props = {
+        onClick: onSubmit
+      }
       return cloneElement(child, props)
     })
   }
@@ -247,11 +261,11 @@ class Search extends React.Component {
       sheet: { classes: css }
     } = this.props
 
-    // const {isDropdownOpened} = this.state
+    const {isDropdownOpened} = this.state
 
     return (
       <Dropdown
-        isOpened={children.length > 0}
+        isOpened={isDropdownOpened && children.length > 0}
         anchor={this.renderInput()}
         padding={false}
         overlayClassName={css.overlay}
