@@ -144,7 +144,8 @@ class Search extends React.Component {
   }
 
   state = {
-    isDropdownOpened: false
+    isDropdownOpened: false,
+    selectedItem: 0
   }
 
   componentDidMount() {
@@ -160,16 +161,25 @@ class Search extends React.Component {
   }
 
   onKeyDown = (e) => {
-    if (e.keyCode === 13)
+    if (e.key === 'ArrowDown') {
+      const nextItem = this.state.selectedItem + 1
+      if (nextItem > this.props.children.length)
+        this.setState({selectedItem: 0})
+      else
+        this.setState({selectedItem: nextItem})
+    } else if (e.key === 'ArrowUp') {
+      const prevItem = this.state.selectedItem - 1
+      if (prevItem < 0)
+        this.setState({selectedItem: this.props.children.length})
+      else
+        this.setState({selectedItem: prevItem})
+    } else if (e.keyCode === 13) {
       this.props.onSubmit(this.inputNode.value)
+    }
   }
 
   onFocus = () => {
     this.setState({isDropdownOpened: true})
-  }
-
-  onBlur = () => {
-    this.setState({isDropdownOpened: false})
   }
 
   onSearchInput = () => {
@@ -186,6 +196,7 @@ class Search extends React.Component {
 
   clearForm = () => {
     this.inputNode.value = ''
+    this.setState({isDropdownOpened: false})
     this.onSearchInput()
   }
 
@@ -220,6 +231,7 @@ class Search extends React.Component {
           type="text"
           onChange={this.onSearchInput}
           onKeyDown={this.onKeyDown}
+          onFocus={this.onFocus}
           className={cn(
             css.input,
             {[css.withDivision]: showDivision}
@@ -247,9 +259,10 @@ class Search extends React.Component {
       onSubmit
     } = this.props
 
-    return children.map((child) => {
+    return React.Children.map(children, (child, index) => {
       const props = {
-        onClick: onSubmit
+        onClick: onSubmit,
+        isHighlighted: index + 1 === this.state.selectedItem
       }
       return cloneElement(child, props)
     })
