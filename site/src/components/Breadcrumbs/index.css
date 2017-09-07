@@ -1,21 +1,15 @@
 .Breadcrumbs {
-
-  $main-color: #888;
-
-  padding: 15px 15px;
-  background: #fff;
-  box-shadow: 0px 1px 0px 0px rgba(0,0,0,.07);
-  color: $main-color;
+  padding: 15px 2px 14px;
+  border-bottom: 1px solid #dde0e8;
+  color: $colors-cloudGray;
   font-size: 12px;
 
-  &__item {
-    @mixin link $main-color, $colors-dark;
+  a&__item {
+    @mixin link $colors-cloudGray, $colors-carbone;
   }
 
   &__divider {
     display: inline-block;
     margin: 0 5px;
-
   }
-
 }

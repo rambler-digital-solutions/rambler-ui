@@ -1,44 +1,63 @@
 .SideMenu {
-  background: #333;
-  flex: 1;
-  overflow-y: auto;
+  padding: 50px calc(100% * 46 / 300) 20px calc(100% * 44 / 300);
+  flex-grow: 1;
 }
 
 .List {
-  padding-top: 10px;
-  padding-bottom: 10px;
 
-  &[data-level='1'] { margin-left: 15px; }
-  &[data-level='2'] { margin-left: 30px; }
-  &[data-level='3'] { margin-left: 45px; }
-  &[data-level='4'] { margin-left: 60px; }
-  &[data-level='5'] { margin-left: 75px; }
-
-  &[data-level='0'] > &__item:not(:last-child) {
-    // border-bottom: 1px solid #444;
+  &__item {
+    padding: calc(100% * 11 / 195) 0;
   }
 
-  &[data-level='0'] > &__item {
-    padding: 10px 15px;
+  &[data-level='1'] &__item {
+    padding: calc(100% * 7 / 195) 0;
   }
 
   &__link {
-    @mixin link #bbb, #eee;
+    @mixin link $colors-cloudGray, #fff;
     display: block;
     font-size: 14px;
-    font-weight: 300;
+    line-height: 18px;
+    font-weight: 500;
+
     &.is-active {
-     @mixin link #f2f2f2, #f2f2f2;
+     @mixin link #fff, #fff;
      cursor: default;
     }
   }
 
-  &:not([data-level='0']) &__link {
-    margin-top: 8px;
+  &[data-level='1'] &__link {
+    @mixin link #9ea8c0, #fff;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: .1px;
+
+    &.is-active {
+      @mixin link #fff, #fff;
+    }
+  }
+
+  &[data-level='1'] > &__item &__link {
+    margin-left: calc(100% * 20 / 195);
+  }
+
+  &[data-level='2'] > &__item &__link {
+    margin-left: calc(100% * 35 / 195);
+  }
+
+  &[data-level='3'] > &__item &__link {
+    margin-left: calc(100% * 50 / 195);
+  }
+
+  &[data-level='4'] > &__item &__link {
+    margin-left: calc(100% * 65 / 195);
+  }
+
+  &[data-level='5'] > &__item &__link {
+    margin-left: calc(100% * 80 / 195);
   }
 
   &__embed {
-
+    margin-top: calc(100% * 7 / 195);
   }
-
 }

@@ -60,22 +60,22 @@ export default class Layout extends Component {
         <div className={ css.Layout__right }>
           <div className={ css.Menu }>
             <div className={ css.Menu__items }>
-              {
-                menuItems.map((item, i) =>
-                  <Link key={ i } className={ css.Menu__item } activeClassName={ css['is-active'] } to={ item.route }>{ item.name }</Link>
-                )
-              }
+              {menuItems.map((item, i) => (
+                <Link key={ i } className={ css.Menu__item } activeClassName={ css.Menu__item_active } to={ item.route } data-text={ item.name }>
+                  { item.name }
+                </Link>
+              ))}
             </div>
             <div className={ css.Menu__stars }>
               <a className="github-button" href="https://github.com/rambler-digital-solutions/rambler-ui" data-size="large" data-show-count="true">Star</a>
             </div>
             <div className={ css.Menu__version } >
               <select value={ currentVersion && currentVersion.path } onChange={ ::this.onVersionChange }>
-                {
-                  versions.map(({ title, path }, i) => (
-                    <option key={ i } value={ path }>{ title || path }</option>
-                  ))
-                }
+                {versions.map(({ title, path }, i) => (
+                  <option key={ i } value={ path }>
+                    { title || path }
+                  </option>
+                ))}
               </select>
             </div>
           </div>

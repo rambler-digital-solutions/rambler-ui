@@ -1,59 +1,70 @@
 .Wrapper {
-  border: 1px solid #ddd;
-  margin-bottom: 20px;
+  border: 1px solid #eee;
+  margin-bottom: 26px;
 }
 
 .Header {
-  padding: 15px;
-  background: #fafafa;
-  border-bottom: 1px solid #ddd;
-  position: relative;
-  &__title {
+  display: flex;
+  padding: 0 20px;
 
+  &__title {
+    align-self: center;
+    margin-right: auto;
+    letter-spacing: .2px;
+    color: $colors-cloudGray;
   }
+
   &__tabs {
-    position: absolute;
-    right: 15px;
-    top: 0;
+    margin-right: -6px;
   }
+
   &__tab {
     cursor: pointer;
     display: inline-block;
-    padding: 15px 15px 13px;
+    padding: 16px 6px 14px;
     border-bottom: 2px solid transparent;
     position: relative;
-    top: 1px;
-    &.is-active {
+
+    & + & {
+      margin-left: 11px;
+    }
+
+    &:hover, &:focus {
+      color: $colors-blue;
+    }
+
+    &_active {
       color: $colors-blue;
       border-color: $colors-blue;
     }
   }
 }
 
-.Body {
-
-}
+.Body {}
 
 .Code {
   padding: 15px;
+  border-top: 1px solid #eee;
   overflow: auto;
+  font-family: Menlo, Monaco, Courier New, Courier, monospace;
 
-  &__pre {}
+  &__pre {
+    margin: 4px 4px 20px;
+    font-family: inherit;
+  }
 }
 
 .Preview {
   padding: 15px;
   overflow: auto;
+  border-top: 1px solid #eee;
+
   &__error {
     color: red;
   }
 }
 
-.Code + .Preview {
-  border-top: 1px solid #ddd;
-}
-
 :global .CodeMirror {
   height: auto !important;
+  font-family: inherit !important;
 }
-
