@@ -3,14 +3,22 @@
   flex: 1;
   flex-direction: row;
   max-width: 100%;
+
   &__content {
     flex: 1;
+    padding: 0 35px;
     overflow-y: auto;
   }
+
   &__left {
-    min-width: 200px;
     display: flex;
+    width: 20%;
+    min-width: 200px;
+    max-width: 300px;
+    background: $colors-carbone;
+    overflow-y: auto;
   }
+
   &__right {
     flex: 1 0px;
     overflow: hidden;
@@ -21,31 +29,59 @@
 
 .Menu {
   display: flex;
-  background: #fff;
-  box-shadow: 0px 1px 0px 0px rgba(0,0,0,.07);
-  position: relative;
-  z-index: 1;
+  align-items: flex-start;
+  padding: 0 35px;
+  background: $colors-argentumLight;
+
+  &__items {
+    display: inline-flex;
+    margin: 0 auto 0 -7px;
+  }
+
   &__item {
+    position: relative;
     display: inline-block;
-    color: $colors-dark;
-    padding: 15px 0 13px;
-    margin: 0 15px -1px;
-    border-bottom: 2px solid transparent;
+    color: transparent!important;
+    padding: 17px 7px 14px;
+    border-bottom: 3px solid transparent;
     text-decoration: none;
-    font-weight: 400;
-    &.is-active {
-      border-color: $colors-blue;
-      color: $colors-blue;
+    font-weight: 500;
+
+    &:before {
+      content: attr(data-text);
+      position: absolute;
+      color: $colors-cloudGray;
+      font-weight: normal;
+      letter-spacing: .2px;
+    }
+
+    &:hover:before, &:focus:before {
+      color: $colors-carbone;
+      font-weight: inherit;
+      letter-spacing: inherit;
+    }
+
+    & + & {
+      margin-left: 44px;
     }
   }
-  &__version {
-    position: absolute;
-    right: 15px;
-    top: 14px;
+
+  &__item_active {
+    border-color: $colors-blue;
+
+    &:before {
+      color: $colors-carbone;
+      font-weight: inherit;
+      letter-spacing: inherit;
+    }
   }
+
   &__stars {
-    position: absolute;
-    right: 165px;
-    top: 9px;
+    flex: none;
+    margin-top: 10px;
+  }
+
+  &__version {
+    margin: 14px 0 0 24px;
   }
 }

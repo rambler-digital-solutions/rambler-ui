@@ -5,48 +5,35 @@
 .ComponentWrapper {
 
   &:not(:first-child) {
-    border-top: 1px solid #eee;
-    margin-top: 20px;
+    border-top: 1px solid #dde0e8;
+    margin-top: 40px;
   }
 
   &__header {
-    padding: 0 0 10px;
-    margin: 20px 15px 0;
-    border-bottom: 1px solid #eee;
-    position: relative;
+    display: flex;
+    align-items: flex-start;
+    margin: 18px 0;
+  }
+
+  &__link {
+    @mixin link inherit, $colors-blue;
+    margin-right: auto;
   }
 
   &__title {
     margin: 0;
   }
 
-  &__content {
-    padding: 15px;
-  }
-
-  &__link {
-
-  }
-
   &__sourceLink {
-    position: absolute;
     display: inline-block;
-    z-index: 1;
-    top: 0px;
-    right: 0px;
+    margin-top: 4px;
     line-height: 20px;
   }
 
-}
-
-.ComponentWrapper__content .ComponentWrapper {
-  margin: 0 -15px;
+  &__content {}
 }
 
 .ChildrenLinks {
 
-  &__list {
-
-  }
-
+  &__list {}
 }

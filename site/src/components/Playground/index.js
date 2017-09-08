@@ -133,35 +133,48 @@ export default class Playground extends Component {
         onChange={ ::this.onCodeChange }
         autoSave={ true }
         value={ code }
-        />
+      />
 
     return (
       <div className={ css.Wrapper }>
         <div className={ css.Header }>
-          <div className={ css.Header__title }>{ title }</div>
+          <div className={ css.Header__title }>
+            { title }
+          </div>
           <div className={ css.Header__tabs }>
-            {
-              showPreview && <div
-              onClick={() => this.setMode('preview')}
-              className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'preview' }) }>Превью</div>
+            {showPreview &&
+              <div
+                onClick={() => this.setMode('preview')}
+                className={ classnames(css.Header__tab, mode === 'preview' && css.Header__tab_active) }
+              >
+                Превью
+              </div>
             }
             <div
               onClick={() => this.setMode('read')}
-              className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'read' }) }>Код</div>
-            {
-              canEdit && <div
+              className={ classnames(css.Header__tab, mode === 'read' && css.Header__tab_active) }
+            >
+              Код
+            </div>
+            {canEdit &&
+              <div
                 onClick={() => this.setMode('write')}
-                className={ classnames(css.Header__tab, { [css['is-active']]: mode === 'write' }) }>Редактировать</div>
+                className={ classnames(css.Header__tab, mode === 'write' && css.Header__tab_active) }
+              >
+                Редактировать
+              </div>
             }
           </div>
         </div>
         <div className={ css.Body }>
-          {
-            (mode !== 'preview') && <div className={ css.Code }>
+          {mode !== 'preview' &&
+            <div className={ css.Code }>
               { codeElement }
             </div>
           }
-          { showPreview && <div className={ css.Preview } ref="preview"></div> }
+          {showPreview &&
+            <div className={ css.Preview } ref="preview" />
+          }
         </div>
       </div>
     )
