@@ -207,6 +207,7 @@ class Search extends React.Component {
       style,
       division,
       showDivision,
+      value,
       sheet: { classes: css },
       ...other
     } = this.props
@@ -232,6 +233,7 @@ class Search extends React.Component {
           onChange={this.onSearchInput}
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
+          defaultValue={value}
           className={cn(
             css.input,
             {[css.withDivision]: showDivision}

@@ -4,6 +4,7 @@ import { injectSheet } from '../theme'
 import cn from 'classnames'
 
 @injectSheet({
+  isHighlighted: {},
   root: {
     height: '40px',
     lineHeight: '1.43',
@@ -15,7 +16,7 @@ import cn from 'classnames'
     cursor: 'pointer',
     fontSize: '14px',
 
-    '&:hover, &.isHighlighted': {
+    '&:hover, &$isHighlighted': {
       backgroundColor: '#f7f9fa',
       color: '#262626'
     }
@@ -76,7 +77,7 @@ class SuggestItem extends React.Component {
         className={cn(
           css.root,
           className,
-          {isHighlighted}
+          {[css.isHighlighted]: isHighlighted}
         )}
         onClick={this.onItemClick}
       >

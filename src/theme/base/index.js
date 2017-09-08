@@ -237,6 +237,9 @@ export function createTheme(config) {
       labelMargin: 10,
       fontSize: 13
     },
+    search: {
+
+    },
     dropdown: {
       borderRadius: 1,
       animationDuration: 200,
