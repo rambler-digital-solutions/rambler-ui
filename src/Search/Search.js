@@ -2,18 +2,21 @@ import React, { cloneElement } from 'react'
 import * as pt from 'prop-types'
 import { injectSheet } from '../theme'
 import cn from 'classnames'
+import omit from 'lodash/omit'
 import Button from '../Button'
 import Dropdown from '../Dropdown'
+import OnClickOutside from '../events/OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
+import SearchIcon from '../icons/forms/SearchIcon'
 
 @injectSheet(theme => ({
   root: {
     fontFamily: theme.fontFamily,
-    fontSize: theme.radio.fontSize,
+    fontSize: theme.search.fontSize,
     display: 'flex',
     width: '640px',
-    marginRight: '125px',
-    height: '40px',
+    marginRight: theme.search.button.width,
+    height: theme.search.height,
     position: 'relative'
   },
   division: {
@@ -28,44 +31,40 @@ import ClearIcon from '../icons/forms/ClearIcon'
     letterSpacing: '1.3px',
     position: 'absolute',
     top: '5px',
-    left: '5px'
+    left: '5px',
+    cursor: 'pointer'
   },
   input: {
     border: 'solid 2px #315efb',
-    padding: '10px 30px 10px 5px',
-    fontSize: '14px',
+    borderRight: 'none',
+    padding: '10px 30px 10px 10px',
+    fontSize: theme.search.fontSize,
     lineHeight: '1.43',
     color: '#262626',
     width: '100%',
-    height: '40px',
+    height: theme.search.height,
     outline: 'none'
-  },
-  showDivision: {
-    paddingLeft: '90px'
   },
   searchButton: {
     position: 'absolute',
-    right: '-125px',
+    right: `-${theme.search.button.width}`,
     top: 0,
     flexShrink: 0,
-    width: '125px',
-    height: '40px',
-    lineHeight: '40px'
+    width: theme.search.button.width,
+    height: theme.search.height,
+    lineHeight: theme.search.height
   },
   clear: {
     position: 'absolute',
-    right: '10px',
+    right: '15px',
     top: '50%',
     transform: 'translateY(-50%)',
     cursor: 'pointer'
   },
   suggest: {
     width: '100%',
-    height: '400px',
     background: 'white',
-    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)',
-    position: 'absolute',
-    top: '40px'
+    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
   }
 }))
 class Search extends React.Component {
@@ -140,6 +139,7 @@ class Search extends React.Component {
     showDivision: true,
     hint: null,
     placeholder: '',
+    onSelectItem: () => {},
     onSubmit: () => {}
   }
 
@@ -161,20 +161,33 @@ class Search extends React.Component {
   }
 
   onKeyDown = (e) => {
-    if (e.key === 'ArrowDown') {
-      const nextItem = this.state.selectedItem + 1
-      if (nextItem > this.props.children.length)
-        this.setState({selectedItem: 0})
-      else
-        this.setState({selectedItem: nextItem})
-    } else if (e.key === 'ArrowUp') {
-      const prevItem = this.state.selectedItem - 1
-      if (prevItem < 0)
-        this.setState({selectedItem: this.props.children.length})
-      else
-        this.setState({selectedItem: prevItem})
-    } else if (e.keyCode === 13) {
+    if (e.keyCode === 13) {
       this.props.onSubmit(this.inputNode.value)
+      return false
+    }
+
+    if (e.key === 'ArrowDown') {
+      const {
+        selectedItem
+      } = this.state
+      const {
+        children,
+        onSelectItem
+      } = this.props
+      const nextItem = selectedItem === children.length ? selectedItem + 1 : 0
+      this.setState({selectedItem: nextItem})
+      onSelectItem(selectedItem)
+    } else if (e.key === 'ArrowUp') {
+      const {
+        selectedItem
+      } = this.state
+      const {
+        children,
+        onSelectItem
+      } = this.props
+      const prevItem = selectedItem === 0 ? children.length : selectedItem - 1
+      this.setState({selectedItem: prevItem})
+      onSelectItem(selectedItem)
     }
   }
 
@@ -208,9 +221,8 @@ class Search extends React.Component {
       division,
       showDivision,
       value,
-      sheet: { classes: css },
-      ...other
-    } = this.props
+      sheet: { classes: css }
+    } = omit(this.props, 'theme', 'value', 'onChange')
 
     return (
       <div
@@ -219,7 +231,6 @@ class Search extends React.Component {
           className,
         )}
         style={style}
-        {...other}
       >
         {showDivision &&
           <div
@@ -234,10 +245,7 @@ class Search extends React.Component {
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
           defaultValue={value}
-          className={cn(
-            css.input,
-            {[css.withDivision]: showDivision}
-          )}
+          className={css.input}
           ref={this.setNode('input')}
         />
         <ClearIcon
@@ -246,12 +254,34 @@ class Search extends React.Component {
           color="#B8B8B9"
           onClick = {this.clearForm}
         ></ClearIcon>
-        <Button
-          className={css.searchButton}
-          onClick={this.submitSearch}
-          size="small"
-        >Поиск</Button>
+        {this.renderButton()}
       </div>
+    )
+  }
+
+  renderButton() {
+    const {
+      sheet: { classes: css }
+    } = this.props
+
+    return (
+      <Button
+        className={css.searchButton}
+        onClick={this.submitSearch}
+        size="small"
+        icon={this.renderIcon()}
+      >
+        Поиск
+      </Button>
+    )
+  }
+
+  renderIcon() {
+    return (
+      <SearchIcon
+        size={12}
+        color="#ffffff"
+      />
     )
   }
 
@@ -268,6 +298,10 @@ class Search extends React.Component {
       }
       return cloneElement(child, props)
     })
+  }
+
+  closeOnClickOutside = () => {
+
   }
 
   render() {
@@ -291,11 +325,14 @@ class Search extends React.Component {
         contentPointY="top"
         closeOnClickOutside={false}
         cachePositionOptions={false}>
-        {this.renderItems()}
+        <OnClickOutside handler={this.closeOnClickOutside}>
+          <div className={css.suggest}>
+            {this.renderItems()}
+          </div>
+        </OnClickOutside>
       </Dropdown>
     )
   }
-
 }
 
 export default Search

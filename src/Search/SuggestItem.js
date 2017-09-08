@@ -3,25 +3,36 @@ import * as pt from 'prop-types'
 import { injectSheet } from '../theme'
 import cn from 'classnames'
 
-@injectSheet({
+@injectSheet(theme => ({
   isHighlighted: {},
   root: {
-    height: '40px',
-    lineHeight: '1.43',
-    display: 'block',
-    padding: ' 10px 15px',
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
-    whiteSpace: 'nowrap',
+    height: theme.search.height,
+    padding: '0 15px',
     cursor: 'pointer',
     fontSize: '14px',
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'space-between',
 
     '&:hover, &$isHighlighted': {
       backgroundColor: '#f7f9fa',
       color: '#262626'
     }
+  },
+  string: {
+    lineHeight: theme.search.height,
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
+
+  },
+  removeButton: {
+    fontSize: '13px',
+    lineHeight: theme.search.height,
+    color: '#3e217d',
+    paddingLeft: '10px'
   }
-})
+}))
 
 class SuggestItem extends React.Component {
   static propTypes = {
@@ -37,6 +48,10 @@ class SuggestItem extends React.Component {
     * текст ссылки для удаления
     */
     removeButton: pt.string,
+    /**
+    * клик по кнопке удаления
+    */
+    onRemoveClick: pt.func,
     /**
     * коллбек для клика
     */
@@ -69,7 +84,11 @@ class SuggestItem extends React.Component {
     const {
       sheet: { classes: css },
       className,
-      isHighlighted
+      isHighlighted,
+      removeButton,
+      onRemoveClick,
+      query,
+      value
     } = this.props
 
     return (
@@ -81,7 +100,17 @@ class SuggestItem extends React.Component {
         )}
         onClick={this.onItemClick}
       >
-        {this.props.children}
+        <span className={css.string}>
+          <span className={css.query}>{query}</span>{value.replace(query, '')}
+        </span>
+        {removeButton && (
+          <span
+            className={css.removeButton}
+            onClick={onRemoveClick}
+          >
+            {removeButton}
+          </span>
+        )}
       </div>
     )
   }

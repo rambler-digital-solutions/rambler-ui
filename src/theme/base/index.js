@@ -238,7 +238,12 @@ export function createTheme(config) {
       fontSize: 13
     },
     search: {
+      fontSize: '14px',
+      height: '40px',
 
+      button: {
+        width: '125px'
+      }
     },
     dropdown: {
       borderRadius: 1,
