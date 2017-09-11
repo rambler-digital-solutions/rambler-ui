@@ -28,6 +28,22 @@ export default class SearchExample extends Component {
     this.setState({items: queryResults})
   }
 
+  renderHint() {
+    return (
+      <div className='hint'>
+        Например, <a href>напримерыч напримеров</a>
+      </div>
+    )
+  }
+
+  renderBottomLinks() {
+    return (
+      <div className='bottomLink'>
+        <a href>Сделать поиск по умолчанию!</a>
+      </div>
+    )
+  }
+
   goToSearch = (query = '') => {
     window.open(`https://nova.rambler.ru/search?query=${encodeURIComponent(query)}`)
   }
@@ -39,6 +55,8 @@ export default class SearchExample extends Component {
           <Search
             onSearch={this.fetchQuery.bind(this)}
             onSubmit={this.goToSearch}
+            hint={this.renderHint()}
+            bottomLinks={this.renderBottomLinks()}
           >
             {this.state.items.map(item => (
               <SuggestItem

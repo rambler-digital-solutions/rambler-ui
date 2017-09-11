@@ -13,11 +13,19 @@ import SearchIcon from '../icons/forms/SearchIcon'
   root: {
     fontFamily: theme.fontFamily,
     fontSize: theme.search.fontSize,
-    display: 'flex',
-    width: '640px',
+    width: '100%',
+    maxWidth: '765px'
+  },
+  inputWrapper: {
     marginRight: theme.search.button.width,
     height: theme.search.height,
     position: 'relative'
+  },
+  bottomWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    padding: '15px 0',
+    fontSize: '12px'
   },
   division: {
     height: '30px',
@@ -98,10 +106,6 @@ class Search extends React.Component {
     */
     showDivision: pt.bool,
     /**
-    * хинт для поискового запроса
-    */
-    hint: pt.node,
-    /**
     * плейсхолдер поискового инпута
     */
     placeholder: pt.string,
@@ -128,7 +132,15 @@ class Search extends React.Component {
     /**
     * коллбек на нажатие на кнопку поиска или нажатие на Enter
     */
-    onSubmit: pt.func
+    onSubmit: pt.func,
+    /**
+    * Поисковая подсказка
+    */
+    hint: pt.node,
+    /**
+    * ссы
+    */
+    bottomLinks: pt.node
   }
 
   static defaultProps = {
@@ -137,7 +149,6 @@ class Search extends React.Component {
     searchButton: 'Поиск',
     division: 'Поиск',
     showDivision: true,
-    hint: null,
     placeholder: '',
     onSelectItem: () => {},
     onSubmit: () => {}
@@ -161,33 +172,32 @@ class Search extends React.Component {
   }
 
   onKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      this.props.onSubmit(this.inputNode.value)
-      return false
-    }
-
-    if (e.key === 'ArrowDown') {
-      const {
-        selectedItem
-      } = this.state
-      const {
-        children,
-        onSelectItem
-      } = this.props
+    const {
+      selectedItem
+    } = this.state
+    const {
+      children,
+      onSelectItem
+    } = this.props
+    switch (e.key) {
+    //eslint-disable-next-line
+    case 'ArrowDown':
       const nextItem = selectedItem === children.length ? selectedItem + 1 : 0
       this.setState({selectedItem: nextItem})
-      onSelectItem(selectedItem)
-    } else if (e.key === 'ArrowUp') {
-      const {
-        selectedItem
-      } = this.state
-      const {
-        children,
-        onSelectItem
-      } = this.props
+      onSelectItem(nextItem)
+      break
+    //eslint-disable-next-line
+    case 'ArrowUp':
       const prevItem = selectedItem === 0 ? children.length : selectedItem - 1
       this.setState({selectedItem: prevItem})
-      onSelectItem(selectedItem)
+      onSelectItem(prevItem)
+      break
+    case 'Enter':
+      this.props.onSubmit(this.inputNode.value)
+      break
+    default:
+      return true
+
     }
   }
 
@@ -216,8 +226,6 @@ class Search extends React.Component {
   renderInput() {
     const {
       // children,
-      className,
-      style,
       division,
       showDivision,
       value,
@@ -226,11 +234,7 @@ class Search extends React.Component {
 
     return (
       <div
-        className={cn(
-          css.root,
-          className,
-        )}
-        style={style}
+        className={css.inputWrapper}
       >
         {showDivision &&
           <div
@@ -261,8 +265,13 @@ class Search extends React.Component {
 
   renderButton() {
     const {
-      sheet: { classes: css }
+      sheet: { classes: css },
+      searchButton
     } = this.props
+
+    // если передали ноду - ее отдаем на рендер
+    if (typeof searchButton === 'object')
+      return searchButton
 
     return (
       <Button
@@ -271,7 +280,7 @@ class Search extends React.Component {
         size="small"
         icon={this.renderIcon()}
       >
-        Поиск
+        {searchButton}
       </Button>
     )
   }
@@ -288,23 +297,25 @@ class Search extends React.Component {
   renderItems() {
     const {
       children,
-      onSubmit
+      onSubmit,
+      onRemoveItem
     } = this.props
 
     return React.Children.map(children, (child, index) => {
       const props = {
         onClick: onSubmit,
-        isHighlighted: index + 1 === this.state.selectedItem
+        isHighlighted: index + 1 === this.state.selectedItem,
+        onRemoveClick: onRemoveItem
       }
       return cloneElement(child, props)
     })
   }
 
   closeOnClickOutside = () => {
-
+    this.setState({isDropdownOpened: false})
   }
 
-  render() {
+  renderDropdown() {
     const {
       children,
       sheet: { classes: css }
@@ -331,6 +342,45 @@ class Search extends React.Component {
           </div>
         </OnClickOutside>
       </Dropdown>
+    )
+  }
+
+  renderBottom() {
+    const {
+      hint,
+      bottomLinks,
+      sheet: { classes: css }
+    } = this.props
+
+    if (!hint && !bottomLinks)
+      return null
+
+    return (
+      <div className={css.bottomWrapper}>
+        {hint}
+        {bottomLinks}
+      </div>
+    )
+  }
+
+  render() {
+    const {
+      sheet: { classes: css },
+      style,
+      className
+    } = this.props
+
+    return (
+      <div
+        className={cn(
+          css.root,
+          className,
+        )}
+        style={style}
+      >
+        {this.renderDropdown()}
+        {this.renderBottom()}
+      </div>
     )
   }
 }

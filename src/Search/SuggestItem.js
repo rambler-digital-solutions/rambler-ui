@@ -73,6 +73,7 @@ class SuggestItem extends React.Component {
   static defaultProps = {
     removeButton: '',
     isHighlighted: false,
+    onRemoveClick: () => {},
     query: ''
   }
 
