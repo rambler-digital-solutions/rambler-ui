@@ -8,9 +8,11 @@ import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
+import { isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   root: {
+    ...isolateMixin,
     fontFamily: theme.fontFamily,
     fontSize: theme.search.fontSize,
     width: '100%',
