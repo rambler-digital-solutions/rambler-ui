@@ -2,7 +2,6 @@
  * Компонент переключателя
  */
 import React, { Component, cloneElement } from 'react'
-import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
@@ -21,67 +20,102 @@ const whenDomReady = new Promise((resolve) => {
     ...isolateMixin,
     fontFamily: theme.fontFamily,
     display: 'inline-block',
-    '&$block': { display: 'flex' },
+    '&$block': {
+      display: 'flex'
+    },
     '&, & *': {
       transitionDuration: theme.toggle.animationDuration + 'ms',
       transitionProperty: 'background, opacity, border, box-shadow'
     }
   },
   option: {
-    fontFamily: theme.fontFamily,
-    textAlign: 'center',
-    borderStyle: 'solid',
-    borderColor: theme.toggle.colors.default.border,
-    color: theme.toggle.colors.default.text,
-    borderWidth: 1,
-    background: theme.toggle.colors.default.background,
-    cursor: 'pointer',
-    userSelect: 'none',
-    position: 'relative',
-    display: 'inline-block',
-    '&:not(:first-child)': {
+    '&&': {
+      fontFamily: theme.fontFamily,
+      textAlign: 'center',
+      borderStyle: 'solid',
+      color: theme.toggle.colors.default.text,
+      borderWidth: 1,
+      borderColor: theme.toggle.colors.default.border,
+      background: theme.toggle.colors.default.background,
+      cursor: 'pointer',
+      userSelect: 'none',
+      position: 'relative',
+      display: 'inline-block',
       marginLeft: -1
+    },
+    '&:first-child': {
+      marginLeft: 0,
+      borderTopLeftRadius: theme.toggle.borderRadius,
+      borderBottomLeftRadius: theme.toggle.borderRadius
     },
     '&:last-child': {
       borderWidth: 1,
       borderTopRightRadius: theme.toggle.borderRadius,
       borderBottomRightRadius: theme.toggle.borderRadius
     },
-    '&:first-child': {
-      borderTopLeftRadius: theme.toggle.borderRadius,
-      borderBottomLeftRadius: theme.toggle.borderRadius
+    '&:enabled:hover': {
+      zIndex: 1
     },
-    '&:hover': {
-      zIndex: 2,
+    '&:focus': {
+      color: theme.toggle.colors.focus.text
+    },
+    '&:active': {
+      zIndex: 1
+    },
+    '&:disabled': {
+      color: theme.toggle.colors.disabled.text,
+      cursor: 'not-allowed'
+    }
+  },
+  isSelected: {
+    zIndex: 2,
+    '&:enabled:hover': {
+      zIndex: 3
+    }
+  },
+  regular: {
+    '& $option:disabled': {
+      borderColor: theme.toggle.colors.disabled.border
+    },
+    '& $option:enabled:hover': {
       borderColor: theme.toggle.colors.hover.border,
       // '&:before': borderMixin(theme.toggle.colors.hover.border),
       color: theme.toggle.colors.checked.text
     },
-    '&:focus': {
-      zIndex: 2,
+    '& $option:focus': {
       color: theme.toggle.colors.focus.text
     },
-    '&$isSelected': {
-      zIndex: 3,
-      borderColor: theme.toggle.colors.checked.border,
-      color: theme.toggle.colors.checked.text
-    },
-    '&:active': {
+    '& $option:active': {
       // '&:before': borderMixin(theme.toggle.colors.active.border),
       color: theme.toggle.colors.active.text,
       background: theme.toggle.colors.active.background
+    },
+    '& $isSelected:enabled': {
+      borderColor: theme.toggle.colors.checked.border,
+      color: theme.toggle.colors.checked.text
+    },
+    '& $isSelected:enabled:hover': {
+      borderColor: theme.toggle.colors.checkedHover.border,
+      color: theme.toggle.colors.checkedHover.text
+    },
+    '& $isSelected:disabled': {
+      background: theme.toggle.colors.checkedDisabled.background
+    }
+  },
+  transparent: {
+    '& $isSelected': {
+      background: theme.toggle.transparentColors.checked.background
+    },
+    '& $option:enabled:hover': {
+      background: theme.toggle.transparentColors.hover.background
+    },
+    '& $option:disabled': {
+      borderColor: theme.toggle.transparentColors.disabled.border
     }
   },
   block: {
     flexDirection: 'row',
     flexWrap: 'nowrap'
-  },
-  isSelected: {
-    zIndex: 3
-  },
-  isDisabled: {
-    opacity: 0.5,
-    '& *': { pointerEvents: 'none !important' }
   },
   equalWidth: {
     '& $option': {
@@ -90,7 +124,9 @@ const whenDomReady = new Promise((resolve) => {
     }
   },
   'behavior-radio': {
-    '& $option$isSelected': { cursor: 'default' }
+    '& $isSelected:enabled': {
+      cursor: 'default'
+    }
   }
 }))
 export default class Toggle extends Component {
@@ -137,14 +173,20 @@ export default class Toggle extends Component {
     /**
      * Перевод компонента в состояние disabled
      */
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    /**
+     * Разновидность компонента
+     */
+    variation: PropTypes.oneOf(['regular', 'transparent'])
   };
 
   static defaultProps = {
     size: 'small',
     behavior: 'radio',
     block: false,
-    equalWidth: false
+    equalWidth: false,
+    disabled: false,
+    variation: 'regular'
   };
 
   state = {
@@ -153,6 +195,9 @@ export default class Toggle extends Component {
   };
 
   optionsElements = [];
+  addElement = (ref) => {
+    this.optionsElements.push(ref)
+  };
 
   onValueChange = (event, value) => {
     if (value === this.value && this.props.behavior === 'toggle')
@@ -179,12 +224,7 @@ export default class Toggle extends Component {
   }
 
   calcMinWidth() {
-    let minWidth = 0
-    this.optionsElements.forEach(el => {
-      el = findDOMNode(el)
-      minWidth = Math.max(el ? el.offsetWidth : 0, minWidth)
-    })
-    return minWidth
+    return this.optionsElements.reduce((result, el) => Math.max(el ? el.offsetWidth : 0, result), 0)
   }
 
   shouldCalcMinWidth() {
@@ -206,43 +246,36 @@ export default class Toggle extends Component {
       equalWidth,
       behavior,
       disabled,
+      variation,
       className,
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'theme')
-    let i = 0
     this.optionsElements = []
     const options = React.Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiToggleOption')
         throw new Error('Child component should be instance of <ToggleOption />')
       const isSelected = child.props.value === this.state.value
-      const resultClassName = classnames(css.option, {
-        [css.isSelected]: isSelected
-      })
-      let ref = null
-      if (this.shouldCalcMinWidth())
-        ref = (el) => { this.optionsElements.push(el) }
-
       return cloneElement(child, {
-        ref,
         size,
+        disabled,
         isSelected,
-        key: ++i,
+        'aria-pressed': isSelected,
+        key: child.props.value,
         onPress: this.onValueChange,
-        className: classnames(child.props.className, resultClassName),
+        nodeRef: this.shouldCalcMinWidth() ? this.addElement : null,
+        className: classnames(css.option, isSelected && css.isSelected, child.props.className),
         style: {...child.props.style, minWidth: this.state.minWidth}
       })
     })
 
     const resultClassName = classnames(
+      className,
       css.toggle,
       css[`behavior-${behavior}`],
-      {
-        [css.block]: block,
-        [css.equalWidth]: equalWidth,
-        [css.isDisabled]: disabled
-      },
-      className
+      block && css.block,
+      css[variation],
+      equalWidth && css.equalWidth
     )
 
     return (
