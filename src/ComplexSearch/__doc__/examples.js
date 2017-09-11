@@ -1,4 +1,4 @@
-import Search from 'rambler-ui/Search'
+import ComplexSearch from 'rambler-ui/ComplexSearch'
 import SuggestItem from 'rambler-ui/SuggestItem'
 import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
@@ -76,7 +76,7 @@ export default class SearchExample extends Component {
     return (
       <ApplyTheme>
         <div>
-          <Search
+          <ComplexSearch
             value={this.state.value}
             onSearch={this.fetchQuery.bind(this)}
             onSubmit={this.goToSearch}
@@ -92,7 +92,7 @@ export default class SearchExample extends Component {
                 {item[1]}
               </SuggestItem>)
             )}
-          </Search>
+          </ComplexSearch>
         </div>
       </ApplyTheme>
     )

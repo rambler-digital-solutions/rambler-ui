@@ -77,7 +77,7 @@ import { isolateMixin } from '../style/mixins'
     boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
   }
 }))
-class Search extends React.Component {
+class ComplexSearch extends React.Component {
   static propTypes = {
     /**
     * Переопределение стандартных стилей компонента Search
@@ -153,7 +153,8 @@ class Search extends React.Component {
     showDivision: true,
     placeholder: '',
     onSelectItem: () => {},
-    onSubmit: () => {}
+    onSubmit: () => {},
+    onSearch: () => {}
   }
 
   state = {
@@ -213,9 +214,9 @@ class Search extends React.Component {
     this.setState({isDropdownOpened: true})
   }
 
-  onSearchInput = (event) => {
-    this.setState({value: event.target.value.trim()})
-    const value = this.state.value
+  onSearchInput = () => {
+    const value = this.inputNode.value.trim()
+    this.setState({value})
     this.props.onSearch && this.props.onSearch(value)
   }
 
@@ -393,4 +394,4 @@ class Search extends React.Component {
   }
 }
 
-export default Search
+export default ComplexSearch
