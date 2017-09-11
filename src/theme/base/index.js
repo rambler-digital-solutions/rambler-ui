@@ -265,7 +265,7 @@ export function createTheme(config) {
       }
     },
     field: { // input, select, textarea
-      borderRadius: 1,
+      borderRadius: 0,
       icon: {
         colors: {
           default: colors.controls.grey.icon,
@@ -282,17 +282,22 @@ export function createTheme(config) {
         default: {
           outline: colors.controls.grey.fieldOutline,
           border: 'transparent',
-          background: colors.light,
+          background: 'none',
           text: colors.dark,
+          placeholder: lighten(colors.dark, 0.6),
           arrow: colors.controls.grey.icon
         },
-        disabled: {
-          border: colors.controls.grey.disabled,
-          text: colors.controls.grey.disabled,
-          background: colors.controls.grey.disabled
+        hover: {
+          outline: darken(colors.controls.grey.fieldOutline, 0.1)
         },
         focus: {
           border: colors.primary
+        },
+        disabled: {
+          outline: fade(colors.controls.grey.fieldOutline, 0.6),
+          text: colors.controls.grey.disabled,
+          placeholder: colors.controls.grey.disabled,
+          background: 'none'
         }
       },
       sizes: {

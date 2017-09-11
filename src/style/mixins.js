@@ -13,8 +13,12 @@ export const middleMixin = {
   }
 }
 
-export const borderMixin = (color) => ({
-  boxShadow: `inset 0px 0px 0px 1px ${color}`
+export const borderMixin = color => ({
+  boxShadow: `inset 0 0 0 1px ${color}`
+})
+
+export const bottomBorderMixin = color => ({
+  boxShadow: `inset 0 -1px 0px ${color}`
 })
 
 export const isolateMixin = {
@@ -73,13 +77,13 @@ export const ifDesktop = responsiveFactory('@media (min-width: 768px)')
 
 export const ifMobile = responsiveFactory('@media (max-width: 768px)')
 
-export const placeholderMixin = (options) => ({
-  '&::placeholder': options,
-  '&::-webkit-input-placeholder': options,
-  '&::-moz-placeholder': options,
-  '&:-ms-input-placeholder': options,
-  '&:-moz-placeholder': options
-})
+const pseudoSelectors = ['::-webkit-input-placeholder', '::-moz-placeholder', ':-moz-placeholder', ':-ms-input-placeholder', '::placeholder']
+export const placeholderMixin = (selector, style) => (
+  pseudoSelectors.reduce((result, pseudo) => ({
+    ...result,
+    [`${selector}${pseudo}`]: style
+  }), {})
+)
 
 export const uppercaseMixin = {
   textTransform: 'uppercase',

@@ -152,7 +152,6 @@ describe('Input', () => {
     expect(inputDisabled.node.name).toEqual('name')
     expect(inputPass.node.name).toEqual('password')
     // Стили input disabled
-    expect(nc(disabledInputStyles['background-color'])).toEqual(nc(theme.field.colors.disabled.background))
     expect(disabledInputStyles.cursor).toEqual('not-allowed')
   })
 

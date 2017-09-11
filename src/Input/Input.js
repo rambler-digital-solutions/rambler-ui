@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { isolateMixin, borderMixin } from '../style/mixins'
+import { isolateMixin, borderMixin, bottomBorderMixin, placeholderMixin } from '../style/mixins'
 import Tooltip from '../Tooltip'
 import { Eye } from '../icons/forms'
 
@@ -16,43 +16,88 @@ import { Eye } from '../icons/forms'
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     display: 'block',
+    padding: 0,
     outline: 0,
     width: '100%',
     fontWeight: 400,
     fontSize: theme.field.fontSize,
     appearance: 'none',
     lineHeight: 'normal',
-    background: 'transparent',
+    background: theme.field.colors.default.background,
     transition: `border-color ${theme.field.animationDuration}ms ease`,
-    borderColor: 'transparent',
-    borderStyle: 'solid',
-    borderWidth: '0 0 2px 0',
+    border: 0,
+    boxShadow: 'none',
     borderRadius: theme.field.borderRadius,
-    'input&': {
-      paddingLeft: theme.input.padding,
-      paddingRight: theme.input.padding,
-      paddingTop: 1
-    },
     'textarea&': {
       resize: 'vertical',
       height: '100%',
-      padding: theme.input.padding
+      paddingTop: theme.input.padding,
+      paddingBottom: theme.input.padding
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
     },
-    '&:focus': {
-      borderColor: theme.field.colors.focus.border
-    },
     '&:disabled': {
-      backgroundColor: theme.field.colors.disabled.background,
-      borderColor: theme.field.colors.disabled.border,
-      color: theme.field.colors.disabled.color,
+      background: theme.field.colors.disabled.background,
+      color: theme.field.colors.disabled.text,
       cursor: 'not-allowed'
     },
     '&$filled[type="password"]': {
       fontFamily: 'monospace'
+    },
+    ...placeholderMixin('&', {
+      color: theme.field.colors.default.placeholder
+    }),
+    ...placeholderMixin('&:disabled', {
+      color: theme.field.colors.disabled.placeholder
+    })
+  },
+  outline: {
+    '&': borderMixin(theme.field.colors.default.outline),
+    '&:hover': borderMixin(theme.field.colors.hover.outline),
+    '&$disabled': borderMixin(theme.field.colors.disabled.outline)
+  },
+  borderColor: {
+    '& $input:focus': {
+      borderColor: theme.field.colors.focus.border + '!important'
+    },
+    '$success& $input:enabled': {
+      borderColor: theme.colors.success + '!important'
+    },
+    '$error& $input:enabled': {
+      borderColor: theme.colors.danger + '!important'
+    },
+    '$warning& $input:enabled': {
+      borderColor: theme.colors.warn + '!important'
     }
+  },
+  bottomBorder: {
+    '& $input': {
+      paddingTop: 2,
+      border: 'solid transparent',
+      borderWidth: '0 0 2px'
+    }
+  },
+  regular: {
+    composes: ['$outline', '$borderColor'],
+    '& $input': {
+      paddingLeft: theme.input.padding - 1,
+      paddingRight: theme.input.padding - 1,
+      border: '1px solid transparent'
+    }
+
+  },
+  awesome: {
+    composes: ['$outline', '$borderColor', '$bottomBorder'],
+    '& $input': {
+      paddingLeft: theme.input.padding,
+      paddingRight: theme.input.padding
+    }
+  },
+  promo: {
+    composes: ['$borderColor', '$bottomBorder'],
+    '&': bottomBorderMixin(theme.field.colors.default.outline),
+    '&$disabled': bottomBorderMixin(theme.field.colors.disabled.outline)
   },
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
@@ -69,72 +114,92 @@ import { Eye } from '../icons/forms'
         width: theme.field.sizes[size].eyeIcon,
         lineHeight: theme.field.sizes[size].eyeIcon + 'px'
       },
-      '&$withLeftIcon $input': {
+      '&$withLeftIcon$regular $input': {
+        paddingLeft: theme.field.sizes[size].withIconPadding - 1
+      },
+      '&$withLeftIcon$awesome $input': {
         paddingLeft: theme.field.sizes[size].withIconPadding
       },
-      '&$withRightIcon $input': {
+      '&$withLeftIcon$promo $input': {
+        paddingLeft: theme.field.sizes[size].withIconPadding - theme.input.padding
+      },
+      '&$withRightIcon$regular $input, &$withEye$regular $input': {
+        paddingRight: theme.field.sizes[size].withIconPadding - 1
+      },
+      '&$withEye$withRightIcon$regular $input': {
+        paddingRight: theme.field.sizes[size].withIconsPadding - 1
+      },
+      '&$withRightIcon$awesome $input, &$withEye$awesome $input': {
         paddingRight: theme.field.sizes[size].withIconPadding
       },
-      '&$withEye $input': {
-        paddingRight: theme.field.sizes[size].withIconPadding
-      },
-      '&$withEye$withRightIcon $input': {
+      '&$withEye$withRightIcon$awesome $input': {
         paddingRight: theme.field.sizes[size].withIconsPadding
       },
-      '&$withEye $iconRight': {
+      '&$withRightIcon$promo $input, &$withEye$promo $input': {
+        paddingRight: theme.field.sizes[size].withIconPadding - theme.input.padding
+      },
+      '&$withEye$withRightIcon$promo $input': {
+        paddingRight: theme.field.sizes[size].withIconsPadding - theme.input.padding
+      },
+      '&$withEye$regular $iconRight, &$withEye$awesome $iconRight': {
         right: theme.field.sizes[size].withIconPadding
       },
-      '& $iconLeft': {
+      '&$withEye$promo $iconRight': {
+        right: theme.field.sizes[size].withIconPadding - theme.input.padding
+      },
+      '&$regular $iconLeft, &$awesome $iconLeft': {
         left: theme.field.sizes[size].iconMargin
       },
-      '& $iconRight': {
+      '&$promo $iconLeft': {
+        left: 0
+      },
+      '&$regular $iconRight, &$awesome $iconRight': {
         right: theme.field.sizes[size].iconMargin
+      },
+      '&$promo $iconRight': {
+        right: 0
       }
     }
   }), {}),
-  success: {
-    '& $input': {
-      borderColor: theme.colors.success
-    }
-  },
-  error: {
-    '& $input': {
-      borderColor: theme.colors.danger
-    }
-  },
-  warning: {
-    '& $input': {
-      borderColor: theme.colors.warn
-    }
-  },
+
   root: {
     ...isolateMixin,
-    ...borderMixin(theme.field.colors.default.outline),
     borderRadius: theme.field.borderRadius,
     position: 'relative',
     background: theme.field.colors.default.background,
     boxSizing: 'border-box',
-    fontFamily: theme.fontFamily
+    fontFamily: theme.fontFamily,
+    transition: `box-shadow ${theme.field.animationDuration}ms ease`
   },
   icon: {
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    fontSize: 0
+    fontSize: 0,
+    pointerEvents: 'none'
   },
   eye: {
     extend: 'icon',
-    right: theme.input.eyeMargin,
     border: 0,
     outline: 0,
-    cursor: 'pointer'
+    cursor: 'pointer',
+    '$regular &, $awesome &': {
+      right: theme.input.eyeMargin
+    },
+    '$promo &': {
+      right: 0
+    }
   },
   withLeftIcon: {},
   withRightIcon: {},
   withEye: {},
   iconLeft: {},
   iconRight: {},
-  filled: {}
+  filled: {},
+  disabled: {},
+  success: {},
+  error: {},
+  warning: {}
 }))
 
 export default class Input extends Component {
@@ -175,11 +240,15 @@ export default class Input extends Component {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
+     * Разновидность инпута
+     */
+    variation: PropTypes.oneOf(['regular', 'awesome', 'promo']),
+    /**
      * Имя элемента
      */
     name: PropTypes.string,
     /**
-     * Валидация input'a - border снизу
+     * Валидация input'a
      */
     status: PropTypes.oneOf(['error', 'warning', 'success', null]),
     /**
@@ -244,7 +313,8 @@ export default class Input extends Component {
 
   static defaultProps = {
     status: null,
-    size: 'medium'
+    size: 'medium',
+    variation: 'awesome'
   };
 
   inputTypeHelper = () => {
@@ -306,6 +376,7 @@ export default class Input extends Component {
       inputClassName,
       name,
       size,
+      variation,
       placeholder,
       iconLeft,
       iconRight,
@@ -318,7 +389,7 @@ export default class Input extends Component {
     } = omit(this.props, ['onChange', 'passwordIconTooltip'])
 
     const trueType = this.props.type
-    const resultClassName = classnames(className, css.root, css[size], css[status], {
+    const resultClassName = classnames(className, css.root, css[variation], css[status], disabled && css.disabled, css[size], {
       [css.withLeftIcon]: !!iconLeft,
       [css.withRightIcon]: !!iconRight,
       [css.withEye]: trueType === 'password'
