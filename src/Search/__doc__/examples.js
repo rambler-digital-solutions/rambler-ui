@@ -17,7 +17,9 @@ const queryResults = [
 
 export default class SearchExample extends Component {
   state = {
-    items: []
+    items: [],
+    selectedItem: 0,
+    value: ''
   }
 
   fetchQuery = (query) => {
@@ -44,8 +46,30 @@ export default class SearchExample extends Component {
     )
   }
 
+  onSelectItem = (index) => {
+    if (!index || index < 0) {
+      this.setState({selectedItem: 0 })
+      return false
+    }
+
+    this.setState({selectedItem: index - 1 })
+  }
+
   goToSearch = (query = '') => {
-    window.open(`https://nova.rambler.ru/search?query=${encodeURIComponent(query)}`)
+    const {
+      selectedItem,
+      items
+    } = this.state
+    let searchQuery
+
+    if (selectedItem) {
+      const item = items[selectedItem]
+      this.setState({value: item[1]})
+      searchQuery = item[1]
+    } else {
+      searchQuery = query
+    }
+    window.open(`https://nova.rambler.ru/search?query=${encodeURIComponent(searchQuery)}`)
   }
 
   render() {
@@ -53,8 +77,10 @@ export default class SearchExample extends Component {
       <ApplyTheme>
         <div>
           <Search
+            value={this.state.value}
             onSearch={this.fetchQuery.bind(this)}
             onSubmit={this.goToSearch}
+            onSelectItem={this.onSelectItem}
             hint={this.renderHint()}
             bottomLinks={this.renderBottomLinks()}
           >

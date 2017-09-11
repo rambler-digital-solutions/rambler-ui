@@ -138,7 +138,7 @@ class Search extends React.Component {
     */
     hint: pt.node,
     /**
-    * ссы
+    * ссылки рядом с хинтом
     */
     bottomLinks: pt.node
   }
@@ -156,7 +156,8 @@ class Search extends React.Component {
 
   state = {
     isDropdownOpened: false,
-    selectedItem: 0
+    selectedItem: 0,
+    value: ''
   }
 
   componentDidMount() {
@@ -165,6 +166,11 @@ class Search extends React.Component {
       const newPadding = parseInt(styles.paddingLeft || 0, 10) + this.divisionNode.offsetWidth
       this.inputNode.style.paddingLeft = `${newPadding}px`
     }
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.value && nextProps.value !== this.props.value)
+      this.setState({value: nextProps.value})
   }
 
   submitSearch = () => {
@@ -182,7 +188,7 @@ class Search extends React.Component {
     switch (e.key) {
     //eslint-disable-next-line
     case 'ArrowDown':
-      const nextItem = selectedItem === children.length ? selectedItem + 1 : 0
+      const nextItem = selectedItem === children.length ? 0 : selectedItem + 1
       this.setState({selectedItem: nextItem})
       onSelectItem(nextItem)
       break
@@ -205,8 +211,9 @@ class Search extends React.Component {
     this.setState({isDropdownOpened: true})
   }
 
-  onSearchInput = () => {
-    const value = this.inputNode.value.trim()
+  onSearchInput = (event) => {
+    this.setState({value: event.target.value.trim()})
+    const value = this.state.value
     this.props.onSearch && this.props.onSearch(value)
   }
 
@@ -223,14 +230,12 @@ class Search extends React.Component {
     this.onSearchInput()
   }
 
-  renderInput() {
+  renderInput = () => {
     const {
-      // children,
       division,
       showDivision,
-      value,
       sheet: { classes: css }
-    } = omit(this.props, 'theme', 'value', 'onChange')
+    } = omit(this.props, 'theme', 'onChange')
 
     return (
       <div
@@ -248,7 +253,7 @@ class Search extends React.Component {
           onChange={this.onSearchInput}
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
-          defaultValue={value}
+          value={this.state.value}
           className={css.input}
           ref={this.setNode('input')}
         />
@@ -380,6 +385,7 @@ class Search extends React.Component {
       >
         {this.renderDropdown()}
         {this.renderBottom()}
+        {this.props.value}
       </div>
     )
   }
