@@ -411,28 +411,46 @@ export function createTheme(config) {
       borderRadius: 1,
       colors: {
         default: {
+          text: colors.dark,
           border: lighten(colors.controls.grey.outline, 0.7),
           background: colors.light
         },
-        checked: {
-          border: colors.primary,
-          text: colors.primary
-        },
         hover: {
-          border: colors.primary,
+          border: lighten(colors.controls.grey.outline, 0.5),
           text: colors.primary
         },
         focus: {
           text: colors.primary
         },
         active: {
-          background: fade(colors.primary, 0.2),
+          background: fade(colors.primary, 0.1)
+        },
+        checked: {
           border: colors.primary,
           text: colors.primary
         },
+        checkedHover: {
+          border: darken(colors.primary, 0.2),
+          text: darken(colors.primary, 0.2)
+        },
         disabled: {
           text: colors.controls.grey.disabled,
-          border: colors.controls.grey.disabled
+          border: fade(colors.controls.grey.outline, 0.2)
+        },
+        checkedDisabled: {
+          background: lighten(colors.controls.grey.outline, 0.9)
+        }
+      },
+      transparentColors: {
+        hover: {
+          background: fade(colors.controls.grey.outline, 0.05)
+        },
+        checked: {
+          background: fade(colors.controls.grey.outline, 0.1)
+        },
+        disabled: {
+          text: colors.controls.grey.disabled,
+          border: lighten(colors.controls.grey.outline, 0.7)
         }
       },
       sizes: {

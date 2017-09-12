@@ -1,7 +1,7 @@
 import React from 'react'
 import { Toggle, ToggleOption} from '../../Toggle'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles } from '../../utils/test-utils'
+import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
 import theme from '../../theme/base'
 import { normalize as nc } from '../../utils/colors'
 
@@ -82,13 +82,16 @@ describe('Toggle', () => {
     ))
 
     const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
-    const togOptStyles = getStyles(wrapper.find('.toggleActive'))
+    const togOpt = wrapper.find('.toggleActive')
+    const togOptNode = getWrapperNode(togOpt)
+    const togOptStyles = getStyles(togOpt)
     const togOptStyles2 = getStyles(wrapper.find('.toggleOption'))
     expect(toggleStyles['margin-bottom']).toEqual('20px')
     expect(toggleStyles.width).toEqual('480px')
     expect(togOptStyles.height).toEqual(theme.toggle.sizes.medium.height + 'px')
     expect(togOptStyles.width).toEqual(togOptStyles2.width)
-    expect(togOptStyles['pointer-events']).toEqual('none')
+    expect(nc(togOptStyles.color)).toEqual(nc(theme.toggle.colors.disabled.text))
+    expect(togOptNode.disabled).toEqual(true)
   })
 
   it('onChange Toggle', () => {

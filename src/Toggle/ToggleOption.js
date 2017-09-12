@@ -17,7 +17,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     textAlign: 'center',
     userSelect: 'none',
     whiteSpace: 'nowrap',
-    cursor: 'inherit',
+    cursor: 'pointer',
     color: 'inherit',
     outline: 'none !important',
     background: 'transparent',
@@ -77,7 +77,11 @@ class ToggleOption extends Component {
     /**
      * Колбек нажатия на кнопку (автоматически проставляется компонентом `<Toggle/>`)
      */
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    /**
+     * Колбек, принимающий ссылку на ноду (автоматически проставляется компонентом `<Toggle/>`)
+     */
+    nodeRef: PropTypes.func
   };
 
   onClick = (event) => {
@@ -114,13 +118,14 @@ class ToggleOption extends Component {
       className,
       isSelected,
       onPress,
+      nodeRef,
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */
     const resultClassName = classnames(css.toggleOption, css[`size-${size}`], className)
     return (
-      <button type="button" tabIndex="0" { ...other } className={ resultClassName } onClick={ this.onClick }>
+      <button type="button" tabIndex="0" { ...other } className={ resultClassName } onClick={ this.onClick } ref={ nodeRef }>
         { this.renderIcon(icon) }
         { children }
       </button>
