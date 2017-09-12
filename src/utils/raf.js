@@ -1,35 +1,47 @@
-let lastTime = 0
-let raf = window.requestAnimationFrame
-let cancelRaf = window.cancelAnimationFrame
-
 const prefixes = ['ms', 'moz', 'webkit', 'o']
+let lastTime = 0
 
-prefixes.forEach((prefix) => {
-  if (raf && cancelRaf)
-    return
-  raf = raf || window[prefix + 'RequestAnimationFrame']
-  cancelRaf = cancelRaf || window[prefix + 'CancelAnimationFrame'] || window[prefix + 'CancelRequestAnimationFrame']
-})
+export function getRequestAnimationFrame() {
+  let raf = window.requestAnimationFrame
 
-if (!raf)
-  raf = (callback) => {
-    const currTime = new Date().getTime()
-    const timeToCall = Math.max(0, 16 - (currTime - lastTime))
-    const id = window.setTimeout(callback, timeToCall)
-    lastTime = currTime + timeToCall
-    return id
-  }
+  prefixes.forEach((prefix) => {
+    if (window.requestAnimationFrame && window.cancelAnimationFrame)
+      return
+    raf = raf || window[prefix + 'RequestAnimationFrame']
+  })
 
-if (!cancelRaf)
-  cancelRaf = (id) => { clearTimeout(id) }
+  if (!raf)
+    raf = (callback) => {
+      const currTime = new Date().getTime()
+      const timeToCall = Math.max(0, 16 - (currTime - lastTime))
+      const id = window.setTimeout(callback, timeToCall)
+      lastTime = currTime + timeToCall
+      return id
+    }
 
-export const requestAnimationFrame = raf
+  return raf
+}
 
-export const cancelAnimationFrame = cancelRaf
+export function getCancelAnimationFrame() {
+  let cancelRaf = window.cancelAnimationFrame
+
+  prefixes.forEach((prefix) => {
+    if (window.requestAnimationFrame && window.cancelAnimationFrame)
+      return
+    cancelRaf = cancelRaf || window[prefix + 'CancelAnimationFrame'] || window[prefix + 'CancelRequestAnimationFrame']
+  })
+
+  if (!cancelRaf)
+    cancelRaf = (id) => { clearTimeout(id) }
+
+  return cancelRaf
+}
 
 export function throttle(callback) {
+  const raf = getRequestAnimationFrame()
   let pending = false
   let lastArgs
+
   return (...args) => {
     lastArgs = args
     if (pending)

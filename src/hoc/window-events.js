@@ -5,30 +5,33 @@ import {throttle as throttleRaf} from '../utils/raf'
 
 const events = new EventEmitter
 events.setMaxListeners(0)
+let handlers
 
-const handlers = window.handlers = {
-  scroll: {
-    handler: throttleRaf((e) => {
-      events.emit('scroll', e)
-    }),
-    capture: true
-  },
-  resize: {
-    handler: throttleRaf((e) => {
-      events.emit('resize', e)
-    })
-  },
-  click: {
-    handler: (e) => {
-      events.emit('click', e)
+function createHandlers() {
+  return {
+    scroll: {
+      handler: throttleRaf((e) => {
+        events.emit('scroll', e)
+      }),
+      capture: true
     },
-    capture: true
-  },
-  touchstart: {
-    handler: (e) => {
-      events.emit('touchstart', e)
+    resize: {
+      handler: throttleRaf((e) => {
+        events.emit('resize', e)
+      })
     },
-    capture: true
+    click: {
+      handler: (e) => {
+        events.emit('click', e)
+      },
+      capture: true
+    },
+    touchstart: {
+      handler: (e) => {
+        events.emit('touchstart', e)
+      },
+      capture: true
+    }
   }
 }
 
@@ -39,6 +42,7 @@ export default function windowEvents(...types) {
       displayName = wrapDisplayName(OriginalComponent, 'windowEvents')
 
       componentDidMount() {
+        handlers = handlers || createHandlers()
         types.forEach((type) => {
           if (!handlers[type].listenersCount) {
             handlers[type].listenersCount = 0
