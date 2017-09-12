@@ -17,7 +17,7 @@ export default {
       lightBackground: '#eef2f4', // бэкграунд иконки на нотификациях
       activeBackground: 'rgba(141, 150, 178, 0.2)', // бэкграунд при :active состоянии на checkbox
       outline: '#8d96b2', // обводка на outline контролах
-      fieldOutline: '#e8e8e8' // обводка на outline контролах
+      fieldOutline: '#dde0e8' // обводка на outline контролах
     }
   }
 }

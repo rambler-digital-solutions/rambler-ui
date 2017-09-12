@@ -23,12 +23,15 @@ export default class ComponentsPage extends Component {
       <div className={ css.Wrapper }>
         <Helmet title={ title } />
         <div className={ css.Content }>
-          <Breadcrumbs docModules={ docModules } currentComponentName={ component } className={ css.Content__breadcrumbs } />
+          {component &&
+            <Breadcrumbs docModules={ docModules } currentComponentName={ component } className={ css.Content__breadcrumbs } />
+          }
           <div className={ css.Content__wrapper }>
             <ChildrenContent
               currentComponentName={ component }
               rootComponentName={ component }
-              docModules={ docModules } />
+              docModules={ docModules }
+            />
           </div>
         </div>
       </div>

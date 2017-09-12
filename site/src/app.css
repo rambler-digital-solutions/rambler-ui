@@ -20,6 +20,9 @@ body {
   font-weight: 400;
   font-size: 14px;
   overflow: hidden;
+  color: $colors-black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .App {
@@ -49,7 +52,6 @@ h5,
 h6 {
   margin-top: 1em;
   margin-bottom: 16px;
-  font-weight: 300;
+  font-weight: 500;
   line-height: 1.4;
-  color: rgba(0, 0, 0, 0.87);
 }

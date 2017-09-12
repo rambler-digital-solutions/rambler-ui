@@ -6,14 +6,6 @@ import './index.css'
 import 'highlight.js/styles/default.css'
 import hljs from 'highlight.js'
 
-const styles = {
-  root: {
-    marginTop: 20,
-    marginBottom: 20,
-    padding: '0 15px'
-  }
-}
-
 export default class MarkdownElement extends Component {
 
   static propTypes = {
@@ -42,17 +34,14 @@ export default class MarkdownElement extends Component {
   }
 
   render() {
-    const {
-      style,
-      text
-    } = this.props
+    const {props} = this
 
     /* eslint-disable react/no-danger */
     return (
       <div
-        style={ Object.assign({}, styles.root, style) }
+        style={props.style}
         className="markdown-body"
-        dangerouslySetInnerHTML={{ __html: marked(text) }}
+        dangerouslySetInnerHTML={{ __html: marked(props.text) }}
       />
     )
     /* eslint-enable */
