@@ -12,7 +12,7 @@ import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
 import { DROPDOWN_ZINDEX } from '../constants/z-indexes'
 import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
-import { getBoundingClientRect as originalGetBoundingClientRect, MutationObserver } from '../utils/DOM'
+import { getBoundingClientRect as originalGetBoundingClientRect, createMutationObserver } from '../utils/DOM'
 
 
 // 1. Рендерим анкор
@@ -413,9 +413,9 @@ export default class FixedOverlay extends PureComponent {
     this.anchorNode = findDOMNode(this)
     if (!this.anchorNode)
       throw new Error('Anchor node for FixedOverlay does not found')
-    this.anchorNodeObserver = new MutationObserver(debounce(this.updatePosition))
+    this.anchorNodeObserver = createMutationObserver(debounce(this.updatePosition))
     this.anchorNodeObserver.observe(this.anchorNode, { subtree: true, childList: true, attributes: true, characterData: true })
-    // this.bodyNodeObserver = new MutationObserver(debounce(this.onBodyMutation))
+    // this.bodyNodeObserver = createMutationObserver(debounce(this.onBodyMutation))
     // this.bodyNodeObserver.observe(document.body, { subtree: true, childList: true })
     if (this.props.isOpened)
       this.show()
@@ -595,7 +595,7 @@ export default class FixedOverlay extends PureComponent {
       })
     }).then(() => {
       if (!this.contentNodeObserver) {
-        this.contentNodeObserver = new MutationObserver(debounce(this.updatePosition))
+        this.contentNodeObserver = createMutationObserver(debounce(this.updatePosition))
         this.contentNodeObserver.observe(this.contentNode, { subtree: true, childList: true, attributes: true, characterData: true })
       }
       if (this.props.onContentOpen)

@@ -1,17 +1,23 @@
+let MutationObserver
+
 /**
  * Полифилл для MutationObserver
  */
-export const MutationObserver =
-  window.MutationObserver ||
-  window.WebKitMutationObserver ||
-  window.MozMutationObserver ||
-  ((callback) => {
-    let interval
-    return {
-      observe() { interval = setInterval(callback, 2e3) },
-      disconnect() { clearInterval(interval) }
-    }
-  })
+export function createMutationObserver(handler) {
+  MutationObserver = MutationObserver ||
+    window.MutationObserver ||
+    window.WebKitMutationObserver ||
+    window.MozMutationObserver ||
+    ((callback) => {
+      let interval
+      return {
+        observe() { interval = setInterval(callback, 2e3) },
+        disconnect() { clearInterval(interval) }
+      }
+    })
+
+  return new MutationObserver(handler)
+}
 
 /**
  * Найти родителя, которого скроллим
