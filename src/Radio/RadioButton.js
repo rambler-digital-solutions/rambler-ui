@@ -55,7 +55,7 @@ function isSimpleType(value) {
     border: '1px solid',
     borderColor: theme.radio.colors.default.dotBorder,
     background: theme.radio.colors.default.dotBackground,
-    marginTop: 2,
+    marginTop: 3,
     transitionDuration: theme.radio.animationDuration,
     transitionProperty: 'border-color, background-color, color',
     '&:after': {

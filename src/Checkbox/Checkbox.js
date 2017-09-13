@@ -66,10 +66,9 @@ const setThemeForSelector = (colors) => ({
       borderWidth: 1,
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'border-color, background-color, color',
-
       '&:after': {
         position: 'absolute',
-        top: 0,
+        top: 2,
         left: 2,
         content: '""',
         width: 9,
@@ -113,7 +112,6 @@ const setThemeForSelector = (colors) => ({
       }
     },
     isEnabled: {},
-    isFocused: {},
     isChecked: {},
     iconright: {},
     iconleft: {}
