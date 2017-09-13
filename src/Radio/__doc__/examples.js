@@ -67,6 +67,14 @@ export default class RadioExample extends Component {
                 }
               </div>
             </RadioButtonGroup>
+            <RadioButtonGroup
+              style={{margin: '40px 0', maxWidth: 300}}
+              value={this.state.objectValue}
+              onChange={::this.onObjectsChange}>
+              {
+                objects.map((city, i) => <RadioButton key={i} value={city} disabled labelPosition='left'>{city.name}</RadioButton>)
+              }
+            </RadioButtonGroup>
           </div>
           <div>
             <div style={{marginBottom: '20px'}}>this.state.objectValue: <b>{JSON.stringify(this.state.objectValue)}</b></div>

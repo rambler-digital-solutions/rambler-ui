@@ -26,82 +26,96 @@ function isSimpleType(value) {
     cursor: 'pointer',
     position: 'relative',
     color: theme.radio.colors.default.text,
+    userSelect: 'none',
     '&:not(:last-child)': {
       marginBottom: theme.radio.marginBottom
-    },
-    '& input': {
-      fontFamily: theme.fontFamily,
+    }
+  },
+  isDisabled: {
+    pointerEvents: 'none',
+    color: theme.radio.colors.disabled.text,
+    cursor: 'not-allowed'
+  },
+  real: {
+    fontFamily: theme.fontFamily,
+    position: 'absolute',
+    opacity: '0',
+    appearance: 'none',
+    pointerEvents: 'none'
+  },
+  fake: {
+    flex: 'none',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    position: 'relative',
+    boxSizing: 'border-box',
+    borderRadius: '50%',
+    width: theme.radio.radioSize,
+    height: theme.radio.radioSize,
+    border: '1px solid',
+    borderColor: theme.radio.colors.default.dotBorder,
+    background: theme.radio.colors.default.dotBackground,
+    marginTop: 3,
+    transitionDuration: theme.radio.animationDuration,
+    transitionProperty: 'border-color, background-color, color',
+    '&:after': {
+      boxSizing: 'border-box',
+      content: '""',
       position: 'absolute',
-      opacity: '0',
-      appearance: 'none',
-      pointerEvents: 'none'
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      margin: 'auto',
+      width: 5,
+      height: 5,
+      transform: 'scale(0.5, 0.5)',
+      opacity: 0,
+      transitionDuration: 'inherit',
+      transitionProperty: 'opacity, transform, background-color',
+      background: 'currentColor',
+      borderRadius: '50%'
     },
-    '& input:checked + $radio, & input:focus + $radio': {
-      borderColor: theme.radio.colors.checked.dotBorder
+    '$isChecked &:after': {
+      transform: 'scale(1, 1)',
+      opacity: 1
     },
-    '& input:active + $radio': {
-      background: theme.radio.colors.active.dotBackground
+    '$isEnabled:hover &': {
+      borderColor: theme.radio.colors.hover.dotBorder,
+      color: theme.radio.colors.hover.dot
+    },
+    '$real:focus + &': {
+      borderColor: theme.radio.colors.focus.dotBorder
+    },
+    '$isEnabled:active &': {
+      borderColor: theme.radio.colors.active.dotBorder,
+      background: theme.radio.colors.active.dotBackground,
+      color: theme.radio.colors.active.dot
+    },
+    '$isDisabled &': {
+      borderColor: theme.radio.colors.disabled.dotBorder,
+      color: theme.radio.colors.disabled.dot
+    },
+    '$labelright &': {
+      marginRight: theme.radio.labelMargin
+    },
+    '$labelleft &': {
+      marginLeft: theme.radio.labelMargin
     }
   },
   label: {
     display: 'inline-block',
     verticalAlign: 'middle',
-    lineHeight: 1.43
-  },
-  radio: {
-    '&:hover': {
-      borderColor: theme.radio.colors.hover.dotBorder
-    },
-    flex: `0 0 ${theme.radio.radioSize}px`,
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    position: 'relative',
-    boxSizing: 'border-box',
-    background: theme.radio.colors.default.dotBackground,
-    border: `1px solid ${theme.radio.colors.default.dotBorder}`,
-    borderRadius: '50%',
-    width: theme.radio.radioSize,
-    height: theme.radio.radioSize,
-    marginRight: theme.radio.labelMargin,
-    marginTop: 1,
-    textAlign: 'center',
-    transition: `all ${theme.radio.animationDuration}ms`,
-    '& svg': {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      fill: theme.radio.colors.default.dot,
-      transition: `all ${theme.radio.animationDuration}ms`,
-      transform: 'scale(0.5, 0.5)',
-      opacity: 0,
-      width: theme.radio.dotSize,
-      height: theme.radio.dotSize,
-      marginTop: -theme.radio.dotSize / 2,
-      marginLeft: -theme.radio.dotSize / 2
+    lineHeight: 1.54,
+    '$labelleft &': {
+      order: -1,
+      marginRight: 'auto'
     }
   },
-  isLabelLeft: {
-    margin: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0
-  },
-  isDisabled: {
-    pointerEvents: 'none',
-    color: theme.radio.colors.disabled.text,
-    '& $radio': {
-      borderColor: theme.radio.colors.disabled.dotBorder + '!important',
-      '& svg': {
-        fill: theme.radio.colors.disabled.dot
-      }
-    }
-  },
-  isChecked: {
-    '& $radio svg': {
-      opacity: 1,
-      transform: 'scale(1, 1)'
-    }
-  }
+  isChecked: {},
+  isEnabled: {},
+  labelleft: {},
+  labelright: {}
 }))
 class RadioButton extends Component {
 
@@ -175,11 +189,11 @@ class RadioButton extends Component {
   }
 
   componentDidMount() {
-    this.refs.radio.checked = this.isChecked
+    this.input.checked = this.isChecked
   }
 
   componentDidUpdate() {
-    this.refs.radio.checked = this.isChecked
+    this.input.checked = this.isChecked
   }
 
   setInputValue(value) {
@@ -214,46 +228,34 @@ class RadioButton extends Component {
       ...other
     } = omit(this.props, 'theme', 'value', 'onChange')
 
-    const isLabelLeft = labelPosition === 'left'
-
-    const rootClassName = classnames(css.root, className, {
-      [css.isDisabled]: disabled,
-      [css.isChecked]: this.isChecked
-    })
-
-    const resultRadioClassName = classnames(css.radio, radioClassName, {
-      [css.isLabelLeft]: isLabelLeft
-    })
-
-    const resultLabelClassName = classnames(css.label, labelClassName)
-
-    const labelElem = <span className={resultLabelClassName} style={labelStyle}>{children}</span>
-
-    return (
-      <label className={rootClassName} style={style} {...other}>
-        { isLabelLeft === true &&
-          labelElem
-        }
-        <input
-          type="radio"
-          ref="radio"
-          name={this.context[RADIO_INPUT_CONTEXT].getName()}
-          value={this.stringValue}
-          disabled={disabled}
-          onChange={this.onChange}
-          onFocus={onFocus}
-          onBlur={onBlur} />
-        <span className={resultRadioClassName}>
-          <svg viewBox="0 0 10 10">
-            <circle cx="5" cy="5" r="5" />
-          </svg>
-        </span>
-        { isLabelLeft === false && labelElem }
-      </label>
+    const rootClassName = classnames(
+      className,
+      css.root,
+      css[`label${labelPosition}`],
+      disabled ? css.isDisabled : css.isEnabled,
+      this.isChecked && css.isChecked
     )
 
+    return (
+      <label className={rootClassName} style={ style } {...other}>
+        <input
+          className={ css.real }
+          type="radio"
+          ref={input => { this.input = input }}
+          name={ this.context[RADIO_INPUT_CONTEXT].getName() }
+          value={ this.stringValue }
+          disabled={ disabled }
+          onChange={ this.onChange }
+          onFocus={ onFocus }
+          onBlur={ onBlur }
+        />
+        <span className={ classnames(radioClassName, css.fake) } />
+        <span className={ classnames(labelClassName, css.label) } style={ labelStyle }>
+          { children }
+        </span>
+      </label>
+    )
   }
-
 }
 
 RadioButton.displayName = 'ruiRadioButton'
