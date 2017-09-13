@@ -92,7 +92,7 @@ class ComplexSearch extends React.Component {
     */
     value: pt.string,
     /**
-    /* Выбранный SuggestItem
+    * Выбранный SuggestItem
     */
     selectedItem: pt.any,
     /**
@@ -116,9 +116,9 @@ class ComplexSearch extends React.Component {
     */
     onSearch: pt.func,
     /**
-    * коллбек на фокус поискового инпута
+    * коллбек на клик поискового инпута
     */
-    onFocus: pt.func,
+    onClick: pt.func,
     /**
     * коллбек на блур поискового инпута
     */
@@ -136,6 +136,10 @@ class ComplexSearch extends React.Component {
     */
     onSubmit: pt.func,
     /**
+    * коллбек на нажатие на Enter
+    */
+    onPressEnter: pt.func,
+    /**
     * Поисковая подсказка
     */
     hint: pt.node,
@@ -152,9 +156,14 @@ class ComplexSearch extends React.Component {
     division: 'Поиск',
     showDivision: true,
     placeholder: '',
+    hint: null,
+    bottomLinks: null,
+    onClick: () => {},
     onSelectItem: () => {},
     onSubmit: () => {},
-    onSearch: () => {}
+    onPressEnter: () => {},
+    onSearch: () => {},
+    onBlur: () => {}
   }
 
   state = {
@@ -202,7 +211,7 @@ class ComplexSearch extends React.Component {
       onSelectItem(prevItem)
       break
     case 'Enter':
-      this.props.onSubmit(this.inputNode.value)
+      this.props.onPressEnter(this.inputNode.value)
       break
     default:
       return true
@@ -210,14 +219,19 @@ class ComplexSearch extends React.Component {
     }
   }
 
-  onFocus = () => {
+  onClick = () => {
     this.setState({isDropdownOpened: true})
+    this.props.onClick()
   }
 
   onSearchInput = () => {
     const value = this.inputNode.value.trim()
     this.setState({value})
-    this.props.onSearch && this.props.onSearch(value)
+    this.props.onSearch(value)
+  }
+
+  onBlur = () => {
+    this.props.onBlur()
   }
 
   setNode(name) {
@@ -237,6 +251,7 @@ class ComplexSearch extends React.Component {
     const {
       division,
       showDivision,
+      placeholder,
       sheet: { classes: css }
     } = omit(this.props, 'theme', 'onChange')
 
@@ -255,9 +270,11 @@ class ComplexSearch extends React.Component {
           type="text"
           onChange={this.onSearchInput}
           onKeyDown={this.onKeyDown}
-          onFocus={this.onFocus}
+          onClick={this.onClick}
+          onBlur={this.onBlur}
           value={this.state.value}
           className={css.input}
+          placeholder={placeholder}
           ref={this.setNode('input')}
         />
         <ClearIcon
