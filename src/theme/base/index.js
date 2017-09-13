@@ -403,27 +403,29 @@ export function createTheme(config) {
       colors: {
         default: {
           text: colors.dark,
-          dot: colors.primary,
-          dotBorder: colors.controls.grey.outline,
+          dot: colors.dark,
+          dotBorder: lighten(colors.controls.grey.outline, 0.7),
           dotBackground: colors.light
         },
         focus: {
-          dotBorder: lighten(colors.primary, 0.1)
+          dotBorder: colors.primary
         },
         checked: {
           dotBorder: colors.primary
         },
         active: {
-          dotBackground: colors.controls.grey.activeBackground,
-          dotBorder: darken(colors.primary, 0.2)
+          dotBackground: fade(darken(colors.primary, 0.2), 0.1),
+          dotBorder: darken(colors.primary, 0.2),
+          dot: darken(colors.primary, 0.2)
         },
         hover: {
-          dotBorder: darken(colors.primary, 0.1)
+          dotBorder: colors.primary,
+          dot: colors.primary
         },
         disabled: {
-          dot: colors.controls.grey.disabled,
-          text: colors.controls.grey.disabled,
-          dotBorder: colors.controls.grey.disabled
+          dot: fade(colors.controls.grey.outline, 0.5),
+          text: fade(colors.controls.grey.outline, 0.5),
+          dotBorder: fade(colors.controls.grey.outline, 0.2)
         }
       },
       dotSize: 5,
