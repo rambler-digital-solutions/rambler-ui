@@ -116,9 +116,9 @@ class ComplexSearch extends React.Component {
     */
     onSearch: pt.func,
     /**
-    * коллбек на клик поискового инпута
+    * коллбек на фокус поискового инпута
     */
-    onClick: pt.func,
+    onFocus: pt.func,
     /**
     * коллбек на блур поискового инпута
     */
@@ -158,7 +158,7 @@ class ComplexSearch extends React.Component {
     placeholder: '',
     hint: null,
     bottomLinks: null,
-    onClick: () => {},
+    onFocus: () => {},
     onSelectItem: () => {},
     onSubmit: () => {},
     onPressEnter: () => {},
@@ -219,9 +219,9 @@ class ComplexSearch extends React.Component {
     }
   }
 
-  onClick = () => {
+  onFocus = () => {
     this.setState({isDropdownOpened: true})
-    this.props.onClick()
+    this.props.onFocus()
   }
 
   onSearchInput = () => {
@@ -270,7 +270,7 @@ class ComplexSearch extends React.Component {
           type="text"
           onChange={this.onSearchInput}
           onKeyDown={this.onKeyDown}
-          onClick={this.onClick}
+          onFocus={this.onFocus}
           onBlur={this.onBlur}
           value={this.state.value}
           className={css.input}
@@ -358,12 +358,11 @@ class ComplexSearch extends React.Component {
         anchorPointY={'bottom'}
         contentPointY="top"
         closeOnClickOutside={false}
-        cachePositionOptions={false}>
-        <OnClickOutside handler={this.closeOnClickOutside}>
-          <div className={css.suggest}>
-            {this.renderItems()}
-          </div>
-        </OnClickOutside>
+        cachePositionOptions={false}
+      >
+        <div className={css.suggest}>
+          {this.renderItems()}
+        </div>
       </Dropdown>
     )
   }
@@ -394,17 +393,19 @@ class ComplexSearch extends React.Component {
     } = this.props
 
     return (
-      <div
-        className={cn(
-          css.root,
-          className,
-        )}
-        style={style}
-      >
-        {this.renderDropdown()}
-        {this.renderBottom()}
-        {this.props.value}
-      </div>
+      <OnClickOutside handler={this.closeOnClickOutside}>
+        <div
+          className={cn(
+            css.root,
+            className,
+          )}
+          style={style}
+        >
+          {this.renderDropdown()}
+          {this.renderBottom()}
+          {this.props.value}
+        </div>
+      </OnClickOutside>
     )
   }
 }
