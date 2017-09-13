@@ -74,6 +74,7 @@ class SuggestItem extends React.Component {
     removeButton: '',
     isHighlighted: false,
     onRemoveClick: () => {},
+    onClick: () => {},
     query: ''
   }
 

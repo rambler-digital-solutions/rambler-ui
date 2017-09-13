@@ -55,6 +55,10 @@ export default class SearchExample extends Component {
     this.setState({selectedItem: index - 1 })
   }
 
+  onItemClick = (query) => {
+    this.goToSearch(query)
+  }
+
   goToSearch = (query = '') => {
     const {
       selectedItem,
@@ -88,6 +92,7 @@ export default class SearchExample extends Component {
               <SuggestItem
                 key={item[0] + item[2]}
                 value={item[1]}
+                onClick={this.onItemClick}
               >
                 {item[1]}
               </SuggestItem>)

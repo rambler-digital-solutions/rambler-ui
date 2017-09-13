@@ -322,13 +322,11 @@ class ComplexSearch extends React.Component {
   renderItems() {
     const {
       children,
-      onSubmit,
       onRemoveItem
     } = this.props
 
     return React.Children.map(children, (child, index) => {
       const props = {
-        onClick: onSubmit,
         isHighlighted: index + 1 === this.state.selectedItem,
         onRemoveClick: onRemoveItem
       }
