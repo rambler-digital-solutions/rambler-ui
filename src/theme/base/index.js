@@ -154,41 +154,68 @@ export function createTheme(config) {
       }
     },
     checkbox: {
-      colors: {
-        default: {
-          background: colors.light,
-          border: colors.controls.grey.default,
-          tick: colors.primary,
-          text: colors.dark
+      types: {
+        regular: {
+          colors: {
+            default: {
+              background: colors.light,
+              border: lighten(colors.controls.grey.outline, 0.7),
+              tick: colors.dark,
+              text: colors.dark
+            },
+            active: {
+              background: fade(darken(colors.primary, 0.2), 0.1),
+              border: darken(colors.primary, 0.2),
+              tick: darken(colors.primary, 0.2)
+            },
+            focus: {
+              border: colors.primary
+            },
+            hover: {
+              border: colors.primary,
+              tick: colors.primary
+            },
+            checked: {},
+            disabled: {
+              tick: fade(colors.controls.grey.outline, 0.5),
+              border: fade(colors.controls.grey.outline, 0.2),
+              text: fade(colors.controls.grey.outline, 0.5)
+            }
+          }
         },
-        active: {
-          background: colors.controls.grey.activeBackground,
-          border: colors.primary
-        },
-        focus: {
-          border: colors.primary
-        },
-        hover: {
-          border: colors.primary
-        },
-        checked: {
-          border: colors.primary
-        },
-        disabled: {
-          tick: colors.controls.grey.disabled,
-          border: colors.controls.grey.disabled,
-          text: colors.controls.grey.disabled
+        awesome: {
+          colors: {
+            default: {
+              background: colors.light,
+              border: lighten(colors.controls.grey.outline, 0.7),
+              tick: colors.light,
+              text: colors.dark
+            },
+            hover: {
+              border: fade(colors.controls.grey.outline, 0.7)
+            },
+            disabled: {
+              border: fade(colors.controls.grey.outline, 0.2),
+              text: fade(colors.controls.grey.outline, 0.5)
+            },
+            checked: {
+              background: colors.primary,
+              border: 'transparent'
+            },
+            checkedHover: {
+              background: darken(colors.primary, 0.2)
+            },
+            checkedDisabled: {
+              background: fade(colors.controls.grey.outline, 0.3),
+              border: 'transparent'
+            }
+          }
         }
       },
       animationDuration: 200,
       borderRadius: 1,
       size: 15,
       labelMargin: 10,
-      tick: {
-        size: 10,
-        left: 2,
-        top: 1
-      },
       fontSize: 13
     },
     switcher: {

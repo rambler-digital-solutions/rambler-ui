@@ -2,53 +2,96 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import pickBy from 'lodash/pickBy'
-import TickIcon from '../icons/forms/TickIcon'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
+const setThemeForSelector = (colors) => ({
+  background: colors.background,
+  borderColor: colors.border,
+  color: colors.tick
+})
+
 @injectSheet((theme) => {
-
-  const setThemeForSelector = (colors) => pickBy({
-    color: colors.text,
-    '& $fake': pickBy({
-      background: colors.background,
-      borderColor: colors.border
-    }),
-    '& $tick': pickBy({
-      fill: colors.tick
-    })
-  })
-
+  const checkboxTheme = theme.checkbox
+  const {regular, awesome} = checkboxTheme.types
   return {
     checkbox: {
       ...isolateMixin,
       fontFamily: theme.fontFamily,
-      fontSize: theme.checkbox.fontSize,
+      fontSize: checkboxTheme.fontSize,
       position: 'relative',
       display: 'inline-block',
       verticalAlign: 'top',
-      lineHeight: theme.checkbox.size + 'px',
+      lineHeight: checkboxTheme.size + 'px',
       cursor: 'pointer',
-      '&, & *': {
-        transition: `all ${theme.checkbox.animationDuration}ms`
+      userSelect: 'none',
+      transition: `color ${checkboxTheme.animationDuration}ms`
+    },
+    isDisabled: {
+      cursor: 'not-allowed',
+      pointerEvents: 'none'
+    },
+    regular: {
+      color: regular.colors.default.text,
+      '&$isDisabled': {
+        color: regular.colors.disabled.text
       },
-      ...setThemeForSelector(theme.checkbox.colors.default),
-      '&:hover': setThemeForSelector(theme.checkbox.colors.hover),
-      '&:active': setThemeForSelector(theme.checkbox.colors.active),
-      '&$isDisabled': setThemeForSelector(theme.checkbox.colors.disabled),
-      '&$isChecked': setThemeForSelector(theme.checkbox.colors.checked),
-      '&$isFocused': setThemeForSelector(theme.checkbox.colors.focus)
+      '& $fake': setThemeForSelector(regular.colors.default),
+      '&$isEnabled:hover $fake': setThemeForSelector(regular.colors.hover),
+      '&$isEnabled:active $fake': setThemeForSelector(regular.colors.active),
+      '&$isDisabled $fake': setThemeForSelector(regular.colors.disabled),
+      '&$isChecked $fake': setThemeForSelector(regular.colors.checked),
+      '& $real:focus ~ $fake': setThemeForSelector(regular.colors.focus)
+    },
+    awesome: {
+      color: awesome.colors.default.text,
+      '&$isDisabled': {
+        color: awesome.colors.disabled.text
+      },
+      '& $fake': setThemeForSelector(awesome.colors.default),
+      '&$isEnabled:hover $fake': setThemeForSelector(awesome.colors.hover),
+      '&&$isChecked $fake': setThemeForSelector(awesome.colors.checked),
+      '&$isEnabled$isChecked:hover $fake': setThemeForSelector(awesome.colors.checkedHover),
+      '&$isDisabled $fake': setThemeForSelector(awesome.colors.disabled),
+      '&$isDisabled$isChecked $fake': setThemeForSelector(awesome.colors.checkedDisabled)
     },
     fake: {
+      display: 'block',
       position: 'absolute',
-      boxSizing: 'border-box',
-      width: theme.checkbox.size,
-      height: theme.checkbox.size,
+      top: 3,
+      width: checkboxTheme.size,
+      height: checkboxTheme.size,
+      borderRadius: checkboxTheme.borderRadius,
       borderStyle: 'solid',
       borderWidth: 1,
-      borderRadius: theme.checkbox.borderRadius,
-      ...setThemeForSelector(theme.checkbox.colors.default)
+      transitionDuration: checkboxTheme.animationDuration,
+      transitionProperty: 'border-color, background-color, color',
+
+      '&:after': {
+        position: 'absolute',
+        top: 0,
+        left: 2,
+        content: '""',
+        width: 9,
+        height: 4,
+        border: 'solid currentColor',
+        borderWidth: '0 0 3px 3px',
+        transform: 'rotate(-45deg) scale(0.65)',
+        transformOrigin: 'left top',
+        transitionDuration: checkboxTheme.animationDuration,
+        transitionProperty: 'top, opacity',
+        opacity: 0
+      },
+      '$isChecked &:after': {
+        top: 7,
+        opacity: 1
+      },
+      '$iconright &': {
+        right: 0
+      },
+      '$iconleft &': {
+        left: 0
+      }
     },
     real: {
       position: 'absolute',
@@ -57,47 +100,23 @@ import { isolateMixin } from '../style/mixins'
       pointerEvents: 'none'
     },
     label: {
-      cursor: 'pointer',
-      fontSize: theme.checkbox.fontSize,
+      fontSize: checkboxTheme.fontSize,
       fontWeight: 'normal',
       display: 'inline-block',
-      lineHeight: 1.43,
+      lineHeight: 1.54,
       position: 'relative',
-      top: -1
-    },
-    tick: {
-      position: 'relative',
-      left: theme.checkbox.tick.left,
-      top: theme.checkbox.tick.top - 5,
-      opacity: 0
-    },
-    iconright: {
-      '& $fake': {
-        right: 0
+      '$iconright &': {
+        paddingRight: checkboxTheme.size + checkboxTheme.labelMargin
       },
-      '& $label': {
-        paddingRight: theme.checkbox.size + theme.checkbox.labelMargin
+      '$iconleft &': {
+        paddingLeft: checkboxTheme.size + checkboxTheme.labelMargin
       }
     },
-    iconleft: {
-      '& $fake': {
-        left: 0
-      },
-      '& $label': {
-        paddingLeft: theme.checkbox.size + theme.checkbox.labelMargin
-      }
-    },
-    isChecked: {
-      '& $tick': {
-        top: theme.checkbox.tick.top,
-        opacity: 1
-      }
-    },
+    isEnabled: {},
     isFocused: {},
-    isDisabled: {
-      pointerEvents: 'none',
-      color: theme.checkbox.colors.disabled.color
-    }
+    isChecked: {},
+    iconright: {},
+    iconleft: {}
   }
 })
 export default class Checkbox extends Component {
@@ -148,18 +167,22 @@ export default class Checkbox extends Component {
     /**
      * Класс лейбла
      */
-    labelClassName: PropTypes.string
+    labelClassName: PropTypes.string,
+    /**
+     * Разновидность инпута
+     */
+    variation: PropTypes.oneOf(['regular', 'awesome'])
   };
 
   static defaultProps = {
     iconPosition: 'left',
     disabled: false,
-    name: ''
+    name: '',
+    variation: 'regular'
   }
 
   state = {
-    checked: false,
-    focused: false
+    checked: false
   };
 
   onChange = (event) => {
@@ -169,30 +192,17 @@ export default class Checkbox extends Component {
       this.props.onCheck(event, checked)
   };
 
-  onFocus = () => {
-    this.setFocused(true)
-  };
-
-  onBlur = () => {
-    this.setFocused(false)
-  };
-
   componentWillMount() {
-    this.setChecked(this.props.checked)
+    this.setChecked(!!this.props.checked)
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setChecked(nextProps.checked)
+    this.setChecked(!!nextProps.checked)
   }
 
   setChecked(checked) {
     this.checked = checked
     this.setState({ checked })
-  }
-
-  setFocused(focused) {
-    this.focused = focused
-    this.setState({ focused })
   }
 
   render() {
@@ -207,18 +217,21 @@ export default class Checkbox extends Component {
       labelClassName,
       labelStyle,
       children,
-      theme,
+      variation,
       sheet: { classes: css },
       ...other
-    } = omit(this.props, 'onCheck')
-    const { checked = false, focused } = this.state
-    const stateClasses = {
-      [css.isFocused]: focused,
-      [css.isChecked]: checked,
-      [css.isDisabled]: disabled
-    }
-    const resultClassName = classnames(css.checkbox, css[`icon${iconPosition}`], className, stateClasses)
-    const tickColor = disabled ? theme.checkbox.colors.disabled.tick : theme.checkbox.colors.default.tick
+    } = omit(this.props, 'onCheck', 'theme')
+
+    const { checked } = this.state
+    const resultClassName = classnames(
+      className,
+      css.checkbox,
+      css[variation],
+      css[`icon${iconPosition}`],
+      disabled ? css.isDisabled : css.isEnabled,
+      checked && css.isChecked
+    )
+
     return (
       <label className={resultClassName} style={style}>
         <input
@@ -230,16 +243,12 @@ export default class Checkbox extends Component {
           className={ css.real }
           disabled={ disabled }
           onChange={ this.onChange }
-          onFocus={ this.onFocus }
-          onBlur={ this.onBlur } />
-        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
-          <TickIcon className={ css.tick } size={ theme.checkbox.tick.size } color={ tickColor } />
-        </span>
+        />
+        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle } />
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }
         </span>
       </label>
     )
-
   }
 }
