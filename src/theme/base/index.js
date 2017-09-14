@@ -580,6 +580,52 @@ export function createTheme(config) {
     },
     spinner: {
       color: colors.primary
+    },
+    tabs: {
+      sidePadding: 10,
+      betweenMargin: 40,
+      borderWidth: 2,
+      animationDuration: 200,
+      colors: {
+        default: {
+          text: colors.dark,
+          border: 'transparent',
+          outline: lighten(colors.controls.grey.outline, 0.8)
+        },
+        hover: {
+          text: colors.primary
+        },
+        active: {
+          text: darken(colors.primary, 0.2)
+        },
+        selected: {
+          text: colors.primary,
+          border: 'currentColor'
+        },
+        disabled: {
+          text: lighten(colors.controls.grey.outline, 0.5)
+        },
+        disabledSelected: {
+          border: lighten(colors.controls.grey.outline, 0.8)
+        }
+      },
+      sizes: {
+        small: {
+          fontSize: 11,
+          fontWeight: 500,
+          lineHeight: 1.36,
+          letterSpacing: 1.3,
+          textTransform: 'uppercase',
+          paddingBottom: 9
+        },
+        medium: {
+          fontFamily: 'CorsicaRamblerLX, Roboto, sans-serif',
+          fontSize: 14,
+          fontWeight: 500,
+          lineHeight: 1.43,
+          paddingBottom: 11
+        }
+      }
     }
   }, config)
 }
