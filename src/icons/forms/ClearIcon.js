@@ -9,9 +9,8 @@ export default class ClearIcon extends Component {
 
   render() {
     return (
-      <SvgIcon { ...this.props } viewBox="0 0 16 16">
-        <path d="M.929 2.343L2.343.93l12.728 12.728-1.414 1.414z" fillRule="evenodd" />
-        <path d="M13.657.929l1.414 1.414L2.343 15.071.93 13.657z" fillRule="evenodd" />
+      <SvgIcon { ...this.props } viewBox="0 0 15 15">
+        <path d="M7.5 6.58L1.742.824a.4.4 0 0 0-.565 0l-.354.354a.4.4 0 0 0 0 .565L6.581 7.5.823 13.258a.4.4 0 0 0 0 .565l.354.354a.4.4 0 0 0 .565 0L7.5 8.419l5.758 5.758a.4.4 0 0 0 .565 0l.354-.354a.4.4 0 0 0 0-.565L8.419 7.5l5.758-5.758a.4.4 0 0 0 0-.565l-.354-.354a.4.4 0 0 0-.565 0L7.5 6.581z" />
       </SvgIcon>
     )
   }
