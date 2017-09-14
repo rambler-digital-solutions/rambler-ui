@@ -49,11 +49,15 @@ const setThemeForSelector = colors => ({
     isSelected: {}
   }
 })
-class Tab extends Component {
+class TabsItem extends Component {
 
   static propTypes = {
     /**
-     * Css-класс компонента
+     * Значение, соответствующее этому табу
+     */
+    value: PropTypes.any,
+    /**
+     * Css-класс компонента (автоматически проставляется компонентом `<Tabs/>`)
      */
     className: PropTypes.string,
     /**
@@ -69,19 +73,33 @@ class Tab extends Component {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
-     * Выбран ли этот таб
+     * Выбран ли этот таб (автоматически проставляется компонентом `<Tabs/>`)
      */
     isSelected: PropTypes.bool,
     /**
      * Отключаем кнопку/ссылку (автоматически проставляется компонентом `<Tabs/>`)
      */
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    /**
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
+     */
+    container: PropTypes.element,
+    /**
+     * Колбек нажатия на элемент (автоматически проставляется компонентом `<Tabs/>`)
+     */
+    onPress: PropTypes.func
   };
 
   static defaultProps = {
     size: 'small',
     isSelected: false,
     disabled: false
+  };
+
+  handleClick = (event) => {
+    const {props} = this
+    if (!props.onPress) return
+    props.onPress(event, props.value)
   };
 
   render() {
@@ -95,7 +113,7 @@ class Tab extends Component {
       size,
       sheet: {classes: css},
       ...other
-    } = omit(this.props, 'theme')
+    } = omit(this.props, 'theme', 'onPress')
 
     const resultClassName = classnames(
       className,
@@ -108,7 +126,8 @@ class Tab extends Component {
     const elemProps = {
       ...other,
       className: resultClassName,
-      'aria-selected': isSelected
+      'aria-selected': isSelected,
+      onClick: this.handleClick
     }
 
     let element
@@ -132,6 +151,6 @@ class Tab extends Component {
     return cloneElement(element, elemProps, children)
   }
 }
-Tab.displayName = 'ruiTab'
+TabsItem.displayName = 'ruiTabsItem'
 
-export default Tab
+export default TabsItem

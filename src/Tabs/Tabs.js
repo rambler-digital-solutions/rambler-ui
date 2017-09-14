@@ -9,9 +9,7 @@ import { injectSheet } from '../theme'
 import { isolateMixin, bottomBorderMixin } from '../style/mixins'
 
 @injectSheet(theme => {
-  const {tabs} = theme
-  const {colors} = tabs
-
+  const {tabs, tabs: {colors}} = theme
   return {
     tabs: {
       ...isolateMixin,
@@ -23,13 +21,11 @@ import { isolateMixin, bottomBorderMixin } from '../style/mixins'
     },
     item: {
       '&&': {
-        flex: 'none',
-        marginLeft: tabs.betweenMargin,
-        '&:first-child': {
-          marginLeft: 0
-        }
+        flex: 'none'
+      },
+      '&:nth-child(1n+2)': {
+        marginLeft: tabs.betweenMargin
       }
-
     },
     isDisabled: {
       cursor: 'not-allowed'
@@ -39,6 +35,10 @@ import { isolateMixin, bottomBorderMixin } from '../style/mixins'
 export default class Tabs extends Component {
 
   static propTypes = {
+    /**
+     * Выбранное значение табов
+     */
+    value: PropTypes.any,
     /**
      * Класс контейнера
      */
@@ -58,13 +58,39 @@ export default class Tabs extends Component {
     /**
      * Перевод табов в состояние disabled
      */
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    /**
+     * Функция, вызывающая при изменении значения `function (event: object, newValue: any) {}`
+     */
+    onChange: PropTypes.func
   };
 
   static defaultProps = {
     size: 'small',
     disabled: false
   };
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      value: props.value
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setValue(nextProps.value)
+  }
+
+  setValue(value) {
+    if (value === this.state.value) return
+    this.setState({ value })
+  }
+
+  handleValueChange = (event, value) => {
+    this.setValue(value)
+    if (!this.props.onChange) return
+    this.props.onChange(event, value)
+  }
 
   render() {
     const {
@@ -74,15 +100,19 @@ export default class Tabs extends Component {
       className,
       sheet: { classes: css },
       ...other
-    } = omit(this.props, 'theme')
+    } = omit(this.props, 'theme', 'onChange', 'value')
 
     const tabs = React.Children.map(children, (child) => {
-      if (!child.type || child.type.displayName !== 'ruiTab')
+      if (!child.type || child.type.displayName !== 'ruiTabsItem')
         throw new Error('Child component should be instance of <Tab />')
+
+      const hasValue = 'value' in child.props
 
       return cloneElement(child, {
         className: css.item,
         key: child.props.children,
+        isSelected: hasValue && child.props.value === this.state.value,
+        onPress: hasValue && !disabled ? this.handleValueChange : null,
         size,
         disabled
       })

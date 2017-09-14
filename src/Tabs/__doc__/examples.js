@@ -7,45 +7,48 @@ const values = ['Day', 'Week', 'Month', 'Year']
 export default class ToggleExample extends Component {
 
   state = {
-    selected: values[1]
+    value: values[1]
   };
 
-  render() {
-    const value = this.state.selected
+  handleChange(event, value) {
+    this.setState({ value })
+  }
 
+  render() {
     return (
       <ApplyTheme>
         <div>
-          <div>
+          <div style={{marginBottom: 40}}>
             <h4>default</h4>
-            <Tabs>
+            <Tabs value={this.state.value} onChange={::this.handleChange}>
               {values.map(item => (
-                <TabsItem key={item} isSelected={value === item} title={item} onClick={() => { this.setState({ selected: item }) }}>
+                <TabsItem value={item}>
                   { item }
                 </TabsItem>
               ))}
             </Tabs>
           </div>
-          <div style={{marginTop: 40}}>
+          <div style={{marginBottom: 40}}>
             <h4>size: medium, Tab with href prop</h4>
-            <Tabs size="medium">
+            <Tabs size="medium" value={this.state.value} onChange={::this.handleChange}>
               {values.map(item => (
-                <TabsItem key={item} isSelected={value === item} href={'#/components/Tabs'}>
+                <TabsItem href={'#/components/Tabs'} value={item}>
                   { item }
                 </TabsItem>
               ))}
             </Tabs>
           </div>
-          <div style={{marginTop: 40}}>
+          <div style={{marginBottom: 40}}>
             <h4>disabled</h4>
-            <Tabs disabled={true}>
+            <Tabs disabled={true} value={this.state.value} onChange={::this.handleChange}>
               {values.map((item, index) => (
-                <TabsItem key={item} isSelected={value === item} href={index % 2 ? '#/components/Tabs' : null} >
+                <TabsItem href={index % 2 ? '#/components/Tabs' : null} value={item}>
                   { item }
                 </TabsItem>
               ))}
             </Tabs>
           </div>
+          <div>this.state.value: <b>{this.state.value}</b></div>
         </div>
       </ApplyTheme>
     )
