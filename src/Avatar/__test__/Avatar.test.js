@@ -16,8 +16,8 @@ describe('<Avatar />', () => {
 
     expect(image.getDOMNode().nodeName).toEqual('DIV')
     expect(imageStyles.display).toEqual('inline-block')
-    expect(imageStyles.width).toEqual('40px')
-    expect(imageStyles.height).toEqual('40px')
+    expect(imageStyles.width).toEqual('45px')
+    expect(imageStyles.height).toEqual('45px')
     expect(imageStyles['vertical-align']).toEqual('middle')
     expect(imageStyles['background-image']).toEqual(`url(${window.location.origin}/image.png)`)
     expect(imageStyles['border-top-left-radius']).toEqual('50%')
@@ -124,14 +124,29 @@ describe('<Avatar />', () => {
     const iconStyles = getStyles(image.find('svg'))
     const iconContainerStyles = getStyles(image.find('div > div'))
 
-    expect(iconStyles.fill).toEqual('#ffffff')
-    expect(iconStyles.width).toEqual('10px')
-    expect(iconStyles.height).toEqual('10px')
+    expect(iconStyles.fill).toEqual('#4661a3')
+    expect(iconStyles.width).toEqual('11px')
+    expect(iconStyles.height).toEqual('11px')
 
     expect(iconContainerStyles.position).toEqual('absolute')
-    expect(iconContainerStyles.width).toEqual('16px')
-    expect(iconContainerStyles.height).toEqual('16px')
-    expect(iconContainerStyles['background-color']).toEqual('rgb(70, 97, 163)')
+    expect(iconContainerStyles.width).toEqual('20px')
+    expect(iconContainerStyles.height).toEqual('20px')
+    expect(iconContainerStyles['background-color']).toEqual('rgb(255, 255, 255)')
+  })
+
+  it('should append iconBackgroundColor', () => {
+    const color = 'rgb(255, 0, 0)'
+
+    const wrapper = mount(
+      withTheme(
+        <Avatar profileType="facebook" iconBackgroundColor={color} src="image.png"/>
+      )
+    )
+
+    const image = wrapper.find(Avatar)
+    const iconContainerStyles = getStyles(image.find('div > div'))
+
+    expect(iconContainerStyles['background-color']).toEqual(color)
   })
 
   it('should append `<a />` as container', () => {

@@ -18,19 +18,20 @@ export default function AvatarExample() {
           <div style={{ display: 'inline-block', width: '33%' }}>
             Circle
             <Avatar {...props} profileType="facebook" />
-            <Avatar {...props} size={20} />
-            <Avatar {...props} size={60} href="#/components/Button" />
+            <Avatar {...props} size={25} />
+            <Avatar {...props} size={100} href="#/components/Button" />
           </div>
 
           <div style={{ display: 'inline-block', width: '33%' }}>
             Rounded
             <Avatar {...props} shape="rounded" />
-            <Avatar {...props} shape="rounded" size={20} />
+            <Avatar {...props} shape="rounded" size={25} />
             <Avatar
               {...props}
               shape="rounded"
-              size={60}
+              size={100}
               profileType="instagram"
+              iconBackgroundColor='#f3f4f7'
               container={
                 <a href="#/components/Button" />
               } />
@@ -39,8 +40,8 @@ export default function AvatarExample() {
           <div style={{ display: 'inline-block', width: '33%' }}>
             Square
             <Avatar {...props} shape="square" profileType="livejournal" />
-            <Avatar {...props} shape="square" size={20} />
-            <Avatar {...props} shape="square" size={60} />
+            <Avatar {...props} shape="square" size={25} />
+            <Avatar {...props} shape="square" size={100} />
           </div>
         </div>
       </ApplyTheme>
