@@ -126,7 +126,6 @@ class TabsItem extends Component {
     const elemProps = {
       ...other,
       className: resultClassName,
-      'aria-selected': isSelected,
       onClick: this.handleClick
     }
 
