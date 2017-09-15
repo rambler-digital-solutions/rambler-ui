@@ -17,7 +17,7 @@ const setThemeForSelector = colors => ({
   const {sizes, colors} = theme.tabs
   return {
     tab: {
-      ...isolateMixin,
+      extend: isolateMixin,
       display: 'inline-block',
       userSelect: 'none',
       whiteSpace: 'nowrap',
@@ -26,6 +26,7 @@ const setThemeForSelector = colors => ({
       borderStyle: 'solid',
       borderWidth: `0 0 ${theme.tabs.borderWidth}px`,
       background: 'none',
+      fontWeight: 500,
       transitionDuration: theme.tabs.animationDuration,
       transitionProperty: 'color, border-color',
       '&::-moz-focus-inner': {
@@ -39,8 +40,16 @@ const setThemeForSelector = colors => ({
       '&$isDisabled': setThemeForSelector(colors.disabled),
       '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
     },
-    'size-small': sizes.small,
-    'size-medium': sizes.medium,
+    'size-small': {
+      extend: sizes.small,
+      lineHeight: 1.36,
+      letterSpacing: 1.3,
+      textTransform: 'uppercase'
+    },
+    'size-medium': {
+      extend: sizes.medium,
+      lineHeight: 1.43
+    },
     isDisabled: {
       cursor: 'not-allowed',
       pointerEvents: 'none'

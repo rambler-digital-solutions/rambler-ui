@@ -612,17 +612,10 @@ export function createTheme(config) {
       sizes: {
         small: {
           fontSize: 11,
-          fontWeight: 500,
-          lineHeight: 1.36,
-          letterSpacing: 1.3,
-          textTransform: 'uppercase',
           paddingBottom: 9
         },
         medium: {
-          fontFamily: 'CorsicaRamblerLX, Roboto, sans-serif',
           fontSize: 14,
-          fontWeight: 500,
-          lineHeight: 1.43,
           paddingBottom: 11
         }
       }
