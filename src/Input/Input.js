@@ -12,7 +12,7 @@ import { Eye } from '../icons/forms'
 
 @injectSheet(theme => ({
   input: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     display: 'block',
@@ -73,10 +73,12 @@ import { Eye } from '../icons/forms'
   },
   bottomBorder: {
     '& $input': {
-      paddingTop: 2,
       border: 'solid transparent',
       borderWidth: '0 0 2px'
-    }
+    },
+    '& input$input': {
+      paddingTop: 2
+    },
   },
   regular: {
     composes: ['$outline', '$borderColor'],
@@ -163,7 +165,7 @@ import { Eye } from '../icons/forms'
   }), {}),
 
   root: {
-    ...isolateMixin,
+    extend: isolateMixin,
     borderRadius: theme.field.borderRadius,
     position: 'relative',
     background: theme.field.colors.default.background,

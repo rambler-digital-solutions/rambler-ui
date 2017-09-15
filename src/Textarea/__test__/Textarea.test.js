@@ -1,6 +1,7 @@
 import React from 'react'
 import Textarea from '../Textarea'
 import { withTheme, mount, getStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
 
 describe('<Textarea />', () => {
   const defaultProps = {
@@ -19,6 +20,10 @@ describe('<Textarea />', () => {
     const textareaStyles = getStyles(wrapper.find('.textarea'))
 
     expect(textareaStyles.height).toEqual('85px')
+    expect(textareaStyles['padding-top']).toEqual(theme.input.padding + 'px')
+    expect(textareaStyles['padding-right']).toEqual(theme.input.padding + 'px')
+    expect(textareaStyles['padding-bottom']).toEqual(theme.input.padding + 'px')
+    expect(textareaStyles['padding-left']).toEqual(theme.input.padding + 'px')
   })
 
   it('should append value, disabled, name, placeholder', () => {
