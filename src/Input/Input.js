@@ -8,7 +8,7 @@ import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, borderMixin, bottomBorderMixin, placeholderMixin } from '../style/mixins'
 import Tooltip from '../Tooltip'
-import { Eye } from '../icons/forms'
+import { Eye, ClosedEyeIcon } from '../icons/forms'
 
 @injectSheet(theme => ({
   input: {
@@ -78,7 +78,7 @@ import { Eye } from '../icons/forms'
     },
     '& input$input': {
       paddingTop: 2
-    },
+    }
   },
   regular: {
     composes: ['$outline', '$borderColor'],
@@ -349,11 +349,13 @@ export default class Input extends Component {
     if (trueType !== 'password')
       return null
 
+    const Icon = type === 'password' ? ClosedEyeIcon : Eye
+
     const icon = (
-      <Eye
+      <Icon
         onClick={this.inputTypeHelper}
         size={theme.field.sizes[size].eyeIcon}
-        color={type === 'password' ? theme.field.eyeIcon.colors.default : theme.field.eyeIcon.colors.active} />
+        color={theme.field.eyeIcon.colors.default} />
     )
 
     if (passwordIconTooltip) {
