@@ -179,7 +179,8 @@ import { Eye } from '../icons/forms'
     pointerEvents: 'none'
   },
   eye: {
-    extend: 'icon',
+    composes: '$icon',
+    pointerEvents: 'auto',
     border: 0,
     outline: 0,
     cursor: 'pointer',
@@ -317,6 +318,12 @@ export default class Input extends Component {
     variation: 'awesome'
   };
 
+  saveRef = (ref) => {
+    this.input = ref
+    if (this.props.inputRef)
+      this.props.inputRef(ref)
+  }
+
   inputTypeHelper = () => {
     this.input.type = this.state.type === 'password' ? 'text' : 'password'
     this.setState({ type: this.input.type })
@@ -348,9 +355,9 @@ export default class Input extends Component {
     )
 
     if (passwordIconTooltip) {
-      const content = typeof passwordIconTooltip === 'function' ?
-        passwordIconTooltip(type) :
-        passwordIconTooltip
+      const content = typeof passwordIconTooltip === 'function'
+        ? passwordIconTooltip(type)
+        : passwordIconTooltip
 
       return (
         <Tooltip className={css.eye} content={content}>
@@ -383,17 +390,22 @@ export default class Input extends Component {
       status,
       sheet: { classes: css },
       theme,
-      inputRef,
       value,
       ...other
-    } = omit(this.props, ['onChange', 'passwordIconTooltip'])
+    } = omit(this.props, ['onChange', 'passwordIconTooltip', 'inputRef'])
 
     const trueType = this.props.type
-    const resultClassName = classnames(className, css.root, css[variation], css[status], disabled && css.disabled, css[size], {
-      [css.withLeftIcon]: !!iconLeft,
-      [css.withRightIcon]: !!iconRight,
-      [css.withEye]: trueType === 'password'
-    })
+    const resultClassName = classnames(
+      className,
+      css.root,
+      css[variation],
+      css[status],
+      disabled && css.disabled,
+      css[size],
+      iconLeft && css.withLeftIcon,
+      iconRight && css.withRightIcon,
+      trueType === 'password' && css.withEye
+    )
 
     const resultIconLeft = iconLeft && cloneElement(iconLeft, {
       color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || theme.field.colors.default.text),
@@ -411,11 +423,7 @@ export default class Input extends Component {
       name,
       value,
       disabled,
-      ref: input => {
-        this.input = input
-        if (inputRef)
-          inputRef(input)
-      },
+      ref: this.saveRef,
       className: classnames(css.input, inputClassName, value !== '' && value != null && css.filled),
       style: inputStyle,
       onChange: this.onChangeHelper,
