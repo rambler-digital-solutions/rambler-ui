@@ -19,7 +19,7 @@ gulp.task('clean', () =>
 gulp.task('build:js', () =>
   gulp.src([
     './src/**/*.js',
-    '!src/**/__doc__/**/*.js'
+    '!src/**/__{doc,test}__/**/*.js'
   ])
   .pipe(replace('$VERSION', packageJson.version))
   .pipe(babel())

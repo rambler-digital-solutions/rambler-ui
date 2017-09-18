@@ -8,7 +8,8 @@ import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, borderMixin, bottomBorderMixin, placeholderMixin } from '../style/mixins'
 import Tooltip from '../Tooltip'
-import { Eye, ClosedEyeIcon } from '../icons/forms'
+import Eye from '../icons/forms/Eye'
+import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
 @injectSheet(theme => ({
   input: {
