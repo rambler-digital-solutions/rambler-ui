@@ -57,6 +57,7 @@ const setThemeForSelector = (colors) => ({
     },
     fake: {
       display: 'block',
+      boxSizing: 'border-box',
       position: 'absolute',
       top: 3,
       width: checkboxTheme.size,
@@ -68,6 +69,7 @@ const setThemeForSelector = (colors) => ({
       transitionProperty: 'border-color, background-color, color',
       '&:after': {
         position: 'absolute',
+        boxSizing: 'border-box',
         top: 2,
         left: 2,
         content: '""',
