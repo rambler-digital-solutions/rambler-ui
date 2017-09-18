@@ -8,7 +8,7 @@ export default class InstagramIcon extends Component {
   static displayName = 'InstagramIcon'
 
   static defaultProps = {
-    color: '#d93175'
+    color: '#262626'
   }
 
   render() {
