@@ -69,7 +69,6 @@ const setThemeForSelector = (colors) => ({
       transitionProperty: 'border-color, background-color, color',
       '&:after': {
         position: 'absolute',
-        boxSizing: 'border-box',
         top: 2,
         left: 2,
         content: '""',
