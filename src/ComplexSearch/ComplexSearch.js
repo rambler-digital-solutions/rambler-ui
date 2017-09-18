@@ -64,12 +64,18 @@ import { isolateMixin } from '../style/mixins'
     height: theme.search.height,
     lineHeight: theme.search.height
   },
+  visible: {},
   clear: {
     position: 'absolute',
     right: '15px',
     top: '50%',
     transform: 'translateY(-50%)',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    opacity: 0,
+
+    '&$visible': {
+      opacity: 1
+    }
   },
   suggest: {
     width: '100%',
@@ -132,7 +138,7 @@ class ComplexSearch extends React.Component {
     */
     onRemoveItem: pt.func,
     /**
-    * коллбек на нажатие на кнопку поиска или нажатие на Enter
+    * коллбек на нажатие на кнопку поиска
     */
     onSubmit: pt.func,
     /**
@@ -181,12 +187,15 @@ class ComplexSearch extends React.Component {
   }
 
   componentWillUpdate(nextProps) {
-    if (nextProps.value && nextProps.value !== this.props.value)
+    if (nextProps.value && nextProps.value !== this.props.value) {
       this.setState({value: nextProps.value})
+      if (this.inputNode) this.inputNode.value = nextProps.value
+    }
+
   }
 
   submitSearch = () => {
-    this.props.onSubmit(this.inputNode.value)
+    this.props.onSubmit(this.state.value)
   }
 
   onKeyDown = (e) => {
@@ -211,11 +220,9 @@ class ComplexSearch extends React.Component {
       onSelectItem(prevItem)
       break
     case 'Enter':
-      this.props.onPressEnter(this.inputNode.value)
+      this.props.onPressEnter(this.state.value)
       break
     default:
-      return true
-
     }
   }
 
@@ -224,8 +231,8 @@ class ComplexSearch extends React.Component {
     this.props.onFocus()
   }
 
-  onSearchInput = () => {
-    const value = this.inputNode.value.trim()
+  onSearchInput = (e) => {
+    const value = e.target.value.trim()
     this.setState({value})
     this.props.onSearch(value)
   }
@@ -234,15 +241,12 @@ class ComplexSearch extends React.Component {
     this.props.onBlur()
   }
 
-  setNode(name) {
-    const that = this
-    return function (node) {
-      that[`${name}Node`] = node
-    }
+  setNode = name => node => {
+    this[`${name}Node`] = node
   }
 
   clearForm = () => {
-    this.inputNode.value = ''
+    this.setState({value: ''})
     this.setState({isDropdownOpened: false})
     this.onSearchInput()
   }
@@ -272,13 +276,16 @@ class ComplexSearch extends React.Component {
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          value={this.state.value}
+          defaultValue={this.props.value}
           className={css.input}
           placeholder={placeholder}
           ref={this.setNode('input')}
         />
         <ClearIcon
-          className={css.clear}
+          className={cn(
+            css.clear,
+            {[css.visible]: this.state.value !== ''}
+          )}
           size={16}
           color="#B8B8B9"
           onClick = {this.clearForm}
@@ -403,7 +410,6 @@ class ComplexSearch extends React.Component {
         >
           {this.renderDropdown()}
           {this.renderBottom()}
-          {this.props.value}
         </div>
       </OnClickOutside>
     )

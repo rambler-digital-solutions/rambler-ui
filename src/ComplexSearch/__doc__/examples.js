@@ -46,6 +46,19 @@ export default class SearchExample extends Component {
     )
   }
 
+  onPressEnter = () => {
+    const {
+      selectedItem,
+      items
+    } = this.state
+
+    if (selectedItem) {
+      const item = items[selectedItem]
+      this.setState({value: item[1]})
+      this.goToSearch(item[1])
+    }
+  }
+
   onSelectItem = (index) => {
     if (!index || index < 0) {
       this.setState({selectedItem: 0 })
@@ -60,20 +73,7 @@ export default class SearchExample extends Component {
   }
 
   goToSearch = (query = '') => {
-    const {
-      selectedItem,
-      items
-    } = this.state
-    let searchQuery
-
-    if (selectedItem) {
-      const item = items[selectedItem]
-      this.setState({value: item[1]})
-      searchQuery = item[1]
-    } else {
-      searchQuery = query
-    }
-    window.open(`https://nova.rambler.ru/search?query=${encodeURIComponent(searchQuery)}`)
+    window.open(`https://nova.rambler.ru/search?query=${encodeURIComponent(query)}`)
   }
 
   render() {
@@ -87,6 +87,7 @@ export default class SearchExample extends Component {
             onSelectItem={this.onSelectItem}
             hint={this.renderHint()}
             bottomLinks={this.renderBottomLinks()}
+            onPressEnter={this.onPressEnter}
           >
             {this.state.items.map(item => (
               <SuggestItem
