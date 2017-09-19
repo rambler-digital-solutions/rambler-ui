@@ -64,6 +64,7 @@ const whenDomReady = new Promise((resolve) => {
     '&$isSelected': {
       zIndex: 3,
       borderColor: theme.toggle.colors.checked.border,
+      background: theme.toggle.colors.checked.background,
       color: theme.toggle.colors.checked.text
     },
     '&:active': {
