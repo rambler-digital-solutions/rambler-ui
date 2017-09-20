@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { isolateMixin, borderMixin, bottomBorderMixin, placeholderMixin } from '../style/mixins'
+import { isolateMixin, borderMixin, bottomBorderMixin, placeholderMixin, ifMobile } from '../style/mixins'
 import Tooltip from '../Tooltip'
 import Eye from '../icons/forms/Eye'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
@@ -25,10 +25,8 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     appearance: 'none',
     lineHeight: 'normal',
     background: theme.field.colors.default.background,
-    transition: `border-color ${theme.field.animationDuration}ms ease`,
     border: 0,
     boxShadow: 'none',
-    borderRadius: theme.field.borderRadius,
     'textarea&': {
       resize: 'vertical',
       height: '100%',
@@ -54,59 +52,70 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     })
   },
   outline: {
-    '&': borderMixin(theme.field.colors.default.outline),
-    '&:hover': borderMixin(theme.field.colors.hover.outline),
-    '&$disabled': borderMixin(theme.field.colors.disabled.outline)
+    '& $input': {
+      '&': borderMixin(theme.field.colors.default.outline),
+      '&:hover': borderMixin(theme.field.colors.hover.outline),
+      '&$disabled': borderMixin(theme.field.colors.disabled.outline)
+    },
+    '& $input, & $activeBorder': {
+      borderRadius: theme.field.borderRadius
+    }
   },
   borderColor: {
-    '& $input:focus': {
+    '& $input:focus + $activeBorder': {
       borderColor: theme.field.colors.focus.border + '!important'
     },
-    '$success& $input:enabled': {
+    '$success& $input:enabled + $activeBorder': {
       borderColor: theme.colors.success + '!important'
     },
-    '$error& $input:enabled': {
+    '$error& $input:enabled + $activeBorder': {
       borderColor: theme.colors.danger + '!important'
     },
-    '$warning& $input:enabled': {
+    '$warning& $input:enabled + $activeBorder': {
       borderColor: theme.colors.warn + '!important'
     }
   },
   bottomBorder: {
-    '& $input': {
+    '& $input + $activeBorder': {
       border: 'solid transparent',
       borderWidth: '0 0 2px'
-    },
-    '& input$input': {
-      paddingTop: 2
     }
   },
   regular: {
     composes: ['$outline', '$borderColor'],
     '& $input': {
+      composes: ['$outline'],
       paddingLeft: theme.input.padding - 1,
-      paddingRight: theme.input.padding - 1,
+      paddingRight: theme.input.padding - 1
+    },
+    '& $activeBorder': {
       border: '1px solid transparent'
     }
-
   },
   awesome: {
     composes: ['$outline', '$borderColor', '$bottomBorder'],
     '& $input': {
+      composes: ['$outline'],
       paddingLeft: theme.input.padding,
       paddingRight: theme.input.padding
     }
   },
   promo: {
     composes: ['$borderColor', '$bottomBorder'],
-    '&': bottomBorderMixin(theme.field.colors.default.outline),
-    '&$disabled': bottomBorderMixin(theme.field.colors.disabled.outline)
+    '& $input': {
+      '&': bottomBorderMixin(theme.field.colors.default.outline),
+      '&:hover': bottomBorderMixin(theme.field.colors.hover.outline),
+      '&$disabled': bottomBorderMixin(theme.field.colors.disabled.outline)
+    }
   },
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
       '& $input': {
-        fontSize: theme.field.sizes[size].fontSize
+        fontSize: theme.field.sizes[size].fontSize,
+        ...ifMobile({
+          fontSize: theme.field.mobile.sizes[size].fontSize
+        })
       },
       '& input$input': {
         height: theme.field.sizes[size].height,
@@ -164,15 +173,22 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
       }
     }
   }), {}),
-
   root: {
     extend: isolateMixin,
-    borderRadius: theme.field.borderRadius,
     position: 'relative',
     background: theme.field.colors.default.background,
     boxSizing: 'border-box',
     fontFamily: theme.fontFamily,
     transition: `box-shadow ${theme.field.animationDuration}ms ease`
+  },
+  activeBorder: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    pointerEvents: 'none',
+    transition: `all ${theme.field.animationDuration}ms ease`
   },
   icon: {
     position: 'absolute',
@@ -441,6 +457,7 @@ export default class Input extends Component {
       <div style={style} className={resultClassName}>
         {resultIconLeft}
         {inputElement}
+        <div className={css.activeBorder} />
         {resultIconRight}
         {this.renderPasswordIcon()}
       </div>
