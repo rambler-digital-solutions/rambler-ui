@@ -59,6 +59,9 @@ class SuggestItem extends React.Component {
     * Признак подсветки
     */
     isHighlighted: pt.bool,
+    /**
+    * Признак выбора стрелкой
+    */
     isSelected: pt.bool,
     /**
     * Значение поиского запроса айтема
