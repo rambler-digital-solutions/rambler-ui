@@ -14,7 +14,7 @@ import cn from 'classnames'
     display: 'flex',
     justifyContent: 'space-between',
 
-    '&:hover, &$isHighlighted': {
+    '&$isHighlighted': {
       backgroundColor: '#f7f9fa',
       color: '#262626'
     }
@@ -24,7 +24,6 @@ import cn from 'classnames'
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap'
-
   },
   removeButton: {
     fontSize: '13px',
@@ -41,41 +40,56 @@ class SuggestItem extends React.Component {
     */
     style: pt.object,
     /**
-    * дополнительный css-класс компонента
+    * Дополнительный css-класс компонента
     */
     className: pt.string,
     /**
-    * текст ссылки для удаления
+    * Текст ссылки для удаления
     */
     removeButton: pt.string,
     /**
-    * клик по кнопке удаления
+    * Клик по кнопке удаления
     */
     onRemoveClick: pt.func,
     /**
-    * коллбек для клика
+    * Коллбек для клика
     */
     onClick: pt.func.isRequired,
     /**
-    * признак подсветки
+    * Признак подсветки
     */
     isHighlighted: pt.bool,
+    isSelected: pt.bool,
     /**
-    * значение поиского запроса айтема
+    * Значение поиского запроса айтема
     */
     value: pt.string.isRequired,
     /**
-    * поисковый запрос для матчинга и подсветки
+    * Поисковый запрос для матчинга и подсветки
     */
-    query: pt.string
+    query: pt.string,
+    /**
+    * Функция для сброса выделенного айтема по ховеру
+    */
+    onHover: pt.func.isRequired
   }
 
   static defaultProps = {
     removeButton: '',
     isHighlighted: false,
+    isSelected: false,
     onRemoveClick: () => {},
     onClick: () => {},
     query: ''
+  }
+
+  state = {
+    isHighlighted: false
+  }
+
+  componentWillUpdate(nextProps) {
+    if (nextProps.isSelected !== this.props.isSelected)
+      nextProps.isSelected && this.props.onSelect(nextProps.value)
   }
 
   onItemClick = () => {
@@ -86,11 +100,12 @@ class SuggestItem extends React.Component {
     const {
       sheet: { classes: css },
       className,
-      isHighlighted,
       removeButton,
       onRemoveClick,
       query,
-      value
+      value,
+      isHighlighted,
+      onHover
     } = this.props
 
     return (
@@ -101,6 +116,7 @@ class SuggestItem extends React.Component {
           {[css.isHighlighted]: isHighlighted}
         )}
         onClick={this.onItemClick}
+        onMouseEnter={onHover}
       >
         <span className={css.string}>
           <span className={css.query}>{query}</span>{value.replace(query, '')}

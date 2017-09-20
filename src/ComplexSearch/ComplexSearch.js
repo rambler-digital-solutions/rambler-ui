@@ -62,7 +62,13 @@ import { isolateMixin } from '../style/mixins'
     flexShrink: 0,
     width: theme.search.button.width,
     height: theme.search.height,
-    lineHeight: theme.search.height
+    lineHeight: theme.search.height,
+
+    '&:focus, &:active': {
+      '&:after': {
+        display: 'none'
+      }
+    }
   },
   visible: {},
   clear: {
@@ -90,11 +96,11 @@ class ComplexSearch extends React.Component {
     */
     style: pt.object,
     /**
-    * css-класс компонента
+    * CSS-класс компонента
     */
     className: pt.string,
     /**
-    * текущий поисковый запрос
+    * Текущий поисковый запрос
     */
     value: pt.string,
     /**
@@ -102,47 +108,47 @@ class ComplexSearch extends React.Component {
     */
     selectedItem: pt.any,
     /**
-    * кнопка поиска
+    * Кнопка поиска
     */
     searchButton: pt.node,
     /**
-    * имя раздела, по которому ищем
+    * Имя раздела, по которому ищем
     */
     division: pt.string,
     /**
-    * надо ли показывать имя раздела, по которому ищем
+    * Надо ли показывать имя раздела, по которому ищем
     */
     showDivision: pt.bool,
     /**
-    * плейсхолдер поискового инпута
+    * Плейсхолдер поискового инпута
     */
     placeholder: pt.string,
     /**
-    * коллбек на изменение поискового запроса
+    * Коллбек на изменение поискового запроса
     */
     onSearch: pt.func,
     /**
-    * коллбек на фокус поискового инпута
+    * Коллбек на фокус поискового инпута
     */
     onFocus: pt.func,
     /**
-    * коллбек на блур поискового инпута
+    * Коллбек на блур поискового инпута
     */
     onBlur: pt.func,
     /**
-    * коллбек на выбор поискового запроса через стрелки
+    * Коллбек на выбор поискового запроса через стрелки
     */
     onSelectItem: pt.func,
     /**
-    * коллбек на удаление suggest-item
+    * Коллбек на удаление suggest-item
     */
     onRemoveItem: pt.func,
     /**
-    * коллбек на нажатие на кнопку поиска
+    * Коллбек на нажатие на кнопку поиска
     */
     onSubmit: pt.func,
     /**
-    * коллбек на нажатие на Enter
+    * Коллбек на нажатие на Enter
     */
     onPressEnter: pt.func,
     /**
@@ -150,7 +156,7 @@ class ComplexSearch extends React.Component {
     */
     hint: pt.node,
     /**
-    * ссылки рядом с хинтом
+    * Ссылки рядом с хинтом
     */
     bottomLinks: pt.node
   }
@@ -174,7 +180,8 @@ class ComplexSearch extends React.Component {
 
   state = {
     isDropdownOpened: false,
-    selectedItem: 0,
+    selectedItem: -1,
+    highlightedItem: -1,
     value: ''
   }
 
@@ -200,7 +207,7 @@ class ComplexSearch extends React.Component {
 
   onKeyDown = (e) => {
     const {
-      selectedItem
+      highlightedItem
     } = this.state
     const {
       children,
@@ -209,18 +216,21 @@ class ComplexSearch extends React.Component {
     switch (e.key) {
     //eslint-disable-next-line
     case 'ArrowDown':
-      const nextItem = selectedItem === children.length ? 0 : selectedItem + 1
-      this.setState({selectedItem: nextItem})
+      const nextItem = highlightedItem === children.length ? -1 : highlightedItem + 1
+      this.setState({selectedItem: nextItem, highlightedItem: nextItem})
       onSelectItem(nextItem)
       break
     //eslint-disable-next-line
     case 'ArrowUp':
-      const prevItem = selectedItem === 0 ? children.length : selectedItem - 1
-      this.setState({selectedItem: prevItem})
+      const prevItem = highlightedItem === 0 ? children.length : highlightedItem - 1
+      this.setState({selectedItem: prevItem, highlightedItem: prevItem})
       onSelectItem(prevItem)
       break
     case 'Enter':
       this.props.onPressEnter(this.state.value)
+      break
+    case 'Escape':
+      this.setState({isDropdownOpened: false})
       break
     default:
     }
@@ -247,8 +257,13 @@ class ComplexSearch extends React.Component {
 
   clearForm = () => {
     this.setState({value: ''})
+    this.inputNode.value = ''
     this.setState({isDropdownOpened: false})
-    this.onSearchInput()
+  }
+
+  onItemSelect = (value) => {
+    this.setState({value})
+    this.inputNode.value = value
   }
 
   renderInput = () => {
@@ -334,8 +349,11 @@ class ComplexSearch extends React.Component {
 
     return React.Children.map(children, (child, index) => {
       const props = {
-        isHighlighted: index + 1 === this.state.selectedItem,
-        onRemoveClick: onRemoveItem
+        isHighlighted: index === this.state.highlightedItem,
+        isSelected: index === this.state.selectedItem,
+        onRemoveClick: onRemoveItem,
+        onHover: () => { this.setState({highlightedItem: index, selectedItem: -1 }) },
+        onSelect: this.onItemSelect
       }
       return cloneElement(child, props)
     })
