@@ -70,17 +70,17 @@ describe('Input', () => {
       </FormGroup>
     ))
 
-    const inputSuccess = wrapper.find('.inputCls')
-    const inputWarning = wrapper.find('.inputCls2')
-    const inputError = wrapper.find('.inputCls3')
-    const inputWithoutStatus = wrapper.find('.inputCls4')
+    const inputSuccess = wrapper.find('.inputCls + div')
+    const inputWarning = wrapper.find('.inputCls2 + div')
+    const inputError = wrapper.find('.inputCls3 + div')
+    const inputWithoutStatus = wrapper.find('.inputCls4 + div')
 
     // Стили border - success
     const inputSuccessStyles = getStyles(inputSuccess)
     expect(nc(inputSuccessStyles['border-bottom-color'])).toEqual(nc(theme.colors.success))
     expect(inputSuccessStyles['border-bottom-style']).toEqual('solid')
     expect(inputSuccessStyles['border-bottom-width']).toEqual('2px')
-    expect(inputSuccessStyles.height).toEqual('45px')
+    expect(inputSuccessStyles.height).toEqual('43px')
 
     // border - warning
     const inputWarningStyles = getStyles(inputWarning)

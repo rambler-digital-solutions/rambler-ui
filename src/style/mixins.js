@@ -73,9 +73,9 @@ const responsiveFactory = (rule) => {
   return replaceResponsiveKeys
 }
 
-export const ifDesktop = responsiveFactory('@media (min-width: 768px)')
+export const ifDesktop = responsiveFactory('@media (min-device-width: 768px)')
 
-export const ifMobile = responsiveFactory('@media (max-width: 768px)')
+export const ifMobile = responsiveFactory('@media (max-device-width: 767px)')
 
 const pseudoSelectors = ['::-webkit-input-placeholder', '::-moz-placeholder', ':-moz-placeholder', ':-ms-input-placeholder', '::placeholder']
 export const placeholderMixin = (selector, style) => (

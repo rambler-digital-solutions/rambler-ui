@@ -12,7 +12,7 @@ import merge from 'lodash/merge'
 import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
-import { middleMixin, isolateMixin, uppercaseMixin, fontSmoothingMixin } from '../style/mixins'
+import { middleMixin, isolateMixin, uppercaseMixin, fontSmoothingMixin, ifMobile } from '../style/mixins'
 
 function getIconColor(colorsConfig, isDisabled) {
   return isDisabled && colorsConfig.disabled.icon || colorsConfig.default.icon
@@ -78,6 +78,9 @@ function getIconColor(colorsConfig, isDisabled) {
     },
     'size-medium': {
       fontSize: theme.button.sizes.medium.fontSize,
+      ...ifMobile({
+        fontSize: theme.button.mobile.sizes.medium.fontSize
+      }),
       '& $content': {
         height: theme.button.sizes.medium.height,
         lineHeight: theme.button.sizes.medium.height + 'px',
@@ -86,6 +89,9 @@ function getIconColor(colorsConfig, isDisabled) {
     },
     'size-small': {
       fontSize: theme.button.sizes.small.fontSize,
+      ...ifMobile({
+        fontSize: theme.button.mobile.sizes.small.fontSize
+      }),
       '& $content': {
         height: theme.button.sizes.small.height,
         lineHeight: theme.button.sizes.small.height + 'px',

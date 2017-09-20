@@ -11,6 +11,16 @@ export function createTheme(config) {
     fontFamily: 'Roboto, sans-serif',
     button: {
       fontFamily: 'Roboto, sans-serif',
+      mobile: {
+        sizes: {
+          medium: {
+            fontSize: 12
+          },
+          small: {
+            fontSize: 12
+          }
+        }
+      },
       sizes: {
         medium: {
           fontSize: 11,
@@ -292,7 +302,7 @@ export function createTheme(config) {
       }
     },
     field: { // input, select, textarea
-      borderRadius: 0,
+      borderRadius: 1,
       icon: {
         colors: {
           default: colors.controls.grey.icon,
@@ -327,6 +337,16 @@ export function createTheme(config) {
           background: 'none'
         }
       },
+      mobile: {
+        sizes: {
+          medium: {
+            fontSize: 14
+          },
+          small: {
+            fontSize: 14
+          }
+        }
+      },
       sizes: {
         medium: {
           height: 45,
@@ -339,7 +359,7 @@ export function createTheme(config) {
         },
         small: {
           height: 35,
-          fontSize: 12,
+          fontSize: 13,
           icon: 16,
           eyeIcon: 18,
           withIconPadding: 40,
