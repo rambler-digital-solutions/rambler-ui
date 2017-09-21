@@ -87,6 +87,10 @@ import { isolateMixin } from '../style/mixins'
     width: '100%',
     background: 'white',
     boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
+  },
+  dropdown: {
+    transition: 'none',
+    animation: 'none'
   }
 }))
 class ComplexSearch extends React.Component {
@@ -376,7 +380,7 @@ class ComplexSearch extends React.Component {
         isOpened={isDropdownOpened && children.length > 0}
         anchor={this.renderInput()}
         padding={false}
-        overlayClassName={css.overlay}
+        className={css.dropdown}
         appendToBody={true}
         anchorFullWidth={true}
         autoPositionY={true}
