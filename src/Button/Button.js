@@ -28,7 +28,7 @@ function getIconColor(colorsConfig, isDisabled) {
       textAlign: 'center',
       cursor: 'pointer',
       boxSizing: 'border-box',
-      textDecoration: 'none',
+      textDecoration: 'none !important',
       outline: 'none !important',
       position: 'relative',
       display: 'inline-block',
