@@ -9,14 +9,14 @@ import cn from 'classnames'
     height: theme.search.height,
     padding: '0 15px',
     cursor: 'pointer',
-    fontSize: '14px',
+    fontSize: theme.suggestItem.fontSize,
     position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
 
     '&$isHighlighted': {
-      backgroundColor: '#f7f9fa',
-      color: '#262626'
+      backgroundColor: theme.suggestItem.highlighted.backgroundColor,
+      color: theme.search.color
     }
   },
   string: {
@@ -26,9 +26,9 @@ import cn from 'classnames'
     whiteSpace: 'nowrap'
   },
   removeButton: {
-    fontSize: '13px',
+    fontSize: theme.suggestItem.removeButton.fontSize,
     lineHeight: theme.search.height,
-    color: '#3e217d',
+    color: theme.suggestItem.removeButton.color,
     paddingLeft: '10px'
   }
 }))

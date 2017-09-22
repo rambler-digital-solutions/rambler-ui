@@ -240,9 +240,32 @@ export function createTheme(config) {
     search: {
       fontSize: '14px',
       height: '40px',
+      maxWidth: '765px',
+
+      input: {
+        border: 'solid 2px #315efb',
+        color: '#262626'
+      },
 
       button: {
         width: '125px'
+      },
+
+      bottomLinks: {
+        fontSize: '12px'
+      }
+    },
+    suggestItem: {
+      fontSize: '14px',
+
+      removeButton: {
+        fontSize: '13px',
+        color: '#3e217d'
+      },
+
+      highlighted: {
+        backgroundColor: '#f7f9fa',
+        color: '#262626'
       }
     },
     dropdown: {

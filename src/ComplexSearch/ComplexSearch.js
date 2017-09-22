@@ -16,7 +16,7 @@ import { isolateMixin } from '../style/mixins'
     fontFamily: theme.fontFamily,
     fontSize: theme.search.fontSize,
     width: '100%',
-    maxWidth: '765px'
+    maxWidth: theme.search.maxWidth
   },
   inputWrapper: {
     marginRight: theme.search.button.width,
@@ -45,12 +45,12 @@ import { isolateMixin } from '../style/mixins'
     cursor: 'pointer'
   },
   input: {
-    border: 'solid 2px #315efb',
+    border: theme.search.input.border,
     borderRight: 'none',
     padding: '10px 30px 10px 10px',
     fontSize: theme.search.fontSize,
     lineHeight: '1.43',
-    color: '#262626',
+    color: theme.search.color,
     width: '100%',
     height: theme.search.height,
     outline: 'none'
