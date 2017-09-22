@@ -247,7 +247,11 @@ class ComplexSearch extends React.Component {
 
   onSearchInput = (e) => {
     const value = e.target.value.trim()
-    this.setState({value})
+    const newState = {value}
+    if (!this.state.isDropdownOpened)
+      newState.isDropdownOpened = true
+    this.setState(newState)
+
     this.props.onSearch(value)
   }
 
