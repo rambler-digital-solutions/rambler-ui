@@ -37,7 +37,7 @@ import { isolateMixin } from '../style/mixins'
     textTransform: 'uppercase',
     fontWeight: '500',
     borderRadius: '1px',
-    backgroundColor: '#f5f7f8',
+    backgroundColor: theme.search.division.color,
     letterSpacing: '1.3px',
     position: 'absolute',
     top: '5px',
@@ -45,8 +45,10 @@ import { isolateMixin } from '../style/mixins'
     cursor: 'pointer'
   },
   input: {
-    border: theme.search.input.border,
+    borderColor: theme.search.input.borderColor,
+    borderWidth: '2px',
     borderRight: 'none',
+    borderStyle: 'solid',
     padding: '10px 30px 10px 10px',
     fontSize: theme.search.fontSize,
     lineHeight: '1.43',
@@ -58,6 +60,7 @@ import { isolateMixin } from '../style/mixins'
   searchButton: {
     position: 'absolute',
     right: `-${theme.search.button.width}`,
+    color: theme.search.button.color,
     top: 0,
     flexShrink: 0,
     width: theme.search.button.width,
@@ -80,6 +83,10 @@ import { isolateMixin } from '../style/mixins'
     opacity: 0,
 
     '&$visible': {
+      opacity: 0.6
+    },
+
+    '&:hover': {
       opacity: 1
     }
   },
@@ -262,8 +269,9 @@ class ComplexSearch extends React.Component {
       division,
       placeholder,
       sheet: { classes: css },
-      value
-    } = omit(this.props, 'theme', 'onChange')
+      value,
+      theme
+    } = omit(this.props, 'onChange')
 
     return (
       <div
@@ -293,7 +301,7 @@ class ComplexSearch extends React.Component {
             {[css.visible]: this.state.isClearVisible}
           )}
           size={16}
-          color="#B8B8B9"
+          color={theme.search.clear.color}
           onClick = {this.clearForm}
         ></ClearIcon>
         {this.renderButton()}
@@ -327,7 +335,7 @@ class ComplexSearch extends React.Component {
     return (
       <SearchIcon
         size={12}
-        color="#ffffff"
+        color={this.props.theme.search.button.color}
       />
     )
   }

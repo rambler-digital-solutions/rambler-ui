@@ -243,12 +243,20 @@ export function createTheme(config) {
       maxWidth: '765px',
 
       input: {
-        border: 'solid 2px #315efb',
-        color: '#262626'
+        borderColor: colors.primary,
+        color: colors.dark
       },
 
+      clear: {
+        color: colors.controls.grey.outline
+      },
+
+      division: {
+        color: colors.controls.grey.background
+      },
       button: {
-        width: '125px'
+        width: '125px',
+        color: '#ffffff'
       },
 
       bottomLinks: {
@@ -260,12 +268,12 @@ export function createTheme(config) {
 
       removeButton: {
         fontSize: '13px',
-        color: '#3e217d'
+        color: colors.purpleDeep
       },
 
       highlighted: {
-        backgroundColor: '#f7f9fa',
-        color: '#262626'
+        backgroundColor: colors.controls.grey.background,
+        color: colors.dark
       }
     },
     dropdown: {
