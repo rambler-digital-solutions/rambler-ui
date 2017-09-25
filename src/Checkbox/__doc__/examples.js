@@ -30,6 +30,11 @@ export default class CheckboxExample extends Component {
                 </Checkbox>
               </div>
               <div style={{marginTop: 20}}>
+                <Checkbox name="checkbox6" checked={this.state.checked} onCheck={::this.onCheck} variation={variation} indeterminate={true}>
+                  indeterminate: true
+                </Checkbox>
+              </div>
+              <div style={{marginTop: 20}}>
                 <Checkbox name="checkbox8" checked={this.state.checked} onCheck={::this.onCheck} variation={variation} iconPosition='right'>
                   iconPosition: right
                 </Checkbox>
