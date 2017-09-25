@@ -45,17 +45,9 @@ export default class SearchExample extends Component {
     )
   }
 
-  onPressEnter = () => {
-    const {
-      selectedItem,
-      items
-    } = this.state
-
-    if (selectedItem) {
-      const item = items[selectedItem]
-      this.setState({value: item[1]})
-      this.goToSearch(item[1])
-    }
+  onPressEnter = (query) => {
+    this.setState({value: query})
+    this.goToSearch(query)
   }
 
   onSelectItem = (query) => {

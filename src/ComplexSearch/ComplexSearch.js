@@ -180,6 +180,7 @@ class ComplexSearch extends React.Component {
     isDropdownOpened: false,
     selectedItem: -1,
     highlightedItem: -1,
+    isClearVisible: false,
     value: ''
   }
 
@@ -191,11 +192,9 @@ class ComplexSearch extends React.Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.value && nextProps.value !== this.props.value) {
-      this.setState({value: nextProps.value})
-      if (this.inputNode) this.inputNode.value = nextProps.value
-    }
+  componentDidUpdate(prevProps) {
+    if (prevProps.value && prevProps.value !== this.props.value)
+      if (this.inputNode) this.inputNode.value = this.props.value
   }
 
   submitSearch = () => {
@@ -212,16 +211,16 @@ class ComplexSearch extends React.Component {
     switch (e.key) {
     //eslint-disable-next-line
     case 'ArrowDown':
-      const nextItem = highlightedItem === children.length ? -1 : highlightedItem + 1
+      const nextItem = highlightedItem === children.length - 1 ? 0 : highlightedItem + 1
       this.setState({selectedItem: nextItem, highlightedItem: nextItem})
       break
     //eslint-disable-next-line
     case 'ArrowUp':
-      const prevItem = highlightedItem === 0 ? children.length : highlightedItem - 1
+      const prevItem = highlightedItem === 0 ? children.length - 1 : highlightedItem - 1
       this.setState({selectedItem: prevItem, highlightedItem: prevItem})
       break
     case 'Enter':
-      this.props.onPressEnter(this.state.value)
+      this.props.onPressEnter(this.inputNode.value)
       break
     case 'Escape':
       this.setState({isDropdownOpened: false})
@@ -240,6 +239,7 @@ class ComplexSearch extends React.Component {
     const newState = {value}
     if (!this.state.isDropdownOpened)
       newState.isDropdownOpened = true
+    newState.isClearVisible = value !== ''
     this.setState(newState)
     this.props.onSearch(value)
   }
@@ -253,16 +253,16 @@ class ComplexSearch extends React.Component {
   }
 
   clearForm = () => {
-    this.setState({value: ''})
     this.inputNode.value = ''
-    this.setState({isDropdownOpened: false})
+    this.setState({isDropdownOpened: false, isClearVisible: false})
   }
 
   renderInput = () => {
     const {
       division,
       placeholder,
-      sheet: { classes: css }
+      sheet: { classes: css },
+      value
     } = omit(this.props, 'theme', 'onChange')
 
     return (
@@ -282,7 +282,7 @@ class ComplexSearch extends React.Component {
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          defaultValue={this.props.value}
+          defaultValue={value}
           className={css.input}
           placeholder={placeholder}
           ref={this.setNode('input')}
@@ -290,7 +290,7 @@ class ComplexSearch extends React.Component {
         <ClearIcon
           className={cn(
             css.clear,
-            {[css.visible]: this.state.value !== ''}
+            {[css.visible]: this.state.isClearVisible}
           )}
           size={16}
           color="#B8B8B9"
