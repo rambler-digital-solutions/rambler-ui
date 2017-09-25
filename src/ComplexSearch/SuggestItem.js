@@ -48,32 +48,15 @@ class SuggestItem extends React.Component {
     */
     removeButton: pt.string,
     /**
-    * Клик по кнопке удаления
-    */
-    onRemoveClick: pt.func,
-    /**
-    * Коллбек для клика
-    */
-    onClick: pt.func.isRequired,
-    /**
-    * Признак подсветки
-    */
-    isHighlighted: pt.bool,
-    /**
-    * Признак выбора стрелкой
-    */
-    isSelected: pt.bool,
-    /**
     * Значение поиского запроса айтема
     */
     value: pt.string.isRequired,
-    /**
-    * Поисковый запрос для матчинга и подсветки
-    */
+    onClick: pt.func.isRequired,
+    onSelect: pt.func.isRequired,
+    onRemoveClick: pt.func,
+    isHighlighted: pt.bool,
+    isSelected: pt.bool,
     query: pt.string,
-    /**
-    * Функция для сброса выделенного айтема по ховеру
-    */
     onHover: pt.func.isRequired
   }
 
@@ -83,6 +66,7 @@ class SuggestItem extends React.Component {
     isSelected: false,
     onRemoveClick: () => {},
     onClick: () => {},
+    onSelect: () => {},
     query: ''
   }
 

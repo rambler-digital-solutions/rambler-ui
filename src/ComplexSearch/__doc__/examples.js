@@ -18,7 +18,6 @@ const queryResults = [
 export default class SearchExample extends Component {
   state = {
     items: [],
-    selectedItem: 0,
     value: ''
   }
 
@@ -59,13 +58,8 @@ export default class SearchExample extends Component {
     }
   }
 
-  onSelectItem = (index) => {
-    if (!index || index < 0) {
-      this.setState({selectedItem: 0 })
-      return false
-    }
-
-    this.setState({selectedItem: index - 1 })
+  onSelectItem = (query) => {
+    this.setState({value: query })
   }
 
   onItemClick = (query) => {
@@ -85,6 +79,7 @@ export default class SearchExample extends Component {
             onSearch={this.fetchQuery.bind(this)}
             onSubmit={this.goToSearch}
             onSelectItem={this.onSelectItem}
+            onClickItem={this.onItemClick}
             hint={this.renderHint()}
             bottomLinks={this.renderBottomLinks()}
             onPressEnter={this.onPressEnter}
@@ -93,7 +88,6 @@ export default class SearchExample extends Component {
               <SuggestItem
                 key={item[0] + item[2]}
                 value={item[1]}
-                onClick={this.onItemClick}
               >
                 {item[1]}
               </SuggestItem>)
