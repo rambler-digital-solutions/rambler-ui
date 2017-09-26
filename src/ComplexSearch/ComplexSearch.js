@@ -217,19 +217,26 @@ class ComplexSearch extends React.Component {
     switch (e.key) {
     //eslint-disable-next-line
     case 'ArrowDown':
+      e.preventDefault()
       const nextItem = highlightedItem === children.length - 1 ? 0 : highlightedItem + 1
       this.setState({selectedItem: nextItem, highlightedItem: nextItem})
       break
     //eslint-disable-next-line
     case 'ArrowUp':
+      e.preventDefault()
       const prevItem = highlightedItem === 0 ? children.length - 1 : highlightedItem - 1
       this.setState({selectedItem: prevItem, highlightedItem: prevItem})
       break
     case 'Enter':
+      e.preventDefault()
       this.props.onPressEnter(this.inputNode.value)
       break
     case 'Escape':
-      this.setState({isDropdownOpened: false})
+      this.setState({
+        isDropdownOpened: false,
+        selectedItem: -1,
+        highlightedItem: -1
+      })
       break
     default:
     }
