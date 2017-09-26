@@ -53,7 +53,7 @@ const setThemeForSelector = (colors) => ({
       '&&$isChecked $fake, &&$indeterminate $fake': setThemeForSelector(awesome.colors.checked),
       '&$isEnabled$isChecked:hover $fake, &$isEnabled$indeterminate:hover $fake': setThemeForSelector(awesome.colors.checkedHover),
       '&$isDisabled $fake': setThemeForSelector(awesome.colors.disabled),
-      '&$isDisabled$isChecked $fake': setThemeForSelector(awesome.colors.checkedDisabled)
+      '&$isDisabled$isChecked $fake, &$isDisabled$indeterminate $fake': setThemeForSelector(awesome.colors.checkedDisabled)
     },
     fake: {
       display: 'block',
