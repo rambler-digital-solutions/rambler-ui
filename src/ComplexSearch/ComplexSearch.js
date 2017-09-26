@@ -55,7 +55,11 @@ import { isolateMixin } from '../style/mixins'
     color: theme.search.color,
     width: '100%',
     height: theme.search.height,
-    outline: 'none'
+    outline: 'none',
+
+    '&::-ms-reveal, &::-ms-clear': {
+      display: 'none'
+    }
   },
   searchButton: {
     position: 'absolute',
@@ -73,18 +77,13 @@ import { isolateMixin } from '../style/mixins'
       }
     }
   },
-  visible: {},
   clear: {
     position: 'absolute',
     right: '15px',
     top: '50%',
     transform: 'translateY(-50%)',
     cursor: 'pointer',
-    opacity: 0,
-
-    '&$visible': {
-      opacity: 0.6
-    },
+    opacity: 0.6,
 
     '&:hover': {
       opacity: 1
@@ -243,9 +242,15 @@ class ComplexSearch extends React.Component {
 
   onSearchInput = (e) => {
     const value = e.target.value.trim()
-    const newState = {value}
+    const newState = {
+      value
+    }
     if (!this.state.isDropdownOpened)
       newState.isDropdownOpened = true
+    if (this.state.highlightedItem !== -1)
+      newState.highlightedItem = -1
+    if (this.state.selectedItem !== -1)
+      newState.selectedItem = -1
     newState.isClearVisible = value !== ''
     this.setState(newState)
     this.props.onSearch(value)
@@ -261,7 +266,14 @@ class ComplexSearch extends React.Component {
 
   clearForm = () => {
     this.inputNode.value = ''
-    this.setState({isDropdownOpened: false, isClearVisible: false})
+    this.setState(
+      {
+        isDropdownOpened: false,
+        isClearVisible: false,
+        selectedItem: -1,
+        highlightedItem: -1
+      }
+    )
   }
 
   renderInput = () => {
@@ -295,15 +307,14 @@ class ComplexSearch extends React.Component {
           placeholder={placeholder}
           ref={this.setNode('input')}
         />
-        <ClearIcon
+        {this.state.isClearVisible && <ClearIcon
           className={cn(
-            css.clear,
-            {[css.visible]: this.state.isClearVisible}
+            css.clear
           )}
           size={16}
           color={theme.search.clear.color}
           onClick = {this.clearForm}
-        ></ClearIcon>
+        ></ClearIcon>}
         {this.renderButton()}
       </div>
     )
@@ -362,7 +373,11 @@ class ComplexSearch extends React.Component {
   }
 
   closeOnClickOutside = () => {
-    this.setState({isDropdownOpened: false})
+    this.setState({
+      isDropdownOpened: false,
+      highlightedItem: -1,
+      selectedItem: -1
+    })
   }
 
   renderDropdown() {

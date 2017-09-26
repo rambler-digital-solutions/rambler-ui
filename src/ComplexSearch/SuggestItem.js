@@ -48,26 +48,13 @@ class SuggestItem extends React.Component {
     */
     removeButton: pt.string,
     /**
-    * Значение поиского запроса айтема
+    * Значение поиского запроса айтема, может быть  любым объектом
     */
-    value: pt.string.isRequired,
-    onClick: pt.func.isRequired,
-    onSelect: pt.func.isRequired,
-    onRemoveClick: pt.func,
-    isHighlighted: pt.bool,
-    isSelected: pt.bool,
-    query: pt.string,
-    onHover: pt.func.isRequired
+    value: pt.any.isRequired
   }
 
   static defaultProps = {
-    removeButton: '',
-    isHighlighted: false,
-    isSelected: false,
-    onRemoveClick: () => {},
-    onClick: () => {},
-    onSelect: () => {},
-    query: ''
+    removeButton: ''
   }
 
   state = {
@@ -80,7 +67,15 @@ class SuggestItem extends React.Component {
   }
 
   onItemClick = () => {
-    this.props.onClick(this.props.value)
+    this.props.onClick && this.props.onClick(this.props.value)
+  }
+
+  onMouseEnter = () => {
+    this.props.onHover && this.props.onHover()
+  }
+
+  onRemoveClick = () => {
+    this.props.onRemoveClick && this.props.onRemoveClick(this.props.value)
   }
 
   render() {
@@ -88,11 +83,7 @@ class SuggestItem extends React.Component {
       sheet: { classes: css },
       className,
       removeButton,
-      onRemoveClick,
-      query,
-      value,
-      isHighlighted,
-      onHover
+      isHighlighted
     } = this.props
 
     return (
@@ -103,15 +94,15 @@ class SuggestItem extends React.Component {
           {[css.isHighlighted]: isHighlighted}
         )}
         onClick={this.onItemClick}
-        onMouseEnter={onHover}
+        onMouseEnter={this.onMouseEnter}
       >
         <span className={css.string}>
-          <span className={css.query}>{query}</span>{value.replace(query, '')}
+          {this.props.children}
         </span>
         {removeButton && (
           <span
             className={css.removeButton}
-            onClick={onRemoveClick}
+            onClick={this.onRemoveClick}
           >
             {removeButton}
           </span>
