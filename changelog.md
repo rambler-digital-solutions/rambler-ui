@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.1.6 - 2017-09-25
+### Fixed
+* Убрано правило `pointer-events: none` с правой иконки в компоненте `Input`
+
 ## v-3.1.5
 
 * Убран text-decoration для кнопок в случае ссылок

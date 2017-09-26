@@ -183,8 +183,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    fontSize: 0,
-    pointerEvents: 'none'
+    fontSize: 0
   },
   eye: {
     composes: '$icon',
@@ -202,7 +201,9 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   withLeftIcon: {},
   withRightIcon: {},
   withEye: {},
-  iconLeft: {},
+  iconLeft: {
+    pointerEvents: 'none'
+  },
   iconRight: {},
   filled: {},
   disabled: {},
