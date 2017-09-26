@@ -2,14 +2,21 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import { injectSheet } from '../theme'
+import TickIcon from '../icons/forms/TickIcon'
 import { isolateMixin } from '../style/mixins'
+import { injectSheet } from '../theme'
 
 const setThemeForSelector = (colors) => ({
   background: colors.background,
   borderColor: colors.border,
   color: colors.tick
 })
+
+const tickStyle = {
+  fill: null,
+  width: null,
+  height: null
+}
 
 @injectSheet((theme) => {
   const checkboxTheme = theme.checkbox
@@ -67,13 +74,10 @@ const setThemeForSelector = (colors) => ({
       borderWidth: 1,
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'border-color, background-color, color',
-      '&:before, &:after': {
+      '&:before': {
         position: 'absolute',
         content: '""',
         opacity: 0,
-        transitionDuration: checkboxTheme.animationDuration
-      },
-      '&:before': {
         top: 0,
         right: 0,
         bottom: 0,
@@ -81,27 +85,14 @@ const setThemeForSelector = (colors) => ({
         background: 'currentColor',
         height: 2,
         margin: 'auto 2px',
+        borderRadius: 1,
         transform: 'scaleX(0.4)',
+        transitionDuration: checkboxTheme.animationDuration,
         transitionProperty: 'transform, opacity'
       },
       '$indeterminate &:before': {
         opacity: 1,
         transform: 'scaleX(1)'
-      },
-      '&:after': {
-        top: 2,
-        left: 2,
-        width: 9,
-        height: 4,
-        border: 'solid currentColor',
-        borderWidth: '0 0 3px 3px',
-        transform: 'rotate(-45deg) scale(0.65)',
-        transformOrigin: 'left top',
-        transitionProperty: 'top, opacity'
-      },
-      '$isChecked &:after': {
-        top: 7,
-        opacity: 1
       },
       '$iconright &': {
         right: 0
@@ -127,6 +118,23 @@ const setThemeForSelector = (colors) => ({
       },
       '$iconleft &': {
         paddingLeft: checkboxTheme.size + checkboxTheme.labelMargin
+      }
+    },
+    tick: {
+      position: 'absolute',
+      top: 3,
+      left: 2,
+      fill: 'currentColor',
+      opacity: 0,
+      fontSize: 7,
+      width: 9 / 7 + 'em',
+      height: '1em',
+      transform: 'translateY(-5px)',
+      transitionDuration: checkboxTheme.animationDuration,
+      transitionProperty: 'transform, opacity',
+      '$isChecked &': {
+        opacity: 1,
+        transform: 'translateY(0)'
       }
     },
     isEnabled: {},
@@ -257,7 +265,9 @@ export default class Checkbox extends Component {
           disabled={ disabled }
           onChange={ this.onChange }
         />
-        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle } />
+        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
+          <TickIcon className={css.tick} style={tickStyle} />
+        </span>
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }
         </span>
