@@ -18,6 +18,7 @@ const queryResults = [
 export default class SearchExample extends Component {
   state = {
     items: [],
+    query: '',
     value: ''
   }
 
@@ -26,7 +27,10 @@ export default class SearchExample extends Component {
       this.setState({items: []})
       return false
     }
-    this.setState({items: queryResults})
+    this.setState({
+      items: queryResults,
+      query
+    })
   }
 
   renderHint() {
@@ -62,6 +66,15 @@ export default class SearchExample extends Component {
     window.open(`https://nova.rambler.ru/search?query=${encodeURIComponent(query)}`)
   }
 
+  renderItem(string) {
+    const query = this.state.query
+    if (string.indexOf(query) === 0)
+      return <span><b>{query}</b>{string.replace(query, '')}</span>
+
+    return string
+
+  }
+
   render() {
     return (
       <ApplyTheme>
@@ -75,13 +88,14 @@ export default class SearchExample extends Component {
             hint={this.renderHint()}
             bottomLinks={this.renderBottomLinks()}
             onPressEnter={this.onPressEnter}
+            placeholder="Напишите 'это...'"
           >
             {this.state.items.map(item => (
               <SuggestItem
                 key={item[0] + item[2]}
                 value={item[1]}
               >
-                {item[1]}
+                {this.renderItem(item[1])}
               </SuggestItem>)
             )}
           </ComplexSearch>
