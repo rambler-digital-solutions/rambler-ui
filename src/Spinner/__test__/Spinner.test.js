@@ -5,11 +5,7 @@ import { mount, withTheme, getStyles } from '../../utils/test-utils'
 describe('<Spinner />', () => {
 
   it('should apply default styles', () => {
-    const wrapper = mount(
-      withTheme(
-        <Spinner />
-      )
-    )
+    const wrapper = mount(withTheme(<Spinner />))
 
     const spinner = wrapper.find(Spinner)
     const spinnerStyles = getStyles(spinner)
@@ -26,11 +22,7 @@ describe('<Spinner />', () => {
   })
 
   it('should append className', () => {
-    const wrapper = mount(
-      withTheme(
-        <Spinner className="spinner" />
-      )
-    )
+    const wrapper = mount(withTheme(<Spinner className="spinner" />))
 
     const spinner = wrapper.find(Spinner)
 
@@ -40,11 +32,7 @@ describe('<Spinner />', () => {
   it('should append style', () => {
     const color = 'rgb(255, 255, 255)'
 
-    const wrapper = mount(
-      withTheme(
-        <Spinner style={{ backgroundColor: color }} />
-      )
-    )
+    const wrapper = mount(withTheme(<Spinner style={{ backgroundColor: color }} />))
 
     const spinner = wrapper.find(Spinner)
     const spinnerStyles = getStyles(spinner)
@@ -55,11 +43,7 @@ describe('<Spinner />', () => {
   it('should apply custom color', () => {
     const color = 'rgb(0, 0, 0)'
 
-    const wrapper = mount(
-      withTheme(
-        <Spinner color={color} />
-      )
-    )
+    const wrapper = mount(withTheme(<Spinner color={color} />))
 
     const spinner = wrapper.find(Spinner)
     const dotStyles = getStyles(spinner.find('div > div'))

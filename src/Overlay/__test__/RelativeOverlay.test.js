@@ -43,18 +43,14 @@ describe('<RelativeOverlay />', () => {
   let callbacks, whenContentShow, whenContentHide, wrapper
 
   const mountWrapper = (props, anchorProps = {}) => {
-    wrapper = mount(
-      withTheme(
-        <RelativeOverlay
-          isOpened={false}
-          anchor={<Anchor {...anchorProps} />}
-          content={<Content />}
-          onContentOpen={callbacks.onContentOpen}
-          onContentClose={callbacks.onContentClose}
-          {...props}
-        />
-      )
-    )
+    wrapper = mount(withTheme(<RelativeOverlay
+      isOpened={false}
+      anchor={<Anchor {...anchorProps} />}
+      content={<Content />}
+      onContentOpen={callbacks.onContentOpen}
+      onContentClose={callbacks.onContentClose}
+      {...props}
+    />))
   }
 
   beforeEach(() => {

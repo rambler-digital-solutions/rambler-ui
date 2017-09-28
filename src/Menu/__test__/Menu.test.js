@@ -6,18 +6,14 @@ import { mount, withTheme, getStyles } from '../../utils/test-utils'
 describe('<Menu />', () => {
 
   it('should apply default styles', () => {
-    const wrapper = mount(
-      withTheme(
-        <Menu>
-          <MenuItem className="foo" value="foo">
+    const wrapper = mount(withTheme(<Menu>
+      <MenuItem className="foo" value="foo">
             foo
-          </MenuItem>
-          <MenuItem className="bar" value="bar">
+      </MenuItem>
+      <MenuItem className="bar" value="bar">
             baz
-          </MenuItem>
-        </Menu>
-      )
-    )
+      </MenuItem>
+    </Menu>))
 
     const menu = wrapper.find(Menu)
 
@@ -45,15 +41,11 @@ describe('<Menu />', () => {
   })
 
   it('should be apply max height', () => {
-    const wrapper = mount(
-      withTheme(
-        <Menu maxHeight={200}>
-          <MenuItem value="foo">
+    const wrapper = mount(withTheme(<Menu maxHeight={200}>
+      <MenuItem value="foo">
             foo
-          </MenuItem>
-        </Menu>
-      )
-    )
+      </MenuItem>
+    </Menu>))
 
     const menu = wrapper.find(Menu)
     const menuStyles = getStyles(menu)
@@ -62,15 +54,11 @@ describe('<Menu />', () => {
   })
 
   it('should append className', () => {
-    const wrapper = mount(
-      withTheme(
-        <Menu className="menu">
-          <MenuItem className="item" value="foo">
+    const wrapper = mount(withTheme(<Menu className="menu">
+      <MenuItem className="item" value="foo">
             foo
-          </MenuItem>
-        </Menu>
-      )
-    )
+      </MenuItem>
+    </Menu>))
 
     const menu = wrapper.find(Menu)
     const item = wrapper.find(MenuItem)
@@ -80,15 +68,11 @@ describe('<Menu />', () => {
   })
 
   it('should append style', () => {
-    const wrapper = mount(
-      withTheme(
-        <Menu style={{ marginLeft: 10 }}>
-          <MenuItem style={{ paddingLeft: 0 }} value="foo">
+    const wrapper = mount(withTheme(<Menu style={{ marginLeft: 10 }}>
+      <MenuItem style={{ paddingLeft: 0 }} value="foo">
             foo
-          </MenuItem>
-        </Menu>
-      )
-    )
+      </MenuItem>
+    </Menu>))
 
     const menu = wrapper.find(Menu)
     const menuStyles = getStyles(menu)
@@ -104,18 +88,14 @@ describe('<Menu />', () => {
   it('should append focus to item', () => {
     let value
 
-    const wrapper = mount(
-      withTheme(
-        <Menu value={value} onChange={v => { value = v }}>
-          <MenuItem className="foo" value="foo">
+    const wrapper = mount(withTheme(<Menu value={value} onChange={(v) => { value = v }}>
+      <MenuItem className="foo" value="foo">
             foo
-          </MenuItem>
-          <MenuItem className="bar" value="bar">
+      </MenuItem>
+      <MenuItem className="bar" value="bar">
             bar
-          </MenuItem>
-        </Menu>
-      )
-    )
+      </MenuItem>
+    </Menu>))
 
     const menu = wrapper.find(Menu)
 

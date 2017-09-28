@@ -6,7 +6,7 @@ export default function provideNotification(Target) {
   @provideRenderToLayer
   class ProvideNotification extends Component {
 
-    openNotification = element => {
+    openNotification = (element) => {
       const notification = {}
 
       const close = () => {
@@ -21,7 +21,7 @@ export default function provideNotification(Target) {
       return notification
     }
 
-    closeNotification = notification => {
+    closeNotification = (notification) => {
       notification.close()
     }
 

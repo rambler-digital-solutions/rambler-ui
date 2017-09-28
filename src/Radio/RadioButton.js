@@ -241,7 +241,7 @@ class RadioButton extends Component {
         <input
           className={ css.real }
           type="radio"
-          ref={input => { this.input = input }}
+          ref={(input) => { this.input = input }}
           name={ this.context[RADIO_INPUT_CONTEXT].getName() }
           value={ this.stringValue }
           disabled={ disabled }

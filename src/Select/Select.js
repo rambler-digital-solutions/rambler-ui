@@ -235,7 +235,7 @@ export default class Select extends PureComponent {
       this.props.onSearch(searchText)
   }
 
-  requestItems = event => {
+  requestItems = (event) => {
     this.setState({
       isOpened: true
     })
@@ -243,7 +243,7 @@ export default class Select extends PureComponent {
     this.setSearchText(event.target.value)
   }
 
-  changeValue = value => {
+  changeValue = (value) => {
     this.setState({
       isOpened: false
     })
@@ -253,7 +253,7 @@ export default class Select extends PureComponent {
     this.input.focus()
   }
 
-  focusInput = event => {
+  focusInput = (event) => {
     this.setState({
       inputFocused: true
     })
@@ -262,7 +262,7 @@ export default class Select extends PureComponent {
       this.props.onFocus(event)
   }
 
-  blurInput = event => {
+  blurInput = (event) => {
     if (this.state.inputFocused) {
       this.setState({
         isOpened: false,
@@ -274,11 +274,11 @@ export default class Select extends PureComponent {
     }
   }
 
-  preventBlurInput = event => {
+  preventBlurInput = (event) => {
     event.preventDefault()
   }
 
-  preventSelect = event => {
+  preventSelect = (event) => {
     event.preventDefault()
     event.stopPropagation()
   }
@@ -315,7 +315,7 @@ export default class Select extends PureComponent {
       this.changeValue(null)
   }
 
-  closeOnEsc = event => {
+  closeOnEsc = (event) => {
     if (this.state.isOpened) {
       event.stopPropagation()
 
@@ -327,7 +327,7 @@ export default class Select extends PureComponent {
     }
   }
 
-  closeOnClickOutside = event => {
+  closeOnClickOutside = (event) => {
     if (this.state.isOpened && !this.state.inputFocused) {
       this.setState({
         isOpened: false,
@@ -338,7 +338,7 @@ export default class Select extends PureComponent {
     }
   }
 
-  keyDown = event => {
+  keyDown = (event) => {
     const code = event.keyCode
 
     if (code === ESCAPE)
@@ -405,7 +405,7 @@ export default class Select extends PureComponent {
       <div className={classnames(this.css.select, this.css[size], disabled && this.css.disabled, focuseInput && this.css.focused)}>
         <Input
           {...other}
-          inputRef={el => { this.input = el }}
+          inputRef={(el) => { this.input = el }}
           inputStyle={style}
           className={this.css.input}
           inputClassName={classnames(!onSearch && this.css.readonly, this.showArrow && this.css.withArrow, className)}

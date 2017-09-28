@@ -11,13 +11,13 @@ export default class NotificationExample extends Component {
     rightIsOpened: false
   }
 
-  openNotification = type => {
+  openNotification = (type) => {
     this.setState({
       [`${type}IsOpened`]: true
     })
   }
 
-  closeNotification = type => {
+  closeNotification = (type) => {
     this.setState({
       [`${type}IsOpened`]: false
     })

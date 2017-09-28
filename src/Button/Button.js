@@ -250,7 +250,9 @@ export default class Button extends Component {
 
   renderIcon(icon) {
     if (icon) {
-      const { theme, size, type, disabled } = this.props
+      const {
+        theme, size, type, disabled
+      } = this.props
       const iconProps = {
         size: theme.button.sizes[size].icon,
         color: getIconColor(theme.button.types[type].colors, disabled)
@@ -300,7 +302,8 @@ export default class Button extends Component {
       className,
       {
         [css.block]: block
-      })
+      }
+    )
 
     const resultChildren = (
       <div className={classnames(css.content, loading && css.isLoading)}>
@@ -320,8 +323,8 @@ export default class Button extends Component {
 
     const resultContainer = isValidElement(container) ?
       container : href ?
-      <a href={ href } /> : overlay ?
-      <div /> : <button type={ buttonType } />
+        <a href={ href } /> : overlay ?
+          <div /> : <button type={ buttonType } />
 
     return cloneElement(
       resultContainer,

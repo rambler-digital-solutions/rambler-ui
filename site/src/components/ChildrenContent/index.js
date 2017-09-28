@@ -87,7 +87,9 @@ export default class ChildrenContent extends Component {
   }
 
   render() {
-    const { docModules, currentComponentName, rootComponentName, level } = this.props
+    const {
+      docModules, currentComponentName, rootComponentName, level
+    } = this.props
     const rootDocModules = rootComponentName ?
       [docModules.dict[rootComponentName]] : docModules.rootDocModules
     return (
@@ -114,7 +116,7 @@ export default class ChildrenContent extends Component {
                   rootComponentName={ childName }
                   level={ level + 1 }
                   key={ childName }
-                  />
+                />
               ))
             )
             let result
@@ -130,10 +132,10 @@ export default class ChildrenContent extends Component {
               else // рендерим дочерние компоненты
                 result = renderChildrenDoc()
             else
-              if (Doc)
-                result = <Doc {...{ renderChildrenDoc }} />
-              else
-                result = renderChildrenDoc()
+            if (Doc)
+              result = <Doc {...{ renderChildrenDoc }} />
+            else
+              result = renderChildrenDoc()
             return <ComponentWrapper
               {...{
                 description,

@@ -87,7 +87,7 @@ class MenuItem extends PureComponent {
       this.item.focus()
   }
 
-  pressKey = event => {
+  pressKey = (event) => {
     if (event.keyCode === ENTER) {
       event.stopPropagation()
       this.item.focus()
@@ -107,7 +107,7 @@ class MenuItem extends PureComponent {
 
     return (
       <div
-        ref={el => { this.item = el }}
+        ref={(el) => { this.item = el }}
         style={style}
         className={classnames(this.css.item, isSelected && this.css.isSelected, className)}
         tabIndex="0"

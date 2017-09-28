@@ -5,7 +5,7 @@ import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
 import theme from '../../theme/base'
 import { normalize as nc } from '../../utils/colors'
 
-const applyTheme = (children) => (
+const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
@@ -30,21 +30,19 @@ describe('Toggle', () => {
   })
 
   it('Style Toggle/ToggleOption small', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480, marginBottom: 20}}>
-        <Toggle {...defaultPropsToggle}
-          behavior='radio'
-          block={false}>
-          <ToggleOption
-            {...defaultPropsToggleOption}
-            className='toggleActive'
-            value="Rambler">Рамблер</ToggleOption>
-          <ToggleOption
-            {...defaultPropsToggleOption}
-            value="Yandex">Яндекс</ToggleOption>
-        </Toggle>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480, marginBottom: 20}}>
+      <Toggle {...defaultPropsToggle}
+        behavior='radio'
+        block={false}>
+        <ToggleOption
+          {...defaultPropsToggleOption}
+          className='toggleActive'
+          value="Rambler">Рамблер</ToggleOption>
+        <ToggleOption
+          {...defaultPropsToggleOption}
+          value="Yandex">Яндекс</ToggleOption>
+      </Toggle>
+    </div>))
 
     const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
     const togOpt = getStyles(wrapper.find('.toggleActive'))
@@ -59,27 +57,25 @@ describe('Toggle', () => {
   })
 
   it('Style Toggle/ToggleOption medium', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480, marginBottom: 20}}>
-        <Toggle
-          {...defaultPropsToggle}
-          behavior='radio'
-          size='medium'
-          block={true}
-          equalWidth={true}
-          disabled={true}
-          style={{marginBottom: 20}}>
-          <ToggleOption
-            {...defaultPropsToggleOption}
-            className='toggleActive'
-            value="Rambler">Rambler&Co</ToggleOption>
-          <ToggleOption
-            {...defaultPropsToggleOption}
-            className='toggleOption'
-            value="Yandex">Yandex</ToggleOption>
-        </Toggle>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480, marginBottom: 20}}>
+      <Toggle
+        {...defaultPropsToggle}
+        behavior='radio'
+        size='medium'
+        block={true}
+        equalWidth={true}
+        disabled={true}
+        style={{marginBottom: 20}}>
+        <ToggleOption
+          {...defaultPropsToggleOption}
+          className='toggleActive'
+          value="Rambler">Rambler&Co</ToggleOption>
+        <ToggleOption
+          {...defaultPropsToggleOption}
+          className='toggleOption'
+          value="Yandex">Yandex</ToggleOption>
+      </Toggle>
+    </div>))
 
     const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
     const togOpt = wrapper.find('.toggleActive')
@@ -95,21 +91,19 @@ describe('Toggle', () => {
   })
 
   it('onChange Toggle', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480, marginBottom: 20}}>
-        <Toggle
-          {...defaultPropsToggle}
-          behavior='toggle'>
-          <ToggleOption
-            {...defaultPropsToggleOption}
-            value="Rambler">Rambler&Co</ToggleOption>
-          <ToggleOption
-            {...defaultPropsToggleOption}
-            className='toggleOption'
-            value="Yandex">Yandex</ToggleOption>
-        </Toggle>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480, marginBottom: 20}}>
+      <Toggle
+        {...defaultPropsToggle}
+        behavior='toggle'>
+        <ToggleOption
+          {...defaultPropsToggleOption}
+          value="Rambler">Rambler&Co</ToggleOption>
+        <ToggleOption
+          {...defaultPropsToggleOption}
+          className='toggleOption'
+          value="Yandex">Yandex</ToggleOption>
+      </Toggle>
+    </div>))
 
     const toggle = wrapper.find('.toggleGroup')
     const togOpt2 = wrapper.find('.toggleOption')

@@ -4,27 +4,36 @@ import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class CheckboxExample extends Component {
   state = {
-    checked: true,
-    indeterminate: false
+    checked1: true,
+    checked2: false
   }
 
-  onCheck() {
-    const {checked, indeterminate} = this.state
-    const newState = {}
-    if (checked && !indeterminate) {
-      newState.checked = false
-      newState.indeterminate = false
-    } else if (!checked && !indeterminate) {
-      newState.checked = false
-      newState.indeterminate = true
-    } else if (!checked && indeterminate) {
-      newState.checked = true
-      newState.indeterminate = true
-    } else {
-      newState.checked = true
-      newState.indeterminate = false
-    }
-    this.setState(newState)
+  get isAllChecked() {
+    if (this.state.checked1 === true && this.state.checked2 === true)
+      return true
+    if (this.state.checked1 === false && this.state.checked2 === false)
+      return false
+    return undefined
+  }
+
+  get isIndeterminate() {
+    return this.isAllChecked === undefined
+  }
+
+  onCheck1(e, checked) {
+    this.setState({checked1: checked})
+  }
+
+  onCheck2(e, checked) {
+    this.setState({checked2: checked})
+  }
+
+  onAllCheck() {
+    const checked = this.isAllChecked === false
+    this.setState({
+      checked1: checked,
+      checked2: checked
+    })
   }
 
   render() {
@@ -33,28 +42,39 @@ export default class CheckboxExample extends Component {
         <div>
           <div style={{ display: 'flex', marginBottom: 20 }}>
             {['regular', 'awesome'].map(variation => (
-              <div style={{maxWidth: 240, marginRight: 20}}>
+              <div style={{maxWidth: 240, marginRight: 20}} key={variation}>
                 <h4>variation: {variation}</h4>
                 <div>
-                  <Checkbox name="checkbox6" checked={this.state.checked} indeterminate={this.state.indeterminate} onCheck={::this.onCheck} variation={variation}>
+                  <Checkbox checked={this.isAllChecked} indeterminate={this.isIndeterminate} onCheck={::this.onAllCheck} variation={variation}>
+                    Выбрать все
+                  </Checkbox>
+                </div>
+                <div style={{marginTop: 20}}>
+                  <Checkbox checked={this.state.checked1} onCheck={::this.onCheck1} variation={variation}>
                     Получать уведомления по почте
                   </Checkbox>
                 </div>
                 <div style={{marginTop: 20}}>
-                  <Checkbox name="checkbox8" checked={this.state.checked} indeterminate={this.state.indeterminate} onCheck={::this.onCheck} disabled variation={variation}>
-                    На протяжении многих веков правители семи народов вели непрерывные войны.
+                  <Checkbox checked={this.state.checked2} onCheck={::this.onCheck2} variation={variation}>
+                    Получать уведомления на мобильный
                   </Checkbox>
                 </div>
                 <div style={{marginTop: 20}}>
-                  <Checkbox name="checkbox8" checked={this.state.checked} indeterminate={this.state.indeterminate} onCheck={::this.onCheck} variation={variation} iconPosition='right'>
-                    iconPosition: right
+                  <Checkbox checked={this.state.checked1} disabled variation={variation}>
+                    Получать уведомления по почте
+                  </Checkbox>
+                </div>
+                <div style={{marginTop: 20}}>
+                  <Checkbox checked={this.state.checked2} onCheck={::this.onCheck2} variation={variation} iconPosition='right'>
+                    Получать уведомления на мобильный
                   </Checkbox>
                 </div>
               </div>
             ))}
           </div>
-          <div>this.state.checked: <b>{`${this.state.checked}`}</b></div>
-          <div>this.state.indeterminate: <b>{`${this.state.indeterminate}`}</b></div>
+          <div>this.state.checked1: <b>{`${this.state.checked1}`}</b></div>
+          <div>this.state.checked2: <b>{`${this.state.checked2}`}</b></div>
+          <div>this.isIndeterminate: <b>{`${this.isIndeterminate}`}</b></div>
         </div>
       </ApplyTheme>
     )

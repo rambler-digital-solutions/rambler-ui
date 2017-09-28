@@ -25,7 +25,8 @@ export default class SvgIcon extends Component {
      */
     size: PropTypes.oneOfType([
       PropTypes.oneOf(['small', 'medium', 'large']),
-      PropTypes.number
+      PropTypes.number,
+      PropTypes.string
     ]),
     /**
      * Атрибут viewBox svg-элемента

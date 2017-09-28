@@ -6,7 +6,7 @@ import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
 
-const applyTheme = (children) => (
+const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
@@ -32,10 +32,10 @@ describe('<IconButton />', () => {
 
   let event, linkComponent, btnComponent
   beforeEach(() => {
-    spyOn(defaultProps, 'onClick').and.callFake(e => { event = e })
-    spyOn(defaultPropsLink, 'ref').and.callFake(component => { linkComponent = component })
-    spyOn(defaultPropsDisabledBtn, 'ref').and.callFake(component => { btnComponent = component })
-    spyOn(defaultProps, 'ref').and.callFake(component => { btnComponent = component })
+    spyOn(defaultProps, 'onClick').and.callFake((e) => { event = e })
+    spyOn(defaultPropsLink, 'ref').and.callFake((component) => { linkComponent = component })
+    spyOn(defaultPropsDisabledBtn, 'ref').and.callFake((component) => { btnComponent = component })
+    spyOn(defaultProps, 'ref').and.callFake((component) => { btnComponent = component })
   })
 
   it('expect type="primary" size="medium" affect style', () => {

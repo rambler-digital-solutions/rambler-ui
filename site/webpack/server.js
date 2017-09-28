@@ -1,7 +1,10 @@
+/* eslint-env node */
+
 const WebpackDevServer = require('webpack-dev-server')
 const webpack = require('webpack')
 const config = require('./config')
 const argv = require('minimist')(process.argv)
+
 const compiler = webpack(config)
 const path = require('path')
 const open = require('open')
@@ -19,4 +22,6 @@ const server = new WebpackDevServer(compiler, {
 
 server.listen(port, host)
 open(`http://${host}:${port}`)
+
+// eslint-disable-next-line no-console
 console.log(`Dev server start on ${host}:${port}`)

@@ -10,7 +10,7 @@ import { isolateMixin, fontSmoothingMixin } from '../style/mixins'
 
 const containerNodeStyle = {'pointer-events': 'none'}
 
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   content: {
     ...isolateMixin,
     ...fontSmoothingMixin,
@@ -402,7 +402,9 @@ export default class Tooltip extends PureComponent {
   render() {
     if (!this.props.content)
       return this.renderAnchor()
-    const {contentClassName, contentStyle, content, position, closeOnScroll, status} = this.props
+    const {
+      contentClassName, contentStyle, content, position, closeOnScroll, status
+    } = this.props
     return (
       <FixedOverlay
         isOpened={this.state.isOpened}

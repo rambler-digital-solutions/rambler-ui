@@ -11,7 +11,7 @@ import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 import { RADIO_INPUT_CONTEXT } from '../constants/context'
 
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   radioButtonGroup: {
     ...isolateMixin,
     fontFamily: theme.fontFamily
@@ -106,7 +106,7 @@ export default class RadioButtonGroup extends Component {
   }
 
   createRadioInputEvents() {
-    this.radioInputEvents = new EventEmitter
+    this.radioInputEvents = new EventEmitter()
     this.radioInputEvents.setMaxListeners(0)
     this.radioInputEvents.on('newValue', this.onNewValue)
   }

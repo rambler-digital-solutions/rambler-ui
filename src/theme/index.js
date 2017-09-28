@@ -74,26 +74,28 @@ export const ApplyTheme = compose(
       [RAMBLER_UI_SHEETS_REGISTRY]: PropTypes.object,
       [RAMBLER_UI_JSS_PROVIDER_ID]: PropTypes.number
     },
-    (props) => ({
+    props => ({
       [RAMBLER_UI_JSS]: props.jss,
       [RAMBLER_UI_SHEETS_REGISTRY]: props.sheetsRegistry
     })
   )
-)(({theme, jss, sheetsRegistry, getResultTheme, shouldAddJssProvider, children}) => {
+)(({
+  theme, jss, sheetsRegistry, getResultTheme, shouldAddJssProvider, children
+}) => {
   const provider = <theming.ThemeProvider theme={getResultTheme(theme)} children={children} />
   if (!shouldAddJssProvider)
     return provider
   return <JssProvider jss={jss} registry={sheetsRegistry}>{provider}</JssProvider>
 })
 
-export const injectSheet = (styles) => compose(
+export const injectSheet = styles => compose(
   getContext({
     [RAMBLER_UI_JSS_PROVIDER_ID]: PropTypes.number
   }),
   withContext(
     {[jssNs.providerId]: PropTypes.number},
-    (props) => ({[jssNs.providerId]: props[RAMBLER_UI_JSS_PROVIDER_ID]})
+    props => ({[jssNs.providerId]: props[RAMBLER_UI_JSS_PROVIDER_ID]})
   ),
   originalInjectSheet(styles, {theming}),
-  mapProps((props) => omit(props, RAMBLER_UI_JSS_PROVIDER_ID, 'classes'))
+  mapProps(props => omit(props, RAMBLER_UI_JSS_PROVIDER_ID, 'classes'))
 )

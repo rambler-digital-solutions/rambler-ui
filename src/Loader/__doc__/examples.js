@@ -11,7 +11,7 @@ export default class LoaderExample extends Component {
   }
 
   load = () => {
-    const loading = new Promise(resolve => {
+    const loading = new Promise((resolve) => {
       setTimeout(() => {
         this.setState({
           buttonLoading: false

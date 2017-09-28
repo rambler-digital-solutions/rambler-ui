@@ -5,16 +5,12 @@ import theme from '../../theme/base'
 import { normalize as nc } from '../../utils/colors'
 
 describe('<Hint />', () => {
-  const mountWrapper = props => mount(
-    withTheme(
-      <Hint
-        className="anchor"
-        contentClassName="content"
-        {...props}>
+  const mountWrapper = props => mount(withTheme(<Hint
+    className="anchor"
+    contentClassName="content"
+    {...props}>
         Hello world
-      </Hint>
-    )
-  )
+  </Hint>))
 
   it('should open hint content when change props.isOpened', () => {
     const wrapper = mountWrapper()

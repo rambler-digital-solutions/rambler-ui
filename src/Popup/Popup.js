@@ -21,7 +21,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 @pure
 @zIndexStack(POPUP_ZINDEX)
 @renderToLayer
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   backdrop: {
     ...isolateMixin,
     ...middleMixin,
@@ -189,7 +189,7 @@ export default class Popup extends Component {
       window.removeEventListener('keydown', this.onKeyDown)
   }
 
-  onKeyDown = event => {
+  onKeyDown = (event) => {
     if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
@@ -281,7 +281,7 @@ export default class Popup extends Component {
         onWillInvisible={this.onWillInvisible}
         onInvisible={onClose}>
         <div
-          ref={el => { this.backdrop = el }}
+          ref={(el) => { this.backdrop = el }}
           style={backdropStyle}
           className={classnames(this.css.backdrop, backdropClassName)}>
           {this.renderContent()}

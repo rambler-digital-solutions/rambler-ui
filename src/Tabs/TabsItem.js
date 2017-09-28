@@ -13,7 +13,7 @@ const setThemeForSelector = colors => ({
   color: colors.text
 })
 
-@injectSheet(theme => {
+@injectSheet((theme) => {
   const {sizes, colors} = theme.tabs
   return {
     tab: {

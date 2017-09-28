@@ -7,17 +7,13 @@ import { mount, withTheme, getStyles } from '../../utils/test-utils'
 describe('<Switcher />', () => {
 
   it('should apply default styles', () => {
-    const wrapper = mount(
-      withTheme(
-        <Switcher
-          className="root"
-          switcherClassName="switcher"
-          trackClassName="track"
-          labelClassName="label">
+    const wrapper = mount(withTheme(<Switcher
+      className="root"
+      switcherClassName="switcher"
+      trackClassName="track"
+      labelClassName="label">
           On
-        </Switcher>
-      )
-    )
+    </Switcher>))
 
     const root = wrapper.find('.root')
 
@@ -51,21 +47,17 @@ describe('<Switcher />', () => {
   it('should append style', () => {
     const color = 'rgb(255, 0, 255)'
 
-    const wrapper = mount(
-      withTheme(
-        <Switcher
-          className="root"
-          style={{ color }}
-          switcherClassName="switcher"
-          switcherStyle={{ backgroundColor: color }}
-          trackClassName="track"
-          trackStyle={{ backgroundColor: color }}
-          labelClassName="label"
-          labelStyle={{ backgroundColor: color }}>
+    const wrapper = mount(withTheme(<Switcher
+      className="root"
+      style={{ color }}
+      switcherClassName="switcher"
+      switcherStyle={{ backgroundColor: color }}
+      trackClassName="track"
+      trackStyle={{ backgroundColor: color }}
+      labelClassName="label"
+      labelStyle={{ backgroundColor: color }}>
           On
-        </Switcher>
-      )
-    )
+    </Switcher>))
 
     const rootStyles = getStyles(wrapper.find('.root'))
     const switcherStyles = getStyles(wrapper.find('.switcher'))
@@ -79,19 +71,15 @@ describe('<Switcher />', () => {
   })
 
   it('should append name and disable', () => {
-    const wrapper = mount(
-      withTheme(
-        <Switcher
-          name="foo"
-          disabled
-          className="root"
-          switcherClassName="switcher"
-          trackClassName="track"
-          labelClassName="label">
+    const wrapper = mount(withTheme(<Switcher
+      name="foo"
+      disabled
+      className="root"
+      switcherClassName="switcher"
+      trackClassName="track"
+      labelClassName="label">
           On
-        </Switcher>
-      )
-    )
+    </Switcher>))
 
     const rootStyles = getStyles(wrapper.find('.root'))
     const switcherStyles = getStyles(wrapper.find('.switcher'))
@@ -108,16 +96,12 @@ describe('<Switcher />', () => {
   })
 
   it('should place switcher at right', () => {
-    const wrapper = mount(
-      withTheme(
-        <Switcher
-          iconPosition="right"
-          className="root"
-          labelClassName="label">
+    const wrapper = mount(withTheme(<Switcher
+      iconPosition="right"
+      className="root"
+      labelClassName="label">
           On
-        </Switcher>
-      )
-    )
+    </Switcher>))
 
     const labelStyles = getStyles(wrapper.find('.label'))
 
@@ -128,18 +112,14 @@ describe('<Switcher />', () => {
     let event
     let checked
 
-    const wrapper = mount(
-      withTheme(
-        <Switcher
-          className="root"
-          onCheck={(e, c) => {
-            event = e
-            checked = c
-          }}>
+    const wrapper = mount(withTheme(<Switcher
+      className="root"
+      onCheck={(e, c) => {
+        event = e
+        checked = c
+      }}>
           On
-        </Switcher>
-      )
-    )
+    </Switcher>))
 
     wrapper.find('input').simulate('change', { target: { checked: true } })
     expect(event.type).toEqual('change')

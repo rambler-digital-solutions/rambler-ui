@@ -183,7 +183,7 @@ export default class Switcher extends PureComponent {
     }
   }
 
-  onCheck = event => {
+  onCheck = (event) => {
     const checked = event.target.checked
 
     this.switch(checked)

@@ -5,7 +5,7 @@ import {normalize as nc} from '../../utils/colors'
 import { ApplyTheme } from '../../theme'
 import { mount, getStyles } from '../../utils/test-utils'
 
-const applyTheme = (children) => (
+const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 

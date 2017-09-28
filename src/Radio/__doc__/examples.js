@@ -62,8 +62,7 @@ export default class RadioExample extends Component {
                     <div key={i}>
                       <RadioButton value={city}>{city.name}</RadioButton>
                       { i + 1 < objects.length && <hr style={{marginBottom: '15px'}} /> }
-                    </div>
-                  )
+                    </div>)
                 }
               </div>
             </RadioButtonGroup>

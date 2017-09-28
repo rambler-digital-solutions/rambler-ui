@@ -350,7 +350,7 @@ export default class RelativeOverlay extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.events = new EventEmitter
+    this.events = new EventEmitter()
     // Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
     this.transactionIndex = 0
     this.state = {
@@ -385,7 +385,9 @@ export default class RelativeOverlay extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY}) {
+  componentWillReceiveProps({
+    isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY
+  }) {
     if (isOpened !== undefined && isOpened !== this.props.isOpened)
       if (isOpened)
         this.show()
@@ -495,7 +497,9 @@ export default class RelativeOverlay extends PureComponent {
       this.updateContentPosition()
     })
 
-    whenPositioned.then(({style, pointX, pointY, anchorPointX, anchorPointY}) => {
+    whenPositioned.then(({
+      style, pointX, pointY, anchorPointX, anchorPointY
+    }) => {
       this.setState({
         anchorPointX,
         anchorPointY,

@@ -6,7 +6,7 @@ import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
 
 @pure
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   loader: {
     position: 'relative',
     width: '100%',
@@ -151,7 +151,7 @@ export default class Loader extends Component {
               {children}
             </div>
           ) :
-          children
+            children
         )}
         <div className={classnames(this.css.overlay, overlayClassName, loading && this.css.isLoading)} />
         {loading &&

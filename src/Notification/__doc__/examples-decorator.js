@@ -7,16 +7,14 @@ import { ApplyTheme } from 'rambler-ui/theme'
 class WithNotification extends Component {
 
   open = () => {
-    const notification = this.props.openNotification(
-      <Notification
-        title="Hi"
-        icon={
-          <FaceIcon color="crimson" />
-        }
-        body="Вы готовы удалить почту?"
-        actionButton="Да"
-        onAction={() => notification.close()} />
-    )
+    const notification = this.props.openNotification(<Notification
+      title="Hi"
+      icon={
+        <FaceIcon color="crimson" />
+      }
+      body="Вы готовы удалить почту?"
+      actionButton="Да"
+      onAction={() => notification.close()} />)
   }
 
   render() {

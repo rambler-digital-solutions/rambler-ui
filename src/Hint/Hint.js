@@ -10,7 +10,7 @@ import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
 @pure
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   hint: {
     ...isolateMixin,
     fontFamily: theme.fontFamily,

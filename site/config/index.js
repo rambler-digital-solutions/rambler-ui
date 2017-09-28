@@ -1,5 +1,8 @@
+/* eslint-env node */
 /* eslint global-require: ["off"] */
+
 const cp = require('child_process')
+
 const env = process.env.NODE_ENV || 'development'
 const _ = require('lodash')
 
@@ -12,6 +15,7 @@ module.exports = {
 try {
   _.merge(module.exports, require('./' + env))
 } catch (e) {
+  // eslint-disable-next-line no-console
   console.error(e)
 }
 

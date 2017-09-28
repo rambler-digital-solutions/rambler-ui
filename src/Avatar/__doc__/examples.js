@@ -18,14 +18,14 @@ export default function AvatarExample() {
           <div style={{ display: 'inline-block', width: '33%' }}>
             Circle
             <Avatar {...props} profileType="facebook" />
-            <Avatar {...props} size={25} />
+            <Avatar {...props} size={36} profileType="facebook" />
             <Avatar {...props} size={100} href="#/components/Button" />
           </div>
 
           <div style={{ display: 'inline-block', width: '33%' }}>
             Rounded
-            <Avatar {...props} shape="rounded" />
-            <Avatar {...props} shape="rounded" size={25} />
+            <Avatar {...props} shape="rounded" profileType="facebook" />
+            <Avatar {...props} shape="rounded" size={25} profileType="facebook" />
             <Avatar
               {...props}
               shape="rounded"

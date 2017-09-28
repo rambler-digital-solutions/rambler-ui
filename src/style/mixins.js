@@ -60,7 +60,7 @@ const responsiveFactory = (rule) => {
     const result = {}
     Object.keys(options).forEach((key) => {
       const value = options[key]
-      if (/[\$&]/.test(key) && !(key === 'composes' && (isArray(value) || typeof value === 'string'))) {
+      if (/[$&]/.test(key) && !(key === 'composes' && (isArray(value) || typeof value === 'string'))) {
         result[key] = replaceResponsiveKeys(options[key])
       } else {
         if (!result[rule])
@@ -76,6 +76,8 @@ const responsiveFactory = (rule) => {
 export const ifDesktop = responsiveFactory('@media (min-device-width: 768px)')
 
 export const ifMobile = responsiveFactory('@media (max-device-width: 767px)')
+
+export const ifDesktopSize = responsiveFactory('@media (min-width: 768px)')
 
 const pseudoSelectors = ['::-webkit-input-placeholder', '::-moz-placeholder', ':-moz-placeholder', ':-ms-input-placeholder', '::placeholder']
 export const placeholderMixin = (selector, style) => (

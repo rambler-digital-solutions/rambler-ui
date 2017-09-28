@@ -1,16 +1,21 @@
 /* eslint strict: ["off"], no-console: ["off"], global-require: ["off"] */
+/* eslint-env node */
+
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require('html-webpack-plugin')
+
 const rootDir = path.resolve(__dirname, '..')
 const argv = require('minimist')(process.argv.slice(2))
 const flat = require('flat')
+
 const cssVariables = flat(require(path.resolve(__dirname, '../src/variables')), { delimiter: '-' })
 const cssnext = require('postcss-cssnext')
 const postCssVars = require('postcss-simple-vars')
 const postCssImport = require('postcss-import')
 const postCssMixins = require('postcss-mixins')
 const precss = require('precss')
+
 const env = process.env.NODE_ENV || 'development'
 const appConfig = require('../config')
 

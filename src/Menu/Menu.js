@@ -8,7 +8,7 @@ import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
 import { isolateMixin } from '../style/mixins'
 
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   menu: {
     ...isolateMixin,
     fontFamily: theme.fontFamily,
@@ -181,7 +181,7 @@ export default class Menu extends PureComponent {
     this.props.onChange(nextValue)
   }
 
-  keyDown = event => {
+  keyDown = (event) => {
     const key = event.keyCode
     const shift = event.shiftKey
 
@@ -230,8 +230,8 @@ export default class Menu extends PureComponent {
       const childValue = child.props.value
 
       const isSelected = multiple ?
-          value.reduce((prev, val) => valuesEquality(val, childValue) || prev, false) :
-          valuesEquality(childValue, value)
+        value.reduce((prev, val) => valuesEquality(val, childValue) || prev, false) :
+        valuesEquality(childValue, value)
 
       return cloneElement(child, {
         isSelected,
@@ -239,14 +239,14 @@ export default class Menu extends PureComponent {
         key: childValue,
         onFocus: () => this.setFocusIndex(index),
         onSelect: () => this.changeValue(childValue),
-        ref: isSelected ? item => { this.selectedItem = item } : null
+        ref: isSelected ? (item) => { this.selectedItem = item } : null
       })
     })
 
     return (
       <div
         {...other}
-        ref={el => { this.menu = el }}
+        ref={(el) => { this.menu = el }}
         style={{ ...style, maxHeight }}
         className={classnames(this.css.menu, className)}
         onKeyDown={this.keyDown}>

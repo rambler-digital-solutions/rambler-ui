@@ -65,16 +65,16 @@ export default function provideRenderToLayer(Target) {
       return resultElement
     }
 
-    unrenderAtLayer = element => {
+    unrenderAtLayer = (element) => {
       const elementIndex = this.elements.indexOf(element)
       if (elementIndex < 0) return
 
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         const { containerRef } = element.props
 
         const closedElement = cloneElement(element, {
           isOpened: false,
-          containerRef: ref => {
+          containerRef: (ref) => {
             if (containerRef)
               containerRef(ref)
             resolve(closedElement)
@@ -83,7 +83,7 @@ export default function provideRenderToLayer(Target) {
 
         this.elements[elementIndex] = closedElement
         this.renderPortal()
-      }).then(closedElement => {
+      }).then((closedElement) => {
         this.elements = this.elements.filter(el => el !== closedElement)
         this.renderPortal()
       })

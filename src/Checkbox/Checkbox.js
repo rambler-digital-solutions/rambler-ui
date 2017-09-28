@@ -6,7 +6,7 @@ import TickIcon from '../icons/forms/TickIcon'
 import { isolateMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
 
-const setThemeForSelector = (colors) => ({
+const setThemeForSelector = colors => ({
   background: colors.background,
   borderColor: colors.border,
   color: colors.tick
@@ -72,6 +72,7 @@ const tickStyle = {
       borderRadius: checkboxTheme.borderRadius,
       borderStyle: 'solid',
       borderWidth: 1,
+      lineHeight: 0,
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'border-color, background-color, color',
       '&:before': {
@@ -80,7 +81,7 @@ const tickStyle = {
         opacity: 0,
         top: 0,
         right: 0,
-        bottom: 0,
+        bottom: 0.5,
         left: 0,
         background: 'currentColor',
         height: 2,
@@ -113,6 +114,7 @@ const tickStyle = {
       display: 'inline-block',
       lineHeight: 1.54,
       position: 'relative',
+      top: 0.5,
       '$iconright &': {
         paddingRight: checkboxTheme.size + checkboxTheme.labelMargin
       },
@@ -122,14 +124,12 @@ const tickStyle = {
     },
     tick: {
       position: 'absolute',
-      top: 3,
-      left: 2,
+      top: Math.round(0.2 * checkboxTheme.size),
+      left: Math.round(0.15 * checkboxTheme.size),
       fill: 'currentColor',
       opacity: 0,
-      fontSize: 7,
-      width: 9 / 7 + 'em',
-      height: '1em',
-      transform: 'translateY(-5px)',
+      width: Math.round(0.6 * checkboxTheme.size),
+      transform: `translateY(-${checkboxTheme.size * 0.3}px)`,
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'transform, opacity',
       '$isChecked &': {
@@ -257,7 +257,7 @@ export default class Checkbox extends Component {
       <label className={resultClassName} style={style}>
         <input
           {...other}
-          ref={input => { this.input = input }}
+          ref={(input) => { this.input = input }}
           checked={ checked }
           name={ name }
           type="checkbox"

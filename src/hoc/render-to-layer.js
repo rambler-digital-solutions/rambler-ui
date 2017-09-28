@@ -97,7 +97,7 @@ export default function renderToLayer(Target) {
 
     mountPortal() {
       if (!this.node)
-        new Promise(resolve => {
+        new Promise((resolve) => {
           this.node = document.createElement('div')
           this.node.style.position = 'absolute'
           this.node.style.zIndex = this.props.zIndex
@@ -122,7 +122,7 @@ export default function renderToLayer(Target) {
 
     unmountPortal(force) {
       if (this.node)
-        new Promise(resolve => {
+        new Promise((resolve) => {
           if (force) resolve()
           this.resolveClosing = resolve
           this.renderPortal()

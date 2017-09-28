@@ -8,7 +8,7 @@ import { POINTS_Y } from '../constants/overlay'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   dropdown: {
     ...isolateMixin,
     fontFamily: theme.fontFamily,

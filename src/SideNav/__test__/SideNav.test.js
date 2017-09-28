@@ -5,7 +5,7 @@ import { mount, getStyles } from '../../utils/test-utils'
 
 import React from 'react'
 
-const applyTheme = (children) => (
+const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
@@ -31,23 +31,21 @@ describe('<SideNav />', () => {
   })
 
   it('Styles for SideNav, SideNavItem', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480}}>
-        <SideNav
-          {...defaultPropsSideNav}
-          size="small"
-          block={false}>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            className="sideNavSelected"
-            value="general">Личные данные</SideNavItem>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            className="sideNavItem"
-            value="email">Адреса электронной почты</SideNavItem>
-        </SideNav>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480}}>
+      <SideNav
+        {...defaultPropsSideNav}
+        size="small"
+        block={false}>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          className="sideNavSelected"
+          value="general">Личные данные</SideNavItem>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          className="sideNavItem"
+          value="email">Адреса электронной почты</SideNavItem>
+      </SideNav>
+    </div>))
 
     const sideNavStyles = getStyles(wrapper.find('.sideNav'))
     const sideNavItem = wrapper.find('.sideNavItem')
@@ -68,22 +66,20 @@ describe('<SideNav />', () => {
   })
 
   it('Styles for SideNav, SideNavItem when size = medium, block = true', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480}}>
-        <SideNav
-          {...defaultPropsSideNav}
-          size="medium"
-          block={true}>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            value="general">Личные данные</SideNavItem>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            className="sideNavItem"
-            value="email">Адреса электронной почты</SideNavItem>
-        </SideNav>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480}}>
+      <SideNav
+        {...defaultPropsSideNav}
+        size="medium"
+        block={true}>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          value="general">Личные данные</SideNavItem>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          className="sideNavItem"
+          value="email">Адреса электронной почты</SideNavItem>
+      </SideNav>
+    </div>))
 
     const sideNavStyles = getStyles(wrapper.find('.sideNav'))
     const sideNavItem = wrapper.find('.sideNavItem')
@@ -101,22 +97,20 @@ describe('<SideNav />', () => {
   })
 
   it('Check SideNav value onChange', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480}}>
-        <SideNav
-          {...defaultPropsSideNav}
-          size="medium"
-          block={false}>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            value="general">Личные данные</SideNavItem>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            className="sideNavItem"
-            value="email">Адреса электронной почты</SideNavItem>
-        </SideNav>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480}}>
+      <SideNav
+        {...defaultPropsSideNav}
+        size="medium"
+        block={false}>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          value="general">Личные данные</SideNavItem>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          className="sideNavItem"
+          value="email">Адреса электронной почты</SideNavItem>
+      </SideNav>
+    </div>))
 
     const sideNav = wrapper.find('.sideNav')
     const sideNavItem = wrapper.find('.sideNavItem')
@@ -129,24 +123,22 @@ describe('<SideNav />', () => {
   })
 
   it('Check SideNavItem is link with href, target', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480}}>
-        <SideNav
-          {...defaultPropsSideNav}
-          size="medium"
-          block={false}>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            className="sideNavPersonal"
-            href="/personal">Личные данные</SideNavItem>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            className="sideNavEmails"
-            href="/emails"
-            target="_blank">Адреса электронной почты</SideNavItem>
-        </SideNav>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480}}>
+      <SideNav
+        {...defaultPropsSideNav}
+        size="medium"
+        block={false}>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          className="sideNavPersonal"
+          href="/personal">Личные данные</SideNavItem>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          className="sideNavEmails"
+          href="/emails"
+          target="_blank">Адреса электронной почты</SideNavItem>
+      </SideNav>
+    </div>))
 
     const sideNavPersonal = wrapper.find('.sideNavPersonal')
     const sideNavEmails = wrapper.find('.sideNavEmails')
@@ -166,27 +158,25 @@ describe('<SideNav />', () => {
       </button>
     )
 
-    const wrapper = mount(applyTheme(
-      <div style={{width: 480}}>
-        <SideNav
-          {...defaultPropsSideNav}
-          size="medium"
-          block={false}>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            className="sideNavItem"
-            isSelected={true}
-            container={
-              <Button />
-            }>Личные данные</SideNavItem>
-          <SideNavItem
-            {...defaultPropsSideNavItem}
-            container={
-              <Button />
-            }>Адреса электронной почты</SideNavItem>
-        </SideNav>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{width: 480}}>
+      <SideNav
+        {...defaultPropsSideNav}
+        size="medium"
+        block={false}>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          className="sideNavItem"
+          isSelected={true}
+          container={
+            <Button />
+          }>Личные данные</SideNavItem>
+        <SideNavItem
+          {...defaultPropsSideNavItem}
+          container={
+            <Button />
+          }>Адреса электронной почты</SideNavItem>
+      </SideNav>
+    </div>))
 
     const sideNavItem = wrapper.find('.sideNavItem')
 

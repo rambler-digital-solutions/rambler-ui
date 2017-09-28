@@ -7,6 +7,10 @@ import * as profileIcons from '../icons/profiles'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
 
+function calcProfileSize(size) {
+  return Math.min(Math.max(14, 0.45 * size), 32)
+}
+
 @pure
 @injectSheet(() => ({
   avatar: {
@@ -35,9 +39,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     bottom: 0,
     transform: 'translate(25%, 25%)',
     boxShadow: 'inset 0 0 0 1px white',
-    borderRadius: '50%',
-    width: 'calc(9.091% + 15.91px)',
-    height: 'calc(9.091% + 15.91px)',
+    borderRadius: '100%',
     fontSize: 0,
     textAlign: 'center'
   }
@@ -101,8 +103,7 @@ export default class Avatar extends Component {
 
   static defaultProps = {
     size: 45,
-    shape: 'circle',
-    iconBackgroundColor: 'white'
+    shape: 'circle'
   }
 
   get css() {
@@ -136,8 +137,9 @@ export default class Avatar extends Component {
       size,
       shape,
       profileType,
+      theme,
       ...other
-    } = omit(this.props, 'sheet', 'theme', 'href', 'container')
+    } = omit(this.props, 'sheet', 'href', 'container')
 
     const styles = Object.assign({}, style, {
       backgroundColor,
@@ -149,10 +151,16 @@ export default class Avatar extends Component {
     const ProfileIcon = profileType &&
       profileIcons[`${profileType.replace(/^\w/, m => m.toUpperCase())}Icon`]
 
+    const profileSize = Math.round(calcProfileSize(size)) + 'px'
+
     const children = profileType && (
       <div
         className={this.css.profile}
-        style={{backgroundColor: iconBackgroundColor}}>
+        style={{
+          backgroundColor: iconBackgroundColor || theme.avatar.colors.iconBackground,
+          width: profileSize,
+          height: profileSize
+        }}>
         <ProfileIcon size="55%" />
       </div>
     )

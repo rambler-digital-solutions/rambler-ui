@@ -12,13 +12,13 @@ export default class SnackbarExample extends Component {
     withIconIsOpened: false
   }
 
-  openSnackbar = type => {
+  openSnackbar = (type) => {
     this.setState({
       [`${type}IsOpened`]: true
     })
   }
 
-  closeSnackbar = type => {
+  closeSnackbar = (type) => {
     this.setState({
       [`${type}IsOpened`]: false
     })

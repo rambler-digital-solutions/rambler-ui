@@ -35,26 +35,24 @@ class Content extends Component {
 }
 
 function Anchor({style = {}}) {
-  return <div className="anchor" style={{border: '1px solid black', padding: '10px', display: 'inline-block', ...style}}>anchor</div>
+  return <div className="anchor" style={{
+    border: '1px solid black', padding: '10px', display: 'inline-block', ...style
+  }}>anchor</div>
 }
 
 describe('<FixedOverlay />', () => {
   let callbacks, whenContentShow, whenContentHide, wrapper, wrapperNode, wrapperNodeRect, contentWrapperNode
 
   const mountWrapper = (props, anchorProps = {}) => {
-    wrapper = mount(
-      withTheme(
-        <FixedOverlay
-          isOpened={false}
-          anchor={<Anchor {...anchorProps} />}
-          content={<Content />}
-          onContentOpen={callbacks.onContentOpen}
-          onContentClose={callbacks.onContentClose}
-          contentWrapperRef={callbacks.contentWrapperRef}
-          {...props}
-        />
-      )
-    )
+    wrapper = mount(withTheme(<FixedOverlay
+      isOpened={false}
+      anchor={<Anchor {...anchorProps} />}
+      content={<Content />}
+      onContentOpen={callbacks.onContentOpen}
+      onContentClose={callbacks.onContentClose}
+      contentWrapperRef={callbacks.contentWrapperRef}
+      {...props}
+    />))
     wrapperNode = getWrapperNode(wrapper)
     wrapperNodeRect = wrapperNode.getBoundingClientRect()
   }

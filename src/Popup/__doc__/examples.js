@@ -12,7 +12,7 @@ export default class PopupExample extends Component {
     customIsOpened: false
   }
 
-  openPopup = type => {
+  openPopup = (type) => {
     this.setState({
       [`${type}IsOpened`]: true
     })
@@ -72,7 +72,7 @@ export default class PopupExample extends Component {
           >
             <div style={{ width: 400 }}>
               <Input
-                type="email"
+                type="password"
                 autoFocus
                 value={this.state.inputValue}
                 onChange={this.updateValue} />

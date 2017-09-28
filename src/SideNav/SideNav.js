@@ -8,7 +8,7 @@ import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   sideNav: {
     ...isolateMixin,
     fontFamily: theme.fontFamily,
@@ -102,7 +102,7 @@ export default class SideNav extends Component {
       ...other
     } = omit(this.props, 'theme')
 
-    const resultChildren = Children.map(children, child => {
+    const resultChildren = Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiSideNavItem')
         throw new Error('Child component should be instance of <SideNavItem />')
 

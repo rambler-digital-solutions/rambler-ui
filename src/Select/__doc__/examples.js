@@ -40,13 +40,13 @@ export default class SelectExample extends Component {
     })
   }
 
-  setValue = key => value => {
+  setValue = key => (value) => {
     this.setState({
       [key]: value
     })
   }
 
-  filterData = search => {
+  filterData = (search) => {
     const filteredData = search === '' ?
       data :
       data.filter(item => search !== '' && item.indexOf(search) > -1)
@@ -56,7 +56,7 @@ export default class SelectExample extends Component {
     })
   }
 
-  filterObjectData = search => {
+  filterObjectData = (search) => {
     const filteredData = search === '' ?
       objectData :
       objectData.filter(item => search !== '' && item.key.indexOf(search) > -1)
@@ -66,7 +66,7 @@ export default class SelectExample extends Component {
     })
   }
 
-  requestData = search => {
+  requestData = (search) => {
     this.setState({
       asyncData: []
     })
@@ -78,7 +78,7 @@ export default class SelectExample extends Component {
         return
 
       this.setState({
-        asyncData: new Promise(resolve => {
+        asyncData: new Promise((resolve) => {
           setTimeout(() => {
             this.setState({
               asyncData: [
@@ -139,7 +139,7 @@ export default class SelectExample extends Component {
               value={this.state.value1}
               onChange={this.setValue('value1')}
               onSearch={this.filterData}>
-              {this.state.data.map((item) => (
+              {this.state.data.map(item => (
                 <MenuItem value={item} key={item}>
                   {item}
                 </MenuItem>
@@ -155,7 +155,7 @@ export default class SelectExample extends Component {
                 value={this.state.asyncValue}
                 onChange={this.setValue('asyncValue')}
                 onSearch={this.requestData}>
-                {!!this.state.asyncData.then ? [] : this.state.asyncData.map(item => (
+                {this.state.asyncData.then ? [] : this.state.asyncData.map(item => (
                   <MenuItem value={item} key={item}>
                     {item}
                   </MenuItem>
@@ -173,7 +173,7 @@ export default class SelectExample extends Component {
               valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
               onChange={this.setValue('objectValue')}
               onSearch={this.filterObjectData}>
-              {this.state.objectData.map((item) => (
+              {this.state.objectData.map(item => (
                 <MenuItem value={item} key={item.id}>
                   <PhoneIcon /> {item.key}
                 </MenuItem>

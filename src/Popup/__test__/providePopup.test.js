@@ -5,7 +5,7 @@ import Button from '../../Button/Button'
 import { ApplyTheme } from '../../theme'
 import { mount } from '../../utils/test-utils'
 
-const withTheme = element => {
+const withTheme = (element) => {
   const Result = props => <ApplyTheme>{cloneElement(element, props)}</ApplyTheme>
   Result.displayName = element.displayName
   return <Result />
@@ -27,11 +27,7 @@ class WithPopup extends Component {
 describe('providePopup()', () => {
   let containerNode
 
-  const mountWrapper = () => mount(
-    withTheme(
-      <WithPopup />
-    )
-  )
+  const mountWrapper = () => mount(withTheme(<WithPopup />))
 
   const mountPopup = () => {
     const wrapper = mountWrapper()
@@ -40,7 +36,7 @@ describe('providePopup()', () => {
     const popup = openPopup((resolve, reject) => (
       <Popup
         className="popup"
-        containerRef={ref => {
+        containerRef={(ref) => {
           containerNode = ref
         }}
         okButton={
@@ -83,10 +79,12 @@ describe('providePopup()', () => {
     expect(wrappedNode.text()).toEqual('Hi')
   })
 
-  it('should open/close popup with reject when call props.{openPopup,closePopup}', async done => {
+  it('should open/close popup with reject when call props.{openPopup,closePopup}', async (done) => {
     expect(containerNode).toBeUndefined()
 
-    const { popup, closePopup, whenOpen, whenClose } = mountPopup()
+    const {
+      popup, closePopup, whenOpen, whenClose
+    } = mountPopup()
 
     await whenOpen
     expect(document.body.lastElementChild).toEqual(containerNode)
@@ -101,7 +99,7 @@ describe('providePopup()', () => {
     }
   })
 
-  it('should close popup with reject when call popup.close', async done => {
+  it('should close popup with reject when call popup.close', async (done) => {
     const { popup, whenOpen, whenClose } = mountPopup()
 
     await whenOpen
@@ -118,7 +116,7 @@ describe('providePopup()', () => {
     }
   })
 
-  it('should close popup with reject when click on close button', async done => {
+  it('should close popup with reject when click on close button', async (done) => {
     const { whenOpen, whenClose } = mountPopup()
 
     await whenOpen
@@ -134,7 +132,7 @@ describe('providePopup()', () => {
     }
   })
 
-  it('should close popup with reject when click on cancelButton', async done => {
+  it('should close popup with reject when click on cancelButton', async (done) => {
     const { whenOpen, whenClose } = mountPopup()
 
     await whenOpen
@@ -151,7 +149,7 @@ describe('providePopup()', () => {
     }
   })
 
-  it('should close popup with resolve when click on okButton', async done => {
+  it('should close popup with resolve when click on okButton', async (done) => {
     const { whenOpen, whenClose } = mountPopup()
 
     await whenOpen

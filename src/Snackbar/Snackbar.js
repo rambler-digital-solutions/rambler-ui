@@ -14,7 +14,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 @pure
 @zIndexStack(SNACKBAR_ZINDEX)
 @renderToLayer
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   snackbar: {
     ...isolateMixin,
     ...middleMixin,

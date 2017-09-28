@@ -6,7 +6,7 @@ export default function provideSnackbar(Target) {
   @provideRenderToLayer
   class ProvideSnackbar extends Component {
 
-    openSnackbar = element => {
+    openSnackbar = (element) => {
       const snackbar = {}
 
       const close = () => {
@@ -21,7 +21,7 @@ export default function provideSnackbar(Target) {
       return snackbar
     }
 
-    closeSnackbar = snackbar => {
+    closeSnackbar = (snackbar) => {
       snackbar.close()
     }
 

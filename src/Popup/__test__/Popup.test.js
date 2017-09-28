@@ -9,17 +9,13 @@ import { normalize as nc } from '../../utils/colors'
 describe('<Popup />', () => {
   let containerNode
 
-  const mountWrapper = props => mount(
-    withTheme(
-      <Popup
-        className="popup"
-        containerRef={ref => {
-          containerNode = ref
-        }}
-        {...props}
-      />
-    )
-  )
+  const mountWrapper = props => mount(withTheme(<Popup
+    className="popup"
+    containerRef={(ref) => {
+      containerNode = ref
+    }}
+    {...props}
+  />))
 
   beforeEach(() => {
     containerNode = undefined
@@ -40,10 +36,10 @@ describe('<Popup />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should open/close popup when change props.isOpened', async done => {
+  it('should open/close popup when change props.isOpened', async (done) => {
     const props = {}
 
-    const whenClose = new Promise(resolve => {
+    const whenClose = new Promise((resolve) => {
       props.onClose = resolve
     })
 
@@ -247,10 +243,10 @@ describe('<Popup />', () => {
     expect(cancelButtonNode.textContent).toEqual('Cancel')
   })
 
-  it('should call props.onOpen() when popup opens', async done => {
+  it('should call props.onOpen() when popup opens', async (done) => {
     const props = {}
 
-    const whenOpen = new Promise(resolve => {
+    const whenOpen = new Promise((resolve) => {
       props.onOpen = resolve
     })
 
@@ -267,13 +263,13 @@ describe('<Popup />', () => {
     done()
   })
 
-  it('should call props.onRequestClose() when click on close button', async done => {
+  it('should call props.onRequestClose() when click on close button', async (done) => {
     const props = {
       isOpened: true,
       showClose: true
     }
 
-    const whenRequestClose = new Promise(resolve => {
+    const whenRequestClose = new Promise((resolve) => {
       props.onRequestClose = resolve
     })
 
@@ -286,12 +282,12 @@ describe('<Popup />', () => {
     done()
   })
 
-  it('should call props.onClose() when popup closes', async done => {
+  it('should call props.onClose() when popup closes', async (done) => {
     const props = {
       isOpened: true
     }
 
-    const whenClose = new Promise(resolve => {
+    const whenClose = new Promise((resolve) => {
       props.onClose = resolve
     })
 

@@ -11,11 +11,7 @@ describe('<Textarea />', () => {
   }
 
   it('should apply styles', () => {
-    const wrapper = mount(
-      withTheme(
-        <Textarea {...defaultProps} style={{height: '85px'}}/>
-      )
-    )
+    const wrapper = mount(withTheme(<Textarea {...defaultProps} style={{height: '85px'}}/>))
 
     const textareaStyles = getStyles(wrapper.find('.textarea'))
 
@@ -34,11 +30,7 @@ describe('<Textarea />', () => {
       disabled: true
     }
 
-    const wrapper = mount(
-      withTheme(
-        <Textarea {...defaultProps} {...fixture} />
-      )
-    )
+    const wrapper = mount(withTheme(<Textarea {...defaultProps} {...fixture} />))
 
     const textarea = wrapper.find('.textarea')
 
@@ -62,11 +54,7 @@ describe('<Textarea />', () => {
       value = v
     })
 
-    const wrapper = mount(
-      withTheme(
-        <Textarea {...props} />
-      )
-    )
+    const wrapper = mount(withTheme(<Textarea {...props} />))
 
     const textarea = wrapper.find('.textarea')
 

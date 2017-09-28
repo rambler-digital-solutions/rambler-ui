@@ -27,10 +27,10 @@ describe('<Button />', () => {
 
   let event, linkComponent, btnComponent
   beforeEach(() => {
-    spyOn(defaultProps, 'onClick').and.callFake(e => { event = e })
-    spyOn(defaultPropsLink, 'ref').and.callFake(component => { linkComponent = component })
-    spyOn(defaultPropsDisabledBtn, 'ref').and.callFake(component => { btnComponent = component })
-    spyOn(defaultProps, 'ref').and.callFake(component => { btnComponent = component })
+    spyOn(defaultProps, 'onClick').and.callFake((e) => { event = e })
+    spyOn(defaultPropsLink, 'ref').and.callFake((component) => { linkComponent = component })
+    spyOn(defaultPropsDisabledBtn, 'ref').and.callFake((component) => { btnComponent = component })
+    spyOn(defaultProps, 'ref').and.callFake((component) => { btnComponent = component })
   })
 
   it('expect type="primary" size="medium" affect style', () => {
@@ -52,11 +52,11 @@ describe('<Button />', () => {
   })
 
   it('expect block={true} size="small" affect style', () => {
-    const wrapper = mount(applyTheme(
-      <div style={{width: 300, padding: 20, margin: 20, background: '#fafafa', border: '1px solid #eee'}}>
-        <Button type="outline" block={true} size="small" className='my-test-btn'>test</Button>
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div style={{
+      width: 300, padding: 20, margin: 20, background: '#fafafa', border: '1px solid #eee'
+    }}>
+      <Button type="outline" block={true} size="small" className='my-test-btn'>test</Button>
+    </div>))
 
     const stylesBtn = getStyles(wrapper.find('button'))
 

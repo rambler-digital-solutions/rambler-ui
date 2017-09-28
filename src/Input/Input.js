@@ -28,7 +28,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     boxShadow: 'none',
     border: '0 solid',
     borderColor: theme.field.colors.default.outline,
-    'textarea&': {
+    'textarea&&': {
       resize: 'vertical',
       height: '100%',
       paddingTop: theme.input.padding,
@@ -56,7 +56,11 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   },
   withStatusLine: {
     '& $activeBorder': {
-      borderWidth: '0 0 2px'
+      borderWidth: '0 0 2px',
+      transform: 'scale(0.6, 1)'
+    },
+    '& $input': {
+      paddingBottom: 1
     }
   },
   withOutline: {
@@ -167,16 +171,20 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     transition: `all ${theme.field.animationDuration}ms ease`,
     border: '0 solid transparent',
     '$input:focus + &': {
-      borderColor: theme.field.colors.focus.border
+      borderColor: theme.field.colors.focus.border,
+      transform: 'scale(1, 1)'
     },
     '$success $input:enabled + &': {
-      borderColor: theme.colors.success
+      borderColor: theme.colors.success,
+      transform: 'scale(1, 1)'
     },
     '$error $input:enabled + &': {
-      borderColor: theme.colors.danger
+      borderColor: theme.colors.danger,
+      transform: 'scale(1, 1)'
     },
     '$warning $input:enabled + &': {
-      borderColor: theme.colors.warn
+      borderColor: theme.colors.warn,
+      transform: 'scale(1, 1)'
     }
   },
   icon: {

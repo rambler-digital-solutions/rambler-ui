@@ -1,15 +1,19 @@
 import React from 'react'
 import Avatar from '../Avatar'
+import theme from '../../theme/base'
 import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import { normalize as nc } from '../../utils/colors'
+
+const TEST_IMAGE = 'https://api.adorable.io/avatars/face/eyes4/nose5/mouth7/8e8895/'
+
+function normalizaImageUrl(url) {
+  return url.replace(/['"]/g, '')
+}
 
 describe('<Avatar />', () => {
 
   it('should apply default styles', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar src={TEST_IMAGE} />))
 
     const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
@@ -19,7 +23,7 @@ describe('<Avatar />', () => {
     expect(imageStyles.width).toEqual('45px')
     expect(imageStyles.height).toEqual('45px')
     expect(imageStyles['vertical-align']).toEqual('middle')
-    expect(imageStyles['background-image']).toEqual(`url(${window.location.origin}/image.png)`)
+    expect(normalizaImageUrl(imageStyles['background-image'])).toEqual(`url(${TEST_IMAGE})`)
     expect(imageStyles['border-top-left-radius']).toEqual('50%')
     expect(imageStyles['border-top-right-radius']).toEqual('50%')
     expect(imageStyles['border-bottom-left-radius']).toEqual('50%')
@@ -27,11 +31,7 @@ describe('<Avatar />', () => {
   })
 
   it('should be a rounded', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar shape="rounded" src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar shape="rounded" src={TEST_IMAGE} />))
 
     const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
@@ -43,11 +43,7 @@ describe('<Avatar />', () => {
   })
 
   it('should be a square', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar shape="square" src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar shape="square" src={TEST_IMAGE} />))
 
     const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
@@ -59,11 +55,7 @@ describe('<Avatar />', () => {
   })
 
   it('should apply custom size', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar size={75} src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar size={75} src={TEST_IMAGE}/>))
 
     const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
@@ -73,11 +65,7 @@ describe('<Avatar />', () => {
   })
 
   it('should append className', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar className="avatar" src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar className="avatar" src={TEST_IMAGE}/>))
 
     const image = wrapper.find(Avatar)
 
@@ -85,11 +73,7 @@ describe('<Avatar />', () => {
   })
 
   it('should append style', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar style={{ marginLeft: 10 }} src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar style={{ marginLeft: 10 }} src={TEST_IMAGE}/>))
 
     const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
@@ -100,48 +84,34 @@ describe('<Avatar />', () => {
   it('should append backgroundColor', () => {
     const color = 'rgb(255, 255, 255)'
 
-    const wrapper = mount(
-      withTheme(
-        <Avatar backgroundColor={color} src="image.png"/>
-      )
-    )
-
+    const wrapper = mount(withTheme(<Avatar backgroundColor={color} src={TEST_IMAGE}/>))
     const image = wrapper.find(Avatar)
     const imageStyles = getStyles(image)
-
     expect(imageStyles['background-color']).toEqual(color)
   })
 
 
   it('should append profile icon', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar profileType="facebook" src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar profileType="facebook" src={TEST_IMAGE}/>))
 
     const image = wrapper.find(Avatar)
     const iconStyles = getStyles(image.find('svg'))
     const iconContainerStyles = getStyles(image.find('div > div'))
 
-    expect(iconStyles.fill).toEqual('#4661a3')
+    expect(nc(iconStyles.fill)).toEqual(nc('#4661a3'))
     expect(iconStyles.width).toEqual('11px')
     expect(iconStyles.height).toEqual('11px')
 
     expect(iconContainerStyles.position).toEqual('absolute')
     expect(iconContainerStyles.width).toEqual('20px')
     expect(iconContainerStyles.height).toEqual('20px')
-    expect(iconContainerStyles['background-color']).toEqual('rgb(255, 255, 255)')
+    expect(nc(iconContainerStyles['background-color'])).toEqual(nc(theme.avatar.colors.iconBackground))
   })
 
   it('should append iconBackgroundColor', () => {
     const color = 'rgb(255, 0, 0)'
 
-    const wrapper = mount(
-      withTheme(
-        <Avatar profileType="facebook" iconBackgroundColor={color} src="image.png"/>
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar profileType="facebook" iconBackgroundColor={color} src={TEST_IMAGE}/>))
 
     const image = wrapper.find(Avatar)
     const iconContainerStyles = getStyles(image.find('div > div'))
@@ -150,11 +120,7 @@ describe('<Avatar />', () => {
   })
 
   it('should append `<a />` as container', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar src="image.png" href="/foo" />
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar src={TEST_IMAGE} href="/foo" />))
 
     const image = wrapper.find(Avatar)
     const imageNode = image.getDOMNode()
@@ -164,11 +130,7 @@ describe('<Avatar />', () => {
   })
 
   it('should append container', () => {
-    const wrapper = mount(
-      withTheme(
-        <Avatar src="image.png" container={ <span /> } />
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar src={TEST_IMAGE} container={ <span /> } />))
 
     const image = wrapper.find(Avatar)
 
@@ -178,11 +140,7 @@ describe('<Avatar />', () => {
   it('should call props.onClick() when click on avatar', () => {
     let event
 
-    const wrapper = mount(
-      withTheme(
-        <Avatar src="image.png" onClick={e => { event = e }} />
-      )
-    )
+    const wrapper = mount(withTheme(<Avatar src={TEST_IMAGE} onClick={(e) => { event = e }} />))
 
     const image = wrapper.find(Avatar)
 

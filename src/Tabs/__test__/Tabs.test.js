@@ -6,7 +6,7 @@ import { normalize as nc } from '../../utils/colors'
 
 import React from 'react'
 
-const applyTheme = (children) => (
+const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
@@ -38,13 +38,11 @@ describe('<Tabs />', () => {
   }
 
   it('Tabs content and attributes', () => {
-    const wrapper = mount(applyTheme(
-      <Tabs {...tabsProps}>
-        <TabsItem {...linkProps} />
-        <TabsItem {...buttonProps} />
-        <TabsItem {...containerProps} />
-      </Tabs>
-    ))
+    const wrapper = mount(applyTheme(<Tabs {...tabsProps}>
+      <TabsItem {...linkProps} />
+      <TabsItem {...buttonProps} />
+      <TabsItem {...containerProps} />
+    </Tabs>))
 
     const tabs = getWrapperNode(wrapper)
     const link = getWrapperNode(wrapper.find('#' + linkProps.id))
@@ -60,13 +58,11 @@ describe('<Tabs />', () => {
   })
 
   it('TabsItem content, element type and attributes', () => {
-    const wrapper = mount(applyTheme(
-      <div>
-        <TabsItem {...linkProps} className="test" />
-        <TabsItem {...buttonProps} size="small" />
-        <TabsItem {...containerProps} size="medium" />
-      </div>
-    ))
+    const wrapper = mount(applyTheme(<div>
+      <TabsItem {...linkProps} className="test" />
+      <TabsItem {...buttonProps} size="small" />
+      <TabsItem {...containerProps} size="medium" />
+    </div>))
 
     const link = getWrapperNode(wrapper.find('#' + linkProps.id))
     const button = getWrapperNode(wrapper.find('#' + buttonProps.id))
@@ -95,14 +91,12 @@ describe('<Tabs />', () => {
   })
 
   it('selected TabsItem attributes', () => {
-    const wrapper = mount(applyTheme(
-      <Tabs value="first">
-        <TabsItem {...linkProps} value="first" />
-        <TabsItem {...buttonProps} value="first" />
-        <TabsItem {...containerProps} value="first" />
-        <TabsItem id="notSelected" value="second" />
-      </Tabs>
-    ))
+    const wrapper = mount(applyTheme(<Tabs value="first">
+      <TabsItem {...linkProps} value="first" />
+      <TabsItem {...buttonProps} value="first" />
+      <TabsItem {...containerProps} value="first" />
+      <TabsItem id="notSelected" value="second" />
+    </Tabs>))
 
     const link = getWrapperNode(wrapper.find('#' + linkProps.id))
     const button = getWrapperNode(wrapper.find('#' + buttonProps.id))
@@ -117,13 +111,11 @@ describe('<Tabs />', () => {
   })
 
   it('disabled Tabs and TabsItem attributes', () => {
-    const wrapper = mount(applyTheme(
-      <Tabs disabled size="medium">
-        <TabsItem {...linkProps} />
-        <TabsItem {...buttonProps} />
-        <TabsItem {...containerProps} />
-      </Tabs>
-    ))
+    const wrapper = mount(applyTheme(<Tabs disabled size="medium">
+      <TabsItem {...linkProps} />
+      <TabsItem {...buttonProps} />
+      <TabsItem {...containerProps} />
+    </Tabs>))
 
     const tabs = getWrapperNode(wrapper)
     const link = getWrapperNode(wrapper.find('#' + linkProps.id))
@@ -155,9 +147,7 @@ describe('<Tabs />', () => {
       }
     }
 
-    const wrapper = mount(applyTheme(
-      <TabsItem {...props} />
-    ))
+    const wrapper = mount(applyTheme(<TabsItem {...props} />))
 
     wrapper.simulate('click')
     expect(event.type).toEqual('click')
@@ -173,13 +163,11 @@ describe('<Tabs />', () => {
         value = val
       }
     }
-    const wrapper = mount(applyTheme(
-      <Tabs {...props}>
-        <TabsItem {...linkProps} value={linkProps.id} />
-        <TabsItem {...buttonProps} value={buttonProps.id} />
-        <TabsItem {...containerProps} value={containerProps.id} />
-      </Tabs>
-    ))
+    const wrapper = mount(applyTheme(<Tabs {...props}>
+      <TabsItem {...linkProps} value={linkProps.id} />
+      <TabsItem {...buttonProps} value={buttonProps.id} />
+      <TabsItem {...containerProps} value={containerProps.id} />
+    </Tabs>))
     const linkEl = getWrapperNode(wrapper.find('#' + linkProps.id))
     const button = wrapper.find('#' + buttonProps.id)
     const buttonEl = getWrapperNode(button)
@@ -202,9 +190,7 @@ describe('<Tabs />', () => {
   })
 
   it('TabsItem styles', () => {
-    const wrapper = mount(applyTheme(
-      <TabsItem {...linkProps} className="test" />
-    ))
+    const wrapper = mount(applyTheme(<TabsItem {...linkProps} className="test" />))
 
     const link = getStyles(wrapper)
     expect(link['border-bottom-width']).toEqual(theme.tabs.borderWidth + 'px')
@@ -214,9 +200,7 @@ describe('<Tabs />', () => {
   })
 
   it('selected TabsItem styles', () => {
-    const wrapper = mount(applyTheme(
-      <TabsItem {...buttonProps} isSelected />
-    ))
+    const wrapper = mount(applyTheme(<TabsItem {...buttonProps} isSelected />))
 
     const button = getStyles(wrapper)
     expect(nc(button.color)).toEqual(nc(theme.tabs.colors.selected.text))
@@ -224,9 +208,7 @@ describe('<Tabs />', () => {
   })
 
   it('disabled TabsItem styles', () => {
-    const wrapper = mount(applyTheme(
-      <TabsItem {...containerProps} disabled />
-    ))
+    const wrapper = mount(applyTheme(<TabsItem {...containerProps} disabled />))
 
     const container = getStyles(wrapper)
     expect(nc(container.color)).toEqual(nc(theme.tabs.colors.disabled.text))
@@ -234,9 +216,7 @@ describe('<Tabs />', () => {
   })
 
   it('selected disabled TabsItem styles', () => {
-    const wrapper = mount(applyTheme(
-      <TabsItem {...linkProps} disabled isSelected />
-    ))
+    const wrapper = mount(applyTheme(<TabsItem {...linkProps} disabled isSelected />))
 
     const link = getStyles(wrapper)
     expect(nc(link.color)).toEqual(nc(theme.tabs.colors.disabled.text))
@@ -244,13 +224,11 @@ describe('<Tabs />', () => {
   })
 
   it('Tabs styles', () => {
-    const wrapper = mount(applyTheme(
-      <Tabs value="selected">
-        <TabsItem {...linkProps} value="selected"/>
-        <TabsItem {...buttonProps} />
-        <TabsItem {...containerProps} />
-      </Tabs>
-    ))
+    const wrapper = mount(applyTheme(<Tabs value="selected">
+      <TabsItem {...linkProps} value="selected"/>
+      <TabsItem {...buttonProps} />
+      <TabsItem {...containerProps} />
+    </Tabs>))
 
     const tabs = getStyles(wrapper)
     const link = getStyles(wrapper.find('#' + linkProps.id))

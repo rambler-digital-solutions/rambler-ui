@@ -28,7 +28,9 @@ export default class HintExample extends Component {
             </Hint>
           </div>
 
-          <div style={{ width: '33%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
+          <div style={{
+            width: '33%', display: 'flex', alignItems: 'center', justifyContent: 'flex-end'
+          }}>
             Подсказка слева
             <Hint style={{ marginLeft: 15 }}>
               Номер телефона поможет вам восстановить пароль от почты

@@ -47,7 +47,9 @@ export default class ButtonExample extends Component {
             <Button size="small" style={{margin: 20}} type="flat">Flat</Button>
             <Button size="small" style={{margin: 20}} type="flat" disabled>Flat disabled</Button>
           </div>
-          <div style={{width: 300, padding: 20, margin: 20, border: '1px solid #eee'}}>
+          <div style={{
+            width: 300, padding: 20, margin: 20, border: '1px solid #eee'
+          }}>
             <Button style={{marginBottom: 20}} block={true} size="small">Primary block</Button>
             <Button block={true} type="secondary" size="small" disabled>Primary block disabled</Button>
           </div>

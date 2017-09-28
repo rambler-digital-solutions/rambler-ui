@@ -18,14 +18,17 @@ export default class OnClickOutside extends Component {
   onClick = debounce((e) => {
     let outsideClick = true
     let el = e.target
+    let insideBody = false
     while (el.parentNode) {
       if (el === this.componentNode) {
         outsideClick = false
         break
       }
+      if (el.parentNode === document.body)
+        insideBody = true
       el = el.parentNode
     }
-    if (!outsideClick)
+    if (!outsideClick || !insideBody)
       return
     this.props.handler(e)
   })

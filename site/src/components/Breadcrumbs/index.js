@@ -33,18 +33,14 @@ export default class Breadcrumb extends Component {
       currentModule = docModules.dict[currentModule.parentName]
       title = currentModule.module.title || currentModule.selfName
       crumbs.unshift(<span key={ ++i } className={ css.Breadcrumbs__divider }>/</span>)
-      crumbs.unshift(
-        <Link key={ ++i } className={ classnames(css.Breadcrumbs__item) } to={ currentModule.linkToComponent }>
-          { title }
-        </Link>
-      )
+      crumbs.unshift(<Link key={ ++i } className={ classnames(css.Breadcrumbs__item) } to={ currentModule.linkToComponent }>
+        { title }
+      </Link>)
     }
     crumbs.unshift(<span key={ ++i } className={ css.Breadcrumbs__divider }>/</span>)
-    crumbs.unshift(
-      <Link key={ ++i } className={ classnames(css.Breadcrumbs__item) } to="/components">
+    crumbs.unshift(<Link key={ ++i } className={ classnames(css.Breadcrumbs__item) } to="/components">
         Компоненты
-      </Link>
-    )
+    </Link>)
 
     return (
       <div className={ css.Breadcrumbs }>{ crumbs }</div>

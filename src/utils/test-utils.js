@@ -1,8 +1,8 @@
 import React, { cloneElement } from 'react'
 import { findDOMNode } from 'react-dom'
 import { mount as enzymeMount } from 'enzyme'
-import { ApplyTheme } from '../theme'
 import once from 'lodash/once'
+import { ApplyTheme } from '../theme'
 
 const bodyStyle = document.body.style
 const htmlStyle = document.documentElement.style
@@ -49,7 +49,7 @@ export function applyTheme(children) {
 }
 
 export function withTheme(element) {
-  const Result = (props) =>
+  const Result = props =>
     <ApplyTheme>{ cloneElement(element, props) }</ApplyTheme>
   Result.displayName = element.displayName
   return <Result />

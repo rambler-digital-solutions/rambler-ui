@@ -8,18 +8,14 @@ import { normalize as nc } from '../../utils/colors'
 describe('<Snackbar />', () => {
   let containerNode
 
-  const mountWrapper = props => mount(
-    withTheme(
-      <Snackbar
-        className="snackbar"
-        containerRef={ref => {
-          containerNode = ref
-        }}
-        children="Hi"
-        {...props}
-      />
-    )
-  )
+  const mountWrapper = props => mount(withTheme(<Snackbar
+    className="snackbar"
+    containerRef={(ref) => {
+      containerNode = ref
+    }}
+    children="Hi"
+    {...props}
+  />))
 
   beforeEach(() => {
     containerNode = undefined
@@ -40,15 +36,15 @@ describe('<Snackbar />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should open/close snackbar when change props.isOpened', async done => {
+  it('should open/close snackbar when change props.isOpened', async (done) => {
     let onClose
 
-    const whenClose = new Promise(resolve => {
+    const whenClose = new Promise((resolve) => {
       onClose = resolve
     })
 
     const wrapper = mountWrapper({
-      containerRef: ref => {
+      containerRef: (ref) => {
         containerNode = ref
         if (!ref) onClose()
       }
@@ -212,13 +208,13 @@ describe('<Snackbar />', () => {
     expect(buttonStyles['font-size']).toEqual('14px')
   })
 
-  it('should call props.onAction() when click on action button', async done => {
+  it('should call props.onAction() when click on action button', async (done) => {
     const props = {
       isOpened: true,
       actionButton: 'Ok'
     }
 
-    const whenAction = new Promise(resolve => {
+    const whenAction = new Promise((resolve) => {
       props.onAction = resolve
     })
 
@@ -231,13 +227,13 @@ describe('<Snackbar />', () => {
     done()
   })
 
-  it('should call props.onRequestClose() when click on close button', async done => {
+  it('should call props.onRequestClose() when click on close button', async (done) => {
     const props = {
       isOpened: true,
       showClose: true
     }
 
-    const whenRequestClose = new Promise(resolve => {
+    const whenRequestClose = new Promise((resolve) => {
       props.onRequestClose = resolve
     })
 

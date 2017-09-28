@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import wrapDisplayName from 'recompose/wrapDisplayName'
 import {throttle as throttleRaf} from '../utils/raf'
 
-const events = new EventEmitter
+const events = new EventEmitter()
 events.setMaxListeners(0)
 let handlers
 

@@ -24,6 +24,7 @@
     padding: 16px 6px 14px;
     border-bottom: 2px solid transparent;
     position: relative;
+    margin-bottom: -1px;
 
     & + & {
       margin-left: 11px;

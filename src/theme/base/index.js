@@ -9,6 +9,11 @@ export function createTheme(config) {
   const { colors } = config
   return merge({
     fontFamily: 'Roboto, sans-serif',
+    avatar: {
+      colors: {
+        iconBackground: colors.controls.grey.iconBackground
+      }
+    },
     button: {
       fontFamily: 'Roboto, sans-serif',
       mobile: {

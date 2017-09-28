@@ -236,8 +236,8 @@ export default class IconButton extends Component {
 
     const resultContainer = isValidElement(container) ?
       container : href ?
-      <a href={ href } /> : overlay ?
-      <div /> : <button type={ buttonType } />
+        <a href={ href } /> : overlay ?
+          <div /> : <button type={ buttonType } />
 
     return cloneElement(resultContainer, resultProps, ...resultChildren)
   }

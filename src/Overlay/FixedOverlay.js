@@ -378,7 +378,7 @@ export default class FixedOverlay extends PureComponent {
 
   constructor(props) {
     super(props)
-    this.events = new EventEmitter
+    this.events = new EventEmitter()
     /**
      * Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
      * @type {Number}
@@ -393,7 +393,9 @@ export default class FixedOverlay extends PureComponent {
     this.cleanUp()
   }
 
-  componentWillReceiveProps({isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY, content}) {
+  componentWillReceiveProps({
+    isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY, content
+  }) {
     if (isOpened !== undefined && isOpened !== this.props.isOpened)
       if (isOpened)
         this.show()
@@ -414,7 +416,9 @@ export default class FixedOverlay extends PureComponent {
     if (!this.anchorNode)
       throw new Error('Anchor node for FixedOverlay does not found')
     this.anchorNodeObserver = createMutationObserver(debounce(this.updatePosition))
-    this.anchorNodeObserver.observe(this.anchorNode, { subtree: true, childList: true, attributes: true, characterData: true })
+    this.anchorNodeObserver.observe(this.anchorNode, {
+      subtree: true, childList: true, attributes: true, characterData: true
+    })
     // this.bodyNodeObserver = createMutationObserver(debounce(this.onBodyMutation))
     // this.bodyNodeObserver.observe(document.body, { subtree: true, childList: true })
     if (this.props.isOpened)
@@ -527,12 +531,12 @@ export default class FixedOverlay extends PureComponent {
       />
       renderSubtreeIntoContainer(this, element, this.getContentContainerNode())
     })
-    .then((portal) => {
-      this.portal = portal
-      this.contentNode = findDOMNode(portal)
-      this.subscribeListeners()
-      return portal
-    })
+      .then((portal) => {
+        this.portal = portal
+        this.contentNode = findDOMNode(portal)
+        this.subscribeListeners()
+        return portal
+      })
   }
 
   unmountPortal() {
@@ -596,7 +600,9 @@ export default class FixedOverlay extends PureComponent {
     }).then(() => {
       if (!this.contentNodeObserver) {
         this.contentNodeObserver = createMutationObserver(debounce(this.updatePosition))
-        this.contentNodeObserver.observe(this.contentNode, { subtree: true, childList: true, attributes: true, characterData: true })
+        this.contentNodeObserver.observe(this.contentNode, {
+          subtree: true, childList: true, attributes: true, characterData: true
+        })
       }
       if (this.props.onContentOpen)
         this.props.onContentOpen()

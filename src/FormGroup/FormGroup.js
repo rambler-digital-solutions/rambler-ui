@@ -6,9 +6,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { ifDesktop, isolateMixin } from '../style/mixins'
+import { ifDesktopSize, isolateMixin } from '../style/mixins'
 
-@injectSheet((theme) => ({
+@injectSheet(theme => ({
   root: {
     ...isolateMixin,
     fontFamily: theme.fontFamily,
@@ -28,7 +28,7 @@ import { ifDesktop, isolateMixin } from '../style/mixins'
   inner: {
     position: 'relative'
   },
-  ...ifDesktop({
+  ...ifDesktopSize({
     normal: {
       '& $label': {
         width: '100%'

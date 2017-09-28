@@ -8,7 +8,7 @@ import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, bottomBorderMixin } from '../style/mixins'
 
-@injectSheet(theme => {
+@injectSheet((theme) => {
   const {tabs, tabs: {colors}} = theme
   return {
     tabs: {

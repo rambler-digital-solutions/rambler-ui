@@ -6,26 +6,22 @@ import { ApplyTheme } from 'rambler-ui/theme'
 class WithSnackbar extends Component {
 
   openAlert = () => {
-    this.props.openSnackbar(
-      <Snackbar
-        positionY="top"
-        showClose
-        type="danger">
+    this.props.openSnackbar(<Snackbar
+      positionY="top"
+      showClose
+      type="danger">
         При удалении почты произошла ошибка
-      </Snackbar>
-    )
+    </Snackbar>)
   }
 
   openConfirm = () => {
-    const snackbar = this.props.openSnackbar(
-      <Snackbar
-        positionX="right"
-        autoCloseDuration={0}
-        actionButton="Ok"
-        onAction={() => snackbar.close()}>
+    const snackbar = this.props.openSnackbar(<Snackbar
+      positionX="right"
+      autoCloseDuration={0}
+      actionButton="Ok"
+      onAction={() => snackbar.close()}>
         Вы готовы удалить почту?
-      </Snackbar>
-    )
+    </Snackbar>)
   }
 
   render() {

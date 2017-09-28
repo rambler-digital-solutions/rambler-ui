@@ -27,8 +27,8 @@ export default class SideMenu extends Component {
               {
                 module.childrenDocModules &&
                 module.childrenDocModules.length ?
-                <div className={ css.List__embed }>{ this.renderUl(module.childrenDocModules, level + 1) }</div> :
-                null
+                  <div className={ css.List__embed }>{ this.renderUl(module.childrenDocModules, level + 1) }</div> :
+                  null
               }
             </div>
           ))

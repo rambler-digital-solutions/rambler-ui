@@ -8,7 +8,7 @@ import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
 
-const applyTheme = (children) => (
+const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
 )
 
@@ -59,16 +59,14 @@ describe('Input', () => {
   })
 
   it('style', () => {
-    const wrapper = mount(applyTheme(
-      <FormGroup {...formGroupProps}>
-        <InputStatus>
-          <Input {...defaultProps} />
-          <Input {...defaultProps} inputClassName='inputCls2' status='warning' />
-          <Input {...defaultProps} inputClassName='inputCls3' status='error' />
-          <Input {...defaultProps} inputClassName='inputCls4' status={null} />
-        </InputStatus>
-      </FormGroup>
-    ))
+    const wrapper = mount(applyTheme(<FormGroup {...formGroupProps}>
+      <InputStatus>
+        <Input {...defaultProps} />
+        <Input {...defaultProps} inputClassName='inputCls2' status='warning' />
+        <Input {...defaultProps} inputClassName='inputCls3' status='error' />
+        <Input {...defaultProps} inputClassName='inputCls4' status={null} />
+      </InputStatus>
+    </FormGroup>))
 
     const inputSuccess = wrapper.find('.inputCls + div')
     const inputWarning = wrapper.find('.inputCls2 + div')
@@ -96,13 +94,11 @@ describe('Input', () => {
   })
 
   it('events: onChange, onBlur, onFocus, onKeyUp, onKeyDown', () => {
-    const wrapper = mount(applyTheme(
-      <FormGroup {...formGroupProps}>
-        <InputStatus>
-          <Input {...defaultProps} {...handlersProps} />
-        </InputStatus>
-      </FormGroup>
-    ))
+    const wrapper = mount(applyTheme(<FormGroup {...formGroupProps}>
+      <InputStatus>
+        <Input {...defaultProps} {...handlersProps} />
+      </InputStatus>
+    </FormGroup>))
 
     const input = wrapper.find('.inputCls')
 
@@ -119,15 +115,13 @@ describe('Input', () => {
   })
 
   it('value, type, placeholder, name, disabled', () => {
-    const wrapper = mount(applyTheme(
-      <FormGroup {...formGroupProps}>
-        <InputStatus>
-          <Input {...defaultProps} />
-          <Input {...defaultProps} value='Value' inputClassName='disabledInput' disabled />
-          <Input {...passwordProps} />
-        </InputStatus>
-      </FormGroup>
-    ))
+    const wrapper = mount(applyTheme(<FormGroup {...formGroupProps}>
+      <InputStatus>
+        <Input {...defaultProps} />
+        <Input {...defaultProps} value='Value' inputClassName='disabledInput' disabled />
+        <Input {...passwordProps} />
+      </InputStatus>
+    </FormGroup>))
 
     const input = wrapper.find('.inputCls')
     const inputDisabled = wrapper.find('.disabledInput')
@@ -156,13 +150,11 @@ describe('Input', () => {
   })
 
   it('iconLeft, eyeIcon', () => {
-    const wrapper = mount(applyTheme(
-      <FormGroup {...formGroupProps}>
-        <InputStatus>
-          <Input {...passwordProps} iconLeft={<RamblerMailIcon />} />
-        </InputStatus>
-      </FormGroup>
-    ))
+    const wrapper = mount(applyTheme(<FormGroup {...formGroupProps}>
+      <InputStatus>
+        <Input {...passwordProps} iconLeft={<RamblerMailIcon />} />
+      </InputStatus>
+    </FormGroup>))
 
     const arrOfIcons = wrapper.find('svg')
     const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0])
@@ -176,14 +168,12 @@ describe('Input', () => {
   })
 
   it('paddingHelpers', () => {
-    const wrapper = mount(applyTheme(
-      <FormGroup {...formGroupProps}>
-        <InputStatus>
-          <Input {...passwordProps} iconRight={<RamblerMailIcon />} />
-          <Input {...defaultProps} iconRight={<RamblerMailIcon />} />
-        </InputStatus>
-      </FormGroup>
-    ))
+    const wrapper = mount(applyTheme(<FormGroup {...formGroupProps}>
+      <InputStatus>
+        <Input {...passwordProps} iconRight={<RamblerMailIcon />} />
+        <Input {...defaultProps} iconRight={<RamblerMailIcon />} />
+      </InputStatus>
+    </FormGroup>))
 
     const inputText = wrapper.find('.inputCls')
     const inputPass = wrapper.find('.passwordCls')
@@ -201,13 +191,11 @@ describe('Input', () => {
       size: 'small'
     }
 
-    const wrapper = mount(applyTheme(
-      <FormGroup {...formGroupProps}>
-        <InputStatus>
-          <Input {...defaultProps} {...sizeProps} />
-        </InputStatus>
-      </FormGroup>
-    ))
+    const wrapper = mount(applyTheme(<FormGroup {...formGroupProps}>
+      <InputStatus>
+        <Input {...defaultProps} {...sizeProps} />
+      </InputStatus>
+    </FormGroup>))
 
     const inputText = wrapper.find('.inputCls')
     const inputTextStyles = getStyles(inputText)

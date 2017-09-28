@@ -1,4 +1,6 @@
 /* eslint strict: ["off"] */
+/* eslint-env node */
+
 // 1. Клонируем ветку gh-pages в определенную папку
 // 2. Собираем через вебкак + gulp папку
 
@@ -10,6 +12,7 @@ const path = require('path')
 const webpack = require('webpack-stream')
 const ghpages = require('gh-pages')
 const webpackConfig = require('./webpack/config')
+
 const buildGhPagesDir = __dirname + '/build-gh-pages'
 const buildDir = __dirname + '/build'
 const webpackSrc = __dirname + '/src/app.js'
@@ -17,7 +20,8 @@ const versionsFile = __dirname + '/versions.json'
 const readmeFile = __dirname + '/README.md'
 const argv = require('minimist')(process.argv)
 const config = require('./config')
-const exec = (str) =>
+
+const exec = str =>
   cp.execSync(str).toString().trim()
 
 
@@ -63,9 +67,7 @@ gulp.task('gh-pages', ['webpack'], (callback) => {
 gulp.task('webpack', ['clean'], () =>
   gulp.src(webpackSrc)
     .pipe(webpack(webpackConfig))
-    .pipe(gulp.dest(buildDir))
-)
+    .pipe(gulp.dest(buildDir)))
 
 gulp.task('clean', () =>
-  del(buildDir)
-)
+  del(buildDir))

@@ -27,20 +27,18 @@ const AnimatedAtNode = renderToLayer(Animated)
 
 describe('<VisibilityAnimation />', () => {
 
-  it('should apply class names', async done => {
+  it('should apply class names', async (done) => {
     const props = {}
 
-    const whenOpen = new Promise(resolve => {
+    const whenOpen = new Promise((resolve) => {
       props.onOpen = resolve
     })
 
-    const whenClose = new Promise(resolve => {
+    const whenClose = new Promise((resolve) => {
       props.onClose = resolve
     })
 
-    const wrapper = mount(
-      <Animated {...props} />
-    )
+    const wrapper = mount(<Animated {...props} />)
 
     expect(wrapper.text()).toEqual('Hello world')
     expect(wrapper.hasClass('content')).toEqual(true)
@@ -67,25 +65,23 @@ describe('<VisibilityAnimation />', () => {
     done()
   })
 
-  it('should apply class names with @renderToLayer', async done => {
+  it('should apply class names with @renderToLayer', async (done) => {
     const props = {}
     let containerNode
 
-    const whenOpen = new Promise(resolve => {
+    const whenOpen = new Promise((resolve) => {
       props.onOpen = resolve
     })
 
-    const whenClose = new Promise(resolve => {
+    const whenClose = new Promise((resolve) => {
       props.onClose = resolve
     })
 
-    const wrapper = mount(
-      <AnimatedAtNode
-        {...props}
-        containerRef={ref => {
-          containerNode = ref
-        }}/>
-    )
+    const wrapper = mount(<AnimatedAtNode
+      {...props}
+      containerRef={(ref) => {
+        containerNode = ref
+      }}/>)
 
     expect(containerNode).toBeUndefined()
 

@@ -8,18 +8,14 @@ import { mount, withTheme, getStyles } from '../../utils/test-utils'
 describe('<Select />', () => {
 
   it('should apply default styles', () => {
-    const wrapper = mount(
-      withTheme(
-        <Select>
-          <MenuItem value="foo">
+    const wrapper = mount(withTheme(<Select>
+      <MenuItem value="foo">
             foo
-          </MenuItem>
-          <MenuItem value="bar">
+      </MenuItem>
+      <MenuItem value="bar">
             baz
-          </MenuItem>
-        </Select>
-      )
-    )
+      </MenuItem>
+    </Select>))
 
     const select = wrapper.find(Select)
     const selectStyles = getStyles(select)
@@ -43,18 +39,14 @@ describe('<Select />', () => {
   })
 
   it('should apply size', () => {
-    const wrapper = mount(
-      withTheme(
-        <Select size="small">
-          <MenuItem value="foo">
+    const wrapper = mount(withTheme(<Select size="small">
+      <MenuItem value="foo">
             foo
-          </MenuItem>
-          <MenuItem value="bar">
+      </MenuItem>
+      <MenuItem value="bar">
             baz
-          </MenuItem>
-        </Select>
-      )
-    )
+      </MenuItem>
+    </Select>))
 
     const select = wrapper.find(Select)
     const selectStyles = getStyles(select)

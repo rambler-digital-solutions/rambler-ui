@@ -19,11 +19,7 @@ class WithNotification extends Component {
 describe('provideNotification()', () => {
   let containerNode
 
-  const mountWrapper = () => mount(
-    withTheme(
-      <WithNotification />
-    )
-  )
+  const mountWrapper = () => mount(withTheme(<WithNotification />))
 
   const mountNotification = (props) => {
     const wrapper = mountWrapper()
@@ -31,29 +27,27 @@ describe('provideNotification()', () => {
     let onOpen
     let onClose
 
-    const whenOpen = new Promise(resolve => {
+    const whenOpen = new Promise((resolve) => {
       onOpen = resolve
     })
 
-    const whenClose = new Promise(resolve => {
+    const whenClose = new Promise((resolve) => {
       onClose = resolve
     })
 
-    const notification = openNotification(
-      <Notification
-        className="notification"
-        title="Hi"
-        body="Foo"
-        containerRef={ref => {
-          containerNode = ref
+    const notification = openNotification(<Notification
+      className="notification"
+      title="Hi"
+      body="Foo"
+      containerRef={(ref) => {
+        containerNode = ref
 
-          if (ref)
-            onOpen()
-          else
-            onClose()
-        }}
-        {...props} />
-    )
+        if (ref)
+          onOpen()
+        else
+          onClose()
+      }}
+      {...props} />)
 
     return {
       notification,
@@ -74,10 +68,12 @@ describe('provideNotification()', () => {
     expect(wrappedNode.text()).toEqual('Hi')
   })
 
-  it('should open/close notification when call props.{openNotification,closeNotification}', async done => {
+  it('should open/close notification when call props.{openNotification,closeNotification}', async (done) => {
     expect(containerNode).toBeUndefined()
 
-    const { notification, closeNotification, whenOpen, whenClose } = mountNotification()
+    const {
+      notification, closeNotification, whenOpen, whenClose
+    } = mountNotification()
 
     await whenOpen
     expect(document.body.lastElementChild).toEqual(containerNode)
@@ -88,7 +84,7 @@ describe('provideNotification()', () => {
     done()
   })
 
-  it('should close notification when call notification.close', async done => {
+  it('should close notification when call notification.close', async (done) => {
     const { notification, whenOpen, whenClose } = mountNotification()
 
     await whenOpen
@@ -100,7 +96,7 @@ describe('provideNotification()', () => {
     done()
   })
 
-  it('should close notification when click on close button', async done => {
+  it('should close notification when click on close button', async (done) => {
     const { whenOpen, whenClose } = mountNotification({
       showClose: true
     })
@@ -114,7 +110,7 @@ describe('provideNotification()', () => {
     done()
   })
 
-  it('should close notification when click on action button', async done => {
+  it('should close notification when click on action button', async (done) => {
     const { notification, whenOpen, whenClose } = mountNotification({
       actionButton: 'Ok',
       onAction: () => {
