@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
-import { isolateMixin, borderMixin, bottomBorderMixin, placeholderMixin, ifMobile } from '../style/mixins'
+import { isolateMixin, placeholderMixin, ifMobile } from '../style/mixins'
 import Tooltip from '../Tooltip'
 import Eye from '../icons/forms/Eye'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
@@ -25,8 +25,9 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     appearance: 'none',
     lineHeight: 'normal',
     background: theme.field.colors.default.background,
-    border: 0,
     boxShadow: 'none',
+    border: '0 solid',
+    borderColor: theme.field.colors.default.outline,
     'textarea&': {
       resize: 'vertical',
       height: '100%',
@@ -36,10 +37,12 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
     },
+    '&:enabled:hover': {borderColor: theme.field.colors.hover.outline},
     '&:disabled': {
       background: theme.field.colors.disabled.background,
       color: theme.field.colors.disabled.text,
-      cursor: 'not-allowed'
+      cursor: 'not-allowed',
+      borderColor: theme.field.colors.disabled.outline
     },
     '&$filled[type="password"]': {
       fontFamily: 'monospace'
@@ -51,61 +54,34 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
       color: theme.field.colors.disabled.placeholder
     })
   },
-  outline: {
-    '& $input': {
-      '&': borderMixin(theme.field.colors.default.outline),
-      '&:hover': borderMixin(theme.field.colors.hover.outline),
-      '&$disabled': borderMixin(theme.field.colors.disabled.outline)
-    },
-    '& $input, & $activeBorder': {
-      borderRadius: theme.field.borderRadius
-    }
-  },
-  borderColor: {
-    '& $input:focus + $activeBorder': {
-      borderColor: theme.field.colors.focus.border + '!important'
-    },
-    '$success& $input:enabled + $activeBorder': {
-      borderColor: theme.colors.success + '!important'
-    },
-    '$error& $input:enabled + $activeBorder': {
-      borderColor: theme.colors.danger + '!important'
-    },
-    '$warning& $input:enabled + $activeBorder': {
-      borderColor: theme.colors.warn + '!important'
-    }
-  },
-  bottomBorder: {
-    '& $input + $activeBorder': {
-      border: 'solid transparent',
+  withStatusLine: {
+    '& $activeBorder': {
       borderWidth: '0 0 2px'
     }
   },
-  regular: {
-    composes: ['$outline', '$borderColor'],
+  withOutline: {
     '& $input': {
-      composes: ['$outline'],
-      paddingLeft: theme.input.padding - 1,
-      paddingRight: theme.input.padding - 1
-    },
+      paddingLeft: theme.input.padding,
+      paddingRight: theme.input.padding,
+      borderRadius: theme.field.borderRadius,
+      borderWidth: 1
+    }
+  },
+  regular: {
+    composes: ['$withOutline'],
     '& $activeBorder': {
-      border: '1px solid transparent'
+      borderRadius: theme.field.borderRadius,
+      borderWidth: 1
     }
   },
   awesome: {
-    composes: ['$outline', '$borderColor', '$bottomBorder'],
-    '& $input': {
-      composes: ['$outline'],
-      paddingLeft: theme.input.padding,
-      paddingRight: theme.input.padding
-    }
+    composes: ['$withOutline', '$withStatusLine']
   },
   promo: {
-    composes: ['$borderColor', '$bottomBorder'],
+    composes: ['$withStatusLine'],
     '& $input': {
-      '&': bottomBorderMixin(theme.field.colors.default.outline),
-      '&:hover': bottomBorderMixin(theme.field.colors.hover.outline),
-      '&$disabled': bottomBorderMixin(theme.field.colors.disabled.outline)
+      paddingTop: 1,
+      borderBottomWidth: 1
     }
   },
   ...['medium', 'small'].reduce((result, size) => ({
@@ -188,7 +164,20 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     right: 0,
     bottom: 0,
     pointerEvents: 'none',
-    transition: `all ${theme.field.animationDuration}ms ease`
+    transition: `all ${theme.field.animationDuration}ms ease`,
+    border: '0 solid transparent',
+    '$input:focus + &': {
+      borderColor: theme.field.colors.focus.border
+    },
+    '$success $input:enabled + &': {
+      borderColor: theme.colors.success
+    },
+    '$error $input:enabled + &': {
+      borderColor: theme.colors.danger
+    },
+    '$warning $input:enabled + &': {
+      borderColor: theme.colors.warn
+    }
   },
   icon: {
     position: 'absolute',

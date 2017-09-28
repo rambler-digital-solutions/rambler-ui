@@ -2,14 +2,21 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import { injectSheet } from '../theme'
+import TickIcon from '../icons/forms/TickIcon'
 import { isolateMixin } from '../style/mixins'
+import { injectSheet } from '../theme'
 
 const setThemeForSelector = (colors) => ({
   background: colors.background,
   borderColor: colors.border,
   color: colors.tick
 })
+
+const tickStyle = {
+  fill: null,
+  width: null,
+  height: null
+}
 
 @injectSheet((theme) => {
   const checkboxTheme = theme.checkbox
@@ -50,10 +57,10 @@ const setThemeForSelector = (colors) => ({
       },
       '& $fake': setThemeForSelector(awesome.colors.default),
       '&$isEnabled:hover $fake': setThemeForSelector(awesome.colors.hover),
-      '&&$isChecked $fake': setThemeForSelector(awesome.colors.checked),
-      '&$isEnabled$isChecked:hover $fake': setThemeForSelector(awesome.colors.checkedHover),
+      '&&$isChecked $fake, &&$indeterminate $fake': setThemeForSelector(awesome.colors.checked),
+      '&$isEnabled$isChecked:hover $fake, &$isEnabled$indeterminate:hover $fake': setThemeForSelector(awesome.colors.checkedHover),
       '&$isDisabled $fake': setThemeForSelector(awesome.colors.disabled),
-      '&$isDisabled$isChecked $fake': setThemeForSelector(awesome.colors.checkedDisabled)
+      '&$isDisabled$isChecked $fake, &$isDisabled$indeterminate $fake': setThemeForSelector(awesome.colors.checkedDisabled)
     },
     fake: {
       display: 'block',
@@ -67,24 +74,25 @@ const setThemeForSelector = (colors) => ({
       borderWidth: 1,
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'border-color, background-color, color',
-      '&:after': {
+      '&:before': {
         position: 'absolute',
-        top: 2,
-        left: 2,
         content: '""',
-        width: 9,
-        height: 4,
-        border: 'solid currentColor',
-        borderWidth: '0 0 3px 3px',
-        transform: 'rotate(-45deg) scale(0.65)',
-        transformOrigin: 'left top',
+        opacity: 0,
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        background: 'currentColor',
+        height: 2,
+        margin: 'auto 2px',
+        borderRadius: 1,
+        transform: 'scaleX(0.4)',
         transitionDuration: checkboxTheme.animationDuration,
-        transitionProperty: 'top, opacity',
-        opacity: 0
+        transitionProperty: 'transform, opacity'
       },
-      '$isChecked &:after': {
-        top: 7,
-        opacity: 1
+      '$indeterminate &:before': {
+        opacity: 1,
+        transform: 'scaleX(1)'
       },
       '$iconright &': {
         right: 0
@@ -112,8 +120,26 @@ const setThemeForSelector = (colors) => ({
         paddingLeft: checkboxTheme.size + checkboxTheme.labelMargin
       }
     },
+    tick: {
+      position: 'absolute',
+      top: 3,
+      left: 2,
+      fill: 'currentColor',
+      opacity: 0,
+      fontSize: 7,
+      width: 9 / 7 + 'em',
+      height: '1em',
+      transform: 'translateY(-5px)',
+      transitionDuration: checkboxTheme.animationDuration,
+      transitionProperty: 'transform, opacity',
+      '$isChecked &': {
+        opacity: 1,
+        transform: 'translateY(0)'
+      }
+    },
     isEnabled: {},
     isChecked: {},
+    indeterminate: {},
     iconright: {},
     iconleft: {}
   }
@@ -146,6 +172,10 @@ export default class Checkbox extends Component {
      */
     checked: PropTypes.bool,
     /**
+     * Состояние indeterminate
+     */
+    indeterminate: PropTypes.bool,
+    /**
      * Колбек отрабатывающий при изменении checkbox'a
      * `onCheck(event, checked)`
      * Принимает параметры: DOM-события и флаг включения/отключения чекбокса
@@ -176,32 +206,23 @@ export default class Checkbox extends Component {
   static defaultProps = {
     iconPosition: 'left',
     disabled: false,
+    checked: false,
+    indeterminate: false,
     name: '',
     variation: 'regular'
   }
 
-  state = {
-    checked: false
-  };
-
   onChange = (event) => {
-    const checked = this.input.checked
-    this.setState({ checked })
     if (this.props.onCheck)
-      this.props.onCheck(event, checked)
+      this.props.onCheck(event, this.input.checked)
   };
 
-  componentWillMount() {
-    this.setChecked(!!this.props.checked)
+  componentDidMount() {
+    this.input.indeterminate = this.props.indeterminate
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setChecked(!!nextProps.checked)
-  }
-
-  setChecked(checked) {
-    this.checked = checked
-    this.setState({ checked })
+  componentDidUpdate() {
+    this.input.indeterminate = this.props.indeterminate
   }
 
   render() {
@@ -217,18 +238,19 @@ export default class Checkbox extends Component {
       labelStyle,
       children,
       variation,
+      checked,
+      indeterminate,
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'onCheck', 'theme')
 
-    const { checked } = this.state
     const resultClassName = classnames(
       className,
       css.checkbox,
       css[variation],
       css[`icon${iconPosition}`],
       disabled ? css.isDisabled : css.isEnabled,
-      checked && css.isChecked
+      indeterminate ? css.indeterminate : checked && css.isChecked
     )
 
     return (
@@ -243,7 +265,9 @@ export default class Checkbox extends Component {
           disabled={ disabled }
           onChange={ this.onChange }
         />
-        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle } />
+        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
+          <TickIcon className={css.tick} style={tickStyle} />
+        </span>
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }
         </span>
