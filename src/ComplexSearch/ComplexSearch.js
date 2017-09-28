@@ -281,6 +281,7 @@ class ComplexSearch extends React.Component {
         highlightedItem: -1
       }
     )
+    this.inputNode.focus()
   }
 
   renderInput = () => {
