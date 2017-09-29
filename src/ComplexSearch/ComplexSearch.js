@@ -47,15 +47,21 @@ import { isolateMixin } from '../style/mixins'
   input: {
     borderColor: theme.search.input.borderColor,
     borderWidth: '2px',
-    borderRight: 'none',
     borderStyle: 'solid',
+    borderRight: 'none',
     padding: '10px 30px 10px 10px',
+    boxSizing: 'border-box',
+    display: 'block',
+    borderRadius: '0',
+    width: '100%',
+    fontWeight: 400,
     fontSize: theme.search.fontSize,
     lineHeight: '1.43',
+    appearance: 'none',
     color: theme.search.color,
-    width: '100%',
     height: theme.search.height,
-    outline: 'none',
+    outline: '0',
+    boxShadow: 'none',
 
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
