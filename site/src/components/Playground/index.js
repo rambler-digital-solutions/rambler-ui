@@ -28,6 +28,10 @@ export default class Playground extends Component {
 
   static propTypes = {
     /**
+     * Дополнительный класс
+     */
+    className: PropTypes.string,
+    /**
      * Код для отображения
      */
     code: PropTypes.string.isRequired,

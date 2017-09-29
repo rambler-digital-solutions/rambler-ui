@@ -279,6 +279,45 @@ export function createTheme(config) {
       labelMargin: 10,
       fontSize: 13
     },
+    search: {
+      fontSize: '14px',
+      height: '40px',
+      maxWidth: '765px',
+
+      input: {
+        borderColor: colors.primary,
+        color: colors.dark
+      },
+
+      clear: {
+        color: colors.controls.grey.outline
+      },
+
+      division: {
+        color: colors.controls.grey.background
+      },
+      button: {
+        width: '125px',
+        color: '#ffffff'
+      },
+
+      bottomLinks: {
+        fontSize: '12px'
+      }
+    },
+    suggestItem: {
+      fontSize: '14px',
+
+      removeButton: {
+        fontSize: '13px',
+        color: colors.purpleDeep
+      },
+
+      highlighted: {
+        backgroundColor: colors.controls.grey.background,
+        color: colors.dark
+      }
+    },
     dropdown: {
       borderRadius: 1,
       animationDuration: 200,
