@@ -18,10 +18,20 @@ import { isolateMixin } from '../style/mixins'
     width: '100%',
     maxWidth: theme.search.maxWidth
   },
-  inputWrapper: {
+  inputRow: {
     marginRight: theme.search.button.width,
     height: theme.search.height,
     position: 'relative'
+  },
+  inputWrapper: {
+    borderColor: theme.search.input.borderColor,
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    display: 'flex',
+    alignItems: 'center',
+    borderRight: 'none',
+    paddingRight: '30px',
+    height: theme.search.height
   },
   bottomWrapper: {
     display: 'flex',
@@ -39,28 +49,22 @@ import { isolateMixin } from '../style/mixins'
     borderRadius: '1px',
     backgroundColor: theme.search.division.color,
     letterSpacing: '1.3px',
-    position: 'absolute',
-    top: '5px',
-    left: '5px',
     cursor: 'pointer'
   },
   input: {
-    borderColor: theme.search.input.borderColor,
-    borderWidth: '2px',
-    borderStyle: 'solid',
-    borderRight: 'none',
-    padding: '10px 30px 10px 10px',
+    padding: '10px',
+    border: 'none',
     boxSizing: 'border-box',
     display: 'block',
-    borderRadius: '0',
+    borderRadius: 0,
     width: '100%',
     fontWeight: 400,
     fontSize: theme.search.fontSize,
     lineHeight: '1.43',
     appearance: 'none',
     color: theme.search.color,
-    height: theme.search.height,
-    outline: '0',
+    height: '100%',
+    outline: 0,
     boxShadow: 'none',
 
     '&::-ms-reveal, &::-ms-clear': {
@@ -196,14 +200,6 @@ class ComplexSearch extends React.Component {
     value: ''
   }
 
-  componentDidMount() {
-    if (this.divisionNode) {
-      const styles = getComputedStyle(this.inputNode)
-      const newPadding = parseInt(styles.paddingLeft || 0, 10) + this.divisionNode.offsetWidth
-      this.inputNode.style.paddingLeft = `${newPadding}px`
-    }
-  }
-
   componentDidUpdate(prevProps) {
     if (prevProps.value && prevProps.value !== this.props.value)
       if (this.inputNode) this.inputNode.value = this.props.value
@@ -301,26 +297,27 @@ class ComplexSearch extends React.Component {
 
     return (
       <div
-        className={css.inputWrapper}
+        className={css.inputRow}
       >
-        {division &&
-          <div
-            className={css.division}
-            ref={this.setNode('division')}
-          >{division}
-          </div>
-        }
-        <input
-          type="text"
-          onChange={this.onSearchInput}
-          onKeyDown={this.onKeyDown}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          defaultValue={value}
-          className={css.input}
-          placeholder={placeholder}
-          ref={this.setNode('input')}
-        />
+        <div className={css.inputWrapper}>
+          {division &&
+            <div
+              className={css.division}
+            >{division}
+            </div>
+          }
+          <input
+            type="text"
+            onChange={this.onSearchInput}
+            onKeyDown={this.onKeyDown}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            defaultValue={value}
+            className={css.input}
+            placeholder={placeholder}
+            ref={this.setNode('input')}
+          />
+        </div>
         {this.state.isClearVisible && <ClearIcon
           className={cn(
             css.clear
