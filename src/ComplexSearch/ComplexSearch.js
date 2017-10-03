@@ -25,34 +25,36 @@ import { isolateMixin } from '../style/mixins'
   },
   inputWrapper: {
     borderColor: theme.search.input.borderColor,
-    borderWidth: '2px',
+    borderWidth: 2,
     borderStyle: 'solid',
     display: 'flex',
     alignItems: 'center',
     borderRight: 'none',
-    paddingRight: '30px',
+    paddingRight: 30,
     height: theme.search.height
   },
   bottomWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
     padding: '15px 0',
-    fontSize: '12px'
+    fontSize: 12
   },
   division: {
-    height: '30px',
+    height: 30,
     padding: '0 12px',
-    lineHeight: '30px',
-    fontSize: '11px',
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 3px',
+    fontSize: 11,
     textTransform: 'uppercase',
-    fontWeight: '500',
+    fontWeight: 500,
     borderRadius: '1px',
     backgroundColor: theme.search.division.color,
-    letterSpacing: '1.3px',
+    letterSpacing: 1.3,
     cursor: 'pointer'
   },
   input: {
-    padding: '10px',
+    padding: 10,
     border: 'none',
     boxSizing: 'border-box',
     display: 'block',
@@ -60,7 +62,7 @@ import { isolateMixin } from '../style/mixins'
     width: '100%',
     fontWeight: 400,
     fontSize: theme.search.fontSize,
-    lineHeight: '1.43',
+    lineHeight: 1.43,
     appearance: 'none',
     color: theme.search.color,
     height: '100%',
@@ -79,7 +81,6 @@ import { isolateMixin } from '../style/mixins'
     flexShrink: 0,
     width: theme.search.button.width,
     height: theme.search.height,
-    lineHeight: theme.search.height,
 
     '&:focus, &:active': {
       '&:after': {
@@ -89,7 +90,7 @@ import { isolateMixin } from '../style/mixins'
   },
   clear: {
     position: 'absolute',
-    right: '15px',
+    right: 15,
     top: '50%',
     transform: 'translateY(-50%)',
     cursor: 'pointer',
