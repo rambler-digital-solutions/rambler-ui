@@ -137,7 +137,8 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     ...middleMixin,
     borderRadius: '50%',
     width: 20,
-    padding: 0
+    padding: 0,
+    lineHeight: 0
   }
 }))
 export default class Snackbar extends Component {
