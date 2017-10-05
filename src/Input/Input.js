@@ -11,6 +11,11 @@ import Tooltip from '../Tooltip'
 import Eye from '../icons/forms/Eye'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
+const activeBorder = borderColor => ({
+  borderColor,
+  transform: 'scaleX(1)'
+})
+
 @injectSheet(theme => ({
   input: {
     extend: isolateMixin,
@@ -57,7 +62,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   withStatusLine: {
     '& $activeBorder': {
       borderWidth: '0 0 2px',
-      transform: 'scale(0.6, 1)'
+      transform: 'scaleX(0.6)'
     },
     '& $input': {
       paddingBottom: 1
@@ -156,7 +161,6 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   root: {
     extend: isolateMixin,
     position: 'relative',
-    background: theme.field.colors.default.background,
     boxSizing: 'border-box',
     fontFamily: theme.fontFamily,
     transition: `box-shadow ${theme.field.animationDuration}ms ease`
@@ -170,28 +174,16 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     pointerEvents: 'none',
     transition: `all ${theme.field.animationDuration}ms ease`,
     border: '0 solid transparent',
-    '$input:focus + &': {
-      borderColor: theme.field.colors.focus.border,
-      transform: 'scale(1, 1)'
-    },
-    '$success $input:enabled + &': {
-      borderColor: theme.colors.success,
-      transform: 'scale(1, 1)'
-    },
-    '$error $input:enabled + &': {
-      borderColor: theme.colors.danger,
-      transform: 'scale(1, 1)'
-    },
-    '$warning $input:enabled + &': {
-      borderColor: theme.colors.warn,
-      transform: 'scale(1, 1)'
-    }
+    '$input:focus + &': activeBorder(theme.field.colors.focus.border),
+    '$success$isEnabled &': activeBorder(theme.colors.success),
+    '$error$isEnabled &': activeBorder(theme.colors.danger),
+    '$warning$isEnabled &': activeBorder(theme.colors.warn)
   },
   icon: {
     position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    fontSize: 0
+    top: 0,
+    bottom: 0,
+    margin: 'auto',
   },
   eye: {
     composes: '$icon',
@@ -214,7 +206,8 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   },
   iconRight: {},
   filled: {},
-  disabled: {},
+  isDisabled: {},
+  isEnabled: {},
   success: {},
   error: {},
   warning: {}
@@ -419,7 +412,7 @@ export default class Input extends Component {
       css.root,
       css[variation],
       css[status],
-      disabled && css.disabled,
+      disabled ? css.isDisabled : css.isEnabled,
       css[size],
       iconLeft && css.withLeftIcon,
       iconRight && css.withRightIcon,
