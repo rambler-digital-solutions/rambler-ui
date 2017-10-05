@@ -13,7 +13,7 @@ import { isolateMixin } from '../style/mixins'
     ...isolateMixin,
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
-    padding: '8px 0',
+    padding: 0,
     overflowY: 'auto'
   }
 }))
@@ -32,6 +32,10 @@ export default class Menu extends PureComponent {
      * Множественный выбор
      */
     multiple: PropTypes.bool,
+    /**
+     * Опции не активны
+     */
+    disabled: PropTypes.bool,
     /**
      * Автофокус первого/выбранного элемента
      */
@@ -60,17 +64,23 @@ export default class Menu extends PureComponent {
     /**
      * Коллбек, вызывающийся при клике на `Escape`
      */
-    onEscKeyDown: PropTypes.func
+    onEscKeyDown: PropTypes.func,
+    /**
+     * Размер опций
+     */
+    size: PropTypes.oneOf(['small', 'medium'])
   };
 
   static defaultProps = {
     multiple: false,
+    disabled: false,
     autoFocus: false,
     maxHeight: null,
     value: null,
     valuesEquality: (a, b) => a === b,
     onChange: () => {},
-    onEscKeyDown: () => {}
+    onEscKeyDown: () => {},
+    size: 'medium'
   };
 
   constructor(props) {
@@ -203,7 +213,7 @@ export default class Menu extends PureComponent {
       'sheet',
       'theme',
       'onChange',
-      'onEscKeyDown'
+      'onEscKeyDown',
     ])
   }
 
@@ -220,6 +230,8 @@ export default class Menu extends PureComponent {
       maxHeight,
       valuesEquality,
       children,
+      disabled,
+      size,
       ...other
     } = this.getMenuProps()
 
@@ -235,6 +247,8 @@ export default class Menu extends PureComponent {
 
       return cloneElement(child, {
         isSelected,
+        disabled: disabled || child.props.disabled,
+        size,
         isFocused: index === focusIndex,
         key: childValue,
         onFocus: () => this.setFocusIndex(index),
