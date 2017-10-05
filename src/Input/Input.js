@@ -183,7 +183,7 @@ const activeBorder = borderColor => ({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    margin: 'auto',
+    margin: 'auto'
   },
   eye: {
     composes: '$icon',

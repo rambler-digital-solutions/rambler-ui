@@ -363,13 +363,14 @@ export function createTheme(config) {
         default: {
           outline: colors.controls.grey.fieldOutline,
           border: 'transparent',
-          background: 'none',
+          background: '#fff',
           text: colors.dark,
           placeholder: lighten(colors.dark, 0.6),
-          arrow: colors.controls.grey.icon
+          arrow: colors.dark
         },
         hover: {
-          outline: darken(colors.controls.grey.fieldOutline, 0.1)
+          outline: darken(colors.controls.grey.fieldOutline, 0.1),
+          arrow: colors.primary
         },
         focus: {
           border: colors.primary
@@ -378,6 +379,7 @@ export function createTheme(config) {
           outline: fade(colors.controls.grey.fieldOutline, 0.6),
           text: colors.controls.grey.disabled,
           placeholder: colors.controls.grey.disabled,
+          arrow: lighten(colors.controls.grey.outline, 0.5),
           background: 'none'
         }
       },
@@ -399,7 +401,8 @@ export function createTheme(config) {
           eyeIcon: 20,
           withIconPadding: 40,
           withIconsPadding: 70,
-          iconMargin: 13
+          iconMargin: 13,
+          tagVerticalMargin: 5
         },
         small: {
           height: 35,
@@ -408,10 +411,29 @@ export function createTheme(config) {
           eyeIcon: 18,
           withIconPadding: 40,
           withIconsPadding: 70,
-          iconMargin: 13
+          iconMargin: 13,
+          tagVerticalMargin: 0
         }
       },
-      animationDuration: 200
+      animationDuration: 200,
+      tag: {
+        sideMargin: 20,
+        lineHeight: 25,
+        colors: {
+          default: {
+            more: colors.controls.grey.outline,
+            icon: lighten(colors.controls.grey.outline, 0.3)
+          },
+          hover: {
+            more: colors.primary,
+            icon: colors.primary
+          },
+          disabled: {
+            more: lighten(colors.controls.grey.outline, 0.75),
+            icon: fade(lighten(colors.controls.grey.outline, 0.75), 0.60)
+          }
+        }
+      }
     },
     input: {
       padding: 13,
@@ -425,19 +447,39 @@ export function createTheme(config) {
       color: colors.light
     },
     menu: {
+      padding: 13,
+      fontSize: 13,
+      lineHeight: 18,
+      sizes: {
+        medium: {
+          height: 45
+        },
+        small: {
+          height: 35
+        }
+      },
       colors: {
         default: {
           text: colors.dark,
           background: colors.light
         },
         hover: {
-          background: colors.controls.grey.background
+          text: colors.primary,
+          background: lighten(colors.controls.grey.outline, 0.95)
+        },
+        active: {
+          text: darken(colors.primary, 0.2),
+          background: lighten(colors.controls.grey.outline, 0.9)
         },
         focus: {
-          background: colors.controls.grey.background
+          text: colors.dark,
+          background: lighten(colors.controls.grey.outline, 0.95)
         },
-        checked: {
-          text: colors.primary
+        selected: {
+          text: lighten(colors.controls.grey.outline, 0.5)
+        },
+        disabled: {
+          text: lighten(colors.controls.grey.outline, 0.5)
         }
       }
     },
