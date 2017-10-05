@@ -1,27 +1,25 @@
-import React, { PureComponent } from 'react'
+import React, { PureComponent, createElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import Menu from '../Menu/Menu'
 import Input from '../Input'
+import { TagsInput, TagsInputItem } from '../TagsInput'
 import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
 
+const emptyArr = []
+
 @injectSheet(theme => ({
-  select: {
-    position: 'relative',
-    backgroundColor: theme.field.colors.default.background,
-    '&:hover:not($disabled) $arrow:after': {
-      borderColor: theme.field.colors.default.text
+  root: {
+    '&&': {
+      display: 'block'
     }
   },
-  disabled: {
-    backgroundColor: theme.field.colors.disabled.background,
-    '& $arrow': {
-      cursor: 'not-allow'
-    }
+  isDisabled: {
+    cursor: 'not-allowed'
   },
   focused: {
     '& $arrow:after': {
@@ -29,62 +27,67 @@ import { injectSheet } from '../theme'
     }
   },
   input: {
-    backgroundColor: 'transparent !important',
-    '& [disabled]': {
-      cursor: 'not-allow !important'
+    '$isDisabled &': {
+      pointerEvents: 'none'
     }
   },
   readonly: {
     cursor: 'pointer !important',
     userSelect: 'none'
   },
-  withArrow: {
-    paddingRight: `${theme.field.sizes.medium.withIconPadding}px !important`
-  },
-  ...['small', 'medium'].reduce((result, type) => ({
-    ...result,
-    [type]: {
-      lineHeight: theme.field.sizes.medium.height - 4,
-      '&$withIcon': {
-        paddingLeft: theme.field.sizes.medium.withIconPadding
-      },
-      '& $arrow': {
-        right: theme.field.sizes.medium.iconMargin
-      }
-    }
-  }), {}),
-  withIcon: {},
   arrow: {
-    position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
-    fontSize: 0,
-    border: 0,
-    outline: 0,
-    margin: 0,
-    padding: 0,
     width: 20,
     height: 20,
-    background: 'transparent',
     cursor: 'pointer',
-    '&::after': {
+    color: theme.field.colors.default.arrow,
+    '$input:hover &': {
+      color: theme.field.colors.hover.arrow
+    },
+    '$isDisabled &': {
+      color: theme.field.colors.disabled.arrow + '!important'
+    },
+    '$isOpened &': {
+      transform: 'scaleY(-1)'
+    },
+    '&:after': {
       position: 'absolute',
       top: 4,
       left: 6,
       borderStyle: 'solid',
-      borderColor: theme.field.colors.default.arrow,
       borderWidth: '0 0 1px 1px',
       height: 8,
       width: 8,
-      outline: 0,
       content: '""',
       pointerEvents: 'none',
       transform: 'rotate(-45deg)'
     }
   },
-  overlay: {
-    display: 'block !important'
-  }
+  dropdown: {
+    '&&': {
+      display: 'flex',
+      flexDirection: 'column',
+      boxShadow: 'none'
+    }
+  },
+  selected: {
+    flex: 'none'
+  },
+  menu: {
+    flex: 'none',
+    border: `1px solid ${theme.field.colors.default.outline}`,
+    '$selected + &': {
+      borderTop: 0
+    },
+    '$medium &': {
+      maxHeight: theme.menu.sizes.medium.height * 4
+    },
+    '$small &': {
+      maxHeight: theme.menu.sizes.small.height * 4
+    }
+  },
+  small: {},
+  medium: {},
+  isOpened: {}
 }))
 export default class Select extends PureComponent {
 
@@ -113,6 +116,10 @@ export default class Select extends PureComponent {
      * Inline-стили `<Menu />`
      */
     menuStyle: PropTypes.object,
+    /**
+     * Множественный выбор
+     */
+    multiple: PropTypes.bool,
     /**
      * Выбранное значение, по-умолчанию считается, что это примитив
      */
@@ -181,6 +188,7 @@ export default class Select extends PureComponent {
 
   static defaultProps = {
     value: null,
+    multiple: false,
     status: null,
     size: 'medium',
     disabled: false,
@@ -214,8 +222,17 @@ export default class Select extends PureComponent {
     this.setValue(value)
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.onSearch) {
+      if (!prevState.isOpened && this.state.isOpened)
+        this.input.focus()
+      if (prevState.isOpened && !this.state.isOpened && this.state.searchText)
+        this.setSearchText('')
+    }
+  }
+
   setValue(value) {
-    if (this.props.valuesEquality(value, this.value))
+    if (!this.props.multiple && this.props.valuesEquality(value, this.value))
       return
 
     this.setState({
@@ -223,7 +240,9 @@ export default class Select extends PureComponent {
     })
 
     this.value = value
-    this.setSearchText('')
+
+    if (!this.props.multiple)
+      this.setSearchText('')
   }
 
   setSearchText(searchText) {
@@ -239,18 +258,16 @@ export default class Select extends PureComponent {
     this.setState({
       isOpened: true
     })
-
     this.setSearchText(event.target.value)
   }
 
   changeValue = (value) => {
-    this.setState({
-      isOpened: false
-    })
-
+    if (!this.props.multiple)
+      this.setState({isOpened: false})
     this.setValue(value)
     this.props.onChange(value)
-    this.input.focus()
+    if (!this.props.multiple)
+      this.input.focus()
   }
 
   focusInput = (event) => {
@@ -268,7 +285,6 @@ export default class Select extends PureComponent {
         isOpened: false,
         inputFocused: false
       })
-
       this.setSearchText('')
       this.props.onBlur(event)
     }
@@ -287,7 +303,7 @@ export default class Select extends PureComponent {
     if (!this.props.disabled && !this.state.isOpened)
       this.setState({
         isOpened: true
-      })
+      }, )
   }
 
   openOnArrow(event) {
@@ -322,8 +338,8 @@ export default class Select extends PureComponent {
       this.setState({
         isOpened: false
       })
-
-      this.input.focus()
+      if (!this.props.multiple)
+        this.input.focus()
     }
   }
 
@@ -375,6 +391,23 @@ export default class Select extends PureComponent {
     ])
   }
 
+  Arrow = (props) => (
+    <div
+      role="button"
+      className={classnames(props.className, this.css.arrow)}
+      onMouseDown={this.preventBlurInput}
+      onClick={this.open} />
+  )
+
+  renderSelectedItems() {
+    const selected = Array.isArray(this.props.value) ? this.props.value : emptyArr
+    return selected.map(item => (
+      <TagsInputItem value={item}>
+        {this.props.inputValueRenderer(item)}
+      </TagsInputItem>
+    ))
+  }
+
   renderInput() {
     const {
       value,
@@ -389,50 +422,55 @@ export default class Select extends PureComponent {
       autoFocus,
       inputValueRenderer,
       placeholder,
-      disabled,
       icon,
-      size,
-      status,
+      multiple,
       onSearch,
       ...other
     } = this.getInputProps()
 
-    const focuseInput = inputFocused || isOpened
+    let inputProps = {
+      ...other,
+      inputStyle: style,
+      className: this.css.input,
+      iconLeft: icon,
+      iconRight: this.showArrow ? createElement(this.Arrow) : null,
+      onKeyDown: this.keyDown,
+      onClick: this.open,
+      onFocus: this.focusInput,
+      onBlur: this.blurInput,
+      onTouchStart: onSearch ? null : this.open,
+      onTouchEnd: onSearch ? null : this.preventSelect
+    }
+
+    if (multiple && !(onSearch && isOpened))
+      return (
+        <TagsInput
+          {...inputProps}
+          placeholder={placeholder}
+          onChange={this.changeValue}
+          tabIndex="0"
+        >
+          {this.renderSelectedItems()}
+        </TagsInput>
+      )
+
+    const focuseInput = inputFocused || isOpened  
     const inputValue = inputValueRenderer(value)
-    const resultPlaceholder = this.isValueEmpty(inputValue) ? placeholder : (onSearch && focuseInput && searchText === '' ? inputValue : '')
+    const resultInputValue = multiple
+      ? searchText
+      : onSearch && focuseInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)
 
     return (
-      <div className={classnames(this.css.select, this.css[size], disabled && this.css.disabled, focuseInput && this.css.focused)}>
-        <Input
-          {...other}
-          inputRef={(el) => { this.input = el }}
-          inputStyle={style}
-          className={this.css.input}
-          inputClassName={classnames(!onSearch && this.css.readonly, this.showArrow && this.css.withArrow, className)}
-          size={size}
-          status={status}
-          iconLeft={icon}
-          autoFocus={autoFocus}
-          disabled={disabled}
-          placeholder={resultPlaceholder}
-          readOnly={!onSearch}
-          value={onSearch && focuseInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)}
-          onFocus={this.focusInput}
-          onClick={this.open}
-          onTouchStart={onSearch ? null : this.open}
-          onTouchEnd={onSearch ? null : this.preventSelect}
-          onBlur={this.blurInput}
-          onChange={this.requestItems}
-          onKeyDown={this.keyDown} />
-        {this.showArrow &&
-          <button
-            type="button"
-            tabIndex="-1"
-            className={this.css.arrow}
-            onMouseDown={this.preventBlurInput}
-            onClick={this.open} />
-        }
-      </div>
+      <Input
+        {...inputProps}
+        inputRef={el => { this.input = el }}
+        inputClassName={classnames(className, !onSearch && this.css.readonly)}
+        autoFocus={autoFocus}
+        placeholder={this.isValueEmpty(inputValue) ? placeholder : (onSearch && focuseInput && searchText === '' ? inputValue : '')}
+        readOnly={!onSearch}
+        value={resultInputValue}
+        onChange={this.requestItems}
+      />
     )
   }
 
@@ -451,40 +489,52 @@ export default class Select extends PureComponent {
       valuesEquality,
       onSearch,
       children,
-      appendToBody
+      appendToBody,
+      multiple,
+      disabled,
+      size
     } = this.props
 
+    const focuseInput = inputFocused || isOpened
+
     return (
-      <Dropdown
-        isOpened={isOpened && children.length > 0}
-        anchor={this.renderInput()}
-        padding={false}
-        style={dropdownStyle}
-        className={dropdownClassName}
-        overlayClassName={this.css.overlay}
-        appendToBody={appendToBody}
-        anchorFullWidth={true}
-        autoPositionY={true}
-        anchorPointY={onSearch ? 'bottom' : 'top'}
-        contentPointY="top"
-        closeOnClickOutside={false}
-        cachePositionOptions={false}>
-        <OnClickOutside handler={this.closeOnClickOutside}>
+      <OnClickOutside handler={this.closeOnClickOutside}>
+        <Dropdown
+          isOpened={isOpened && children.length > 0}
+          anchor={this.renderInput()}
+          padding={false}
+          style={dropdownStyle}
+          className={classnames(dropdownClassName, this.css.dropdown)}
+          overlayClassName={classnames(this.css.root, size && this.css[size], disabled && this.css.isDisabled, isOpened && this.css.isOpened, focuseInput && this.css.focused)}
+          appendToBody={appendToBody}
+          anchorFullWidth={true}
+          autoPositionY={true}
+          anchorPointY={onSearch ? 'bottom' : 'top'}
+          contentPointY="top"
+          closeOnClickOutside={false}
+          cachePositionOptions={false}
+        >
+          {multiple && Array.isArray(value) && value.length > 0 &&
+            <TagsInput className={this.css.selected} onChange={this.changeValue} isOpened={true}>
+              {this.renderSelectedItems()}
+            </TagsInput>
+          }
           <Menu
             style={menuStyle}
-            className={menuClassName}
-            maxHeight={189}
+            className={classnames(menuClassName, this.css.menu)}
             autoFocus={!inputFocused}
-            value={value}
+            value={multiple ? Array.isArray(value) ? value : emptyArr : value}
             valuesEquality={valuesEquality}
             onChange={this.changeValue}
             onMouseDown={this.preventBlurInput}
-            onEscKeyDown={this.closeOnEsc}>
+            onEscKeyDown={this.closeOnEsc}
+            multiple={multiple}
+            size={size}
+          >
             {children}
           </Menu>
-        </OnClickOutside>
-      </Dropdown>
+        </Dropdown>
+      </OnClickOutside>
     )
   }
-
 }

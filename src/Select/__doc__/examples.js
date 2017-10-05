@@ -20,11 +20,15 @@ export default class SelectExample extends Component {
     value1: null,
     value2: 'Bar1',
     value3: null,
+    value4: null,
+    value5: null,
     data,
     objectData,
     objectValue: null,
+    objectValue2: null,
     asyncData: [],
     asyncValue: null,
+    asyncValue2: null,
     popupIsOpened: false
   }
 
@@ -196,6 +200,73 @@ export default class SelectExample extends Component {
             </Select>
           </div>
 
+          <div style={{ maxWidth: 300, marginBottom: 15 }}>
+            <h3>Множественный выбор</h3>
+            <Select
+              multiple={true}
+              placeholder="Select..."
+              value={this.state.value4}
+              onChange={this.setValue('value4')}>
+              {this.state.data.map(item => (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ maxWidth: 300, marginBottom: 15 }}>
+            <h3>Множественный выбор c поиском</h3>
+            <Select
+              multiple={true}
+              placeholder="Type something..."
+              value={this.state.value5}
+              onChange={this.setValue('value5')}
+              onSearch={this.filterData}>
+              {this.state.data.map(item => (
+                <MenuItem value={item} key={item}>
+                  {item}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ maxWidth: 300, marginBottom: 15 }}>
+            <h3>Множественный выбор асинхронный</h3>
+            <Loader loading={!!this.state.asyncData.then}>
+              <Select
+                multiple={true}
+                placeholder="Type something..."
+                value={this.state.asyncValue2}
+                onChange={this.setValue('asyncValue2')}
+                onSearch={this.requestData}>
+                {this.state.asyncData.then ? [] : this.state.asyncData.map(item => (
+                  <MenuItem value={item} key={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Loader>
+          </div>
+
+          <div style={{ maxWidth: 300, marginBottom: 15 }}>
+            <h3>Множественный выбор со значениями-объектами</h3>
+            <Select
+              multiple={true}
+              placeholder="Type something..."
+              value={this.state.objectValue2}
+              inputValueRenderer={value => value && value.key}
+              valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
+              onChange={this.setValue('objectValue2')}
+              onSearch={this.filterObjectData}>
+              {this.state.objectData.map(item => (
+                <MenuItem value={item} key={item.id}>
+                  <PhoneIcon /> {item.key}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
           <Popup
             title="Попап"
             showClose
@@ -229,7 +300,8 @@ export default class SelectExample extends Component {
           <div>this.state.value1: <b>{`${this.state.value1}`}</b></div>
           <div>this.state.value2: <b>{`${this.state.value2}`}</b></div>
           <div>this.state.value3: <b>{`${this.state.value3}`}</b></div>
-
+          <div>this.state.value4: <b>{`${this.state.value4}`}</b></div>
+          <div>this.state.value5: <b>{`${this.state.value5}`}</b></div>
         </div>
       </ApplyTheme>
     )
