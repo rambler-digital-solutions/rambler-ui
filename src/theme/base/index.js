@@ -231,7 +231,8 @@ export function createTheme(config) {
       borderRadius: 1,
       size: 15,
       labelMargin: 10,
-      fontSize: 13
+      fontSize: 13,
+      lineHeight: 1.54
     },
     switcher: {
       colors: {

@@ -33,6 +33,7 @@ const activeBorder = borderColor => ({
     boxShadow: 'none',
     border: '0 solid',
     borderColor: theme.field.colors.default.outline,
+    transition: `all ${theme.field.animationDuration}ms ease`,
     'textarea&&': {
       resize: 'vertical',
       height: '100%',
@@ -162,8 +163,7 @@ const activeBorder = borderColor => ({
     extend: isolateMixin,
     position: 'relative',
     boxSizing: 'border-box',
-    fontFamily: theme.fontFamily,
-    transition: `box-shadow ${theme.field.animationDuration}ms ease`
+    fontFamily: theme.fontFamily
   },
   activeBorder: {
     position: 'absolute',
@@ -202,9 +202,12 @@ const activeBorder = borderColor => ({
   withRightIcon: {},
   withEye: {},
   iconLeft: {
+    composes: '$icon',
     pointerEvents: 'none'
   },
-  iconRight: {},
+  iconRight: {
+    composes: '$icon'
+  },
   filled: {},
   isDisabled: {},
   isEnabled: {},
@@ -385,6 +388,15 @@ export default class Input extends Component {
     )
   }
 
+  renderIcon(icon, className) {
+    const { disabled, theme, size } = this.props
+    return icon && cloneElement(icon, {
+      color: disabled ? theme.field.colors.disabled.text : (icon.props.color || theme.field.colors.default.text),
+      size: icon.props.size || theme.field.sizes[size].icon,
+      className: classnames(className, icon.props.className)
+    })
+  }
+
   render() {
     const {
       tag = 'input',
@@ -401,10 +413,9 @@ export default class Input extends Component {
       iconRight,
       status,
       sheet: { classes: css },
-      theme,
       value,
       ...other
-    } = omit(this.props, ['onChange', 'passwordIconTooltip', 'inputRef'])
+    } = omit(this.props, ['onChange', 'passwordIconTooltip', 'inputRef', 'theme'])
 
     const trueType = this.props.type
     const resultClassName = classnames(
@@ -418,18 +429,6 @@ export default class Input extends Component {
       iconRight && css.withRightIcon,
       trueType === 'password' && css.withEye
     )
-
-    const resultIconLeft = iconLeft && cloneElement(iconLeft, {
-      color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || theme.field.colors.default.text),
-      size: iconLeft.props.size || theme.field.sizes[size].icon,
-      className: classnames(iconLeft.props.className, css.icon, css.iconLeft)
-    })
-
-    const resultIconRight = iconRight && cloneElement(iconRight, {
-      color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || theme.field.colors.default.text),
-      size: iconRight.props.size || theme.field.sizes[size].icon,
-      className: classnames(iconRight.props.className, css.icon, css.iconRight)
-    })
 
     const inputElement = createElement(tag, {
       name,
@@ -446,10 +445,10 @@ export default class Input extends Component {
 
     return (
       <div style={style} className={resultClassName}>
-        {resultIconLeft}
+        {this.renderIcon(iconLeft, css.iconLeft)}
         {inputElement}
         <div className={css.activeBorder} />
-        {resultIconRight}
+        {this.renderIcon(iconRight, css.iconRight)}
         {this.renderPasswordIcon()}
       </div>
     )

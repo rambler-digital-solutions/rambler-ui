@@ -32,13 +32,13 @@ if (env)
   }
 
 const config = Object.assign({
-  entry: path.join(rootDir, 'src/app.js'),
+  entry: path.join(rootDir, 'src/index.js'),
   module: {
     loaders: []
   },
   output: {
     path: outputPath,
-    filename: 'app.js'
+    filename: 'index.js'
   },
   stats: {
     colors: true,
