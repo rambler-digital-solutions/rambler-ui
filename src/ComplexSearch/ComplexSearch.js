@@ -18,44 +18,61 @@ import { isolateMixin } from '../style/mixins'
     width: '100%',
     maxWidth: theme.search.maxWidth
   },
-  inputWrapper: {
+  inputRow: {
     marginRight: theme.search.button.width,
     height: theme.search.height,
     position: 'relative'
+  },
+  active: {},
+  inputWrapper: {
+    borderColor: theme.search.input.borderColor,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: -2,
+    paddingRight: 30,
+    height: theme.search.height,
+
+    '&$active': {
+      borderColor: theme.search.input.hoverColor
+    }
   },
   bottomWrapper: {
     display: 'flex',
     justifyContent: 'space-between',
     padding: '15px 0',
-    fontSize: '12px'
+    fontSize: 12
   },
   division: {
-    height: '30px',
+    height: 30,
     padding: '0 12px',
-    lineHeight: '30px',
-    fontSize: '11px',
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 3px',
+    fontSize: 11,
     textTransform: 'uppercase',
-    fontWeight: '500',
+    fontWeight: 500,
     borderRadius: '1px',
     backgroundColor: theme.search.division.color,
-    letterSpacing: '1.3px',
-    position: 'absolute',
-    top: '5px',
-    left: '5px',
+    letterSpacing: 1.3,
     cursor: 'pointer'
   },
   input: {
-    borderColor: theme.search.input.borderColor,
-    borderWidth: '2px',
-    borderRight: 'none',
-    borderStyle: 'solid',
-    padding: '10px 30px 10px 10px',
-    fontSize: theme.search.fontSize,
-    lineHeight: '1.43',
-    color: theme.search.color,
+    padding: 10,
+    border: 'none',
+    boxSizing: 'border-box',
+    display: 'block',
+    borderRadius: 0,
     width: '100%',
-    height: theme.search.height,
-    outline: 'none',
+    fontWeight: 400,
+    fontSize: theme.search.fontSize,
+    lineHeight: 1.43,
+    appearance: 'none',
+    color: theme.search.color,
+    height: '100%',
+    outline: 0,
+    boxShadow: 'none',
 
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
@@ -69,7 +86,6 @@ import { isolateMixin } from '../style/mixins'
     flexShrink: 0,
     width: theme.search.button.width,
     height: theme.search.height,
-    lineHeight: theme.search.height,
 
     '&:focus, &:active': {
       '&:after': {
@@ -79,7 +95,7 @@ import { isolateMixin } from '../style/mixins'
   },
   clear: {
     position: 'absolute',
-    right: '15px',
+    right: 15,
     top: '50%',
     transform: 'translateY(-50%)',
     cursor: 'pointer',
@@ -190,14 +206,6 @@ class ComplexSearch extends React.Component {
     value: ''
   }
 
-  componentDidMount() {
-    if (this.divisionNode) {
-      const styles = getComputedStyle(this.inputNode)
-      const newPadding = parseInt(styles.paddingLeft || 0, 10) + this.divisionNode.offsetWidth
-      this.inputNode.style.paddingLeft = `${newPadding}px`
-    }
-  }
-
   componentDidUpdate(prevProps) {
     if (prevProps.value && prevProps.value !== this.props.value)
       if (this.inputNode) this.inputNode.value = this.props.value
@@ -243,7 +251,7 @@ class ComplexSearch extends React.Component {
   }
 
   onFocus = () => {
-    this.setState({isDropdownOpened: true})
+    this.setState({isDropdownOpened: true, isActive: true})
     this.props.onFocus()
   }
 
@@ -264,6 +272,7 @@ class ComplexSearch extends React.Component {
   }
 
   onBlur = () => {
+    this.setState({isActive: false})
     this.props.onBlur()
   }
 
@@ -295,26 +304,27 @@ class ComplexSearch extends React.Component {
 
     return (
       <div
-        className={css.inputWrapper}
+        className={css.inputRow}
       >
-        {division &&
-          <div
-            className={css.division}
-            ref={this.setNode('division')}
-          >{division}
-          </div>
-        }
-        <input
-          type="text"
-          onChange={this.onSearchInput}
-          onKeyDown={this.onKeyDown}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          defaultValue={value}
-          className={css.input}
-          placeholder={placeholder}
-          ref={this.setNode('input')}
-        />
+        <div className={cn(css.inputWrapper, {[css.active]: this.state.isActive})}>
+          {division &&
+            <div
+              className={css.division}
+            >{division}
+            </div>
+          }
+          <input
+            type="text"
+            onChange={this.onSearchInput}
+            onKeyDown={this.onKeyDown}
+            onFocus={this.onFocus}
+            onBlur={this.onBlur}
+            defaultValue={value}
+            className={css.input}
+            placeholder={placeholder}
+            ref={this.setNode('input')}
+          />
+        </div>
         {this.state.isClearVisible && <ClearIcon
           className={cn(
             css.clear

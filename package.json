@@ -4,8 +4,8 @@
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS_custom",
-    "karma": "./node_modules/karma/bin/karma start --browsers Chrome",
+    "test": "/usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS_custom",
+    "karma": "/usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start --browsers Chrome",
     "dev": "cd site && npm run dev",
     "release": "npm run build && cd build && npm publish",
     "build": "NODE_ENV=production gulp build",
@@ -80,6 +80,7 @@
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-test-renderer": "^16.0.0",
     "run-sequence": "^1.2.2",
     "webpack": "^1.13.2"
   },

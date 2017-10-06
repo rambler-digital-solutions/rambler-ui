@@ -5,6 +5,7 @@ import Loader from 'rambler-ui/Loader'
 import Select from 'rambler-ui/Select'
 import { MenuItem } from 'rambler-ui/Menu'
 import PhoneIcon from 'rambler-ui/icons/forms/PhoneIcon'
+import EllipsisIcon from 'rambler-ui/icons/forms/EllipsisIcon'
 import { ApplyTheme } from 'rambler-ui/theme'
 
 const data = [...Array(5)].map((item, i) => `Foo${i}`)
@@ -169,10 +170,13 @@ export default class SelectExample extends Component {
           </div>
 
           <div style={{ width: '45%', marginBottom: 15 }}>
-            <h3>Со значениями-объектами</h3>
+            <h3>Со значениями-объектами и кастомной стрелкой</h3>
             <Select
               placeholder="Type something..."
               value={this.state.objectValue}
+              arrowIcon={
+                <EllipsisIcon size={12} color='currentColor' />
+              }
               inputValueRenderer={value => value && value.key}
               valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
               onChange={this.setValue('objectValue')}

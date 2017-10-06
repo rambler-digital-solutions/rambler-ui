@@ -281,12 +281,13 @@ export function createTheme(config) {
       fontSize: 13
     },
     search: {
-      fontSize: '14px',
-      height: '40px',
-      maxWidth: '765px',
+      fontSize: 14,
+      height: 40,
+      maxWidth: 765,
 
       input: {
         borderColor: colors.primary,
+        hoverColor: colors.primaryDark,
         color: colors.dark
       },
 
@@ -303,14 +304,14 @@ export function createTheme(config) {
       },
 
       bottomLinks: {
-        fontSize: '12px'
+        fontSize: 12
       }
     },
     suggestItem: {
-      fontSize: '14px',
+      fontSize: 14,
 
       removeButton: {
-        fontSize: '13px',
+        fontSize: 13,
         color: colors.purpleDeep
       },
 

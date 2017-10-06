@@ -22,8 +22,8 @@ const emptyArr = []
     cursor: 'not-allowed'
   },
   focused: {
-    '& $arrow:after': {
-      borderColor: theme.field.colors.focus.border
+    '& $arrow': {
+      color: theme.field.colors.focus.border
     }
   },
   input: {
@@ -40,16 +40,15 @@ const emptyArr = []
     height: 20,
     cursor: 'pointer',
     color: theme.field.colors.default.arrow,
+    textAlign: 'center',
+    lineHeight: 0,
     '$input:hover &': {
       color: theme.field.colors.hover.arrow
     },
     '$isDisabled &': {
       color: theme.field.colors.disabled.arrow + '!important'
     },
-    '$isOpened &': {
-      transform: 'scaleY(-1)'
-    },
-    '&:after': {
+    '&:empty:after': {
       position: 'absolute',
       top: 4,
       left: 6,
@@ -60,6 +59,19 @@ const emptyArr = []
       content: '""',
       pointerEvents: 'none',
       transform: 'rotate(-45deg)'
+    },
+    '$isOpened &:empty': {
+      transform: 'scaleY(-1)'
+    },
+    '& svg': {
+      margin: 'auto',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      position: 'absolute',
+      maxWidth: '100%',
+      maxHeight: '100%'
     }
   },
   dropdown: {
@@ -121,6 +133,14 @@ export default class Select extends PureComponent {
      */
     multiple: PropTypes.bool,
     /**
+     * Дополнительный CSS-класс кнопки со стрелкой
+     */
+    arrowClassName: PropTypes.string,
+    /**
+     * Inline-стили кнопки со стрелкой
+     */
+    arrowStyle: PropTypes.object,
+    /**
      * Выбранное значение, по-умолчанию считается, что это примитив
      */
     value: PropTypes.any,
@@ -150,6 +170,10 @@ export default class Select extends PureComponent {
      * Иконка
      */
     icon: PropTypes.node,
+    /**
+     * Иконка стрелки
+     */
+    arrowIcon: PropTypes.node,
     /**
      * Размер
      */
@@ -391,13 +415,20 @@ export default class Select extends PureComponent {
     ])
   }
 
-  Arrow = (props) => (
-    <div
-      role="button"
-      className={classnames(props.className, this.css.arrow)}
-      onMouseDown={this.preventBlurInput}
-      onClick={this.open} />
-  )
+  Arrow = (props) => {
+    const { arrowStyle, arrowClassName, arrowIcon } = this.props
+    return (
+      <div
+        style={arrowStyle}
+        role="button"
+        className={classnames(props.className, this.css.arrow, arrowClassName)}
+        onMouseDown={this.preventBlurInput}
+        onClick={this.open}
+      >
+        {arrowIcon}
+      </div>
+    )
+  }
 
   renderSelectedItems() {
     const selected = Array.isArray(this.props.value) ? this.props.value : emptyArr
@@ -426,7 +457,7 @@ export default class Select extends PureComponent {
       multiple,
       onSearch,
       ...other
-    } = this.getInputProps()
+    } = omit(this.getInputProps(), ['arrowClassName', 'arrowStyle', 'arrowIcon'])
 
     let inputProps = {
       ...other,
