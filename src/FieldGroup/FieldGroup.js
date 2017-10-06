@@ -6,9 +6,10 @@ import defaults from 'lodash/defaults'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
-@injectSheet(() => ({
+@injectSheet(theme => ({
   root: {
     extend: isolateMixin,
+    position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'stretch',
@@ -16,15 +17,42 @@ import { isolateMixin } from '../style/mixins'
       flex: 1,
       flexBasis: 0
     },
-    '& > :nth-child(1n+2) input': {
-      borderLeftWidth: 0,
-      borderTopLeftRadius: 0,
-      borderBottomLeftRadius: 0
+    '& input': {
+      borderColor: 'transparent !important'
     },
-    '& > :not(:last-child) input': {
-      borderRightWidth: 0,
-      borderTopRightRadius: 0,
-      borderBottomRightRadius: 0
+    '&:before': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      border: '0 solid',
+      borderColor: theme.field.colors.default.outline,
+      content: '""',
+      transition: `all ${theme.field.animationDuration}ms ease`
+    },
+    '&:not($disabled):hover:before': {
+      borderColor: theme.field.colors.hover.outline
+    }
+  },
+  disabled: {
+    '&:before': {
+      borderColor: theme.field.colors.disabled.outline
+    }
+  },
+  regular: {
+    '&:before': {
+      borderRadius: theme.field.borderRadius,
+      borderWidth: 1
+    }
+  },
+  awesome: {
+    composes: ['$regular']
+  },
+  promo: {
+    '&:before': {
+      paddingTop: 1,
+      borderBottomWidth: 1
     }
   }
 }))
@@ -57,20 +85,28 @@ export default class FieldGroup extends PureComponent {
     disabled: PropTypes.bool
   };
 
+  static defaultProps = {
+    variation: 'awesome'
+  };
+
   render() {
     const {
       className,
       style,
       sheet: { classes: css },
       children,
+      disabled,
+      variation,
       ...props
     } = omit(this.props, 'theme')
 
     return (
-      <div style={style} className={classnames(className, css.root)}>
+      <div
+        style={style}
+        className={classnames(className, css.root, css[variation], disabled && css.disabled)}>
         {Children.map(children, child => cloneElement(
           child,
-          defaults({}, child.props, props)
+          defaults({}, child.props, {...props, disabled, variation})
         ))}
       </div>
     )

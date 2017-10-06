@@ -29,22 +29,18 @@ describe('<FieldGroup />', () => {
     const select = wrapper.find(Select).find('input')
     const selectStyles = getStyles(select)
 
-    expect(selectStyles['border-left-width']).toEqual('1px')
-    expect(selectStyles['border-right-width']).toEqual('0px')
-    expect(selectStyles['border-top-left-radius']).toEqual(`${theme.field.borderRadius}px`)
-    expect(selectStyles['border-top-right-radius']).toEqual('0px')
-    expect(selectStyles['border-bottom-right-radius']).toEqual('0px')
-    expect(selectStyles['border-bottom-left-radius']).toEqual(`${theme.field.borderRadius}px`)
+    expect(selectStyles['border-top-color']).toEqual('rgba(0, 0, 0, 0)')
+    expect(selectStyles['border-left-color']).toEqual('rgba(0, 0, 0, 0)')
+    expect(selectStyles['border-right-color']).toEqual('rgba(0, 0, 0, 0)')
+    expect(selectStyles['border-bottom-color']).toEqual('rgba(0, 0, 0, 0)')
 
     const input = wrapper.find(Input).last().find('input')
     const inputStyles = getStyles(input)
 
-    expect(inputStyles['border-left-width']).toEqual('0px')
-    expect(inputStyles['border-right-width']).toEqual('1px')
-    expect(inputStyles['border-top-left-radius']).toEqual('0px')
-    expect(inputStyles['border-top-right-radius']).toEqual(`${theme.field.borderRadius}px`)
-    expect(inputStyles['border-bottom-right-radius']).toEqual(`${theme.field.borderRadius}px`)
-    expect(inputStyles['border-bottom-left-radius']).toEqual('0px')
+    expect(inputStyles['border-top-color']).toEqual('rgba(0, 0, 0, 0)')
+    expect(inputStyles['border-left-color']).toEqual('rgba(0, 0, 0, 0)')
+    expect(inputStyles['border-right-color']).toEqual('rgba(0, 0, 0, 0)')
+    expect(inputStyles['border-bottom-color']).toEqual('rgba(0, 0, 0, 0)')
   })
 
   it('should apply styles and append className', () => {
