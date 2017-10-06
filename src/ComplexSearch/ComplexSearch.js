@@ -23,15 +23,20 @@ import { isolateMixin } from '../style/mixins'
     height: theme.search.height,
     position: 'relative'
   },
+  active: {},
   inputWrapper: {
     borderColor: theme.search.input.borderColor,
     borderWidth: 2,
     borderStyle: 'solid',
     display: 'flex',
     alignItems: 'center',
-    borderRight: 'none',
+    marginRight: -2,
     paddingRight: 30,
-    height: theme.search.height
+    height: theme.search.height,
+
+    '&$active': {
+      borderColor: theme.search.input.hoverColor
+    }
   },
   bottomWrapper: {
     display: 'flex',
@@ -246,7 +251,7 @@ class ComplexSearch extends React.Component {
   }
 
   onFocus = () => {
-    this.setState({isDropdownOpened: true})
+    this.setState({isDropdownOpened: true, isActive: true})
     this.props.onFocus()
   }
 
@@ -267,6 +272,7 @@ class ComplexSearch extends React.Component {
   }
 
   onBlur = () => {
+    this.setState({isActive: false})
     this.props.onBlur()
   }
 
@@ -300,7 +306,7 @@ class ComplexSearch extends React.Component {
       <div
         className={css.inputRow}
       >
-        <div className={css.inputWrapper}>
+        <div className={cn(css.inputWrapper, {[css.active]: this.state.isActive})}>
           {division &&
             <div
               className={css.division}

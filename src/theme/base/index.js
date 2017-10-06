@@ -286,6 +286,7 @@ export function createTheme(config) {
 
       input: {
         borderColor: colors.primary,
+        hoverColor: colors.primaryDark,
         color: colors.dark
       },
 

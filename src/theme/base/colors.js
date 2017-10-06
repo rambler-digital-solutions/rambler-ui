@@ -1,5 +1,6 @@
 export default {
   primary: '#315efb',
+  primaryDark: '#274bc8',
   danger: '#ff564e',
   success: '#28bc00',
   warn: '#ffc000',
