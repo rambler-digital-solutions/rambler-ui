@@ -58,7 +58,8 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   withStatusLine: {
     '& $activeBorder': {
       borderWidth: '0 0 2px',
-      transform: 'scale(0.6, 1)'
+      transform: 'scaleX(0.6) scaleY(0)',
+      transformOrigin: 'center bottom'
     },
     '& $input': {
       paddingBottom: 1
@@ -168,7 +169,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     right: 0,
     bottom: 0,
     pointerEvents: 'none',
-    transition: `all ${theme.field.animationDuration}ms ease`,
+    transition: `all ${Math.round(theme.field.animationDuration * 0.7)}ms linear`,
     border: '0 solid transparent',
     '$input:focus + &': {
       borderColor: theme.field.colors.focus.border,

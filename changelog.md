@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.3.1 - 2017-10-07
+### Fixed
+* Input animation
+
 ## v-3.3.0 - 2017-10-06
 
 ### Fixed
