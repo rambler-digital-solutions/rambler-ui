@@ -8,6 +8,8 @@ import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
 import { isolateMixin } from '../style/mixins'
 
+const empytArr = []
+
 @injectSheet(theme => ({
   menu: {
     ...isolateMixin,
@@ -128,8 +130,15 @@ export default class Menu extends PureComponent {
   }
 
   setValue(value) {
-    if (this.props.valuesEquality(value, this.value))
-      return
+    if (this.props.multiple) {
+      const currValue = Array.isArray(this.value) ? this.value : empytArr
+      const nextValue = Array.isArray(value) ? value : empytArr
+      if (nextValue.length === currValue.length && nextValue.every((item, index) => this.props.valuesEquality(item, currValue[index])))
+        return
+    } else {
+      if (this.props.valuesEquality(value, this.value))
+        return
+    }
 
     this.value = value
 
@@ -180,7 +189,6 @@ export default class Menu extends PureComponent {
 
   changeValue(value) {
     const currentValue = this.state.value
-
     const nextValue = !this.props.multiple ?
       value :
       (currentValue.indexOf(value) > -1 ?

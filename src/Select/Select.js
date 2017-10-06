@@ -459,6 +459,9 @@ export default class Select extends PureComponent {
     const resultInputValue = multiple
       ? searchText
       : onSearch && focuseInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)
+    const resultPlaceholder = multiple
+      ? placeholder
+      : this.isValueEmpty(inputValue) ? placeholder : (onSearch && focuseInput && searchText === '' ? inputValue : '')
 
     return (
       <Input
@@ -466,7 +469,7 @@ export default class Select extends PureComponent {
         inputRef={el => { this.input = el }}
         inputClassName={classnames(className, !onSearch && this.css.readonly)}
         autoFocus={autoFocus}
-        placeholder={this.isValueEmpty(inputValue) ? placeholder : (onSearch && focuseInput && searchText === '' ? inputValue : '')}
+        placeholder={resultPlaceholder}
         readOnly={!onSearch}
         value={resultInputValue}
         onChange={this.requestItems}
