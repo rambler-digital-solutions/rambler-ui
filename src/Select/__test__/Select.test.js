@@ -3,6 +3,7 @@ import Select from '../Select'
 import Input from '../../Input/Input'
 import MenuItem from '../../Menu/MenuItem'
 import theme from '../../theme/base'
+import EllipsisIcon from '../../icons/forms/EllipsisIcon'
 import { mount, withTheme, getStyles } from '../../utils/test-utils'
 
 describe('<Select />', () => {
@@ -52,6 +53,32 @@ describe('<Select />', () => {
     const selectStyles = getStyles(select)
 
     expect(selectStyles.height).toEqual(theme.field.sizes.small.height + 'px')
+  })
+
+  it('should append custom arrow', () => {
+    const wrapper = mount(
+      withTheme(
+        <Select
+          arrowStyle={{width: 25}}
+          arrowClassName="arrow"
+          arrowIcon={
+            <EllipsisIcon />
+          }>
+          <MenuItem value="foo">
+            foo
+          </MenuItem>
+          <MenuItem value="bar">
+            baz
+          </MenuItem>
+        </Select>
+      )
+    )
+
+    const arrow = wrapper.find(EllipsisIcon)
+
+    expect(arrow.exists()).toBe(true)
+    expect(arrow.parent().hasClass('arrow')).toBe(true)
+    expect(getStyles(arrow.parent()).width).toEqual('25px')
   })
 
 })

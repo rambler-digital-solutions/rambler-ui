@@ -8,13 +8,15 @@ import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
+import { middleMixin, isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
   select: {
+    ...isolateMixin,
     position: 'relative',
     backgroundColor: theme.field.colors.default.background,
-    '&:hover:not($disabled) $arrow:after': {
-      borderColor: theme.field.colors.default.text
+    '&:hover:not($disabled) $arrow': {
+      color: theme.field.colors.default.text
     }
   },
   disabled: {
@@ -24,8 +26,8 @@ import { injectSheet } from '../theme'
     }
   },
   focused: {
-    '& $arrow:after': {
-      borderColor: theme.field.colors.focus.border
+    '& $arrow': {
+      color: theme.field.colors.focus.border
     }
   },
   input: {
@@ -55,6 +57,7 @@ import { injectSheet } from '../theme'
   }), {}),
   withIcon: {},
   arrow: {
+    ...middleMixin,
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
@@ -66,21 +69,21 @@ import { injectSheet } from '../theme'
     width: 20,
     height: 20,
     background: 'transparent',
+    color: theme.field.colors.default.arrow,
     cursor: 'pointer',
-    '&::after': {
-      position: 'absolute',
-      top: 4,
-      left: 6,
-      borderStyle: 'solid',
-      borderColor: theme.field.colors.default.arrow,
-      borderWidth: '0 0 1px 1px',
-      height: 8,
-      width: 8,
-      outline: 0,
-      content: '""',
-      pointerEvents: 'none',
-      transform: 'rotate(-45deg)'
-    }
+    textAlign: 'center',
+    lineHeight: 0
+  },
+  arrowIcon: {
+    display: 'inline-block',
+    borderStyle: 'solid',
+    borderColor: 'currentColor',
+    borderWidth: '0 0 1px 1px',
+    height: 9,
+    width: 9,
+    outline: 0,
+    pointerEvents: 'none',
+    transform: 'translateY(-2px) rotate(-45deg)'
   },
   overlay: {
     display: 'block !important'
@@ -114,6 +117,14 @@ export default class Select extends PureComponent {
      */
     menuStyle: PropTypes.object,
     /**
+     * Дополнительный CSS-класс кнопки со стрелкой
+     */
+    arrowClassName: PropTypes.string,
+    /**
+     * Inline-стили кнопки со стрелкой
+     */
+    arrowStyle: PropTypes.object,
+    /**
      * Выбранное значение, по-умолчанию считается, что это примитив
      */
     value: PropTypes.any,
@@ -143,6 +154,10 @@ export default class Select extends PureComponent {
      * Иконка
      */
     icon: PropTypes.node,
+    /**
+     * Иконка стрелки
+     */
+    arrowIcon: PropTypes.node,
     /**
      * Размер
      */
@@ -386,11 +401,14 @@ export default class Select extends PureComponent {
     const {
       className,
       style,
+      arrowClassName,
+      arrowStyle,
       autoFocus,
       inputValueRenderer,
       placeholder,
       disabled,
       icon,
+      arrowIcon,
       size,
       status,
       onSearch,
@@ -428,9 +446,12 @@ export default class Select extends PureComponent {
           <button
             type="button"
             tabIndex="-1"
-            className={this.css.arrow}
+            style={arrowStyle}
+            className={classnames(this.css.arrow, arrowClassName)}
             onMouseDown={this.preventBlurInput}
-            onClick={this.open} />
+            onClick={this.open}>
+            {arrowIcon || <span className={this.css.arrowIcon} />}
+          </button>
         }
       </div>
     )
