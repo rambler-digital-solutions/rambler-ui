@@ -67,9 +67,11 @@ function getIconColor(colorsConfig, isDisabled) {
     content: {
       ...middleMixin,
       ...fontSmoothingMixin,
+      display: 'block',
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
+      position: 'relative',
       fontWeight: 500
     },
     block: {
@@ -131,7 +133,9 @@ function getIconColor(colorsConfig, isDisabled) {
 
     const setThemeForSelector = (colors, outlineOffset) => pickBy({
       background: colors.background,
-      color: colors.text,
+      '&, & *': {
+        color: colors.text
+      },
       '&:before': colors.border && {
         borderColor: colors.border
       },
@@ -306,12 +310,12 @@ export default class Button extends Component {
     )
 
     const resultChildren = (
-      <div className={classnames(css.content, loading && css.isLoading)}>
+      <span className={classnames(css.content, loading && css.isLoading)}>
         { iconLeft && iconEl }
         { children }
         { !iconLeft && iconEl }
         { overlay && cloneElement(overlay, {className: css.overlay}) }
-      </div>
+      </span>
     )
 
     const resultProps = {

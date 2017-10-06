@@ -80,6 +80,7 @@
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-test-renderer": "^16.0.0",
     "run-sequence": "^1.2.2",
     "webpack": "^1.13.2"
   },
