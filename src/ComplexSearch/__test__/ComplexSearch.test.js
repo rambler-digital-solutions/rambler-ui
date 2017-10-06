@@ -42,7 +42,7 @@ describe('<ComplexSearch />', () => {
 
     const input = wrapper.find('input')
     const inputStyles = getStyles(input)
-    expect(inputStyles.height).toEqual(theme.search.height)
+    expect(inputStyles.height).toEqual(`${theme.search.height}px`)
   })
 
   it('should open Dropdown when input focused and children have length', () => {

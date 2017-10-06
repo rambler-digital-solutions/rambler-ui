@@ -12,6 +12,7 @@ import cn from 'classnames'
     fontSize: theme.suggestItem.fontSize,
     position: 'relative',
     display: 'flex',
+    alignItems: 'center',
     justifyContent: 'space-between',
 
     '&$isHighlighted': {
@@ -20,16 +21,14 @@ import cn from 'classnames'
     }
   },
   string: {
-    lineHeight: theme.search.height,
     textOverflow: 'ellipsis',
     overflow: 'hidden',
     whiteSpace: 'nowrap'
   },
   removeButton: {
     fontSize: theme.suggestItem.removeButton.fontSize,
-    lineHeight: theme.search.height,
     color: theme.suggestItem.removeButton.color,
-    paddingLeft: '10px'
+    paddingLeft: 10
   }
 }))
 
