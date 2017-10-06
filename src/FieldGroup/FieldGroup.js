@@ -34,15 +34,19 @@ export default class FieldGroup extends PureComponent {
      */
     style: PropTypes.object,
     /**
-     * Размер инпутов
+     * Размер инпутов группы
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
-     * Разновидность инпутов
+     * Разновидность инпутов группы
      */
     variation: PropTypes.oneOf(['regular', 'awesome', 'promo']),
     /**
-     * Доступность инпутов
+     * Статус валидации инпутов группы
+     */
+    status: PropTypes.oneOf(['error', 'warning', 'success', null]),
+    /**
+     * Доступность инпутов группы
      */
     disabled: PropTypes.bool
   };
@@ -54,6 +58,7 @@ export default class FieldGroup extends PureComponent {
       disabled,
       size,
       variation,
+      status,
       sheet: { classes: css },
       children
     } = this.props
@@ -65,6 +70,7 @@ export default class FieldGroup extends PureComponent {
           {
             disabled: disabled || child.props.disabled,
             size: size || child.props.size,
+            status: status || child.props.status,
             variation: variation || child.props.variation
           }
         ))}
