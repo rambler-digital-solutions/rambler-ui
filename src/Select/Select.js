@@ -223,26 +223,28 @@ export default class Select extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.onSearch) {
-      if (!prevState.isOpened && this.state.isOpened)
-        this.input.focus()
-      if (prevState.isOpened && !this.state.isOpened && this.state.searchText)
-        this.setSearchText('')
-    }
+    if (!this.state.isOpened && this.state.searchText)
+      this.setSearchText('')
+    if (this.state.isOpened !== prevState.isOpened && this.input)
+      this.input.focus()
   }
 
   setValue(value) {
-    if (!this.props.multiple && this.props.valuesEquality(value, this.value))
-      return
+    if (this.props.multiple) {
+      const currValue = Array.isArray(this.value) ? this.value : emptyArr
+      const nextValue = Array.isArray(value) ? value : emptyArr
+      if (nextValue.length === currValue.length && nextValue.every((item, index) => this.props.valuesEquality(item, currValue[index])))
+        return
+    } else {
+      if (this.props.valuesEquality(value, this.value))
+        return
+    }
 
     this.setState({
       value
     })
 
     this.value = value
-
-    if (!this.props.multiple)
-      this.setSearchText('')
   }
 
   setSearchText(searchText) {
@@ -266,8 +268,6 @@ export default class Select extends PureComponent {
       this.setState({isOpened: false})
     this.setValue(value)
     this.props.onChange(value)
-    if (!this.props.multiple)
-      this.input.focus()
   }
 
   focusInput = (event) => {
@@ -285,7 +285,6 @@ export default class Select extends PureComponent {
         isOpened: false,
         inputFocused: false
       })
-      this.setSearchText('')
       this.props.onBlur(event)
     }
   }
@@ -338,9 +337,11 @@ export default class Select extends PureComponent {
       this.setState({
         isOpened: false
       })
-      if (!this.props.multiple)
-        this.input.focus()
     }
+  }
+
+  savaInputRef = (ref) => {
+    this.input = ref
   }
 
   closeOnClickOutside = (event) => {
@@ -349,7 +350,6 @@ export default class Select extends PureComponent {
         isOpened: false,
         inputFocused: false
       })
-
       this.props.onBlur(event)
     }
   }
@@ -466,13 +466,13 @@ export default class Select extends PureComponent {
     return (
       <Input
         {...inputProps}
-        inputRef={el => { this.input = el }}
         inputClassName={classnames(className, !onSearch && this.css.readonly)}
         autoFocus={autoFocus}
         placeholder={resultPlaceholder}
         readOnly={!onSearch}
         value={resultInputValue}
         onChange={this.requestItems}
+        inputRef={this.savaInputRef}
       />
     )
   }
@@ -518,7 +518,12 @@ export default class Select extends PureComponent {
           cachePositionOptions={false}
         >
           {multiple && Array.isArray(value) && value.length > 0 &&
-            <TagsInput className={this.css.selected} onChange={this.changeValue} isOpened={true}>
+            <TagsInput
+              className={this.css.selected}
+              onChange={this.changeValue}
+              isOpened={true}
+              onMouseDown={this.preventBlurInput}
+            >
               {this.renderSelectedItems()}
             </TagsInput>
           }
