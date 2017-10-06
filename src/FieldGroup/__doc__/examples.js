@@ -13,6 +13,13 @@ export default class FieldGroupExample extends Component {
         <div>
           <div>
             <h3>Form groups</h3>
+            <FieldGroup>
+              <Select placeholder="placeholder">
+                <MenuItem value="foo">Foo</MenuItem>
+                <MenuItem value="bar">Bar</MenuItem>
+              </Select>
+              <Input type="text" placeholder="placeholder" />
+            </FieldGroup>
             <div style={{ display: 'flex' }}>
               {['regular', 'awesome', 'promo'].map(variation => (
                 <div style={{width: 300, marginRight: 40}} key={variation}>
