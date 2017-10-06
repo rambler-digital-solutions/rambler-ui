@@ -1,4 +1,3 @@
-import 'babel-polyfill'
 import { render } from 'react-dom'
 import { useRouterHistory, IndexRedirect, Router, Route } from 'react-router'
 import createHashHistory from 'history/lib/createHashHistory'
