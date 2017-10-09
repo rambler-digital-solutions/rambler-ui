@@ -13,7 +13,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
 const activeBorder = borderColor => ({
   borderColor,
-  transform: 'scaleX(1)'
+  transform: 'none'
 })
 
 @injectSheet(theme => ({
@@ -63,7 +63,8 @@ const activeBorder = borderColor => ({
   withStatusLine: {
     '& $activeBorder': {
       borderWidth: '0 0 2px',
-      transform: 'scaleX(0.6)'
+      transform: 'scaleX(0.6) scaleY(0)',
+      transformOrigin: 'center bottom'
     },
     '& $input': {
       paddingBottom: 1
@@ -172,7 +173,7 @@ const activeBorder = borderColor => ({
     right: 0,
     bottom: 0,
     pointerEvents: 'none',
-    transition: `all ${theme.field.animationDuration}ms ease`,
+    transition: `all ${Math.round(theme.field.animationDuration * 0.7)}ms linear`,
     border: '0 solid transparent',
     '$input:focus + &': activeBorder(theme.field.colors.focus.border),
     '$success$isEnabled &': activeBorder(theme.colors.success),
