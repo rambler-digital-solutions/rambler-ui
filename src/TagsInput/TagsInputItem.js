@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { isolateMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
-import DelIcon from '../icons/forms/DelIcon'
+import ClearIcon from '../icons/forms/ClearIcon'
 
 const iconStyle = {
   fill: null
@@ -29,18 +29,22 @@ const iconStyle = {
   },
   icon: {
     flex: 'none',
-    fill: theme.tagsInput.colors.default.icon,
-    marginTop: 5,
+    alignSelf: 'center',
+    color: theme.tagsInput.colors.default.icon,
+    stroke: 'currentColor',
+    fill: 'currentColor',
+    marginTop: 1,
+    marginLeft: 6,
     cursor: 'pointer',
     pointerEvents: 'auto',
     '&:hover , &:active': {
-      fill: theme.tagsInput.colors.hover.icon
+      color: theme.tagsInput.colors.hover.icon
     }
   },
   isDisabled: {
     color: theme.tagsInput.colors.disabled.text,
     '&& $icon': {
-      fill: theme.tagsInput.colors.disabled.icon
+      color: theme.tagsInput.colors.disabled.icon
     }
   }
 }))
@@ -94,9 +98,9 @@ class TagsInputItem extends Component {
         <span className={classes.text}>
           {props.children}
         </span>
-        <DelIcon
+        <ClearIcon
           className={classes.icon}
-          size="small"
+          size={8}
           style={iconStyle}
           onClick={props.disabled ? undefined : this.handleClick}
           role={props.disabled ? undefined : 'button'}
