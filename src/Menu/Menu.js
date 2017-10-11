@@ -47,7 +47,7 @@ export default class Menu extends PureComponent {
      */
     maxHeight: PropTypes.number,
     /**
-     * Выбранное значение, по-умолчанию считается, что это примитив
+     * Выбранное значение, по-умолчанию считается, что это примитив. В случае множественного выбора - массив выбранных значений.
      */
     value: PropTypes.any,
     /**
@@ -221,7 +221,7 @@ export default class Menu extends PureComponent {
       'sheet',
       'theme',
       'onChange',
-      'onEscKeyDown',
+      'onEscKeyDown'
     ])
   }
 

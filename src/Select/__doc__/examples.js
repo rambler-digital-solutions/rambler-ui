@@ -222,6 +222,7 @@ export default class SelectExample extends Component {
           <div style={{ maxWidth: 300, marginBottom: 15 }}>
             <h3>Множественный выбор c поиском</h3>
             <Select
+              size="small"
               multiple={true}
               placeholder="Type something..."
               value={this.state.value5}
@@ -304,8 +305,8 @@ export default class SelectExample extends Component {
           <div>this.state.value1: <b>{`${this.state.value1}`}</b></div>
           <div>this.state.value2: <b>{`${this.state.value2}`}</b></div>
           <div>this.state.value3: <b>{`${this.state.value3}`}</b></div>
-          <div>this.state.value4: <b>{`${this.state.value4}`}</b></div>
-          <div>this.state.value5: <b>{`${this.state.value5}`}</b></div>
+          <div>this.state.value4: <b>{`${JSON.stringify(this.state.value4)}`}</b></div>
+          <div>this.state.value5: <b>{`${JSON.stringify(this.state.value5)}`}</b></div>
         </div>
       </ApplyTheme>
     )
