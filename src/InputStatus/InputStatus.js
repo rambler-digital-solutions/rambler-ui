@@ -31,6 +31,7 @@ import { isolateMixin, ifMobile } from '../style/mixins'
     fontFamily: theme.fontFamily,
     marginTop: 10,
     fontSize: theme.inputStatus.sizes.fontSize,
+    lineHeight: theme.inputStatus.sizes.fontSize + 2 + 'px',
     textAlign: 'left'
   }
 }))

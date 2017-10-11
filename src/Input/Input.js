@@ -103,6 +103,11 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
         height: theme.field.sizes[size].height,
         lineHeight: 'normal'
       },
+      '& $icon': {
+        height: theme.field.sizes[size].icon,
+        width: theme.field.sizes[size].icon,
+        lineHeight: theme.field.sizes[size].icon + 'px'
+      },
       '& $eye': {
         height: theme.field.sizes[size].eyeIcon,
         width: theme.field.sizes[size].eyeIcon,
@@ -193,10 +198,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     top: '50%',
     transform: 'translateY(-50%)',
     fontSize: 0,
-    color: theme.field.icon.colors.default,
-    '&:hover': {
-      color: theme.field.icon.colors.active
-    }
+    color: theme.field.icon.colors.default
   },
   eye: {
     composes: '$icon',
@@ -204,6 +206,9 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     border: 0,
     outline: 0,
     cursor: 'pointer',
+    '&:hover': {
+      color: theme.field.icon.colors.active
+    },
     '$regular &, $awesome &': {
       right: theme.input.eyeMargin
     },
@@ -222,7 +227,18 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   disabled: {},
   success: {},
   error: {},
-  warning: {}
+  warning: {},
+  eyeWrapper: {
+    '&:after': {
+      display: 'block',
+      content: '" "',
+      position: 'absolute',
+      top: -20,
+      bottom: -20,
+      left: -10,
+      right: -10
+    }
+  }
 }))
 
 export default class Input extends Component {
@@ -373,7 +389,6 @@ export default class Input extends Component {
 
     const icon = (
       <Icon
-        onClick={this.inputTypeHelper}
         size={theme.field.sizes[size].eyeIcon}
         className={css.eyeIcon}
         color="currentColor" />
@@ -385,8 +400,8 @@ export default class Input extends Component {
         : passwordIconTooltip
 
       return (
-        <Tooltip className={css.eye} content={content}>
-          {icon}
+        <Tooltip content={content} className={css.eye}>
+          <span className={css.eyeWrapper} onClick={this.inputTypeHelper}>{icon}</span>
         </Tooltip>
       )
     }
