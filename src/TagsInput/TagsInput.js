@@ -37,7 +37,7 @@ import windowEvents from '../hoc/window-events'
       }
     }
   }), {}),
-  isOpened: {
+  isExpanded: {
     '& $items': {
       flexWrap: 'wrap'
     }
@@ -97,7 +97,7 @@ export default class TagsInput extends PureComponent {
     /**
      * Открыт/Закрыт список элементов
      */
-    isOpened: PropTypes.bool,
+    isExpanded: PropTypes.bool,
     /**
     * Переопределение стилей контейнера
     */
@@ -126,7 +126,7 @@ export default class TagsInput extends PureComponent {
 
   componentDidMount() {
     this.props.windowEvents.on('resize', this.handleWindowResize, false)
-    if (!this.props.isOpened)
+    if (!this.props.isExpanded)
       this.setVisibleItemsCount()
   }
 
@@ -136,7 +136,7 @@ export default class TagsInput extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.props.isOpened && this.shouldVisibleItemsCountReset(this.state, prevState, this.props, prevProps))
+    if (!this.props.isExpanded && this.shouldVisibleItemsCountReset(this.state, prevState, this.props, prevProps))
       this.setVisibleItemsCount()
   }
 
@@ -220,7 +220,7 @@ export default class TagsInput extends PureComponent {
       style,
       disabled,
       sheet: { classes },
-      isOpened,
+      isExpanded,
       onMoreClick,
       size,
       theme: { i18n },
@@ -233,7 +233,7 @@ export default class TagsInput extends PureComponent {
       classes.root,
       classes[size],
       disabled && classes.isDisabled,
-      isOpened && classes.isOpened
+      isExpanded && classes.isExpanded
     )
     const count = React.Children.count(children)
     const items = React.Children.map(children, (child, index) => {
@@ -241,7 +241,7 @@ export default class TagsInput extends PureComponent {
         throw new Error('Child component should be instance of <TagsInputItem />')
       return cloneElement(child, {
         nodeRef: (ref) => {this.saveItemsRefs(ref, index, count)},
-        className: classnames(classes.item, visibleItemsCount !== null && visibleItemsCount <= index && !isOpened && classes.isHidden),
+        className: classnames(classes.item, visibleItemsCount !== null && visibleItemsCount <= index && !isExpanded && classes.isHidden),
         key: child.props.children,
         onClick: 'value' in child.props && !disabled ? this.onItemClick : null,
         disabled
@@ -260,7 +260,7 @@ export default class TagsInput extends PureComponent {
           className={classes.items}
         >
           {items}
-          {!isOpened &&
+          {!isExpanded &&
             <div
               className={classnames(classes.more, onMoreClick && classes.isClickable, moreCount === 0 && classes.isHidden)}
               role={onMoreClick ? 'button' : undefined}

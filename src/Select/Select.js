@@ -573,8 +573,7 @@ export default class Select extends PureComponent {
           <TagsInput
             className={this.css.options}
             onChange={this.changeValue}
-            isOpened={false}
-
+            isExpanded={false}
           >
             {options}
           </TagsInput>
@@ -605,7 +604,7 @@ export default class Select extends PureComponent {
             <TagsInput
               className={this.css.selected}
               onChange={this.changeValue}
-              isOpened={true}
+              isExpanded={true}
               onMouseDown={this.preventBlurInput}
               size={size}
             >

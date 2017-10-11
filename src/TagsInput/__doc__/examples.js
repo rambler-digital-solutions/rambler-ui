@@ -40,7 +40,7 @@ export default class TagsInputExample extends Component {
             </TagsInput>
           </div>
           <div style={{marginTop: 10, maxWidth: 300, border: '1px solid'}}>
-            <TagsInput onChange={this.changeValue} isOpened={true}>
+            <TagsInput onChange={this.changeValue} isExpanded={true}>
               {items}
             </TagsInput>
           </div>
@@ -50,7 +50,7 @@ export default class TagsInputExample extends Component {
             </TagsInput>
           </div>
           <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
-            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isOpened={true}>
+            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isExpanded={true}>
               {items}
             </TagsInput>
           </div>
@@ -60,7 +60,7 @@ export default class TagsInputExample extends Component {
             </TagsInput>
           </div>
           <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
-            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isOpened={true} disabled={true}>
+            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isExpanded={true} disabled={true}>
               {items}
             </TagsInput>
           </div>
