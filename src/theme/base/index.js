@@ -1,6 +1,7 @@
 import merge from 'lodash/merge'
 import {fade, darken, lighten} from '../../utils/colors'
 import colorsConfig from './colors'
+import i18n from './i18n'
 
 /**
  * Создание темы
@@ -403,8 +404,7 @@ export function createTheme(config) {
           eyeIcon: 20,
           withIconPadding: 40,
           withIconsPadding: 70,
-          iconMargin: 13,
-          tagVerticalMargin: 5
+          iconMargin: 13
         },
         small: {
           height: 35,
@@ -413,27 +413,37 @@ export function createTheme(config) {
           eyeIcon: 18,
           withIconPadding: 40,
           withIconsPadding: 70,
-          iconMargin: 13,
-          tagVerticalMargin: 0
+          iconMargin: 13
         }
       },
-      animationDuration: 200,
-      tag: {
-        sideMargin: 20,
-        lineHeight: 25,
-        colors: {
-          default: {
-            more: colors.controls.grey.outline,
-            icon: lighten(colors.controls.grey.outline, 0.3)
-          },
-          hover: {
-            more: colors.primary,
-            icon: colors.primary
-          },
-          disabled: {
-            more: lighten(colors.controls.grey.outline, 0.75),
-            icon: fade(lighten(colors.controls.grey.outline, 0.75), 0.60)
-          }
+      animationDuration: 200
+    },
+    tagsInput: {
+      sideMargin: 20,
+      height: 25,
+      fontSize: 13,
+      colors: {
+        default: {
+          text: colors.dark,
+          more: colors.controls.grey.outline,
+          icon: lighten(colors.controls.grey.outline, 0.3)
+        },
+        hover: {
+          more: colors.primary,
+          icon: colors.primary
+        },
+        disabled: {
+          text: colors.controls.grey.disabled,
+          more: lighten(colors.controls.grey.outline, 0.75),
+          icon: fade(lighten(colors.controls.grey.outline, 0.75), 0.60)
+        }
+      },
+      sizes: {
+        medium: {
+          verticalMargin: 5
+        },
+        small: {
+          verticalMargin: 0
         }
       }
     },
@@ -731,4 +741,4 @@ export function createTheme(config) {
   }, config)
 }
 
-export default createTheme({colors: colorsConfig})
+export default createTheme({colors: colorsConfig, i18n})

@@ -5,198 +5,65 @@ import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import debounce from 'lodash/debounce'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 import windowEvents from '../hoc/window-events'
 
-const afterBorderColor = borderColor => ({
-  '&:after': {
-    borderColor,
-    transform: 'scaleX(1)'
-  }
-})
-
 @injectSheet(theme => ({
   root: {
     extend: isolateMixin,
-    position: 'relative',
-    background: theme.field.colors.default.background,
-    boxSizing: 'border-box',
+    fontSize: theme.tagsInput.fontSize,
     fontFamily: theme.fontFamily,
-    userSelect: 'none',
-    overflow: 'hidden',
-    outline: 0,
-    '&:before, &:after': {
-      content: '""',
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      border: '0 solid transparent',
-      pointerEvents: 'none',
-      outline: 0
-    },
-    '&:before': {
-      borderColor: theme.field.colors.default.outline
-    },
-    '&:after': {
-      transition: `all ${theme.field.animationDuration}ms ease`
-    },
-    '&:hover:before': {
-      borderColor: theme.field.colors.hover.outline
-    },
-    '&:focus': afterBorderColor(theme.field.colors.focus.border)
-  },
-  input: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    minHeight: '100%',
-    maxHeight: '100%',
-    marginLeft: -theme.field.tag.sideMargin,
-    fontFamily: theme.fontFamily,
-    boxSizing: 'border-box',
     fontWeight: 400,
-    fontSize: theme.field.fontSize,
-    lineHeight: 'normal',
+    userSelect: 'none',
+    overflow: 'hidden'
+  },
+  items: {
+    display: 'flex',
+    marginLeft: -theme.tagsInput.sideMargin,
     '$isDisabled &': {
       pointerEvents: 'none'
-    }
-  },
-  isDisabled: {
-    background: theme.field.colors.disabled.background,
-    color: theme.field.colors.disabled.text,
-    cursor: 'not-allowed',
-    '&:before': {
-      borderColor: theme.field.colors.disabled.outline + '!important'
-    }
-  },
-  withStatusLine: {
-    '&:after': {
-      borderWidth: '0 0 2px',
-      transform: 'scaleX(0.6)'
-    }
-  },
-  withOutline: {
-    paddingLeft: theme.input.padding + 1,
-    paddingRight: theme.input.padding + 1,
-    '&:before': {
-      borderRadius: theme.field.borderRadius,
-      borderWidth: 1
-    }
-  },
-  regular: {
-    composes: ['$withOutline'],
-    '&:after': {
-      borderRadius: theme.field.borderRadius,
-      borderWidth: 1
-    }
-  },
-  awesome: {
-    composes: ['$withOutline', '$withStatusLine']
-  },
-  promo: {
-    composes: ['$withStatusLine'],
-    '&:before': {
-      borderBottomWidth: 1
     }
   },
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
-      maxHeight: theme.field.sizes[size].height,
-      minHeight: theme.field.sizes[size].height,
-      fontSize: theme.field.sizes[size].fontSize,
-      paddingTop: (theme.field.sizes[size].height - theme.field.tag.lineHeight) / 2 - theme.field.sizes[size].tagVerticalMargin,
-      paddingBottom: (theme.field.sizes[size].height - theme.field.tag.lineHeight) / 2,
+      '& $items': {
+        minHeight: theme.tagsInput.height + theme.tagsInput.sizes[size].verticalMargin,
+        marginTop: -theme.tagsInput.sizes[size].verticalMargin
+      },
       '& $item': {
-        marginTop: theme.field.sizes[size].tagVerticalMargin
-      },
-      '&$withLeftIcon$regular, &$withLeftIcon$awesome': {
-        paddingLeft: theme.field.sizes[size].withIconPadding + 1
-      },
-      '&$withRightIcon$regular, &$withRightIcon$awesome': {
-        paddingRight: theme.field.sizes[size].withIconPadding + 1
-      },
-      '&$withLeftIcon$promo': {
-        paddingLeft: theme.field.sizes[size].withIconPadding + 1 - theme.input.padding
-      },
-      '&$withRightIcon$promo': {
-        paddingRight: theme.field.sizes[size].withIconPadding + 1 - theme.input.padding
-      },
-      '&$regular $iconLeft, &$awesome $iconLeft': {
-        left: theme.field.sizes[size].iconMargin
-      },
-      '&$promo $iconLeft': {
-        left: 0
-      },
-      '&$regular $iconRight, &$awesome $iconRight': {
-        right: theme.field.sizes[size].iconMargin
-      },
-      '&$promo $iconRight': {
-        right: 0
+        marginTop: theme.tagsInput.sizes[size].verticalMargin
       }
     }
   }), {}),
   isOpened: {
-    maxHeight: 'none'
+    '& $items': {
+      flexWrap: 'wrap'
+    }
   },
-  success: {
-    '&&': afterBorderColor(theme.colors.success)
-  },
-  error: {
-    '&&': afterBorderColor(theme.colors.danger)
-  },
-  warning: {
-    '&&': afterBorderColor(theme.colors.warn)
-  },
-  icon: {
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    margin: 'auto'
-  },
-  iconLeft: {
-    composes: '$icon'
-  },
-  iconRight: {
-    composes: '$icon'
-  },
-  withLeftIcon: {},
-  withRightIcon: {},
   item: {
     '&&': {
       flex: '0 1 auto',
       alignSelf: 'flex-start',
       whiteSpace: 'nowrap',
-      maxWidth: `calc(100% - ${theme.field.tag.sideMargin}px)`,
-      marginLeft: theme.field.tag.sideMargin,
-      lineHeight: theme.field.tag.lineHeight + 'px'
-    },
-  },
-  placeholder: {
-    composes: '$item',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    color: theme.field.colors.default.placeholder,
-    cursor: 'default',
-    '$isDisabled &': {
-      color: theme.field.colors.disabled.placeholder
+      maxWidth: `calc(100% - ${theme.tagsInput.sideMargin}px)`,
+      marginLeft: theme.tagsInput.sideMargin,
+      lineHeight: theme.tagsInput.height + 'px'
     }
   },
   more: {
     composes: '$item',
-    color: theme.field.tag.colors.default.more,
-    cursor: 'default',
+    color: theme.tagsInput.colors.default.more,
     '$isDisabled &&': {
-      color: theme.field.tag.colors.disabled.more
+      color: theme.tagsInput.colors.disabled.more
     }
   },
   isClickable: {
     cursor: 'pointer',
+    pointerEvents: 'auto',
     '&:hover, &:active': {
-      color: theme.field.tag.colors.hover.more
+      color: theme.tagsInput.colors.hover.more
     }
   },
   isHidden: {
@@ -204,20 +71,11 @@ const afterBorderColor = borderColor => ({
       order: 1,
       visibility: 'hidden'
     }
-  }
+  },
+  isDisabled: {}
 }))
 @windowEvents('resize')
 export default class TagsInput extends PureComponent {
-  constructor(props) {
-    super(props)
-    this.state = {
-      visibleItemsCount: null,
-      containerWidth: null
-    }
-    this.items = []
-    this.container = null
-    this.moreButton = null
-  }
 
   static propTypes = {
     /**
@@ -225,41 +83,21 @@ export default class TagsInput extends PureComponent {
      */
     children:	PropTypes.node,
     /**
-    *  Значение placeholder для input
-    */
-    placeholder: PropTypes.string,
-    /**
-    * Задизэйблить input true или false
+    * Задизэйблить
     */
     disabled: PropTypes.bool,
     /**
-     * Размер инпута
+     * Размер
      */
     size: PropTypes.oneOf(['small', 'medium']),
-    /**
-     * Разновидность инпута
-     */
-    variation: PropTypes.oneOf(['regular', 'awesome', 'promo']),
-    /**
-     * Валидация input'a
-     */
-    status: PropTypes.oneOf(['error', 'warning', 'success', null]),
     /**
      * Класс контейнера
      */
     className: PropTypes.string,
     /**
-     * Класс элемента input
-     */
-    inputClassName: PropTypes.string,
-    /**
      * Открыт/Закрыт список элементов
      */
     isOpened: PropTypes.bool,
-    /**
-     * Переопределение стандартных стилей input
-     */
-    inputStyle: PropTypes.object,
     /**
     * Переопределение стилей контейнера
     */
@@ -271,22 +109,20 @@ export default class TagsInput extends PureComponent {
     /**
     * Коллбек вызывающийся при нажатии на кнопку "еще"
     */
-    onMoreClick: PropTypes.func,
-    /**
-     *  icon слева
-     */
-    iconLeft: PropTypes.node,
-    /**
-     *  icon справа
-     */
-    iconRight: PropTypes.node
+    onMoreClick: PropTypes.func
   };
 
   static defaultProps = {
-    status: null,
-    size: 'medium',
-    variation: 'awesome'
+    size: 'medium'
   };
+
+  state = {
+    visibleItemsCount: null,
+    containerWidth: null
+  }
+  items = []
+  container = null
+  moreButton = null
 
   componentDidMount() {
     this.props.windowEvents.on('resize', this.handleWindowResize, false)
@@ -308,9 +144,9 @@ export default class TagsInput extends PureComponent {
     this.props.windowEvents.removeListener('resize', this.handleWindowResize, false)
   }
 
-  handleWindowResize = debounce(() => {
-    this.setState({ containerWidth: this.container.getBoundingClientRect().width })
-  }, 400)
+  handleWindowResize = () => {
+    this.setState({ containerWidth: Math.floor(this.container.getBoundingClientRect().width) })
+  }
 
   shouldVisibleItemsCountReset(state, prevState, props, prevProps) {
     if (state.containerWidth !== prevState.containerWidth)
@@ -333,13 +169,13 @@ export default class TagsInput extends PureComponent {
       this.setState({visibleItemsCount: null})
       return
     }
-    const containerWidth = this.container.getBoundingClientRect().width
-    const moreButtonWidth = this.moreButton.getBoundingClientRect().width + 20
+    const containerWidth = Math.ceil(this.container.getBoundingClientRect().width)
+    const moreButtonWidth = Math.ceil(this.moreButton.getBoundingClientRect().width) + 20
     let firstLineItemsCount = 0
     let itemsWidthSum = 0
     const itemsWidths = []
     while(firstLineItemsCount < itemsCount) {
-      const itemWidth = this.items[firstLineItemsCount].getBoundingClientRect().width + 20
+      const itemWidth = Math.ceil(this.items[firstLineItemsCount].getBoundingClientRect().width) + 20
       if (itemsWidthSum + itemWidth > containerWidth)
         break
       itemsWidths.push(itemWidth)
@@ -377,47 +213,27 @@ export default class TagsInput extends PureComponent {
     this.props.onChange(values.filter(item => item !== value))
   }
 
-  renderIcon(icon, className) {
-    if (!icon) return null
-    const {disabled, theme, size} = this.props
-    return cloneElement(icon, {
-      color: disabled ? theme.field.colors.disabled.text : (icon.props.color || theme.field.colors.default.text),
-      size: icon.props.size || theme.field.sizes[size].icon,
-      className: classnames(icon.props.className, className)
-    })
-  }
-
   render() {
     const {
       children,
       className,
-      placeholder,
       style,
       disabled,
-      inputStyle,
-      inputClassName,
-      size,
-      variation,
-      iconLeft,
-      iconRight,
-      status,
       sheet: { classes },
       isOpened,
       onMoreClick,
+      size,
+      theme: { i18n },
       ...other
-    } = omit(this.props, ['theme', 'windowEvents', 'onChange'])
+    } = omit(this.props, ['windowEvents', 'onChange'])
 
     const {visibleItemsCount} = this.state
     const resultClassName = classnames(
       className,
       classes.root,
-      classes[variation],
-      disabled && classes.isDisabled,
-      isOpened && classes.isOpened,
       classes[size],
-      classes[status],
-      iconLeft && classes.withLeftIcon,
-      iconRight && classes.withRightIcon
+      disabled && classes.isDisabled,
+      isOpened && classes.isOpened
     )
     const count = React.Children.count(children)
     const items = React.Children.map(children, (child, index) => {
@@ -437,31 +253,24 @@ export default class TagsInput extends PureComponent {
       <div
         className={resultClassName}
         style={style}
-        tabIndex={disabled ? null : 0}
         {...other}
       >
-        {this.renderIcon(iconLeft, classes.iconLeft)}
         <div
           ref={this.saveContainerRef}
-          className={classnames(inputClassName, classes.input)}
-          style={inputStyle}
+          className={classes.items}
         >
-          {items.length > 0
-            ? items
-            : placeholder && <div className={classes.placeholder}>{placeholder}</div>
-          }
+          {items}
           {!isOpened &&
             <div
               className={classnames(classes.more, onMoreClick && classes.isClickable, moreCount === 0 && classes.isHidden)}
-              role="button"
+              role={onMoreClick ? 'button' : undefined}
               ref={this.saveMoreButtonRef}
               onClick={onMoreClick}
             >
-              + еще {moreCount}
+              + {i18n.tagsInput.more} {moreCount}
             </div>
           }
         </div>
-        {this.renderIcon(iconRight, classes.iconRight)}
       </div>
     )
   }

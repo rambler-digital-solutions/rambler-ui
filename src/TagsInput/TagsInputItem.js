@@ -16,11 +16,11 @@ const iconStyle = {
   root: {
     extend: isolateMixin,
     display: 'inline-flex',
-    fontSize: theme.field.sizes.medium.fontSize,
-    lineHeight: theme.field.tag.lineHeight + 'px',
-    color: theme.field.colors.default.text,
+    fontSize: theme.tagsInput.fontSize,
+    lineHeight: theme.tagsInput.height + 'px',
+    color: theme.tagsInput.colors.default.text,
     whiteSpace: 'nowrap',
-    cursor: 'pointer'
+    pointerEvents: 'none'
   },
   text: {
     flex: '0 1 auto',
@@ -29,16 +29,18 @@ const iconStyle = {
   },
   icon: {
     flex: 'none',
-    fill: theme.field.tag.colors.default.icon,
+    fill: theme.tagsInput.colors.default.icon,
     marginTop: 5,
-    '$root:hover &, $root:active &': {
-      fill: theme.field.tag.colors.hover.icon
+    cursor: 'pointer',
+    pointerEvents: 'auto',
+    '&:hover , &:active': {
+      fill: theme.tagsInput.colors.hover.icon
     }
   },
   isDisabled: {
-    color: theme.field.colors.disabled.text,
+    color: theme.tagsInput.colors.disabled.text,
     '&& $icon': {
-      fill: theme.field.tag.colors.disabled.icon
+      fill: theme.tagsInput.colors.disabled.icon
     }
   }
 }))
@@ -87,13 +89,18 @@ class TagsInputItem extends Component {
     return (
       <div
         className={classnames(props.className, classes.root, props.disabled && classes.isDisabled)}
-        onClick={this.handleClick}
         ref={props.nodeRef}
       >
         <span className={classes.text}>
           {props.children}
         </span>
-        <DelIcon className={classes.icon} size="small" style={iconStyle} />
+        <DelIcon
+          className={classes.icon}
+          size="small"
+          style={iconStyle}
+          onClick={props.disabled ? undefined : this.handleClick}
+          role={props.disabled ? undefined : 'button'}
+        />
       </div>
     )
   }

@@ -1,10 +1,7 @@
 import React, {Component} from 'react'
 import {TagsInput, TagsInputItem}  from 'rambler-ui/TagsInput'
-import FormGroup from 'rambler-ui/FormGroup'
-import InputStatus from 'rambler-ui/InputStatus'
 import Checkbox from 'rambler-ui/Checkbox'
 import { ApplyTheme } from 'rambler-ui/theme'
-import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
 
 const exampleItems = ['Чехия', 'Мальта', 'Нидерланды', 'Германия', 'Гватемала', 'США', 'Люксембург', 'Канада', 'Австралия']
 
@@ -37,67 +34,40 @@ export default class TagsInputExample extends Component {
               {item}
             </Checkbox>
           ))}
-          <div style={{ display: 'flex', marginTop: 40 }}>
-            {['regular', 'awesome', 'promo'].map(variation => (
-              <div style={{width: 300, marginRight: 40}} key={variation}>
-                <h4>
-                  {`Variation: ${variation}`}
-                </h4>
-                <FormGroup label='Input'>
-                  <TagsInput placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                    {items}
-                  </TagsInput>
-                </FormGroup>
-                <FormGroup label='Input success'>
-                  <InputStatus type='success' message='Success message' >
-                    <TagsInput status="success" placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                      {items}
-                    </TagsInput>
-                  </InputStatus>
-                </FormGroup>
-                <FormGroup label='Input warning'>
-                  <InputStatus type='warning' message='Warning message' >
-                    <TagsInput status="warning" placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                      {items}
-                    </TagsInput>
-                  </InputStatus>
-                </FormGroup>
-                <FormGroup label='Input error'>
-                  <InputStatus type='error' message='Error message' >
-                    <TagsInput status="error" placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                      {items}
-                    </TagsInput>
-                  </InputStatus>
-                </FormGroup>
-                <FormGroup label='Input disabled'>
-                  <TagsInput disabled placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                    {items}
-                  </TagsInput>
-                </FormGroup>
-                <FormGroup label="Input small" size="small">
-                  <TagsInput size="small" placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                    {items}
-                  </TagsInput>
-                </FormGroup>
-                <FormGroup label='Input with right icon'>
-                  <TagsInput iconRight={<RamblerMailIcon />} placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                    {items}
-                  </TagsInput>
-                </FormGroup>
-                <FormGroup label='Input with left icon'>
-                  <TagsInput iconLeft={<RamblerMailIcon />} placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}}>
-                    {items}
-                  </TagsInput>
-                </FormGroup>
-                <FormGroup label='Small input with left and right icon'>
-                  <TagsInput iconLeft={<RamblerMailIcon />} iconRight={<RamblerMailIcon />} placeholder='placeholder' variation={variation} onChange={this.changeValue} onMoreClick={() => {}} size="small">
-                    {items}
-                  </TagsInput>
-                </FormGroup>
-              </div>
-            ))}
+          <div style={{marginTop: 40, maxWidth: 300, border: '1px solid'}}>
+            <TagsInput onChange={this.changeValue} onMoreClick={() => {}}>
+              {items}
+            </TagsInput>
           </div>
-          <div>this.state.items: <b>{ this.state.items.join(', ') }</b></div>
+          <div style={{marginTop: 10, maxWidth: 300, border: '1px solid'}}>
+            <TagsInput onChange={this.changeValue} isOpened={true}>
+              {items}
+            </TagsInput>
+          </div>
+          <div style={{marginTop: 40, maxWidth: 240, border: '1px solid'}}>
+            <TagsInput onChange={this.changeValue} size="small">
+              {items}
+            </TagsInput>
+          </div>
+          <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
+            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isOpened={true}>
+              {items}
+            </TagsInput>
+          </div>
+          <div style={{marginTop: 40, maxWidth: 240, border: '1px solid'}}>
+            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" disabled={true}>
+              {items}
+            </TagsInput>
+          </div>
+          <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
+            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isOpened={true} disabled={true}>
+              {items}
+            </TagsInput>
+          </div>
+
+          <div style={{marginTop: 40}}>
+            this.state.items: <b>{ this.state.items.join(', ') }</b>
+          </div>
         </div>
       </ApplyTheme>
     )
