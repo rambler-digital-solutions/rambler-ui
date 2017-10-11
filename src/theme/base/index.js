@@ -347,17 +347,12 @@ export function createTheme(config) {
         small: 23
       }
     },
-    field: { // input, select, textarea
+    // input, select, textarea
+    field: {
       borderRadius: 1,
       icon: {
         colors: {
-          default: colors.controls.grey.icon,
-          active: colors.primary
-        }
-      },
-      eyeIcon: {
-        colors: {
-          default: colors.controls.grey.icon,
+          default: colors.controls.grey.fieldIcon,
           active: colors.primary
         }
       },
@@ -367,8 +362,8 @@ export function createTheme(config) {
           border: 'transparent',
           background: 'none',
           text: colors.dark,
-          placeholder: lighten(colors.dark, 0.6),
-          arrow: colors.controls.grey.icon
+          placeholder: colors.controls.grey.placeholder,
+          arrow: colors.controls.grey.fieldIcon
         },
         hover: {
           outline: darken(colors.controls.grey.fieldOutline, 0.1)
@@ -398,7 +393,7 @@ export function createTheme(config) {
           height: 45,
           fontSize: 13,
           icon: 18,
-          eyeIcon: 20,
+          eyeIcon: 15,
           withIconPadding: 40,
           withIconsPadding: 70,
           iconMargin: 13
@@ -407,7 +402,7 @@ export function createTheme(config) {
           height: 35,
           fontSize: 13,
           icon: 16,
-          eyeIcon: 18,
+          eyeIcon: 15,
           withIconPadding: 40,
           withIconsPadding: 70,
           iconMargin: 13
@@ -420,7 +415,12 @@ export function createTheme(config) {
       eyeMargin: 13
     },
     inputStatus: {
-      fontSize: 13
+      sizes: {
+        fontSize: 13,
+        mobile: {
+          fontSize: 14
+        }
+      }
     },
     loader: {
       animationDuration: 200,

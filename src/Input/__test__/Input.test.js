@@ -157,7 +157,7 @@ describe('Input', () => {
     </FormGroup>))
 
     const arrOfIcons = wrapper.find('svg')
-    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0])
+    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0].parentNode)
     const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode)
     // расположение iconLeft
     expect(iconLeftStyles.top).toEqual('50%')

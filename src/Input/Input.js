@@ -192,7 +192,11 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    fontSize: 0
+    fontSize: 0,
+    color: theme.field.icon.colors.default,
+    '&:hover': {
+      color: theme.field.icon.colors.active
+    }
   },
   eye: {
     composes: '$icon',
@@ -371,7 +375,8 @@ export default class Input extends Component {
       <Icon
         onClick={this.inputTypeHelper}
         size={theme.field.sizes[size].eyeIcon}
-        color={theme.field.eyeIcon.colors.default} />
+        className={css.eyeIcon}
+        color="currentColor" />
     )
 
     if (passwordIconTooltip) {
@@ -427,17 +432,23 @@ export default class Input extends Component {
       trueType === 'password' && css.withEye
     )
 
-    const resultIconLeft = iconLeft && cloneElement(iconLeft, {
-      color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || theme.field.colors.default.text),
-      size: iconLeft.props.size || theme.field.sizes[size].icon,
-      className: classnames(iconLeft.props.className, css.icon, css.iconLeft)
-    })
+    const resultIconLeft = iconLeft && <div className={classnames(iconLeft.props.className, css.icon, css.iconLeft)}>
+      {
+        cloneElement(iconLeft, {
+          color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || 'currentColor'),
+          size: iconLeft.props.size || theme.field.sizes[size].icon
+        })
+      }
+    </div>
 
-    const resultIconRight = iconRight && cloneElement(iconRight, {
-      color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || theme.field.colors.default.text),
-      size: iconRight.props.size || theme.field.sizes[size].icon,
-      className: classnames(iconRight.props.className, css.icon, css.iconRight)
-    })
+    const resultIconRight = iconRight && <div className={classnames(iconRight.props.className, css.icon, css.iconRight)}>
+      {
+        cloneElement(iconRight, {
+          color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || 'currentColor'),
+          size: iconRight.props.size || theme.field.sizes[size].icon
+        })
+      }
+    </div>
 
     const inputElement = createElement(tag, {
       name,
