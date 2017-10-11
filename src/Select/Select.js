@@ -396,7 +396,7 @@ export default class Select extends PureComponent {
     }
   }
 
-  savaInputRef = (ref) => {
+  saveInputRef = (ref) => {
     this.input = ref
   }
 
@@ -523,7 +523,7 @@ export default class Select extends PureComponent {
         readOnly={readOnly}
         value={resultInputValue}
         onChange={this.requestItems}
-        inputRef={this.savaInputRef}
+        inputRef={this.saveInputRef}
       />
     )
   }
