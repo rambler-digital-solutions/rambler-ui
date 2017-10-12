@@ -32,8 +32,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     'textarea&&': {
       resize: 'vertical',
       height: '100%',
-      paddingTop: theme.input.padding,
-      paddingBottom: theme.input.padding
+      padding: theme.input.sizes.medium.padding
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
@@ -67,8 +66,6 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   },
   withOutline: {
     '& $input': {
-      paddingLeft: theme.input.padding,
-      paddingRight: theme.input.padding,
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
     }
@@ -124,6 +121,10 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
           right: -10
         }
       },
+      '&$withOutline $input': {
+        paddingLeft: theme.input.sizes[size].padding,
+        paddingRight: theme.input.sizes[size].padding
+      },
       '&$withLeftIcon$regular $input': {
         paddingLeft: theme.field.sizes[size].withIconPadding - 1
       },
@@ -131,7 +132,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
         paddingLeft: theme.field.sizes[size].withIconPadding
       },
       '&$withLeftIcon$promo $input': {
-        paddingLeft: theme.field.sizes[size].withIconPadding - theme.input.padding
+        paddingLeft: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$withRightIcon$regular $input, &$withEye$regular $input': {
         paddingRight: theme.field.sizes[size].withIconPadding - 1
@@ -146,16 +147,16 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
         paddingRight: theme.field.sizes[size].withIconsPadding
       },
       '&$withRightIcon$promo $input, &$withEye$promo $input': {
-        paddingRight: theme.field.sizes[size].withIconPadding - theme.input.padding
+        paddingRight: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$withEye$withRightIcon$promo $input': {
-        paddingRight: theme.field.sizes[size].withIconsPadding - theme.input.padding
+        paddingRight: theme.field.sizes[size].withIconsPadding - theme.input.sizes[size].padding
       },
       '&$withEye$regular $iconRight, &$withEye$awesome $iconRight': {
         right: theme.field.sizes[size].withIconPadding
       },
       '&$withEye$promo $iconRight': {
-        right: theme.field.sizes[size].withIconPadding - theme.input.padding
+        right: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$regular $iconLeft, &$awesome $iconLeft': {
         left: theme.field.sizes[size].iconMargin

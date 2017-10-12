@@ -411,8 +411,15 @@ export function createTheme(config) {
       animationDuration: 200
     },
     input: {
-      padding: 13,
-      eyeMargin: 13
+      eyeMargin: 13,
+      sizes: {
+        small: {
+          padding: 13
+        },
+        medium: {
+          padding: 15
+        }
+      }
     },
     inputStatus: {
       sizes: {
@@ -593,20 +600,6 @@ export function createTheme(config) {
         titleSize: 16
       },
       animationDuration: 200
-    },
-    textarea: {
-      sizes: {
-        small: {
-          padding: '8px 13px',
-          height: 75,
-          focusPaddingBottom: 7
-        },
-        medium: {
-          padding: 13,
-          height: 85,
-          focusPaddingBottom: 12
-        }
-      }
     },
     tooltip: {
       borderRadius: 1,
