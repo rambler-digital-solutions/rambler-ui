@@ -16,9 +16,18 @@ describe('<Spinner />', () => {
     expect(spinnerStyles.right).toEqual('0px')
     expect(spinnerStyles.bottom).toEqual('0px')
 
-    const dotStyles = getStyles(spinner.find('div > div'))
-
+    const dotStyles = getStyles(spinner.find('span > span'))
+    expect(dotStyles['width']).toEqual('5px')
     expect(dotStyles['background-color']).toEqual('rgb(49, 94, 251)')
+  })
+
+  it('should apply styles for inline prop', () => {
+    const wrapper = mount(withTheme(<Spinner inline={true} />))
+
+    const spinner = wrapper.find(Spinner)
+    const spinnerStyles = getStyles(spinner)
+    expect(spinnerStyles.position).toEqual('static')
+    expect(spinnerStyles.display).toEqual('inline-block')
   })
 
   it('should append className', () => {
@@ -40,13 +49,24 @@ describe('<Spinner />', () => {
     expect(spinnerStyles['background-color']).toEqual(color)
   })
 
+  it('should apply custom size', () => {
+    const size = 10
+
+    const wrapper = mount(withTheme(<Spinner size={size} />))
+
+    const spinner = wrapper.find(Spinner)
+    const dotStyles = getStyles(spinner.find('span > span'))
+
+    expect(dotStyles.width).toEqual(size + 'px')
+  })
+
   it('should apply custom color', () => {
     const color = 'rgb(0, 0, 0)'
 
     const wrapper = mount(withTheme(<Spinner color={color} />))
 
     const spinner = wrapper.find(Spinner)
-    const dotStyles = getStyles(spinner.find('div > div'))
+    const dotStyles = getStyles(spinner.find('span > span'))
 
     expect(dotStyles['background-color']).toEqual(color)
   })
