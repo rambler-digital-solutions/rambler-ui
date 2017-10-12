@@ -20,7 +20,9 @@ export default {
       activeBackground: 'rgba(141, 150, 178, 0.2)', // бэкграунд при :active состоянии на checkbox
       outline: '#8d96b2', // обводка на outline контролах
       fieldOutline: '#dde0e8', // обводка на outline контролах
-      iconBackground: '#f3f4f7'
+      iconBackground: '#f3f4f7',
+      placeholder: '#a4a9b8',
+      fieldIcon: '#B0B4C2'
     }
   }
 }

@@ -66,7 +66,7 @@ const tickStyle = {
       display: 'block',
       boxSizing: 'border-box',
       position: 'absolute',
-      top: Math.round((checkboxTheme.lineHeight * checkboxTheme.fontSize - checkboxTheme.size) / 2),
+      top: Math.round((checkboxTheme.lineHeight * checkboxTheme.fontSize - checkboxTheme.size) / 2) - 1,
       width: checkboxTheme.size,
       height: checkboxTheme.size,
       borderRadius: checkboxTheme.borderRadius,
@@ -113,8 +113,6 @@ const tickStyle = {
       fontWeight: 'normal',
       display: 'inline-block',
       lineHeight: checkboxTheme.lineHeight,
-      position: 'relative',
-      top: 0.5,
       '$iconright &': {
         paddingRight: checkboxTheme.size + checkboxTheme.labelMargin
       },

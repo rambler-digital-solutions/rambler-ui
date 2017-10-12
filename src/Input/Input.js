@@ -32,8 +32,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     'textarea&&': {
       resize: 'vertical',
       height: '100%',
-      paddingTop: theme.input.padding,
-      paddingBottom: theme.input.padding
+      padding: theme.input.sizes.medium.padding
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
@@ -67,8 +66,6 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   },
   withOutline: {
     '& $input': {
-      paddingLeft: theme.input.padding,
-      paddingRight: theme.input.padding,
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
     }
@@ -103,10 +100,30 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
         height: theme.field.sizes[size].height,
         lineHeight: 'normal'
       },
+      '& $icon': {
+        height: theme.field.sizes[size].icon,
+        width: theme.field.sizes[size].icon,
+        lineHeight: theme.field.sizes[size].icon + 'px'
+      },
       '& $eye': {
         height: theme.field.sizes[size].eyeIcon,
         width: theme.field.sizes[size].eyeIcon,
         lineHeight: theme.field.sizes[size].eyeIcon + 'px'
+      },
+      '& $eyeWrapper': {
+        '&:after': {
+          display: 'block',
+          content: '" "',
+          position: 'absolute',
+          top: -Math.round((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          bottom: -Math.round((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          left: -10,
+          right: -10
+        }
+      },
+      '&$withOutline $input': {
+        paddingLeft: theme.input.sizes[size].padding,
+        paddingRight: theme.input.sizes[size].padding
       },
       '&$withLeftIcon$regular $input': {
         paddingLeft: theme.field.sizes[size].withIconPadding - 1
@@ -115,7 +132,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
         paddingLeft: theme.field.sizes[size].withIconPadding
       },
       '&$withLeftIcon$promo $input': {
-        paddingLeft: theme.field.sizes[size].withIconPadding - theme.input.padding
+        paddingLeft: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$withRightIcon$regular $input, &$withEye$regular $input': {
         paddingRight: theme.field.sizes[size].withIconPadding - 1
@@ -130,16 +147,16 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
         paddingRight: theme.field.sizes[size].withIconsPadding
       },
       '&$withRightIcon$promo $input, &$withEye$promo $input': {
-        paddingRight: theme.field.sizes[size].withIconPadding - theme.input.padding
+        paddingRight: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$withEye$withRightIcon$promo $input': {
-        paddingRight: theme.field.sizes[size].withIconsPadding - theme.input.padding
+        paddingRight: theme.field.sizes[size].withIconsPadding - theme.input.sizes[size].padding
       },
       '&$withEye$regular $iconRight, &$withEye$awesome $iconRight': {
         right: theme.field.sizes[size].withIconPadding
       },
       '&$withEye$promo $iconRight': {
-        right: theme.field.sizes[size].withIconPadding - theme.input.padding
+        right: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$regular $iconLeft, &$awesome $iconLeft': {
         left: theme.field.sizes[size].iconMargin
@@ -192,7 +209,8 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     position: 'absolute',
     top: '50%',
     transform: 'translateY(-50%)',
-    fontSize: 0
+    fontSize: 0,
+    color: theme.field.icon.colors.default
   },
   eye: {
     composes: '$icon',
@@ -200,6 +218,9 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     border: 0,
     outline: 0,
     cursor: 'pointer',
+    '&:hover': {
+      color: theme.field.icon.colors.active
+    },
     '$regular &, $awesome &': {
       right: theme.input.eyeMargin
     },
@@ -218,7 +239,8 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   disabled: {},
   success: {},
   error: {},
-  warning: {}
+  warning: {},
+  eyeWrapper: {}
 }))
 
 export default class Input extends Component {
@@ -368,10 +390,12 @@ export default class Input extends Component {
     const Icon = type === 'password' ? ClosedEyeIcon : Eye
 
     const icon = (
-      <Icon
-        onClick={this.inputTypeHelper}
-        size={theme.field.sizes[size].eyeIcon}
-        color={theme.field.eyeIcon.colors.default} />
+      <span className={css.eyeWrapper} onClick={this.inputTypeHelper}>
+        <Icon
+          size={theme.field.sizes[size].eyeIcon}
+          className={css.eyeIcon}
+          color="currentColor" />
+      </span>
     )
 
     if (passwordIconTooltip) {
@@ -380,7 +404,7 @@ export default class Input extends Component {
         : passwordIconTooltip
 
       return (
-        <Tooltip className={css.eye} content={content}>
+        <Tooltip content={content} className={css.eye}>
           {icon}
         </Tooltip>
       )
@@ -427,17 +451,23 @@ export default class Input extends Component {
       trueType === 'password' && css.withEye
     )
 
-    const resultIconLeft = iconLeft && cloneElement(iconLeft, {
-      color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || theme.field.colors.default.text),
-      size: iconLeft.props.size || theme.field.sizes[size].icon,
-      className: classnames(iconLeft.props.className, css.icon, css.iconLeft)
-    })
+    const resultIconLeft = iconLeft && <div className={classnames(iconLeft.props.className, css.icon, css.iconLeft)}>
+      {
+        cloneElement(iconLeft, {
+          color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || 'currentColor'),
+          size: iconLeft.props.size || theme.field.sizes[size].icon
+        })
+      }
+    </div>
 
-    const resultIconRight = iconRight && cloneElement(iconRight, {
-      color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || theme.field.colors.default.text),
-      size: iconRight.props.size || theme.field.sizes[size].icon,
-      className: classnames(iconRight.props.className, css.icon, css.iconRight)
-    })
+    const resultIconRight = iconRight && <div className={classnames(iconRight.props.className, css.icon, css.iconRight)}>
+      {
+        cloneElement(iconRight, {
+          color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || 'currentColor'),
+          size: iconRight.props.size || theme.field.sizes[size].icon
+        })
+      }
+    </div>
 
     const inputElement = createElement(tag, {
       name,
