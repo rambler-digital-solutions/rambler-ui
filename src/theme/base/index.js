@@ -685,6 +685,37 @@ export function createTheme(config) {
           paddingBottom: 11
         }
       }
+    },
+    pagination: {
+      size: 35,
+      fontSize: 13,
+      colors: {
+        default: {
+          text: colors.dark,
+          background: 'transparent',
+          arrow: fade(colors.dark, 0.6)
+        },
+        hover: {
+          text: darken(colors.primary, 0.1),
+          arrow: darken(colors.primary, 0.1)
+        },
+        active: {
+          text: darken(colors.primary, 0.2),
+          background: '#eee',
+          arrow: darken(colors.primary, 0.2)
+        },
+        selected: {
+          text: colors.primary
+        },
+        focus: {
+          text: lighten(colors.primary, 0.25),
+          arrow: lighten(colors.primary, 0.25)
+        },
+        disabled: {
+          text: fade(colors.dark, 0.2),
+          arrow: fade(colors.dark, 0.1)
+        }
+      }
     }
   }, config)
 }
