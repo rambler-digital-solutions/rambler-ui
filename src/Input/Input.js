@@ -113,6 +113,17 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
         width: theme.field.sizes[size].eyeIcon,
         lineHeight: theme.field.sizes[size].eyeIcon + 'px'
       },
+      '& $eyeWrapper': {
+        '&:after': {
+          display: 'block',
+          content: '" "',
+          position: 'absolute',
+          top: -Math.round((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          bottom: -Math.round((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          left: -10,
+          right: -10
+        }
+      },
       '&$withLeftIcon$regular $input': {
         paddingLeft: theme.field.sizes[size].withIconPadding - 1
       },
@@ -228,17 +239,7 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   success: {},
   error: {},
   warning: {},
-  eyeWrapper: {
-    '&:after': {
-      display: 'block',
-      content: '" "',
-      position: 'absolute',
-      top: -20,
-      bottom: -20,
-      left: -10,
-      right: -10
-    }
-  }
+  eyeWrapper: {}
 }))
 
 export default class Input extends Component {
