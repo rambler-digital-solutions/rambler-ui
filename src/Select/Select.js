@@ -14,13 +14,11 @@ import { middleMixin, isolateMixin } from '../style/mixins'
   select: {
     ...isolateMixin,
     position: 'relative',
-    backgroundColor: theme.field.colors.default.background,
     '&:hover:not($disabled) $arrow': {
       color: theme.field.colors.default.text
     }
   },
   disabled: {
-    backgroundColor: theme.field.colors.disabled.background,
     '& $arrow': {
       cursor: 'not-allow'
     }

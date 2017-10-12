@@ -18,7 +18,8 @@ import { isolateMixin } from '../style/mixins'
       flexBasis: 0
     },
     '& input': {
-      borderColor: 'transparent !important'
+      borderColor: 'transparent !important',
+      background: 'none !important'
     },
     '&:before': {
       position: 'absolute',
@@ -44,6 +45,10 @@ import { isolateMixin } from '../style/mixins'
     '&:before': {
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
+    },
+    background: theme.field.colors.default.background,
+    '&$disabled': {
+      background: theme.field.colors.disabled.background
     }
   },
   awesome: {

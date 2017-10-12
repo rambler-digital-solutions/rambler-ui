@@ -85,6 +85,9 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     '& $input': {
       paddingTop: 1,
       borderBottomWidth: 1
+    },
+    '& $input, & $input:disabled': {
+      background: 'none'
     }
   },
   ...['medium', 'small'].reduce((result, size) => ({
@@ -175,7 +178,6 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   root: {
     extend: isolateMixin,
     position: 'relative',
-    background: theme.field.colors.default.background,
     boxSizing: 'border-box',
     fontFamily: theme.fontFamily
   },

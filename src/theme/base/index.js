@@ -360,7 +360,7 @@ export function createTheme(config) {
         default: {
           outline: colors.controls.grey.fieldOutline,
           border: 'transparent',
-          background: 'none',
+          background: colors.light,
           text: colors.dark,
           placeholder: colors.controls.grey.placeholder,
           arrow: colors.controls.grey.fieldIcon
@@ -375,7 +375,7 @@ export function createTheme(config) {
           outline: fade(colors.controls.grey.fieldOutline, 0.6),
           text: colors.controls.grey.disabled,
           placeholder: colors.controls.grey.disabled,
-          background: 'none'
+          background: colors.light
         }
       },
       mobile: {
