@@ -390,10 +390,12 @@ export default class Input extends Component {
     const Icon = type === 'password' ? ClosedEyeIcon : Eye
 
     const icon = (
-      <Icon
-        size={theme.field.sizes[size].eyeIcon}
-        className={css.eyeIcon}
-        color="currentColor" />
+      <span className={css.eyeWrapper} onClick={this.inputTypeHelper}>
+        <Icon
+          size={theme.field.sizes[size].eyeIcon}
+          className={css.eyeIcon}
+          color="currentColor" />
+      </span>
     )
 
     if (passwordIconTooltip) {
@@ -403,7 +405,7 @@ export default class Input extends Component {
 
       return (
         <Tooltip content={content} className={css.eye}>
-          <span className={css.eyeWrapper} onClick={this.inputTypeHelper}>{icon}</span>
+          {icon}
         </Tooltip>
       )
     }
