@@ -151,17 +151,17 @@ export default class Avatar extends Component {
     const ProfileIcon = profileType &&
       profileIcons[`${profileType.replace(/^\w/, m => m.toUpperCase())}Icon`]
 
-    const profileSize = Math.round(calcProfileSize(size)) + 'px'
-
+    const profileSize = Math.round(calcProfileSize(size))
+    const profileSizePx = profileSize + 'px'
     const children = profileType && (
       <div
         className={this.css.profile}
         style={{
           backgroundColor: iconBackgroundColor || theme.avatar.colors.iconBackground,
-          width: profileSize,
-          height: profileSize
+          width: profileSizePx,
+          height: profileSizePx
         }}>
-        <ProfileIcon size="55%" />
+        <ProfileIcon size={Math.round(profileSize * 0.55)} />
       </div>
     )
 

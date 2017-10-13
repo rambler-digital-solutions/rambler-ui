@@ -37,8 +37,7 @@ const activeBorder = borderColor => ({
     'textarea&&': {
       resize: 'vertical',
       height: '100%',
-      paddingTop: theme.input.padding,
-      paddingBottom: theme.input.padding
+      padding: theme.input.sizes.medium.padding
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
@@ -53,11 +52,20 @@ const activeBorder = borderColor => ({
     '&$filled[type="password"]': {
       fontFamily: 'monospace'
     },
+    // ...placeholderMixin('$inGroup &', {
+    //   color: theme.field.colors.default.text
+    // }),
     ...placeholderMixin('&', {
-      color: theme.field.colors.default.placeholder
+      color: theme.field.colors.default.placeholder,
+      opacity: 1,
+      transition: `all ${Math.round(theme.field.animationDuration * 0.7)}ms linear`
     }),
     ...placeholderMixin('&:disabled', {
-      color: theme.field.colors.disabled.placeholder
+      color: theme.field.colors.disabled.placeholder,
+      opacity: 1
+    }),
+    ...placeholderMixin('&:focus', {
+      opacity: 0.54
     })
   },
   withStatusLine: {
@@ -72,8 +80,6 @@ const activeBorder = borderColor => ({
   },
   withOutline: {
     '& $input': {
-      paddingLeft: theme.input.padding,
-      paddingRight: theme.input.padding,
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
     }
@@ -93,6 +99,9 @@ const activeBorder = borderColor => ({
     '& $input': {
       paddingTop: 1,
       borderBottomWidth: 1
+    },
+    '& $input, & $input:disabled': {
+      background: 'none'
     }
   },
   ...['medium', 'small'].reduce((result, size) => ({
@@ -108,10 +117,30 @@ const activeBorder = borderColor => ({
         height: theme.field.sizes[size].height,
         lineHeight: 'normal'
       },
+      '& $icon': {
+        height: theme.field.sizes[size].icon,
+        width: theme.field.sizes[size].icon,
+        lineHeight: theme.field.sizes[size].icon + 'px'
+      },
       '& $eye': {
         height: theme.field.sizes[size].eyeIcon,
         width: theme.field.sizes[size].eyeIcon,
         lineHeight: theme.field.sizes[size].eyeIcon + 'px'
+      },
+      '& $eyeWrapper': {
+        '&:after': {
+          display: 'block',
+          content: '" "',
+          position: 'absolute',
+          top: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          bottom: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          left: -10,
+          right: -10
+        }
+      },
+      '&$withOutline $input': {
+        paddingLeft: theme.input.sizes[size].padding,
+        paddingRight: theme.input.sizes[size].padding
       },
       '&$withLeftIcon$regular $input': {
         paddingLeft: theme.field.sizes[size].withIconPadding - 1
@@ -120,7 +149,7 @@ const activeBorder = borderColor => ({
         paddingLeft: theme.field.sizes[size].withIconPadding
       },
       '&$withLeftIcon$promo $input': {
-        paddingLeft: theme.field.sizes[size].withIconPadding - theme.input.padding
+        paddingLeft: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$withRightIcon$regular $input, &$withEye$regular $input': {
         paddingRight: theme.field.sizes[size].withIconPadding - 1
@@ -135,16 +164,16 @@ const activeBorder = borderColor => ({
         paddingRight: theme.field.sizes[size].withIconsPadding
       },
       '&$withRightIcon$promo $input, &$withEye$promo $input': {
-        paddingRight: theme.field.sizes[size].withIconPadding - theme.input.padding
+        paddingRight: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$withEye$withRightIcon$promo $input': {
-        paddingRight: theme.field.sizes[size].withIconsPadding - theme.input.padding
+        paddingRight: theme.field.sizes[size].withIconsPadding - theme.input.sizes[size].padding
       },
       '&$withEye$regular $iconRight, &$withEye$awesome $iconRight': {
         right: theme.field.sizes[size].withIconPadding
       },
       '&$withEye$promo $iconRight': {
-        right: theme.field.sizes[size].withIconPadding - theme.input.padding
+        right: theme.field.sizes[size].withIconPadding - theme.input.sizes[size].padding
       },
       '&$regular $iconLeft, &$awesome $iconLeft': {
         left: theme.field.sizes[size].iconMargin
@@ -157,6 +186,30 @@ const activeBorder = borderColor => ({
       },
       '&$promo $iconRight': {
         right: 0
+      },
+      '&$inGroup$promo': {
+        '&:not($startPosition)': {
+          '&$withLeftIcon $input': {
+            paddingLeft: theme.field.sizes[size].withIconPadding
+          },
+          '& $iconLeft': {
+            left: theme.field.sizes[size].iconMargin
+          }
+        },
+        '&:not($endPosition)': {
+          '&$withRightIcon $input, &$withEye $input': {
+            paddingRight: theme.field.sizes[size].withIconPadding
+          },
+          '&$withEye$withRightIcon $input': {
+            paddingRight: theme.field.sizes[size].withIconsPadding - 1
+          },
+          '&$withEye $iconRight': {
+            right: theme.field.sizes[size].withIconPadding
+          },
+          '& $iconRight': {
+            right: theme.field.sizes[size].iconMargin
+          }
+        }
       }
     }
   }), {}),
@@ -184,7 +237,9 @@ const activeBorder = borderColor => ({
     position: 'absolute',
     top: 0,
     bottom: 0,
-    margin: 'auto'
+    margin: 'auto',
+    fontSize: 0,
+    color: theme.field.icon.colors.default
   },
   eye: {
     composes: '$icon',
@@ -192,6 +247,9 @@ const activeBorder = borderColor => ({
     border: 0,
     outline: 0,
     cursor: 'pointer',
+    '&:hover': {
+      color: theme.field.icon.colors.active
+    },
     '$regular &, $awesome &': {
       right: theme.input.eyeMargin
     },
@@ -212,9 +270,14 @@ const activeBorder = borderColor => ({
   filled: {},
   isDisabled: {},
   isEnabled: {},
+  inGroup: {},
   success: {},
   error: {},
-  warning: {}
+  warning: {},
+  eyeWrapper: {},
+  endPosition: {},
+  startPosition: {},
+  middlePosition: {}
 }))
 
 export default class Input extends Component {
@@ -323,7 +386,11 @@ export default class Input extends Component {
     passwordIconTooltip: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func
-    ])
+    ]),
+    /**
+     * Позиция инпута в группе
+     */
+    groupPosition: PropTypes.oneOf(['start', 'middle', 'end', null])
   };
 
   static defaultProps = {
@@ -364,10 +431,12 @@ export default class Input extends Component {
     const Icon = type === 'password' ? ClosedEyeIcon : Eye
 
     const icon = (
-      <Icon
-        onClick={this.inputTypeHelper}
-        size={theme.field.sizes[size].eyeIcon}
-        color={theme.field.eyeIcon.colors.default} />
+      <span className={css.eyeWrapper} onClick={this.inputTypeHelper}>
+        <Icon
+          size={theme.field.sizes[size].eyeIcon}
+          className={css.eyeIcon}
+          color="currentColor" />
+      </span>
     )
 
     if (passwordIconTooltip) {
@@ -376,7 +445,7 @@ export default class Input extends Component {
         : passwordIconTooltip
 
       return (
-        <Tooltip className={css.eye} content={content}>
+        <Tooltip content={content} className={css.eye}>
           {icon}
         </Tooltip>
       )
@@ -387,15 +456,6 @@ export default class Input extends Component {
         {icon}
       </div>
     )
-  }
-
-  renderIcon(icon, className) {
-    const { disabled, theme, size } = this.props
-    return icon && cloneElement(icon, {
-      color: disabled ? theme.field.colors.disabled.text : (icon.props.color || theme.field.colors.default.text),
-      size: icon.props.size || theme.field.sizes[size].icon,
-      className: classnames(className, icon.props.className)
-    })
   }
 
   render() {
@@ -413,10 +473,12 @@ export default class Input extends Component {
       iconLeft,
       iconRight,
       status,
+      theme,
       sheet: { classes: css },
       value,
+      groupPosition,
       ...other
-    } = omit(this.props, ['onChange', 'passwordIconTooltip', 'inputRef', 'theme'])
+    } = omit(this.props, ['onChange', 'passwordIconTooltip', 'inputRef'])
 
     const trueType = this.props.type
     const resultClassName = classnames(
@@ -428,8 +490,28 @@ export default class Input extends Component {
       css[size],
       iconLeft && css.withLeftIcon,
       iconRight && css.withRightIcon,
-      trueType === 'password' && css.withEye
+      trueType === 'password' && css.withEye,
+      groupPosition && css[`${groupPosition}Position`],
+      groupPosition && css.inGroup
     )
+
+    const resultIconLeft = iconLeft && <div className={classnames(iconLeft.props.className, css.icon, css.iconLeft)}>
+      {
+        cloneElement(iconLeft, {
+          color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || 'currentColor'),
+          size: iconLeft.props.size || theme.field.sizes[size].icon
+        })
+      }
+    </div>
+
+    const resultIconRight = iconRight && <div className={classnames(iconRight.props.className, css.icon, css.iconRight)}>
+      {
+        cloneElement(iconRight, {
+          color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || 'currentColor'),
+          size: iconRight.props.size || theme.field.sizes[size].icon
+        })
+      }
+    </div>
 
     const inputElement = createElement(tag, {
       name,
@@ -446,10 +528,10 @@ export default class Input extends Component {
 
     return (
       <div style={style} className={resultClassName}>
-        {this.renderIcon(iconLeft, css.iconLeft)}
+        {resultIconLeft}
         {inputElement}
         <div className={css.activeBorder} />
-        {this.renderIcon(iconRight, css.iconRight)}
+        {resultIconRight}
         {this.renderPasswordIcon()}
       </div>
     )

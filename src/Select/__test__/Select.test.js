@@ -4,7 +4,7 @@ import MenuItem from '../../Menu/MenuItem'
 import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
 import EllipsisIcon from '../../icons/forms/EllipsisIcon'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import { mount, withTheme, getStyles, getNodeStyles } from '../../utils/test-utils'
 
 describe('<Select />', () => {
 
@@ -27,11 +27,11 @@ describe('<Select />', () => {
     const inputStyles = getStyles(wrapper.find('input'))
     expect(inputStyles['background-color']).toEqual(nc(theme.field.colors.default.background))
 
-    const arrowStyles = getStyles(wrapper.find('div[role="button"]'))
+    const arrowStyles = getNodeStyles(wrapper.find('div[role="button"]').node.parentNode)
     expect(arrowStyles.position).toEqual('absolute')
     expect(arrowStyles.right).toEqual('13px')
-    expect(arrowStyles.width).toEqual('20px')
-    expect(arrowStyles.height).toEqual('20px')
+    expect(arrowStyles.width).toEqual(theme.field.sizes.medium.icon + 'px')
+    expect(arrowStyles.height).toEqual(theme.field.sizes.medium.icon + 'px')
     expect(arrowStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')
   })
 

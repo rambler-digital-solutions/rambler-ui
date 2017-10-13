@@ -96,3 +96,25 @@ export const fontSmoothingMixin = {
   '-webkit-font-smoothing': 'antialiased',
   '-moz-osx-font-smoothing': 'grayscale'
 }
+
+export const beautyScroll = (selector) => ({
+  [selector + selector]: {
+  },
+  [`${selector} > *`]: {
+  },
+  [`${selector}::-webkit-scrollbar`]: {
+    width: 4,
+    backgroundColor: 'transparent'
+  },
+  [`${selector}::-webkit-scrollbar-track`]: {
+    '-webkit-box-shadow': 'none'
+  },
+  [`${selector}::-webkit-scrollbar-thumb`]: {
+    background: '#dcdfe7',
+    borderRadius: 0
+  },
+  [`${selector}::-webkit-scrollbar-track-piece`]: {},
+  [`${selector}::-webkit-scrollbar-button`]: {},
+  [`${selector}::-webkit-scrollbar-corner`]: {},
+  [`${selector}::-webkit-resizer`]: {}
+})

@@ -1,5 +1,13 @@
 # Changelog
 
+## v-3.3.3 - 2017-10-12
+### Fixed
+* Design-review fixes
+
+## v-3.3.2 - 2017-10-09
+### Fixed
+* Изменены отступы для кнопок справа и слева 23px -> 20px
+
 ## v-3.3.1 - 2017-10-07
 ### Fixed
 * Input animation

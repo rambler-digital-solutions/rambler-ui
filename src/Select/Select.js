@@ -9,55 +9,56 @@ import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
+import { isolateMixin, placeholderMixin } from '../style/mixins'
 
 const emptyArr = []
 
 @injectSheet(theme => ({
   root: {
     '&&': {
+      ...isolateMixin,
       display: 'block'
-    }
-  },
-  isDisabled: {
-    cursor: 'not-allowed'
-  },
-  focused: {
-    '& $arrow': {
-      color: theme.field.colors.focus.border
-    }
-  },
-  input: {
-    '$isDisabled &': {
-      pointerEvents: 'none'
-    }
+    },
+    '&:hover, &$isFocused': {
+      '& $arrow': {
+        color: theme.field.colors.focus.arrow
+      }
+    },
+    '&$isDisabled': {
+      cursor: 'not-allowed',
+      '& $input': {
+        pointerEvents: 'none'
+      },
+      '& $arrow': {
+        color: theme.field.colors.disabled.arrow + '!important',
+        pointerEvents: 'none'
+      }
+    },
+    ...placeholderMixin('&$isReadonly:not($isDisabled) $input input', {
+      opacity: 1,
+      color: theme.field.colors.default.text
+    }),
+    ...placeholderMixin('&:not($isFocused):not($isDisabled) $input input', {
+      opacity: 1,
+      color: theme.field.colors.default.text
+    })
   },
   arrow: {
-    width: 20,
-    height: 20,
     cursor: 'pointer',
-    color: theme.field.colors.default.arrow,
     textAlign: 'center',
     lineHeight: 0,
-    '$input:hover &': {
-      color: theme.field.colors.hover.arrow
-    },
-    '$isDisabled &': {
-      color: theme.field.colors.disabled.arrow + '!important'
-    },
-    '&:empty:after': {
-      position: 'absolute',
-      top: 4,
-      left: 6,
-      borderStyle: 'solid',
-      borderWidth: '0 0 1px 1px',
-      height: 8,
-      width: 8,
-      content: '""',
-      pointerEvents: 'none',
-      transform: 'rotate(-45deg)'
-    },
-    '$isOpened &:empty': {
-      transform: 'scaleY(-1)'
+    color: theme.field.colors.default.arrow,
+    '&:empty': {
+      '&:after': {
+        height: 8,
+        width: 8,
+        position: 'absolute',
+        borderStyle: 'solid',
+        borderWidth: '0 0 1px 1px',
+        content: '""',
+        pointerEvents: 'none',
+        transform: 'rotate(-45deg) translateY(50%)'
+      }
     },
     '& svg': {
       margin: 'auto',
@@ -71,7 +72,7 @@ const emptyArr = []
     }
   },
   field: {
-    '$readonly &': {
+    '$isReadonly &': {
       cursor: 'pointer',
       userSelect: 'none'
     },
@@ -91,7 +92,11 @@ const emptyArr = []
     '&&': {
       boxShadow: 'none',
       border: `1px solid ${theme.field.colors.default.outline}`,
-      borderBottom: 0
+      borderBottom: 0,
+      '&$isMultipleDropdown': {
+        transitionProperty: 'opacity',
+        top: '0 !important'
+      }
     }
   },
   selected: {
@@ -110,8 +115,28 @@ const emptyArr = []
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
+      '& $arrow': {
+        '&:before': {
+          display: 'block',
+          content: '" "',
+          position: 'absolute',
+          top: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].icon) / 2),
+          bottom: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].icon) / 2),
+          left: -10,
+          right: -10
+        },
+        '&:empty:after': {
+          top: size === 'small' ? -2 : -1,
+          left:  size === 'small' ? 1 : 1
+        }
+      },
+      '&$isOpened $arrow:empty:after': {
+        transform: 'rotate(45deg) translateY(-50%) scaleY(-1)',
+        top: size === 'small' ? 9 : 9,
+        left:  size === 'small' ? 1 : 1
+      },
       '& $options': {
-        padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2}px ${theme.input.padding + 1}px`
+        padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2}px ${theme.input.sizes[size].padding + 1}px`
       },
       '&$withLeftIcon $options': {
         paddingLeft: theme.field.sizes[size].withIconPadding + 1
@@ -120,13 +145,17 @@ const emptyArr = []
         paddingRight: theme.field.sizes[size].withIconPadding + 1
       },
       '& $selected': {
-        padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2 - 1}px ${theme.input.padding - 1}px`
+        padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2 - 1}px ${theme.input.sizes[size].padding - 1}px`
       }
     }
   }), {}),
-  readonly: {},
-  withSearch: {},
+  input: {},
+  isFocused: {},
   isOpened: {},
+  isReadonly: {},
+  isDisabled: {},
+  isMultipleDropdown: {},
+  withSearch: {},
   withLeftIcon: {},
   withRightIcon: {}
 }))
@@ -208,6 +237,10 @@ export default class Select extends PureComponent {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
+     * Разновидность инпута
+     */
+    variation: PropTypes.oneOf(['regular', 'awesome', 'promo']),
+    /**
     * Статусы валидации
     */
     status: PropTypes.oneOf([
@@ -244,6 +277,7 @@ export default class Select extends PureComponent {
     multiple: false,
     status: null,
     size: 'medium',
+    variation: 'awesome',
     disabled: false,
     appendToBody: false,
     valuesEquality: (a, b) => a === b,
@@ -353,6 +387,7 @@ export default class Select extends PureComponent {
   open = () => {
     if (this.props.disabled || this.state.isOpened) return
     this.setState({isOpened: true})
+    this.input.focus()
   }
 
   close = () => {
@@ -440,10 +475,10 @@ export default class Select extends PureComponent {
       'value',
       'appendToBody',
       'sheet',
-      'theme',
       'onFocus',
       'onBlur',
-      'onChange'
+      'onChange',
+      'theme'
     ])
   }
 
@@ -492,7 +527,7 @@ export default class Select extends PureComponent {
       ...other
     } = omit(this.getInputProps(), ['arrowClassName', 'arrowStyle', 'arrowIcon'])
 
-    const focusedInput = inputFocused || isOpened  
+    const focusedInput = inputFocused || isOpened
     const inputValue = inputValueRenderer(value)
     const resultInputValue = multiple
       ? searchText
@@ -531,8 +566,8 @@ export default class Select extends PureComponent {
   render() {
     const {
       value,
-      isOpened,
-      inputFocused
+      inputFocused,
+      isOpened
     } = this.state
 
     const {
@@ -556,14 +591,14 @@ export default class Select extends PureComponent {
 
     const resultClassName = classnames(
       this.css.root,
-      !disabled && !onSearch && this.css.readonly,
+      !disabled && !onSearch && this.css.isReadonly,
       !disabled && onSearch && this.css.withSearch,
       icon && this.css.withLeftIcon,
       this.showArrow && this.css.withRightIcon,
       size && this.css[size],
       disabled && this.css.isDisabled,
       isOpened && this.css.isOpened,
-      focusedInput && this.css.focused
+      focusedInput && this.css.isFocused
     )
 
     const dropdownAnchor = (
@@ -590,12 +625,12 @@ export default class Select extends PureComponent {
           anchor={dropdownAnchor}
           padding={false}
           style={dropdownStyle}
-          className={classnames(dropdownClassName, this.css.dropdown)}
+          className={classnames(dropdownClassName, this.css.dropdown, multiple && this.css.isMultipleDropdown)}
           overlayClassName={resultClassName}
           appendToBody={appendToBody}
           anchorFullWidth={true}
           autoPositionY={false}
-          anchorPointY={onSearch ? 'bottom' : 'top'}
+          anchorPointY="bottom"
           contentPointY="top"
           closeOnClickOutside={false}
           cachePositionOptions={false}

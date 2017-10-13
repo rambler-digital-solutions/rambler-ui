@@ -6,7 +6,7 @@ import omit from 'lodash/omit'
 import { ESCAPE, UP, DOWN, TAB } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin, beautyScroll } from '../style/mixins'
 
 const emptyArr = []
 
@@ -16,7 +16,8 @@ const emptyArr = []
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     padding: 0,
-    overflowY: 'auto'
+    overflowY: 'auto',
+    ...beautyScroll('&')
   }
 }))
 export default class Menu extends PureComponent {

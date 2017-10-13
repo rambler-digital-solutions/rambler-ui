@@ -348,17 +348,12 @@ export function createTheme(config) {
         small: 23
       }
     },
-    field: { // input, select, textarea
+    // input, select, textarea
+    field: {
       borderRadius: 1,
       icon: {
         colors: {
-          default: colors.controls.grey.icon,
-          active: colors.primary
-        }
-      },
-      eyeIcon: {
-        colors: {
-          default: colors.controls.grey.icon,
+          default: colors.controls.grey.fieldIcon,
           active: colors.primary
         }
       },
@@ -366,9 +361,9 @@ export function createTheme(config) {
         default: {
           outline: colors.controls.grey.fieldOutline,
           border: 'transparent',
-          background: '#fff',
+          background: colors.light,
           text: colors.dark,
-          placeholder: lighten(colors.dark, 0.6),
+          placeholder: colors.controls.grey.placeholder,
           arrow: colors.dark
         },
         hover: {
@@ -376,14 +371,15 @@ export function createTheme(config) {
           arrow: colors.primary
         },
         focus: {
-          border: colors.primary
+          border: colors.primary,
+          arrow: colors.primary
         },
         disabled: {
           outline: fade(colors.controls.grey.fieldOutline, 0.6),
           text: colors.controls.grey.disabled,
           placeholder: colors.controls.grey.disabled,
           arrow: lighten(colors.controls.grey.outline, 0.5),
-          background: 'none'
+          background: colors.light
         }
       },
       mobile: {
@@ -401,7 +397,7 @@ export function createTheme(config) {
           height: 45,
           fontSize: 13,
           icon: 18,
-          eyeIcon: 20,
+          eyeIcon: 15,
           withIconPadding: 40,
           withIconsPadding: 70,
           iconMargin: 13
@@ -410,7 +406,7 @@ export function createTheme(config) {
           height: 35,
           fontSize: 13,
           icon: 16,
-          eyeIcon: 18,
+          eyeIcon: 15,
           withIconPadding: 40,
           withIconsPadding: 70,
           iconMargin: 13
@@ -448,11 +444,23 @@ export function createTheme(config) {
       }
     },
     input: {
-      padding: 13,
-      eyeMargin: 13
+      eyeMargin: 13,
+      sizes: {
+        small: {
+          padding: 13
+        },
+        medium: {
+          padding: 15
+        }
+      }
     },
     inputStatus: {
-      fontSize: 13
+      sizes: {
+        fontSize: 13,
+        mobile: {
+          fontSize: 14
+        }
+      }
     },
     loader: {
       animationDuration: 200,
@@ -645,20 +653,6 @@ export function createTheme(config) {
         titleSize: 16
       },
       animationDuration: 200
-    },
-    textarea: {
-      sizes: {
-        small: {
-          padding: '8px 13px',
-          height: 75,
-          focusPaddingBottom: 7
-        },
-        medium: {
-          padding: 13,
-          height: 85,
-          focusPaddingBottom: 12
-        }
-      }
     },
     tooltip: {
       borderRadius: 1,

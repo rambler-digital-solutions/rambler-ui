@@ -16,10 +16,10 @@ describe('<Textarea />', () => {
     const textareaStyles = getStyles(wrapper.find('.textarea'))
 
     expect(textareaStyles.height).toEqual('85px')
-    expect(textareaStyles['padding-top']).toEqual(theme.input.padding + 'px')
-    expect(textareaStyles['padding-right']).toEqual(theme.input.padding + 'px')
-    expect(textareaStyles['padding-bottom']).toEqual(theme.input.padding + 'px')
-    expect(textareaStyles['padding-left']).toEqual(theme.input.padding + 'px')
+    expect(textareaStyles['padding-top']).toEqual(theme.input.sizes.medium.padding + 'px')
+    expect(textareaStyles['padding-right']).toEqual(theme.input.sizes.medium.padding + 'px')
+    expect(textareaStyles['padding-bottom']).toEqual(theme.input.sizes.medium.padding + 'px')
+    expect(textareaStyles['padding-left']).toEqual(theme.input.sizes.medium.padding + 'px')
   })
 
   it('should append value, disabled, name, placeholder', () => {

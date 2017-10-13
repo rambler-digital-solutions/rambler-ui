@@ -157,8 +157,8 @@ describe('Input', () => {
     </FormGroup>))
 
     const arrOfIcons = wrapper.find('svg')
-    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0])
-    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode)
+    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0].parentNode)
+    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode.parentNode)
     // расположение iconLeft
     const iconMargin = (theme.field.sizes.medium.height - theme.field.sizes.medium.icon) / 2 + 'px'
     expect(iconLeftStyles['margin-top']).toEqual(iconMargin)
@@ -191,7 +191,7 @@ describe('Input', () => {
 
     expect(inputTextStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconPadding + 'px')
     expect(inputPassStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconsPadding + 'px')
-    expect(inputPassStyles['padding-left']).toEqual(theme.input.padding + 'px')
+    expect(inputPassStyles['padding-left']).toEqual(theme.input.sizes.medium.padding + 'px')
   })
 
   it('size small', () => {
