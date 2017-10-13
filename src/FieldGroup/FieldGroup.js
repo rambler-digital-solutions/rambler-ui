@@ -18,7 +18,8 @@ import { isolateMixin } from '../style/mixins'
       flexBasis: 0
     },
     '& input': {
-      borderColor: 'transparent !important'
+      borderColor: 'transparent !important',
+      background: 'none !important'
     },
     '&:before': {
       position: 'absolute',
@@ -44,6 +45,10 @@ import { isolateMixin } from '../style/mixins'
     '&:before': {
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
+    },
+    background: theme.field.colors.default.background,
+    '&$disabled': {
+      background: theme.field.colors.disabled.background
     }
   },
   awesome: {
@@ -100,14 +105,25 @@ export default class FieldGroup extends PureComponent {
       ...props
     } = omit(this.props, 'theme')
 
+    const count = Children.count(children)
+    let i = 1
+
     return (
       <div
         style={style}
         className={classnames(className, css.root, css[variation], disabled && css.disabled)}>
-        {Children.map(children, child => cloneElement(
-          child,
-          defaults({}, child.props, {...props, disabled, variation})
-        ))}
+        {Children.map(children, child => {
+          let groupPosition = 'middle'
+          if (i === 1)
+            groupPosition = 'start'
+          else if (i === count)
+            groupPosition = 'end'
+          i++
+          return cloneElement(
+            child,
+            defaults({}, child.props, {...props, disabled, variation, groupPosition})
+          )
+        })}
       </div>
     )
   }

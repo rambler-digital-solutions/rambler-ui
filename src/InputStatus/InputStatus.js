@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin, ifMobile } from '../style/mixins'
 
 @injectSheet(theme => ({
   success: {
@@ -25,9 +25,13 @@ import { isolateMixin } from '../style/mixins'
   },
   message: {
     ...isolateMixin,
+    ...ifMobile({
+      fontSize: theme.inputStatus.sizes.mobile.fontSize
+    }),
     fontFamily: theme.fontFamily,
     marginTop: 10,
-    fontSize: theme.inputStatus.fontSize,
+    fontSize: theme.inputStatus.sizes.fontSize,
+    lineHeight: theme.inputStatus.sizes.fontSize + 2 + 'px',
     textAlign: 'left'
   }
 }))

@@ -8,7 +8,7 @@ export default class TwitterIcon extends Component {
   static displayName = 'TwitterIcon'
 
   static defaultProps = {
-    color: '#5d9ec9'
+    color: '#1DA1F2'
   }
 
   render() {

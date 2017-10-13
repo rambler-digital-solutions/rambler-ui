@@ -86,7 +86,7 @@ function getIconColor(colorsConfig, isDisabled) {
       '& $content': {
         height: theme.button.sizes.medium.height,
         lineHeight: theme.button.sizes.medium.height + 'px',
-        padding: '0 23px'
+        padding: '0 20px'
       }
     },
     'size-small': {
@@ -97,7 +97,7 @@ function getIconColor(colorsConfig, isDisabled) {
       '& $content': {
         height: theme.button.sizes.small.height,
         lineHeight: theme.button.sizes.small.height + 'px',
-        padding: '0 23px'
+        padding: '0 20px'
       }
     },
     overlay: {

@@ -1,57 +1,53 @@
 import React from 'react'
 import Select from '../Select'
-import Input from '../../Input/Input'
 import MenuItem from '../../Menu/MenuItem'
 import theme from '../../theme/base'
+import {normalize as nc} from '../../utils/colors'
 import EllipsisIcon from '../../icons/forms/EllipsisIcon'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import { mount, withTheme, getStyles, getNodeStyles } from '../../utils/test-utils'
 
 describe('<Select />', () => {
 
   it('should apply default styles', () => {
-    const wrapper = mount(withTheme(<Select>
-      <MenuItem value="foo">
-            foo
-      </MenuItem>
-      <MenuItem value="bar">
-            baz
-      </MenuItem>
-    </Select>))
+    const wrapper = mount(withTheme(
+      <Select>
+        <MenuItem value="foo">
+          foo
+        </MenuItem>
+        <MenuItem value="bar">
+          baz
+        </MenuItem>
+      </Select>
+    ))
 
-    const select = wrapper.find(Select)
-    const selectStyles = getStyles(select)
-
+    const selectStyles = getStyles(wrapper)
     expect(selectStyles.position).toEqual('relative')
-    expect(selectStyles.height).toEqual('45px')
+    expect(selectStyles.height).toEqual(theme.field.sizes.medium.height + 'px')
 
-    const input = wrapper.find(Input)
-    const inputStyles = getStyles(input)
+    const inputStyles = getStyles(wrapper.find('input'))
+    expect(inputStyles['background-color']).toEqual(nc(theme.field.colors.default.background))
 
-    expect(inputStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')
-
-    const arrow = select.find('button')
-    const arrowStyles = getStyles(arrow)
-
+    const arrowStyles = getNodeStyles(wrapper.find('div[role="button"]').node.parentNode)
     expect(arrowStyles.position).toEqual('absolute')
     expect(arrowStyles.right).toEqual('13px')
-    expect(arrowStyles.width).toEqual('20px')
-    expect(arrowStyles.height).toEqual('20px')
+    expect(arrowStyles.width).toEqual(theme.field.sizes.medium.icon + 'px')
+    expect(arrowStyles.height).toEqual(theme.field.sizes.medium.icon + 'px')
     expect(arrowStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')
   })
 
   it('should apply size', () => {
-    const wrapper = mount(withTheme(<Select size="small">
-      <MenuItem value="foo">
-            foo
-      </MenuItem>
-      <MenuItem value="bar">
-            baz
-      </MenuItem>
-    </Select>))
+    const wrapper = mount(withTheme(
+      <Select size="small">
+        <MenuItem value="foo">
+          foo
+        </MenuItem>
+        <MenuItem value="bar">
+          baz
+        </MenuItem>
+      </Select>
+    ))
 
-    const select = wrapper.find(Select)
-    const selectStyles = getStyles(select)
-
+    const selectStyles = getStyles(wrapper.find(Select))
     expect(selectStyles.height).toEqual(theme.field.sizes.small.height + 'px')
   })
 

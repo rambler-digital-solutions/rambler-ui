@@ -157,14 +157,22 @@ describe('Input', () => {
     </FormGroup>))
 
     const arrOfIcons = wrapper.find('svg')
-    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0])
-    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode)
+    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0].parentNode)
+    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode.parentNode)
     // расположение iconLeft
-    expect(iconLeftStyles.top).toEqual('50%')
-    expect(iconLeftStyles.left).toEqual('13px')
+    const iconMargin = (theme.field.sizes.medium.height - theme.field.sizes.medium.icon) / 2 + 'px'
+    expect(iconLeftStyles['margin-top']).toEqual(iconMargin)
+    expect(iconLeftStyles['margin-bottom']).toEqual(iconMargin)
+    expect(iconLeftStyles.top).toEqual('0px')
+    expect(iconLeftStyles.bottom).toEqual('0px')
+    expect(iconLeftStyles.left).toEqual(theme.field.sizes.medium.iconMargin + 'px')
     // расположение iconEye для password
-    expect(iconEyeStyles.top).toEqual('50%')
-    expect(iconEyeStyles.right).toEqual('13px')
+    const eyeMargin = (theme.field.sizes.medium.height - theme.field.sizes.medium.eyeIcon) / 2 + 'px'
+    expect(iconEyeStyles['margin-top']).toEqual(eyeMargin)
+    expect(iconEyeStyles['margin-bottom']).toEqual(eyeMargin)
+    expect(iconEyeStyles.top).toEqual('0px')
+    expect(iconEyeStyles.bottom).toEqual('0px')
+    expect(iconEyeStyles.right).toEqual(theme.field.sizes.medium.iconMargin + 'px')
   })
 
   it('paddingHelpers', () => {
@@ -183,7 +191,7 @@ describe('Input', () => {
 
     expect(inputTextStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconPadding + 'px')
     expect(inputPassStyles['padding-right']).toEqual(theme.field.sizes.medium.withIconsPadding + 'px')
-    expect(inputPassStyles['padding-left']).toEqual(theme.input.padding + 'px')
+    expect(inputPassStyles['padding-left']).toEqual(theme.input.sizes.medium.padding + 'px')
   })
 
   it('size small', () => {

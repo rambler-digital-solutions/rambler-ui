@@ -6,15 +6,18 @@ import omit from 'lodash/omit'
 import { ESCAPE, UP, DOWN, TAB } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin, beautyScroll } from '../style/mixins'
+
+const emptyArr = []
 
 @injectSheet(theme => ({
   menu: {
     ...isolateMixin,
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
-    padding: '8px 0',
-    overflowY: 'auto'
+    padding: 0,
+    overflowY: 'auto',
+    ...beautyScroll('&')
   }
 }))
 export default class Menu extends PureComponent {
@@ -33,6 +36,10 @@ export default class Menu extends PureComponent {
      */
     multiple: PropTypes.bool,
     /**
+     * Опции не активны
+     */
+    disabled: PropTypes.bool,
+    /**
      * Автофокус первого/выбранного элемента
      */
     autoFocus: PropTypes.bool,
@@ -41,7 +48,7 @@ export default class Menu extends PureComponent {
      */
     maxHeight: PropTypes.number,
     /**
-     * Выбранное значение, по-умолчанию считается, что это примитив
+     * Выбранное значение, по-умолчанию считается, что это примитив. В случае множественного выбора - массив выбранных значений.
      */
     value: PropTypes.any,
     /**
@@ -60,17 +67,23 @@ export default class Menu extends PureComponent {
     /**
      * Коллбек, вызывающийся при клике на `Escape`
      */
-    onEscKeyDown: PropTypes.func
+    onEscKeyDown: PropTypes.func,
+    /**
+     * Размер опций
+     */
+    size: PropTypes.oneOf(['small', 'medium'])
   };
 
   static defaultProps = {
     multiple: false,
+    disabled: false,
     autoFocus: false,
     maxHeight: null,
     value: null,
     valuesEquality: (a, b) => a === b,
     onChange: () => {},
-    onEscKeyDown: () => {}
+    onEscKeyDown: () => {},
+    size: 'medium'
   };
 
   constructor(props) {
@@ -118,8 +131,15 @@ export default class Menu extends PureComponent {
   }
 
   setValue(value) {
-    if (this.props.valuesEquality(value, this.value))
-      return
+    if (this.props.multiple) {
+      const currValue = Array.isArray(this.value) ? this.value : emptyArr
+      const nextValue = Array.isArray(value) ? value : emptyArr
+      if (nextValue.length === currValue.length && nextValue.every((item, index) => this.props.valuesEquality(item, currValue[index])))
+        return
+    } else {
+      if (this.props.valuesEquality(value, this.value))
+        return
+    }
 
     this.value = value
 
@@ -170,7 +190,6 @@ export default class Menu extends PureComponent {
 
   changeValue(value) {
     const currentValue = this.state.value
-
     const nextValue = !this.props.multiple ?
       value :
       (currentValue.indexOf(value) > -1 ?
@@ -220,6 +239,8 @@ export default class Menu extends PureComponent {
       maxHeight,
       valuesEquality,
       children,
+      disabled,
+      size,
       ...other
     } = this.getMenuProps()
 
@@ -235,6 +256,8 @@ export default class Menu extends PureComponent {
 
       return cloneElement(child, {
         isSelected,
+        disabled: disabled || child.props.disabled,
+        size,
         isFocused: index === focusIndex,
         key: childValue,
         onFocus: () => this.setFocusIndex(index),

@@ -1,6 +1,7 @@
 import merge from 'lodash/merge'
 import {fade, darken, lighten} from '../../utils/colors'
 import colorsConfig from './colors'
+import i18n from './i18n'
 
 /**
  * Создание темы
@@ -347,17 +348,12 @@ export function createTheme(config) {
         small: 23
       }
     },
-    field: { // input, select, textarea
+    // input, select, textarea
+    field: {
       borderRadius: 1,
       icon: {
         colors: {
-          default: colors.controls.grey.icon,
-          active: colors.primary
-        }
-      },
-      eyeIcon: {
-        colors: {
-          default: colors.controls.grey.icon,
+          default: colors.controls.grey.fieldIcon,
           active: colors.primary
         }
       },
@@ -365,22 +361,25 @@ export function createTheme(config) {
         default: {
           outline: colors.controls.grey.fieldOutline,
           border: 'transparent',
-          background: 'none',
+          background: colors.light,
           text: colors.dark,
-          placeholder: lighten(colors.dark, 0.6),
-          arrow: colors.controls.grey.icon
+          placeholder: colors.controls.grey.placeholder,
+          arrow: colors.dark
         },
         hover: {
-          outline: darken(colors.controls.grey.fieldOutline, 0.1)
+          outline: darken(colors.controls.grey.fieldOutline, 0.1),
+          arrow: colors.primary
         },
         focus: {
-          border: colors.primary
+          border: colors.primary,
+          arrow: colors.primary
         },
         disabled: {
           outline: fade(colors.controls.grey.fieldOutline, 0.6),
           text: colors.controls.grey.disabled,
           placeholder: colors.controls.grey.disabled,
-          background: 'none'
+          arrow: lighten(colors.controls.grey.outline, 0.5),
+          background: colors.light
         }
       },
       mobile: {
@@ -398,7 +397,7 @@ export function createTheme(config) {
           height: 45,
           fontSize: 13,
           icon: 18,
-          eyeIcon: 20,
+          eyeIcon: 15,
           withIconPadding: 40,
           withIconsPadding: 70,
           iconMargin: 13
@@ -407,7 +406,7 @@ export function createTheme(config) {
           height: 35,
           fontSize: 13,
           icon: 16,
-          eyeIcon: 18,
+          eyeIcon: 15,
           withIconPadding: 40,
           withIconsPadding: 70,
           iconMargin: 13
@@ -415,31 +414,92 @@ export function createTheme(config) {
       },
       animationDuration: 200
     },
+    tagsInput: {
+      sideMargin: 20,
+      height: 25,
+      fontSize: 13,
+      colors: {
+        default: {
+          text: colors.dark,
+          more: colors.controls.grey.outline,
+          icon: lighten(colors.controls.grey.outline, 0.3)
+        },
+        hover: {
+          more: colors.primary,
+          icon: colors.primary
+        },
+        disabled: {
+          text: colors.controls.grey.disabled,
+          more: lighten(colors.controls.grey.outline, 0.75),
+          icon: fade(lighten(colors.controls.grey.outline, 0.75), 0.60)
+        }
+      },
+      sizes: {
+        medium: {
+          verticalMargin: 5
+        },
+        small: {
+          verticalMargin: 0
+        }
+      }
+    },
     input: {
-      padding: 13,
-      eyeMargin: 13
+      eyeMargin: 13,
+      sizes: {
+        small: {
+          padding: 13
+        },
+        medium: {
+          padding: 15
+        }
+      }
     },
     inputStatus: {
-      fontSize: 13
+      sizes: {
+        fontSize: 13,
+        mobile: {
+          fontSize: 14
+        }
+      }
     },
     loader: {
       animationDuration: 200,
       color: colors.light
     },
     menu: {
+      padding: 13,
+      fontSize: 13,
+      lineHeight: 18,
+      sizes: {
+        medium: {
+          height: 45
+        },
+        small: {
+          height: 35
+        }
+      },
       colors: {
         default: {
           text: colors.dark,
           background: colors.light
         },
         hover: {
-          background: colors.controls.grey.background
+          text: colors.primary,
+          background: lighten(colors.controls.grey.outline, 0.95)
+        },
+        active: {
+          text: darken(colors.primary, 0.2),
+          background: lighten(colors.controls.grey.outline, 0.9)
         },
         focus: {
-          background: colors.controls.grey.background
+          text: colors.dark,
+          background: lighten(colors.controls.grey.outline, 0.95)
         },
-        checked: {
-          text: colors.primary
+        selected: {
+          text: lighten(colors.controls.grey.outline, 0.5)
+        },
+        disabled: {
+          text: lighten(colors.controls.grey.outline, 0.5)
         }
       }
     },
@@ -594,20 +654,6 @@ export function createTheme(config) {
       },
       animationDuration: 200
     },
-    textarea: {
-      sizes: {
-        small: {
-          padding: '8px 13px',
-          height: 75,
-          focusPaddingBottom: 7
-        },
-        medium: {
-          padding: 13,
-          height: 85,
-          focusPaddingBottom: 12
-        }
-      }
-    },
     tooltip: {
       borderRadius: 1,
       animationDuration: 200,
@@ -720,4 +766,4 @@ export function createTheme(config) {
   }, config)
 }
 
-export default createTheme({colors: colorsConfig})
+export default createTheme({colors: colorsConfig, i18n})
