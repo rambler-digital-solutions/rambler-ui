@@ -9,6 +9,9 @@ import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
 const inactiveElement = <span />
+const buttonContainer = () => (
+  <button type="button" />
+)
 
 @injectSheet((theme) => ({
   root: {
@@ -132,12 +135,7 @@ export default class Pagination extends Component {
     /**
      * Количество страниц
      */
-    pagesCount: (props, propName, componentName) => {
-      if (props.pagesCount > 0) return
-      return new Error('Invalid prop value `' + propName + '` supplied to' +
-        ' `' + componentName + '`. Should be a number greater then 1'
-      )
-    },
+    pagesCount: PropTypes.number,
     /**
      * Выбранная страница
      */
@@ -153,7 +151,7 @@ export default class Pagination extends Component {
     /**
      * Функция, возвращающая React-элемент, `function (pageNumber: number) {}`
      */
-    pageFactory: PropTypes.func,
+    pageContainer: PropTypes.func,
     /**
      * Функция, вызывающая при изменении значения `function (event: object, newValue: number) {}`
      */
@@ -161,10 +159,11 @@ export default class Pagination extends Component {
   }
 
   static defaultProps = {
-    currentPage: 1,
-    pageFactory: () => (
-      <button type="button" />
-    )
+    currentPage: 1
+  }
+
+  get pageContainer() {
+    return this.props.pageContainer || buttonContainer
   }
 
   handleChange = (event) => {
@@ -175,7 +174,7 @@ export default class Pagination extends Component {
     const pageNumber = +event.currentTarget.textContent
     if (!pageNumber || currentPage === pageNumber)
       return
-    this.props.onChange(event, pageNumber)
+    onChange(event, pageNumber)
   }
 
   renderPages() {
@@ -183,7 +182,6 @@ export default class Pagination extends Component {
       sheet: { classes },
       pagesCount,
       currentPage,
-      pageFactory,
       onChange
     } = this.props
 
@@ -199,20 +197,20 @@ export default class Pagination extends Component {
     let pages = []
     for(let i = 1; i <= pagesCount; i++)
       if (
-        // Первая страница
+        // первая страница
         i === 1 ||
-        // Последняя страница
+        // последняя страница
         i === pagesCount ||
-        // В диапозоне `aroundPages` страниц до и после текущей страницы
+        // в диапозоне `aroundPages` страниц до и после текущей страницы
         (i >= leftPageNum && i <= rightPageNum) || 
         // в диапозоне `edgePages` страниц с начала списка и при условии нахождения текущей страницы в этом диапозоне
-        (currentPage <= startRange && i <= startRange) ||
+        (i <= startRange && currentPage <= startRange) ||
         // в диапозоне `edgePages` страниц с конца списка и при условии нахождения текущей страницы в этом диапозоне
-        (currentPage >= endRange && i >= endRange)
+        (i >= endRange && currentPage >= endRange)
       )
         pages.push(i)
 
-    // Если пропуск более 1 страницы, заполняем строкой '...', иначе номером пропущенной страницы
+    // Если пропуск более 1 страницы, заполняем строкой `dots`, иначе номером пропущенной страницы
     pages = pages.reduce((accumulator, pageNumber, index) => {
       const prevPageNumber = index > 0 ? pages[index - 1] : null
       if (!prevPageNumber || prevPageNumber + 1 === pageNumber) return accumulator.concat(pageNumber)
@@ -224,7 +222,7 @@ export default class Pagination extends Component {
     return pages.map((pageNumber) => {
       const isPage = pageNumber !== dots
       const isCurrentPage = currentPage === pageNumber
-      return cloneElement(isPage ? pageFactory(pageNumber) : inactiveElement, {
+      return cloneElement(isPage ? this.pageContainer(pageNumber) : inactiveElement, {
         key: isPage ? pageNumber : dotsCount--,
         className: classnames(isPage ? classes.page : classes.dots, isCurrentPage && classes.isSelected),
         onClick: onChange ? this.handleChange : undefined
@@ -234,11 +232,10 @@ export default class Pagination extends Component {
 
   renderArrow(pageNumber, className, isDisabled, key) {
     const {
-      pageFactory,
       onChange,
       sheet: {classes}
     } = this.props
-    return cloneElement(isDisabled ? inactiveElement : pageFactory(pageNumber), {
+    return cloneElement(isDisabled ? inactiveElement : this.pageContainer(pageNumber), {
       onClick: onChange && !isDisabled ? this.handleChange : undefined,
       className: classnames(className, isDisabled && classes.isDisabled),
       key
@@ -252,7 +249,7 @@ export default class Pagination extends Component {
       currentPage,
       pagesCount,
       ...other
-    } = omit(this.props, ['pageFactory', 'onChange', 'theme'])
+    } = omit(this.props, ['pageContainer', 'onChange', 'theme'])
 
     if (!(pagesCount > 1))
       return null

@@ -23,12 +23,12 @@ export default class PaginationExample extends Component {
             </div>
           ))}
           <div style={{marginTop: 40}}>
-            <h4>pageFactory: <code>{'(pageNumber) => <a href={`#${pageNumber}`} />'}</code></h4>
+            <h4>pageContainer: <code>{'(pageNumber) => <a href={`#${pageNumber}`} />'}</code></h4>
             <Pagination
               pagesCount={9999}
               currentPage={this.state.page}
               onChange={this.handleChange}
-              pageFactory={(pageNumber) => <a href={`#${pageNumber}`} />}
+              pageContainer={(pageNumber) => <a href={`#${pageNumber}`} />}
             />
           </div>
           <div style={{marginTop: 40}}>this.state.page: <b>{this.state.page}</b></div>
