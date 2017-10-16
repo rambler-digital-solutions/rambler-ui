@@ -36,6 +36,10 @@ export default class Textarea extends Component {
       null
     ]),
     /**
+     * Разновидность textarea
+     */
+    variation: PropTypes.oneOf(['regular', 'awesome', 'promo']),
+    /**
      * Класс контейнера
      */
     className: PropTypes.string,
@@ -71,6 +75,10 @@ export default class Textarea extends Component {
      * Обработчик нажания клавиши
      */
     onKeyDown: PropTypes.func
+  };
+
+  static defaultProps = {
+    variation: 'awesome'
   };
 
   render() {

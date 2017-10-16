@@ -37,7 +37,11 @@ const activeBorder = borderColor => ({
     'textarea&&': {
       resize: 'vertical',
       height: '100%',
-      padding: theme.input.sizes.medium.padding
+      padding: theme.input.sizes.medium.padding,
+      '$promo &': {
+        paddingLeft: 0,
+        paddingRight: 0
+      }
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
