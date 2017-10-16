@@ -48,6 +48,7 @@ const getKeyframes = (delay = 0) => ({
     position: 'relative',
     top: `-${2 / 5}em`,
     borderRadius: '50%',
+    color: 'inherit!important',
     background: 'currentColor',
     transition: 'transform .6s ease-out',
     transform: 'translate3d(0, 0, 0)',

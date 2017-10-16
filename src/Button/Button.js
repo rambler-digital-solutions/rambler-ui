@@ -334,7 +334,7 @@ export default class Button extends Component {
       resultContainer,
       resultProps,
       resultChildren,
-      loading && <Spinner color={theme.button.types[type].colors.default.loader} />
+      loading && <Spinner color={theme.button.types[type].colors.default.loader} size={3} />
     )
   }
 }
