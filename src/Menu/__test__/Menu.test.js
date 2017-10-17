@@ -2,6 +2,7 @@ import React from 'react'
 import Menu from '../Menu'
 import MenuItem from '../MenuItem'
 import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import theme from '../../theme/base'
 
 describe('<Menu />', () => {
 
@@ -23,21 +24,22 @@ describe('<Menu />', () => {
 
     const menuStyles = getStyles(menu)
 
-    expect(menuStyles['padding-top']).toEqual('8px')
+    expect(menuStyles['padding-top']).toEqual('0px')
     expect(menuStyles['padding-left']).toEqual('0px')
     expect(menuStyles['padding-right']).toEqual('0px')
-    expect(menuStyles['padding-bottom']).toEqual('8px')
+    expect(menuStyles['padding-bottom']).toEqual('0px')
     expect(menuStyles['overflow-y']).toEqual('auto')
 
     const item = wrapper.find(MenuItem)
     const itemStyles = getStyles(item)
 
+    const verticalPadding = (theme.menu.sizes.medium.height - theme.menu.lineHeight) / 2 + 'px'
     expect(itemStyles['background-color']).toEqual('rgb(255, 255, 255)')
-    expect(itemStyles['font-size']).toEqual('13px')
-    expect(itemStyles['padding-top']).toEqual('7px')
-    expect(itemStyles['padding-left']).toEqual('14px')
-    expect(itemStyles['padding-right']).toEqual('14px')
-    expect(itemStyles['padding-bottom']).toEqual('7px')
+    expect(itemStyles['font-size']).toEqual(theme.menu.fontSize + 'px')
+    expect(itemStyles['padding-top']).toEqual(verticalPadding)
+    expect(itemStyles['padding-left']).toEqual(theme.menu.padding + 'px')
+    expect(itemStyles['padding-right']).toEqual(theme.menu.padding + 'px')
+    expect(itemStyles['padding-bottom']).toEqual(verticalPadding)
   })
 
   it('should be apply max height', () => {

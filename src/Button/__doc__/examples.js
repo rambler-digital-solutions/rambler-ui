@@ -62,6 +62,13 @@ export default class ButtonExample extends Component {
             <Button icon={<ChevronRightIcon/>} iconPosition="right" style={{margin: 20}} rounded={true}>Rounded With Icon</Button>
             <Button style={{margin: 20}} rounded={true}>Rounded</Button>
           </div>
+          <div>
+            <Button icon={<ChevronRightIcon/>} iconPosition="right" style={{margin: 20}} loading={true}>Loading</Button>
+            <Button icon={<ChevronRightIcon/>} iconPosition="right" style={{margin: 20}} loading={true} type="danger">Loading</Button>
+            <Button icon={<ChevronRightIcon/>} iconPosition="right" style={{margin: 20}} loading={true} type="outline">Loading</Button>
+            <Button icon={<ChevronRightIcon/>} iconPosition="right" style={{margin: 20}} loading={true} type="secondary">Loading</Button>
+            <Button icon={<ChevronRightIcon/>} iconPosition="right" style={{margin: 20}} loading={true} type="flat">Loading</Button>
+          </div>
         </div>
       </ApplyTheme>
     )

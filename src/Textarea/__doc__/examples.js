@@ -21,6 +21,7 @@ export default class TextareaExample extends Component {
         <div>
           <FormGroup inline={true} label='Имя'>
             <Textarea
+              variation='regular'
               value={this.state.value}
               onChange={this.onChange}
               placeholder='Имя'

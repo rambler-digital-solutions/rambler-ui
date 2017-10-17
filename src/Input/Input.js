@@ -11,6 +11,11 @@ import Tooltip from '../Tooltip'
 import Eye from '../icons/forms/Eye'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
+const activeBorder = borderColor => ({
+  borderColor,
+  transform: 'none'
+})
+
 @injectSheet(theme => ({
   input: {
     extend: isolateMixin,
@@ -32,7 +37,11 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     'textarea&&': {
       resize: 'vertical',
       height: '100%',
-      padding: theme.input.sizes.medium.padding
+      padding: theme.input.sizes.medium.padding,
+      '$promo &': {
+        paddingLeft: 0,
+        paddingRight: 0
+      }
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
@@ -47,11 +56,20 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     '&$filled[type="password"]': {
       fontFamily: 'monospace'
     },
+    // ...placeholderMixin('$inGroup &', {
+    //   color: theme.field.colors.default.text
+    // }),
     ...placeholderMixin('&', {
-      color: theme.field.colors.default.placeholder
+      color: theme.field.colors.default.placeholder,
+      opacity: 1,
+      transition: `all ${Math.round(theme.field.animationDuration * 0.7)}ms linear`
     }),
     ...placeholderMixin('&:disabled', {
-      color: theme.field.colors.disabled.placeholder
+      color: theme.field.colors.disabled.placeholder,
+      opacity: 1
+    }),
+    ...placeholderMixin('&:focus', {
+      opacity: 0.54
     })
   },
   withStatusLine: {
@@ -118,8 +136,8 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
           display: 'block',
           content: '" "',
           position: 'absolute',
-          top: -Math.round((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
-          bottom: -Math.round((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          top: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
+          bottom: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].eyeIcon) / 2),
           left: -10,
           right: -10
         }
@@ -172,6 +190,30 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
       },
       '&$promo $iconRight': {
         right: 0
+      },
+      '&$inGroup$promo': {
+        '&:not($startPosition)': {
+          '&$withLeftIcon $input': {
+            paddingLeft: theme.field.sizes[size].withIconPadding
+          },
+          '& $iconLeft': {
+            left: theme.field.sizes[size].iconMargin
+          }
+        },
+        '&:not($endPosition)': {
+          '&$withRightIcon $input, &$withEye $input': {
+            paddingRight: theme.field.sizes[size].withIconPadding
+          },
+          '&$withEye$withRightIcon $input': {
+            paddingRight: theme.field.sizes[size].withIconsPadding - 1
+          },
+          '&$withEye $iconRight': {
+            right: theme.field.sizes[size].withIconPadding
+          },
+          '& $iconRight': {
+            right: theme.field.sizes[size].iconMargin
+          }
+        }
       }
     }
   }), {}),
@@ -190,27 +232,16 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
     pointerEvents: 'none',
     transition: `all ${Math.round(theme.field.animationDuration * 0.7)}ms linear`,
     border: '0 solid transparent',
-    '$input:focus + &': {
-      borderColor: theme.field.colors.focus.border,
-      transform: 'none'
-    },
-    '$success $input:enabled + &': {
-      borderColor: theme.colors.success,
-      transform: 'none'
-    },
-    '$error $input:enabled + &': {
-      borderColor: theme.colors.danger,
-      transform: 'none'
-    },
-    '$warning $input:enabled + &': {
-      borderColor: theme.colors.warn,
-      transform: 'none'
-    }
+    '$input:focus + &': activeBorder(theme.field.colors.focus.border),
+    '$success$isEnabled &': activeBorder(theme.colors.success),
+    '$error$isEnabled &': activeBorder(theme.colors.danger),
+    '$warning$isEnabled &': activeBorder(theme.colors.warn)
   },
   icon: {
     position: 'absolute',
-    top: '50%',
-    transform: 'translateY(-50%)',
+    top: 0,
+    bottom: 0,
+    margin: 'auto',
     fontSize: 0,
     color: theme.field.icon.colors.default
   },
@@ -234,15 +265,23 @@ import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
   withRightIcon: {},
   withEye: {},
   iconLeft: {
+    composes: '$icon',
     pointerEvents: 'none'
   },
-  iconRight: {},
+  iconRight: {
+    composes: '$icon'
+  },
   filled: {},
-  disabled: {},
+  isDisabled: {},
+  isEnabled: {},
+  inGroup: {},
   success: {},
   error: {},
   warning: {},
-  eyeWrapper: {}
+  eyeWrapper: {},
+  endPosition: {},
+  startPosition: {},
+  middlePosition: {}
 }))
 
 export default class Input extends Component {
@@ -351,7 +390,11 @@ export default class Input extends Component {
     passwordIconTooltip: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.func
-    ])
+    ]),
+    /**
+     * Позиция инпута в группе
+     */
+    groupPosition: PropTypes.oneOf(['start', 'middle', 'end', null])
   };
 
   static defaultProps = {
@@ -434,9 +477,10 @@ export default class Input extends Component {
       iconLeft,
       iconRight,
       status,
-      sheet: { classes: css },
       theme,
+      sheet: { classes: css },
       value,
+      groupPosition,
       ...other
     } = omit(this.props, ['onChange', 'passwordIconTooltip', 'inputRef'])
 
@@ -446,11 +490,13 @@ export default class Input extends Component {
       css.root,
       css[variation],
       css[status],
-      disabled && css.disabled,
+      disabled ? css.isDisabled : css.isEnabled,
       css[size],
       iconLeft && css.withLeftIcon,
       iconRight && css.withRightIcon,
-      trueType === 'password' && css.withEye
+      trueType === 'password' && css.withEye,
+      groupPosition && css[`${groupPosition}Position`],
+      groupPosition && css.inGroup
     )
 
     const resultIconLeft = iconLeft && <div className={classnames(iconLeft.props.className, css.icon, css.iconLeft)}>

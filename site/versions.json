@@ -1,6 +1,8 @@
 [
-  { "path": "", "title": "stable (3.3.3)" },
-  { "path": "master", "title": "master (3.3.3)" },
+  { "path": "", "title": "stable (3.4.1)" },
+  { "path": "master", "title": "master (3.4.1)" },
+  { "path": "3.4.1" },
+  { "path": "3.4.0" },
   { "path": "3.3.3" },
   { "path": "3.3.2" },
   { "path": "3.3.1" },

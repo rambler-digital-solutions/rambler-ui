@@ -1,6 +1,7 @@
 import merge from 'lodash/merge'
 import {fade, darken, lighten} from '../../utils/colors'
 import colorsConfig from './colors'
+import i18n from './i18n'
 
 const fontFamilies = {
   Corsica: 'Corsica, sans-serif',
@@ -103,12 +104,12 @@ export function createTheme(config) {
       sizes: {
         medium: {
           fontSize: 11,
-          icon: 8,
+          icon: 10,
           height: 45
         },
         small: {
           fontSize: 11,
-          icon: 8,
+          icon: 10,
           height: 35
         }
       },
@@ -437,18 +438,21 @@ export function createTheme(config) {
           background: colors.light,
           text: colors.dark,
           placeholder: colors.controls.grey.placeholder,
-          arrow: colors.controls.grey.fieldIcon
+          arrow: colors.dark
         },
         hover: {
-          outline: darken(colors.controls.grey.fieldOutline, 0.1)
+          outline: darken(colors.controls.grey.fieldOutline, 0.1),
+          arrow: colors.primary
         },
         focus: {
-          border: colors.primary
+          border: colors.primary,
+          arrow: colors.primary
         },
         disabled: {
           outline: fade(colors.controls.grey.fieldOutline, 0.6),
           text: colors.controls.grey.disabled,
           placeholder: colors.controls.grey.disabled,
+          arrow: lighten(colors.controls.grey.outline, 0.5),
           background: colors.light
         }
       },
@@ -484,6 +488,35 @@ export function createTheme(config) {
       },
       animationDuration: 200
     },
+    tagsInput: {
+      sideMargin: 20,
+      height: 25,
+      fontSize: 13,
+      colors: {
+        default: {
+          text: colors.dark,
+          more: colors.controls.grey.outline,
+          icon: lighten(colors.controls.grey.outline, 0.3)
+        },
+        hover: {
+          more: colors.primary,
+          icon: colors.primary
+        },
+        disabled: {
+          text: colors.controls.grey.disabled,
+          more: lighten(colors.controls.grey.outline, 0.75),
+          icon: fade(lighten(colors.controls.grey.outline, 0.75), 0.60)
+        }
+      },
+      sizes: {
+        medium: {
+          verticalMargin: 5
+        },
+        small: {
+          verticalMargin: 0
+        }
+      }
+    },
     input: {
       eyeMargin: 13,
       sizes: {
@@ -508,19 +541,39 @@ export function createTheme(config) {
       color: colors.light
     },
     menu: {
+      padding: 13,
+      fontSize: 13,
+      lineHeight: 18,
+      sizes: {
+        medium: {
+          height: 45
+        },
+        small: {
+          height: 35
+        }
+      },
       colors: {
         default: {
           text: colors.dark,
           background: colors.light
         },
         hover: {
-          background: colors.controls.grey.background
+          text: colors.primary,
+          background: lighten(colors.controls.grey.outline, 0.95)
+        },
+        active: {
+          text: darken(colors.primary, 0.2),
+          background: lighten(colors.controls.grey.outline, 0.9)
         },
         focus: {
-          background: colors.controls.grey.background
+          text: colors.dark,
+          background: lighten(colors.controls.grey.outline, 0.95)
         },
-        checked: {
-          text: colors.primary
+        selected: {
+          text: lighten(colors.controls.grey.outline, 0.5)
+        },
+        disabled: {
+          text: lighten(colors.controls.grey.outline, 0.5)
         }
       }
     },
@@ -752,8 +805,39 @@ export function createTheme(config) {
           paddingBottom: 11
         }
       }
+    },
+    pagination: {
+      size: 35,
+      fontSize: 13,
+      colors: {
+        default: {
+          text: colors.dark,
+          background: 'transparent',
+          arrow: fade(colors.dark, 0.6)
+        },
+        hover: {
+          text: darken(colors.primary, 0.1),
+          arrow: darken(colors.primary, 0.1)
+        },
+        active: {
+          text: darken(colors.primary, 0.2),
+          background: '#eee',
+          arrow: darken(colors.primary, 0.2)
+        },
+        selected: {
+          text: colors.primary
+        },
+        focus: {
+          text: lighten(colors.primary, 0.25),
+          arrow: lighten(colors.primary, 0.25)
+        },
+        disabled: {
+          text: fade(colors.dark, 0.2),
+          arrow: fade(colors.dark, 0.1)
+        }
+      }
     }
   }, config)
 }
 
-export default createTheme({colors: colorsConfig})
+export default createTheme({colors: colorsConfig, i18n})

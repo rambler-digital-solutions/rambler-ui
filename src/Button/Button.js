@@ -117,12 +117,12 @@ function getIconColor(colorsConfig, isDisabled) {
     },
     'iconPosition-right': {
       '& $icon': {
-        marginLeft: 8
+        marginLeft: 6
       }
     },
     'iconPosition-left': {
       '& $icon': {
-        marginRight: 8
+        marginRight: 6
       }
     }
   }
@@ -334,7 +334,7 @@ export default class Button extends Component {
       resultContainer,
       resultProps,
       resultChildren,
-      loading && <Spinner color={theme.button.types[type].colors.default.loader} />
+      loading && <Spinner color={theme.button.types[type].colors.default.loader} size={3} />
     )
   }
 }

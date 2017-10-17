@@ -6,7 +6,7 @@ import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
 @injectSheet(theme => ({
-  item: {
+  root: {
     ...isolateMixin,
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
@@ -15,18 +15,38 @@ import { isolateMixin } from '../style/mixins'
     color: theme.menu.colors.default.text,
     backgroundColor: theme.menu.colors.default.background,
     cursor: 'pointer',
-    padding: '7px 14px',
+    paddingLeft: theme.menu.padding,
+    paddingRight: theme.menu.padding,
     outline: 0,
-    fontSize: 13,
+    fontSize: theme.menu.fontSize,
+    lineHeight: theme.menu.lineHeight + 'px',
     '&:hover': {
+      color: theme.menu.colors.hover.text,
       backgroundColor: theme.menu.colors.hover.background
     },
     '&:focus': {
-      backgroundColor: theme.menu.colors.focus.background
+      color: theme.menu.colors.focus.text,
+      background: theme.menu.colors.focus.background
+    },
+    '&:active': {
+      color: theme.menu.colors.active.text,
+      background: theme.menu.colors.active.background
     }
   },
+  ...['medium', 'small'].reduce((result, size) => ({
+    ...result,
+    [size]: {
+      minHeight: theme.menu.sizes[size].height,
+      paddingTop: (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2,
+      paddingBottom: (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2
+    }
+  }), {}),
   isSelected: {
-    color: theme.menu.colors.checked.text
+    color: theme.menu.colors.selected.text
+  },
+  isDisabled: {
+    color: theme.menu.colors.disabled.text + '!important',
+    background: theme.menu.colors.disabled.background + '!important'
   }
 }))
 class MenuItem extends PureComponent {
@@ -57,20 +77,30 @@ class MenuItem extends PureComponent {
      */
     isSelected: PropTypes.bool,
     /**
+     * Опция не активна (проставляется вручную или автоматически компонентом `<Menu />`)
+     */
+    disabled: PropTypes.bool,
+    /**
      * Коллбек наведения на опцию (автоматически проставляется компонентом `<Menu />`)
      */
     onFocus: PropTypes.func,
     /**
      * Коллбек выбора опции (автоматически проставляется компонентом `<Menu />`)
      */
-    onSelect: PropTypes.func
+    onSelect: PropTypes.func,
+    /**
+     * Размер опции (автоматически проставляется компонентом `<Menu />`)
+     */
+    size: PropTypes.oneOf(['small', 'medium'])
   };
 
   static defaultProps = {
     isFocused: false,
     isSelected: false,
+    disabled: false,
     onFocus: () => {},
-    onSelect: () => {}
+    onSelect: () => {},
+    size: 'medium'
   };
 
   get css() {
@@ -101,19 +131,22 @@ class MenuItem extends PureComponent {
       style,
       children,
       isSelected,
+      disabled,
       onFocus,
-      onSelect
+      onSelect,
+      size
     } = this.props
 
     return (
       <div
         ref={(el) => { this.item = el }}
         style={style}
-        className={classnames(this.css.item, isSelected && this.css.isSelected, className)}
-        tabIndex="0"
-        onFocus={onFocus}
-        onClick={onSelect}
-        onKeyDown={this.pressKey}>
+        className={classnames(className, this.css.root, size && this.css[size], disabled && this.css.isDisabled, isSelected && this.css.isSelected)}
+        tabIndex={disabled ? null : 0}
+        onFocus={disabled ? null : onFocus}
+        onClick={disabled ? null : onSelect}
+        onKeyDown={disabled ? null : this.pressKey}
+      >
         {children}
       </div>
     )
