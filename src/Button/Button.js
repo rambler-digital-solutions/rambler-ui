@@ -117,12 +117,12 @@ function getIconColor(colorsConfig, isDisabled) {
     },
     'iconPosition-right': {
       '& $icon': {
-        marginLeft: 8
+        marginLeft: 6
       }
     },
     'iconPosition-left': {
       '& $icon': {
-        marginRight: 8
+        marginRight: 6
       }
     }
   }

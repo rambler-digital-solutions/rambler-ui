@@ -30,12 +30,12 @@ export function createTheme(config) {
       sizes: {
         medium: {
           fontSize: 11,
-          icon: 8,
+          icon: 10,
           height: 45
         },
         small: {
           fontSize: 11,
-          icon: 8,
+          icon: 10,
           height: 35
         }
       },
