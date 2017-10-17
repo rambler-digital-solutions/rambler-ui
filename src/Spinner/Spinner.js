@@ -6,52 +6,64 @@ import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
 
+const getKeyframes = (delay = 0) => ({
+  [`${0 + delay}%`]: {
+    transform: 'scale(1) translate3d(0, 0, 0)'
+  },
+  [`${20 + delay}%`]: {
+    transform: 'scale(1) translate3d(0, 100%, 0)'
+  },
+  [`${80 + delay}%`]: {
+    transform: 'scale(1) translate3d(0, 0, 0)'
+  }
+})
+
 @pure
 @injectSheet(theme => ({
-  '@keyframes ruiAnimateDot': {
-    '20%': {
-      transform: 'scale(1)'
-    },
-    '40%': {
-      transform: 'scale(1) translate3d(0, 5px, 0)'
-    },
-    '100%': {
-      transform: 'scale(1)  translate3d(0, 0, 0)'
-    }
-  },
+  '@keyframes ruiAnimateDot1': getKeyframes(),
+  '@keyframes ruiAnimateDot2': getKeyframes(100 / (600 / 80)),
+  '@keyframes ruiAnimateDot3': getKeyframes(100 / (600 / 160)),
   spinner: {
     ...isolateMixin,
     ...middleMixin,
+    display: 'inline-block',
+    color: theme.spinner.color,
+    verticalAlign: 'middle',
+    pointerEvents: 'none',
+    fontSize: 5
+  },
+  position: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
-    textAlign: 'center',
-    pointerEvents: 'none'
+    textAlign: 'center'
   },
   dot: {
     display: 'inline-block',
     verticalAlign: 'middle',
-    height: 5,
-    width: 5,
+    height: '1em',
+    width: '1em',
     position: 'relative',
-    top: -2,
+    top: `-${2 / 5}em`,
     borderRadius: '50%',
-    backgroundColor: theme.spinner.color,
+    color: 'inherit!important',
+    background: 'currentColor',
     transition: 'transform .6s ease-out',
     transform: 'translate3d(0, 0, 0)',
-    animation: 'ruiAnimateDot .6s ease-out',
+    animation: '.6s ease-out',
     animationFillMode: 'forwards',
     animationIterationCount: 'infinite',
     '&:nth-child(1)': {
-      animationDelay: '0s'
+      animationName: 'ruiAnimateDot1'
     },
     '&:nth-child(2)': {
-      animationDelay: '.08s', margin: '0 5px'
+      animationName: 'ruiAnimateDot2',
+      margin: '0 1em'
     },
     '&:nth-child(3)': {
-      animationDelay: '.16s'
+      animationName: 'ruiAnimateDot3'
     }
   }
 }))
@@ -69,7 +81,19 @@ export default class Spinner extends Component {
     /**
      * Цвет точек
      */
-    color: PropTypes.string
+    color: PropTypes.string,
+    /**
+     * Размер точек
+     */
+    size: PropTypes.number,
+    /**
+     * Сделать строчным элементом
+     */
+    inline: PropTypes.bool
+  }
+
+  static defaultProps = {
+    inline: false
   }
 
   get css() {
@@ -80,15 +104,26 @@ export default class Spinner extends Component {
     const {
       className,
       style,
-      color
+      color,
+      size,
+      inline
     } = this.props
 
+    const resultStyle = {
+      fontSize: size,
+      color,
+      ...style
+    }
+
     return (
-      <div style={style} className={classnames(this.css.spinner, className)}>
+      <span
+        style={resultStyle}
+        className={classnames(className, this.css.spinner, !inline && this.css.position)}
+      >
         {range(3).map(i => (
-          <div className={this.css.dot} style={{ backgroundColor: color }} key={i} />
+          <span className={this.css.dot} key={i} />
         ))}
-      </div>
+      </span>
     )
   }
 
