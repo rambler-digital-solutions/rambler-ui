@@ -18,7 +18,7 @@ export default class SideNavExample extends Component {
     return (
       <ApplyTheme>
         <div>
-          <div style={{ width: '300px', display: 'inline-block' }}>
+          <div style={{ width: '300px', marginBottom: 40, display: 'inline-block' }}>
             <SideNav value={this.state.value} onChange={::this.onChange}>
               <SideNavItem value="general" icon={<BookIcon />}>Личные данные</SideNavItem>
               <SideNavItem value="email" icon={<EmailIcon />}>Адреса электронной почты</SideNavItem>
@@ -27,7 +27,7 @@ export default class SideNavExample extends Component {
               <SideNavItem value="social" icon={<WizardIcon />}>Социальные аккаунты</SideNavItem>
             </SideNav>
           </div>
-          <div style={{ width: '300px', display: 'inline-block' }}>
+          <div style={{ width: '300px', marginBottom: 40, display: 'inline-block' }}>
             <SideNav size="small" value={this.state.value} onChange={::this.onChange}>
               <SideNavItem value="general" icon={<BookIcon />}>Личные данные</SideNavItem>
               <SideNavItem value="email" icon={<EmailIcon />}>Адреса электронной почты</SideNavItem>
@@ -36,7 +36,6 @@ export default class SideNavExample extends Component {
               <SideNavItem value="social" icon={<WizardIcon />}>Социальные аккаунты</SideNavItem>
             </SideNav>
           </div>
-          <br/>
           <div>this.state.value: <b>{this.state.value}</b></div>
         </div>
       </ApplyTheme>

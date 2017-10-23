@@ -626,18 +626,15 @@ export function createTheme(config) {
     sideNav: {
       colors: {
         default: {
-          text: colors.dark,
-          icon: colors.controls.grey.icon
+          text: colors.dark
         },
         selected: {
-          icon: colors.dark,
-          border: colors.primary
+          text: colors.primary
         }
       },
       height: 25,
-      sideMargin: 17,
       betweenMargin: 20,
-      fontSize: 14
+      fontSize: 13
     },
     popup: {
       borderRadius: 2,
