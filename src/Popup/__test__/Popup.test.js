@@ -87,7 +87,7 @@ describe('<Popup />', () => {
     expect(nc(popupStyles['background-color'])).toEqual(nc(theme.popup.colors.background))
     expect(popupStyles.width).toEqual('350px')
     expect(popupStyles['min-width']).toEqual('350px')
-    expect(popupStyles['padding-top']).toEqual('20px')
+    expect(popupStyles['padding-top']).toEqual('25px')
     expect(popupStyles['padding-left']).toEqual('30px')
     expect(popupStyles['padding-right']).toEqual('30px')
     expect(popupStyles['padding-bottom']).toEqual('30px')
@@ -184,10 +184,10 @@ describe('<Popup />', () => {
     const titleStyles = getNodeStyles(titleNode)
 
     expect(titleNode.textContent).toEqual(title)
-    expect(titleStyles['font-size']).toEqual('16px')
+    expect(titleStyles['font-size']).toEqual('15px')
     expect(titleStyles['font-weight']).toEqual('500')
     expect(titleStyles['line-height']).toEqual('20px')
-    expect(titleStyles['margin-bottom']).toEqual('15px')
+    expect(titleStyles['margin-bottom']).toEqual('20px')
   })
 
   it('should append children', () => {
