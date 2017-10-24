@@ -647,7 +647,7 @@ export function createTheme(config) {
       },
       font: {
         textSize: 13,
-        titleSize: 16
+        titleSize: 15
       },
       animationDuration: 200
     },

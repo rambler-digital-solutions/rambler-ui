@@ -52,7 +52,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     boxSizing: 'border-box',
     borderRadius: theme.popup.borderRadius,
     boxShadow: theme.popup.boxShadow,
-    padding: '20px 20px 30px',
+    padding: '25px 30px 30px',
     color: theme.popup.colors.text,
     minWidth: 300,
     marginLeft: 10,
@@ -61,38 +61,35 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     fontSize: theme.popup.font.textSize,
     textAlign: 'left',
     ...ifDesktop({
-      paddingLeft: 30,
-      paddingRight: 30,
       minWidth: 350
     })
   },
   title: {
-    marginBottom: 15,
+    marginBottom: 20,
     paddingRight: 25,
     fontSize: theme.popup.font.titleSize,
     fontWeight: 500,
-    lineHeight: 1.25
+    lineHeight: 1.34
   },
   close: {
     position: 'absolute !important',
     top: 18,
-    right: 13,
-    ...ifDesktop({
-      right: 23
-    })
+    right: 23
   },
   buttons: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginTop: 25
+    marginTop: 30
   },
   button: {
-    width: 129,
-    '&:only-child': {
+    '&, & > *': {
       width: '100%'
     },
-    '& > *': {
-      width: '100%'
+    '& + &': {
+      marginLeft: 10,
+      ...ifDesktop({
+        marginLeft: 20
+      })
     }
   }
 }))
