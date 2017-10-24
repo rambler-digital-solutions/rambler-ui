@@ -22,30 +22,29 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     textDecoration: 'none',
     fontSize: theme.sideNav.fontSize,
     height: theme.sideNav.height,
-    margin: `${theme.sideNav.betweenMargin}px ${theme.sideNav.sideMargin}px`,
-    color: theme.sideNav.colors.default.text
+    marginTop: theme.sideNav.betweenMargin,
+    marginBottom: theme.sideNav.betweenMargin,
+    color: theme.sideNav.colors.default.text,
+    '&:first-child': {
+      marginTop: 0
+    },
+    '&:last-child': {
+      marginBottom: 0
+    },
+    'a&:visited': {
+      color: theme.sideNav.colors.default.text
+    }
   },
   icon: {
     display: 'inline-block'
   },
   isSelected: {
-    fontWeight: 500,
-    cursor: 'default'
+    cursor: 'default',
+    color: theme.sideNav.colors.selected.text
   },
   medium: {
     '& $icon': {
       marginRight: 10
-    },
-    '&$isSelected:after': {
-      position: 'absolute',
-      left: -theme.sideNav.sideMargin,
-      top: 0,
-      bottom: 0,
-      display: 'block',
-      width: 2,
-      backgroundColor: theme.sideNav.colors.selected.border,
-      content: '""',
-      pointerEvents: 'none'
     }
   }
 }))
@@ -119,7 +118,7 @@ class SideNavItem extends Component {
       } = this.props
 
       const iconProps = {
-        color: isSelected ? theme.sideNav.colors.selected.icon : theme.sideNav.colors.default.icon
+        color: isSelected ? theme.sideNav.colors.selected.text : theme.sideNav.colors.default.text
       }
 
       const initialProps = icon.props || {}
