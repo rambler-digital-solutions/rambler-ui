@@ -174,6 +174,10 @@ class ComplexSearch extends React.Component {
     */
     onPressEnter: pt.func,
     /**
+    * Вставлять ли dropdown внутри body
+    */
+    appendToBody: pt.bool,
+    /**
     * Поисковая подсказка
     */
     hint: pt.node,
@@ -190,6 +194,7 @@ class ComplexSearch extends React.Component {
     placeholder: '',
     hint: null,
     bottomLinks: null,
+    appendToBody: true,
     onFocus: () => {},
     onSelectItem: () => {},
     onSubmit: () => {},
@@ -401,6 +406,7 @@ class ComplexSearch extends React.Component {
   renderDropdown() {
     const {
       children,
+      appendToBody,
       sheet: { classes: css }
     } = this.props
 
@@ -412,7 +418,7 @@ class ComplexSearch extends React.Component {
         anchor={this.renderInput()}
         padding={false}
         className={css.dropdown}
-        appendToBody={true}
+        appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={true}
         anchorPointY={'bottom'}
