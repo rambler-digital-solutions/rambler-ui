@@ -15,27 +15,22 @@ const getFontStyle = ({fontSize, fontWeight = 400, lineHeight, fontFamily}) => (
 @injectSheet(({typography}) => ({
   reset: isolateMixin,
   h1: {
-    composes: '$reset',
     extend: getFontStyle(typography.h1),
     margin: '15px 0'
   },
   h2: {
-    composes: '$reset',
     extend: getFontStyle(typography.h2),
     margin: '20px 0'
   },
   h3: {
-    composes: '$reset',
     extend: getFontStyle(typography.h3),
     margin: '20px 0'
   },
   text: {
-    composes: '$reset',
     extend: getFontStyle(typography.text),
     margin: '20px 0'
   },
   quote: {
-    composes: '$reset',
     extend: getFontStyle(typography.quote),
     margin: '30px 0',
     paddingLeft: 37,
@@ -49,34 +44,28 @@ const getFontStyle = ({fontSize, fontWeight = 400, lineHeight, fontFamily}) => (
     }
   },
   epigraph: {
-    composes: '$reset',
     extend: getFontStyle(typography.epigraph),
     margin: '20px 0',
     fontStyle: 'italic'
   },
   source: {
-    composes: ['$uppercase', '$reset'],
+    composes: '$uppercase',
     extend: getFontStyle(typography.source)
   },
   timestamp: {
-    composes: '$reset',
     extend: getFontStyle(typography.timestamp)
   },
   description: {
-    composes: '$reset',
     extend: getFontStyle(typography.description),
     margin: '20px 0 25px'
   },
   galleryDescription: {
-    composes: '$reset',
     extend: getFontStyle(typography.galleryDescription)
   },
   photoSource: {
-    composes: '$reset',
     extend: getFontStyle(typography.photoSource)
   },
   list: {
-    composes: '$reset',
     extend: getFontStyle(typography.text),
     position: 'relative',
     margin: '30px 0',
@@ -147,7 +136,6 @@ export default class Typography extends PureComponent {
   }
 
   static defaultProps = {
-    type: 'text',
     tagName: 'div'
   }
 
@@ -155,7 +143,7 @@ export default class Typography extends PureComponent {
     const {
       tagName,
       className,
-      sheet,
+      sheet: {classes},
       type,
       uppercase,
       children,
@@ -163,7 +151,7 @@ export default class Typography extends PureComponent {
     } = omit(this.props, 'theme')
 
     return React.createElement(tagName, {
-      className: classnames(className, sheet.classes[type], uppercase && sheet.classes.uppercase),
+      className: classnames(className, classes.reset, type && classes[type], uppercase && classes.uppercase),
       ...other
     }, children)
   }

@@ -1,8 +1,9 @@
+import React from 'react'
 import PropTypes from 'prop-types'
 import Typography from './Typography'
 
 const List = ({numbered, ...props}) => (
-  <Typography tagName={numbered ? 'ol' : 'ul'} {...props} type="list" />
+  <Typography {...props} tagName={numbered ? 'ol' : 'ul'} type="list" />
 )
 
 List.propTypes = {
