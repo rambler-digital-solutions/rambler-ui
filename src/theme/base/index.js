@@ -3,20 +3,94 @@ import {fade, darken, lighten} from '../../utils/colors'
 import colorsConfig from './colors'
 import i18n from './i18n'
 
+const fontFamilies = {
+  Corsica: 'Corsica, sans-serif',
+  Roboto: 'Roboto, sans-serif',
+  Georgia: 'Georgia, serif'
+}
+
 /**
  * Создание темы
  */
 export function createTheme(config) {
   const { colors } = config
   return merge({
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: fontFamilies.Roboto,
+    typography: {
+      h1: {
+        fontSize: 30,
+        lineHeight: 40,
+        fontWeight: 500,
+        fontFamily: fontFamilies.Corsica
+      },
+      h2: {
+        fontSize: 24,
+        lineHeight: 35,
+        fontWeight: 500,
+        fontFamily: fontFamilies.Corsica
+      },
+      h3: {
+        fontSize: 20,
+        lineHeight: 30,
+        fontWeight: 500,
+        fontFamily: fontFamilies.Corsica
+      },
+      text: {
+        fontSize: 18,
+        lineHeight: 28,
+        fontFamily: fontFamilies.Georgia
+      },
+      quote: {
+        fontSize: 22,
+        lineHeight: 32,
+        fontFamily: fontFamilies.Georgia,
+        borderColor: colors.primary
+      },
+      epigraph: {
+        fontSize: 22,
+        lineHeight: 32,
+        fontFamily: fontFamilies.Georgia
+      },
+      source: {
+        fontSize: 11,
+        fontFamily: fontFamilies.Roboto
+      },
+      timestamp: {
+        fontSize: 12,
+        fontFamily: fontFamilies.Roboto
+      },
+      description: {
+        fontSize: 12,
+        lineHeight: 15,
+        fontFamily: fontFamilies.Roboto
+      },
+      galleryDescription: {
+        fontSize: 13,
+        lineHeight: 20,
+        fontFamily: fontFamilies.Corsica
+      },
+      photoSource: {
+        fontSize: 12,
+        fontFamily: fontFamilies.Roboto
+      },
+      list: {
+        bullet: {
+          color: lighten(colors.controls.grey.outline, 0.3)
+        },
+        number: {
+          color: colors.controls.grey.outline,
+          fontSize: 22,
+          lineHeight: 25
+        }
+      }
+    },
     avatar: {
       colors: {
         iconBackground: colors.controls.grey.iconBackground
       }
     },
     button: {
-      fontFamily: 'Roboto, sans-serif',
+      fontFamily: fontFamilies.Roboto,
       mobile: {
         sizes: {
           medium: {
