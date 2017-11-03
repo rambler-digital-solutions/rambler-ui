@@ -1,5 +1,4 @@
-import ComplexSearch from 'rambler-ui/ComplexSearch'
-import SuggestItem from 'rambler-ui/SuggestItem'
+import { ComplexSearch, SuggestItem } from 'rambler-ui/ComplexSearch'
 import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
 
