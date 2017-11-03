@@ -59,6 +59,7 @@ import { isolateMixin } from '../style/mixins'
     cursor: 'pointer'
   },
   input: {
+    ...isolateMixin,
     padding: 10,
     border: 'none',
     boxSizing: 'border-box',

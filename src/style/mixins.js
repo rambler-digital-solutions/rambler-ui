@@ -23,7 +23,8 @@ export const bottomBorderMixin = color => ({
 
 export const isolateMixin = {
   borderCollapse: 'separate',
-  borderSpacing: '0',
+  borderSpacing: 0,
+  borderRadius: 0,
   captionSide: 'top',
   cursor: 'auto',
   direction: 'ltr',
