@@ -48,6 +48,10 @@ export default class SearchExample extends Component {
     )
   }
 
+  onClear = () => {
+    this.setState({items: []})
+  }
+
   onPressEnter = (query) => {
     this.setState({value: query})
     this.goToSearch(query)
@@ -84,7 +88,9 @@ export default class SearchExample extends Component {
             onSubmit={this.goToSearch}
             onSelectItem={this.onSelectItem}
             onClickItem={this.onItemClick}
+            onClear={this.onClear}
             hint={this.renderHint()}
+            // appendToBody={false}
             bottomLinks={this.renderBottomLinks()}
             onPressEnter={this.onPressEnter}
             placeholder="Напишите 'это...'"

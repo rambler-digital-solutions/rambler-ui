@@ -16,12 +16,17 @@ import { isolateMixin } from '../style/mixins'
     fontFamily: theme.fontFamily,
     fontSize: theme.search.fontSize,
     width: '100%',
-    maxWidth: theme.search.maxWidth
+    maxWidth: theme.search.maxWidth,
+    display: 'flex',
+    flexDirection: 'column'
   },
   inputRow: {
     marginRight: theme.search.button.width,
     height: theme.search.height,
-    position: 'relative'
+    position: 'relative',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column'
   },
   active: {},
   inputWrapper: {
@@ -32,6 +37,7 @@ import { isolateMixin } from '../style/mixins'
     alignItems: 'center',
     marginRight: -2,
     paddingRight: 30,
+    width: '100%',
     height: theme.search.height,
 
     '&$active': {
@@ -113,7 +119,8 @@ import { isolateMixin } from '../style/mixins'
   },
   dropdown: {
     transition: 'none',
-    animation: 'none'
+    animation: 'none',
+    width: '100%'
   }
 }))
 class ComplexSearch extends React.Component {
@@ -185,7 +192,11 @@ class ComplexSearch extends React.Component {
     /**
     * Ссылки рядом с хинтом
     */
-    bottomLinks: pt.node
+    bottomLinks: pt.node,
+    /**
+    * Коллбек на нажатие "крестика"
+    */
+    onClear: pt.func
   }
 
   static defaultProps = {
@@ -201,7 +212,8 @@ class ComplexSearch extends React.Component {
     onSubmit: () => {},
     onPressEnter: () => {},
     onSearch: () => {},
-    onBlur: () => {}
+    onBlur: () => {},
+    onClear: () => {}
   }
 
   state = {
@@ -296,6 +308,7 @@ class ComplexSearch extends React.Component {
         highlightedItem: -1
       }
     )
+    this.props.onClear()
     this.inputNode.focus()
   }
 
@@ -304,42 +317,28 @@ class ComplexSearch extends React.Component {
       division,
       placeholder,
       sheet: { classes: css },
-      value,
-      theme
+      value
     } = omit(this.props, 'onChange')
 
     return (
-      <div
-        className={css.inputRow}
-      >
-        <div className={cn(css.inputWrapper, {[css.active]: this.state.isActive})}>
-          {division &&
-            <div
-              className={css.division}
-            >{division}
-            </div>
-          }
-          <input
-            type="text"
-            onChange={this.onSearchInput}
-            onKeyDown={this.onKeyDown}
-            onFocus={this.onFocus}
-            onBlur={this.onBlur}
-            defaultValue={value}
-            className={css.input}
-            placeholder={placeholder}
-            ref={this.setNode('input')}
-          />
+      <div className={cn(css.inputWrapper, {[css.active]: this.state.isActive})}>
+        {division &&
+        <div
+          className={css.division}
+        >{division}
         </div>
-        {this.state.isClearVisible && <ClearIcon
-          className={cn(
-            css.clear
-          )}
-          size={16}
-          color={theme.search.clear.color}
-          onClick = {this.clearForm}
-        ></ClearIcon>}
-        {this.renderButton()}
+        }
+        <input
+          type="text"
+          onChange={this.onSearchInput}
+          onKeyDown={this.onKeyDown}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          defaultValue={value}
+          className={css.input}
+          placeholder={placeholder}
+          ref={this.setNode('input')}
+        />
       </div>
     )
   }
@@ -456,7 +455,8 @@ class ComplexSearch extends React.Component {
     const {
       sheet: { classes: css },
       style,
-      className
+      className,
+      theme
     } = this.props
 
     return (
@@ -468,7 +468,20 @@ class ComplexSearch extends React.Component {
           )}
           style={style}
         >
-          {this.renderDropdown()}
+          <div
+            className={css.inputRow}
+          >
+            {this.renderDropdown()}
+            {this.state.isClearVisible && <ClearIcon
+              className={cn(
+                css.clear
+              )}
+              size={16}
+              color={theme.search.clear.color}
+              onClick = {this.clearForm}
+            ></ClearIcon>}
+            {this.renderButton()}
+          </div>
           {this.renderBottom()}
         </div>
       </OnClickOutside>
