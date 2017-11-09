@@ -192,11 +192,7 @@ class ComplexSearch extends React.Component {
     /**
     * Ссылки рядом с хинтом
     */
-    bottomLinks: pt.node,
-    /**
-    * Коллбек на нажатие "крестика"
-    */
-    onClear: pt.func
+    bottomLinks: pt.node
   }
 
   static defaultProps = {
@@ -212,8 +208,7 @@ class ComplexSearch extends React.Component {
     onSubmit: () => {},
     onPressEnter: () => {},
     onSearch: () => {},
-    onBlur: () => {},
-    onClear: () => {}
+    onBlur: () => {}
   }
 
   state = {
@@ -274,7 +269,8 @@ class ComplexSearch extends React.Component {
   }
 
   onSearchInput = (e) => {
-    const value = e.target.value.trim()
+    const value = e ? e.target.value.trim() : this.inputNode.value.trim()
+    
     const newState = {
       value
     }
@@ -308,8 +304,8 @@ class ComplexSearch extends React.Component {
         highlightedItem: -1
       }
     )
-    this.props.onClear()
     this.inputNode.focus()
+    this.onSearchInput()
   }
 
   renderInput = () => {

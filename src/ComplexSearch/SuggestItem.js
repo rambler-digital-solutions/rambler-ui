@@ -66,6 +66,7 @@ class SuggestItem extends React.Component {
   }
 
   onItemClick = () => {
+    this.props.onSelect(this.props.value)
     this.props.onClick && this.props.onClick(this.props.value)
   }
 
