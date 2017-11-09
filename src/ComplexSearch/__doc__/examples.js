@@ -85,7 +85,6 @@ export default class SearchExample extends Component {
             onSelectItem={this.onSelectItem}
             onClickItem={this.onItemClick}
             hint={this.renderHint()}
-            // appendToBody={false}
             bottomLinks={this.renderBottomLinks()}
             onPressEnter={this.onPressEnter}
             placeholder="Напишите 'это...'"
