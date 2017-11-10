@@ -35,13 +35,15 @@ import { isolateMixin } from '../style/mixins'
     borderStyle: 'solid',
     display: 'flex',
     alignItems: 'center',
-    marginRight: -2,
+    position: 'relative',
     paddingRight: 30,
     width: '100%',
     height: theme.search.height,
+    boxShadow: `2px 0 0 ${theme.search.input.borderColor}`,
 
     '&$active': {
-      borderColor: theme.search.input.hoverColor
+      borderColor: theme.search.input.hoverColor,
+      boxShadow: `2px 0 0 ${theme.search.input.hoverColor}`
     }
   },
   bottomWrapper: {
