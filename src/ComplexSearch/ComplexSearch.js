@@ -37,6 +37,7 @@ import { isolateMixin } from '../style/mixins'
     alignItems: 'center',
     position: 'relative',
     paddingRight: 30,
+    borderRadius: '1px 0 0 1px',
     width: '100%',
     height: theme.search.height,
     boxShadow: `2px 0 0 ${theme.search.input.borderColor}`,
