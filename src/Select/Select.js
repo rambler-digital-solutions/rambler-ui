@@ -13,6 +13,14 @@ import { isolateMixin, placeholderMixin } from '../style/mixins'
 
 const emptyArr = []
 
+const absolutePosition = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0
+}
+
 @injectSheet(theme => ({
   root: {
     '&&': {
@@ -61,15 +69,14 @@ const emptyArr = []
       }
     },
     '& svg': {
+      extend: absolutePosition,
       margin: 'auto',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      position: 'absolute',
       maxWidth: '100%',
       maxHeight: '100%'
     }
+  },
+  input: {
+    '$withCustom &': absolutePosition
   },
   field: {
     '$isReadonly &': {
@@ -78,14 +85,17 @@ const emptyArr = []
     },
     '$withSearch &': {
       cursor: 'text'
+    },
+    '$withCustom &&': {
+      extend: absolutePosition,
+      height: 'auto'
     }
   },
+  withCustom: {
+    position: 'relative'
+  },
   custom: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
+    position: 'relative',
     pointerEvents: 'none'
   },
   options: {
@@ -118,6 +128,9 @@ const emptyArr = []
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
+      '& $withCustom': {
+        minHeight: theme.field.sizes[size].height
+      },
       '& $arrow': {
         '&:before': {
           display: 'block',
@@ -139,25 +152,24 @@ const emptyArr = []
         left:  size === 'small' ? 1 : 1
       },
       '& $custom': {
-        marginRight: theme.input.sizes[size].padding + 1,
-        marginLeft: theme.input.sizes[size].padding + 1
+        paddingRight: theme.input.sizes[size].padding + 1,
+        paddingLeft: theme.input.sizes[size].padding + 1
       },
       '&$withLeftIcon $custom': {
-        marginLeft: theme.field.sizes[size].withIconPadding + 1
+        paddingLeft: theme.field.sizes[size].withIconPadding + 1
       },
       '&$withRightIcon $custom': {
-        marginRight: theme.field.sizes[size].withIconPadding + 1
+        paddingRight: theme.field.sizes[size].withIconPadding + 1
       },
       '& $options': {
-        marginTop: (theme.field.sizes[size].height - theme.tagsInput.height) / 2,
-        marginBottom:  (theme.field.sizes[size].height - theme.tagsInput.height) / 2
+        paddingTop: (theme.field.sizes[size].height - theme.tagsInput.height) / 2,
+        paddingBottom:  (theme.field.sizes[size].height - theme.tagsInput.height) / 2
       },
       '& $selected': {
         padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2 - 1}px ${theme.input.sizes[size].padding - 1}px`
       }
     }
   }), {}),
-  input: {},
   isFocused: {},
   isOpened: {},
   isReadonly: {},
@@ -279,10 +291,18 @@ export default class Select extends PureComponent {
      */
     onSearch: PropTypes.func,
     /**
-     * Функция рендера кастомного элемента над input, получает `value` в качестве значения
-     * Должна возвращать `reactElement`
+     * Функция рендера кастомного элемента над input, получает `value` в качестве значения.
+     * Должна возвращать `reactElement`.
      */
-    customElementRenderer: PropTypes.func
+    customElementRenderer: PropTypes.func,
+    /**
+     * Дополнительный CSS-класс контейнера кастомного элемента и `<Input>`
+     */
+    containerClassName: PropTypes.string,
+    /**
+     * Inline-стили контейнера кастомного элемента и `<Input>`
+     */
+    containerStyle: PropTypes.obj
   };
 
   static defaultProps = {
@@ -610,6 +630,8 @@ export default class Select extends PureComponent {
     const {
       dropdownStyle,
       dropdownClassName,
+      containerStyle,
+      containerClassName,
       customElementRenderer,
       menuStyle,
       menuClassName,
@@ -659,7 +681,10 @@ export default class Select extends PureComponent {
     }
 
     const dropdownAnchor = (
-      <div>
+      <div
+        className={classnames(containerClassName, (multiple || customElementRenderer) && this.css.withCustom)}
+        style={containerStyle}
+      >
         {this.renderInput()}
         {customElement}
       </div>

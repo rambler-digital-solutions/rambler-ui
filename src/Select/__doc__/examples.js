@@ -18,7 +18,8 @@ const objectData = [...Array(15)].map((item, i) => ({
 const objectCustomData = [...Array(15)].map((item, i) => ({
   id: i,
   str1: `Строка 1 элемента ${i}`,
-  str2: `Строка 2 элемента ${i}`
+  str2: `Строка 2 элемента ${i}`,
+  str3: `Строка 3 элемента ${i}`
 }))
 
 export default class SelectExample extends Component {
@@ -292,42 +293,42 @@ export default class SelectExample extends Component {
           </div>
 
           <div style={{ maxWidth: 300, marginBottom: 15 }}>
-            <h3>Кастомизированный с variation: regular</h3>
+            <h3>Кастомизированный с customElementRenderer, containerStyle и variation: regular</h3>
             <Select
               variation="regular"
-              style={{ height: 55 }}
               valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
               value={this.state.objectValue3}
-              menuStyle={{ maxHeight: 55 * 4 + 2 }}
+              menuStyle={{ maxHeight: 74 * 4 + 2 }}
+              containerStyle={{minHeight: 74}}
               customElementRenderer={(value) => (
-                <div style={{ lineHeight: '14px' }}>
-                  <div style={{fontSize: 13, marginTop: 11 }}>{value.str1}</div>
+                <div style={{ paddingTop: 11, paddingBottom: 11, lineHeight: '14px' }}>
+                  <div style={{fontSize: 13 }}>{value.str1}</div>
                   <div style={{fontSize: 11, marginTop: 5 }}>{value.str2}</div>
+                  <div style={{fontSize: 11, marginTop: 5 }}>{value.str3}</div>
                 </div>
               )}
               placeholder="Select..."
               onChange={this.setValue('objectValue3')}>
               {objectCustomData.map(item => (
                 <MenuItem value={item} key={item.id} style={{paddingTop: 11, paddingBottom: 11, lineHeight:'14px'}}>
-                  <div style={{width: '100%', flex: 'none', fontSize: 13 }}>{item.str1}</div>
-                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str2}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 13}}>{item.str1}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5}}>{item.str2}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str3}</div>
                 </MenuItem>
               ))}
             </Select>
           </div>
 
           <div style={{ maxWidth: 300, marginBottom: 55 }}>
-            <h3>Кастомизированный с variation: regular и поиском</h3>
+            <h3>Кастомизированный с customElementRenderer и поиском</h3>
             <Select
-              variation="regular"
-              style={{ height: 55 }}
               valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
               value={this.state.objectValue4}
-              menuStyle={{ maxHeight: 55 * 4 + 2 }}
               customElementRenderer={(value) => (
-                <div style={{ lineHeight: '14px' }}>
-                  <div style={{fontSize: 13, marginTop: 11 }}>{value.str1}</div>
+                <div style={{paddingTop: 11, paddingBottom: 11, lineHeight: '14px'}}>
+                  <div style={{fontSize: 13 }}>{value.str1}</div>
                   <div style={{fontSize: 11, marginTop: 5 }}>{value.str2}</div>
+                  <div style={{fontSize: 11, marginTop: 5 }}>{value.str3}</div>
                 </div>
               )}
               placeholder="Type something..."
@@ -337,6 +338,7 @@ export default class SelectExample extends Component {
                 <MenuItem value={item} key={item.id} style={{paddingTop: 11, paddingBottom: 11, lineHeight:'14px'}}>
                   <div style={{width: '100%', flex: 'none', fontSize: 13 }}>{item.str1}</div>
                   <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str2}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str3}</div>
                 </MenuItem>
               ))}
             </Select>
