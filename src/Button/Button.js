@@ -12,7 +12,7 @@ import merge from 'lodash/merge'
 import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
-import { middleMixin, isolateMixin, uppercaseMixin, fontSmoothingMixin, ifMobile } from '../style/mixins'
+import { middleMixin, isolateMixin, fontSmoothingMixin, ifMobile } from '../style/mixins'
 
 function getIconColor(colorsConfig, isDisabled) {
   return isDisabled && colorsConfig.disabled.icon || colorsConfig.default.icon
@@ -23,8 +23,11 @@ function getIconColor(colorsConfig, isDisabled) {
   const css = {
     button: {
       ...isolateMixin,
-      ...uppercaseMixin,
       fontFamily: theme.button.fontFamily,
+      fontStyle: theme.button.fontStyle,
+      fontWeight: theme.button.fontWeight,
+      letterSpacing: theme.button.letterSpacing,
+      textTransform: theme.button.textTransform,
       textAlign: 'center',
       cursor: 'pointer',
       boxSizing: 'border-box',
@@ -71,8 +74,7 @@ function getIconColor(colorsConfig, isDisabled) {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      position: 'relative',
-      fontWeight: 500
+      position: 'relative'
     },
     block: {
       display: 'block',
