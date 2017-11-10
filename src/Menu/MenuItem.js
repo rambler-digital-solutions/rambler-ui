@@ -12,6 +12,7 @@ import { isolateMixin } from '../style/mixins'
     boxSizing: 'border-box',
     display: 'flex',
     alignItems: 'center',
+    flexWrap: 'wrap',
     color: theme.menu.colors.default.text,
     backgroundColor: theme.menu.colors.default.background,
     cursor: 'pointer',
