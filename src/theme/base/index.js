@@ -43,12 +43,14 @@ export function createTheme(config) {
       quote: {
         fontSize: 22,
         lineHeight: 32,
+        fontStyle: 'italic',
         fontFamily: fontFamilies.Georgia,
         borderColor: colors.primary
       },
       epigraph: {
         fontSize: 22,
         lineHeight: 32,
+        fontStyle: 'italic',
         fontFamily: fontFamilies.Georgia
       },
       source: {
@@ -91,6 +93,10 @@ export function createTheme(config) {
     },
     button: {
       fontFamily: fontFamilies.Roboto,
+      fontWeight: 500,
+      letterSpacing: 1.3,
+      textTransform: 'uppercase',
+      borderRadius: 1,
       mobile: {
         sizes: {
           medium: {
@@ -113,7 +119,6 @@ export function createTheme(config) {
           height: 35
         }
       },
-      borderRadius: 1,
       types: {
         primary: {
           outlineOffset: 3,
@@ -424,6 +429,8 @@ export function createTheme(config) {
     },
     // input, select, textarea
     field: {
+      fontFamily: fontFamilies.Roboto,
+      fontWeight: 400,
       borderRadius: 1,
       icon: {
         colors: {

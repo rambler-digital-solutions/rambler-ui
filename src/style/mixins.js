@@ -88,11 +88,6 @@ export const placeholderMixin = (selector, style) => (
   }), {})
 )
 
-export const uppercaseMixin = {
-  textTransform: 'uppercase',
-  letterSpacing: 1.3
-}
-
 export const fontSmoothingMixin = {
   '-webkit-font-smoothing': 'antialiased',
   '-moz-osx-font-smoothing': 'grayscale'

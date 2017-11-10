@@ -5,9 +5,11 @@ import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
-const getFontStyle = ({fontSize, fontWeight = 400, lineHeight, fontFamily}) => ({
+const getFontStyle = ({fontSize, fontWeight = 400, fontStyle, letterSpacing, lineHeight, fontFamily}) => ({
   fontSize,
   fontWeight,
+  fontStyle,
+  letterSpacing,
   lineHeight: lineHeight && lineHeight + 'px',
   fontFamily
 })
@@ -35,7 +37,6 @@ const getFontStyle = ({fontSize, fontWeight = 400, lineHeight, fontFamily}) => (
     margin: '30px 0',
     paddingLeft: 37,
     borderLeft: `3px solid ${typography.quote.borderColor}`,
-    fontStyle: 'italic',
     '& p': {
       margin: 0
     },
@@ -45,8 +46,7 @@ const getFontStyle = ({fontSize, fontWeight = 400, lineHeight, fontFamily}) => (
   },
   epigraph: {
     extend: getFontStyle(typography.epigraph),
-    margin: '20px 0',
-    fontStyle: 'italic'
+    margin: '20px 0'
   },
   source: {
     composes: '$uppercase',
