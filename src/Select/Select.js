@@ -324,9 +324,9 @@ export default class Select extends PureComponent {
     this.setValue(value)
   }
 
-  componentDidUpdate() {
-    if (!this.state.isOpened && this.state.searchText)
-      this.setSearchText('')
+  handleDropdownClose = () => {
+    if (this.state.isOpened) return
+    this.setSearchText('')  
   }
 
   setValue(value) {
@@ -346,6 +346,8 @@ export default class Select extends PureComponent {
   }
 
   setSearchText(searchText) {
+    if (this.state.searchText === searchText) return
+
     this.setState({
       searchText
     })
@@ -681,6 +683,7 @@ export default class Select extends PureComponent {
           contentPointY="top"
           closeOnClickOutside={false}
           cachePositionOptions={false}
+          onClose={this.handleDropdownClose}
         >
           {multipleWithValue &&
             <TagsInput
