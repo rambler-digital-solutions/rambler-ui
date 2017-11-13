@@ -1,14 +1,16 @@
-import React, { cloneElement } from 'react'
-import * as pt from 'prop-types'
-import { injectSheet } from '../theme'
-import cn from 'classnames'
+import React, { Children } from 'react'
+import * as PropTypes from 'prop-types'
+import classnames from 'classnames'
 import omit from 'lodash/omit'
+import EventEmitter from 'events'
+import { injectSheet } from '../theme'
 import Button from '../Button'
 import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
 import { isolateMixin } from '../style/mixins'
+import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => ({
   root: {
@@ -41,7 +43,6 @@ import { isolateMixin } from '../style/mixins'
     width: '100%',
     height: theme.search.height,
     boxShadow: `2px 0 0 ${theme.search.input.borderColor}`,
-
     '&$active': {
       borderColor: theme.search.input.hoverColor,
       boxShadow: `2px 0 0 ${theme.search.input.hoverColor}`
@@ -69,7 +70,7 @@ import { isolateMixin } from '../style/mixins'
   },
   input: {
     ...isolateMixin,
-    padding: 10,
+    padding: '10px 12px',
     border: 'none',
     boxSizing: 'border-box',
     display: 'block',
@@ -96,11 +97,16 @@ import { isolateMixin } from '../style/mixins'
     flexShrink: 0,
     width: theme.search.button.width,
     height: theme.search.height,
-
     '&:focus, &:active': {
       '&:after': {
         display: 'none'
       }
+    }
+  },
+  withoutButton: {
+    '& $inputWrapper': {
+      borderRadius: 1,
+      boxShadow: 'none'
     }
   },
   clear: {
@@ -129,211 +135,317 @@ import { isolateMixin } from '../style/mixins'
 class ComplexSearch extends React.Component {
   static propTypes = {
     /**
-    * Переопределение стандартных стилей компонента Search
-    */
-    style: pt.object,
+     * Переопределение стандартных стилей компонента Search
+     */
+    style: PropTypes.object,
     /**
-    * CSS-класс компонента
-    */
-    className: pt.string,
+     * CSS-класс компонента
+     */
+    className: PropTypes.string,
     /**
-    * Текущий поисковый запрос
-    */
-    value: pt.string,
+     * Текущий поисковый запрос
+     */
+    value: PropTypes.string,
     /**
-    * Кнопка поиска
-    */
-    searchButton: pt.node,
+     * Кнопка поиска
+     */
+    searchButton: PropTypes.node,
     /**
-    * Имя раздела, по которому ищем
-    */
-    division: pt.string,
+     * Иконка поиска, по дефолту подставляется иконка с лупой
+     */
+    searchIcon: PropTypes.node,
     /**
-    * Плейсхолдер поискового инпута
-    */
-    placeholder: pt.string,
+     * Имя раздела, по которому ищем
+     */
+    division: PropTypes.string,
     /**
-    * Коллбек на изменение поискового запроса
-    */
-    onSearch: pt.func,
+     * Плейсхолдер поискового инпута
+     */
+    placeholder: PropTypes.string,
     /**
-    * Коллбек на фокус поискового инпута
-    */
-    onFocus: pt.func,
+     * Коллбек на изменение поискового запроса, принимает первым аргументом значение поискового запроса
+     */
+    onSearch: PropTypes.func,
     /**
-    * Коллбек на блур поискового инпута
-    */
-    onBlur: pt.func,
+     * Коллбек на фокус поискового инпута
+     */
+    onFocus: PropTypes.func,
     /**
-    * Коллбек на выбор поискового запроса через стрелки
-    */
-    onSelectItem: pt.func,
+     * Коллбек на блур поискового инпута
+     */
+    onBlur: PropTypes.func,
     /**
-    * Коллбек на клик айтема
-    */
-    onClickItem: pt.func,
+     * Коллбек на выбор поискового запроса через стрелки, первым аргументом получает props.value соответствующего SuggestItem
+     */
+    onSelectItem: PropTypes.func,
     /**
-    * Коллбек на удаление suggest-item
-    */
-    onRemoveItem: pt.func,
+     * Коллбек на клик SuggestItem, первым аргументом получает props.value соответствующего SuggestItem
+     */
+    onClickItem: PropTypes.func,
     /**
-    * Коллбек на нажатие на кнопку поиска
+    * Коллбек на удаление SuggestItem, первым аргументом получает props.value соответствующего SuggestItem
     */
-    onSubmit: pt.func,
+    onRemoveItem: PropTypes.func,
     /**
-    * Коллбек на нажатие на Enter
-    */
-    onPressEnter: pt.func,
+     * Колбек ховера по SuggestItem, первым аргументом получает props.value соответствующего SuggestItem
+     */
+    onHoverItem: PropTypes.func,
     /**
-    * Вставлять ли dropdown внутри body
-    */
-    appendToBody: pt.bool,
+     * Коллбек на нажатие на кнопку поиска, принимает первым аргументом значение поискового запроса
+     */
+    onSubmit: PropTypes.func,
     /**
-    * Поисковая подсказка
-    */
-    hint: pt.node,
+     * Коллбек на нажатие на Enter, принимает первым аргументом значение поискового запроса
+     */
+    onPressEnter: PropTypes.func,
     /**
-    * Ссылки рядом с хинтом
-    */
-    bottomLinks: pt.node
-  }
+     * Вставлять ли dropdown внутри body
+     */
+    appendToBody: PropTypes.bool
+  };
 
   static defaultProps = {
     value: '',
-    searchButton: 'Поиск',
-    division: 'Поиск',
     placeholder: '',
-    hint: null,
-    bottomLinks: null,
+    division: null,
     appendToBody: true,
-    onFocus: () => {},
-    onSelectItem: () => {},
-    onSubmit: () => {},
-    onPressEnter: () => {},
-    onSearch: () => {},
-    onBlur: () => {}
+    searchButton: null,
+    searchIcon: null,
+    onSearch() {},
+    onFocus() {},
+    onBlur() {},
+    onSelectItem() {},
+    onClickItem() {},
+    onRemoveItem() {},
+    onHoverItem() {},
+    onSubmit() {},
+    onPressEnter() {}
+  };
+
+  static childContextTypes = {
+    [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
+      /**
+       * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
+       */
+      registerSuggestItem: PropTypes.func,
+      /**
+       * Колбек удаления SuggestItem
+       */
+      onRemoveSuggestItemClick: PropTypes.func,
+      /**
+       * Колбек клика по SuggestItem
+       */
+      onSuggestItemClick: PropTypes.func,
+      /**
+       * Колбек наведения на SuggstItem
+       */
+      onSuggestItemHover: PropTypes.func,
+      /**
+       * Функция для подсветки SuggestItem
+       */
+      setHighlightedId: PropTypes.func
+    })
+  };
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      isDropdownOpened: false,
+      value: this.props.value
+    }
+    this.events = new EventEmitter
+    this.events.setMaxListeners(0)
+    /**
+     * Упорядоченный массив с зарегестрированными компонентами SuggestItem
+     * @type {Array}
+     */
+    this.sortedSuggestItems = []
+    /**
+     * Объект с сохраненными suggestItems
+     */
+    this.suggestItems = {}
+    /**
+     * Текущий подсвеченный элемент
+     */
+    this.highlightedSuggestItemId = null
   }
 
-  state = {
-    isDropdownOpened: false,
-    selectedItem: -1,
-    highlightedItem: -1,
-    isClearVisible: false,
-    value: ''
+  /**
+   * Показывать ли крестик очищения input
+   * @return {Boolean}
+   */
+  get isClearVisible() {
+    return Boolean(this.state.value)
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.value && prevProps.value !== this.props.value)
-      if (this.inputNode) this.inputNode.value = this.props.value
+  getChildContext() {
+    return {
+      [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: {
+        events: this.events,
+        registerSuggestItem: this.registerSuggestItem,
+        onRemoveSuggestItemClick: this.onRemoveSuggestItemClick,
+        onSuggestItemClick: this.onSuggestItemClick,
+        onSuggestItemHover: this.onSuggestItemHover,
+        setHighlightedId: this.setHighlightedId
+      }
+    }
   }
 
-  submitSearch = () => {
-    this.props.onSubmit(this.state.value)
+  componentWillUnmount() {
+    this.events.removeAllListeners()
   }
 
-  onKeyDown = (e) => {
-    const {
-      highlightedItem
-    } = this.state
-    const {
-      children
-    } = this.props
-    switch (e.key) {
-    //eslint-disable-next-line
-    case 'ArrowDown':
-      e.preventDefault()
-      const nextItem = highlightedItem === children.length - 1 ? 0 : highlightedItem + 1
-      this.setState({selectedItem: nextItem, highlightedItem: nextItem})
-      break
-    //eslint-disable-next-line
-    case 'ArrowUp':
-      e.preventDefault()
-      const prevItem = highlightedItem === 0 ? children.length - 1 : highlightedItem - 1
-      this.setState({selectedItem: prevItem, highlightedItem: prevItem})
-      break
-    case 'Enter':
-      e.preventDefault()
-      this.props.onPressEnter(this.inputNode.value)
-      break
-    case 'Escape':
+  componentWillReceiveProps(nextProps) {
+    if (this.props.value !== nextProps.value)
       this.setState({
-        isDropdownOpened: false,
-        selectedItem: -1,
-        highlightedItem: -1
+        value: nextProps.value
       })
-      break
-    default:
-    }
-  }
-
-  onFocus = () => {
-    this.setState({isDropdownOpened: true, isActive: true})
-    this.props.onFocus()
-  }
-
-  onSearchInput = (e) => {
-    const value = e ? e.target.value.trim() : this.inputNode.value.trim()
-    
-    const newState = {
-      value
-    }
-    if (!this.state.isDropdownOpened)
-      newState.isDropdownOpened = true
-    if (this.state.highlightedItem !== -1)
-      newState.highlightedItem = -1
-    if (this.state.selectedItem !== -1)
-      newState.selectedItem = -1
-    newState.isClearVisible = value !== ''
-    this.setState(newState)
-    this.props.onSearch(value)
-  }
-
-  onBlur = () => {
-    this.setState({isActive: false})
-    this.props.onBlur()
   }
 
   setNode = name => node => {
     this[`${name}Node`] = node
   }
 
-  clearForm = () => {
-    this.inputNode.value = ''
-    this.setState(
-      {
-        isDropdownOpened: false,
-        isClearVisible: false,
-        selectedItem: -1,
-        highlightedItem: -1
+  isNodeIsNotInComponent(node) {
+    if (!this.props.appendToBody)
+      return !this.rootNode.contains(node)
+    return (!this.suggestNode || this.suggestNode !== node && !this.suggestNode.contains(node)) &&
+      this.rootNode !== node && !this.rootNode.contains(node)
+  }
+
+  initializeSortedSuggestItems() {
+    if (!this.suggestNode) {
+      this.sortedSuggestItems = []
+    } else {
+      const items = this.suggestNode.querySelectorAll('[data-suggest-item-id]')
+      this.sortedSuggestItems = Array.prototype.slice.call(items).map((node) =>
+        node.getAttribute('data-suggest-item-id')
+      )
+    }
+  }
+
+  registerSuggestItem = (id, component) => {
+    if (component)
+      this.suggestItems[id] = component
+    else
+      delete this.suggestItems[id]
+  }
+
+  onRemoveSuggestItemClick = (value) => {
+    this.props.onRemoveItem(value)
+  }
+
+  onSuggestItemClick = (value) => {
+    this.props.onClickItem(value)
+  }
+
+  onSuggestItemHover = (value) => {
+    this.props.onHoverItem(value)
+  }
+
+  onSubmit = () => {
+    this.props.onSubmit(this.state.value)
+  }
+
+  onKeyDown = (e) => {
+    this.initializeSortedSuggestItems()
+    const index = this.highlightedSuggestItemId ? this.sortedSuggestItems.indexOf(this.highlightedSuggestItemId) : null
+    const len = this.sortedSuggestItems.length
+    let nextId
+    switch (e.key) {
+    case 'ArrowDown':
+      if (len > 0) {
+        e.preventDefault()
+        nextId = this.sortedSuggestItems[index + 1 >= len || index === null ? 0 : index + 1]
+        this.setHighlightedId(nextId)
+        this.props.onSelectItem(this.suggestItems[nextId].props.value)
       }
-    )
+      break
+
+    case 'ArrowUp':
+      if (len > 0) {
+        e.preventDefault()
+        nextId = this.sortedSuggestItems[index - 1 < 0 || index === null ? len - 1 : index - 1]
+        this.setHighlightedId(nextId)
+        this.props.onSelectItem(this.suggestItems[nextId].props.value)
+      }
+      break
+
+    case 'Enter':
+      e.preventDefault()
+      this.props.onPressEnter(this.state.value)
+      break
+
+    case 'Escape':
+      this.setState({isDropdownOpened: false})
+      this.setHighlightedId(null)
+      break
+    }
+  }
+
+  onFocus = () => {
+    this.openDropdown()
+    this.props.onFocus()
+  }
+
+  onBlur = (e) => {
+    if (e.relatedTarget && this.isNodeIsNotInComponent(e.relatedTarget))
+      this.closeDropdown()
+
+    this.props.onBlur()
+  }
+
+  onSearchInput = (e) => {
+    const value = e.target.value
+    this.setHighlightedId(null)
+    this.setState({value, isDropdownOpened: true})
+    this.props.onSearch(value)
+  }
+
+  onClickOutside = (e) => {
+    if (e.target && this.isNodeIsNotInComponent(e.target))
+      this.closeDropdown()
+  }
+
+  setHighlightedId = (id) => {
+    this.highlightedSuggestItemId = id
+    this.events.emit('highlight', this.highlightedSuggestItemId)
+  }
+
+  openDropdown() {
+    this.setState({isDropdownOpened: true})
+  }
+
+  closeDropdown() {
+    this.setHighlightedId(null)
+    this.setState({isDropdownOpened: false})
+  }
+
+  clearForm = () => {
+    const value = ''
+    this.setHighlightedId(null)
+    this.setState({value})
     this.inputNode.focus()
-    this.onSearchInput()
+    this.props.onSearch(value)
   }
 
   renderInput = () => {
     const {
       division,
       placeholder,
-      sheet: { classes: css },
-      value
-    } = omit(this.props, 'onChange')
+      sheet: { classes: css }
+    } = omit(this.props, 'onChange', 'value')
 
     return (
-      <div className={cn(css.inputWrapper, {[css.active]: this.state.isActive})}>
-        {division &&
-        <div
-          className={css.division}
-        >{division}
-        </div>
-        }
+      <div className={classnames(css.inputWrapper, this.state.isDropdownOpened && css.active)}>
+        {division && <div className={css.division}>{division}</div> }
         <input
           type="text"
           onChange={this.onSearchInput}
           onKeyDown={this.onKeyDown}
           onFocus={this.onFocus}
           onBlur={this.onBlur}
-          defaultValue={value}
+          value={this.state.value}
           className={css.input}
           placeholder={placeholder}
           ref={this.setNode('input')}
@@ -348,6 +460,9 @@ class ComplexSearch extends React.Component {
       searchButton
     } = this.props
 
+    if (!searchButton)
+      return null
+
     // если передали ноду - ее отдаем на рендер
     if (typeof searchButton === 'object')
       return searchButton
@@ -355,9 +470,10 @@ class ComplexSearch extends React.Component {
     return (
       <Button
         className={css.searchButton}
-        onClick={this.submitSearch}
+        onClick={this.onSubmit}
         size="small"
         icon={this.renderIcon()}
+        tabIndex={-1}
       >
         {searchButton}
       </Button>
@@ -365,41 +481,16 @@ class ComplexSearch extends React.Component {
   }
 
   renderIcon() {
-    return (
-      <SearchIcon
-        size={12}
-        color={this.props.theme.search.button.color}
-      />
-    )
-  }
-
-  renderItems() {
-    const {
-      children,
-      onRemoveItem,
-      onSelectItem,
-      onClickItem
-    } = this.props
-
-    return React.Children.map(children, (child, index) => {
-      const props = {
-        isHighlighted: index === this.state.highlightedItem,
-        isSelected: index === this.state.selectedItem,
-        onRemoveClick: onRemoveItem,
-        onHover: () => { this.setState({highlightedItem: index, selectedItem: -1 }) },
-        onSelect: onSelectItem,
-        onClick: onClickItem
-      }
-      return cloneElement(child, props)
-    })
-  }
-
-  closeOnClickOutside = () => {
-    this.setState({
-      isDropdownOpened: false,
-      highlightedItem: -1,
-      selectedItem: -1
-    })
+    if (this.props.searchIcon === undefined)
+      return (
+        <SearchIcon
+          size={12}
+          color={this.props.theme.search.button.color}
+        />
+      )
+    if (this.props.searchIcon)
+      return this.props.searchIcon
+    return null
   }
 
   renderDropdown() {
@@ -409,44 +500,24 @@ class ComplexSearch extends React.Component {
       sheet: { classes: css }
     } = this.props
 
-    const {isDropdownOpened} = this.state
-
     return (
       <Dropdown
-        isOpened={isDropdownOpened && children.length > 0}
+        isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
         anchor={this.renderInput()}
         padding={false}
         className={css.dropdown}
         appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={true}
-        anchorPointY={'bottom'}
+        anchorPointY="bottom"
         contentPointY="top"
-        closeOnClickOutside={false}
         cachePositionOptions={false}
+        closeOnClickOutside={false}
       >
-        <div className={css.suggest}>
-          {this.renderItems()}
+        <div className={css.suggest} ref={this.setNode('suggest')}>
+          {children}
         </div>
       </Dropdown>
-    )
-  }
-
-  renderBottom() {
-    const {
-      hint,
-      bottomLinks,
-      sheet: { classes: css }
-    } = this.props
-
-    if (!hint && !bottomLinks)
-      return null
-
-    return (
-      <div className={css.bottomWrapper}>
-        {hint}
-        {bottomLinks}
-      </div>
     )
   }
 
@@ -457,31 +528,33 @@ class ComplexSearch extends React.Component {
       className,
       theme
     } = this.props
+    const button = this.renderButton()
 
     return (
-      <OnClickOutside handler={this.closeOnClickOutside}>
+      <OnClickOutside handler={this.onClickOutside}>
         <div
-          className={cn(
+          className={classnames(
             css.root,
+            !button && css.withoutButton,
             className,
           )}
           style={style}
+          ref={this.setNode('root')}
         >
           <div
             className={css.inputRow}
           >
             {this.renderDropdown()}
-            {this.state.isClearVisible && <ClearIcon
-              className={cn(
+            {this.isClearVisible && <ClearIcon
+              className={classnames(
                 css.clear
               )}
               size={16}
               color={theme.search.clear.color}
               onClick = {this.clearForm}
             ></ClearIcon>}
-            {this.renderButton()}
+            {button}
           </div>
-          {this.renderBottom()}
         </div>
       </OnClickOutside>
     )

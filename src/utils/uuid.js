@@ -1,3 +1,6 @@
+let i = 0
+const random = Math.random().toString(36).slice(2)
+
 export default function uuid() {
-  return Math.random().toString(36).slice(2)
+  return random + i++
 }
