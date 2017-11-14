@@ -1,9 +1,10 @@
 import React from 'react'
 import * as PropTypes from 'prop-types'
+import EventEmitter from 'events'
+import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import uuid from '../utils/uuid'
 import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
-import classnames from 'classnames'
 
 @injectSheet(theme => ({
   isHighlighted: {},
@@ -79,7 +80,11 @@ class SuggestItem extends React.Component {
       /**
        * Функция для подсветки SuggestItem
        */
-      setHighlightedId: PropTypes.func
+      setHighlightedId: PropTypes.func,
+      /**
+       * Шина событий
+       */
+      events: PropTypes.instanceOf(EventEmitter)
     })
   }
 

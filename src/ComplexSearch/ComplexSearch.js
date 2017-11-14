@@ -42,10 +42,8 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     borderRadius: '1px 0 0 1px',
     width: '100%',
     height: theme.search.height,
-    boxShadow: `2px 0 0 ${theme.search.input.borderColor}`,
     '&$active': {
-      borderColor: theme.search.input.hoverColor,
-      boxShadow: `2px 0 0 ${theme.search.input.hoverColor}`
+      borderColor: theme.search.input.hoverColor
     }
   },
   bottomWrapper: {
@@ -97,6 +95,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     flexShrink: 0,
     width: theme.search.button.width,
     height: theme.search.height,
+    borderRadius: '0 1px 1px 0',
     '&:focus, &:active': {
       '&:after': {
         display: 'none'
@@ -210,7 +209,6 @@ class ComplexSearch extends React.Component {
     division: null,
     appendToBody: true,
     searchButton: null,
-    searchIcon: null,
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -243,7 +241,11 @@ class ComplexSearch extends React.Component {
       /**
        * Функция для подсветки SuggestItem
        */
-      setHighlightedId: PropTypes.func
+      setHighlightedId: PropTypes.func,
+      /**
+       * Шина событий
+       */
+      events: PropTypes.instanceOf(EventEmitter)
     })
   };
 
