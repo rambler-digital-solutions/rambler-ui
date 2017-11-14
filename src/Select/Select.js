@@ -346,7 +346,7 @@ export default class Select extends PureComponent {
 
   handleDropdownClose = () => {
     if (this.state.isOpened) return
-    this.setSearchText('')  
+    this.setSearchText('')
   }
 
   setValue(value) {
@@ -562,7 +562,7 @@ export default class Select extends PureComponent {
       icon,
       onSearch,
       ...other
-    } = omit(this.getInputProps(), ['arrowClassName', 'arrowStyle', 'arrowIcon'])
+    } = omit(this.getInputProps(), ['arrowClassName', 'arrowStyle', 'arrowIcon', 'containerStyle'])
 
     const {
       multiple,
