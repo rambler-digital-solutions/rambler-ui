@@ -1,4 +1,4 @@
-import React, { PureComponent, createElement } from 'react'
+import React, { PureComponent, createElement, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
@@ -12,6 +12,14 @@ import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin } from '../style/mixins'
 
 const emptyArr = []
+
+const absolutePosition = {
+  position: 'absolute',
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0
+}
 
 @injectSheet(theme => ({
   root: {
@@ -61,15 +69,14 @@ const emptyArr = []
       }
     },
     '& svg': {
+      extend: absolutePosition,
       margin: 'auto',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      position: 'absolute',
       maxWidth: '100%',
       maxHeight: '100%'
     }
+  },
+  input: {
+    '$withCustom &': absolutePosition
   },
   field: {
     '$isReadonly &': {
@@ -78,15 +85,21 @@ const emptyArr = []
     },
     '$withSearch &': {
       cursor: 'text'
+    },
+    '$withCustom &&': {
+      extend: absolutePosition,
+      height: 'auto'
     }
   },
-  options: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
+  withCustom: {
+    position: 'relative'
+  },
+  custom: {
+    position: 'relative',
     pointerEvents: 'none'
+  },
+  options: {
+    composes: '$custom'
   },
   dropdown: {
     '&&': {
@@ -106,15 +119,18 @@ const emptyArr = []
   menu: {
     borderBottom: `1px solid ${theme.field.colors.default.outline}`,
     '$medium &': {
-      maxHeight: theme.menu.sizes.medium.height * 4
+      maxHeight: theme.menu.sizes.medium.height * 4 + 2
     },
     '$small &': {
-      maxHeight: theme.menu.sizes.small.height * 4
+      maxHeight: theme.menu.sizes.small.height * 4 + 2
     }
   },
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
+      '& $withCustom': {
+        minHeight: theme.field.sizes[size].height
+      },
       '& $arrow': {
         '&:before': {
           display: 'block',
@@ -135,21 +151,25 @@ const emptyArr = []
         top: size === 'small' ? 9 : 9,
         left:  size === 'small' ? 1 : 1
       },
-      '& $options': {
-        padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2}px ${theme.input.sizes[size].padding + 1}px`
+      '& $custom': {
+        paddingRight: theme.input.sizes[size].padding + 1,
+        paddingLeft: theme.input.sizes[size].padding + 1
       },
-      '&$withLeftIcon $options': {
+      '&$withLeftIcon $custom': {
         paddingLeft: theme.field.sizes[size].withIconPadding + 1
       },
-      '&$withRightIcon $options': {
+      '&$withRightIcon $custom': {
         paddingRight: theme.field.sizes[size].withIconPadding + 1
+      },
+      '& $options': {
+        paddingTop: (theme.field.sizes[size].height - theme.tagsInput.height) / 2,
+        paddingBottom:  (theme.field.sizes[size].height - theme.tagsInput.height) / 2
       },
       '& $selected': {
         padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2 - 1}px ${theme.input.sizes[size].padding - 1}px`
       }
     }
   }), {}),
-  input: {},
   isFocused: {},
   isOpened: {},
   isReadonly: {},
@@ -269,7 +289,20 @@ export default class Select extends PureComponent {
     /**
      * Коллбек вызывающийся при изменении поискового запроса
      */
-    onSearch: PropTypes.func
+    onSearch: PropTypes.func,
+    /**
+     * Функция рендера кастомного элемента над input, получает `value` в качестве значения.
+     * Должна возвращать `reactElement`.
+     */
+    customElementRenderer: PropTypes.func,
+    /**
+     * Дополнительный CSS-класс контейнера кастомного элемента и `<Input>`
+     */
+    containerClassName: PropTypes.string,
+    /**
+     * Inline-стили контейнера кастомного элемента и `<Input>`
+     */
+    containerStyle: PropTypes.obj
   };
 
   static defaultProps = {
@@ -291,6 +324,11 @@ export default class Select extends PureComponent {
     return this.props.sheet.classes
   }
 
+  get showArrow() {
+    const {children} = this.props
+    return children && children.length > 0
+  }
+
   constructor(props) {
     super(props)
 
@@ -300,38 +338,36 @@ export default class Select extends PureComponent {
       value: props.value,
       searchText: ''
     }
-
-    this.value = props.value
-    this.showArrow = props.children.length > 0
   }
 
   componentWillReceiveProps({ value }) {
     this.setValue(value)
   }
 
-  componentDidUpdate() {
-    if (!this.state.isOpened && this.state.searchText)
-      this.setSearchText('')
+  handleDropdownClose = () => {
+    if (this.state.isOpened) return
+    this.setSearchText('')
   }
 
   setValue(value) {
+    const {valuesEquality} = this.props
+    const oldValue = this.state.value
     if (this.props.multiple) {
-      const currValue = Array.isArray(this.value) ? this.value : emptyArr
+      const currValue = Array.isArray(oldValue) ? oldValue : emptyArr
       const nextValue = Array.isArray(value) ? value : emptyArr
-      if (nextValue.length === currValue.length && nextValue.every((item, index) => this.props.valuesEquality(item, currValue[index])))
+      if (nextValue.length === currValue.length && nextValue.every((item, index) => valuesEquality(item, currValue[index])))
         return
-    } else if (this.props.valuesEquality(value, this.value)) {
+    } else if (valuesEquality(value, oldValue)) {
       return
     }
-
     this.setState({
       value
     })
-
-    this.value = value
   }
 
   setSearchText(searchText) {
+    if (this.state.searchText === searchText) return
+
     this.setState({
       searchText
     })
@@ -456,7 +492,7 @@ export default class Select extends PureComponent {
       })
     else if (code === UP || code === DOWN)
       this.openOnArrow(event)
-    else if (!this.props.multiple && (code === DELETE || code === BACKSPACE))
+    else if (!this.props.multiple && !this.props.customElementRenderer && (code === DELETE || code === BACKSPACE))
       this.clearValueOnBackspace(event)
   }
 
@@ -478,6 +514,9 @@ export default class Select extends PureComponent {
       'onFocus',
       'onBlur',
       'onChange',
+      'inputValueRenderer',
+      'customElementRenderer',
+      'multiple',
       'theme'
     ])
   }
@@ -519,25 +558,43 @@ export default class Select extends PureComponent {
       className,
       style,
       autoFocus,
-      inputValueRenderer,
       placeholder,
       icon,
-      multiple,
       onSearch,
       ...other
-    } = omit(this.getInputProps(), ['arrowClassName', 'arrowStyle', 'arrowIcon'])
+    } = omit(this.getInputProps(), ['arrowClassName', 'arrowStyle', 'arrowIcon', 'containerStyle'])
+
+    const {
+      multiple,
+      inputValueRenderer,
+      customElementRenderer
+    } = this.props
 
     const focusedInput = inputFocused || isOpened
-    const inputValue = inputValueRenderer(value)
-    const resultInputValue = multiple
-      ? searchText
-      : onSearch && focusedInput && isOpened ? searchText : (this.isValueEmpty(inputValue) ? '' : inputValue)
 
-    const resultPlaceholder = multiple
-      ? !isOpened && Array.isArray(value) && value.length > 0 ? '' : placeholder
-      : this.isValueEmpty(inputValue) ? placeholder : (onSearch && focusedInput && searchText === '' ? inputValue : '')
+    let resultInputValue = ''
+    if (onSearch && focusedInput && isOpened) {
+      resultInputValue = searchText
+    } else if (!multiple && !customElementRenderer) {
+      const inputValue = inputValueRenderer(value)
+      resultInputValue = this.isValueEmpty(inputValue) ? '' : inputValue
+    }
 
-    const readOnly = !onSearch || (onSearch && multiple && !isOpened && Array.isArray(value) && value.length > 0)
+    let resultPlaceholder = ''
+    if (customElementRenderer) {
+      if (this.isValueEmpty(value) || (isOpened && !!onSearch)) resultPlaceholder = placeholder
+    } else if (multiple) {
+      if (isOpened || !Array.isArray(value) || value.length === 0 ) resultPlaceholder = placeholder
+    } else {
+      const inputValue = inputValueRenderer(value)
+      resultPlaceholder = this.isValueEmpty(inputValue) ? placeholder : (onSearch && focusedInput && searchText === '' ? inputValue : '')
+    }
+
+    const inputMode = !!onSearch && (
+      (!customElementRenderer && !multiple) ||
+      (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
+      (multiple && (isOpened || !Array.isArray(value) || value.length === 0))
+    )
 
     return (
       <Input
@@ -555,7 +612,7 @@ export default class Select extends PureComponent {
         inputClassName={classnames(className, this.css.field)}
         autoFocus={autoFocus}
         placeholder={resultPlaceholder}
-        readOnly={readOnly}
+        readOnly={!inputMode}
         value={resultInputValue}
         onChange={this.requestItems}
         inputRef={this.saveInputRef}
@@ -573,6 +630,9 @@ export default class Select extends PureComponent {
     const {
       dropdownStyle,
       dropdownClassName,
+      containerStyle,
+      containerClassName,
+      customElementRenderer,
       menuStyle,
       menuClassName,
       valuesEquality,
@@ -601,18 +661,32 @@ export default class Select extends PureComponent {
       focusedInput && this.css.isFocused
     )
 
+    let customElement = null
+    if (customElementRenderer) {
+      if (!this.isValueEmpty(value) && !(isOpened && onSearch))
+        customElement = cloneElement(customElementRenderer(value), {
+          className: this.css.custom
+        })
+
+    } else if (multipleWithValue && !isOpened) {
+      customElement = (
+        <TagsInput
+          className={this.css.options}
+          onChange={this.changeValue}
+          isExpanded={false}
+        >
+          {options}
+        </TagsInput>
+      )
+    }
+
     const dropdownAnchor = (
-      <div>
+      <div
+        className={classnames(containerClassName, (multiple || customElementRenderer) && this.css.withCustom)}
+        style={containerStyle}
+      >
         {this.renderInput()}
-        {multipleWithValue && !isOpened &&
-          <TagsInput
-            className={this.css.options}
-            onChange={this.changeValue}
-            isExpanded={false}
-          >
-            {options}
-          </TagsInput>
-        }
+        {customElement}
       </div>
     )
 
@@ -634,6 +708,7 @@ export default class Select extends PureComponent {
           contentPointY="top"
           closeOnClickOutside={false}
           cachePositionOptions={false}
+          onClose={this.handleDropdownClose}
         >
           {multipleWithValue &&
             <TagsInput

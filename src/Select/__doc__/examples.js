@@ -15,6 +15,13 @@ const objectData = [...Array(15)].map((item, i) => ({
   key: `Baz${i}`
 }))
 
+const objectCustomData = [...Array(15)].map((item, i) => ({
+  id: i,
+  str1: `Строка 1 элемента ${i}`,
+  str2: `Строка 2 элемента ${i}`,
+  str3: `Строка 3 элемента ${i}`
+}))
+
 export default class SelectExample extends Component {
 
   state = {
@@ -30,6 +37,9 @@ export default class SelectExample extends Component {
     asyncData: [],
     asyncValue: null,
     asyncValue2: null,
+    objectCustomData,
+    objectValue3: null,
+    objectValue4: null,
     popupIsOpened: false
   }
 
@@ -68,6 +78,16 @@ export default class SelectExample extends Component {
 
     this.setState({
       objectData: filteredData
+    })
+  }
+
+  filterObjectCustomData = (search) => {
+    const filteredData = search === '' ?
+      objectCustomData :
+      objectCustomData.filter(item => search !== '' && item.str1.indexOf(search) > -1)
+
+    this.setState({
+      objectCustomData: filteredData
     })
   }
 
@@ -189,7 +209,7 @@ export default class SelectExample extends Component {
             </Select>
           </div>
 
-          <div style={{ width: '66%', marginBottom: 15 }}>
+          <div style={{ width: '66%', marginBottom: 55 }}>
             <h3>Disabled</h3>
             <Select
               disabled={true}
@@ -254,7 +274,7 @@ export default class SelectExample extends Component {
             </Loader>
           </div>
 
-          <div style={{ maxWidth: 300, marginBottom: 15 }}>
+          <div style={{ maxWidth: 300, marginBottom: 55 }}>
             <h3>Множественный выбор со значениями-объектами</h3>
             <Select
               multiple={true}
@@ -267,6 +287,58 @@ export default class SelectExample extends Component {
               {this.state.objectData.map(item => (
                 <MenuItem value={item} key={item.id}>
                   <PhoneIcon /> {item.key}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ maxWidth: 300, marginBottom: 15 }}>
+            <h3>Кастомизированный с customElementRenderer, containerStyle и variation: regular</h3>
+            <Select
+              variation="regular"
+              valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
+              value={this.state.objectValue3}
+              menuStyle={{ maxHeight: 74 * 4 + 2 }}
+              containerStyle={{minHeight: 74}}
+              customElementRenderer={(value) => (
+                <div style={{ paddingTop: 11, paddingBottom: 11, lineHeight: '14px' }}>
+                  <div style={{fontSize: 13 }}>{value.str1}</div>
+                  <div style={{fontSize: 11, marginTop: 5 }}>{value.str2}</div>
+                  <div style={{fontSize: 11, marginTop: 5 }}>{value.str3}</div>
+                </div>
+              )}
+              placeholder="Select..."
+              onChange={this.setValue('objectValue3')}>
+              {objectCustomData.map(item => (
+                <MenuItem value={item} key={item.id} style={{paddingTop: 11, paddingBottom: 11, lineHeight:'14px'}}>
+                  <div style={{width: '100%', flex: 'none', fontSize: 13}}>{item.str1}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5}}>{item.str2}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str3}</div>
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ maxWidth: 300, marginBottom: 55 }}>
+            <h3>Кастомизированный с customElementRenderer и поиском</h3>
+            <Select
+              valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
+              value={this.state.objectValue4}
+              customElementRenderer={(value) => (
+                <div style={{paddingTop: 11, paddingBottom: 11, lineHeight: '14px'}}>
+                  <div style={{fontSize: 13 }}>{value.str1}</div>
+                  <div style={{fontSize: 11, marginTop: 5 }}>{value.str2}</div>
+                  <div style={{fontSize: 11, marginTop: 5 }}>{value.str3}</div>
+                </div>
+              )}
+              placeholder="Type something..."
+              onSearch={this.filterObjectCustomData}
+              onChange={this.setValue('objectValue4')}>
+              {this.state.objectCustomData.map(item => (
+                <MenuItem value={item} key={item.id} style={{paddingTop: 11, paddingBottom: 11, lineHeight:'14px'}}>
+                  <div style={{width: '100%', flex: 'none', fontSize: 13 }}>{item.str1}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str2}</div>
+                  <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str3}</div>
                 </MenuItem>
               ))}
             </Select>
@@ -307,6 +379,10 @@ export default class SelectExample extends Component {
           <div>this.state.value3: <b>{`${this.state.value3}`}</b></div>
           <div>this.state.value4: <b>{`${JSON.stringify(this.state.value4)}`}</b></div>
           <div>this.state.value5: <b>{`${JSON.stringify(this.state.value5)}`}</b></div>
+          <div>this.state.objectValue1: <b>{`${JSON.stringify(this.state.objectValue1)}`}</b></div>
+          <div>this.state.objectValue2: <b>{`${JSON.stringify(this.state.objectValue2)}`}</b></div>
+          <div>this.state.objectValue3: <b>{`${JSON.stringify(this.state.objectValue3)}`}</b></div>
+          <div>this.state.objectValue4: <b>{`${JSON.stringify(this.state.objectValue4)}`}</b></div>
         </div>
       </ApplyTheme>
     )

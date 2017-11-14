@@ -270,7 +270,7 @@ export default class Menu extends PureComponent {
       <div
         {...other}
         ref={(el) => { this.menu = el }}
-        style={{ ...style, maxHeight }}
+        style={{ maxHeight, ...style }}
         className={classnames(this.css.menu, className)}
         onKeyDown={this.keyDown}>
         {items}
