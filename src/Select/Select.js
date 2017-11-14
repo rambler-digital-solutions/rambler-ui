@@ -88,7 +88,7 @@ const absolutePosition = {
     },
     '$withCustom &&': {
       extend: absolutePosition,
-      height: 'auto'
+      height: '100%'
     }
   },
   withCustom: {
