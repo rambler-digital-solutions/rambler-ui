@@ -54,7 +54,7 @@ export default class SearchExample extends Component {
   }
 
   onSelectItem = (query) => {
-    this.setState({value: query })
+    this.setState({value: query, query})
   }
 
   onItemClick = (query) => {
@@ -88,14 +88,16 @@ export default class SearchExample extends Component {
             bottomLinks={this.renderBottomLinks()}
             onPressEnter={this.onPressEnter}
             placeholder="Напишите 'это...'"
+            searchButton="Search"
           >
             {this.state.items.map(item => (
-              <SuggestItem
-                key={item[0] + item[2]}
-                value={item[1]}
-              >
-                {this.renderItem(item[1])}
-              </SuggestItem>)
+              <div key={item[0] + item[2]} style={{borderTop: '1px solid #eee'}}>
+                <SuggestItem
+                  value={item[1]}
+                >
+                  {this.renderItem(item[1])}
+                </SuggestItem>
+              </div>)
             )}
           </ComplexSearch>
         </div>

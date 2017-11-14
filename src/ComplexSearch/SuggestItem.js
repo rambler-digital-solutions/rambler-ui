@@ -1,7 +1,10 @@
 import React from 'react'
-import * as pt from 'prop-types'
+import * as PropTypes from 'prop-types'
+import EventEmitter from 'events'
+import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import cn from 'classnames'
+import uuid from '../utils/uuid'
+import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => ({
   isHighlighted: {},
@@ -37,60 +40,110 @@ class SuggestItem extends React.Component {
     /**
     * Переопределение стандартных стилей компонента SuggestItem
     */
-    style: pt.object,
+    style: PropTypes.object,
     /**
     * Дополнительный css-класс компонента
     */
-    className: pt.string,
+    className: PropTypes.string,
     /**
     * Текст ссылки для удаления
     */
-    removeButton: pt.string,
+    removeButton: PropTypes.string,
     /**
     * Значение поиского запроса айтема, может быть  любым объектом
     */
-    value: pt.any.isRequired
+    value: PropTypes.any.isRequired
   }
 
   static defaultProps = {
     removeButton: ''
   }
 
-  state = {
-    isHighlighted: false
+  static contextTypes = {
+    [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
+      /**
+       * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
+       */
+      registerSuggestItem: PropTypes.func,
+      /**
+       * Колбек удаления SuggestItem
+       */
+      onRemoveSuggestItemClick: PropTypes.func,
+      /**
+       * Колбек клика по SuggestItem
+       */
+      onSuggestItemClick: PropTypes.func,
+      /**
+       * Колбек наведения на SuggstItem
+       */
+      onSuggestItemHover: PropTypes.func,
+      /**
+       * Функция для подсветки SuggestItem
+       */
+      setHighlightedId: PropTypes.func,
+      /**
+       * Шина событий
+       */
+      events: PropTypes.instanceOf(EventEmitter)
+    })
   }
 
-  componentWillUpdate(nextProps) {
-    if (nextProps.isSelected !== this.props.isSelected)
-      nextProps.isSelected && this.props.onSelect(nextProps.value)
+  constructor(props) {
+    super(props)
+    this.id = uuid()
+    this.state = {
+      isHighlighted: false
+    }
+  }
+
+  get ctx() {
+    return this.context[COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]
+  }
+
+  componentDidMount() {
+    this.ctx.events.on('highlight', this.onHighlight)
+    this.ctx.registerSuggestItem(this.id, this)
+  }
+
+  componentWillUnmount() {
+    this.ctx.events.removeListener('highlight', this.onHighlight)
+    this.ctx.registerSuggestItem(this.id, null)
+  }
+
+  onHighlight = (highlightedItemId) => {
+    const isHighlighted = highlightedItemId === this.id
+    if (this.state.isHighlighted !== isHighlighted)
+      this.setState({isHighlighted})
   }
 
   onItemClick = () => {
-    this.props.onClick && this.props.onClick(this.props.value)
+    this.ctx.setHighlightedId(this.id)
+    this.ctx.onSuggestItemClick(this.props.value)
   }
 
   onMouseEnter = () => {
-    this.props.onHover && this.props.onHover()
+    this.ctx.setHighlightedId(this.id)
+    this.ctx.onSuggestItemHover(this.props.value)
   }
 
   onRemoveClick = () => {
-    this.props.onRemoveClick && this.props.onRemoveClick(this.props.value)
+    this.ctx.onRemoveSuggestItemClick(this.props.value)
   }
 
   render() {
     const {
       sheet: { classes: css },
       className,
-      removeButton,
-      isHighlighted
+      removeButton
     } = this.props
 
     return (
       <div
-        className={cn(
+        data-suggest-item-id={this.id}
+        className={classnames(
           css.root,
           className,
-          {[css.isHighlighted]: isHighlighted}
+          {[css.isHighlighted]: this.state.isHighlighted}
         )}
         onClick={this.onItemClick}
         onMouseEnter={this.onMouseEnter}

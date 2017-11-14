@@ -18,7 +18,7 @@ describe('<ComplexSearch />', () => {
 
     wrapper = mount(
       withTheme(
-        <ComplexSearch {...handlersProps}>
+        <ComplexSearch {...handlersProps} searchButton="search">
           <SuggestItem value="1">
             1
           </SuggestItem>
