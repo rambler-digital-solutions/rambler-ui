@@ -517,7 +517,12 @@ export default class Select extends PureComponent {
       'inputValueRenderer',
       'customElementRenderer',
       'multiple',
-      'theme'
+      'theme',
+      'arrowClassName',
+      'arrowStyle',
+      'arrowIcon',
+      'containerStyle',
+      'containerClassName'
     ])
   }
 
@@ -562,7 +567,7 @@ export default class Select extends PureComponent {
       icon,
       onSearch,
       ...other
-    } = omit(this.getInputProps(), ['arrowClassName', 'arrowStyle', 'arrowIcon', 'containerStyle'])
+    } = this.getInputProps()
 
     const {
       multiple,
