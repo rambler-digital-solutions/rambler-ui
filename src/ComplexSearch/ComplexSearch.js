@@ -308,11 +308,11 @@ class ComplexSearch extends React.Component {
     this[`${name}Node`] = node
   }
 
-  isNodeIsNotInComponent(node) {
+  isNodeNotInComponent(node) {
     if (!this.props.appendToBody)
       return !this.rootNode.contains(node)
     return (!this.suggestNode || this.suggestNode !== node && !this.suggestNode.contains(node)) &&
-      this.rootNode !== node && !this.rootNode.contains(node)
+      (this.rootNode !== node && !this.rootNode.contains(node))
   }
 
   initializeSortedSuggestItems() {
@@ -350,6 +350,8 @@ class ComplexSearch extends React.Component {
   }
 
   onKeyDown = (e) => {
+    if (!this.inputNode) // на всякий случай проверяем не пришло ли событие после анмаунта компонента
+      return
     this.initializeSortedSuggestItems()
     const index = this.highlightedSuggestItemId ? this.sortedSuggestItems.indexOf(this.highlightedSuggestItemId) : null
     const len = this.sortedSuggestItems.length
@@ -379,8 +381,8 @@ class ComplexSearch extends React.Component {
       break
 
     case 'Escape':
-      this.setState({isDropdownOpened: false})
-      this.setHighlightedId(null)
+      e.preventDefault()
+      this.closeDropdown()
       break
     }
   }
@@ -391,7 +393,8 @@ class ComplexSearch extends React.Component {
   }
 
   onBlur = (e) => {
-    if (e.relatedTarget && this.isNodeIsNotInComponent(e.relatedTarget))
+    // на всякий случай проверяем, находится у нас еще компонент в DOM, т.к. React может прислать blur после анмаунта компонента
+    if (this.rootNode && e.relatedTarget && this.isNodeNotInComponent(e.relatedTarget))
       this.closeDropdown()
 
     this.props.onBlur()
@@ -400,12 +403,13 @@ class ComplexSearch extends React.Component {
   onSearchInput = (e) => {
     const value = e.target.value
     this.setHighlightedId(null)
-    this.setState({value, isDropdownOpened: true})
+    this.setState({value})
+    this.openDropdown()
     this.props.onSearch(value)
   }
 
   onClickOutside = (e) => {
-    if (e.target && this.isNodeIsNotInComponent(e.target))
+    if (this.rootNode && e.target && this.isNodeNotInComponent(e.target))
       this.closeDropdown()
   }
 
@@ -437,7 +441,6 @@ class ComplexSearch extends React.Component {
       placeholder,
       sheet: { classes: css }
     } = omit(this.props, 'onChange', 'value')
-
     return (
       <div className={classnames(css.inputWrapper, this.state.isDropdownOpened && css.active)}>
         {division && <div className={css.division}>{division}</div> }

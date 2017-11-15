@@ -101,16 +101,15 @@ export default class Tabs extends Component {
       sheet: { classes: css },
       ...other
     } = omit(this.props, 'theme', 'onChange', 'value')
-
+    let i = 0
     const tabs = React.Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiTabsItem')
         throw new Error('Child component should be instance of <Tab />')
-
+      const {value} = child.props
       const hasValue = 'value' in child.props
-
       return cloneElement(child, {
         className: css.item,
-        key: child.props.children,
+        key: child.key !== undefined ? child.key : (typeof value === 'string' || typeof value === 'number') ? value : i++,
         isSelected: hasValue && child.props.value === this.state.value,
         onPress: hasValue && !disabled ? this.handleValueChange : null,
         size,

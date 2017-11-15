@@ -252,16 +252,18 @@ export default class Toggle extends Component {
       ...other
     } = omit(this.props, 'theme')
     this.optionsElements = []
+    let i = 0
     const options = React.Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiToggleOption')
         throw new Error('Child component should be instance of <ToggleOption />')
-      const isSelected = child.props.value === this.state.value
+      const {value} = child.props
+      const isSelected = value === this.state.value
       return cloneElement(child, {
         size,
         disabled,
         isSelected,
         'aria-pressed': isSelected,
-        key: child.props.value,
+        key: child.key !== undefined ? child.key : (typeof value === 'string' || typeof value === 'number') ? value : i++,
         onPress: this.onValueChange,
         nodeRef: this.shouldCalcMinWidth() ? this.addElement : null,
         className: classnames(css.option, isSelected && css.isSelected, child.props.className),

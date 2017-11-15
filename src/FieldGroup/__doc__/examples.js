@@ -7,6 +7,14 @@ import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class FieldGroupExample extends Component {
 
+  state = {
+    value: ''
+  }
+
+  setValue = (e, value) => {
+    this.setState({value})
+  }
+
   render() {
     return (
       <ApplyTheme>
@@ -20,11 +28,11 @@ export default class FieldGroupExample extends Component {
                     {`Variation: ${variation}`}
                   </h4>
                   <FieldGroup variation={variation}>
-                    <Select placeholder="placeholder">
+                    <Select placeholder="placeholder" appendToBody={true}>
                       <MenuItem value="foo">Foo</MenuItem>
                       <MenuItem value="bar">Bar</MenuItem>
                     </Select>
-                    <Input type="text" placeholder="placeholder" />
+                    <Input type="text" placeholder="placeholder" onChange={this.setValue} value={this.state.value}/>
                   </FieldGroup>
                 </div>
               ))}

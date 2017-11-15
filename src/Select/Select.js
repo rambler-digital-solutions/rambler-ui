@@ -302,7 +302,7 @@ export default class Select extends PureComponent {
     /**
      * Inline-стили контейнера кастомного элемента и `<Input>`
      */
-    containerStyle: PropTypes.obj
+    containerStyle: PropTypes.object
   };
 
   static defaultProps = {

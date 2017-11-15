@@ -4,7 +4,7 @@ import { ApplyTheme } from 'rambler-ui/theme'
 
 const values = ['Day', 'Week', 'Month', 'Year']
 
-export default class ToggleExample extends Component {
+export default class TabsExample extends Component {
 
   state = {
     value: values[1]
@@ -21,8 +21,8 @@ export default class ToggleExample extends Component {
           <div style={{marginBottom: 40}}>
             <h4>default</h4>
             <Tabs value={this.state.value} onChange={::this.handleChange}>
-              {values.map(item => (
-                <TabsItem value={item}>
+              {values.map((item, index) => (
+                <TabsItem value={item} key={index}>
                   { item }
                 </TabsItem>
               ))}
@@ -31,8 +31,8 @@ export default class ToggleExample extends Component {
           <div style={{marginBottom: 40}}>
             <h4>size: medium, Tab with href prop</h4>
             <Tabs size="medium" value={this.state.value} onChange={::this.handleChange}>
-              {values.map(item => (
-                <TabsItem href={'#/components/Tabs'} value={item}>
+              {values.map((item, index) => (
+                <TabsItem href={'#/components/Tabs'} value={item} key={index}>
                   { item }
                 </TabsItem>
               ))}
@@ -42,7 +42,7 @@ export default class ToggleExample extends Component {
             <h4>disabled</h4>
             <Tabs disabled={true} value={this.state.value} onChange={::this.handleChange}>
               {values.map((item, index) => (
-                <TabsItem href={index % 2 ? '#/components/Tabs' : null} value={item}>
+                <TabsItem href={index % 2 ? '#/components/Tabs' : null} value={item} key={index}>
                   { item }
                 </TabsItem>
               ))}
