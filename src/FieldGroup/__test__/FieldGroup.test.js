@@ -8,6 +8,12 @@ import { mount, withTheme, getStyles } from '../../utils/test-utils'
 
 describe('<FieldGroup />', () => {
 
+  const defaultProps = {
+    type: 'text',
+    onChange: () => {},
+    value: ''
+  }
+
   it('should apply default styles', () => {
     const wrapper = mount(
       withTheme(
@@ -16,7 +22,7 @@ describe('<FieldGroup />', () => {
             <MenuItem value="foo">Foo</MenuItem>
             <MenuItem value="bar">Bar</MenuItem>
           </Select>
-          <Input type="text" className="input" />
+          <Input className="input" {...defaultProps} />
         </FieldGroup>
       )
     )
@@ -51,7 +57,7 @@ describe('<FieldGroup />', () => {
             <MenuItem value="foo">Foo</MenuItem>
             <MenuItem value="bar">Bar</MenuItem>
           </Select>
-          <Input type="text" />
+          <Input {...defaultProps} />
         </FieldGroup>
       )
     )
@@ -88,7 +94,7 @@ describe('<FieldGroup />', () => {
             <MenuItem value="foo">Foo</MenuItem>
             <MenuItem value="bar">Bar</MenuItem>
           </Select>
-          <Input type="text" />
+          <Input {...defaultProps} />
         </FieldGroup>
       )
     )
