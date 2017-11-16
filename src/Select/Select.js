@@ -321,7 +321,7 @@ export default class Select extends PureComponent {
   };
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   get showArrow() {
@@ -510,7 +510,7 @@ export default class Select extends PureComponent {
       'children',
       'value',
       'appendToBody',
-      'sheet',
+      'classes',
       'onFocus',
       'onBlur',
       'onChange',

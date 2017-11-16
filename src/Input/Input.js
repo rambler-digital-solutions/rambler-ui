@@ -426,7 +426,7 @@ export default class Input extends Component {
       type: trueType,
       size,
       theme,
-      sheet: { classes: css },
+      classes: css,
       passwordIconTooltip
     } = this.props
 
@@ -479,7 +479,7 @@ export default class Input extends Component {
       iconRight,
       status,
       theme,
-      sheet: { classes: css },
+      classes: css,
       value,
       groupPosition,
       ...other

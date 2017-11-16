@@ -107,7 +107,7 @@ export default class Avatar extends Component {
   }
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   getContainer() {
@@ -139,7 +139,7 @@ export default class Avatar extends Component {
       profileType,
       theme,
       ...other
-    } = omit(this.props, 'sheet', 'href', 'container')
+    } = omit(this.props, 'classes', 'href', 'container')
 
     const styles = Object.assign({}, style, {
       backgroundColor,

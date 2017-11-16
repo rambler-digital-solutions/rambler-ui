@@ -169,7 +169,7 @@ export default class Popup extends Component {
   };
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentWillUnmount() {

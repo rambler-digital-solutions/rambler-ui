@@ -170,7 +170,7 @@ class TooltipContent extends PureComponent {
   };
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   render() {
@@ -322,7 +322,7 @@ export default class Tooltip extends PureComponent {
   };
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentWillReceiveProps(nextProps) {

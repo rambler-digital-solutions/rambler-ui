@@ -58,7 +58,7 @@ class DropdownContainer extends PureComponent {
   state = {};
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentWillReceiveProps(nextProps) {

@@ -562,7 +562,7 @@ export default class RelativeOverlay extends PureComponent {
       style,
       anchor,
       content,
-      sheet: { classes: css }
+      classes
     } = this.props
     const {
       isContentVisible,
@@ -579,7 +579,7 @@ export default class RelativeOverlay extends PureComponent {
     if (isContentInDom)
       contentElement = (
         <div
-          className={ css.content }
+          className={ classes.content }
           style={ contentStyle }
           ref={ this.onContentMount} >
           {
@@ -600,7 +600,7 @@ export default class RelativeOverlay extends PureComponent {
       )
     return (
       <div
-        className={classnames(className, css.container)}
+        className={classnames(className, classes.container)}
         style={style}
         ref={this.onContainerMount}>
         {anchor}

@@ -439,7 +439,7 @@ class ComplexSearch extends React.Component {
     const {
       division,
       placeholder,
-      sheet: { classes: css }
+      classes: css
     } = omit(this.props, 'onChange', 'value')
     return (
       <div className={classnames(css.inputWrapper, this.state.isDropdownOpened && css.active)}>
@@ -461,7 +461,7 @@ class ComplexSearch extends React.Component {
 
   renderButton() {
     const {
-      sheet: { classes: css },
+      classes: css,
       searchButton
     } = this.props
 
@@ -502,7 +502,7 @@ class ComplexSearch extends React.Component {
     const {
       children,
       appendToBody,
-      sheet: { classes: css }
+      classes: css
     } = this.props
 
     return (
@@ -528,7 +528,7 @@ class ComplexSearch extends React.Component {
 
   render() {
     const {
-      sheet: { classes: css },
+      classes: css,
       style,
       className,
       theme
