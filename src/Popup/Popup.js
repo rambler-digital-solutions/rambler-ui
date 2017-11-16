@@ -55,13 +55,15 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     padding: '25px 30px 30px',
     color: theme.popup.colors.text,
     minWidth: 300,
+    maxWidth: 'calc(100% - 20px)',
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: theme.popup.colors.background,
     fontSize: theme.popup.font.textSize,
     textAlign: 'left',
     ...ifDesktop({
-      minWidth: 350
+      minWidth: 350,
+      maxWidth: 'auto'
     })
   },
   title: {
@@ -79,13 +81,12 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
   buttons: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginTop: 30
-  },
-  button: {
-    '&, & > *': {
-      width: '100%'
+    marginTop: 30,
+    '& > *': {
+      flexGrow: 1,
+      width: '50%'
     },
-    '& + &': {
+    '& > * + *': {
       marginLeft: 10,
       ...ifDesktop({
         marginLeft: 20
@@ -190,18 +191,6 @@ export default class Popup extends Component {
     if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
-  renderButton(button) {
-    if (button) {
-      const css = this.css
-
-      return (
-        <div className={css.button}>
-          {button}
-        </div>
-      )
-    }
-  }
-
   renderContent() {
     const {
       children,
@@ -215,9 +204,6 @@ export default class Popup extends Component {
       theme,
       closeOnClickOutside
     } = this.props
-
-    const okButtonEl = this.renderButton(okButton)
-    const cancelButtonEl = this.renderButton(cancelButton)
 
     const content = (
       <div
@@ -241,8 +227,8 @@ export default class Popup extends Component {
         {children}
         {(okButton || cancelButton) &&
           <footer className={this.css.buttons}>
-            {okButtonEl}
-            {cancelButtonEl}
+            {okButton}
+            {cancelButton}
           </footer>
         }
       </div>
