@@ -2,7 +2,7 @@ import React from 'react'
 import Switcher from '../Switcher'
 import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import { mount, withTheme, getWrapperNode, getStyles } from '../../utils/test-utils'
 
 describe('<Switcher />', () => {
 
@@ -15,11 +15,11 @@ describe('<Switcher />', () => {
           On
     </Switcher>))
 
-    const root = wrapper.find('.root')
+    const root = getWrapperNode(wrapper)
 
-    expect(root.text()).toEqual('On')
+    expect(root.textContent).toEqual('On')
 
-    const rootStyles = getStyles(root)
+    const rootStyles = getStyles(wrapper)
     const checkboxStyles = getStyles(wrapper.find('input'))
     const switcherStyles = getStyles(wrapper.find('.switcher'))
     const trackStyles = getStyles(wrapper.find('.track'))
@@ -59,7 +59,7 @@ describe('<Switcher />', () => {
           On
     </Switcher>))
 
-    const rootStyles = getStyles(wrapper.find('.root'))
+    const rootStyles = getStyles(wrapper)
     const switcherStyles = getStyles(wrapper.find('.switcher'))
     const trackStyles = getStyles(wrapper.find('.track'))
     const labelStyles = getStyles(wrapper.find('.label'))
@@ -81,7 +81,7 @@ describe('<Switcher />', () => {
           On
     </Switcher>))
 
-    const rootStyles = getStyles(wrapper.find('.root'))
+    const rootStyles = getStyles(wrapper)
     const switcherStyles = getStyles(wrapper.find('.switcher'))
     const trackStyles = getStyles(wrapper.find('.track'))
 
@@ -89,10 +89,10 @@ describe('<Switcher />', () => {
     expect(nc(switcherStyles['background-color'])).toEqual(nc(theme.switcher.colors.default.disabled.background))
     expect(nc(trackStyles['background-color'])).toEqual(nc(theme.switcher.colors.default.disabled.track))
 
-    const checkbox = wrapper.find('input')
+    const checkbox = getWrapperNode(wrapper.find('input'))
 
-    expect(checkbox.node.name).toEqual('foo')
-    expect(checkbox.node.disabled).toBeTruthy()
+    expect(checkbox.name).toEqual('foo')
+    expect(checkbox.disabled).toBeTruthy()
   })
 
   it('should place switcher at right', () => {

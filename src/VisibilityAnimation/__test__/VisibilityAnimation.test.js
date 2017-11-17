@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import VisibilityAnimation from '../VisibilityAnimation'
 import renderToLayer from '../../hoc/render-to-layer'
-import { mount } from '../../utils/test-utils'
+import { mount, getWrapperNode } from '../../utils/test-utils'
 
 class Animated extends Component {
 
@@ -39,29 +39,30 @@ describe('<VisibilityAnimation />', () => {
     })
 
     const wrapper = mount(<Animated {...props} />)
+    const wrapperNode = getWrapperNode(wrapper)
 
     expect(wrapper.text()).toEqual('Hello world')
-    expect(wrapper.hasClass('content')).toEqual(true)
-    expect(wrapper.hasClass('normal')).toEqual(true)
-    expect(wrapper.hasClass('visible')).not.toEqual(true)
+    expect(wrapperNode.classList.contains('content')).toEqual(true)
+    expect(wrapperNode.classList.contains('normal')).toEqual(true)
+    expect(wrapperNode.classList.contains('visible')).not.toEqual(true)
 
     wrapper.setProps({
       isOpened: true
     })
 
     await whenOpen
-    expect(wrapper.hasClass('content')).toEqual(true)
-    expect(wrapper.hasClass('normal')).toEqual(true)
-    expect(wrapper.hasClass('visible')).toEqual(true)
+    expect(wrapperNode.classList.contains('content')).toEqual(true)
+    expect(wrapperNode.classList.contains('normal')).toEqual(true)
+    expect(wrapperNode.classList.contains('visible')).toEqual(true)
 
     wrapper.setProps({
       isOpened: false
     })
 
     await whenClose
-    expect(wrapper.hasClass('content')).toEqual(true)
-    expect(wrapper.hasClass('normal')).toEqual(true)
-    expect(wrapper.hasClass('visible')).not.toEqual(true)
+    expect(wrapperNode.classList.contains('content')).toEqual(true)
+    expect(wrapperNode.classList.contains('normal')).toEqual(true)
+    expect(wrapperNode.classList.contains('visible')).not.toEqual(true)
     done()
   })
 

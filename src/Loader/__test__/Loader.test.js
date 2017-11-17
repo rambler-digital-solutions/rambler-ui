@@ -1,7 +1,7 @@
 import React from 'react'
 import Loader from '../Loader'
 import Spinner from '../../Spinner'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import { mount, withTheme, getStyles, getNodeStyles, getWrapperNode } from '../../utils/test-utils'
 
 const contentEl = (
   <div className="content">
@@ -31,50 +31,48 @@ describe('<Loader />', () => {
       {contentEl}
     </Loader>))
 
-    const loader = wrapper.find(Loader)
-
-    expect(loader.find(Spinner).exists()).toBe(false)
+    expect(wrapper.find(Spinner).exists()).toBe(false)
 
     wrapper.setProps({
       loading: true
     })
 
-    expect(loader.find(Spinner).exists()).toBe(true)
+    expect(wrapper.find(Spinner).exists()).toBe(true)
 
     wrapper.setProps({
       loading: false
     })
 
-    expect(loader.find(Spinner).exists()).toBe(false)
+    expect(wrapper.find(Spinner).exists()).toBe(false)
   })
 
   it('should show spinner when set loading = Promise', async (done) => {
-    const wrapper = mount(withTheme(<Loader>
+    const wrapper = mount(withTheme(<Loader spinnerClassName="spinner">
       {contentEl}
     </Loader>))
-
+  
     let completeLoading
 
     const loading = new Promise((resolve) => {
-      completeLoading = () => setTimeout(() => {
+      completeLoading = () => {
         resolve()
-      }, 500)
+      }
     })
 
-    const loader = wrapper.find(Loader)
+    const wrapperNode = getWrapperNode(wrapper)
 
-    expect(loader.find(Spinner).exists()).toBe(false)
+    expect(wrapperNode.querySelectorAll('.spinner').length).toBe(0)
 
     wrapper.setProps({
       loading
     })
 
-    expect(loader.find(Spinner).exists()).toBe(true)
+    expect(wrapperNode.querySelectorAll('.spinner').length).toBe(1)
 
     completeLoading()
     await loading
 
-    expect(loader.find(Spinner).exists()).toBe(false)
+    expect(wrapperNode.querySelectorAll('.spinner').length).toBe(0)
     done()
   })
 
@@ -83,24 +81,24 @@ describe('<Loader />', () => {
       {contentEl}
     </Loader>))
 
-    const loader = wrapper.find(Loader)
+    const node = getWrapperNode(wrapper)
 
-    expect(loader.hasClass('normal')).toBe(true)
-    expect(loader.hasClass('loading')).toBe(false)
+    expect(node.classList.contains('normal')).toBe(true)
+    expect(node.classList.contains('loading')).toBe(false)
 
     wrapper.setProps({
       loading: true
     })
 
-    expect(loader.hasClass('normal')).toBe(true)
-    expect(loader.hasClass('loading')).toBe(true)
+    expect(node.classList.contains('normal')).toBe(true)
+    expect(node.classList.contains('loading')).toBe(true)
 
     wrapper.setProps({
       loading: false
     })
 
-    expect(loader.hasClass('normal')).toBe(true)
-    expect(loader.hasClass('loading')).toBe(false)
+    expect(node.classList.contains('normal')).toBe(true)
+    expect(node.classList.contains('loading')).toBe(false)
   })
 
   it('should append styles', () => {
@@ -108,8 +106,7 @@ describe('<Loader />', () => {
       {contentEl}
     </Loader>))
 
-    const loader = wrapper.find(Loader)
-    const loaderStyles = getStyles(loader)
+    const loaderStyles = getStyles(wrapper)
 
     expect(loaderStyles.height).toEqual('500px')
   })
@@ -122,9 +119,12 @@ describe('<Loader />', () => {
     </Loader>))
 
     const spinner = wrapper.find(Spinner)
-    const dotStyles = getStyles(spinner.children().last())
+    const spinnerNode = getWrapperNode(spinner)
 
-    expect(spinner.hasClass('spinner')).toBe(true)
+    const dotNode = spinnerNode.firstChild
+    const dotStyles = getNodeStyles(dotNode)
+
+    expect(spinnerNode.classList.contains('spinner')).toBe(true)
     expect(dotStyles['background-color']).toEqual(color)
   })
 
@@ -144,10 +144,9 @@ describe('<Loader />', () => {
       {contentEl}
     </Loader>))
 
-    const loader = wrapper.find(Loader)
-    const overlay = loader.childAt(1)
+    const overlay = getWrapperNode(wrapper).children[1]
 
-    expect(overlay.hasClass('overlay')).toBe(true)
+    expect(overlay.classList.contains('overlay')).toBe(true)
   })
 
   it('should hide content when loading = true', () => {
@@ -155,21 +154,19 @@ describe('<Loader />', () => {
       {contentEl}
     </Loader>))
 
-    const loader = wrapper.find(Loader)
-
-    expect(loader.find('.content').exists()).toBe(true)
+    expect(wrapper.find('.content').exists()).toBe(true)
 
     wrapper.setProps({
       loading: true
     })
 
-    expect(loader.find('.content').exists()).toBe(false)
+    expect(wrapper.find('.content').exists()).toBe(false)
 
     wrapper.setProps({
       loading: false
     })
 
-    expect(loader.find('.content').exists()).toBe(true)
+    expect(wrapper.find('.content').exists()).toBe(true)
   })
 
 })

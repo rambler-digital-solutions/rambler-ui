@@ -2,7 +2,7 @@ import Button from '../Button'
 import React from 'react'
 import theme from '../../theme/base'
 import { normalize as nc } from '../../utils/colors'
-import { mount, getStyles, applyTheme } from '../../utils/test-utils'
+import { mount, getStyles, getWrapperNode, applyTheme } from '../../utils/test-utils'
 import ChevronRightIcon from '../../icons/forms/ChevronRightIcon'
 
 describe('<Button />', () => {
@@ -109,9 +109,10 @@ describe('<Button />', () => {
 
   it('Проверяем кнопку на наличие контейнера, который является родительским для icon', () => {
     const wrapper = mount(applyTheme(<Button icon={<ChevronRightIcon/>} {...defaultProps}>Почта</Button>))
-    const button = wrapper.find('button')
-    const icon = wrapper.find('svg')
-    expect(button.childAt(0).node).toEqual(icon.node.parentNode)
+    const buttonInner = getWrapperNode(wrapper.find('button').childAt(0))
+    const iconParent = getWrapperNode(wrapper.find('svg')).parentNode
+
+    expect(buttonInner).toEqual(iconParent)
   })
 
 })

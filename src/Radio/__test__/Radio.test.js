@@ -1,6 +1,6 @@
 import { RadioButton, RadioButtonGroup} from '../../Radio'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles } from '../../utils/test-utils'
+import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
 import theme from '../../theme/base'
 import React from 'react'
 
@@ -119,12 +119,13 @@ describe('Проверка RadioButton.props disabled && value', () => {
             3
       </RadioButton>
     </RadioButtonGroup>))
-    const arr = wrapper.find('input')
-    expect(arr.nodes[0].disabled).toEqual(false)
-    expect(arr.nodes[1].disabled).toEqual(false)
-    expect(arr.nodes[2].disabled).toEqual(true)
+
+    const arr = [...getWrapperNode(wrapper).querySelectorAll('input')]
+    expect(arr[0].disabled).toEqual(false)
+    expect(arr[1].disabled).toEqual(false)
+    expect(arr[2].disabled).toEqual(true)
     let i = 1
-    arr.nodes.forEach((node) => {
+    arr.forEach((node) => {
       expect(node.value).toEqual(`${i++}`)
     })
   })
@@ -190,11 +191,8 @@ describe('<RadioButton /> styles', () => {
   })
 
   it('Проверяем стили RadioButtonGroup, display == block', () => {
-    const wrapper = mount(applyTheme(<RadioButtonGroup
-      className='radio-group'
-    >
-    </RadioButtonGroup>))
-    const styles = getStyles(wrapper.find('.radio-group'))
+    const wrapper = mount(applyTheme(<RadioButtonGroup />))
+    const styles = getStyles(wrapper)
     expect(styles.display).toEqual('block')
   })
 

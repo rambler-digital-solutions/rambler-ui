@@ -7,8 +7,7 @@ describe('<Spinner />', () => {
   it('should apply default styles', () => {
     const wrapper = mount(withTheme(<Spinner />))
 
-    const spinner = wrapper.find(Spinner)
-    const spinnerStyles = getStyles(spinner)
+    const spinnerStyles = getStyles(wrapper)
 
     expect(spinnerStyles.position).toEqual('absolute')
     expect(spinnerStyles.top).toEqual('0px')
@@ -16,7 +15,7 @@ describe('<Spinner />', () => {
     expect(spinnerStyles.right).toEqual('0px')
     expect(spinnerStyles.bottom).toEqual('0px')
 
-    const dotStyles = getStyles(spinner.find('span > span'))
+    const dotStyles = getStyles(wrapper.find('span > span').first())
     expect(dotStyles['width']).toEqual('5px')
     expect(dotStyles['background-color']).toEqual('rgb(49, 94, 251)')
   })
@@ -24,8 +23,7 @@ describe('<Spinner />', () => {
   it('should apply styles for inline prop', () => {
     const wrapper = mount(withTheme(<Spinner inline={true} />))
 
-    const spinner = wrapper.find(Spinner)
-    const spinnerStyles = getStyles(spinner)
+    const spinnerStyles = getStyles(wrapper)
     expect(spinnerStyles.position).toEqual('static')
     expect(spinnerStyles.display).toEqual('inline-block')
   })
@@ -34,7 +32,6 @@ describe('<Spinner />', () => {
     const wrapper = mount(withTheme(<Spinner className="spinner" />))
 
     const spinner = wrapper.find(Spinner)
-
     expect(spinner.hasClass('spinner')).toBe(true)
   })
 
@@ -54,8 +51,7 @@ describe('<Spinner />', () => {
 
     const wrapper = mount(withTheme(<Spinner size={size} />))
 
-    const spinner = wrapper.find(Spinner)
-    const dotStyles = getStyles(spinner.find('span > span'))
+    const dotStyles = getStyles(wrapper.find('span > span').first())
 
     expect(dotStyles.width).toEqual(size + 'px')
   })
@@ -65,8 +61,7 @@ describe('<Spinner />', () => {
 
     const wrapper = mount(withTheme(<Spinner color={color} />))
 
-    const spinner = wrapper.find(Spinner)
-    const dotStyles = getStyles(spinner.find('span > span'))
+    const dotStyles = getStyles(wrapper.find('span > span').first())
 
     expect(dotStyles['background-color']).toEqual(color)
   })

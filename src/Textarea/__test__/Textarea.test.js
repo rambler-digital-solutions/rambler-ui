@@ -1,6 +1,6 @@
 import React from 'react'
 import Textarea from '../Textarea'
-import { withTheme, mount, getStyles } from '../../utils/test-utils'
+import { withTheme, mount, getStyles, getWrapperNode } from '../../utils/test-utils'
 import theme from '../../theme/base'
 
 describe('<Textarea />', () => {
@@ -32,12 +32,12 @@ describe('<Textarea />', () => {
 
     const wrapper = mount(withTheme(<Textarea {...defaultProps} {...fixture} />))
 
-    const textarea = wrapper.find('.textarea')
+    const textarea = getWrapperNode(wrapper.find('.textarea'))
 
-    expect(textarea.node.value).toEqual(fixture.value)
-    expect(textarea.node.name).toEqual(fixture.name)
-    expect(textarea.node.placeholder).toEqual(fixture.placeholder)
-    expect(textarea.node.disabled).toEqual(fixture.disabled)
+    expect(textarea.value).toEqual(fixture.value)
+    expect(textarea.name).toEqual(fixture.name)
+    expect(textarea.placeholder).toEqual(fixture.placeholder)
+    expect(textarea.disabled).toEqual(fixture.disabled)
   })
 
   it('should call props.onChange() when change value', () => {
