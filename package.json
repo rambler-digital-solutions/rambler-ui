@@ -84,6 +84,10 @@
     "run-sequence": "^1.2.2",
     "webpack": "^1.13.2"
   },
+  "peerDependencies": {
+    "react": "^15.3.0 || ^16.0.0",
+    "react-dom": "^15.3.0 || ^16.0.0"
+  },
   "keywords": [
     "react",
     "ui",
