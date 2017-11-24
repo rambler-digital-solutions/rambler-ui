@@ -18,8 +18,13 @@ import { isolateMixin } from '../style/mixins'
       flexBasis: 0
     },
     '& input': {
-      borderColor: 'transparent !important',
-      background: 'none !important'
+      backgroundColor: 'transparent',
+      '&, &:enabled:hover': {
+        borderColor: 'transparent'
+      }
+    },
+    '& > :nth-child(n+2)': {
+      marginLeft: -1
     },
     '&:before': {
       position: 'absolute',
@@ -42,13 +47,13 @@ import { isolateMixin } from '../style/mixins'
     }
   },
   regular: {
+    backgroundColor: theme.field.colors.default.background,
+    '&$disabled': {
+      backgroundColor: theme.field.colors.disabled.background
+    },
     '&:before': {
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
-    },
-    background: theme.field.colors.default.background,
-    '&$disabled': {
-      background: theme.field.colors.disabled.background
     }
   },
   awesome: {
@@ -58,6 +63,14 @@ import { isolateMixin } from '../style/mixins'
     '&:before': {
       paddingTop: 1,
       borderBottomWidth: 1
+    }
+  },
+  showDivider: {
+    '& > :not(:last-child) input': {
+      borderRightColor: theme.field.colors.default.outline
+    },
+    '&:hover > :not(:last-child) input': {
+      borderRightColor: theme.field.colors.hover.outline
     }
   }
 }))
@@ -87,11 +100,16 @@ export default class FieldGroup extends PureComponent {
     /**
      * Доступность инпутов группы
      */
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    /**
+     * Разделитель между инпутами группы
+     */
+    showDivider: PropTypes.bool
   };
 
   static defaultProps = {
-    variation: 'awesome'
+    variation: 'awesome',
+    showDivider: false
   };
 
   render() {
@@ -102,6 +120,7 @@ export default class FieldGroup extends PureComponent {
       children,
       disabled,
       variation,
+      showDivider,
       ...props
     } = omit(this.props, 'theme')
 
@@ -111,7 +130,7 @@ export default class FieldGroup extends PureComponent {
     return (
       <div
         style={style}
-        className={classnames(className, css.root, css[variation], disabled && css.disabled)}>
+        className={classnames(className, css.root, css[variation], disabled && css.disabled, showDivider && css.showDivider)}>
         {Children.map(children, child => {
           let groupPosition = 'middle'
           if (i === 1)

@@ -34,6 +34,14 @@ export default class FieldGroupExample extends Component {
                     </Select>
                     <Input type="text" placeholder="placeholder" onChange={this.setValue} value={this.state.value}/>
                   </FieldGroup>
+                  <br />
+                  <FieldGroup variation={variation} showDivider>
+                    <Select placeholder="placeholder" appendToBody={true}>
+                      <MenuItem value="foo">Foo</MenuItem>
+                      <MenuItem value="bar">Bar</MenuItem>
+                    </Select>
+                    <Input type="text" placeholder="placeholder" onChange={this.setValue} value={this.state.value}/>
+                  </FieldGroup>
                 </div>
               ))}
             </div>

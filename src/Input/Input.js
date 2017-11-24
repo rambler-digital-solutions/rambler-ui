@@ -97,7 +97,10 @@ const activeBorder = borderColor => ({
     }
   },
   awesome: {
-    composes: ['$withOutline', '$withStatusLine']
+    composes: ['$withOutline', '$withStatusLine'],
+    '& $activeBorder': {
+      borderRadius: theme.field.borderRadius
+    }
   },
   promo: {
     composes: ['$withStatusLine'],
@@ -191,6 +194,20 @@ const activeBorder = borderColor => ({
       },
       '&$promo $iconRight': {
         right: 0
+      },
+      '&$inGroup$regular, &$inGroup$awesome': {
+        '&:not($startPosition)': {
+          '& $input, & $activeBorder': {
+            borderTopLeftRadius: 0,
+            borderBottomLeftRadius: 0
+          }
+        },
+        '&:not($endPosition)': {
+          '& $input, & $activeBorder': {
+            borderTopRightRadius: 0,
+            borderBottomRightRadius: 0
+          }
+        }
       },
       '&$inGroup$promo': {
         '&:not($startPosition)': {
