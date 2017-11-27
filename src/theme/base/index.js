@@ -372,14 +372,14 @@ export function createTheme(config) {
       },
 
       clear: {
-        color: colors.controls.grey.outline
+        color: colors.controls.grey.outline,
+        hoverColor: colors.primary
       },
 
       division: {
         color: colors.controls.grey.background
       },
       button: {
-        width: '125px',
         color: '#ffffff'
       },
 

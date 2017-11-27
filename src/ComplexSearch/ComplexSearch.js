@@ -23,12 +23,15 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     flexDirection: 'column'
   },
   inputRow: {
-    marginRight: theme.search.button.width,
     height: theme.search.height,
     position: 'relative',
     width: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'row',
+
+    '& > div': {
+      width: '100%'
+    }
   },
   active: {},
   inputWrapper: {
@@ -88,14 +91,12 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     }
   },
   searchButton: {
-    position: 'absolute',
-    right: `-${theme.search.button.width}`,
     color: theme.search.button.color,
     top: 0,
-    flexShrink: 0,
-    width: theme.search.button.width,
+    padding: '0 10px',
     height: theme.search.height,
     borderRadius: '0 1px 1px 0',
+
     '&:focus, &:active': {
       '&:after': {
         display: 'none'
@@ -117,6 +118,11 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     opacity: 0.6,
 
     '&:hover': {
+      opacity: 1,
+      color:  theme.search.clear.hoverColor
+    },
+    
+    '&:active': {
       opacity: 1
     }
   },
@@ -128,6 +134,9 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   dropdown: {
     transition: 'none',
     animation: 'none',
+    width: '100%'
+  },
+  overlay: {
     width: '100%'
   }
 }))
@@ -455,6 +464,14 @@ class ComplexSearch extends React.Component {
           placeholder={placeholder}
           ref={this.setNode('input')}
         />
+        {this.isClearVisible && <ClearIcon
+          className={classnames(
+            css.clear
+          )}
+          size={16}
+          color="currentColor"
+          onClick = {this.clearForm}
+        ></ClearIcon>}
       </div>
     )
   }
@@ -516,6 +533,7 @@ class ComplexSearch extends React.Component {
         autoPositionY={true}
         anchorPointY="bottom"
         contentPointY="top"
+        overlayClassName={css.overlay}
         cachePositionOptions={false}
         closeOnClickOutside={false}
       >
@@ -530,8 +548,7 @@ class ComplexSearch extends React.Component {
     const {
       sheet: { classes: css },
       style,
-      className,
-      theme
+      className
     } = this.props
     const button = this.renderButton()
 
@@ -550,14 +567,6 @@ class ComplexSearch extends React.Component {
             className={css.inputRow}
           >
             {this.renderDropdown()}
-            {this.isClearVisible && <ClearIcon
-              className={classnames(
-                css.clear
-              )}
-              size={16}
-              color={theme.search.clear.color}
-              onClick = {this.clearForm}
-            ></ClearIcon>}
             {button}
           </div>
         </div>
