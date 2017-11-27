@@ -27,11 +27,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     position: 'relative',
     width: '100%',
     display: 'flex',
-    flexDirection: 'row',
-
-    '& > div': {
-      width: '100%'
-    }
+    flexDirection: 'row'
   },
   active: {},
   inputWrapper: {
