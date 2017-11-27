@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import omit from 'lodash/omit'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function provideNotification(Target) {
@@ -26,9 +27,11 @@ export default function provideNotification(Target) {
     }
 
     render() {
+      const props = omit(this.props, 'renderToLayer', 'unrenderAtLayer')
+
       return (
         <Target
-          {...this.props}
+          {...props}
           openNotification={this.openNotification}
           closeNotification={this.closeNotification} />
       )
