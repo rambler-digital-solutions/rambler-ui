@@ -26,8 +26,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     height: theme.search.height,
     position: 'relative',
     width: '100%',
-    display: 'flex',
-    flexDirection: 'row'
+    display: 'flex'
   },
   active: {},
   inputWrapper: {
@@ -89,9 +88,9 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   searchButton: {
     color: theme.search.button.color,
     top: 0,
-    padding: '0 10px',
     height: theme.search.height,
     borderRadius: '0 1px 1px 0',
+    flexShrink: 0,
 
     '&:focus, &:active': {
       '&:after': {
@@ -155,6 +154,10 @@ class ComplexSearch extends React.Component {
      */
     searchButton: PropTypes.node,
     /**
+     * Минимальная ширина кнопки поиска. Может быть числом или строкой (например, '100%')
+     */
+    searchButtonMinWidth: PropTypes.oneOfType([PropTypes.number , PropTypes.string]),
+    /**
      * Иконка поиска, по дефолту подставляется иконка с лупой
      */
     searchIcon: PropTypes.node,
@@ -214,6 +217,7 @@ class ComplexSearch extends React.Component {
     division: null,
     appendToBody: true,
     searchButton: null,
+    searchButtonMinWidth: 0,
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -461,12 +465,10 @@ class ComplexSearch extends React.Component {
           ref={this.setNode('input')}
         />
         {this.isClearVisible && <ClearIcon
-          className={classnames(
-            css.clear
-          )}
+          className={css.clear}
           size={16}
           color="currentColor"
-          onClick = {this.clearForm}
+          onClick={this.clearForm}
         ></ClearIcon>}
       </div>
     )
@@ -475,7 +477,8 @@ class ComplexSearch extends React.Component {
   renderButton() {
     const {
       sheet: { classes: css },
-      searchButton
+      searchButton,
+      searchButtonMinWidth
     } = this.props
 
     if (!searchButton)
@@ -490,6 +493,7 @@ class ComplexSearch extends React.Component {
         className={css.searchButton}
         onClick={this.onSubmit}
         size="small"
+        style={{minWidth: searchButtonMinWidth}}
         icon={this.renderIcon()}
         tabIndex={-1}
       >
