@@ -412,7 +412,11 @@ export default class Input extends Component {
     /**
      * Позиция инпута в группе
      */
-    groupPosition: PropTypes.oneOf(['start', 'middle', 'end', null])
+    groupPosition: PropTypes.oneOf(['start', 'middle', 'end', null]),
+    /**
+     * Класс правой иконки
+     */
+    iconRightClassName: PropTypes.string
   };
 
   static defaultProps = {
@@ -488,6 +492,7 @@ export default class Input extends Component {
       disabled,
       inputStyle,
       inputClassName,
+      iconRightClassName,
       name,
       size,
       variation,
@@ -517,7 +522,7 @@ export default class Input extends Component {
       groupPosition && css.inGroup
     )
 
-    const resultIconLeft = iconLeft && <div className={classnames(iconLeft.props.className, css.icon, css.iconLeft)}>
+    const resultIconLeft = iconLeft && <div className={css.iconLeft}>
       {
         cloneElement(iconLeft, {
           color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || 'currentColor'),
@@ -526,7 +531,7 @@ export default class Input extends Component {
       }
     </div>
 
-    const resultIconRight = iconRight && <div className={classnames(iconRight.props.className, css.icon, css.iconRight)}>
+    const resultIconRight = iconRight && <div className={classnames(iconRightClassName, css.iconRight)}>
       {
         cloneElement(iconRight, {
           color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || 'currentColor'),
