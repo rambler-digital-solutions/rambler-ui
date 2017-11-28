@@ -2,6 +2,7 @@ import React from 'react'
 import ComplexSearch from '../ComplexSearch'
 import Dropdown from '../../Dropdown'
 import SuggestItem from '../SuggestItem'
+// import ClearIcon from '../../icons/forms/ClearIcon'
 import theme from '../../theme/base'
 import { mount, withTheme, getStyles } from '../../utils/test-utils'
 
@@ -79,4 +80,32 @@ describe('<ComplexSearch />', () => {
     button.simulate('click')
     expect(handlersProps.onSubmit).toHaveBeenCalledWith('value')
   })
+
+  // it('should change cross color when hover', () => {
+  //   const search = wrapper.find(ComplexSearch)
+  //   const input = wrapper.find('input')
+  //   input.first().simulate('focus')
+  //   input.get(0).value = 'value'
+  //   input.first().simulate('change')
+  //   expect(handlersProps.onSearch).toHaveBeenCalled()
+    
+  //   const cross = search.find(ClearIcon)
+  //   let crossStyles = getStyles(cross)
+  //   console.log(crossStyles.opacity)
+  //   cross.simulate('mouseEnter')
+  //   crossStyles = getStyles(cross)
+  //   console.log(crossStyles.opacity)
+  //   expect(crossStyles.fill).toEqual('#FFFFFF')
+  // })  
+
+  it('button should be in wrapper borders', () => {
+    const search = wrapper.find(ComplexSearch)
+    const wrapperDiv = search.find('div').get(0)
+    const wrapperRect = wrapperDiv.getBoundingClientRect()
+    const button = search.find('button').get(0)
+    const buttonRect = button.getBoundingClientRect()
+
+    expect(buttonRect.right).toBeLessThanOrEqual(wrapperRect.right)
+  })
+  
 })
