@@ -380,7 +380,20 @@ export function createTheme(config) {
         color: colors.controls.grey.background
       },
       button: {
-        color: '#ffffff'
+        color: '#ffffff',
+        default: {
+          background: colors.primary
+        },
+        hover: {
+          background: darken(colors.primary, 0.1)
+        },
+        active: {
+          background: darken(colors.primary, 0.2)
+        },
+        disabled: {
+          text: fade(colors.light, 0.2),
+          icon: fade(colors.light, 0.2)
+        }
       },
 
       bottomLinks: {

@@ -4,7 +4,6 @@ import classnames from 'classnames'
 import omit from 'lodash/omit'
 import EventEmitter from 'events'
 import { injectSheet } from '../theme'
-import Button from '../Button'
 import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
@@ -90,13 +89,29 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     top: 0,
     height: theme.search.height,
     borderRadius: '0 1px 1px 0',
+    border: 'none',
     flexShrink: 0,
+    cursor: 'pointer',
+    padding: '0 10px',
+    boxSizing: 'border-box',
+    background: theme.search.button.default.background,
+    outline: 'none',
+    fontSize: 12,
+    fontWeight: 500,
+    textTransform: 'uppercase',
 
-    '&:focus, &:active': {
-      '&:after': {
-        display: 'none'
-      }
+    '&:hover': {
+      background: theme.search.button.hover.background
+    },
+
+    '&:active': {
+      background: theme.search.button.active.background
     }
+  },
+  searchIcon: {
+    marginRight: 8,
+    marginTop: -2,
+    verticalAlign: 'middle'
   },
   withoutButton: {
     '& $inputWrapper': {
@@ -489,16 +504,15 @@ class ComplexSearch extends React.Component {
       return searchButton
 
     return (
-      <Button
+      <button
         className={css.searchButton}
         onClick={this.onSubmit}
         size="small"
         style={{minWidth: searchButtonMinWidth}}
-        icon={this.renderIcon()}
         tabIndex={-1}
       >
-        {searchButton}
-      </Button>
+        {this.renderIcon()}{searchButton}
+      </button>
     )
   }
 
@@ -507,6 +521,7 @@ class ComplexSearch extends React.Component {
       return (
         <SearchIcon
           size={12}
+          className={this.props.sheet.classes.searchIcon}
           color={this.props.theme.search.button.color}
         />
       )
