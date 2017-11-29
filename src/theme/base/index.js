@@ -366,21 +366,40 @@ export function createTheme(config) {
       maxWidth: 765,
 
       input: {
-        borderColor: colors.primary,
-        hoverColor: colors.primaryDark,
-        color: colors.dark
+        color: colors.dark,
+        default: {
+          borderColor: colors.primary
+        },
+        hover: {
+          borderColor: colors.primaryDark
+        }
       },
 
       clear: {
-        color: colors.controls.grey.outline
+        color: colors.controls.grey.outline,
+        hover: {
+          color: colors.primary
+        }
       },
 
       division: {
         color: colors.controls.grey.background
       },
       button: {
-        width: '125px',
-        color: '#ffffff'
+        color: colors.light,
+        default: {
+          background: colors.primary
+        },
+        hover: {
+          background: darken(colors.primary, 0.1)
+        },
+        active: {
+          background: darken(colors.primary, 0.2)
+        },
+        disabled: {
+          text: fade(colors.light, 0.2),
+          icon: fade(colors.light, 0.2)
+        }
       },
 
       bottomLinks: {
