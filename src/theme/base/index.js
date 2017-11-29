@@ -366,21 +366,27 @@ export function createTheme(config) {
       maxWidth: 765,
 
       input: {
-        borderColor: colors.primary,
-        hoverColor: colors.primaryDark,
-        color: colors.dark
+        color: colors.dark,
+        default: {
+          borderColor: colors.primary
+        },
+        hover: {
+          borderColor: colors.primaryDark
+        }
       },
 
       clear: {
         color: colors.controls.grey.outline,
-        hoverColor: colors.primary
+        hover: {
+          color: colors.primary
+        }
       },
 
       division: {
         color: colors.controls.grey.background
       },
       button: {
-        color: '#ffffff',
+        color: colors.light,
         default: {
           background: colors.primary
         },

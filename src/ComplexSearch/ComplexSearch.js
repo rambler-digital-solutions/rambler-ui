@@ -29,7 +29,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   },
   active: {},
   inputWrapper: {
-    borderColor: theme.search.input.borderColor,
+    borderColor: theme.search.input.default.borderColor,
     borderWidth: 2,
     borderStyle: 'solid',
     display: 'flex',
@@ -40,7 +40,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     width: '100%',
     height: theme.search.height,
     '&$active': {
-      borderColor: theme.search.input.hoverColor
+      borderColor: theme.search.input.hover.borderColor
     }
   },
   bottomWrapper: {
@@ -75,7 +75,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     fontSize: theme.search.fontSize,
     lineHeight: 1.43,
     appearance: 'none',
-    color: theme.search.color,
+    color: theme.search.input.color,
     height: '100%',
     outline: 0,
     boxShadow: 'none',
@@ -85,10 +85,12 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     }
   },
   searchButton: {
+    ...isolateMixin,
     color: theme.search.button.color,
     top: 0,
     height: theme.search.height,
     borderRadius: '0 1px 1px 0',
+    textAlign: 'center',
     border: 'none',
     flexShrink: 0,
     cursor: 'pointer',
@@ -129,7 +131,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
     '&:hover': {
       opacity: 1,
-      color:  theme.search.clear.hoverColor
+      color:  theme.search.clear.hover.color
     },
     
     '&:active': {
@@ -169,9 +171,13 @@ class ComplexSearch extends React.Component {
      */
     searchButton: PropTypes.node,
     /**
-     * Минимальная ширина кнопки поиска. Может быть числом или строкой (например, '100%')
+     * Объект для дополнительных стилей для кнопки
      */
-    searchButtonMinWidth: PropTypes.oneOfType([PropTypes.number , PropTypes.string]),
+    searchButtonStyle: PropTypes.object,
+    /**
+     * Дополнительный css-класс для кнопки поиска
+     */
+    searchButtonClassName: PropTypes.string,
     /**
      * Иконка поиска, по дефолту подставляется иконка с лупой
      */
@@ -232,7 +238,8 @@ class ComplexSearch extends React.Component {
     division: null,
     appendToBody: true,
     searchButton: null,
-    searchButtonMinWidth: 0,
+    searchButtonStyle: {},
+    searchButtonClassName: '',
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -493,7 +500,8 @@ class ComplexSearch extends React.Component {
     const {
       sheet: { classes: css },
       searchButton,
-      searchButtonMinWidth
+      searchButtonStyle,
+      searchButtonClassName
     } = this.props
 
     if (!searchButton)
@@ -505,10 +513,10 @@ class ComplexSearch extends React.Component {
 
     return (
       <button
-        className={css.searchButton}
+        className={classnames(css.searchButton, searchButtonClassName)}
         onClick={this.onSubmit}
         size="small"
-        style={{minWidth: searchButtonMinWidth}}
+        style={searchButtonStyle}
         tabIndex={-1}
       >
         {this.renderIcon()}{searchButton}

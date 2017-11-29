@@ -24,7 +24,7 @@ describe('<ComplexSearch />', () => {
         <ComplexSearch 
           {...handlersProps} 
           searchButton="search"
-          searchButtonMinWidth={SEARCH_BUTTON_WIDTH}
+          searchButtonStyle={{minWidth: SEARCH_BUTTON_WIDTH}}
         >
           <SuggestItem value="1">
             1
