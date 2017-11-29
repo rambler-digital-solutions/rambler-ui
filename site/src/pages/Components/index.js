@@ -21,7 +21,9 @@ export default class ComponentsPage extends Component {
 
     return (
       <div className={ css.Wrapper }>
-        <Helmet title={ title } />
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div className={ css.Content }>
           {component &&
             <Breadcrumbs docModules={ docModules } currentComponentName={ component } className={ css.Content__breadcrumbs } />

@@ -78,8 +78,8 @@
     "karma-webpack": "^1.8.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
     "run-sequence": "^1.2.2",
     "webpack": "^1.13.2"

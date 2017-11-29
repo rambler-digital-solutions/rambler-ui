@@ -8,7 +8,9 @@ export default class ContributePage extends Component {
   render() {
     return (
       <div>
-        <Helmet title="Установка" />
+        <Helmet>
+          <title>Гайд по разработке</title>
+        </Helmet>
         <MarkdownElement text={ readme } />
       </div>
     )
