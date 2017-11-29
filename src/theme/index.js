@@ -49,6 +49,7 @@ export const ApplyTheme = compose(
       let resultTheme, currTheme, currParentTheme
       // https://github.com/cssinjs/react-jss/issues/133
       const providerId = Math.random()
+      const theme = props.theme || base
       const sheetsRegistry = props.sheetsRegistry || props[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry
       const jss = props.jss || props[RAMBLER_UI_JSS] || globalJss
       const shouldAddJssProvider = !props[RAMBLER_UI_JSS]
@@ -57,7 +58,7 @@ export const ApplyTheme = compose(
         sheetsRegistry,
         shouldAddJssProvider,
         [RAMBLER_UI_JSS_PROVIDER_ID]: providerId,
-        getResultTheme: (theme = base) => (parentTheme) => {
+        getResultTheme: (parentTheme) => {
           if (currTheme !== theme || currParentTheme !== parentTheme) {
             resultTheme = merge({}, parentTheme, theme)
             currParentTheme = parentTheme
@@ -80,9 +81,9 @@ export const ApplyTheme = compose(
     })
   )
 )(({
-  theme, jss, sheetsRegistry, getResultTheme, shouldAddJssProvider, children
+  jss, sheetsRegistry, getResultTheme, shouldAddJssProvider, children
 }) => {
-  const provider = <theming.ThemeProvider theme={getResultTheme(theme)} children={children} />
+  const provider = <theming.ThemeProvider theme={getResultTheme} children={children} />
   if (!shouldAddJssProvider)
     return provider
   return <JssProvider jss={jss} registry={sheetsRegistry}>{provider}</JssProvider>

@@ -5,6 +5,9 @@ import SuggestItem from '../SuggestItem'
 import theme from '../../theme/base'
 import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
 
+
+const SEARCH_BUTTON_WIDTH = 125
+
 describe('<ComplexSearch />', () => {
   const handlersProps = {
     onSubmit: () => {},
@@ -18,7 +21,11 @@ describe('<ComplexSearch />', () => {
 
     wrapper = mount(
       withTheme(
-        <ComplexSearch {...handlersProps} searchButton="search">
+        <ComplexSearch 
+          {...handlersProps} 
+          searchButton="search"
+          searchButtonStyle={{minWidth: SEARCH_BUTTON_WIDTH}}
+        >
           <SuggestItem value="1">
             1
           </SuggestItem>
@@ -45,6 +52,14 @@ describe('<ComplexSearch />', () => {
     expect(inputStyles.height).toEqual(`${theme.search.height}px`)
   })
 
+  it('should has ${SEARCH_BUTTON_WIDTH}px search button width', () => {
+    const search = wrapper.find(ComplexSearch)
+    const button = search.find('button')
+
+    const buttonStyles = getStyles(button)
+    expect(buttonStyles.width).toEqual(`${SEARCH_BUTTON_WIDTH}px`)
+  })
+
   it('should open Dropdown when input focused and children have length', () => {
     const search = wrapper.find(ComplexSearch)
     const input = wrapper.find('input')
@@ -64,4 +79,14 @@ describe('<ComplexSearch />', () => {
     button.simulate('click')
     expect(handlersProps.onSubmit).toHaveBeenCalledWith('value')
   })
+
+  it('button should be in wrapper borders', () => {
+    const wrapperDiv = getWrapperNode(wrapper)
+    const wrapperRect = wrapperDiv.getBoundingClientRect()
+    const button = wrapperDiv.querySelector('button')
+    const buttonRect = button.getBoundingClientRect()
+
+    expect(buttonRect.right).toBeLessThanOrEqual(wrapperRect.right)
+  })
+  
 })

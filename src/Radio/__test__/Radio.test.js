@@ -100,20 +100,20 @@ describe('Проверка RadioButton.props disabled && value', () => {
       name='group'
       className='my-radio-button-group'>
       <RadioButton
-        key = '1'
-        value = '1'
+        key='1'
+        value='1'
         {...defaultProps}>
             1
       </RadioButton>
       <RadioButton
-        key = '2'
-        value = '2'
+        key='2'
+        value='2'
         {...defaultProps}>
             2
       </RadioButton>
       <RadioButton
-        key = '3'
-        value = '3'
+        key='3'
+        value='3'
         disabled={true}
         {...defaultProps}>
             3
@@ -153,7 +153,7 @@ describe('Проверка callback = onChange на RadioButtonGroup', () => {
       {...defaultPropsGroup}
     >
       <RadioButton
-        value = '1'
+        value='1'
         {...defaultProps}>
             1
       </RadioButton>

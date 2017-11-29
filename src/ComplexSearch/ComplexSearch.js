@@ -1,10 +1,9 @@
 import React, { Children } from 'react'
-import * as PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import EventEmitter from 'events'
 import { injectSheet } from '../theme'
-import Button from '../Button'
 import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
@@ -23,16 +22,14 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     flexDirection: 'column'
   },
   inputRow: {
-    marginRight: theme.search.button.width,
     height: theme.search.height,
     position: 'relative',
     width: '100%',
-    display: 'flex',
-    flexDirection: 'column'
+    display: 'flex'
   },
   active: {},
   inputWrapper: {
-    borderColor: theme.search.input.borderColor,
+    borderColor: theme.search.input.default.borderColor,
     borderWidth: 2,
     borderStyle: 'solid',
     display: 'flex',
@@ -43,7 +40,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     width: '100%',
     height: theme.search.height,
     '&$active': {
-      borderColor: theme.search.input.hoverColor
+      borderColor: theme.search.input.hover.borderColor
     }
   },
   bottomWrapper: {
@@ -78,7 +75,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     fontSize: theme.search.fontSize,
     lineHeight: 1.43,
     appearance: 'none',
-    color: theme.search.color,
+    color: theme.search.input.color,
     height: '100%',
     outline: 0,
     boxShadow: 'none',
@@ -88,19 +85,35 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     }
   },
   searchButton: {
-    position: 'absolute',
-    right: `-${theme.search.button.width}`,
+    ...isolateMixin,
     color: theme.search.button.color,
     top: 0,
-    flexShrink: 0,
-    width: theme.search.button.width,
     height: theme.search.height,
     borderRadius: '0 1px 1px 0',
-    '&:focus, &:active': {
-      '&:after': {
-        display: 'none'
-      }
+    textAlign: 'center',
+    border: 'none',
+    flexShrink: 0,
+    cursor: 'pointer',
+    padding: '0 20px',
+    boxSizing: 'border-box',
+    background: theme.search.button.default.background,
+    outline: 'none',
+    fontSize: 12,
+    fontWeight: 500,
+    textTransform: 'uppercase',
+
+    '&:hover': {
+      background: theme.search.button.hover.background
+    },
+
+    '&:active': {
+      background: theme.search.button.active.background
     }
+  },
+  searchIcon: {
+    marginRight: 8,
+    marginTop: -2,
+    verticalAlign: 'middle'
   },
   withoutButton: {
     '& $inputWrapper': {
@@ -117,6 +130,11 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     opacity: 0.6,
 
     '&:hover': {
+      opacity: 1,
+      color:  theme.search.clear.hover.color
+    },
+    
+    '&:active': {
       opacity: 1
     }
   },
@@ -128,6 +146,9 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   dropdown: {
     transition: 'none',
     animation: 'none',
+    width: '100%'
+  },
+  overlay: {
     width: '100%'
   }
 }))
@@ -149,6 +170,14 @@ class ComplexSearch extends React.Component {
      * Кнопка поиска
      */
     searchButton: PropTypes.node,
+    /**
+     * Объект для дополнительных стилей для кнопки
+     */
+    searchButtonStyle: PropTypes.object,
+    /**
+     * Дополнительный css-класс для кнопки поиска
+     */
+    searchButtonClassName: PropTypes.string,
     /**
      * Иконка поиска, по дефолту подставляется иконка с лупой
      */
@@ -209,6 +238,8 @@ class ComplexSearch extends React.Component {
     division: null,
     appendToBody: true,
     searchButton: null,
+    searchButtonStyle: {},
+    searchButtonClassName: '',
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -455,6 +486,12 @@ class ComplexSearch extends React.Component {
           placeholder={placeholder}
           ref={this.setNode('input')}
         />
+        {this.isClearVisible && <ClearIcon
+          className={css.clear}
+          size={16}
+          color="currentColor"
+          onClick={this.clearForm}
+        ></ClearIcon>}
       </div>
     )
   }
@@ -462,7 +499,9 @@ class ComplexSearch extends React.Component {
   renderButton() {
     const {
       classes: css,
-      searchButton
+      searchButton,
+      searchButtonStyle,
+      searchButtonClassName
     } = this.props
 
     if (!searchButton)
@@ -473,15 +512,15 @@ class ComplexSearch extends React.Component {
       return searchButton
 
     return (
-      <Button
-        className={css.searchButton}
+      <button
+        className={classnames(css.searchButton, searchButtonClassName)}
         onClick={this.onSubmit}
         size="small"
-        icon={this.renderIcon()}
+        style={searchButtonStyle}
         tabIndex={-1}
       >
-        {searchButton}
-      </Button>
+        {this.renderIcon()}{searchButton}
+      </button>
     )
   }
 
@@ -490,6 +529,7 @@ class ComplexSearch extends React.Component {
       return (
         <SearchIcon
           size={12}
+          className={this.props.classes.searchIcon}
           color={this.props.theme.search.button.color}
         />
       )
@@ -516,6 +556,7 @@ class ComplexSearch extends React.Component {
         autoPositionY={true}
         anchorPointY="bottom"
         contentPointY="top"
+        overlayClassName={css.overlay}
         cachePositionOptions={false}
         closeOnClickOutside={false}
       >
@@ -530,8 +571,7 @@ class ComplexSearch extends React.Component {
     const {
       classes: css,
       style,
-      className,
-      theme
+      className
     } = this.props
     const button = this.renderButton()
 
@@ -550,14 +590,6 @@ class ComplexSearch extends React.Component {
             className={css.inputRow}
           >
             {this.renderDropdown()}
-            {this.isClearVisible && <ClearIcon
-              className={classnames(
-                css.clear
-              )}
-              size={16}
-              color={theme.search.clear.color}
-              onClick = {this.clearForm}
-            ></ClearIcon>}
             {button}
           </div>
         </div>
