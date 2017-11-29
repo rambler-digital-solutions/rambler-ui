@@ -92,7 +92,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     border: 'none',
     flexShrink: 0,
     cursor: 'pointer',
-    padding: '0 10px',
+    padding: '0 20px',
     boxSizing: 'border-box',
     background: theme.search.button.default.background,
     outline: 'none',
