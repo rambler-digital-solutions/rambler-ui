@@ -1,5 +1,5 @@
 import { Component, PropTypes } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { DocModules } from 'internal-prop-types'
 import classnames from 'classnames'
 

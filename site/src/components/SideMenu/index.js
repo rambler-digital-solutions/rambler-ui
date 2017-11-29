@@ -1,6 +1,6 @@
 import { Component } from 'react'
 import { DocModules } from 'internal-prop-types'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 import css from './index.css'
 
@@ -19,11 +19,13 @@ export default class SideMenu extends Component {
         {
           docModules.map((module, i) => (
             <div className={ css.List__item } key={ i }>
-              <Link
+              <NavLink
                 to={ module.linkToComponent }
                 className={ css.List__link }
                 activeClassName={ css['is-active'] }
-              >{ module.module.title || module.selfName }</Link>
+              >
+                { module.module.title || module.selfName }
+              </NavLink>
               {
                 module.childrenDocModules &&
                 module.childrenDocModules.length ?

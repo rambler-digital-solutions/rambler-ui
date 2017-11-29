@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import css from './index.css'
 import Helmet from 'react-helmet'
-import { Link } from 'react-router'
+import { NavLink } from 'react-router-dom'
 import classnames from 'classnames'
 import SideMenu from 'components/SideMenu'
 import docModules from 'doc-modules'
@@ -61,9 +61,9 @@ export default class Layout extends Component {
           <div className={ css.Menu }>
             <div className={ css.Menu__items }>
               {menuItems.map((item, i) => (
-                <Link key={ i } className={ css.Menu__item } activeClassName={ css.Menu__item_active } to={ item.route } data-text={ item.name }>
+                <NavLink key={ i } className={ css.Menu__item } activeClassName={ css.Menu__item_active } to={ item.route } data-text={ item.name }>
                   { item.name }
-                </Link>
+                </NavLink>
               ))}
             </div>
             <div className={ css.Menu__stars }>

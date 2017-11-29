@@ -12,7 +12,7 @@ export default class ComponentsPage extends Component {
 
   render() {
     // текущий компонент
-    let { splat: component = '' } = this.props.params
+    let { component = '' } = this.props.match.params
     component = component.replace(/^\/{0,}(.*?)\/{0,}$/, '$1')
 
     let title = 'Компоненты'
