@@ -179,7 +179,7 @@ export default class Pagination extends Component {
 
   renderPages() {
     const {
-      sheet: { classes },
+      classes,
       pagesCount,
       currentPage,
       onChange
@@ -233,7 +233,7 @@ export default class Pagination extends Component {
   renderArrow(pageNumber, className, isDisabled, key) {
     const {
       onChange,
-      sheet: {classes}
+      classes
     } = this.props
     return cloneElement(isDisabled ? inactiveElement : this.pageContainer(pageNumber), {
       onClick: onChange && !isDisabled ? this.handleChange : undefined,
@@ -245,7 +245,7 @@ export default class Pagination extends Component {
   render() {
     const {
       className,
-      sheet: { classes },
+      classes,
       currentPage,
       pagesCount,
       ...other

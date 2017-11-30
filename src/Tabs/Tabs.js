@@ -98,7 +98,7 @@ export default class Tabs extends Component {
       size,
       disabled,
       className,
-      sheet: { classes: css },
+      classes: css,
       ...other
     } = omit(this.props, 'theme', 'onChange', 'value')
     let i = 0

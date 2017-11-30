@@ -222,7 +222,7 @@ class RadioButton extends Component {
       labelClassName,
       style,
       labelStyle,
-      sheet: { classes: css },
+      classes: css,
       onFocus,
       onBlur,
       ...other

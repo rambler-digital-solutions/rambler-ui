@@ -250,8 +250,7 @@ export default class Button extends Component {
   };
 
   get css() {
-    const { sheet: { classes: css } } = this.props
-    return css
+    return this.props.classes
   }
 
   renderIcon(icon) {
@@ -290,7 +289,7 @@ export default class Button extends Component {
       style = {},
       theme,
       ...other
-    } = omit(this.props, 'sheet')
+    } = omit(this.props, 'classes')
     const css = this.css
     const iconLeft = iconPosition === 'left'
     const iconEl = this.renderIcon(icon)

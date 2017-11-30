@@ -239,7 +239,7 @@ export default class Checkbox extends Component {
       variation,
       checked,
       indeterminate,
-      sheet: { classes: css },
+      classes: css,
       ...other
     } = omit(this.props, 'onCheck', 'theme')
 

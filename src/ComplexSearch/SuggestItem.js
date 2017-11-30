@@ -132,7 +132,7 @@ class SuggestItem extends React.Component {
 
   render() {
     const {
-      sheet: { classes: css },
+      classes: css,
       className,
       removeButton
     } = this.props

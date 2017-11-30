@@ -116,7 +116,7 @@ export default class FieldGroup extends PureComponent {
     const {
       className,
       style,
-      sheet: { classes: css },
+      classes: css,
       children,
       disabled,
       variation,

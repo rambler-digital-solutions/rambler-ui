@@ -167,8 +167,7 @@ export default class IconButton extends Component {
   };
 
   get css() {
-    const { sheet: { classes: css } } = this.props
-    return css
+    return this.props.classes
   }
 
   get size() {
@@ -203,7 +202,7 @@ export default class IconButton extends Component {
       width,
       style = {},
       ...other
-    } = omit(this.props, 'sheet', 'theme', 'size')
+    } = omit(this.props, 'classes', 'theme', 'size')
 
     const css = this.css
     const iconEl = this.renderIcon(children)

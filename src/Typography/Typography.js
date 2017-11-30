@@ -143,7 +143,7 @@ export default class Typography extends PureComponent {
     const {
       tagName,
       className,
-      sheet: {classes},
+      classes,
       type,
       uppercase,
       children,

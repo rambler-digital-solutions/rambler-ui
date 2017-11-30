@@ -164,7 +164,7 @@ export default class Notification extends Component {
   };
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   onClickOutside = () => {

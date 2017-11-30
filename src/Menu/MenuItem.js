@@ -105,7 +105,7 @@ class MenuItem extends PureComponent {
   };
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentDidMount() {

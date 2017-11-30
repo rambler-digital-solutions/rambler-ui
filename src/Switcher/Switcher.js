@@ -162,7 +162,7 @@ export default class Switcher extends PureComponent {
   }
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentWillMount() {
@@ -206,7 +206,7 @@ export default class Switcher extends PureComponent {
       children,
       iconPosition,
       ...other
-    } = omit(this.props, 'checked', 'theme', 'sheet', 'onCheck')
+    } = omit(this.props, 'checked', 'theme', 'classes', 'onCheck')
 
     const rootClassName = classnames(
       this.css.root,

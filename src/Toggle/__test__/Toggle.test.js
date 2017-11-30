@@ -44,8 +44,8 @@ describe('Toggle', () => {
       </Toggle>
     </div>))
 
-    const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
-    const togOpt = getStyles(wrapper.find('.toggleActive'))
+    const toggleStyles = getStyles(wrapper.find('.toggleGroup').first())
+    const togOpt = getStyles(wrapper.find('.toggleActive').first())
 
     expect(toggleStyles.display).toEqual('inline-block')
     expect(togOpt['font-size']).toEqual(theme.toggle.sizes.small.fontSize + 'px')
@@ -77,11 +77,11 @@ describe('Toggle', () => {
       </Toggle>
     </div>))
 
-    const toggleStyles = getStyles(wrapper.find('.toggleGroup'))
-    const togOpt = wrapper.find('.toggleActive')
+    const toggleStyles = getStyles(wrapper.find('.toggleGroup').first())
+    const togOpt = wrapper.find('.toggleActive').first()
     const togOptNode = getWrapperNode(togOpt)
     const togOptStyles = getStyles(togOpt)
-    const togOptStyles2 = getStyles(wrapper.find('.toggleOption'))
+    const togOptStyles2 = getStyles(wrapper.find('.toggleOption').first())
     expect(toggleStyles['margin-bottom']).toEqual('20px')
     expect(toggleStyles.width).toEqual('480px')
     expect(togOptStyles.height).toEqual(theme.toggle.sizes.medium.height + 'px')
@@ -105,8 +105,8 @@ describe('Toggle', () => {
       </Toggle>
     </div>))
 
-    const toggle = wrapper.find('.toggleGroup')
-    const togOpt2 = wrapper.find('.toggleOption')
+    const toggle = wrapper.find('.toggleGroup').first()
+    const togOpt2 = wrapper.find('.toggleOption').first()
 
     expect(toggle.props().value).toEqual('Rambler')
     togOpt2.simulate('click')

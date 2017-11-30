@@ -120,7 +120,7 @@ class TabsItem extends Component {
       isSelected,
       disabled,
       size,
-      sheet: {classes: css},
+      classes: css,
       ...other
     } = omit(this.props, 'theme', 'onPress')
 

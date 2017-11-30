@@ -215,7 +215,7 @@ export default class Snackbar extends Component {
   };
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentWillUnmount() {

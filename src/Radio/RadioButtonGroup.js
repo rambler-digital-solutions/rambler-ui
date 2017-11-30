@@ -119,7 +119,7 @@ export default class RadioButtonGroup extends Component {
   render() {
     const {
       className,
-      sheet: { classes: css },
+      classes: css,
       children,
       ...otherRootProps
     } = omit(this.props, 'theme', 'onChange', 'value', 'labelPosition')

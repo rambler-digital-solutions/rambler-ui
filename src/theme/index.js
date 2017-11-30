@@ -98,5 +98,5 @@ export const injectSheet = styles => compose(
     props => ({[jssNs.providerId]: props[RAMBLER_UI_JSS_PROVIDER_ID]})
   ),
   originalInjectSheet(styles, {theming}),
-  mapProps(props => omit(props, RAMBLER_UI_JSS_PROVIDER_ID, 'classes'))
+  mapProps(props => omit(props, RAMBLER_UI_JSS_PROVIDER_ID))
 )

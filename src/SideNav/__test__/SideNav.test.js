@@ -1,7 +1,7 @@
 import { SideNav, SideNavItem } from '../../SideNav'
 import BookIcon from '../../icons/forms/BookIcon'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles } from '../../utils/test-utils'
+import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
 
 import React from 'react'
 
@@ -47,8 +47,8 @@ describe('<SideNav />', () => {
       </SideNav>
     </div>))
 
-    const sideNavStyles = getStyles(wrapper.find('.sideNav'))
-    const sideNavItem = wrapper.find('.sideNavItem')
+    const sideNavStyles = getStyles(wrapper.find('.sideNav').first())
+    const sideNavItem = wrapper.find('.sideNavItem').first()
     const sideNavItemStyles = getStyles(sideNavItem)
     const sideNavItemIconStyles = getStyles(wrapper.find('.sideNavItem svg'))
     const sideNavSelectedIconStyles = getStyles(wrapper.find('.sideNavSelected svg'))
@@ -83,8 +83,8 @@ describe('<SideNav />', () => {
       </SideNav>
     </div>))
 
-    const sideNavStyles = getStyles(wrapper.find('.sideNav'))
-    const sideNavItem = wrapper.find('.sideNavItem')
+    const sideNavStyles = getStyles(wrapper.find('.sideNav').first())
+    const sideNavItem = wrapper.find('.sideNavItem').first()
     const sideNavItemStyles = getStyles(sideNavItem)
 
     expect(sideNavStyles.display).toEqual('block')
@@ -116,11 +116,11 @@ describe('<SideNav />', () => {
       </SideNav>
     </div>))
 
-    const sideNav = wrapper.find('.sideNav')
-    const sideNavItem = wrapper.find('.sideNavItem')
+    const sideNav = wrapper.find('.sideNav').first()
+    const sideNavItem = wrapper.find('.sideNavItem').first()
 
     expect(sideNav.props().value).toEqual('general')
-    expect(sideNavItem.type()).toEqual('div')
+    expect(getWrapperNode(sideNavItem).tagName.toLowerCase()).toEqual('div')
     sideNavItem.simulate('click')
     expect(event.type).toEqual('click')
     expect(value).toEqual('email')
@@ -144,15 +144,16 @@ describe('<SideNav />', () => {
       </SideNav>
     </div>))
 
-    const sideNavPersonal = wrapper.find('.sideNavPersonal')
-    const sideNavEmails = wrapper.find('.sideNavEmails')
+    const wrapperNode = getWrapperNode(wrapper)
+    const sideNavPersonal = wrapperNode.querySelector('.sideNavPersonal')
+    const sideNavEmails = wrapperNode.querySelector('.sideNavEmails')
 
-    expect(sideNavPersonal.type()).toEqual('a')
-    expect(sideNavPersonal.props().href).toEqual('/personal')
-    expect(sideNavPersonal.props().target).toBeUndefined()
-    expect(sideNavEmails.type()).toEqual('a')
-    expect(sideNavEmails.props().href).toEqual('/emails')
-    expect(sideNavEmails.props().target).toEqual('_blank')
+    expect(sideNavPersonal.tagName.toLowerCase()).toEqual('a')
+    expect(sideNavPersonal.getAttribute('href')).toEqual('/personal')
+    expect(sideNavPersonal.getAttribute('target')).toEqual(null)
+    expect(sideNavEmails.tagName.toLowerCase()).toEqual('a')
+    expect(sideNavEmails.getAttribute('href')).toEqual('/emails')
+    expect(sideNavEmails.getAttribute('target')).toEqual('_blank')
   })
 
   it('Check SideNavItem is wrapped into container', () => {
@@ -182,10 +183,10 @@ describe('<SideNav />', () => {
       </SideNav>
     </div>))
 
-    const sideNavItem = wrapper.find('.sideNavItem')
+    const sideNavItemNode = getWrapperNode(wrapper.find('.sideNavItem').first())
 
-    expect(sideNavItem.type()).toEqual('button')
-    expect(sideNavItem.props().className).toContain('sideNavItem')
-    expect(sideNavItem.props().className).toContain('isSelected')
+    expect(sideNavItemNode.tagName.toLowerCase()).toEqual('button')
+    expect(sideNavItemNode.className).toContain('sideNavItem')
+    expect(sideNavItemNode.className).toContain('isSelected')
   })
 })

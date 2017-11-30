@@ -97,7 +97,7 @@ export default class Loader extends Component {
   }
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentDidMount() {
@@ -147,7 +147,7 @@ export default class Loader extends Component {
         className={classnames(this.css.loader, className, loading && classnames(loadingClassName, this.css.isLoading))}>
         {!(loading && hideContent) && (
           blurContent ? (
-            <div className={loading && blurContent && this.css.blur}>
+            <div className={classnames(loading && blurContent && this.css.blur)}>
               {children}
             </div>
           ) :

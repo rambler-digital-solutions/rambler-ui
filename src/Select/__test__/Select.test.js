@@ -4,7 +4,7 @@ import MenuItem from '../../Menu/MenuItem'
 import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
 import EllipsisIcon from '../../icons/forms/EllipsisIcon'
-import { mount, withTheme, getStyles, getNodeStyles } from '../../utils/test-utils'
+import { mount, withTheme, getStyles, getNodeStyles, getWrapperNode } from '../../utils/test-utils'
 
 describe('<Select />', () => {
 
@@ -27,7 +27,7 @@ describe('<Select />', () => {
     const inputStyles = getStyles(wrapper.find('input'))
     expect(inputStyles['background-color']).toEqual(nc(theme.field.colors.default.background))
 
-    const arrowStyles = getNodeStyles(wrapper.find('div[role="button"]').node.parentNode)
+    const arrowStyles = getNodeStyles(getWrapperNode(wrapper.find('div[role="button"]')).parentNode)
     expect(arrowStyles.position).toEqual('absolute')
     expect(arrowStyles.right).toEqual('13px')
     expect(arrowStyles.width).toEqual(theme.field.sizes.medium.icon + 'px')
@@ -74,7 +74,7 @@ describe('<Select />', () => {
 
     expect(arrow.exists()).toBe(true)
     expect(arrow.parent().hasClass('arrow')).toBe(true)
-    expect(getStyles(arrow.parent()).width).toEqual('25px')
+    expect(getNodeStyles(getWrapperNode(arrow).parentNode).width).toEqual('25px')
   })
 
 })

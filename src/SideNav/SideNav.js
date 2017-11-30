@@ -98,7 +98,7 @@ export default class SideNav extends Component {
       block,
       children,
       className,
-      sheet: { classes: css },
+      classes: css,
       ...other
     } = omit(this.props, 'theme')
 

@@ -3,7 +3,7 @@ import React from 'react'
 import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles } from '../../utils/test-utils'
+import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
 
 const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
@@ -34,7 +34,7 @@ describe('<Checkbox />', () => {
 
   it('expect affect regular style', () => {
     const wrapper = mount(applyTheme(<Checkbox {...defaultProps}>Text</Checkbox>))
-    const containerStyles = getStyles(wrapper.find('.container-cn'))
+    const containerStyles = getStyles(wrapper)
     const checkboxStyles = getStyles(wrapper.find('.checkbox-cn'))
     const labelStyles = getStyles(wrapper.find('.label-cn'))
     const inputStyles = getStyles(wrapper.find('input'))
@@ -56,11 +56,11 @@ describe('<Checkbox />', () => {
 
   it('name, disabled, iconPosition, style, checkboxStyle, labelStyle', () => {
     const wrapper = mount(applyTheme(<Checkbox {...defaultProps} {...propsForSecondTest}>Text</Checkbox>))
-    const containerStyles = getStyles(wrapper.find('.container-cn'))
+    const containerStyles = getStyles(wrapper)
     const checkboxStyles = getStyles(wrapper.find('.checkbox-cn'))
     const labelStyles = getStyles(wrapper.find('.label-cn'))
 
-    const input = wrapper.find('input')
+    const inputNode = getWrapperNode(wrapper.find('input'))
 
     expect(containerStyles['margin-top']).toEqual('100px')
 
@@ -75,8 +75,8 @@ describe('<Checkbox />', () => {
     expect(labelStyles['margin-bottom']).toEqual('20px')
     expect(nc(labelStyles.color)).toEqual(nc(theme.checkbox.types.regular.colors.disabled.text))
 
-    expect(input.node.disabled).toBeTruthy()
-    expect(input.node.name).toEqual('checkbox6')
+    expect(inputNode.disabled).toBeTruthy()
+    expect(inputNode.name).toEqual('checkbox6')
   })
 
   it('onCheck', () => {

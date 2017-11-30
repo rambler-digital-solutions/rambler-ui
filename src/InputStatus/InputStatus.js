@@ -67,11 +67,11 @@ export default class InputStatus extends Component {
       message,
       children,
       className,
-      sheet: { classes: css }
+      classes
     } = this.props
 
-    const rootClassName = classnames(css[type])
-    const messageClassName = classnames(css.message, className)
+    const rootClassName = classnames(classes[type])
+    const messageClassName = classnames(classes.message, className)
 
     return (
       <div className={message && rootClassName}>

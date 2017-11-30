@@ -3,7 +3,7 @@ import ComplexSearch from '../ComplexSearch'
 import Dropdown from '../../Dropdown'
 import SuggestItem from '../SuggestItem'
 import theme from '../../theme/base'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
 
 
 const SEARCH_BUTTON_WIDTH = 125
@@ -70,21 +70,20 @@ describe('<ComplexSearch />', () => {
   })
 
   it('should call onSubmit when click on search button with input value', () => {
-    const input = wrapper.find('input')
-    input.get(0).value = 'value'
-    input.first().simulate('change')
+    const input = wrapper.find('input').first()
+    getWrapperNode(input).value = 'value'
+    input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalled()
 
-    const button = wrapper.find('button')
+    const button = wrapper.find('button').first()
     button.simulate('click')
     expect(handlersProps.onSubmit).toHaveBeenCalledWith('value')
   })
 
   it('button should be in wrapper borders', () => {
-    const search = wrapper.find(ComplexSearch)
-    const wrapperDiv = search.find('div').get(0)
+    const wrapperDiv = getWrapperNode(wrapper)
     const wrapperRect = wrapperDiv.getBoundingClientRect()
-    const button = search.find('button').get(0)
+    const button = wrapperDiv.querySelector('button')
     const buttonRect = button.getBoundingClientRect()
 
     expect(buttonRect.right).toBeLessThanOrEqual(wrapperRect.right)

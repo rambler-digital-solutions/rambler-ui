@@ -248,7 +248,7 @@ export default class Toggle extends Component {
       disabled,
       variation,
       className,
-      sheet: { classes: css },
+      classes: css,
       ...other
     } = omit(this.props, 'theme')
     this.optionsElements = []

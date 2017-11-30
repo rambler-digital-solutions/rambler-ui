@@ -1,5 +1,5 @@
 import React, { Children } from 'react'
-import * as PropTypes from 'prop-types'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import EventEmitter from 'events'
@@ -470,7 +470,7 @@ class ComplexSearch extends React.Component {
     const {
       division,
       placeholder,
-      sheet: { classes: css }
+      classes: css
     } = omit(this.props, 'onChange', 'value')
     return (
       <div className={classnames(css.inputWrapper, this.state.isDropdownOpened && css.active)}>
@@ -498,7 +498,7 @@ class ComplexSearch extends React.Component {
 
   renderButton() {
     const {
-      sheet: { classes: css },
+      classes: css,
       searchButton,
       searchButtonStyle,
       searchButtonClassName
@@ -529,7 +529,7 @@ class ComplexSearch extends React.Component {
       return (
         <SearchIcon
           size={12}
-          className={this.props.sheet.classes.searchIcon}
+          className={this.props.classes.searchIcon}
           color={this.props.theme.search.button.color}
         />
       )
@@ -542,7 +542,7 @@ class ComplexSearch extends React.Component {
     const {
       children,
       appendToBody,
-      sheet: { classes: css }
+      classes: css
     } = this.props
 
     return (
@@ -569,7 +569,7 @@ class ComplexSearch extends React.Component {
 
   render() {
     const {
-      sheet: { classes: css },
+      classes: css,
       style,
       className
     } = this.props

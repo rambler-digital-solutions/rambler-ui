@@ -89,7 +89,7 @@ class TagsInputItem extends Component {
 
   render() {
     const {props} = this
-    const {classes} = props.sheet
+    const {classes} = props
     return (
       <div
         className={classnames(props.className, classes.root, props.disabled && classes.isDisabled)}
