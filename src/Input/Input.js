@@ -19,7 +19,7 @@ const activeBorder = borderColor => ({
 @injectSheet(theme => ({
   input: {
     extend: isolateMixin,
-    fontFamily: theme.fontFamily,
+    fontFamily: theme.field.fontFamily,
     boxSizing: 'border-box',
     display: 'block',
     padding: 0,
