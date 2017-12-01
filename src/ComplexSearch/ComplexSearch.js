@@ -98,10 +98,10 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     boxSizing: 'border-box',
     background: theme.search.button.default.background,
     outline: 'none',
-    fontSize: 12,
-    fontWeight: 500,
-    letterSpacing: 1.4,
-    textTransform: 'uppercase',
+    fontSize: theme.search.button.fontSize,
+    fontWeight: theme.search.button.fontWeight,
+    letterSpacing: theme.search.button.letterSpacing,
+    textTransform: theme.search.button.textTransform,
 
     '&:hover': {
       background: theme.search.button.hover.background

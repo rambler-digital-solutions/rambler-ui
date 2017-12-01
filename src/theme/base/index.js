@@ -387,6 +387,10 @@ export function createTheme(config) {
       },
       button: {
         color: colors.light,
+        fontSize: 12,
+        fontWeight: 500,
+        letterSpacing: 1.4,
+        textTransform: 'uppercase',
         default: {
           background: colors.primary
         },
