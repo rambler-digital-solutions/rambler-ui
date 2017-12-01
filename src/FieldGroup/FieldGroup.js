@@ -2,7 +2,6 @@ import React, { PureComponent, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import defaults from 'lodash/defaults'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
@@ -138,10 +137,7 @@ export default class FieldGroup extends PureComponent {
           else if (i === count)
             groupPosition = 'end'
           i++
-          return cloneElement(
-            child,
-            defaults({}, child.props, {...props, disabled, variation, groupPosition})
-          )
+          return cloneElement(child, {...props, disabled, variation, groupPosition})
         })}
       </div>
     )
