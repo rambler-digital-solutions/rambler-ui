@@ -4,6 +4,7 @@ import Dropdown from '../../Dropdown'
 import SuggestItem from '../SuggestItem'
 import theme from '../../theme/base'
 import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
+import { normalize as nc } from '../../utils/colors'
 
 
 const SEARCH_BUTTON_WIDTH = 125
@@ -87,6 +88,20 @@ describe('<ComplexSearch />', () => {
     const buttonRect = button.getBoundingClientRect()
 
     expect(buttonRect.right).toBeLessThanOrEqual(wrapperRect.right)
+  })
+
+  it ('button font styles should be from theme', () => {
+    const themeButtonStyles = theme.search.button
+    const search = wrapper.find(ComplexSearch)
+    const button = search.find('button')
+    const buttonStyles = getStyles(button)
+
+    expect(buttonStyles['font-weight']).toEqual(themeButtonStyles.fontWeight.toString())
+    expect(buttonStyles['font-size']).toEqual(`${themeButtonStyles.fontSize}px`)
+    expect(buttonStyles.color).toEqual(nc(themeButtonStyles.color))
+    expect(parseFloat(buttonStyles['letter-spacing']).toFixed(1)).toEqual(themeButtonStyles.letterSpacing.toString())
+    expect(buttonStyles['background-color']).toEqual(nc(themeButtonStyles.default.background))
+    expect(buttonStyles['text-transform']).toEqual(themeButtonStyles.textTransform)
   })
   
 })
