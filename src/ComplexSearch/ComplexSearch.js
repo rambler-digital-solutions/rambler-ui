@@ -100,6 +100,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     outline: 'none',
     fontSize: 12,
     fontWeight: 500,
+    letterSpacing: 1.4,
     textTransform: 'uppercase',
 
     '&:hover': {
