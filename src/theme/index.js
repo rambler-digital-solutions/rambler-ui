@@ -17,7 +17,16 @@ const theming = createTheming(RAMBLER_UI_THEME)
 const {ThemeProvider} = theming
 
 export {createGenerateClassName}
-export const createJss = (options) => originalCreateJss(preset(options))
+
+export const createJss = (options) => {
+  const generateClassName = createGenerateClassName()
+  return originalCreateJss({
+    ...options,
+    ...preset(options),
+    createGenerateClassName: () => generateClassName
+  })
+}
+
 export const createSheetsRegistry = () => new SheetsRegistry()
 
 const globalJss = createJss()
