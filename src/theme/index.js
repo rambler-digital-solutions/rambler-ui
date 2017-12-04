@@ -1,3 +1,4 @@
+import React from 'react'
 import merge from 'lodash/merge'
 import {object} from 'prop-types'
 import {create as originalCreateJss} from 'jss'
