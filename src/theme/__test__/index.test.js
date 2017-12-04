@@ -46,18 +46,12 @@ describe('<ApplyTheme />', () => {
   })
 
   it('should isolate multiple providers', () => {
-    const generateClassName = createGenerateClassName()
-
     mount(
       <div>
-        <ApplyTheme
-          theme={getTheme('#ffffff')}
-          generateClassName={generateClassName}>
+        <ApplyTheme theme={getTheme('#ffffff')}>
           <Button className='apply-isolate' />
         </ApplyTheme>
-        <ApplyTheme
-          theme={getTheme('#000000')}
-          generateClassName={generateClassName}>
+        <ApplyTheme theme={getTheme('#000000')}>
           <Button className='apply-isolate' />
         </ApplyTheme>
       </div>
