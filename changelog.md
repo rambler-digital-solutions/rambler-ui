@@ -1,5 +1,10 @@
 # Changelog
 
+## v-3.8.2 - 2017-12-04
+### Fixed
+* Исправлены warnings из-за плагина transform-react-inline-elements
+* Удален babel-плагин transform-react-inline-elements
+
 ## v-3.8.1 - 2017-12-04
 ### Fixed
 * Исправлен баг генерации имен классов для нескольких `<ApplyTheme />`
