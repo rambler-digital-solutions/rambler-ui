@@ -114,3 +114,5 @@ export const beautyScroll = (selector) => ({
   [`${selector}::-webkit-scrollbar-corner`]: {},
   [`${selector}::-webkit-resizer`]: {}
 })
+
+export const focusMixin = (selector, rule) => ({ [`html[data-focus-source="other"] ${selector}`]: rule })

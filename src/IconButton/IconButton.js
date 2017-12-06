@@ -11,7 +11,8 @@ import pickBy from 'lodash/pickBy'
 import pure from 'recompose/pure'
 import merge from 'lodash/merge'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin, focusMixin } from '../style/mixins'
+import '../utils/focus-source'
 
 @pure
 @injectSheet((theme) => {
@@ -98,7 +99,7 @@ import { isolateMixin } from '../style/mixins'
         ...setThemeForSelector(conf.colors.default, offset),
         '&:hover': setThemeForSelector(conf.colors.hover, offset),
         '&:active': setThemeForSelector(conf.colors.active, offset),
-        '&:focus': setThemeForSelector(conf.colors.focus, offset),
+        ...focusMixin('&:focus', setThemeForSelector(conf.colors.focus, offset)),
         '&[disabled]': setThemeForSelector(conf.colors.disabled, offset)
       }
     })
