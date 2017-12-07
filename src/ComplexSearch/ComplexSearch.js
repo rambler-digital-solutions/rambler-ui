@@ -230,7 +230,11 @@ class ComplexSearch extends React.Component {
     /**
      * Вставлять ли dropdown внутри body
      */
-    appendToBody: PropTypes.bool
+    appendToBody: PropTypes.bool,
+    /**
+     * 	Автоматическое позиционирование дропдауна по оси Y (если выходит за пределы экрана)
+     */
+    autoPositionY: PropTypes.bool
   };
 
   static defaultProps = {
@@ -238,6 +242,7 @@ class ComplexSearch extends React.Component {
     placeholder: '',
     division: null,
     appendToBody: true,
+    autoPositionY: true,
     searchButton: null,
     searchButtonStyle: {},
     searchButtonClassName: '',
@@ -543,6 +548,7 @@ class ComplexSearch extends React.Component {
     const {
       children,
       appendToBody,
+      autoPositionY,
       classes: css
     } = this.props
 
@@ -554,7 +560,7 @@ class ComplexSearch extends React.Component {
         className={css.dropdown}
         appendToBody={appendToBody}
         anchorFullWidth={true}
-        autoPositionY={true}
+        autoPositionY={autoPositionY}
         anchorPointY="bottom"
         contentPointY="top"
         overlayClassName={css.overlay}
