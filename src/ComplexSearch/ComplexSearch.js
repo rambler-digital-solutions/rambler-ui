@@ -242,7 +242,7 @@ class ComplexSearch extends React.Component {
     placeholder: '',
     division: null,
     appendToBody: true,
-    autoPositionY: true,
+    autoPositionY: false,
     searchButton: null,
     searchButtonStyle: {},
     searchButtonClassName: '',
