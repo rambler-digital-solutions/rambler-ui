@@ -44,7 +44,7 @@ import windowEvents from '../hoc/window-events'
   },
   item: {
     '&&': {
-      flex: '0 1 auto',
+      flex: 'none',
       alignSelf: 'flex-start',
       whiteSpace: 'nowrap',
       maxWidth: `calc(100% - ${theme.tagsInput.sideMargin}px)`,
