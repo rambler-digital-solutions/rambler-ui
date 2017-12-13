@@ -17,8 +17,10 @@ import { isolateMixin } from '../style/mixins'
       flexBasis: 0
     },
     '& input': {
-      backgroundColor: 'transparent',
-      '&, &:enabled:hover': {
+      '&, &:disabled': {
+        backgroundColor: 'transparent'
+      },
+      '&, &:disabled, &:enabled:hover': {
         borderColor: 'transparent'
       }
     },
