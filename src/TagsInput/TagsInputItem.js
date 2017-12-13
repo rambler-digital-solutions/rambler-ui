@@ -87,6 +87,10 @@ class TagsInputItem extends Component {
       props.onClick(event, props.value)
   }
 
+  handleMouseDown = (event) => {
+    event.preventDefault()
+  }
+
   render() {
     const {props} = this
     const {classes} = props.sheet
@@ -103,6 +107,7 @@ class TagsInputItem extends Component {
           size={8}
           style={iconStyle}
           onClick={props.disabled ? undefined : this.handleClick}
+          onMouseDown={props.disabled ? undefined : this.handleMouseDown}
           role={props.disabled ? undefined : 'button'}
         />
       </div>
