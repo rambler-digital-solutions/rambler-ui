@@ -4,6 +4,12 @@ stages:
   - test
   - build
 
+before_script:
+  - git config --global user.email ${GITLAB_USER_EMAIL}"
+  - git config --global user.name "${GITLAB_USER_NAME}"
+
+
+
 test:
   stage: test
   tags:
@@ -14,6 +20,18 @@ test:
     - npm install
     - npm run eslint
     - npm run test
+
+try_commit:
+  stage: build
+  tags:
+    - docker
+  when: manual
+  script:
+    - echo "test ci" > tmp_ci.txt
+    - git add .
+    - git commit -m 'Test CI commit'
+    - git push -u origin CI
+
 
 build_site:
   stage: build
