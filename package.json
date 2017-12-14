@@ -10,7 +10,9 @@
     "release": "npm run build && cd build && npm publish",
     "build": "NODE_ENV=production gulp build",
     "precommit": "eslint \"./**/*.js\" && npm run test",
-    "eslint": "eslint \"./**/*.js\" --fix"
+    "eslint": "eslint \"./**/*.js\"",
+    "eslint:fix": "eslint \"./**/*.js\" --fix",
+    "version": "cd site; gulp update-version; cd ..; git add .;"
   },
   "repository": {
     "type": "git",
