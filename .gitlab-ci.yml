@@ -22,7 +22,7 @@ test:
     - npm run test
 
 try_commit:
-  stage: build
+  stage: test
   tags:
     - docker
   when: manual
