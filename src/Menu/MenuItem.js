@@ -1,9 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import EventEmitter from 'events'
 import { ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
+import uuid from '../utils/uuid'
+import { MENU_ITEM_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => ({
   root: {
@@ -68,93 +71,113 @@ class MenuItem extends PureComponent {
     /**
      * Контент опции
      */
-    children: PropTypes.node.isRequired,
-    /**
-     * Есть ли фокус на опции (автоматически проставляется компонентом `<Menu />`)
-     */
-    isFocused: PropTypes.bool,
-    /**
-     * Выбрана ли эта опция (автоматически проставляется компонентом `<Menu />`)
-     */
-    isSelected: PropTypes.bool,
-    /**
-     * Опция не активна (проставляется вручную или автоматически компонентом `<Menu />`)
-     */
-    disabled: PropTypes.bool,
-    /**
-     * Коллбек наведения на опцию (автоматически проставляется компонентом `<Menu />`)
-     */
-    onFocus: PropTypes.func,
-    /**
-     * Коллбек выбора опции (автоматически проставляется компонентом `<Menu />`)
-     */
-    onSelect: PropTypes.func,
-    /**
-     * Размер опции (автоматически проставляется компонентом `<Menu />`)
-     */
-    size: PropTypes.oneOf(['small', 'medium'])
-  };
+    children: PropTypes.node.isRequired
+  }
 
-  static defaultProps = {
-    isFocused: false,
-    isSelected: false,
-    disabled: false,
-    onFocus: () => {},
-    onSelect: () => {},
-    size: 'medium'
-  };
+  static contextTypes = {
+    [MENU_ITEM_CONTEXT]: PropTypes.shape({
+      /**
+       * Проверка, выбрано ли значение (args: value)
+       */
+      isValueSelected: PropTypes.func,
+      /**
+       * Опции не активны
+       */
+      disabled: PropTypes.bool,
+      /**
+       * Размер опции
+       */
+      size: PropTypes.oneOf(['small', 'medium']),
+      /**
+       * Шина событий
+       * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
+       * onItemSelect - клик по MenuItem (args: value)
+       * onItemFocus - фокус на MenuItem (args: id)
+       * onItemUpdate - добавление и обновление MenuItem (args: id, ref, isSelected)
+       * onItemUnmount - удаление MenuItem (args: id)
+       */
+      events: PropTypes.instanceOf(EventEmitter)
+    })
+  }
+
+  get ctx() {
+    return this.context[MENU_ITEM_CONTEXT]
+  }
 
   get css() {
     return this.props.sheet.classes
   }
 
+  id = uuid()
+
   componentDidMount() {
-    if (this.props.isFocused)
-      this.item.focus()
+    this.ctx.events.on('onPropsChange', this.handlePropsChange)
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.isFocused && this.props.isFocused !== prevProps.isFocused)
-      this.item.focus()
+  componentWillReceiveProps() {
+    this.ctx.events.emit('onItemUpdate', this.id, this.item, this.isSelected)
   }
 
-  pressKey = (event) => {
+  componentWillUnmount() {
+    this.ctx.events.removeListener('onPropsChange', this.handlePropsChange)
+    this.ctx.events.emit('onItemUnmount', this.id)
+  }
+
+  handlePropsChange = () => {
+    const {props, ctx} = this
+    if (ctx.isValueSelected(props.value) !== this.isSelected || ctx.disabled !== this.disabled || ctx.size !== this.size)
+      this.forceUpdate()
+  }
+
+  handleSelect = () => {
+    this.ctx.events.emit('onItemSelect', this.props.value)
+  }
+
+  handleFocus = () => {
+    this.ctx.events.emit('onItemFocus', this.id)
+  }
+
+  handlePressKey = (event) => {
     if (event.keyCode === ENTER) {
       event.stopPropagation()
       this.item.focus()
-      this.props.onSelect()
+      this.handleSelect()
     }
   }
 
+  saveRef = (ref) => {
+    this.item = ref 
+    this.ctx.events.emit('onItemUpdate', this.id, ref, this.isSelected)
+  }
+
   render() {
-    const {
-      className,
-      style,
-      children,
-      isSelected,
-      disabled,
-      onFocus,
-      onSelect,
-      size
-    } = this.props
+    const {props, ctx} = this
+    this.isSelected = ctx.isValueSelected(props.value)
+    this.disabled = ctx.disabled
+    this.size = ctx.size
 
     return (
       <div
-        ref={(el) => { this.item = el }}
-        style={style}
-        className={classnames(className, this.css.root, size && this.css[size], disabled && this.css.isDisabled, isSelected && this.css.isSelected)}
-        tabIndex={disabled ? null : 0}
-        onFocus={disabled ? null : onFocus}
-        onClick={disabled ? null : onSelect}
-        onKeyDown={disabled ? null : this.pressKey}
+        ref={this.saveRef}
+        style={props.style}
+        className={classnames(
+          props.className,
+          this.css.root,
+          this.size && this.css[this.size],
+          this.disabled && this.css.isDisabled,
+          this.isSelected && this.css.isSelected
+        )}
+        tabIndex={this.disabled ? null : 0}
+        onFocus={this.disabled ? null : this.handleFocus}
+        onClick={this.disabled ? null : this.handleSelect}
+        onKeyDown={this.disabled ? null : this.handlePressKey}
+        autoFocus
       >
-        {children}
+        {props.children}
       </div>
     )
   }
 
 }
-
-MenuItem.displayName = 'ruiMenuItem'
 
 export default MenuItem
