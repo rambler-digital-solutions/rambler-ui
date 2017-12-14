@@ -4,12 +4,13 @@ stages:
   - test
   - build
 
+tags:
+  - docker
+
 test:
   stage: test
   except:
     - /^gh-pages/
-  tags:
-    - docker
   script:
     - npm install
     - npm run eslint
