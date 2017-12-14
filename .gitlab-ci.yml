@@ -4,11 +4,10 @@ stages:
   - test
   - build
 
-tags:
-  - docker
-
 test:
   stage: test
+  tags:
+    - docker
   except:
     - /^gh-pages/
   script:
@@ -18,6 +17,8 @@ test:
 
 build_site:
   stage: build
+  tags:
+    - docker
   except:
     - /gh-pages/
     - tags
@@ -31,6 +32,8 @@ build_site:
 
 build_version:
   stage: build
+  tags:
+    - docker
   except:
     - /gh-pages/
   only:
@@ -52,6 +55,8 @@ build_version:
 
 pages:
   stage: build
+  tags:
+    - docker
   only:
     - /gh-pages/
   script:
