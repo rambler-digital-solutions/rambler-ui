@@ -3,7 +3,7 @@ import Input from '../../Input'
 import InputStatus from '../../InputStatus'
 import FormGroup from '../../FormGroup'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles, getNodeStyles } from '../../utils/test-utils'
+import { mount, getStyles, getNodeStyles, getWrapperNode } from '../../utils/test-utils'
 import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
@@ -211,4 +211,15 @@ describe('Input', () => {
     expect(inputTextStyles.height).toEqual(theme.field.sizes.small.height + 'px')
   })
 
+  it('classNames of icons', () => {
+    const leftClName = 'aaaaaaa'
+    const rightClName = 'bbbbbbb'
+
+    const wrapper = mount(applyTheme(
+      <Input {...defaultProps} iconLeft={<RamblerMailIcon />} iconLeftClassName={leftClName} iconRight={<RamblerMailIcon />} iconRightClassName={rightClName} />
+    ))
+    const svg = getWrapperNode(wrapper).querySelectorAll('svg')
+    expect(svg[0].parentNode.classList.contains(leftClName)).toBeTruthy()
+    expect(svg[1].parentNode.classList.contains(rightClName)).toBeTruthy()
+  })
 })

@@ -57,7 +57,7 @@ export default class InputExample extends Component {
                     <Input iconRight={<RamblerMailIcon />} type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' variation={variation} />
                   </FormGroup>
                   <FormGroup label='Input password with left and right icon'>
-                    <Input iconLeft={<RamblerMailIcon />} iconRight={<RamblerMailIcon />} type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' variation={variation} />
+                    <Input iconLeft={<RamblerMailIcon />} iconRight={<RamblerMailIcon />} type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' variation={variation} iconLeftClassName="leftIcon" iconRightClassName="rightIcon" />
                   </FormGroup>
                   <FormGroup label='Input small password with left and right icon' size='small'>
                     <Input size="small" iconLeft={<RamblerMailIcon />} iconRight={<RamblerMailIcon />} type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' variation={variation} />
