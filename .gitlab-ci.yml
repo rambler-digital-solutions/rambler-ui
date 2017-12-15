@@ -7,6 +7,7 @@ stages:
 before_script:
   - git config --global user.email "${GITLAB_USER_EMAIL}"
   - git config --global user.name "${GITLAB_USER_NAME}"
+  - mkdir -p ~/.ssh
   - echo $CI_RUNNER_SSH_PRIVATE_KEY > ~/.ssh/id_rsa_gitlab
   - ssh-add ~/.ssh/id_rsa_gitlab
   - ssh-add -D
