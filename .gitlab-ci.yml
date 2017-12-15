@@ -11,7 +11,7 @@ before_script:
   - echo $CI_RUNNER_SSH_PRIVATE_KEY > ~/.ssh/id_rsa_gitlab
   - chmod 600 ~/.ssh/id_rsa_gitlab
   - eval `ssh-agent -s`
-  - ssh-add -K ~/.ssh/id_rsa_gitlab
+  - ssh-add ~/.ssh/id_rsa_gitlab
 
 test:
   stage: test
