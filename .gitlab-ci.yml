@@ -7,11 +7,6 @@ stages:
 before_script:
   - git config --global user.email "${GITLAB_USER_EMAIL}"
   - git config --global user.name "${GITLAB_USER_NAME}"
-  - mkdir -p ~/.ssh
-  - echo $CI_RUNNER_SSH_PRIVATE_KEY | tr -d '\r' > ~/.ssh/id_rsa
-  - chmod 600 ~/.ssh/id_rsa
-  - eval `ssh-agent -s`
-  - ssh-keyscan -H 'gitlab.rambler.ru' >> ~/.ssh/known_hosts
 
 test:
   stage: test
@@ -33,7 +28,7 @@ try_commit:
     - echo "test ci" > tmp_ci.txt
     - git add .
     - git commit -m 'Test CI commit'
-    - git push -u origin CI
+    - ./git-push.sh gitlab-runner@gitlab.rambler.ru:rambler-ui/rambler-ui CI
 
 
 build_site:
