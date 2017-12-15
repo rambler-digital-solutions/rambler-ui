@@ -11,7 +11,7 @@ before_script:
   - echo $CI_RUNNER_SSH_PRIVATE_KEY | tr -d '\r' > ~/.ssh/id_rsa
   - chmod 600 ~/.ssh/id_rsa
   - eval `ssh-agent -s`
-  - ssh-keyscan -H 'your.server.hostname' >> ~/.ssh/known_hosts
+  - ssh-keyscan -H 'gitlab.rambler.ru' >> ~/.ssh/known_hosts
 
 test:
   stage: test
