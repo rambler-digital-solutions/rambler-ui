@@ -4,14 +4,6 @@ stages:
   - test
   - build
 
-before_script:
-  - git config --global user.email "${GITLAB_USER_EMAIL}"
-  - git config --global user.name "${GITLAB_USER_NAME}"
-  - mkdir -p ~/.ssh
-  - echo $CI_RUNNER_SSH_PRIVATE_KEY > ~/.ssh/id_rsa_gitlab
-  - ssh-add ~/.ssh/id_rsa_gitlab
-  - ssh-add -D
-
 test:
   stage: test
   tags:
@@ -29,6 +21,12 @@ try_commit:
     - docker
   when: manual
   script:
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - mkdir -p ~/.ssh
+    - echo $CI_RUNNER_SSH_PRIVATE_KEY > ~/.ssh/id_rsa_gitlab
+    - ssh-add ~/.ssh/id_rsa_gitlab
+    - ssh-add -D
     - echo "test ci" > tmp_ci.txt
     - git add .
     - git commit -m 'Test CI commit'
