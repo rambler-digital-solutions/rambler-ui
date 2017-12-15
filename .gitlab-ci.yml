@@ -28,7 +28,7 @@ try_commit:
     - echo "test ci" > tmp_ci.txt
     - git add .
     - git commit -m 'Test CI commit'
-    - ./git-push.sh gitlab-runner@gitlab.rambler.ru:rambler-ui/rambler-ui CI
+    - ./git-push.sh ${USER}@gitlab.rambler.ru:rambler-ui/rambler-ui CI
 
 
 build_site:
