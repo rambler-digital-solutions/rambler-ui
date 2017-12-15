@@ -8,10 +8,11 @@ before_script:
   - git config --global user.email "${GITLAB_USER_EMAIL}"
   - git config --global user.name "${GITLAB_USER_NAME}"
   - mkdir -p ~/.ssh
-  - echo $CI_RUNNER_SSH_PRIVATE_KEY > ~/.ssh/id_rsa_gitlab
-  - chmod 600 ~/.ssh/id_rsa_gitlab
+  - echo $CI_RUNNER_SSH_PRIVATE_KEY | tr -d '\r' > ~/.ssh/id_rsa
+  - chmod 600 ~/.ssh/id_rsa
   - eval `ssh-agent -s`
-  - ssh-add ~/.ssh/id_rsa_gitlab
+  - ssh-add ~/.ssh/id_rsa
+  - ssh-keyscan -H 'your.server.hostname' >> ~/.ssh/known_hosts
 
 test:
   stage: test
@@ -71,7 +72,7 @@ build_version:
     - cd build
     - sed -i -e 's/\"rambler\-ui\"/\"@rambler\-common\/rambler\-ui\"/' ./package.json
     - npm publish
-    - npm set registry https://art.rambler.ru/api/npm/npm-cache/
+    - npm config set registry https://art.rambler.ru/api/npm/npm-cache/
     - rm ~/.npmrc
 
 pages:
