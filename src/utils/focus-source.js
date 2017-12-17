@@ -1,5 +1,8 @@
-// Module determines focus source (by pointer device or by keyboard/scripts) 
-// and sets an appropriate value ('pointer' or 'other') to <html> attribute 'data-focus-source'
+/**
+ * Module determines focus source (by pointer device or by keyboard/scripts) 
+ * and sets an appropriate value ('pointer' or 'other') to <html> attribute 'data-focus-source'
+ */
+import { canUseDOM } from './DOM'
 
 const pointerStartEvents = [
   'touchstart',
@@ -75,4 +78,6 @@ const subscribe = () => {
   })
 }
 
-subscribe()
+// Chceking DOM availability to make it work with SSR
+if (canUseDOM)
+  subscribe()

@@ -115,4 +115,12 @@ export const beautyScroll = (selector) => ({
   [`${selector}::-webkit-resizer`]: {}
 })
 
-export const focusMixin = (selector, rule) => ({ [`html[data-focus-source="other"] ${selector}`]: rule })
+/**
+ * Applying styles on elements depending on focus event source type
+ * @param {string} sourceType Other/pointer
+ * @param {string} selector CSS-selector
+ * @param {string} declaration CSS-declaration
+ */
+export const focusSourceMixin = (sourceType = 'other', selector, declaration) => ({
+  [`html[data-focus-source="${sourceType}"] ${selector}`]: declaration
+})

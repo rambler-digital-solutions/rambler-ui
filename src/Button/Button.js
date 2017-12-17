@@ -12,7 +12,7 @@ import merge from 'lodash/merge'
 import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
-import { middleMixin, isolateMixin, fontSmoothingMixin, ifMobile, focusMixin } from '../style/mixins'
+import { middleMixin, isolateMixin, fontSmoothingMixin, ifMobile, focusSourceMixin } from '../style/mixins'
 import '../utils/focus-source'
 
 function getIconColor(colorsConfig, isDisabled) {
@@ -157,7 +157,7 @@ function getIconColor(colorsConfig, isDisabled) {
         '&:hover': setThemeForSelector(conf.colors.hover, offset),
         '&:active': setThemeForSelector(conf.colors.active, offset),
         '&[disabled]': setThemeForSelector(conf.colors.disabled, offset),
-        ...focusMixin('&:focus', setThemeForSelector(conf.colors.focus, offset)),
+        ...focusSourceMixin('other', '&:focus', setThemeForSelector(conf.colors.focus, offset)),
         ...setThemeForSelector(conf.colors.default, offset)
       }
     }
