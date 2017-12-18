@@ -29,9 +29,9 @@ build_site:
   when: manual
   script:
     - npm install
+    - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - cd site
     - npm install
-    - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - npm run gh-pages -- --omitGithub --versions "${CI_COMMIT_REF_NAME}"
     - cd ..
 
@@ -46,9 +46,9 @@ build_version:
   when: manual
   script:
     - npm install
+    - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - cd site
     - npm install
-    - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - npm run gh-pages -- --omitGithub --versions "${CI_COMMIT_TAG}"
     - cd ..
     - npm run build
