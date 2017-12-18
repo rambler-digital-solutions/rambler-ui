@@ -777,18 +777,18 @@ export function createTheme(config) {
     },
     snackbar: {
       borderRadius: 2,
-      padding: '15px 20px',
+      padding: '10px 20px',
       colors: {
         text: colors.light,
         actionButton: colors.light,
         background: {
-          main: fade(colors.blueDark, 0.95),
-          primary: fade(colors.primary, 0.9),
-          success: fade(colors.success, 0.9),
-          danger: fade(colors.danger, 0.9)
+          main: colors.primary,
+          primary: colors.snackbarBlueDark,
+          success: colors.success,
+          danger: colors.danger
         }
       },
-      fontSize: 14,
+      fontSize: 13,
       animationDuration: 200
     },
     spinner: {

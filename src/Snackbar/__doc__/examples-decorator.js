@@ -24,6 +24,20 @@ class WithSnackbar extends Component {
     </Snackbar>)
   }
 
+  openSnackbar = () => {
+    this.props.openSnackbar(
+      <Snackbar
+        positionY="top"
+        positionX="left"
+        autoCloseDuration={3000}
+        size="big"
+        type="danger"
+      >
+        Я большой снэкбар и во мне много контента.
+      </Snackbar>
+    )
+  }
+
   render() {
     return (
       <div>
@@ -33,6 +47,9 @@ class WithSnackbar extends Component {
           </Button>
           <Button type="outline" style={{ marginLeft: 20 }} onClick={this.openConfirm}>
             Подтверждение
+          </Button>
+          <Button type="primary" style={{ marginLeft: 20 }} onClick={this.openSnackbar}>
+            Большой снэкбар
           </Button>
         </div>
       </div>

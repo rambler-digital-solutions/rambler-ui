@@ -26,7 +26,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     alignItems: 'center',
     padding: theme.snackbar.padding,
     width: '100%',
-    lineHeight: 1.45,
+    lineHeight: 1.15,
     color: theme.snackbar.colors.text,
     fontSize: theme.snackbar.fontSize,
     opacity: 0,
@@ -139,6 +139,9 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     width: 20,
     padding: 0,
     lineHeight: 0
+  },
+  big: {
+    padding: '18px 20px 17px'
   }
 }))
 export default class Snackbar extends Component {
@@ -199,7 +202,11 @@ export default class Snackbar extends Component {
     /**
      * Коллбек вызывающийся при всех вариантах закрытия (автоматически проставляется, если используется `@provideSnackbar`)
      */
-    onRequestClose: PropTypes.func
+    onRequestClose: PropTypes.func,
+    /**
+     * Высота снэкбара
+     */
+    size: PropTypes.oneOf(['small', 'big'])
   };
 
   static defaultProps = {
@@ -211,7 +218,8 @@ export default class Snackbar extends Component {
     closeOnClickOutside: false,
     autoCloseDuration: 4000,
     onAction: () => {},
-    onRequestClose: () => {}
+    onRequestClose: () => {},
+    size: 'small'
   };
 
   get css() {
@@ -254,7 +262,8 @@ export default class Snackbar extends Component {
       onAction,
       onRequestClose,
       closeOnClickOutside,
-      onClose
+      onClose,
+      size
     } = this.props
 
     const css = this.css
@@ -269,7 +278,7 @@ export default class Snackbar extends Component {
         onInvisible={onClose}>
         <div
           style={style}
-          className={classnames(css.snackbar, css[positionX], css[positionY], css[type], className)}>
+          className={classnames(css.snackbar, css[positionX], css[positionY], css[type], size === 'big' && css.big, className)}>
           {icon &&
             <div className={css.icon}>
               {cloneElement(icon, {color: icon.props.color || theme.snackbar.colors.text})}
