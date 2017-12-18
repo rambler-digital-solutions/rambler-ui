@@ -130,6 +130,8 @@ describe('<ApplyTheme />', () => {
     )
 
     const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -2)
+    const nestedClassPrefix = nestedSheetsRegistry.registry[0].classes.button.slice(0, -2)
+    const separateClassPrefix = separateSheetsRegistry.registry[0].classes.button.slice(0, -2)
 
     expect(sheetsRegistry.toString()).toBe(
       `.${classPrefix}-1 {\n` +
@@ -138,13 +140,13 @@ describe('<ApplyTheme />', () => {
     )
 
     expect(nestedSheetsRegistry.toString()).toBe(
-      `.${classPrefix}-2 {\n` +
+      `.${nestedClassPrefix}-2 {\n` +
       '  color: #000000;\n' +
       '}'
     )
 
     expect(separateSheetsRegistry.toString()).toBe(
-      `.${classPrefix}-3 {\n` +
+      `.${separateClassPrefix}-3 {\n` +
       '  color: #777777;\n' +
       '}'
     )
