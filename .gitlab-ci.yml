@@ -19,18 +19,6 @@ test:
     - npm run eslint
     - npm run test
 
-try_commit:
-  stage: test
-  tags:
-    - docker
-  when: manual
-  script:
-    - echo "test ci" > tmp_ci.txt
-    - git add .
-    - git commit -m 'Test CI commit'
-    - ./git-push.sh git@gitlab.rambler.ru:rambler-ui/rambler-ui
-
-
 build_site:
   stage: build
   tags:
@@ -43,6 +31,7 @@ build_site:
     - npm install
     - cd site
     - npm install
+    - ./ci-git-push-prepare git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - npm run gh-pages -- --omitGithub --versions "${CI_COMMIT_REF_NAME}"
     - cd ..
 
@@ -54,10 +43,12 @@ build_version:
     - /gh-pages/
   only:
     - tags
+  when: manual
   script:
     - npm install
     - cd site
     - npm install
+    - ./ci-git-push-prepare git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - npm run gh-pages -- --omitGithub --versions "${CI_COMMIT_TAG}"
     - cd ..
     - npm run build

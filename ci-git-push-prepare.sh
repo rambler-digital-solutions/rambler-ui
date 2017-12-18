@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 url=$1
-branch=$2
+# branch=$2
 
 if [ -z "$SSH_PRIVATE_KEY" ]; then
   >&2 echo "Set SSH_PRIVATE_KEY environment variable"
@@ -25,4 +25,4 @@ echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 ssh-keyscan -H $ssh_port "$ssh_host" >> ~/.ssh/known_hosts
 
-git push $url HEAD:${branch:-master} $([ -z "$DISABLE_FORCE_PUSH" ] && echo --force)
+# git push $url HEAD:${branch:-master} $([ -z "$DISABLE_FORCE_PUSH" ] && echo --force)

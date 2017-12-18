@@ -58,6 +58,7 @@ gulp.task('gh-pages', ['build-gh-pages'], (callback) => {
   ghpages.clean()
   ghpages.publish(buildGhPagesDir, {
     message,
+    repo: config.gitlabRepo,
     add: true
   }, (err) => {
     if (err)
