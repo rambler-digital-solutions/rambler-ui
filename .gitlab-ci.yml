@@ -1,0 +1,74 @@
+image: portal-common-docker.art.rambler.ru/builder
+
+stages:
+  - setup
+  - build
+
+before_script:
+  - git config --global user.email "${GITLAB_USER_EMAIL}"
+  - git config --global user.name "${GITLAB_USER_NAME}"
+
+test:
+  stage: setup
+  tags:
+    - docker
+  except:
+    - /^gh-pages/
+  script:
+    - npm install
+    - npm run eslint
+    - npm run test
+
+build_site:
+  stage: build
+  tags:
+    - docker
+  except:
+    - /gh-pages/
+    - tags
+  when: manual
+  script:
+    - npm install
+    - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
+    - cd site
+    - npm install
+    - npm run gh-pages -- --omitGithub --versions "${CI_COMMIT_REF_NAME}"
+    - cd ..
+
+build_version:
+  stage: build
+  tags:
+    - docker
+  except:
+    - /gh-pages/
+  only:
+    - tags
+  when: manual
+  script:
+    - npm install
+    - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
+    - cd site
+    - npm install
+    - npm run gh-pages -- --omitGithub --versions "${CI_COMMIT_TAG}"
+    - cd ..
+    - npm run build
+    - npm config set registry https://art.rambler.ru/api/npm/rambler-common/
+    - curl -u${PROJECT_NPM_USER}:${PROJECT_NPM_AUTH_KEY} 'https://art.rambler.ru/api/npm/auth' > ~/.npmrc
+    - cd build
+    - sed -i -e 's/\"rambler\-ui\"/\"@rambler\-common\/rambler\-ui\"/' ./package.json
+    - npm publish
+    - npm config set registry https://art.rambler.ru/api/npm/npm-cache/
+    - rm ~/.npmrc
+
+pages:
+  stage: setup
+  tags:
+    - docker
+  only:
+    - /gh-pages/
+  script:
+    - echo 'Gitlab Pages build...'
+  artifacts:
+    untracked: false
+    paths:
+      - '.'
