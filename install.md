@@ -30,11 +30,10 @@ export default function() {
 import { ApplyTheme, createJss, createSheetsRegistry } from 'rambler-ui/theme'
 
 function render() {
-    const jss = createJss()
     const sheetsRegistry = createSheetsRegistry()
 
     const component = (
-      <ApplyTheme jss={jss} sheetsRegistry={sheetsRegistry}>
+      <ApplyTheme sheetsRegistry={sheetsRegistry}>
 
       </ApplyTheme>
     )
