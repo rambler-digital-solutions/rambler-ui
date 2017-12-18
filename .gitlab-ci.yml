@@ -68,7 +68,7 @@ pages:
     - /gh-pages/
   script:
     - mkdir build
-    - rsync -rv --exclude=.git --exclude=node_modules . ./build
+    - rsync -rv --exclude=.git --exclude=node_modules --exclude=build . ./build
   artifacts:
     untracked: false
     paths:
