@@ -1,7 +1,7 @@
 image: portal-common-docker.art.rambler.ru/builder
 
 stages:
-  - test
+  - setup
   - build
 
 before_script:
@@ -9,7 +9,7 @@ before_script:
   - git config --global user.name "${GITLAB_USER_NAME}"
 
 test:
-  stage: test
+  stage: setup
   tags:
     - docker
   except:
@@ -61,7 +61,7 @@ build_version:
     - rm ~/.npmrc
 
 pages:
-  stage: build
+  stage: setup
   tags:
     - docker
   only:

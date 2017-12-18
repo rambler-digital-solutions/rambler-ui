@@ -41,7 +41,7 @@ gulp.task('build-gh-pages', ['webpack'], () => {
     const resFolder = path.join(buildGhPagesDir, folder)
     exec(`rm -rf ${resFolder}`)
     exec(`mkdir -p ${resFolder}`)
-    exec(`cp -r ${buildDir} ${resFolder}`)
+    exec(`cp -r ${buildDir}/* ${resFolder}/`)
     if (folder === 'stable')
       exec(`cp -r ${buildDir}/* ${buildGhPagesDir}/`)
   })
