@@ -67,7 +67,8 @@ pages:
   only:
     - /gh-pages/
   script:
-    - echo 'Gitlab Pages build...'
+    - mkdir build
+    - rsync -rv --exclude=.git --exclude=node_modules . ./build
   artifacts:
     untracked: false
     paths:
