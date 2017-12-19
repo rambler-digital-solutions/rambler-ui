@@ -17,12 +17,14 @@ import hljs from 'highlight.js'
 import { transform } from 'babel-standalone'
 import 'highlight.js/styles/default.css'
 import 'codemirror/lib/codemirror.css'
+import config from 'config'
 
 const availableModules = {
   react: React,
   lodash: _
 }
-const LIB_NAME = 'rambler-ui'
+
+const LIB_NAME = config.libName
 
 @pure
 export default class Playground extends Component {

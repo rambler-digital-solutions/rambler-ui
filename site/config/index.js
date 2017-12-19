@@ -10,7 +10,8 @@ module.exports = {
   repoLink: 'https://github.com/rambler-digital-solutions/rambler-ui/',
   ghPagesRepo: 'git@github.com:rambler-digital-solutions/rambler-ui.git',
   gitlabRepo: 'git@gitlab.rambler.ru:/rambler-ui/rambler-ui',
-  branch: cp.execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
+  branch: cp.execSync('git rev-parse --abbrev-ref HEAD').toString().trim(),
+  libName: 'rambler-ui'
 }
 
 try {
