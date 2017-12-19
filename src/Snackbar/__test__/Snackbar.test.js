@@ -98,7 +98,7 @@ describe('<Snackbar />', () => {
     expect(snackbarStyles['padding-bottom']).toEqual('17px')
   })
 
-  it('should apply custom width and big height', () => {
+  it('should apply custom width and small size', () => {
     mountWrapper({
       isOpened: true,
       size: 'small',

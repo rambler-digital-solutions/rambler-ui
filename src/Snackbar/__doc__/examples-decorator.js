@@ -49,7 +49,7 @@ class WithSnackbar extends Component {
             Подтверждение
           </Button>
           <Button type="primary" style={{ marginLeft: 20 }} onClick={this.openSnackbar}>
-            Большой снэкбар
+            Маленький снэкбар
           </Button>
         </div>
       </div>
