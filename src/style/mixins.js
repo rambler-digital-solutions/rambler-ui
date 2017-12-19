@@ -114,3 +114,13 @@ export const beautyScroll = (selector) => ({
   [`${selector}::-webkit-scrollbar-corner`]: {},
   [`${selector}::-webkit-resizer`]: {}
 })
+
+/**
+ * Applying styles on elements depending on focus event source type
+ * @param {string} sourceType Other/pointer
+ * @param {string} selector CSS-selector
+ * @param {string} declaration CSS-declaration
+ */
+export const focusSourceMixin = (sourceType = 'other', selector, declaration) => ({
+  [`html[data-focus-source="${sourceType}"] ${selector}`]: declaration
+})

@@ -1,5 +1,12 @@
 # Changelog
 
+## v-3.9.0 - 2017-12-13
+### Added
+* Добавлено свойство `autoPositionY` для автопозиционирования выпадающего меню компонента `<ComplexSearch />`
+
+### Fixed
+* Поправлены границы недоступных полей ввода в компоненте `<FieldGroup />`
+
 ## v-3.8.2 - 2017-12-04
 ### Fixed
 * Исправлены warnings из-за плагина transform-react-inline-elements

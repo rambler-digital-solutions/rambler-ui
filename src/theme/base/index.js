@@ -186,7 +186,7 @@ export function createTheme(config) {
               background: colors.controls.grey.background
             },
             disabled: {
-              text: fade(colors.dark, 0.1),
+              text: colors.controls.grey.outline,
               icon: fade(colors.dark, 0.1)
             },
             focus: {
