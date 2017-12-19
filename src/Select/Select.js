@@ -23,10 +23,8 @@ const absolutePosition = {
 
 @injectSheet(theme => ({
   root: {
-    '&&': {
-      ...isolateMixin,
-      display: 'block'
-    },
+    ...isolateMixin,
+    position: 'relative',
     '&:hover, &$isFocused': {
       '& $arrow': {
         color: theme.field.colors.focus.arrow
@@ -50,6 +48,23 @@ const absolutePosition = {
       opacity: 1,
       color: theme.field.colors.default.text
     })
+  },
+  dropdownContainer: {
+    '&&': {
+      display: 'block'
+    },
+    '$isMultipleWithoutSearch &': {
+      extend: absolutePosition,
+      bottom: null
+    }
+  },
+  icon: {
+    '$isMultipleWithoutSearch &': {
+      top: 'auto',
+      bottom: 'auto',
+      margin: 0,
+      transform: 'translateY(-50%)'
+    }
   },
   arrow: {
     cursor: 'pointer',
@@ -128,6 +143,12 @@ const absolutePosition = {
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
+      '&$isMultipleWithoutSearch': {
+        height: theme.field.sizes[size].height
+      },
+      '&$isMultipleWithoutSearch $icon': {
+        top: theme.field.sizes[size].height / 2
+      },
       '& $withCustom': {
         minHeight: theme.field.sizes[size].height
       },
@@ -174,6 +195,7 @@ const absolutePosition = {
   isOpened: {},
   isReadonly: {},
   isDisabled: {},
+  isMultipleWithoutSearch: {},
   isMultipleDropdown: {},
   withSearch: {},
   withLeftIcon: {},
@@ -241,9 +263,9 @@ export default class Select extends PureComponent {
      */
     disabled: PropTypes.bool,
     /**
-     * Опции поля, обязаны быть компонентами типа `<MenuItem />`
+     * Опции поля, массив элементов
      */
-    children: PropTypes.node,
+    children: PropTypes.arrayOf(PropTypes.element),
     /**
      * Иконка
      */
@@ -589,7 +611,8 @@ export default class Select extends PureComponent {
     if (customElementRenderer) {
       if (this.isValueEmpty(value) || (isOpened && !!onSearch)) resultPlaceholder = placeholder
     } else if (multiple) {
-      if (isOpened || !Array.isArray(value) || value.length === 0 ) resultPlaceholder = placeholder
+      const withValue = Array.isArray(value) && value.length > 0
+      if ((isOpened && onSearch) || !withValue) resultPlaceholder = placeholder
     } else {
       const inputValue = inputValueRenderer(value)
       resultPlaceholder = this.isValueEmpty(inputValue) ? placeholder : (onSearch && focusedInput && searchText === '' ? inputValue : '')
@@ -608,6 +631,7 @@ export default class Select extends PureComponent {
         className={this.css.input}
         iconLeft={icon}
         iconRight={this.showArrow ? createElement(this.Arrow) : undefined}
+        iconRightClassName={this.css.icon}
         onKeyDown={this.keyDown}
         onClick={this.open}
         onFocus={this.focusInput}
@@ -663,7 +687,14 @@ export default class Select extends PureComponent {
       size && this.css[size],
       disabled && this.css.isDisabled,
       isOpened && this.css.isOpened,
-      focusedInput && this.css.isFocused
+      focusedInput && this.css.isFocused,
+      multiple && !onSearch && this.css.isMultipleWithoutSearch
+    )
+
+    const dropdownResultClassName = classnames(
+      dropdownClassName,
+      this.css.dropdown,
+      multiple && this.css.isMultipleDropdown
     )
 
     let customElement = null
@@ -673,12 +704,12 @@ export default class Select extends PureComponent {
           className: this.css.custom
         })
 
-    } else if (multipleWithValue && !isOpened) {
+    } else if (multipleWithValue && (!isOpened || !onSearch)) {
       customElement = (
         <TagsInput
           className={this.css.options}
           onChange={this.changeValue}
-          isExpanded={false}
+          isExpanded={!isOpened || onSearch ? false : true}
         >
           {options}
         </TagsInput>
@@ -696,53 +727,55 @@ export default class Select extends PureComponent {
     )
 
     const resultIsOpened = isOpened && (children.length > 0 || (multiple && Array.isArray(value) && value.length > 0))
-
+    
     return (
       <OnClickOutside handler={this.closeOnClickOutside}>
-        <Dropdown
-          isOpened={resultIsOpened}
-          anchor={dropdownAnchor}
-          padding={false}
-          style={dropdownStyle}
-          className={classnames(dropdownClassName, this.css.dropdown, multiple && this.css.isMultipleDropdown)}
-          overlayClassName={resultClassName}
-          appendToBody={appendToBody}
-          anchorFullWidth={true}
-          autoPositionY={false}
-          anchorPointY="bottom"
-          contentPointY="top"
-          closeOnClickOutside={false}
-          cachePositionOptions={false}
-          onClose={this.handleDropdownClose}
-        >
-          {multipleWithValue &&
-            <TagsInput
-              className={this.css.selected}
-              onChange={this.changeValue}
-              isExpanded={true}
-              onMouseDown={this.preventBlurInput}
-              size={size}
-            >
-              {options}
-            </TagsInput>
-          }
-          {children.length > 0 &&
-            <Menu
-              style={menuStyle}
-              className={classnames(menuClassName, this.css.menu)}
-              autoFocus={!inputFocused}
-              value={multiple ? Array.isArray(value) ? value : emptyArr : value}
-              valuesEquality={valuesEquality}
-              onChange={this.changeValue}
-              onMouseDown={this.preventBlurInput}
-              onEscKeyDown={this.closeOnEsc}
-              multiple={multiple}
-              size={size}
-            >
-              {children}
-            </Menu>
-          }
-        </Dropdown>
+        <div className={resultClassName}>
+          <Dropdown
+            isOpened={resultIsOpened}
+            anchor={dropdownAnchor}
+            padding={false}
+            style={dropdownStyle}
+            className={dropdownResultClassName}
+            overlayClassName={this.css.dropdownContainer}
+            appendToBody={appendToBody}
+            anchorFullWidth={true}
+            autoPositionY={false}
+            anchorPointY="bottom"
+            contentPointY="top"
+            closeOnClickOutside={false}
+            cachePositionOptions={false}
+            onClose={this.handleDropdownClose}
+          >
+            {multipleWithValue && onSearch &&
+              <TagsInput
+                className={this.css.selected}
+                onChange={this.changeValue}
+                isExpanded={true}
+                onMouseDown={this.preventBlurInput}
+                size={size}
+              >
+                {options}
+              </TagsInput>
+            }
+            {children.length > 0 &&
+              <Menu
+                style={menuStyle}
+                className={classnames(menuClassName, this.css.menu)}
+                autoFocus={!inputFocused}
+                value={multiple ? Array.isArray(value) ? value : emptyArr : value}
+                valuesEquality={valuesEquality}
+                onChange={this.changeValue}
+                onMouseDown={this.preventBlurInput}
+                onEscKeyDown={this.closeOnEsc}
+                multiple={multiple}
+                size={size}
+              >
+                {children}
+              </Menu>
+            }
+          </Dropdown>
+        </div>
       </OnClickOutside>
     )
   }

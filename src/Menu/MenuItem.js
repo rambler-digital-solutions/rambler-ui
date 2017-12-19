@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
+import provideMenuItemContext from './provideMenuItemContext'
 
 @injectSheet(theme => ({
   root: {
@@ -50,7 +51,8 @@ import { isolateMixin } from '../style/mixins'
     background: theme.menu.colors.disabled.background + '!important'
   }
 }))
-class MenuItem extends PureComponent {
+@provideMenuItemContext
+export default class MenuItem extends PureComponent {
 
   static propTypes = {
     /**
@@ -68,57 +70,24 @@ class MenuItem extends PureComponent {
     /**
      * Контент опции
      */
-    children: PropTypes.node.isRequired,
-    /**
-     * Есть ли фокус на опции (автоматически проставляется компонентом `<Menu />`)
-     */
-    isFocused: PropTypes.bool,
-    /**
-     * Выбрана ли эта опция (автоматически проставляется компонентом `<Menu />`)
-     */
-    isSelected: PropTypes.bool,
-    /**
-     * Опция не активна (проставляется вручную или автоматически компонентом `<Menu />`)
-     */
-    disabled: PropTypes.bool,
-    /**
-     * Коллбек наведения на опцию (автоматически проставляется компонентом `<Menu />`)
-     */
-    onFocus: PropTypes.func,
-    /**
-     * Коллбек выбора опции (автоматически проставляется компонентом `<Menu />`)
-     */
-    onSelect: PropTypes.func,
-    /**
-     * Размер опции (автоматически проставляется компонентом `<Menu />`)
-     */
-    size: PropTypes.oneOf(['small', 'medium'])
-  };
-
-  static defaultProps = {
-    isFocused: false,
-    isSelected: false,
-    disabled: false,
-    onFocus: () => {},
-    onSelect: () => {},
-    size: 'medium'
-  };
+    children: PropTypes.node.isRequired
+  }
 
   get css() {
     return this.props.classes
   }
 
   componentDidMount() {
-    if (this.props.isFocused)
+    if (this.props.autoFocus && this.item)
       this.item.focus()
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.isFocused && this.props.isFocused !== prevProps.isFocused)
+  componentDidUpdate() {
+    if (this.props.autoFocus && this.item)
       this.item.focus()
   }
 
-  pressKey = (event) => {
+  handlePressKey = (event) => {
     if (event.keyCode === ENTER) {
       event.stopPropagation()
       this.item.focus()
@@ -126,35 +95,32 @@ class MenuItem extends PureComponent {
     }
   }
 
+  saveRef = (ref) => {
+    this.item = ref
+  }
+
   render() {
-    const {
-      className,
-      style,
-      children,
-      isSelected,
-      disabled,
-      onFocus,
-      onSelect,
-      size
-    } = this.props
+    const {props} = this
 
     return (
       <div
-        ref={(el) => { this.item = el }}
-        style={style}
-        className={classnames(className, this.css.root, size && this.css[size], disabled && this.css.isDisabled, isSelected && this.css.isSelected)}
-        tabIndex={disabled ? null : 0}
-        onFocus={disabled ? null : onFocus}
-        onClick={disabled ? null : onSelect}
-        onKeyDown={disabled ? null : this.pressKey}
+        ref={this.saveRef}
+        style={props.style}
+        className={classnames(
+          props.className,
+          this.css.root,
+          props.size && this.css[props.size],
+          props.disabled && this.css.isDisabled,
+          props.isSelected && this.css.isSelected
+        )}
+        tabIndex={props.disabled ? null : 0}
+        onFocus={props.disabled ? null : props.onFocus}
+        onClick={props.disabled ? null : props.onSelect}
+        onKeyDown={props.disabled ? null : this.handlePressKey}
       >
-        {children}
+        {props.children}
       </div>
     )
   }
 
 }
-
-MenuItem.displayName = 'ruiMenuItem'
-
-export default MenuItem
