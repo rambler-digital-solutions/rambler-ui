@@ -3,7 +3,8 @@
  * @see https://github.com/callemall/material-ui/blob/master/docs/src/app/components/PropTypeDescription.js
  */
 
-import {Component, PropTypes} from 'react'
+import { Component } from 'react'
+import PropTypes from 'prop-types'
 import {parse} from 'react-docgen'
 import {parse as parseDoctrine} from 'doctrine'
 import MarkdownElement from 'components/MarkdownElement'

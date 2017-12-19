@@ -1,7 +1,7 @@
 import IconButton from '../IconButton'
 import React from 'react'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles} from '../../utils/test-utils'
+import { mount, getStyles, getWrapperNode} from '../../utils/test-utils'
 import theme from '../../theme/base'
 import {normalize as nc} from '../../utils/colors'
 import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
@@ -102,8 +102,8 @@ describe('<IconButton />', () => {
 
   it('check icon parent container in button', () => {
     const wrapper = mount(applyTheme(<IconButton {...defaultProps}><RamblerMailIcon /></IconButton>))
-    const button = wrapper.find('button')
-    const icon = wrapper.find('svg')
-    expect(button.childAt(0).node).toEqual(icon.node.parentNode)
+    const buttonInner = getWrapperNode(wrapper.find('button').childAt(0))
+    const iconParent = getWrapperNode(wrapper.find('svg')).parentNode
+    expect(buttonInner).toEqual(iconParent)
   })
 })

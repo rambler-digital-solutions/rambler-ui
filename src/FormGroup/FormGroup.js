@@ -116,7 +116,7 @@ export default class FormGroup extends Component {
       children,
       style,
       size,
-      sheet: { classes: css }
+      classes: css
     } = this.props
 
     const rootClass = inline === true ? 'inline' : 'normal'

@@ -2,7 +2,6 @@ import React, { PureComponent, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import defaults from 'lodash/defaults'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
@@ -18,8 +17,10 @@ import { isolateMixin } from '../style/mixins'
       flexBasis: 0
     },
     '& input': {
-      backgroundColor: 'transparent',
-      '&, &:enabled:hover': {
+      '&, &:disabled': {
+        backgroundColor: 'transparent'
+      },
+      '&, &:disabled, &:enabled:hover': {
         borderColor: 'transparent'
       }
     },
@@ -116,7 +117,7 @@ export default class FieldGroup extends PureComponent {
     const {
       className,
       style,
-      sheet: { classes: css },
+      classes: css,
       children,
       disabled,
       variation,
@@ -138,10 +139,7 @@ export default class FieldGroup extends PureComponent {
           else if (i === count)
             groupPosition = 'end'
           i++
-          return cloneElement(
-            child,
-            defaults({}, child.props, {...props, disabled, variation, groupPosition})
-          )
+          return cloneElement(child, {...props, disabled, variation, groupPosition})
         })}
       </div>
     )

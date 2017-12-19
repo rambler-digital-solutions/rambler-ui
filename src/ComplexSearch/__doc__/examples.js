@@ -89,6 +89,8 @@ export default class SearchExample extends Component {
             onPressEnter={this.onPressEnter}
             placeholder="Напишите 'это...'"
             searchButton="Search"
+            searchButtonStyle={{minWidth: 125}}
+            autoPositionY={false}
           >
             {this.state.items.map(item => (
               <div key={item[0] + item[2]} style={{borderTop: '1px solid #eee'}}>

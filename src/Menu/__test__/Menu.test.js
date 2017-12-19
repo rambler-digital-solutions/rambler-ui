@@ -1,7 +1,7 @@
 import React from 'react'
 import Menu from '../Menu'
 import MenuItem from '../MenuItem'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
 import theme from '../../theme/base'
 
 describe('<Menu />', () => {
@@ -16,13 +16,13 @@ describe('<Menu />', () => {
       </MenuItem>
     </Menu>))
 
-    const menu = wrapper.find(Menu)
+    const wrapperNode = getWrapperNode(wrapper)
 
-    expect(menu.children().length).toEqual(2)
-    expect(menu.find('.foo').text()).toEqual('foo')
-    expect(menu.find('.bar').text()).toEqual('baz')
+    expect(wrapperNode.children.length).toEqual(2)
+    expect(wrapperNode.querySelector('.foo').textContent).toEqual('foo')
+    expect(wrapperNode.querySelector('.bar').textContent).toEqual('baz')
 
-    const menuStyles = getStyles(menu)
+    const menuStyles = getStyles(wrapper)
 
     expect(menuStyles['padding-top']).toEqual('0px')
     expect(menuStyles['padding-left']).toEqual('0px')
@@ -30,7 +30,7 @@ describe('<Menu />', () => {
     expect(menuStyles['padding-bottom']).toEqual('0px')
     expect(menuStyles['overflow-y']).toEqual('auto')
 
-    const item = wrapper.find(MenuItem)
+    const item = wrapper.find(MenuItem).first()
     const itemStyles = getStyles(item)
 
     const verticalPadding = (theme.menu.sizes.medium.height - theme.menu.lineHeight) / 2 + 'px'
@@ -99,11 +99,9 @@ describe('<Menu />', () => {
       </MenuItem>
     </Menu>))
 
-    const menu = wrapper.find(Menu)
-
-    menu.find('.foo').simulate('click')
+    wrapper.find('.foo').first().simulate('click')
     expect(value).toEqual('foo')
-    menu.find('.bar').simulate('click')
+    wrapper.find('.bar').first().simulate('click')
     expect(value).toEqual('bar')
   })
 

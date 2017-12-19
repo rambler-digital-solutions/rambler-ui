@@ -40,5 +40,6 @@
     import/no-extraneous-dependencies: ["off"]
     func-names: ["off"]
     radix: ["off"]
+    react/jsx-equals-spacing: ["error", "never"]
   settings:
     import/core-modules: [ react ]

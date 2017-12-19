@@ -96,7 +96,7 @@ class ToggleOption extends Component {
         size,
         isSelected,
         theme,
-        sheet: { classes: css }
+        classes: css
       } = this.props
       const iconProps = {
         size: theme.toggle.sizes[size].icon,
@@ -119,7 +119,7 @@ class ToggleOption extends Component {
       isSelected,
       onPress,
       nodeRef,
-      sheet: { classes: css },
+      classes: css,
       ...other
     } = omit(this.props, 'theme')
     /* eslint-enable no-unused-vars */

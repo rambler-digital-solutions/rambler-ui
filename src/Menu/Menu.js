@@ -128,7 +128,7 @@ export default class Menu extends PureComponent {
   }
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   getChildContext() {
@@ -304,7 +304,7 @@ export default class Menu extends PureComponent {
     return omit(this.props, [
       'autoFocus',
       'value',
-      'sheet',
+      'classes',
       'theme',
       'onChange',
       'onEscKeyDown',

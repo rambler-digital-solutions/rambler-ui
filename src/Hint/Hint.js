@@ -69,7 +69,7 @@ class HintContent extends Component {
   }
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   render() {
@@ -177,7 +177,7 @@ export default class Hint extends Component {
   }
 
   get css() {
-    return this.props.sheet.classes
+    return this.props.classes
   }
 
   componentWillReceiveProps({ isOpened }) {

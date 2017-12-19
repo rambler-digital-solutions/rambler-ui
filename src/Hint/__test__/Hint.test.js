@@ -33,7 +33,7 @@ describe('<Hint />', () => {
       isOpened: true
     })
 
-    const anchorStyles = getStyles(wrapper.find('.anchor'))
+    const anchorStyles = getStyles(wrapper)
 
     expect(anchorStyles.width).toEqual('16px')
     expect(anchorStyles.height).toEqual('16px')

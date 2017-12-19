@@ -45,9 +45,9 @@ describe('<Tabs />', () => {
     </Tabs>))
 
     const tabs = getWrapperNode(wrapper)
-    const link = getWrapperNode(wrapper.find('#' + linkProps.id))
-    const button = getWrapperNode(wrapper.find('#' + buttonProps.id))
-    const container = getWrapperNode(wrapper.find('#' + containerProps.id))
+    const link = getWrapperNode(wrapper.find('#' + linkProps.id).first())
+    const button = getWrapperNode(wrapper.find('#' + buttonProps.id).first())
+    const container = getWrapperNode(wrapper.find('#' + containerProps.id).first())
 
     expect(tabs.classList.contains(tabsProps.className)).toEqual(true)
     expect(tabs.getAttribute('id')).toEqual(tabsProps.id)
@@ -64,9 +64,9 @@ describe('<Tabs />', () => {
       <TabsItem {...containerProps} size="medium" />
     </div>))
 
-    const link = getWrapperNode(wrapper.find('#' + linkProps.id))
-    const button = getWrapperNode(wrapper.find('#' + buttonProps.id))
-    const container = getWrapperNode(wrapper.find('#' + containerProps.id))
+    const link = getWrapperNode(wrapper.find('#' + linkProps.id).first())
+    const button = getWrapperNode(wrapper.find('#' + buttonProps.id).first())
+    const container = getWrapperNode(wrapper.find('#' + containerProps.id).first())
 
     expect(link.tagName.toUpperCase()).toEqual('A')
     expect(link.classList.contains('test')).toEqual(true)
@@ -98,10 +98,10 @@ describe('<Tabs />', () => {
       <TabsItem id="notSelected" value="second" />
     </Tabs>))
 
-    const link = getWrapperNode(wrapper.find('#' + linkProps.id))
-    const button = getWrapperNode(wrapper.find('#' + buttonProps.id))
-    const container = getWrapperNode(wrapper.find('#' + containerProps.id))
-    const notSelected = getWrapperNode(wrapper.find('#notSelected'))
+    const link = getWrapperNode(wrapper.find('#' + linkProps.id).first())
+    const button = getWrapperNode(wrapper.find('#' + buttonProps.id).first())
+    const container = getWrapperNode(wrapper.find('#' + containerProps.id).first())
+    const notSelected = getWrapperNode(wrapper.find('#notSelected').first())
 
     expect(link.className.includes('size-small')).toEqual(true)
     expect(link.className.includes('isSelected')).toEqual(true)
@@ -118,9 +118,9 @@ describe('<Tabs />', () => {
     </Tabs>))
 
     const tabs = getWrapperNode(wrapper)
-    const link = getWrapperNode(wrapper.find('#' + linkProps.id))
-    const button = getWrapperNode(wrapper.find('#' + buttonProps.id))
-    const container = getWrapperNode(wrapper.find('#' + containerProps.id))
+    const link = getWrapperNode(wrapper.find('#' + linkProps.id).first())
+    const button = getWrapperNode(wrapper.find('#' + buttonProps.id).first())
+    const container = getWrapperNode(wrapper.find('#' + containerProps.id).first())
 
     expect(tabs.className.includes('isDisabled')).toEqual(true)
 
@@ -168,10 +168,10 @@ describe('<Tabs />', () => {
       <TabsItem {...buttonProps} value={buttonProps.id} />
       <TabsItem {...containerProps} value={containerProps.id} />
     </Tabs>))
-    const linkEl = getWrapperNode(wrapper.find('#' + linkProps.id))
-    const button = wrapper.find('#' + buttonProps.id)
+    const linkEl = getWrapperNode(wrapper.find('#' + linkProps.id).first())
+    const button = wrapper.find('#' + buttonProps.id).first()
     const buttonEl = getWrapperNode(button)
-    const container = wrapper.find('#' + containerProps.id)
+    const container = wrapper.find('#' + containerProps.id).first()
     const containerEl = getWrapperNode(container)
 
     expect(linkEl.className.includes('isSelected')).toEqual(true)
@@ -231,9 +231,9 @@ describe('<Tabs />', () => {
     </Tabs>))
 
     const tabs = getStyles(wrapper)
-    const link = getStyles(wrapper.find('#' + linkProps.id))
-    const button = getStyles(wrapper.find('#' + buttonProps.id))
-    const container = getStyles(wrapper.find('#' + containerProps.id))
+    const link = getStyles(wrapper.find('#' + linkProps.id).first())
+    const button = getStyles(wrapper.find('#' + buttonProps.id).first())
+    const container = getStyles(wrapper.find('#' + containerProps.id).first())
 
     expect(tabs['padding-left']).toEqual(theme.tabs.sidePadding + 'px')
     expect(tabs['padding-right']).toEqual(theme.tabs.sidePadding + 'px')

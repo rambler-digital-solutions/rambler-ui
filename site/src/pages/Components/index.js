@@ -12,7 +12,7 @@ export default class ComponentsPage extends Component {
 
   render() {
     // текущий компонент
-    let { splat: component = '' } = this.props.params
+    let { component = '' } = this.props.match.params
     component = component.replace(/^\/{0,}(.*?)\/{0,}$/, '$1')
 
     let title = 'Компоненты'
@@ -21,7 +21,9 @@ export default class ComponentsPage extends Component {
 
     return (
       <div className={ css.Wrapper }>
-        <Helmet title={ title } />
+        <Helmet>
+          <title>{title}</title>
+        </Helmet>
         <div className={ css.Content }>
           {component &&
             <Breadcrumbs docModules={ docModules } currentComponentName={ component } className={ css.Content__breadcrumbs } />

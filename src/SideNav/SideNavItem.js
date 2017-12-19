@@ -114,7 +114,7 @@ class SideNavItem extends Component {
       const {
         isSelected,
         theme,
-        sheet: { classes: css }
+        classes: css
       } = this.props
 
       const iconProps = {
@@ -138,7 +138,7 @@ class SideNavItem extends Component {
       isSelected,
       href,
       container,
-      sheet: { classes: css },
+      classes: css,
       ...other
     } = omit(this.props, 'theme', 'onPress')
 

@@ -123,28 +123,28 @@ describe('Input', () => {
       </InputStatus>
     </FormGroup>))
 
-    const input = wrapper.find('.inputCls')
-    const inputDisabled = wrapper.find('.disabledInput')
-    const inputPass = wrapper.find('.passwordCls')
-
-    const disabledInputStyles = getStyles(inputDisabled)
+    const inputNode = getWrapperNode(wrapper.find('.inputCls'))
+    const inputDisabledNode = getWrapperNode(wrapper.find('.disabledInput'))
+    const inputPassNode = getWrapperNode(wrapper.find('.passwordCls'))
+    
+    const disabledInputStyles = getNodeStyles(inputDisabledNode)
     // input is disabled
-    expect(input.node.disabled).toBe(false)
-    expect(inputDisabled.node.disabled).toBeTruthy()
-    expect(inputPass.node.disabled).toBe(false)
+    expect(inputNode.disabled).toBe(false)
+    expect(inputDisabledNode.disabled).toBeTruthy()
+    expect(inputPassNode.disabled).toBe(false)
     // input placeholder && value
-    expect(input.node.placeholder).toEqual('Name')
-    expect(inputDisabled.node.placeholder).toEqual('Name')
-    expect(inputPass.node.placeholder).toEqual('Password')
-    expect(inputDisabled.node.value).toEqual('Value')
+    expect(inputNode.placeholder).toEqual('Name')
+    expect(inputDisabledNode.placeholder).toEqual('Name')
+    expect(inputPassNode.placeholder).toEqual('Password')
+    expect(inputDisabledNode.value).toEqual('Value')
     // input type
-    expect(input.node.type).toEqual('text')
-    expect(inputDisabled.node.type).toEqual('text')
-    expect(inputPass.node.type).toEqual('password')
+    expect(inputNode.type).toEqual('text')
+    expect(inputDisabledNode.type).toEqual('text')
+    expect(inputPassNode.type).toEqual('password')
     // input name
-    expect(input.node.name).toEqual('name')
-    expect(inputDisabled.node.name).toEqual('name')
-    expect(inputPass.node.name).toEqual('password')
+    expect(inputNode.name).toEqual('name')
+    expect(inputDisabledNode.name).toEqual('name')
+    expect(inputPassNode.name).toEqual('password')
     // Стили input disabled
     expect(disabledInputStyles.cursor).toEqual('not-allowed')
   })
@@ -156,9 +156,9 @@ describe('Input', () => {
       </InputStatus>
     </FormGroup>))
 
-    const arrOfIcons = wrapper.find('svg')
-    const iconLeftStyles = getNodeStyles(arrOfIcons.nodes[0].parentNode)
-    const iconEyeStyles = getNodeStyles(arrOfIcons.nodes[1].parentNode.parentNode)
+    const icons = [...getWrapperNode(wrapper).querySelectorAll('svg')]
+    const iconLeftStyles = getNodeStyles(icons[0].parentNode)
+    const iconEyeStyles = getNodeStyles(icons[1].parentNode.parentNode)
     // расположение iconLeft
     const iconMargin = (theme.field.sizes.medium.height - theme.field.sizes.medium.icon) / 2 + 'px'
     expect(iconLeftStyles['margin-top']).toEqual(iconMargin)

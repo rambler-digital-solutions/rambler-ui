@@ -1,6 +1,6 @@
 import React, { cloneElement } from 'react'
-import { findDOMNode } from 'react-dom'
-import { mount as enzymeMount } from 'enzyme'
+import Enzyme, {mount as enzymeMount} from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import once from 'lodash/once'
 import { ApplyTheme } from '../theme'
 
@@ -8,6 +8,8 @@ const bodyStyle = document.body.style
 const htmlStyle = document.documentElement.style
 
 bodyStyle.height = bodyStyle.minHeight = htmlStyle.height = htmlStyle.minHeight = '100%'
+
+Enzyme.configure({ adapter: new Adapter() })
 
 const provideContainer = once(() => {
   const container = document.createElement('div')
@@ -32,12 +34,8 @@ export function getNodeStyles(node) {
   return resultStyles
 }
 
-export function getComponent(wrappedComponent) {
-  return wrappedComponent.get(0)
-}
-
 export function getWrapperNode(wrappedComponent) {
-  return findDOMNode(getComponent(wrappedComponent))
+  return wrappedComponent.getDOMNode()
 }
 
 export function getStyles(wrappedComponent) {

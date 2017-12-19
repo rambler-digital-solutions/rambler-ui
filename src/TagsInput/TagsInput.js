@@ -223,7 +223,7 @@ export default class TagsInput extends PureComponent {
       className,
       style,
       disabled,
-      sheet: { classes },
+      classes,
       isExpanded,
       onMoreClick,
       size,

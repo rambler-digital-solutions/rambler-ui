@@ -71,3 +71,11 @@ export function getBoundingClientRect(element) {
     rect.width = rect.left - rect.right
   return rect
 }
+
+/**
+ * Доступен ли DOM. Используется для корректной работы с SSR
+ */
+export const canUseDOM = !!(
+  (typeof window !== 'undefined' &&
+  window.document && window.document.createElement)
+)

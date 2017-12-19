@@ -8,7 +8,9 @@ export default class InstallPage extends Component {
   render() {
     return (
       <div>
-        <Helmet title="Установка" />
+        <Helmet>
+          <title>Установка</title>
+        </Helmet>
         <MarkdownElement text={ readme } />
       </div>
     )

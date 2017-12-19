@@ -186,7 +186,7 @@ export function createTheme(config) {
               background: colors.controls.grey.background
             },
             disabled: {
-              text: fade(colors.dark, 0.1),
+              text: colors.controls.grey.outline,
               icon: fade(colors.dark, 0.1)
             },
             focus: {
@@ -366,21 +366,44 @@ export function createTheme(config) {
       maxWidth: 765,
 
       input: {
-        borderColor: colors.primary,
-        hoverColor: colors.primaryDark,
-        color: colors.dark
+        color: colors.dark,
+        default: {
+          borderColor: colors.primary
+        },
+        hover: {
+          borderColor: colors.primaryDark
+        }
       },
 
       clear: {
-        color: colors.controls.grey.outline
+        color: colors.controls.grey.outline,
+        hover: {
+          color: colors.primary
+        }
       },
 
       division: {
         color: colors.controls.grey.background
       },
       button: {
-        width: '125px',
-        color: '#ffffff'
+        color: colors.light,
+        fontSize: 12,
+        fontWeight: 500,
+        letterSpacing: 1.4,
+        textTransform: 'uppercase',
+        default: {
+          background: colors.primary
+        },
+        hover: {
+          background: darken(colors.primary, 0.1)
+        },
+        active: {
+          background: darken(colors.primary, 0.2)
+        },
+        disabled: {
+          text: fade(colors.light, 0.2),
+          icon: fade(colors.light, 0.2)
+        }
       },
 
       bottomLinks: {

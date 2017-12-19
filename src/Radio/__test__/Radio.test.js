@@ -1,6 +1,6 @@
 import { RadioButton, RadioButtonGroup} from '../../Radio'
 import { ApplyTheme } from '../../theme'
-import { mount, getStyles } from '../../utils/test-utils'
+import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
 import theme from '../../theme/base'
 import React from 'react'
 
@@ -100,28 +100,32 @@ describe('Проверка RadioButton.props disabled && value', () => {
       name='group'
       className='my-radio-button-group'>
       <RadioButton
-        value = '1'
+        key='1'
+        value='1'
         {...defaultProps}>
             1
       </RadioButton>
       <RadioButton
-        value = '2'
+        key='2'
+        value='2'
         {...defaultProps}>
             2
       </RadioButton>
       <RadioButton
-        value = '3'
+        key='3'
+        value='3'
         disabled={true}
         {...defaultProps}>
             3
       </RadioButton>
     </RadioButtonGroup>))
-    const arr = wrapper.find('input')
-    expect(arr.nodes[0].disabled).toEqual(false)
-    expect(arr.nodes[1].disabled).toEqual(false)
-    expect(arr.nodes[2].disabled).toEqual(true)
+
+    const arr = [...getWrapperNode(wrapper).querySelectorAll('input')]
+    expect(arr[0].disabled).toEqual(false)
+    expect(arr[1].disabled).toEqual(false)
+    expect(arr[2].disabled).toEqual(true)
     let i = 1
-    arr.nodes.forEach((node) => {
+    arr.forEach((node) => {
       expect(node.value).toEqual(`${i++}`)
     })
   })
@@ -149,7 +153,7 @@ describe('Проверка callback = onChange на RadioButtonGroup', () => {
       {...defaultPropsGroup}
     >
       <RadioButton
-        value = '1'
+        value='1'
         {...defaultProps}>
             1
       </RadioButton>
@@ -187,11 +191,8 @@ describe('<RadioButton /> styles', () => {
   })
 
   it('Проверяем стили RadioButtonGroup, display == block', () => {
-    const wrapper = mount(applyTheme(<RadioButtonGroup
-      className='radio-group'
-    >
-    </RadioButtonGroup>))
-    const styles = getStyles(wrapper.find('.radio-group'))
+    const wrapper = mount(applyTheme(<RadioButtonGroup />))
+    const styles = getStyles(wrapper)
     expect(styles.display).toEqual('block')
   })
 
