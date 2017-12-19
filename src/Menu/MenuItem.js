@@ -1,12 +1,10 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'events'
 import { ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
-import uuid from '../utils/uuid'
-import { MENU_ITEM_CONTEXT } from '../constants/context'
+import provideMenuItemContext from './provideMenuItemContext'
 
 @injectSheet(theme => ({
   root: {
@@ -53,7 +51,8 @@ import { MENU_ITEM_CONTEXT } from '../constants/context'
     background: theme.menu.colors.disabled.background + '!important'
   }
 }))
-class MenuItem extends PureComponent {
+@provideMenuItemContext
+export default class MenuItem extends PureComponent {
 
   static propTypes = {
     /**
@@ -74,87 +73,34 @@ class MenuItem extends PureComponent {
     children: PropTypes.node.isRequired
   }
 
-  static contextTypes = {
-    [MENU_ITEM_CONTEXT]: PropTypes.shape({
-      /**
-       * Проверка, выбрано ли значение (args: value)
-       */
-      isValueSelected: PropTypes.func,
-      /**
-       * Опции не активны
-       */
-      disabled: PropTypes.bool,
-      /**
-       * Размер опции
-       */
-      size: PropTypes.oneOf(['small', 'medium']),
-      /**
-       * Шина событий
-       * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
-       * onItemSelect - клик по MenuItem (args: value)
-       * onItemFocus - фокус на MenuItem (args: id)
-       * onItemUpdate - добавление и обновление MenuItem (args: id, ref, isSelected)
-       * onItemUnmount - удаление MenuItem (args: id)
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
-  }
-
-  get ctx() {
-    return this.context[MENU_ITEM_CONTEXT]
-  }
-
   get css() {
     return this.props.sheet.classes
   }
 
-  id = uuid()
-
   componentDidMount() {
-    this.ctx.events.on('onPropsChange', this.handlePropsChange)
+    if (this.props.autoFocus && this.item)
+      this.item.focus()
   }
 
-  componentWillReceiveProps() {
-    this.ctx.events.emit('onItemUpdate', this.id, this.item, this.isSelected)
-  }
-
-  componentWillUnmount() {
-    this.ctx.events.removeListener('onPropsChange', this.handlePropsChange)
-    this.ctx.events.emit('onItemUnmount', this.id)
-  }
-
-  handlePropsChange = () => {
-    const {props, ctx} = this
-    if (ctx.isValueSelected(props.value) !== this.isSelected || ctx.disabled !== this.disabled || ctx.size !== this.size)
-      this.forceUpdate()
-  }
-
-  handleSelect = () => {
-    this.ctx.events.emit('onItemSelect', this.props.value)
-  }
-
-  handleFocus = () => {
-    this.ctx.events.emit('onItemFocus', this.id)
+  componentDidUpdate() {
+    if (this.props.autoFocus && this.item)
+      this.item.focus()
   }
 
   handlePressKey = (event) => {
     if (event.keyCode === ENTER) {
       event.stopPropagation()
       this.item.focus()
-      this.handleSelect()
+      this.props.onSelect()
     }
   }
 
   saveRef = (ref) => {
-    this.item = ref 
-    this.ctx.events.emit('onItemUpdate', this.id, ref, this.isSelected)
+    this.item = ref
   }
 
   render() {
-    const {props, ctx} = this
-    this.isSelected = ctx.isValueSelected(props.value)
-    this.disabled = ctx.disabled
-    this.size = ctx.size
+    const {props} = this
 
     return (
       <div
@@ -163,15 +109,14 @@ class MenuItem extends PureComponent {
         className={classnames(
           props.className,
           this.css.root,
-          this.size && this.css[this.size],
-          this.disabled && this.css.isDisabled,
-          this.isSelected && this.css.isSelected
+          props.size && this.css[props.size],
+          props.disabled && this.css.isDisabled,
+          props.isSelected && this.css.isSelected
         )}
-        tabIndex={this.disabled ? null : 0}
-        onFocus={this.disabled ? null : this.handleFocus}
-        onClick={this.disabled ? null : this.handleSelect}
-        onKeyDown={this.disabled ? null : this.handlePressKey}
-        autoFocus
+        tabIndex={props.disabled ? null : 0}
+        onFocus={props.disabled ? null : props.onFocus}
+        onClick={props.disabled ? null : props.onSelect}
+        onKeyDown={props.disabled ? null : this.handlePressKey}
       >
         {props.children}
       </div>
@@ -179,5 +124,3 @@ class MenuItem extends PureComponent {
   }
 
 }
-
-export default MenuItem

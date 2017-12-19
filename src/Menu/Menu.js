@@ -58,7 +58,7 @@ export default class Menu extends PureComponent {
      */
     valuesEquality: PropTypes.func,
     /**
-     * Опции поля, обязаны быть компонентами типа `<MenuItem />`
+     * Опции поля
      */
     children: PropTypes.node,
     /**
@@ -93,6 +93,10 @@ export default class Menu extends PureComponent {
        * Проверка, выбрано ли значение (args: value)
        */
       isValueSelected: PropTypes.func,
+      /**
+       * Проверка, в фокусе ли значение (args: key)
+       */
+      isItemFocused: PropTypes.func,
       /**
        * Опции не активны
        */
@@ -134,6 +138,7 @@ export default class Menu extends PureComponent {
     return {
       [MENU_ITEM_CONTEXT]: {
         isValueSelected: this.isValueSelected,
+        isItemFocused: this.isItemFocused,
         disabled: this.props.disabled,
         size: this.props.size,
         events: this.events
@@ -198,6 +203,13 @@ export default class Menu extends PureComponent {
     }
   }
 
+  isItemFocused = (key) => {
+    const index = this.itemsKeys.indexOf(key)
+    return index > -1
+      ? index === this.focusIndex
+      : false
+  }
+
   scrollToLastSelected() {
     const lastSelectedIndex = this.getLastSelectedIndex()
     if (lastSelectedIndex === -1) return
@@ -224,7 +236,7 @@ export default class Menu extends PureComponent {
       if (this.props.valuesEquality(value, this.value))
         return
     }
-
+    this.events.emit('onPropsChange')
     this.value = value
     this.setState({value})
   }
@@ -252,11 +264,9 @@ export default class Menu extends PureComponent {
   }
 
   setFocusByIndex(focusIndex) {
-    const key = this.itemsKeys[focusIndex]
-    if (!key) return
-    const element = this.items[key]
-    if (element)
-      element.ref.focus()
+    if (focusIndex === this.focusIndex) return
+    this.focusIndex = focusIndex
+    this.events.emit('onPropsChange')
   }
 
   handleOptionSelect = (value) => {
