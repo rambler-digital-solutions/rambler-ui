@@ -18,29 +18,22 @@ const OWN_GENERATE_CLASS_NAME = '__RAMBLER_UI_GENERATE_CLASS_NAME__'
 const theming = createTheming(RAMBLER_UI_THEME)
 const {ThemeProvider} = theming
 
-function wrapSheetsRegistry(registry) {
-  if (registry[OWN_GENERATE_CLASS_NAME])
-    return registry
-  const generateClassName = createGenerateClassName()
-  registry[OWN_GENERATE_CLASS_NAME] = generateClassName
-  return registry
+function wrapWithGenerateClassName(registry) {
+  if (!registry[OWN_GENERATE_CLASS_NAME])
+    registry[OWN_GENERATE_CLASS_NAME] = createGenerateClassName()
 }
 
 export {createGenerateClassName}
 
-export const createJss = (options = {}) => {
-  const {sheetsRegistry = globalSheetsRegistry, ...otherOptions} = options
-  const generateClassName = wrapSheetsRegistry(sheetsRegistry)[OWN_GENERATE_CLASS_NAME]
-  return originalCreateJss({
-    createGenerateClassName: () => generateClassName,
-    ...preset(otherOptions),
-    ...otherOptions
-  })
-}
+export const createJss = (options = {}) => originalCreateJss({
+  ...preset(options),
+  ...options
+})
 
 export const createSheetsRegistry = () => new SheetsRegistry()
 
-const globalSheetsRegistry = createSheetsRegistry()
+export const globalSheetsRegistry = createSheetsRegistry()
+export const globalJss = createJss()
 
 /**
  * Делаем совместимым с нашим компонентом ApplyTheme
@@ -56,8 +49,11 @@ export const ApplyTheme = compose(
       // Создаем свойства один раз при создании компонента
       let resultTheme, currTheme, currParentTheme
       const shouldAddJssProvider = !!props.jss || !props[RAMBLER_UI_JSS]
-      const sheetsRegistry = wrapSheetsRegistry(props.sheetsRegistry || props[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry)
-      const jss = props.jss || props[RAMBLER_UI_JSS] || createJss({sheetsRegistry})
+      const sheetsRegistry = props.sheetsRegistry || props[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry
+      const jss = props.jss || props[RAMBLER_UI_JSS] || globalJss
+
+      wrapWithGenerateClassName(sheetsRegistry)
+
       return {
         jss,
         sheetsRegistry,
@@ -92,7 +88,7 @@ export const ApplyTheme = compose(
   if (!shouldAddJssProvider)
     return provider
   return (
-    <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName}>
+    <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName || sheetsRegistry[OWN_GENERATE_CLASS_NAME]}>
       {provider}
     </JssProvider>
   )
