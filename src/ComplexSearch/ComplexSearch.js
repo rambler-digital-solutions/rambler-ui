@@ -39,6 +39,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     borderRadius: '1px 0 0 1px',
     width: '100%',
     height: theme.search.height,
+    boxSizing: 'border-box',
     '&$active': {
       borderColor: theme.search.input.hover.borderColor
     }
