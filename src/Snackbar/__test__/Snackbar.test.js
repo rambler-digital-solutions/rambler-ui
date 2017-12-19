@@ -92,16 +92,16 @@ describe('<Snackbar />', () => {
     expect(snackbarStyles.width).toEqual('350px')
     expect(snackbarStyles['min-width']).toEqual('350px')
     expect(snackbarStyles['max-width']).toEqual('750px')
-    expect(snackbarStyles['padding-top']).toEqual('10px')
+    expect(snackbarStyles['padding-top']).toEqual('18px')
     expect(snackbarStyles['padding-left']).toEqual('20px')
     expect(snackbarStyles['padding-right']).toEqual('20px')
-    expect(snackbarStyles['padding-bottom']).toEqual('10px')
+    expect(snackbarStyles['padding-bottom']).toEqual('17px')
   })
 
   it('should apply custom width and big height', () => {
     mountWrapper({
       isOpened: true,
-      size: 'big',
+      size: 'small',
       children: (
         <div style={{ width: 400 }}>
           Hi
@@ -113,8 +113,8 @@ describe('<Snackbar />', () => {
     const snackbarStyles = getNodeStyles(snackbarNode)
 
     expect(snackbarStyles.width).toEqual('440px')
-    expect(snackbarStyles['padding-top']).toEqual('18px')
-    expect(snackbarStyles['padding-bottom']).toEqual('17px')
+    expect(snackbarStyles['padding-top']).toEqual('10px')
+    expect(snackbarStyles['padding-bottom']).toEqual('10px')
   })
 
   it('should not append close and action buttons', () => {

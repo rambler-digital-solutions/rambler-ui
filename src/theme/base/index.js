@@ -777,15 +777,22 @@ export function createTheme(config) {
     },
     snackbar: {
       borderRadius: 2,
-      padding: '10px 20px',
       colors: {
         text: colors.light,
         actionButton: colors.light,
         background: {
-          main: colors.primary,
-          primary: colors.snackbarBlueDark,
+          main: colors.snackbarBlueDark,
+          primary: colors.primary,
           success: colors.success,
           danger: colors.danger
+        }
+      },
+      sizes: {
+        small: {
+          padding: '10px 20px'
+        },
+        medium: {
+          padding: '18px 20px 17px'
         }
       },
       fontSize: 13,

@@ -30,10 +30,10 @@ class WithSnackbar extends Component {
         positionY="top"
         positionX="left"
         autoCloseDuration={3000}
-        size="big"
+        size="small"
         type="danger"
       >
-        Я большой снэкбар и во мне много контента.
+        Я маленький снэкбар
       </Snackbar>
     )
   }
