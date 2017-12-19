@@ -102,6 +102,9 @@ export default class SearchExample extends Component {
               </div>)
             )}
           </ComplexSearch>
+          <br/>
+          <ComplexSearch
+            placeholder="Компонент без параметров"/>
         </div>
       </ApplyTheme>
     )

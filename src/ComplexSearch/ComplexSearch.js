@@ -32,6 +32,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     borderColor: theme.search.input.default.borderColor,
     borderWidth: 2,
     borderStyle: 'solid',
+    borderRightWidth: 0,
     display: 'flex',
     alignItems: 'center',
     position: 'relative',
@@ -119,6 +120,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   withoutButton: {
     '& $inputWrapper': {
       borderRadius: 1,
+      borderRightWidth: 2,
       boxShadow: 'none'
     }
   },
