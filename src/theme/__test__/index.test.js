@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import {ApplyTheme, injectSheet, createJss, createSheetsRegistry, createGenerateClassName} from '../'
+import {ApplyTheme, injectSheet, createJss, createSheetsRegistry, globalJss} from '../'
 import {mount, getNodeStyles} from '../../utils/test-utils'
 import {normalize as nc} from '../../utils/colors'
 
@@ -94,7 +94,6 @@ describe('<ApplyTheme />', () => {
   })
 
   it('should use multiple custom jss, sheets registry', () => {
-    const generateClassName = createGenerateClassName()
     const jss = createJss()
     const sheetsRegistry = createSheetsRegistry()
     const nestedJss = createJss()
@@ -107,8 +106,7 @@ describe('<ApplyTheme />', () => {
         <ApplyTheme
           theme={getTheme('#ffffff')}
           jss={jss}
-          sheetsRegistry={sheetsRegistry}
-          generateClassName={generateClassName}>
+          sheetsRegistry={sheetsRegistry}>
           <div>
             <Button />
             <ApplyTheme
@@ -122,31 +120,64 @@ describe('<ApplyTheme />', () => {
         <ApplyTheme
           theme={getTheme('#777777')}
           jss={separateJss}
-          sheetsRegistry={separateSheetsRegistry}
-          generateClassName={generateClassName}>
+          sheetsRegistry={separateSheetsRegistry}>
           <Button />
         </ApplyTheme>
       </div>
     )
 
-    const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -2)
-    const nestedClassPrefix = nestedSheetsRegistry.registry[0].classes.button.slice(0, -2)
-    const separateClassPrefix = separateSheetsRegistry.registry[0].classes.button.slice(0, -2)
+    const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -4)
 
     expect(sheetsRegistry.toString()).toBe(
-      `.${classPrefix}-1 {\n` +
+      `.${classPrefix}-${jss.id}-1 {\n` +
       '  color: #ffffff;\n' +
       '}'
     )
 
     expect(nestedSheetsRegistry.toString()).toBe(
-      `.${nestedClassPrefix}-2 {\n` +
+      `.${classPrefix}-${nestedJss.id}-1 {\n` +
       '  color: #000000;\n' +
       '}'
     )
 
     expect(separateSheetsRegistry.toString()).toBe(
-      `.${separateClassPrefix}-3 {\n` +
+      `.${classPrefix}-${separateJss.id}-1 {\n` +
+      '  color: #777777;\n' +
+      '}'
+    )
+  })
+
+  it('should render separate stylesheets with ssr', () => {
+    const sheetsRegistry = createSheetsRegistry()
+    const separateSheetsRegistry = createSheetsRegistry()
+
+    mount(
+      <div>
+        <ApplyTheme
+          theme={getTheme('#ffffff')}
+          sheetsRegistry={sheetsRegistry}>
+          <div>
+            <Button />
+          </div>
+        </ApplyTheme>
+        <ApplyTheme
+          theme={getTheme('#777777')}
+          sheetsRegistry={separateSheetsRegistry}>
+          <Button />
+        </ApplyTheme>
+      </div>
+    )
+
+    const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -4)
+
+    expect(sheetsRegistry.toString()).toBe(
+      `.${classPrefix}-${globalJss.id}-1 {\n` +
+      '  color: #ffffff;\n' +
+      '}'
+    )
+
+    expect(separateSheetsRegistry.toString()).toBe(
+      `.${classPrefix}-${globalJss.id}-1 {\n` +
       '  color: #777777;\n' +
       '}'
     )

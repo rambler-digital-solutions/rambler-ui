@@ -13,25 +13,27 @@ import base from './base'
 const RAMBLER_UI_THEME = '__RAMBLER_UI_THEME__'
 const RAMBLER_UI_JSS = '__RAMBLER_UI_JSS__'
 const RAMBLER_UI_SHEETS_REGISTRY = '__RAMBLER_UI_SHEETS_REGISTRY__'
+const OWN_GENERATE_CLASS_NAME = '__RAMBLER_UI_GENERATE_CLASS_NAME__'
 
 const theming = createTheming(RAMBLER_UI_THEME)
 const {ThemeProvider} = theming
 
+function wrapWithGenerateClassName(registry) {
+  if (!registry[OWN_GENERATE_CLASS_NAME])
+    registry[OWN_GENERATE_CLASS_NAME] = createGenerateClassName()
+}
+
 export {createGenerateClassName}
 
-export const createJss = (options) => {
-  const generateClassName = createGenerateClassName()
-  return originalCreateJss({
-    ...options,
-    ...preset(options),
-    createGenerateClassName: () => generateClassName
-  })
-}
+export const createJss = (options = {}) => originalCreateJss({
+  ...preset(options),
+  ...options
+})
 
 export const createSheetsRegistry = () => new SheetsRegistry()
 
-const globalJss = createJss()
-const globalSheetsRegistry = createSheetsRegistry()
+export const globalSheetsRegistry = createSheetsRegistry()
+export const globalJss = createJss()
 
 /**
  * Делаем совместимым с нашим компонентом ApplyTheme
@@ -47,8 +49,11 @@ export const ApplyTheme = compose(
       // Создаем свойства один раз при создании компонента
       let resultTheme, currTheme, currParentTheme
       const shouldAddJssProvider = !!props.jss || !props[RAMBLER_UI_JSS]
-      const jss = props.jss || props[RAMBLER_UI_JSS] || globalJss
       const sheetsRegistry = props.sheetsRegistry || props[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry
+      const jss = props.jss || props[RAMBLER_UI_JSS] || globalJss
+
+      wrapWithGenerateClassName(sheetsRegistry)
+
       return {
         jss,
         sheetsRegistry,
@@ -83,7 +88,7 @@ export const ApplyTheme = compose(
   if (!shouldAddJssProvider)
     return provider
   return (
-    <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName}>
+    <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName || sheetsRegistry[OWN_GENERATE_CLASS_NAME]}>
       {provider}
     </JssProvider>
   )

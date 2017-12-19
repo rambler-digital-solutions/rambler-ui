@@ -44,7 +44,7 @@ import windowEvents from '../hoc/window-events'
   },
   item: {
     '&&': {
-      flex: '0 1 auto',
+      flex: 'none',
       alignSelf: 'flex-start',
       whiteSpace: 'nowrap',
       maxWidth: `calc(100% - ${theme.tagsInput.sideMargin}px)`,
@@ -136,7 +136,7 @@ export default class TagsInput extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.props.isExpanded && this.shouldVisibleItemsCountReset(this.state, prevState, this.props, prevProps))
+    if (this.shouldVisibleItemsCountReset(this.state, prevState, this.props, prevProps))
       this.setVisibleItemsCount()
   }
 
@@ -149,6 +149,10 @@ export default class TagsInput extends PureComponent {
   }
 
   shouldVisibleItemsCountReset(state, prevState, props, prevProps) {
+    if (props.isExpanded)
+      return false
+    if (props.isExpanded !== prevProps.isExpanded)
+      return true
     if (state.containerWidth !== prevState.containerWidth)
       return true
     const items = React.Children.toArray(props.children)

@@ -4,7 +4,7 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { render } from 'react-dom'
+import ReactDOM, { render } from 'react-dom'
 import Codemirror from 'react-codemirror'
 import 'codemirror/mode/javascript/javascript'
 import { debounce } from 'core-decorators'
@@ -20,6 +20,7 @@ import 'codemirror/lib/codemirror.css'
 
 const availableModules = {
   react: React,
+  'react-dom': ReactDOM,
   lodash: _
 }
 const LIB_NAME = 'rambler-ui'

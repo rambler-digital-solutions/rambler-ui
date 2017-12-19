@@ -211,4 +211,15 @@ describe('Input', () => {
     expect(inputTextStyles.height).toEqual(theme.field.sizes.small.height + 'px')
   })
 
+  it('classNames of icons', () => {
+    const leftClName = 'aaaaaaa'
+    const rightClName = 'bbbbbbb'
+
+    const wrapper = mount(applyTheme(
+      <Input {...defaultProps} iconLeft={<RamblerMailIcon />} iconLeftClassName={leftClName} iconRight={<RamblerMailIcon />} iconRightClassName={rightClName} />
+    ))
+    const svg = getWrapperNode(wrapper).querySelectorAll('svg')
+    expect(svg[0].parentNode.classList.contains(leftClName)).toBeTruthy()
+    expect(svg[1].parentNode.classList.contains(rightClName)).toBeTruthy()
+  })
 })
