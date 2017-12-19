@@ -263,9 +263,9 @@ export default class Select extends PureComponent {
      */
     disabled: PropTypes.bool,
     /**
-     * Опции поля, обязаны быть компонентами типа `<MenuItem />`
+     * Опции поля, массив элементов
      */
-    children: PropTypes.node,
+    children: PropTypes.arrayOf(PropTypes.element),
     /**
      * Иконка
      */
