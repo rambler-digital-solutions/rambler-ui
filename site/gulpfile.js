@@ -5,6 +5,7 @@
 // 2. Собираем через вебкак + gulp папку
 
 const _ = require('lodash')
+const fs = require('fs')
 const gulp = require('gulp')
 const del = require('del')
 const cp = require('child_process')
@@ -20,17 +21,17 @@ const versionsFile = __dirname + '/versions.json'
 const readmeFile = __dirname + '/README.md'
 const argv = require('minimist')(process.argv)
 const config = require('./config')
+const headTag = cp.execSync('git describe --abbrev=0 --tags').toString().trim()
 
 const exec = str =>
   cp.execSync(str).toString().trim()
 
-
-gulp.task('gh-pages', ['webpack'], (callback) => {
-  // версии, для которых создаем папки
-
+gulp.task('build-gh-pages', ['webpack'], () => {
   const remoteUrl = exec('git config --get remote.origin.url')
   const folders = _.compact((argv.versions || '').split(/[\s,]+/))
-  const message = argv.message || 'Update gh-pages'
+
+  if (headTag && folders.includes(headTag) && !folders.includes('stable'))
+    folders.push('stable')
 
   exec(`rm -rf ${buildGhPagesDir}`)
   exec(`git clone -b gh-pages ${remoteUrl} ${buildGhPagesDir}`)
@@ -39,7 +40,8 @@ gulp.task('gh-pages', ['webpack'], (callback) => {
   folders.forEach((folder) => {
     const resFolder = path.join(buildGhPagesDir, folder)
     exec(`rm -rf ${resFolder}`)
-    exec(`cp -r ${buildDir} ${resFolder}`)
+    exec(`mkdir -p ${resFolder}`)
+    exec(`cp -r ${buildDir}/* ${resFolder}/`)
     if (folder === 'stable')
       exec(`cp -r ${buildDir}/* ${buildGhPagesDir}/`)
   })
@@ -47,13 +49,22 @@ gulp.task('gh-pages', ['webpack'], (callback) => {
   exec(`cp ${versionsFile} ${buildGhPagesDir}/`)
   exec(`cp ${readmeFile} ${buildGhPagesDir}/`)
 
+})
+
+gulp.task('gh-pages', ['build-gh-pages'], (callback) => {
+  // версии, для которых создаем папки
+  const message = argv.message || 'Update gh-pages'
+
   ghpages.clean()
   ghpages.publish(buildGhPagesDir, {
     message,
+    repo: config.gitlabRepo,
     add: true
   }, (err) => {
     if (err)
       return callback(err)
+    if (argv.omitGithub)
+      return callback()
     ghpages.clean()
     ghpages.publish(buildGhPagesDir, {
       message,
@@ -71,3 +82,14 @@ gulp.task('webpack', ['clean'], () =>
 
 gulp.task('clean', () =>
   del(buildDir))
+
+gulp.task('update-version', () => {
+  const version = require('../package.json').version
+  let versions = require('./versions.json')
+  cp.execSync(`sed -i -e 's/\\"version\\":.*/\\"version\\": \\"${version}\\",/' ./package.json`)
+  versions.unshift({path: version})
+  _.find(versions, {path: ''}).title = `latest (${version})`
+  versions = _.uniqBy(versions, ({path}) => path)
+  versions.sort((v1, v2) => !v2.path ? 1 : !v1.path ? -1 : v2.path > v1.path ? 1 : -1)
+  fs.writeFileSync(path.join(__dirname, 'versions.json'), JSON.stringify(versions, null, '  '))
+})
