@@ -9,6 +9,7 @@ export default {
   light: '#fff',
   fullDark: '#000',
   blueDark: '#343b4c',
+  snackbarBlueDark: '#3d4454',
   purpleDeep: '#3e217d',
   controls: {
     grey: {

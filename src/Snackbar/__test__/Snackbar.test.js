@@ -86,21 +86,22 @@ describe('<Snackbar />', () => {
 
     expect(snackbarStyles.position).toEqual('fixed')
     expect(snackbarStyles['font-family']).toEqual('Roboto, sans-serif')
-    expect(snackbarStyles['font-size']).toEqual('14px')
+    expect(snackbarStyles['font-size']).toEqual('13px')
     expect(nc(snackbarStyles['background-color'])).toEqual(nc(theme.snackbar.colors.background.main))
     expect(snackbarStyles.color).toEqual('rgb(255, 255, 255)')
     expect(snackbarStyles.width).toEqual('350px')
     expect(snackbarStyles['min-width']).toEqual('350px')
     expect(snackbarStyles['max-width']).toEqual('750px')
-    expect(snackbarStyles['padding-top']).toEqual('15px')
+    expect(snackbarStyles['padding-top']).toEqual('18px')
     expect(snackbarStyles['padding-left']).toEqual('20px')
     expect(snackbarStyles['padding-right']).toEqual('20px')
-    expect(snackbarStyles['padding-bottom']).toEqual('15px')
+    expect(snackbarStyles['padding-bottom']).toEqual('17px')
   })
 
-  it('should apply custom width', () => {
+  it('should apply custom width and small size', () => {
     mountWrapper({
       isOpened: true,
+      size: 'small',
       children: (
         <div style={{ width: 400 }}>
           Hi
@@ -112,6 +113,8 @@ describe('<Snackbar />', () => {
     const snackbarStyles = getNodeStyles(snackbarNode)
 
     expect(snackbarStyles.width).toEqual('440px')
+    expect(snackbarStyles['padding-top']).toEqual('10px')
+    expect(snackbarStyles['padding-bottom']).toEqual('10px')
   })
 
   it('should not append close and action buttons', () => {
@@ -184,7 +187,7 @@ describe('<Snackbar />', () => {
     expect(buttonStyles['padding-left']).toEqual('0px')
     expect(buttonStyles['padding-right']).toEqual('0px')
     expect(buttonStyles['padding-bottom']).toEqual('0px')
-    expect(buttonStyles['font-size']).toEqual('14px')
+    expect(buttonStyles['font-size']).toEqual('13px')
   })
 
   it('should append action button', () => {
@@ -205,7 +208,7 @@ describe('<Snackbar />', () => {
     expect(buttonStyles['padding-left']).toEqual('10px')
     expect(buttonStyles['padding-right']).toEqual('10px')
     expect(buttonStyles['padding-bottom']).toEqual('0px')
-    expect(buttonStyles['font-size']).toEqual('14px')
+    expect(buttonStyles['font-size']).toEqual('13px')
   })
 
   it('should call props.onAction() when click on action button', async (done) => {
