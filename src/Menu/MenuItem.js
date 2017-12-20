@@ -21,19 +21,7 @@ import provideMenuItemContext from './provideMenuItemContext'
     paddingRight: theme.menu.padding,
     outline: 0,
     fontSize: theme.menu.fontSize,
-    lineHeight: theme.menu.lineHeight + 'px',
-    '&:hover': {
-      color: theme.menu.colors.hover.text,
-      backgroundColor: theme.menu.colors.hover.background
-    },
-    '&:focus': {
-      color: theme.menu.colors.focus.text,
-      background: theme.menu.colors.focus.background
-    },
-    '&:active': {
-      color: theme.menu.colors.active.text,
-      background: theme.menu.colors.active.background
-    }
+    lineHeight: theme.menu.lineHeight + 'px'
   },
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
@@ -48,8 +36,23 @@ import provideMenuItemContext from './provideMenuItemContext'
   },
   isDisabled: {
     color: theme.menu.colors.disabled.text + '!important',
-    background: theme.menu.colors.disabled.background + '!important'
-  }
+    background: theme.menu.colors.disabled.background + '!important',
+    cursor: 'not-allowed'
+  },
+  isEnabled: {
+    '&:hover': {
+      color: theme.menu.colors.hover.text,
+      backgroundColor: theme.menu.colors.hover.background
+    },
+    '&:focus': {
+      color: theme.menu.colors.focus.text,
+      background: theme.menu.colors.focus.background
+    },
+    '&:active': {
+      color: theme.menu.colors.active.text,
+      background: theme.menu.colors.active.background
+    }
+  },
 }))
 @provideMenuItemContext
 export default class MenuItem extends PureComponent {
@@ -100,7 +103,7 @@ export default class MenuItem extends PureComponent {
   }
 
   render() {
-    const {props} = this
+    const {props, css} = this
 
     return (
       <div
@@ -108,10 +111,10 @@ export default class MenuItem extends PureComponent {
         style={props.style}
         className={classnames(
           props.className,
-          this.css.root,
-          props.size && this.css[props.size],
-          props.disabled && this.css.isDisabled,
-          props.isSelected && this.css.isSelected
+          css.root,
+          props.size && css[props.size],
+          props.disabled ? css.isDisabled : css.isEnabled,
+          props.isSelected && css.isSelected
         )}
         tabIndex={props.disabled ? null : 0}
         onFocus={props.disabled ? null : props.onFocus}

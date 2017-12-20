@@ -1,6 +1,5 @@
 
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
@@ -14,11 +13,7 @@ export default function provideMenuItemContext(Target) {
       /**
        * Значение опции, по-умолчанию считается, что это примитив
        */
-      value: PropTypes.any.isRequired,
-      /**
-       * Контент опции
-       */
-      children: PropTypes.node.isRequired
+      value: PropTypes.any.isRequired
     }
 
     static contextTypes = {
@@ -32,19 +27,19 @@ export default function provideMenuItemContext(Target) {
          */
         isItemFocused: PropTypes.func,
         /**
-         * Опции не активны
+         * Проверка, не активно ли меню
          */
-        disabled: PropTypes.bool,
+        isMenuDisabled: PropTypes.func,
         /**
-         * Размер опции
+         * Получение размера меню
          */
-        size: PropTypes.oneOf(['small', 'medium']),
+        getMenuSize: PropTypes.func,
         /**
          * Шина событий
          * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
          * onItemSelect - клик по MenuItem (args: value)
          * onItemFocus - фокус на MenuItem (args: id)
-         * onItemUpdate - добавление и обновление MenuItem (args: id, ref, isSelected)
+         * onItemMount - добавление и обновление MenuItem (args: id, componentInstanseRef)
          * onItemUnmount - удаление MenuItem (args: id)
          */
         events: PropTypes.instanceOf(EventEmitter)
@@ -59,10 +54,11 @@ export default function provideMenuItemContext(Target) {
 
     componentDidMount() {
       this.ctx.events.on('onPropsChange', this.handlePropsChange)
+      this.ctx.events.emit('onItemMount', this.id, this.item)
     }
 
-    componentWillReceiveProps() {
-      this.ctx.events.emit('onItemUpdate', this.id, this.item, this.isSelected)
+    componentDidUpdate() {
+      this.ctx.events.emit('onItemMount', this.id, this.item)
     }
 
     componentWillUnmount() {
@@ -75,10 +71,10 @@ export default function provideMenuItemContext(Target) {
       if (
         ctx.isValueSelected(props.value) !== this.isSelected ||
         ctx.isItemFocused(this.id) !== this.isFocused ||
-        ctx.disabled !== this.disabled ||
-        ctx.size !== this.size
+        ctx.isMenuDisabled() !== this.disabled ||
+        ctx.getMenuSize() !== this.size
       )
-        this.forceUpdate()
+        this.forceUpdate() 
     }
 
     handleFocus = () => {
@@ -90,17 +86,15 @@ export default function provideMenuItemContext(Target) {
     }
 
     saveRef = (ref) => {
-      if (!this.item)
-        this.item = findDOMNode(ref)
-      this.ctx.events.emit('onItemUpdate', this.id, this.item, this.isSelected)
+      this.item = ref
     }
 
     render() {
       const {props, ctx} = this
       this.isSelected = ctx.isValueSelected(props.value)
       this.isFocused = ctx.isItemFocused(this.id)
-      this.disabled = ctx.disabled
-      this.size = ctx.size
+      this.disabled = ctx.isMenuDisabled()
+      this.size = ctx.getMenuSize()
 
       return (
         <Target
