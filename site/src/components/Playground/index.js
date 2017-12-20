@@ -4,7 +4,7 @@
  */
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { render } from 'react-dom'
+import ReactDOM, { render } from 'react-dom'
 import Codemirror from 'react-codemirror'
 import 'codemirror/mode/javascript/javascript'
 import { debounce } from 'core-decorators'
@@ -21,6 +21,7 @@ import config from 'config'
 
 const availableModules = {
   react: React,
+  'react-dom': ReactDOM,
   lodash: _
 }
 
