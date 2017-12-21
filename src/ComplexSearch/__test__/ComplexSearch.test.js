@@ -47,8 +47,10 @@ describe('<ComplexSearch />', () => {
     const selectStyles = getStyles(search)
 
     expect(selectStyles.width).toEqual('765px')
+    expect(selectStyles.height).toEqual(`${theme.search.height}px`)
 
-    const input = wrapper.find('input')
+    // search field is composed with input wrapped in div
+    const input = wrapper.find('input').closest('div')
     const inputStyles = getStyles(input)
     expect(inputStyles.height).toEqual(`${theme.search.height}px`)
   })
