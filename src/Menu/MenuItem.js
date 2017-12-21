@@ -14,9 +14,6 @@ import provideMenuItemContext from './provideMenuItemContext'
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
-    color: theme.menu.colors.default.text,
-    backgroundColor: theme.menu.colors.default.background,
-    cursor: 'pointer',
     paddingLeft: theme.menu.padding,
     paddingRight: theme.menu.padding,
     outline: 0,
@@ -31,15 +28,10 @@ import provideMenuItemContext from './provideMenuItemContext'
       paddingBottom: (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2
     }
   }), {}),
-  isSelected: {
-    color: theme.menu.colors.selected.text
-  },
-  isDisabled: {
-    color: theme.menu.colors.disabled.text + '!important',
-    background: theme.menu.colors.disabled.background + '!important',
-    cursor: 'not-allowed'
-  },
   isEnabled: {
+    color: theme.menu.colors.default.text,
+    backgroundColor: theme.menu.colors.default.background,
+    cursor: 'pointer',
     '&:hover': {
       color: theme.menu.colors.hover.text,
       backgroundColor: theme.menu.colors.hover.background
@@ -53,6 +45,14 @@ import provideMenuItemContext from './provideMenuItemContext'
       background: theme.menu.colors.active.background
     }
   },
+  isSelected: {
+    color: theme.menu.colors.selected.text
+  },
+  isDisabled: {
+    color: theme.menu.colors.disabled.text,
+    background: theme.menu.colors.disabled.background,
+    cursor: 'not-allowed'
+  }
 }))
 @provideMenuItemContext
 export default class MenuItem extends PureComponent {

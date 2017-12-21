@@ -8,7 +8,8 @@ const data = [...Array(5)].map((item, i) => i%2 ? `Bar${i}` : `Foo${i}`)
 export default class MenuExample extends Component {
   state = {
     small: false,
-    disabled: false
+    disabled: false,
+    value: null
   }
 
   toggleValue = (valueKey) => () => {
@@ -16,6 +17,12 @@ export default class MenuExample extends Component {
       [valueKey]: !this.state[valueKey]
     })
   }
+
+  setValue = (value) => {
+    this.setState({
+      value
+    })
+  } 
 
   render() {
     const {state} = this
@@ -32,7 +39,6 @@ export default class MenuExample extends Component {
             onChange={this.setValue}
             size={state.small ? 'small' : 'medium'}
             disabled={state.disabled}
-            autoFocus={state.autoFocus}
           >
             {data.map((item, index) => (
               <MenuItem value={item} key={index}>
