@@ -10,6 +10,11 @@ import { ApplyTheme } from 'rambler-ui/theme'
 
 const data = [...Array(5)].map((item, i) => `Foo${i}`)
 
+const customData = ['Foo', 'Bar', 'Baz'].map(category => ({
+  category,
+  items: [...Array(5)].map((item, i) => `${category}${i}`)
+}))
+
 const objectData = [...Array(15)].map((item, i) => ({
   id: i,
   key: `Baz${i}`
@@ -30,6 +35,7 @@ export default class SelectExample extends Component {
     value3: null,
     value4: null,
     value5: null,
+    value6: [customData[2].items[0]],
     data,
     objectData,
     objectValue: null,
@@ -319,7 +325,7 @@ export default class SelectExample extends Component {
             </Select>
           </div>
 
-          <div style={{ maxWidth: 300, marginBottom: 55 }}>
+          <div style={{ maxWidth: 300 }}>
             <h3>Кастомизированный с customElementRenderer и поиском</h3>
             <Select
               valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
@@ -340,6 +346,27 @@ export default class SelectExample extends Component {
                   <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str2}</div>
                   <div style={{width: '100%', flex: 'none', fontSize: 11, marginTop: 5 }}>{item.str3}</div>
                 </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ maxWidth: 300, marginBottom: 55 }}>
+            <h3>C кастомными MenuItem</h3>
+            <Select
+              multiple={true}
+              placeholder="Select..."
+              value={this.state.value6}
+              onChange={this.setValue('value6')}
+            >
+              {customData.map((category, index) => (
+                <div style={{borderTop: index ? '1px solid #ddd' : null}} key={category.category}>
+                  <h4 style={{margin: 0, padding: 13}}>{category.category}</h4>
+                  {category.items.map(item => (
+                    <MenuItem value={item} key={item}>
+                      {item}
+                    </MenuItem>
+                  ))}
+                </div>
               ))}
             </Select>
           </div>

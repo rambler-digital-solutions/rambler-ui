@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react'
+import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'events'
@@ -60,7 +61,7 @@ export default class Menu extends PureComponent {
     /**
      * Опции поля
      */
-    children: PropTypes.node,
+    children: PropTypes.arrayOf(PropTypes.element),
     /**
      * Коллбек, вызывающийся при изменении состояния
      */
@@ -98,19 +99,19 @@ export default class Menu extends PureComponent {
        */
       isItemFocused: PropTypes.func,
       /**
-       * Опции не активны
+       * Проверка, не активно ли меню
        */
-      disabled: PropTypes.bool,
+      isMenuDisabled: PropTypes.func,
       /**
-       * Размер опции
+       * Получение размера меню
        */
-      size: PropTypes.oneOf(['small', 'medium']),
+      getMenuSize: PropTypes.func,
       /**
        * Шина событий
        * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
        * onItemSelect - клик по MenuItem (args: value)
        * onItemFocus - фокус на MenuItem (args: id)
-       * onItemUpdate - добавление и обновление MenuItem (args: id, ref, isSelected)
+       * onItemMount - добавление и обновление MenuItem (args: id, componentInstanseRef)
        * onItemUnmount - удаление MenuItem (args: id)
        */
       events: PropTypes.instanceOf(EventEmitter)
@@ -125,6 +126,8 @@ export default class Menu extends PureComponent {
     }
     this.focusIndex = -1
     this.value = value
+    this.itemsKeys = []
+    this.registeredItems = {}
   }
 
   get css() {
@@ -139,25 +142,26 @@ export default class Menu extends PureComponent {
       [MENU_ITEM_CONTEXT]: {
         isValueSelected: this.isValueSelected,
         isItemFocused: this.isItemFocused,
-        disabled: this.props.disabled,
-        size: this.props.size,
+        isMenuDisabled: this.isMenuDisabled,
+        getMenuSize: this.getMenuSize,
         events: this.events
       }
     }
   }
 
-  addItem = (key, ref, isSelected) => {
-    if (!this.items[key])
-      this.itemsKeys.push(key)
-    this.items[key] = {
-      ref,
-      isSelected
-    }
+  updateItemsKeys() {
+    const nodes = this.menu.querySelectorAll('[data-menu-item-id]')
+    this.itemsKeys = Array.prototype.slice.call(nodes).map((node) => (
+      node.getAttribute('data-menu-item-id')
+    ))
+  }
+
+  addItem = (key, ref) => {
+    this.registeredItems[key] = ref
   }
 
   removeItem = (key) => {
-    this.itemsKeys.filter(item => item !== key)
-    delete this.items[key]
+    delete this.registeredItems[key]
   }
 
   createEvents() {
@@ -165,11 +169,12 @@ export default class Menu extends PureComponent {
     this.events.setMaxListeners(0)
     this.events.on('onItemSelect', this.handleOptionSelect)
     this.events.on('onItemFocus', this.handleOptionFocus)
-    this.events.on('onItemUpdate', this.addItem)
+    this.events.on('onItemMount', this.addItem)
     this.events.on('onItemUnmount', this.removeItem)
   }
 
   componentDidMount() {
+    this.updateItemsKeys()
     this.scrollToLastSelected()
     if (this.props.autoFocus)
       this.setAutoFocus()
@@ -181,6 +186,7 @@ export default class Menu extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const {props, state} = this
+    this.updateItemsKeys()
     if (props.disabled !== prevProps.disabled || props.size !== prevProps.size || state.value !== prevState.value)
       this.events.emit('onPropsChange')
 
@@ -210,13 +216,21 @@ export default class Menu extends PureComponent {
       : false
   }
 
+  isMenuDisabled = () => (
+    this.props.disabled
+  )
+
+  getMenuSize = () => (
+    this.props.size
+  )
+
   scrollToLastSelected() {
     const lastSelectedIndex = this.getLastSelectedIndex()
     if (lastSelectedIndex === -1) return
-    const item = this.items[this.itemsKeys[lastSelectedIndex]]
+    const item = this.registeredItems[this.itemsKeys[lastSelectedIndex]]
     if (!item) return
     const menuRect = getBoundingClientRect(this.menu)
-    const itemRect = getBoundingClientRect(item.ref)
+    const itemRect = getBoundingClientRect(findDOMNode(item))
     this.menu.scrollTop += itemRect.top - menuRect.top - (menuRect.height / 2)
   }
 
@@ -236,7 +250,6 @@ export default class Menu extends PureComponent {
       if (this.props.valuesEquality(value, this.value))
         return
     }
-    this.events.emit('onPropsChange')
     this.value = value
     this.setState({value})
   }
@@ -244,12 +257,12 @@ export default class Menu extends PureComponent {
   handleOptionFocus = (key) => {
     const index = this.itemsKeys.indexOf(key)
     if (index === -1) return
-    this.focusIndex = index
+    this.setFocusByIndex(index)
   }
 
   getLastSelectedIndex() {
     return this.itemsKeys.reduceRight((result, key, index) => (
-      result === -1 && this.items[key].isSelected ? index : result
+      result === -1 && this.registeredItems[key].isSelected ? index : result
     ), -1)
   }
 
@@ -296,6 +309,10 @@ export default class Menu extends PureComponent {
     }
   }
 
+  handleBlur = () => {
+    this.focusIndex = -1
+  }
+
   saveMenuRef = (ref) => {
     this.menu = ref
   }
@@ -324,9 +341,6 @@ export default class Menu extends PureComponent {
       ...other
     } = this.getMenuProps()
 
-    this.itemsKeys = []
-    this.items = []
-
     return (
       <div
         {...other}
@@ -334,6 +348,7 @@ export default class Menu extends PureComponent {
         style={{ maxHeight, ...style }}
         className={classnames(this.css.menu, className)}
         onKeyDown={this.keyDown}
+        onBlur={this.handleBlur}
       >
         {children}
       </div>
