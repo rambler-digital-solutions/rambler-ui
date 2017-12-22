@@ -41,9 +41,11 @@ export default class MenuExample extends Component {
             disabled={state.disabled}
           >
             {data.map((item, index) => (
-              <MenuItem value={item} key={index}>
-                {item}
-              </MenuItem>
+              <div style={{ borderTop: index ? '1px solid #ddd' : null }} key={index}>
+                <MenuItem value={item}>
+                  {item}
+                </MenuItem>
+              </div>
             ))}
           </Menu>
           <div style={{marginTop: 20}}>
