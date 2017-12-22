@@ -126,6 +126,8 @@ export default class Menu extends PureComponent {
     }
     this.focusIndex = -1
     this.value = value
+    this.itemsKeys = []
+    this.registeredItems = {}
   }
 
   get css() {
@@ -147,15 +149,19 @@ export default class Menu extends PureComponent {
     }
   }
 
+  updateItemsKeys() {
+    const nodes = this.menu.querySelectorAll('[data-menu-item-id]')
+    this.itemsKeys = Array.prototype.slice.call(nodes).map((node) => (
+      node.getAttribute('data-menu-item-id')
+    ))
+  }
+
   addItem = (key, ref) => {
-    if (!this.items[key])
-      this.itemsKeys.push(key)
-    this.items[key] = ref
+    this.registeredItems[key] = ref
   }
 
   removeItem = (key) => {
-    this.itemsKeys = this.itemsKeys.filter(item => item !== key)
-    delete this.items[key]
+    delete this.registeredItems[key]
   }
 
   createEvents() {
@@ -168,6 +174,7 @@ export default class Menu extends PureComponent {
   }
 
   componentDidMount() {
+    this.updateItemsKeys()
     this.scrollToLastSelected()
     if (this.props.autoFocus)
       this.setAutoFocus()
@@ -179,6 +186,7 @@ export default class Menu extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     const {props, state} = this
+    this.updateItemsKeys()
     if (props.disabled !== prevProps.disabled || props.size !== prevProps.size || state.value !== prevState.value)
       this.events.emit('onPropsChange')
 
@@ -219,7 +227,7 @@ export default class Menu extends PureComponent {
   scrollToLastSelected() {
     const lastSelectedIndex = this.getLastSelectedIndex()
     if (lastSelectedIndex === -1) return
-    const item = this.items[this.itemsKeys[lastSelectedIndex]]
+    const item = this.registeredItems[this.itemsKeys[lastSelectedIndex]]
     if (!item) return
     const menuRect = getBoundingClientRect(this.menu)
     const itemRect = getBoundingClientRect(findDOMNode(item))
@@ -254,7 +262,7 @@ export default class Menu extends PureComponent {
 
   getLastSelectedIndex() {
     return this.itemsKeys.reduceRight((result, key, index) => (
-      result === -1 && this.items[key].props.isSelected ? index : result
+      result === -1 && this.registeredItems[key].isSelected ? index : result
     ), -1)
   }
 
@@ -332,9 +340,6 @@ export default class Menu extends PureComponent {
       children,
       ...other
     } = this.getMenuProps()
-
-    this.itemsKeys = []
-    this.items = {}
 
     return (
       <div
