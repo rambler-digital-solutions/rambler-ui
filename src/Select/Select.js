@@ -566,11 +566,14 @@ export default class Select extends PureComponent {
 
   renderSelectedItems() {
     const selected = Array.isArray(this.props.value) ? this.props.value : emptyArr
-    return selected.map(item => (
-      <TagsInputItem value={item}>
-        {this.props.inputValueRenderer(item)}
-      </TagsInputItem>
-    ))
+    return selected.map(item => {
+      const text = this.props.inputValueRenderer(item)
+      return (
+        <TagsInputItem value={item} key={text}>
+          {text}
+        </TagsInputItem>
+      )
+    })
   }
 
   renderInput() {
