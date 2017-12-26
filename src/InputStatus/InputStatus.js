@@ -70,14 +70,12 @@ export default class InputStatus extends Component {
       classes
     } = this.props
 
-    const rootClassName = classnames(classes[type])
+    const rootClassName = classnames(message && classes[type])
     const messageClassName = classnames(classes.message, className)
 
     return (
-      <div className={message && rootClassName}>
-        <div>
-          {children}
-        </div>
+      <div className={rootClassName}>
+        {children}
         {message && (
           <div className={messageClassName}>
             {message}
