@@ -48,8 +48,8 @@ build_version:
     - npm install
     - npm run build
     - cd build
-    - curl -u${PROJECT_NPM_USER}:${PROJECT_NPM_AUTH_KEY} 'https://art.rambler.ru/api/npm/rambler-common/auth/rambler-ui' > ~/.npmrc
-    - node -e "var p=require('./package.json'); p.name='@rambler-common/rambler-ui'; p.publishConfig={registry:'https://art.rambler.ru/api/npm/rambler-common/'}; fs.writeFileSync('package.json', JSON.stringify(p));"
+    - curl -u${PROJECT_NPM_USER}:${PROJECT_NPM_AUTH_KEY} 'https://art.rambler.ru/api/npm/rambler-common/auth/rambler-common' > ~/.npmrc
+    - node -e "var p=require('./package.json'); p.name='@rambler-common/rambler-ui'; p.publishConfig={registry:'https://art.rambler.ru/api/npm/rambler-common/'}; fs.writeFileSync('package.json', JSON.stringify(p, null, 2));"
     - cat ~/.npmrc
     - npm publish
     - rm ~/.npmrc
