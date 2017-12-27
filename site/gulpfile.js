@@ -38,6 +38,8 @@ gulp.task('build-gh-pages', ['webpack'], () => {
   exec(`rm -rf ${buildGhPagesDir}/.git`)
   exec(`find ${buildGhPagesDir} ! -name '*' ! -type d -exec rm -- {} +`)
   folders.forEach((folder) => {
+    if (/^v-?[.x0-9]+$/.test(folder))
+      folder = folder.replace(/^v-?/, '')
     const resFolder = path.join(buildGhPagesDir, folder)
     exec(`rm -rf ${resFolder}`)
     exec(`mkdir -p ${resFolder}`)
