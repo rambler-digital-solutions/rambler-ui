@@ -18,7 +18,6 @@ module.exports = {
       )
     }]
   },
-  devtool: 'source-map',
   plugins: [
     new ExtractTextPlugin('styles.css'),
     new webpack.optimize.UglifyJsPlugin()
