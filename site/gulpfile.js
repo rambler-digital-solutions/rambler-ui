@@ -26,6 +26,12 @@ const headTag = cp.execSync('git describe --abbrev=0 --tags').toString().trim()
 const exec = str =>
   cp.execSync(str).toString().trim()
 
+const versionToNumber = str =>
+  str.split('.').reduce(
+    (acc, version, i) => acc + Number(version) * Math.pow(1e5, 1 / (i + 1)),
+    0
+  )
+
 gulp.task('build-gh-pages', ['webpack'], () => {
   const remoteUrl = exec('git config --get remote.origin.url')
   const folders = _.compact((argv.versions || '').split(/[\s,]+/))
@@ -87,11 +93,13 @@ gulp.task('clean', () =>
 
 gulp.task('update-version', () => {
   const version = require('../package.json').version
+  const sitePackage = require('./package.json')
   let versions = require('./versions.json')
-  cp.execSync(`sed -i -e 's/\\"version\\":.*/\\"version\\": \\"${version}\\",/' ./package.json`)
+  sitePackage.version = version
+  fs.writeFileSync(path.join(__dirname, 'package.json'), JSON.stringify(sitePackage, null, 2))
   versions.unshift({path: version})
   _.find(versions, {path: ''}).title = `latest (${version})`
   versions = _.uniqBy(versions, ({path}) => path)
-  versions.sort((v1, v2) => !v2.path ? 1 : !v1.path ? -1 : v2.path > v1.path ? 1 : -1)
-  fs.writeFileSync(path.join(__dirname, 'versions.json'), JSON.stringify(versions, null, '  '))
+  versions.sort((v1, v2) => !v2.path ? 1 : !v1.path ? -1 : versionToNumber(v2.path) > versionToNumber(v1.path) ? 1 : -1)
+  fs.writeFileSync(path.join(__dirname, 'versions.json'), JSON.stringify(versions, null, 2))
 })
