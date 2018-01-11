@@ -237,7 +237,15 @@ class ComplexSearch extends React.Component {
     /**
      * 	Автоматическое позиционирование дропдауна по оси Y (если выходит за пределы экрана)
      */
-    autoPositionY: PropTypes.bool
+    autoPositionY: PropTypes.bool,
+    /**
+     * 	Дата-аттрибуты для поискового инпута
+     */
+    inputDataAttributes: PropTypes.object,
+    /**
+     * 	Дата-аттрибуты для кнопки
+     */
+    searchButtonDataAttributes: PropTypes.object
   };
 
   static defaultProps = {
@@ -249,6 +257,8 @@ class ComplexSearch extends React.Component {
     searchButton: null,
     searchButtonStyle: {},
     searchButtonClassName: '',
+    inputDataAttributes: {},
+    searchButtonDataAttributes: {},
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -479,6 +489,7 @@ class ComplexSearch extends React.Component {
     const {
       division,
       placeholder,
+      inputDataAttributes,
       classes: css
     } = omit(this.props, 'onChange', 'value')
     return (
@@ -493,6 +504,7 @@ class ComplexSearch extends React.Component {
           value={this.state.value}
           className={css.input}
           placeholder={placeholder}
+          {...inputDataAttributes}
           ref={this.setNode('input')}
         />
         {this.isClearVisible && <ClearIcon
@@ -510,7 +522,8 @@ class ComplexSearch extends React.Component {
       classes: css,
       searchButton,
       searchButtonStyle,
-      searchButtonClassName
+      searchButtonClassName,
+      searchButtonDataAttributes
     } = this.props
 
     if (!searchButton)
@@ -527,6 +540,7 @@ class ComplexSearch extends React.Component {
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}
+        {...searchButtonDataAttributes}
       >
         {this.renderIcon()}{searchButton}
       </button>

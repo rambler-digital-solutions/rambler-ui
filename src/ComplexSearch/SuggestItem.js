@@ -46,6 +46,10 @@ class SuggestItem extends React.Component {
     */
     className: PropTypes.string,
     /**
+    * Дата-аттрибуты для элемента саджеста
+    */
+    dataAttributes: PropTypes.object,
+    /**
     * Текст ссылки для удаления
     */
     removeButton: PropTypes.string,
@@ -134,7 +138,8 @@ class SuggestItem extends React.Component {
     const {
       classes: css,
       className,
-      removeButton
+      removeButton,
+      dataAttributes
     } = this.props
 
     return (
@@ -147,6 +152,7 @@ class SuggestItem extends React.Component {
         )}
         onClick={this.onItemClick}
         onMouseEnter={this.onMouseEnter}
+        {...dataAttributes}
       >
         <span className={css.string}>
           {this.props.children}
