@@ -245,7 +245,7 @@ class ComplexSearch extends React.Component {
     /**
      * 	Дополнительные аттрибуты для кнопки
      */
-    buttonProps: PropTypes.object
+    searchButtonProps: PropTypes.object
   };
 
   static defaultProps = {
@@ -258,7 +258,7 @@ class ComplexSearch extends React.Component {
     searchButtonStyle: {},
     searchButtonClassName: '',
     inputProps: {},
-    buttonProps: {},
+    searchButtonProps: {},
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -523,7 +523,7 @@ class ComplexSearch extends React.Component {
       searchButton,
       searchButtonStyle,
       searchButtonClassName,
-      buttonProps
+      searchButtonProps
     } = this.props
 
     if (!searchButton)
@@ -540,7 +540,7 @@ class ComplexSearch extends React.Component {
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}
-        {...buttonProps}
+        {...searchButtonProps}
       >
         {this.renderIcon()}{searchButton}
       </button>
