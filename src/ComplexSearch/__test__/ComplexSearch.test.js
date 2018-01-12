@@ -29,8 +29,8 @@ describe('<ComplexSearch />', () => {
           {...handlersProps} 
           searchButton="search"
           searchButtonStyle={{minWidth: SEARCH_BUTTON_WIDTH}}
-          inputDataAttributes={{[DATA_ATTR]: SEARCH_DATA_ATTR}}
-          searchButtonDataAttributes={{[DATA_ATTR]: BUTTON_DATA_ATTR}}
+          inputProps={{[DATA_ATTR]: SEARCH_DATA_ATTR}}
+          buttonProps={{[DATA_ATTR]: BUTTON_DATA_ATTR}}
         >
           <SuggestItem value="1">
             1
