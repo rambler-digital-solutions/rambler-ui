@@ -239,13 +239,13 @@ class ComplexSearch extends React.Component {
      */
     autoPositionY: PropTypes.bool,
     /**
-     * 	Дата-аттрибуты для поискового инпута
+     * 	Дополнительные аттрибуты для поискового инпута
      */
-    inputDataAttributes: PropTypes.object,
+    inputProps: PropTypes.object,
     /**
-     * 	Дата-аттрибуты для кнопки
+     * 	Дополнительные аттрибуты для кнопки
      */
-    searchButtonDataAttributes: PropTypes.object
+    buttonProps: PropTypes.object
   };
 
   static defaultProps = {
@@ -257,8 +257,8 @@ class ComplexSearch extends React.Component {
     searchButton: null,
     searchButtonStyle: {},
     searchButtonClassName: '',
-    inputDataAttributes: {},
-    searchButtonDataAttributes: {},
+    inputProps: {},
+    buttonProps: {},
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -489,7 +489,7 @@ class ComplexSearch extends React.Component {
     const {
       division,
       placeholder,
-      inputDataAttributes,
+      inputProps,
       classes: css
     } = omit(this.props, 'onChange', 'value')
     return (
@@ -504,7 +504,7 @@ class ComplexSearch extends React.Component {
           value={this.state.value}
           className={css.input}
           placeholder={placeholder}
-          {...inputDataAttributes}
+          {...inputProps}
           ref={this.setNode('input')}
         />
         {this.isClearVisible && <ClearIcon
@@ -523,7 +523,7 @@ class ComplexSearch extends React.Component {
       searchButton,
       searchButtonStyle,
       searchButtonClassName,
-      searchButtonDataAttributes
+      buttonProps
     } = this.props
 
     if (!searchButton)
@@ -540,7 +540,7 @@ class ComplexSearch extends React.Component {
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}
-        {...searchButtonDataAttributes}
+        {...buttonProps}
       >
         {this.renderIcon()}{searchButton}
       </button>
