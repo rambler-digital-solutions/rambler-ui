@@ -1,6 +1,7 @@
 import React from 'react'
 import * as PropTypes from 'prop-types'
 import EventEmitter from 'events'
+import omit from 'lodash/omit'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import uuid from '../utils/uuid'
@@ -134,8 +135,9 @@ class SuggestItem extends React.Component {
     const {
       classes: css,
       className,
-      removeButton
-    } = this.props
+      removeButton,
+      ...other
+    } = omit(this.props, 'value')
 
     return (
       <div
@@ -147,6 +149,7 @@ class SuggestItem extends React.Component {
         )}
         onClick={this.onItemClick}
         onMouseEnter={this.onMouseEnter}
+        {...other}
       >
         <span className={css.string}>
           {this.props.children}

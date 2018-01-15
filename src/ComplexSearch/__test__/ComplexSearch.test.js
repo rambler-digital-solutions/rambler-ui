@@ -8,6 +8,9 @@ import { normalize as nc } from '../../utils/colors'
 
 
 const SEARCH_BUTTON_WIDTH = 125
+const DATA_ATTR = 'data-cerber-head'
+const SEARCH_DATA_ATTR = 'main::search'
+const BUTTON_DATA_ATTR = 'main::button'
 
 describe('<ComplexSearch />', () => {
   const handlersProps = {
@@ -26,6 +29,8 @@ describe('<ComplexSearch />', () => {
           {...handlersProps} 
           searchButton="search"
           searchButtonStyle={{minWidth: SEARCH_BUTTON_WIDTH}}
+          inputProps={{[DATA_ATTR]: SEARCH_DATA_ATTR}}
+          searchButtonProps={{[DATA_ATTR]: BUTTON_DATA_ATTR}}
         >
           <SuggestItem value="1">
             1
@@ -104,6 +109,14 @@ describe('<ComplexSearch />', () => {
     expect(parseFloat(buttonStyles['letter-spacing']).toFixed(1)).toEqual(themeButtonStyles.letterSpacing.toString())
     expect(buttonStyles['background-color']).toEqual(nc(themeButtonStyles.default.background))
     expect(buttonStyles['text-transform']).toEqual(themeButtonStyles.textTransform)
+  })
+
+  it ('should apply data-attributes to button, searchinput', () => {
+    const search = wrapper.find(ComplexSearch)
+    const input = search.find('input').first()
+    expect(getWrapperNode(input).getAttribute(DATA_ATTR)).toEqual(SEARCH_DATA_ATTR)
+    const button = search.find('button')
+    expect(getWrapperNode(button).getAttribute(DATA_ATTR)).toEqual(BUTTON_DATA_ATTR)
   })
   
 })

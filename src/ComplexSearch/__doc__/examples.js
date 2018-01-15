@@ -91,11 +91,14 @@ export default class SearchExample extends Component {
             searchButton="Search"
             searchButtonStyle={{minWidth: 125}}
             autoPositionY={false}
+            inputProps={{'data-cerber-head': 'main::search'}}
+            searchButtonProps={{'data-cerber-head': 'main::button'}}
           >
             {this.state.items.map(item => (
               <div key={item[0] + item[2]} style={{borderTop: '1px solid #eee'}}>
                 <SuggestItem
                   value={item[1]}
+                  data-cerber-head={`search::suggest:item-${item[2]}`}
                 >
                   {this.renderItem(item[1])}
                 </SuggestItem>
