@@ -18,7 +18,7 @@ const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 const theming = createTheming(RAMBLER_UI_THEME)
 const {ThemeProvider} = theming
 
-const defaultPrefix = ''
+const defaultPrefix = 'rui-'
 
 export const createJss = (options = {}) => originalCreateJss({
   ...preset(options),
