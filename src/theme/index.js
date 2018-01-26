@@ -2,7 +2,7 @@ import React from 'react'
 import merge from 'lodash/merge'
 import {object} from 'prop-types'
 import {create as originalCreateJss} from 'jss'
-import originalInjectSheet, {createTheming, JssProvider, SheetsRegistry, createGenerateClassName} from 'react-jss'
+import originalInjectSheet, {createTheming, JssProvider, SheetsRegistry} from 'react-jss'
 import preset from 'jss-preset-default'
 import compose from 'recompose/compose'
 import getContext from 'recompose/getContext'
@@ -13,17 +13,12 @@ import base from './base'
 const RAMBLER_UI_THEME = '__RAMBLER_UI_THEME__'
 const RAMBLER_UI_JSS = '__RAMBLER_UI_JSS__'
 const RAMBLER_UI_SHEETS_REGISTRY = '__RAMBLER_UI_SHEETS_REGISTRY__'
-const OWN_GENERATE_CLASS_NAME = '__RAMBLER_UI_GENERATE_CLASS_NAME__'
+const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 
 const theming = createTheming(RAMBLER_UI_THEME)
 const {ThemeProvider} = theming
 
-function wrapWithGenerateClassName(registry) {
-  if (!registry[OWN_GENERATE_CLASS_NAME])
-    registry[OWN_GENERATE_CLASS_NAME] = createGenerateClassName()
-}
-
-export {createGenerateClassName}
+const defaultPrefix = ''
 
 export const createJss = (options = {}) => originalCreateJss({
   ...preset(options),
@@ -34,6 +29,13 @@ export const createSheetsRegistry = () => new SheetsRegistry()
 
 export const globalSheetsRegistry = createSheetsRegistry()
 export const globalJss = createJss()
+
+export const createGenerateClassName = (jssId, themeId) => (rule, sheet) => {
+  const prefix = sheet ? (sheet.options.classNamePrefix || defaultPrefix) : defaultPrefix
+  const jssCounter = jssId === globalJss.id ? '' : `-${jssId}`
+  const themeCounter = themeId === 0 ? '' : `-${themeId}`
+  return prefix + rule.key + jssCounter + themeCounter
+}
 
 /**
  * Делаем совместимым с нашим компонентом ApplyTheme
@@ -48,16 +50,17 @@ export const ApplyTheme = compose(
     ({theme = base, ...props}) => {
       // Создаем свойства один раз при создании компонента
       let resultTheme, currTheme, currParentTheme
-      const shouldAddJssProvider = !!props.jss || !props[RAMBLER_UI_JSS]
       const sheetsRegistry = props.sheetsRegistry || props[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry
       const jss = props.jss || props[RAMBLER_UI_JSS] || globalJss
-
-      wrapWithGenerateClassName(sheetsRegistry)
+      if (sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null)
+        sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0
+      const themeId = sheetsRegistry[RAMBLER_UI_THEME_COUNTER]++
+      const generateClassName = props.generateClassName || createGenerateClassName(jss.id, themeId)
 
       return {
         jss,
         sheetsRegistry,
-        shouldAddJssProvider,
+        generateClassName,
         getResultTheme: (parentTheme) => {
           if (currTheme !== theme || currParentTheme !== parentTheme) {
             resultTheme = merge({}, parentTheme, theme)
@@ -79,19 +82,12 @@ export const ApplyTheme = compose(
       [RAMBLER_UI_SHEETS_REGISTRY]: sheetsRegistry
     })
   )
-)(({jss, sheetsRegistry, getResultTheme, generateClassName, shouldAddJssProvider, children}) => {
-  const provider = (
+)(({jss, sheetsRegistry, getResultTheme, generateClassName, children}) => (
+  <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName}>
     <ThemeProvider theme={getResultTheme}>
       {children}
     </ThemeProvider>
-  )
-  if (!shouldAddJssProvider)
-    return provider
-  return (
-    <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName || sheetsRegistry[OWN_GENERATE_CLASS_NAME]}>
-      {provider}
-    </JssProvider>
-  )
-})
+  </JssProvider>
+))
 
 export const injectSheet = styles => originalInjectSheet(styles, {theming})
