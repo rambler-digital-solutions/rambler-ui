@@ -1,6 +1,6 @@
 import React from 'react'
 import classnames from 'classnames'
-import {ApplyTheme, injectSheet, createJss, createSheetsRegistry, globalJss} from '../'
+import {ApplyTheme, injectSheet, createJss, createSheetsRegistry} from '../'
 import {mount, getNodeStyles} from '../../utils/test-utils'
 import {normalize as nc} from '../../utils/colors'
 
@@ -81,13 +81,13 @@ describe('<ApplyTheme />', () => {
       </ApplyTheme>
     )
 
-    const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -2)
+    const classPrefix = sheetsRegistry.registry[0].classes.button
 
     expect(sheetsRegistry.toString()).toBe(
-      `.${classPrefix}-1 {\n` +
+      `.${classPrefix} {\n` +
       '  color: #ffffff;\n' +
       '}\n' +
-      `.${classPrefix}-2 {\n` +
+      `.${classPrefix}-1 {\n` +
       '  color: #000000;\n' +
       '}'
     )
@@ -126,22 +126,22 @@ describe('<ApplyTheme />', () => {
       </div>
     )
 
-    const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -4)
+    const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -2)
 
     expect(sheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${jss.id}-1 {\n` +
+      `.${classPrefix}-${jss.id} {\n` +
       '  color: #ffffff;\n' +
       '}'
     )
 
     expect(nestedSheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${nestedJss.id}-1 {\n` +
+      `.${classPrefix}-${nestedJss.id} {\n` +
       '  color: #000000;\n' +
       '}'
     )
 
     expect(separateSheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${separateJss.id}-1 {\n` +
+      `.${classPrefix}-${separateJss.id} {\n` +
       '  color: #777777;\n' +
       '}'
     )
@@ -168,16 +168,16 @@ describe('<ApplyTheme />', () => {
       </div>
     )
 
-    const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -4)
+    const classPrefix = sheetsRegistry.registry[0].classes.button
 
     expect(sheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${globalJss.id}-1 {\n` +
+      `.${classPrefix} {\n` +
       '  color: #ffffff;\n' +
       '}'
     )
 
     expect(separateSheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${globalJss.id}-1 {\n` +
+      `.${classPrefix} {\n` +
       '  color: #777777;\n' +
       '}'
     )
