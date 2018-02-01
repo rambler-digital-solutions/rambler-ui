@@ -178,12 +178,12 @@ export function createTheme(config) {
             },
             hover: {
               text: colors.primary,
-              background: colors.controls.grey.background
+              background: colors.controls.grey.darkBackground
             },
             active: {
               text: darken(colors.primary, 0.2),
               icon: darken(colors.primary, 0.2),
-              background: colors.controls.grey.background
+              background: colors.controls.grey.darkBackground
             },
             disabled: {
               text: colors.controls.grey.outline,
