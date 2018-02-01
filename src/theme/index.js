@@ -9,6 +9,7 @@ import getContext from 'recompose/getContext'
 import withContext from 'recompose/withContext'
 import withPropsOnChange from 'recompose/withPropsOnChange'
 import base from './base'
+import uuid from '../utils/uuid'
 
 const RAMBLER_UI_THEME = '__RAMBLER_UI_THEME__'
 const RAMBLER_UI_JSS = '__RAMBLER_UI_JSS__'
@@ -19,7 +20,7 @@ const RAMBLER_UI_CLASS_NAME_PREFIX = '__RAMBLER_UI_CLASS_NAME_PREFIX__'
 const theming = createTheming(RAMBLER_UI_THEME)
 const {ThemeProvider} = theming
 
-const defaultPrefix = 'rui-'
+const ruiPrefix = 'rui-'
 
 export const createJss = (options = {}) => originalCreateJss({
   ...preset(options),
@@ -32,11 +33,11 @@ export const globalSheetsRegistry = createSheetsRegistry()
 export const globalJss = createJss()
 
 export const createGenerateClassName = (themeId = 0) => (rule, sheet) => {
-  const prefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : defaultPrefix
+  const componentPrefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : ''
   const jssId = sheet ? sheet.options.jss.id : globalJss.id
   const jssCounter = jssId === globalJss.id ? '' : `-${jssId}`
   const themeCounter = themeId === 0 ? '' : `-${themeId}`
-  return prefix + rule.key + jssCounter + themeCounter
+  return ruiPrefix + componentPrefix + rule.key + jssCounter + themeCounter
 }
 
 /**
@@ -95,5 +96,5 @@ export const ApplyTheme = compose(
 export const injectSheet = styles => Component =>
   originalInjectSheet(styles, {
     theming,
-    [RAMBLER_UI_CLASS_NAME_PREFIX]: `${Component.displayName || Component.name || 'Component'}-`
+    [RAMBLER_UI_CLASS_NAME_PREFIX]: `${Component.displayName || Component.name || uuid()}-`
   })(Component)
