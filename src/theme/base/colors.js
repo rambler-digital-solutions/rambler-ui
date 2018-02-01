@@ -18,7 +18,6 @@ export default {
       icon: 'rgba(94, 94, 94, 0.4)', // иконки
       background: '#f5f7f8', // бэкграунд кнопок
       lightBackground: '#eef2f4', // бэкграунд иконки на нотификациях
-      darkBackground: '#e8eaf0', // бэкграунд кнопки на ховер и эктив
       activeBackground: 'rgba(141, 150, 178, 0.2)', // бэкграунд при :active состоянии на checkbox
       outline: '#8d96b2', // обводка на outline контролах
       fieldOutline: '#dde0e8', // обводка на outline контролах
