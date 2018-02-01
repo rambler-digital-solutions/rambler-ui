@@ -31,7 +31,7 @@ export const createSheetsRegistry = () => new SheetsRegistry()
 export const globalSheetsRegistry = createSheetsRegistry()
 export const globalJss = createJss()
 
-export const createGenerateClassName = themeId => (rule, sheet) => {
+export const createGenerateClassName = (themeId = 0) => (rule, sheet) => {
   const prefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : defaultPrefix
   const jssId = sheet ? sheet.options.jss.id : globalJss.id
   const jssCounter = jssId === globalJss.id ? '' : `-${jssId}`
