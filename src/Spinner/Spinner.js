@@ -66,7 +66,7 @@ const getKeyframes = (delay = 0) => ({
       animationName: 'ruiAnimateDot3'
     }
   }
-}))
+}), {name: 'Spinner'})
 export default class Spinner extends Component {
 
   static propTypes = {

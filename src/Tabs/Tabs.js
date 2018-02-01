@@ -31,7 +31,7 @@ import { isolateMixin, bottomBorderMixin } from '../style/mixins'
       cursor: 'not-allowed'
     }
   }
-})
+}, {name: 'Tabs'})
 export default class Tabs extends Component {
 
   static propTypes = {

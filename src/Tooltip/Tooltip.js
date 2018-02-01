@@ -155,7 +155,7 @@ const containerNodeStyle = {'pointer-events': 'none'}
       '&$xright$xaleft $arrow': {borderLeftColor: theme.tooltip.colors[type].background}
     }
   }), {})
-}))
+}), {name: 'TooltipContent'})
 class TooltipContent extends PureComponent {
 
   static propTypes = {
@@ -249,7 +249,7 @@ class TooltipContent extends PureComponent {
   anchor: {
     display: 'inline-block'
   }
-}))
+}), {name: 'Tooltip'})
 export default class Tooltip extends PureComponent {
 
   static propTypes = {

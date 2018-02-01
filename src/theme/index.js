@@ -33,11 +33,11 @@ export const globalSheetsRegistry = createSheetsRegistry()
 export const globalJss = createJss()
 
 export const createGenerateClassName = (themeId = 0) => (rule, sheet) => {
-  const componentPrefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : ''
+  const displayNamePrefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : ''
   const jssId = sheet ? sheet.options.jss.id : globalJss.id
   const jssCounter = jssId === globalJss.id ? '' : `-${jssId}`
   const themeCounter = themeId === 0 ? '' : `-${themeId}`
-  return ruiPrefix + componentPrefix + rule.key + jssCounter + themeCounter
+  return ruiPrefix + displayNamePrefix + rule.key + jssCounter + themeCounter
 }
 
 /**
@@ -93,8 +93,8 @@ export const ApplyTheme = compose(
   </JssProvider>
 ))
 
-export const injectSheet = styles => Component =>
-  originalInjectSheet(styles, {
+export const injectSheet = (styles, options = {}) =>
+  Component => originalInjectSheet(styles, {
     theming,
-    [RAMBLER_UI_CLASS_NAME_PREFIX]: `${Component.displayName || Component.name || uuid()}-`
+    [RAMBLER_UI_CLASS_NAME_PREFIX]: `${options.name || uuid()}-`
   })(Component)

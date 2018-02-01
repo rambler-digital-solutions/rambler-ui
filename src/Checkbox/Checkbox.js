@@ -142,7 +142,7 @@ const tickStyle = {
     iconright: {},
     iconleft: {}
   }
-})
+}, {name: 'Checkbox'})
 export default class Checkbox extends Component {
 
   static propTypes = {

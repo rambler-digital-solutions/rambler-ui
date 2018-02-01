@@ -100,7 +100,7 @@ const getFontStyle = ({fontSize, fontWeight = 400, fontStyle, letterSpacing, lin
     textTransform: 'uppercase',
     letterSpacing: 1.3/11 + 'em'
   }
-}))
+}), {name: 'Typography'})
 export default class Typography extends PureComponent {
 
   static propTypes = {

@@ -21,7 +21,7 @@ import { isolateMixin } from '../style/mixins'
   block: {
     display: 'block'
   }
-}))
+}), {name: 'SideNav'})
 export default class SideNav extends Component {
 
   static propTypes = {

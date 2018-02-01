@@ -53,7 +53,7 @@ import { isolateMixin } from '../style/mixins'
       right: 15
     }
   }
-}))
+}), {name: 'HintContent'})
 class HintContent extends Component {
 
   static propTypes = {
@@ -118,7 +118,7 @@ class HintContent extends Component {
   icon: {
     display: 'inline-block'
   }
-}))
+}), {name: 'Hint'})
 export default class Hint extends Component {
 
   static propTypes = {
