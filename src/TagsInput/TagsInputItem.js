@@ -47,7 +47,7 @@ const iconStyle = {
       color: theme.tagsInput.colors.disabled.icon
     }
   }
-}))
+}), {name: 'TagsInputItem'})
 class TagsInputItem extends Component {
 
   static propTypes = {

@@ -43,7 +43,7 @@ function calcProfileSize(size) {
     fontSize: 0,
     textAlign: 'center'
   }
-}))
+}), {name: 'Avatar'})
 export default class Avatar extends Component {
 
   static propTypes = {

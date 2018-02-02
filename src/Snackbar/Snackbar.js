@@ -143,7 +143,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
   small: {
     padding: theme.snackbar.sizes.small.padding
   }
-}))
+}), {name: 'Snackbar'})
 export default class Snackbar extends Component {
 
   static propTypes = {

@@ -57,7 +57,7 @@ const setThemeForSelector = colors => ({
     isEnabled: {},
     isSelected: {}
   }
-})
+}, {name: 'TabsItem'})
 class TabsItem extends Component {
 
   static propTypes = {

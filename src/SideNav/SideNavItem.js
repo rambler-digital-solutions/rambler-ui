@@ -47,7 +47,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
       marginRight: 10
     }
   }
-}))
+}), {name: 'SideNavItem'})
 class SideNavItem extends Component {
 
   static propTypes = {

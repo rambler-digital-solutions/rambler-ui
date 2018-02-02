@@ -74,7 +74,7 @@ import { isolateMixin } from '../style/mixins'
       borderRightColor: theme.field.colors.hover.outline
     }
   }
-}))
+}), {name: 'FieldGroup'})
 export default class FieldGroup extends PureComponent {
 
   static propTypes = {

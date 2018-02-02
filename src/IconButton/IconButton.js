@@ -106,7 +106,7 @@ import '../utils/focus-source'
   }, {}))
 
   return css
-})
+}, {name: 'IconButton'})
 export default class IconButton extends Component {
 
   static propTypes = {

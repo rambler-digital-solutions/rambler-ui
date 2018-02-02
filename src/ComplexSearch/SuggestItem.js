@@ -34,8 +34,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     color: theme.suggestItem.removeButton.color,
     paddingLeft: 10
   }
-}))
-
+}), {name: 'SuggestItem'})
 class SuggestItem extends React.Component {
   static propTypes = {
     /**

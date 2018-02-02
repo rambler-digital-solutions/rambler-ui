@@ -55,7 +55,7 @@ import { MENU_ITEM_CONTEXT } from '../constants/context'
     background: theme.menu.colors.disabled.background,
     cursor: 'not-allowed'
   }
-}))
+}), {name: 'MenuItem'})
 export default class MenuItem extends PureComponent {
 
   static propTypes = {
