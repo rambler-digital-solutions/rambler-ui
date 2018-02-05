@@ -42,7 +42,7 @@ import { isolateMixin, middleMixin } from '../style/mixins'
     display: 'inline-block',
     marginRight: 10
   }
-}))
+}), {name: 'ToggleOption'})
 class ToggleOption extends Component {
 
   static propTypes = {

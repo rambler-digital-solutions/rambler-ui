@@ -88,7 +88,7 @@ const setThemeForSelector = colors => pickBy({
     fontWeight: 'normal',
     lineHeight: 1.43
   }
-}))
+}), {name: 'Switcher'})
 export default class Switcher extends PureComponent {
 
   static propTypes = {

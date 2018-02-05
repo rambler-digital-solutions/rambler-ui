@@ -155,7 +155,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   overlay: {
     width: '100%'
   }
-}))
+}), {name: 'ComplexSearch'})
 class ComplexSearch extends React.Component {
   static propTypes = {
     /**

@@ -21,7 +21,7 @@ const emptyArr = []
     overflowY: 'auto',
     ...beautyScroll('&')
   }
-}))
+}), {name: 'Menu'})
 export default class Menu extends PureComponent {
 
   static propTypes = {

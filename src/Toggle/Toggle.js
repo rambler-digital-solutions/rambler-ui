@@ -128,7 +128,7 @@ const whenDomReady = new Promise((resolve) => {
       cursor: 'default'
     }
   }
-}))
+}), {name: 'Toggle'})
 export default class Toggle extends Component {
 
   static propTypes = {

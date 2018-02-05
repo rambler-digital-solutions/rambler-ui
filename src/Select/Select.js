@@ -200,7 +200,7 @@ const absolutePosition = {
   withSearch: {},
   withLeftIcon: {},
   withRightIcon: {}
-}))
+}), {name: 'Select'})
 export default class Select extends PureComponent {
 
   static propTypes = {

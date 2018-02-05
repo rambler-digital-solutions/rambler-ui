@@ -93,7 +93,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
       })
     }
   }
-}))
+}), {name: 'Popup'})
 export default class Popup extends Component {
 
   static propTypes = {

@@ -16,7 +16,7 @@ import { RADIO_INPUT_CONTEXT } from '../constants/context'
     ...isolateMixin,
     fontFamily: theme.fontFamily
   }
-}))
+}), {name: 'RadioButtonGroup'})
 export default class RadioButtonGroup extends Component {
 
   static propTypes = {

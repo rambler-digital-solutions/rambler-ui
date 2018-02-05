@@ -35,7 +35,7 @@ import { isolateMixin } from '../style/mixins'
   'pointY-top': {
     '&:not($isVisible)': { top: 10 }
   }
-}))
+}), {name: 'Dropdown'})
 class DropdownContainer extends PureComponent {
 
   static propTypes = {

@@ -34,8 +34,7 @@ import { isolateMixin, ifMobile } from '../style/mixins'
     lineHeight: theme.inputStatus.sizes.fontSize + 2 + 'px',
     textAlign: 'left'
   }
-}))
-
+}), {name: 'InputStatus'})
 export default class InputStatus extends Component {
   static propTypes = {
     /**

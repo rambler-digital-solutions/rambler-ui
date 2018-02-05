@@ -116,7 +116,7 @@ function isSimpleType(value) {
   isEnabled: {},
   labelleft: {},
   labelright: {}
-}))
+}), {name: 'RadioButton'})
 class RadioButton extends Component {
 
   static propTypes = {
