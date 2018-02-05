@@ -154,8 +154,8 @@ function getIconColor(colorsConfig, isDisabled) {
     return {
       ...result,
       [`type-${type}`]: {
+        '&:active:active': setThemeForSelector(conf.colors.active, offset),
         '&:hover': setThemeForSelector(conf.colors.hover, offset),
-        '&:active': setThemeForSelector(conf.colors.active, offset),
         '&[disabled]': setThemeForSelector(conf.colors.disabled, offset),
         ...focusSourceMixin('other', '&:focus', setThemeForSelector(conf.colors.focus, offset)),
         ...setThemeForSelector(conf.colors.default, offset)
