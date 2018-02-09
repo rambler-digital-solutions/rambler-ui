@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Menu from '../Menu'
 import MenuItem from '../MenuItem'
 import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
@@ -105,4 +105,46 @@ describe('<Menu />', () => {
     expect(value).toEqual('bar')
   })
 
+  it('should work correctly with object-values', () => {
+    let currValue
+    const values = [1,2,3].map(id => ({id}))
+
+    class TestMenu extends Component {
+      state = {value: null}
+      setValue = value => {
+        currValue = value
+        this.setState({value})
+      }
+      render() {
+        return (
+          <Menu
+            multiple={this.props.multiple}
+            value={this.state.value}
+            onChange={this.setValue}
+            valuesEquality={(a, b) => a && b && a.id === b.id}
+          >
+            {values.map(v => <MenuItem className={`o${v.id}`} value={{...v}} key={v.id}>{v.id}</MenuItem>)}
+          </Menu>
+        )
+      }
+    }
+
+    const val2num = value => value.id
+    const menu = mount(withTheme(<TestMenu />))
+    menu.find('.o1').first().simulate('click')
+    expect(val2num(currValue)).toEqual(1)
+    menu.find('.o3').first().simulate('click')
+    expect(val2num(currValue)).toEqual(3)
+
+    const val2str = value => value.map(v => v.id).sort().join(',')
+    const multipleMenu = mount(withTheme(<TestMenu multiple={true} />))
+    multipleMenu.find('.o3').first().simulate('click')
+    expect(val2str(currValue)).toEqual('3')
+    multipleMenu.find('.o1').first().simulate('click')
+    expect(val2str(currValue)).toEqual('1,3')
+    multipleMenu.find('.o3').first().simulate('click')
+    expect(val2str(currValue)).toEqual('1')
+    multipleMenu.find('.o1').first().simulate('click')
+    expect(val2str(currValue)).toEqual('')
+  })
 })
