@@ -741,17 +741,23 @@ export function createTheme(config) {
       fontSize: 13
     },
     popup: {
-      borderRadius: 2,
-      boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
+      borderRadius: 1,
+      boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
       colors: {
         text: colors.dark,
         background: colors.light,
-        backdrop: fade(colors.fullDark, 0.6),
-        close: colors.controls.grey.icon
+        backdrop: {
+          default: fade(colors.fullDark, 0.8),
+          blue: fade(colors.blueDark, 0.95)
+        },
+        close: {
+          default: colors.dark,
+          hover: colors.primary
+        }
       },
       font: {
         textSize: 13,
-        titleSize: 15
+        titleSize: 20
       },
       animationDuration: 200
     },

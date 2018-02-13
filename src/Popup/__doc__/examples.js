@@ -58,6 +58,7 @@ export default class PopupExample extends Component {
             title="Укажите почту"
             showClose
             isOpened={this.state.customIsOpened}
+            backdropColor='blue'
             okButton={
               <Button type="primary" size="small" onClick={this.closePopup}>
                 Ок

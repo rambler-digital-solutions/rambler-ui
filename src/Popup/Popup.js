@@ -7,7 +7,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import pure from 'recompose/pure'
-import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
@@ -33,7 +32,6 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     bottom: 0,
     paddingTop: 20,
     paddingBottom: 20,
-    backgroundColor: theme.popup.colors.backdrop,
     textAlign: 'center',
     overflowY: 'auto',
     overflowX: 'hidden',
@@ -41,6 +39,12 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     opacity: 0,
     transitionDuration: theme.popup.animationDuration,
     transitionProperty: 'margin-top, opacity'
+  },
+  'backdrop-black': {
+    backgroundColor: theme.popup.colors.backdrop.default
+  },
+  'backdrop-blue': {
+    backgroundColor: theme.popup.colors.backdrop.blue
   },
   isVisible: {
     marginTop: 0,
@@ -52,7 +56,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     boxSizing: 'border-box',
     borderRadius: theme.popup.borderRadius,
     boxShadow: theme.popup.boxShadow,
-    padding: '25px 30px 30px',
+    padding: 25,
     color: theme.popup.colors.text,
     minWidth: 300,
     maxWidth: 'calc(100% - 20px)',
@@ -60,6 +64,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     marginRight: 10,
     backgroundColor: theme.popup.colors.background,
     fontSize: theme.popup.font.textSize,
+    lineHeight: 1.54,
     textAlign: 'left',
     ...ifDesktop({
       minWidth: 350,
@@ -71,12 +76,23 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     paddingRight: 25,
     fontSize: theme.popup.font.titleSize,
     fontWeight: 500,
-    lineHeight: 1.34
+    lineHeight: 1.25
   },
   close: {
-    position: 'absolute !important',
-    top: 18,
-    right: 23
+    position: 'absolute',
+    top: 25,
+    right: 25,
+    border: 0,
+    margin: 0,
+    padding: 0,
+    width: 15,
+    height: 15,
+    background: 'transparent',
+    color: theme.popup.colors.close.default,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.popup.colors.close.hover
+    }
   },
   buttons: {
     display: 'flex',
@@ -113,6 +129,10 @@ export default class Popup extends Component {
      * Inline-стили для фонового слоя
      */
     backdropStyle: PropTypes.object,
+    /**
+     * Цвет фонового слоя
+     */
+    backdropColor: PropTypes.oneOf(['black', 'blue']),
     /**
      * Контент для попапа
      */
@@ -164,6 +184,7 @@ export default class Popup extends Component {
     showClose: true,
     closeOnEsc: true,
     closeOnClickOutside: true,
+    backdropColor: 'black',
     onOpen: () => {},
     onRequestClose: () => {},
     onClose: () => {}
@@ -201,7 +222,6 @@ export default class Popup extends Component {
       okButton,
       cancelButton,
       onRequestClose,
-      theme,
       closeOnClickOutside
     } = this.props
 
@@ -210,14 +230,9 @@ export default class Popup extends Component {
         style={style}
         className={classnames(this.css.popup, className)}>
         {showClose &&
-          <IconButton
-            type="flat"
-            buttonType="button"
-            size="small"
-            className={this.css.close}
-            onClick={onRequestClose}>
-            <ClearIcon color={theme.popup.closeColor} />
-          </IconButton>
+          <button className={this.css.close} onClick={onRequestClose}>
+            <ClearIcon size={15} color='currentColor' />
+          </button>
         }
         {title &&
           <header className={this.css.title}>
@@ -249,6 +264,7 @@ export default class Popup extends Component {
       isOpened,
       backdropClassName,
       backdropStyle,
+      backdropColor,
       theme,
       onOpen,
       onClose
@@ -266,7 +282,10 @@ export default class Popup extends Component {
         <div
           ref={(el) => { this.backdrop = el }}
           style={backdropStyle}
-          className={classnames(this.css.backdrop, backdropClassName)}>
+          className={classnames(
+            this.css.backdrop,
+            this.css[`backdrop-${backdropColor}`],
+            backdropClassName)}>
           {this.renderContent()}
         </div>
       </VisibilityAnimation>
