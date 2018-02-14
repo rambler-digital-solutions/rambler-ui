@@ -66,7 +66,7 @@ class TabsItem extends Component {
      */
     value: PropTypes.any,
     /**
-     * Css-класс компонента (автоматически проставляется компонентом `<Tabs/>`)
+     * Css-класс компонента
      */
     className: PropTypes.string,
     /**

@@ -37,9 +37,10 @@ describe('<Tabs />', () => {
     title: 'Title3'
   }
 
-  it('Tabs content and attributes', () => {
+  it('Tabs content, attributes and item custom className', () => {
+    const className = 'customClassName'
     const wrapper = mount(applyTheme(<Tabs {...tabsProps}>
-      <TabsItem {...linkProps} />
+      <TabsItem {...linkProps} className={className} />
       <TabsItem {...buttonProps} />
       <TabsItem {...containerProps} />
     </Tabs>))
@@ -55,6 +56,7 @@ describe('<Tabs />', () => {
     expect(tabs.children[0]).toEqual(link)
     expect(tabs.children[1]).toEqual(button)
     expect(tabs.children[2]).toEqual(container)
+    expect(link.classList.contains(className)).toBeTruthy()
   })
 
   it('TabsItem content, element type and attributes', () => {

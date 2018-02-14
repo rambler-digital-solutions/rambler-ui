@@ -22,7 +22,7 @@ export default class TabsExample extends Component {
             <h4>default</h4>
             <Tabs value={this.state.value} onChange={::this.handleChange}>
               {values.map((item, index) => (
-                <TabsItem value={item} key={index}>
+                <TabsItem value={item} key={index} className="customTabsItemClassName">
                   { item }
                 </TabsItem>
               ))}
