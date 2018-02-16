@@ -6,13 +6,13 @@
   "scripts": {
     "test": "/usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS_custom",
     "karma": "/usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start --browsers Chrome",
-    "dev": "cd site && npm run dev",
-    "release": "npm run build && cd build && npm publish",
-    "build": "NODE_ENV=production gulp build",
-    "precommit": "eslint \"./**/*.js\"",
-    "eslint": "eslint \"./**/*.js\"",
-    "eslint:fix": "eslint \"./**/*.js\" --fix",
-    "version": "cd site; gulp update-version; cd ..; git add .;"
+    "dev": "NODE_ENV=development playground server",
+    "build": "NODE_ENV=production playground build",
+    "pages": "NODE_ENV=production playground pages --publish",
+    "eslint": "eslint '**/*.js'",
+    "precommit": "lint-staged",
+    "version": "playground version && git add .",
+    "postversion": "git push --follow-tags"
   },
   "repository": {
     "type": "git",
@@ -77,8 +77,10 @@
     "karma-phantomjs-launcher": "^1.0.2",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.8.0",
+    "lint-staged": "^6.1.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
+    "rambler-ui-playground": "^0.1.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
@@ -93,5 +95,11 @@
     "react",
     "ui",
     "rambler&co"
-  ]
+  ],
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
 }
