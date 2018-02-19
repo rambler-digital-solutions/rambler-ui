@@ -80,7 +80,7 @@
     "lint-staged": "^6.1.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
-    "rambler-ui-playground": "^0.1.2",
+    "rambler-ui-playground": "^0.1.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
