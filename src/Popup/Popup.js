@@ -63,8 +63,8 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     marginLeft: 10,
     marginRight: 10,
     backgroundColor: theme.popup.colors.background,
-    fontSize: theme.popup.font.textSize,
-    lineHeight: 1.54,
+    fontSize: theme.popup.text.fontSize,
+    lineHeight: `${theme.popup.text.lineHeight}px`,
     textAlign: 'left',
     ...ifDesktop({
       minWidth: 350,
@@ -74,9 +74,9 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
   title: {
     marginBottom: 20,
     paddingRight: 25,
-    fontSize: theme.popup.font.titleSize,
-    fontWeight: 500,
-    lineHeight: 1.25
+    fontSize: theme.popup.title.fontSize,
+    lineHeight: `${theme.popup.title.lineHeight}px`,
+    fontWeight: 500
   },
   close: {
     position: 'absolute',
@@ -88,6 +88,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     width: 15,
     height: 15,
     background: 'transparent',
+    outline: 0,
     color: theme.popup.colors.close.default,
     cursor: 'pointer',
     '&:hover': {
@@ -141,6 +142,14 @@ export default class Popup extends Component {
      * Заголовок
      */
     title: PropTypes.node,
+    /**
+     * Css-класс для заголовка
+     */
+    titleClassName: PropTypes.string,
+    /**
+     * Inline-стили для заголовка
+     */
+    titleStyle: PropTypes.object,
     /**
      * Контролирует видимость попапа
      */
@@ -218,6 +227,8 @@ export default class Popup extends Component {
       className,
       style,
       title,
+      titleStyle,
+      titleClassName,
       showClose,
       okButton,
       cancelButton,
@@ -235,7 +246,9 @@ export default class Popup extends Component {
           </button>
         }
         {title &&
-          <header className={this.css.title}>
+          <header
+            style={titleStyle}
+            className={classnames(this.css.title, titleClassName)}>
             {title}
           </header>
         }

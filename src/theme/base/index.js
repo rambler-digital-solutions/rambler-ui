@@ -755,9 +755,13 @@ export function createTheme(config) {
           hover: colors.primary
         }
       },
-      font: {
-        textSize: 13,
-        titleSize: 20
+      text: {
+        fontSize: 13,
+        lineHeight: 20
+      },
+      title: {
+        fontSize: 20,
+        lineHeight: 25
       },
       animationDuration: 200
     },

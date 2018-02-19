@@ -82,7 +82,7 @@ describe('<Popup />', () => {
     expect(popupStyles.position).toEqual('relative')
     expect(popupStyles.display).toEqual('inline-block')
     expect(popupStyles['font-family']).toEqual('Roboto, sans-serif')
-    expect(popupStyles['font-size']).toEqual(theme.popup.font.textSize + 'px')
+    expect(popupStyles['font-size']).toEqual(theme.popup.text.fontSize + 'px')
     expect(popupStyles['text-align']).toEqual('left')
     expect(nc(popupStyles['background-color'])).toEqual(nc(theme.popup.colors.background))
     expect(popupStyles.width).toEqual('350px')
@@ -140,25 +140,33 @@ describe('<Popup />', () => {
   it('should append className', () => {
     mountWrapper({
       isOpened: true,
+      title: 'Foo',
       className: 'popup',
+      titleClassName: 'test-title',
       backdropClassName: 'test-backdrop'
     })
 
     expect(containerNode.querySelector('.popup')).not.toBeUndefined()
     expect(containerNode.querySelector('.test-backdrop')).not.toBeUndefined()
+    expect(containerNode.querySelector('.test-title')).not.toBeUndefined()
   })
 
   it('should append styles', () => {
     const backgroundColor = nc('rgb(255, 0, 0)')
     const backdropBackgroundColor = nc('rgb(0, 0, 0)')
+    const titleColor = nc('rgb(255, 0, 0)')
 
     mountWrapper({
       style: {
         backgroundColor
       },
+      titleStyle: {
+        color: titleColor
+      },
       backdropStyle: {
         backgroundColor: backdropBackgroundColor
       },
+      title: 'Foo',
       isOpened: true
     })
 
@@ -171,6 +179,11 @@ describe('<Popup />', () => {
     const backdropStyles = getNodeStyles(backdropNode)
 
     expect(nc(backdropStyles['background-color'])).toEqual(backdropBackgroundColor)
+
+    const titleNode = popupNode.querySelector('header')
+    const titleStyles = getNodeStyles(titleNode)
+
+    expect(nc(titleStyles['color'])).toEqual(titleColor)
   })
 
   it('should append custom backdrop color', () => {
