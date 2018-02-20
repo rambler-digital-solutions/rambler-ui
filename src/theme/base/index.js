@@ -870,6 +870,9 @@ export function createTheme(config) {
           arrow: fade(colors.dark, 0.1)
         }
       }
+    },
+    step: {
+      fontSize: 14
     }
   }, config)
 }
