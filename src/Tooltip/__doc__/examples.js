@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import Tooltip from 'rambler-ui/Tooltip'
 import Button from 'rambler-ui/Button'
+import IconButton from 'rambler-ui/IconButton'
 import Input from 'rambler-ui/Input'
 import FormGroup from 'rambler-ui/FormGroup'
+import AddIcon from 'rambler-ui/icons/forms/AddIcon'
 import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class TooltipExample extends Component {
@@ -62,6 +64,28 @@ export default class TooltipExample extends Component {
             </Tooltip>
             <Tooltip content="Right tooltip" position="right" style={{marginRight: '20px'}} status="warning">
               <Button type="secondary">Right</Button>
+            </Tooltip>
+          </div>
+          <div style={{marginTop: '20px'}}>
+            <Tooltip content="Top tooltip" position="top" style={{marginRight: '20px'}}>
+              <IconButton size={22} type="secondary">
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip content="Left tooltip" position="left" style={{marginRight: '20px'}} status="success">
+              <IconButton size={22} type="secondary">
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip content="Right tooltip" position="right" style={{marginRight: '20px'}} status="error">
+              <IconButton size={22} type="secondary">
+                <AddIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip content="Bottom tooltip" position="bottom" style={{marginRight: '20px'}} status="warning">
+              <IconButton size={22} type="secondary">
+                <AddIcon />
+              </IconButton>
             </Tooltip>
           </div>
           <div style={{marginTop: '50px'}}>
