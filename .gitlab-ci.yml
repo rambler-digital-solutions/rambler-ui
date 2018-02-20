@@ -58,7 +58,7 @@ build_site:
     - tags
   when: manual
   script:
-    - ./ci-git-push-prepare.sh gitlab
+    - ./ci-git-push-prepare.sh gitlab.rambler.ru "${SSH_PRIVATE_KEY}"
     - npm install
     - npm run pages -- --versions "${CI_COMMIT_REF_NAME}"
 
@@ -75,9 +75,10 @@ build_version_gitlab:
     - tags
   when: manual
   script:
-    - ./ci-git-push-prepare.sh gitlab github
+    - ./ci-git-push-prepare.sh gitlab.rambler.ru "${SSH_PRIVATE_KEY}"
     - npm install
     - npm run pages -- --versions "${CI_COMMIT_TAG}"
+    - ./ci-git-push-prepare.sh github.com "${UI_BOT_SSH_PRIVATE_KEY}"
     - git config --global user.email "${UI_BOT_EMAIL}"
     - git config --global user.name "${UI_BOT_NAME}"
     - git remote add rds git@github.com:rambler-digital-solutions/rambler-ui.git
