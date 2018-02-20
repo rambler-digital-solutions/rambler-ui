@@ -5,7 +5,6 @@ const cp = require('child_process')
 const {merge} = require('lodash')
 
 const env = process.env.NODE_ENV || 'development'
-const pages = process.env.PAGES_ENV || 'gitlab'
 
 module.exports = {
   title: 'Rambler UI',
@@ -14,9 +13,8 @@ module.exports = {
 }
 
 try {
-  merge(module.exports, require('./' + env), require('./' + pages))
+  merge(module.exports, require('./' + env))
 } catch (e) {
   // eslint-disable-next-line no-console
   console.error(e)
 }
-

@@ -4,7 +4,6 @@ stages:
   - setup
   - build
 
-# TODO: publish to gh-pages by rambler-ui-bot
 before_script:
   - git config --global user.email "${GITLAB_USER_EMAIL}"
   - git config --global user.name "${GITLAB_USER_NAME}"
@@ -78,7 +77,7 @@ build_site:
   script:
     - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - npm install
-    - PAGES_ENV=gitlab npm run pages -- --versions "${CI_COMMIT_REF_NAME}"
+    - npm run pages -- --versions "${CI_COMMIT_REF_NAME}"
 
 build_version_gitlab:
   stage: build
@@ -95,24 +94,11 @@ build_version_gitlab:
   script:
     - ./ci-git-push-prepare.sh git@gitlab.rambler.ru/rambler-ui/rambler-ui
     - npm install
-    - PAGES_ENV=gitlab npm run pages -- --versions "${CI_COMMIT_TAG}"
-
-# build_version_github:
-#   stage: build
-#   cache:
-#     <<: *cache
-#     policy: pull
-#   tags:
-#     - docker
-#   except:
-#     - /gh-pages/
-#   only:
-#     - tags
-#   when: manual
-#   script:
-#     - ./ci-git-push-prepare.sh git@github.com/rambler-digital-solutions/rambler-ui
-#     - npm install
-#     - PAGES_ENV=github npm run pages -- --versions "${CI_COMMIT_TAG}"
+    - npm run pages -- --versions "${CI_COMMIT_TAG}"
+    # prepare github user ssh keys/git config
+    # - git remote add rds git@github.com:rambler-digital-solutions/rambler-ui.git
+    # - git push rds master
+    # - git push rds gh-pages
 
 pages:
   stage: setup
