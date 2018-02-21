@@ -6,8 +6,8 @@
   "scripts": {
     "test": "/usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start --single-run --browsers PhantomJS_custom",
     "karma": "/usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start --browsers Chrome",
+    "build": "NODE_ENV=production gulp build",
     "dev": "NODE_ENV=development playground server",
-    "build": "NODE_ENV=production playground build",
     "pages": "NODE_ENV=production playground pages --publish",
     "eslint": "eslint '**/*.js'",
     "precommit": "lint-staged",
@@ -60,6 +60,10 @@
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-react": "^7.4.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-replace": "^0.5.4",
     "husky": "^0.11.4",
     "jasmine-core": "^2.5.2",
     "json-loader": "^0.5.4",
@@ -71,10 +75,11 @@
     "karma-webpack": "^1.8.0",
     "lint-staged": "^6.1.0",
     "minimist": "^1.2.0",
-    "rambler-ui-playground": "^0.1.6",
+    "rambler-ui-playground": "^0.1.7",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
+    "run-sequence": "^1.2.2",
     "webpack": "^1.13.2"
   },
   "peerDependencies": {
