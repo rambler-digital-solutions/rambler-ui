@@ -78,10 +78,10 @@ build_version_site:
     - git config --global user.name "${GITLAB_USER_NAME}"
     - npm install
     - npm run pages -- --versions "${CI_COMMIT_TAG}" --include "{.gitignore,.gitlab-ci.yml}"
-    - ./ci-git-push-prepare.sh github.com "${UI_BOT_SSH_PRIVATE_KEY}"
-    - git remote add rds git@github.com:rambler-digital-solutions/rambler-ui.git
     - git fetch origin
     - git checkout -b gh-pages origin/gh-pages
+    - ./ci-git-push-prepare.sh github.com "${UI_BOT_SSH_PRIVATE_KEY}"
+    - git remote add rds git@github.com:rambler-digital-solutions/rambler-ui.git
     - git push rds gh-pages
 
 mirror:
