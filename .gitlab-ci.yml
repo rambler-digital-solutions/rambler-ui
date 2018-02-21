@@ -61,7 +61,7 @@ build_site:
     - npm install
     - npm run pages -- --versions "${CI_COMMIT_REF_NAME}"
 
-build_version_gitlab:
+build_version_site:
   stage: build
   cache:
     <<: *cache
