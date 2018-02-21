@@ -3,7 +3,6 @@ image: portal-common-docker.art.rambler.ru/builder
 stages:
   - setup
   - build
-  - sync
 
 test:
   stage: setup
@@ -15,7 +14,7 @@ test:
   tags:
     - docker
   except:
-    - /^gh-pages/
+    - /^gh-pages$/
   script:
     - npm install
     - npm run eslint
@@ -29,7 +28,7 @@ build_package:
   tags:
     - docker
   except:
-    - /gh-pages/
+    - /^gh-pages$/
   only:
     - tags
   when: manual
@@ -51,7 +50,7 @@ build_site:
   tags:
     - docker
   except:
-    - /gh-pages/
+    - /^gh-pages$/
     - tags
   when: manual
   script:
@@ -61,7 +60,7 @@ build_site:
     - npm install
     - npm run pages -- --versions "${CI_COMMIT_REF_NAME}"
 
-build_version_gitlab:
+build_version_site:
   stage: build
   cache:
     <<: *cache
@@ -69,7 +68,7 @@ build_version_gitlab:
   tags:
     - docker
   except:
-    - /gh-pages/
+    - /^gh-pages$/
   only:
     - tags
   when: manual
@@ -85,7 +84,7 @@ pages:
   tags:
     - docker
   only:
-    - /gh-pages/
+    - /^gh-pages$/
   script:
     - mkdir public
     - rsync -rv --exclude=.git --exclude=node_modules --exclude=public . ./public
@@ -94,13 +93,12 @@ pages:
     paths:
       - 'public'
 
-sync:
-  stage: sync
+sync_mirror:
+  stage: build
   tags:
     - docker
   only:
-    - master
-    - /gh-pages/
+    - /^(master|gh-pages)$/
   script:
     - ./ci-git-push-prepare.sh github.com "${UI_BOT_SSH_PRIVATE_KEY}"
     - git config --global user.email "${UI_BOT_EMAIL}"
