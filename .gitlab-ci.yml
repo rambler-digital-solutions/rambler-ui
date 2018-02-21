@@ -3,7 +3,6 @@ image: portal-common-docker.art.rambler.ru/builder
 stages:
   - setup
   - build
-  - sync
 
 test:
   stage: setup
@@ -15,7 +14,7 @@ test:
   tags:
     - docker
   except:
-    - /^gh-pages/
+    - /^gh-pages$/
   script:
     - npm install
     - npm run eslint
@@ -29,7 +28,7 @@ build_package:
   tags:
     - docker
   except:
-    - /gh-pages/
+    - /^gh-pages$/
   only:
     - tags
   when: manual
@@ -51,7 +50,7 @@ build_site:
   tags:
     - docker
   except:
-    - /gh-pages/
+    - /^gh-pages$/
     - tags
   when: manual
   script:
@@ -69,7 +68,7 @@ build_version_site:
   tags:
     - docker
   except:
-    - /gh-pages/
+    - /^gh-pages$/
   only:
     - tags
   when: manual
@@ -94,8 +93,8 @@ pages:
     paths:
       - 'public'
 
-sync:
-  stage: sync
+sync_mirror:
+  stage: build
   tags:
     - docker
   only:
