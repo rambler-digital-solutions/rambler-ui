@@ -17,7 +17,7 @@ import { injectSheet } from '../theme'
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: '35px',
-    width: '290px', //
+    width: '290px',
     backgroundImage: `repeating-linear-gradient(
                         90deg,
                         transparent,
@@ -47,7 +47,7 @@ class Stepper extends Component {
      */
     value: PropTypes.any.isRequired,
     /**
-     * Колбэк на изменение выбраного Step. Прокидывает event и index
+     * Колбэк на изменение выбраного Step. Принимает event и index
      */
     onChange: PropTypes.func.isRequired,
     /**
@@ -61,6 +61,8 @@ class Stepper extends Component {
   }
 
   onChange = (e, index) => {
+    if (this.props.value === index)
+      return
     this.props.onChange(e, index)
   }
 
@@ -82,20 +84,14 @@ class Stepper extends Component {
       const active = index === currentValue
       const completed = index < currentValue
       const disabled = index > currentValue
-      const defaultProps = {
-        ...child.props,
-        key: child.key !== undefined ? child.key : index++
-      }
+      const defaultProps = {...child.props}
       const extendedProps = {
         active,
         completed,
         disabled,
-        index,
-        onClick: e => {
-          if (disabled || active)
-            return
-          this.onChange(e, index)
-        }
+        value: index,
+        key: child.key !== undefined ? child.key : index,
+        onClick: this.onChange
       }
       return cloneElement(child, defaults(defaultProps, extendedProps))
     })

@@ -1,9 +1,7 @@
 import { Stepper, Step } from 'rambler-ui/Stepper'
 import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
-import TickIcon from 'rambler-ui/icons/forms/TickIcon'
 import Button from 'rambler-ui/Button'
-
 
 const recovery = ['Проверка почты', 'Восстановление пароля']
 const buy = ['Выберите товар', 'Выберите адрес доставки', 'Оплата']
@@ -11,15 +9,14 @@ const quiz = ['Черновик', 'Опубликован', 'Завершен', 
 
 export default class StepperExample extends Component {
   state = {
-    value: 1,
-    status: ''
+    value: 1
   }
 
   onChange = (e, index) => {
     this.setState({value: index})
   }
 
-  onStepClick = index => {
+  onStepClick = (e, index) => {
     this.setState({value: index})
   }
 
@@ -47,7 +44,8 @@ export default class StepperExample extends Component {
           </div>
           <div style={{width: '500px', marginTop: '50px'}}>
             <Stepper value={this.state.value} onChange={this.onChange}>
-              {buy.map((item, index) => <Step key={index}>{item}</Step>)}
+              {buy.map((item, index) =>
+                <Step key={index}>{item}</Step>)}
             </Stepper>
           </div>
           <div style={{marginTop: '50px'}}>
@@ -63,15 +61,14 @@ export default class StepperExample extends Component {
                     style={!isSelected ? {color: '#315efb'} : {color: '#000'}}
                     onClick={e => {
                       e.preventDefault()
-                      this.onStepClick(index)
-                    }}
-                    icon={<TickIcon size={10} color='#fff' style={{height: '8px'}} />}>{item}</Step>
+                      this.onChange(e, index)
+                    }}>{item}</Step>
                 )
               })}
             </Stepper>
           </div>
-          <Button onClick={this.previousStep}>Назад</Button>
-          <Button style={{marginLeft: '50px'}} onClick={this.nextStep}>Дальше</Button>
+          <Button size="small" type="secondary" onClick={this.previousStep}>Previous step</Button>
+          <Button size="small" type="secondary" style={{marginLeft: '50px'}} onClick={this.nextStep}>Next step</Button>
         </div>
       </ApplyTheme>
     )

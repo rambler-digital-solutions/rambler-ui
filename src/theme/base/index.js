@@ -374,14 +374,12 @@ export function createTheme(config) {
           borderColor: colors.primaryDark
         }
       },
-
       clear: {
         color: colors.controls.grey.outline,
         hover: {
           color: colors.primary
         }
       },
-
       division: {
         color: colors.controls.grey.background
       },
@@ -405,7 +403,6 @@ export function createTheme(config) {
           icon: fade(colors.light, 0.2)
         }
       },
-
       bottomLinks: {
         fontSize: 12
       }
@@ -871,8 +868,41 @@ export function createTheme(config) {
         }
       }
     },
-    step: {
-      fontSize: 14
+    stepper: {
+      fontSize: 13,
+      fontFamily: fontFamilies.Roboto,
+      badge: {
+        fontSize: 11
+      },
+      colors: {
+        default: {
+          backgroundColor: colors.light,
+          badge: {
+            backgroundColor: colors.controls.grey.default
+          }
+        },
+        active: {
+          color: colors.primary,
+          badge: {
+            backgroundColor: colors.primary,
+            color: colors.light
+          }
+        },
+        completed: {
+          color: colors.dark,
+          badge: {
+            backgroundColor: colors.primary,
+            color: colors.light
+          }
+        },
+        disabled: {
+          color: colors.controls.grey.default,
+          badge: {
+            backgroundColor: colors.controls.grey.default,
+            color: colors.light
+          }
+        }
+      }
     }
   }, config)
 }
