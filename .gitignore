@@ -1,5 +1,9 @@
-build-gh-pages/
-build/
+.DS_Store
 node_modules/
-public/
-
+*.log
+*.css.json
+local_font/
+.publish
+build/
+npm-debug.*.*
+.idea/
