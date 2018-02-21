@@ -85,7 +85,7 @@ pages:
   tags:
     - docker
   only:
-    - /gh-pages/
+    - /^gh-pages$/
   script:
     - mkdir public
     - rsync -rv --exclude=.git --exclude=node_modules --exclude=public . ./public
@@ -99,8 +99,7 @@ sync:
   tags:
     - docker
   only:
-    - master
-    - /gh-pages/
+    - /^(master|gh-pages)$/
   script:
     - ./ci-git-push-prepare.sh github.com "${UI_BOT_SSH_PRIVATE_KEY}"
     - git config --global user.email "${UI_BOT_EMAIL}"
