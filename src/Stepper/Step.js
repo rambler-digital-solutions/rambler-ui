@@ -8,7 +8,7 @@ import TickIcon from '../icons/forms/TickIcon'
 import { isolateMixin, ifDesktopSize, middleMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
 
-const defaultIcon = <TickIcon size={10} color="#fff" style={{height: '8px'}} />
+const defaultIcon = <TickIcon size={10} color="currentColor" />
 
 @injectSheet(theme => ({
   step: {
@@ -19,6 +19,7 @@ const defaultIcon = <TickIcon size={10} color="#fff" style={{height: '8px'}} />
     alignItems: 'center',
     padding: '10px 0',
     backgroundColor: theme.stepper.colors.default.backgroundColor,
+    color: theme.stepper.colors.default.color,
     textAlign: 'center',
     marginTop: '40px',
     ...ifDesktopSize({
@@ -27,11 +28,7 @@ const defaultIcon = <TickIcon size={10} color="#fff" style={{height: '8px'}} />
     })
   },
   text: {
-    '&:hover': {
-      marginBottom: '-1px',
-      textDecoration: 'underline',
-      cursor: 'pointer'
-    }
+    cursor: 'pointer'
   },
   badge: {
     extend: middleMixin,
@@ -42,14 +39,8 @@ const defaultIcon = <TickIcon size={10} color="#fff" style={{height: '8px'}} />
     marginRight: '10px',
     userSelect: 'none',
     fontSize: theme.stepper.badge.fontSize,
-    backgroundColor: theme.stepper.colors.default.badge.backgroundColor
-  },
-  completed: {
-    color: theme.stepper.colors.completed.color,
-    '& $badge': {
-      backgroundColor: theme.stepper.colors.completed.badge.backgroundColor,
-      color: theme.stepper.colors.completed.badge.color
-    }
+    backgroundColor: theme.stepper.colors.default.badge.backgroundColor,
+    color: theme.stepper.colors.default.badge.color
   },
   active: {
     color: theme.stepper.colors.active.color,
@@ -58,8 +49,6 @@ const defaultIcon = <TickIcon size={10} color="#fff" style={{height: '8px'}} />
       color: theme.stepper.colors.active.badge.color
     },
     '& $text': {
-      marginBottom: 0,
-      textDecoration: 'none',
       cursor: 'default'
     }
   },
@@ -70,12 +59,10 @@ const defaultIcon = <TickIcon size={10} color="#fff" style={{height: '8px'}} />
       color: theme.stepper.colors.disabled.badge.color
     },
     '& $text': {
-      marginBottom: 0,
-      textDecoration: 'none',
       cursor: 'default'
     }
   }
-}))
+}), {name: 'Step'})
 class Step extends Component {
   static propTypes = {
     /**
@@ -125,13 +112,12 @@ class Step extends Component {
   }
 
   static defaultProps = {
-    // icon: defaultIcon,
     style: {}
   }
 
   onClick = e => {
-    const {disabled, value} = this.props
-    if (disabled)
+    const {disabled, active, value} = this.props
+    if (disabled || active)
       return
     this.props.onClick(e, value)
   }
@@ -153,14 +139,13 @@ class Step extends Component {
       className,
       css.step,
       {
-        [css.completed]: completed,
         [css.active]: active,
         [css.disabled]: disabled
       }
     )
     return (
       <div className={resultClassName} style={style} onClick={this.onClick}>
-        <span className={classnames(css.badge, badgeClassName)}>{icon ? icon : (active || disabled ? value + 1 : defaultIcon)}</span>
+        <span className={classnames(css.badge, badgeClassName)}>{icon ? icon : (completed ? defaultIcon : value + 1)}</span>
         <span className={classnames(css.text, textClassName)}>{this.props.children}</span>
       </div>
     )

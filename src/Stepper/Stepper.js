@@ -39,7 +39,7 @@ import { injectSheet } from '../theme'
       backgroundSize: 'auto 19px'
     })
   }
-}))
+}), {name: 'Stepper'})
 class Stepper extends Component {
   static propTypes = {
     /**
