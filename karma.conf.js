@@ -9,7 +9,6 @@ module.exports = function (config) {
     files: [
       'test/init.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
-      // 'src/Stepper/**/*.test.js'
       'src/**/*.test.js'
     ],
 

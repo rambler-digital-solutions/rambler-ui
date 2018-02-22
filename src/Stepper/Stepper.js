@@ -8,35 +8,33 @@ import defaults from 'lodash/defaults'
 import { isolateMixin, ifDesktopSize } from '../style/mixins'
 import { injectSheet } from '../theme'
 
-@injectSheet(() => ({
+@injectSheet(theme => ({
   stepper: {
     extend: isolateMixin,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
+    alignItems: 'start',
     marginLeft: 'auto',
     marginRight: 'auto',
     marginBottom: '35px',
-    width: '290px',
-    backgroundImage: `repeating-linear-gradient(
-                        90deg,
-                        transparent,
-                        transparent 9px, rgba(129, 129, 129, 0.2) 9px,
-                        transparent 10px,
-                        transparent 290px
-                      )`,
-    backgroundSize: '290px auto',
+    width: '100%',
+    position: 'relative',
     ...ifDesktopSize({
       flexDirection: 'row',
-      width: '100%',
-      backgroundImage: `repeating-linear-gradient(
-                          transparent,
-                          transparent 9px,
-                          rgba(129, 129, 129, 0.2) 9px,
-                          transparent 10px,
-                          transparent 19px
-                        )`,
-      backgroundSize: 'auto 19px'
+      alignItems: 'center',
+    })
+  },
+  separator: {
+    height: '40px',
+    width: '1px',
+    marginLeft: '8px',
+    backgroundColor: '#ccc',
+    flex: '1 1 auto',
+    ...ifDesktopSize({
+      height: '1px',
+      backgroundColor: theme.stepper.separator.backgroundColor,
+      flex: '1'
     })
   }
 }), {name: 'Stepper'})
@@ -60,14 +58,19 @@ class Stepper extends Component {
     style: PropTypes.object
   }
 
+  static defaultProps = {
+    style: {}
+  }
+
+  separator = key => {
+    const {classes: css} = this.props
+    return <span className={css.separator} key={key}/>
+  }
+
   onChange = (e, index) => {
     if (this.props.value === index)
       return
     this.props.onChange(e, index)
-  }
-
-  static defaultProps = {
-    style: {}
   }
 
   render() {
@@ -78,7 +81,9 @@ class Stepper extends Component {
       classes: css,
       style
     } = this.props
-    const steps = React.Children.map(children, (child, index) => {
+    const steps = React.Children.toArray(children).reduce((acc, child, index, children) => {
+      if (index > 0 && index < children.length)
+        acc.push(this.separator(index + 0.5))
       if (!child.type || child.type.displayName !== 'ruiStep')
         throw new Error('Child component should be instance of <Step />')
       const active = index === currentValue
@@ -93,8 +98,9 @@ class Stepper extends Component {
         key: child.key !== undefined ? child.key : index,
         onClick: this.onChange
       }
-      return cloneElement(child, defaults(defaultProps, extendedProps))
-    })
+      acc.push(cloneElement(child, defaults(defaultProps, extendedProps)))
+      return acc
+    }, [])
     return (
       <div className={classnames(className, css.stepper)} style={style}>
         {steps}

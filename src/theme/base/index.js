@@ -875,6 +875,9 @@ export function createTheme(config) {
         fontSize: 11,
         color: colors.light
       },
+      separator: {
+        backgroundColor: colors.controls.grey.default
+      },
       colors: {
         default: {
           color: colors.dark,

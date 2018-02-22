@@ -21,7 +21,7 @@ const defaultIcon = <TickIcon size={10} color="currentColor" />
     backgroundColor: theme.stepper.colors.default.backgroundColor,
     color: theme.stepper.colors.default.color,
     textAlign: 'center',
-    marginTop: '40px',
+    zIndex: 1,
     ...ifDesktopSize({
       padding: '0 10px',
       marginTop: 0
