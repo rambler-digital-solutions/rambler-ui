@@ -14,7 +14,7 @@ describe('<Stepper />', () => {
     const stepProps = {
       className: 'step',
       badgeClassName: 'badge',
-      textClassName: 'text',
+      textClassName: 'text'
     }
 
     const completedStep = mount(applyTheme(
@@ -24,10 +24,10 @@ describe('<Stepper />', () => {
     expect(completedStepStyles['font-family']).toEqual(theme.stepper.fontFamily)
     expect(completedStepStyles['font-size']).toEqual(theme.stepper.fontSize + 'px')
     expect(completedStepStyles['color']).toEqual(nc(theme.stepper.colors.default.color))
-    expect(completedStepStyles['background-color']).toEqual(nc(theme.stepper.colors.default.backgroundColor))
+    expect(completedStepStyles['background-color']).toEqual(nc(theme.stepper.colors.default.background))
     const completedBadge = completedStep.find('.badge')
     const completedBadgeStyles = getStyles(completedBadge)
-    expect(completedBadgeStyles['background-color']).toEqual(nc(theme.stepper.colors.default.badge.backgroundColor))
+    expect(completedBadgeStyles['background-color']).toEqual(nc(theme.stepper.colors.default.badge.background))
     expect(completedBadgeStyles['color']).toEqual(nc(theme.stepper.colors.default.badge.color))
 
     const disabledStep = mount(applyTheme(
@@ -38,7 +38,7 @@ describe('<Stepper />', () => {
     const disabledBadge = disabledStep.find('.badge')
     const disabledBadgeStyles = getStyles(disabledBadge)
     expect(disabledBadgeStyles['font-size']).toEqual(theme.stepper.badge.fontSize + 'px')
-    expect(disabledBadgeStyles['background-color']).toEqual(nc(theme.stepper.colors.disabled.badge.backgroundColor))
+    expect(disabledBadgeStyles['background-color']).toEqual(nc(theme.stepper.colors.disabled.badge.background))
 
     const activeStep = mount(applyTheme(
       <Step value={3} {...stepProps} active>Step</Step>
@@ -47,7 +47,7 @@ describe('<Stepper />', () => {
     expect(activeStepStyles['color']).toEqual(nc(theme.stepper.colors.active.color))
     const activeBadge = activeStep.find('.badge')
     const activeBadgeStyles = getStyles(activeBadge)
-    expect(activeBadgeStyles['background-color']).toEqual(nc(theme.stepper.colors.active.badge.backgroundColor))
+    expect(activeBadgeStyles['background-color']).toEqual(nc(theme.stepper.colors.active.badge.background))
     expect(activeBadgeStyles['color']).toEqual(nc(theme.stepper.colors.active.badge.color))
   })
 
@@ -70,7 +70,7 @@ describe('<Stepper />', () => {
     expect(wrapperNode.children[3].nodeName).toEqual('SPAN')
     expect(wrapperNode.children[5].nodeName).toEqual('SPAN')
 
-    expect(getComputedStyle(wrapperNode.children[5])['background-color']).toEqual(nc(theme.stepper.separator.backgroundColor))
+    expect(getComputedStyle(wrapperNode.children[5])['background-color']).toEqual(nc(theme.stepper.colors.default.separator.background))
   })
 
   it('Stepper', () => {

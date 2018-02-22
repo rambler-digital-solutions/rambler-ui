@@ -22,19 +22,19 @@ import { injectSheet } from '../theme'
     position: 'relative',
     ...ifDesktopSize({
       flexDirection: 'row',
-      alignItems: 'center',
+      alignItems: 'center'
     })
   },
   separator: {
     height: '40px',
     width: '1px',
     marginLeft: '8px',
-    backgroundColor: '#ccc',
+    backgroundColor: theme.stepper.colors.default.separator.background,
     flex: '1 1 auto',
     ...ifDesktopSize({
       height: '1px',
-      backgroundColor: theme.stepper.separator.backgroundColor,
-      flex: '1'
+      flex: '1',
+      marginLeft: 0
     })
   }
 }), {name: 'Stepper'})
@@ -43,9 +43,9 @@ class Stepper extends Component {
     /**
      * Текущий индекс выбранного Step
      */
-    value: PropTypes.any.isRequired,
+    value: PropTypes.number.isRequired,
     /**
-     * Колбэк на изменение выбраного Step. Принимает event и index
+     * Колбэк на изменение выбраного Step, `function (event: object, newValue: number) {}`
      */
     onChange: PropTypes.func.isRequired,
     /**

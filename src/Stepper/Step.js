@@ -18,7 +18,7 @@ const defaultIcon = <TickIcon size={10} color="currentColor" />
     display: 'flex',
     alignItems: 'center',
     padding: '10px 0',
-    backgroundColor: theme.stepper.colors.default.backgroundColor,
+    backgroundColor: theme.stepper.colors.default.background,
     color: theme.stepper.colors.default.color,
     textAlign: 'center',
     zIndex: 1,
@@ -39,13 +39,13 @@ const defaultIcon = <TickIcon size={10} color="currentColor" />
     marginRight: '10px',
     userSelect: 'none',
     fontSize: theme.stepper.badge.fontSize,
-    backgroundColor: theme.stepper.colors.default.badge.backgroundColor,
+    backgroundColor: theme.stepper.colors.default.badge.background,
     color: theme.stepper.colors.default.badge.color
   },
   active: {
     color: theme.stepper.colors.active.color,
     '& $badge': {
-      backgroundColor: theme.stepper.colors.active.badge.backgroundColor,
+      backgroundColor: theme.stepper.colors.active.badge.background,
       color: theme.stepper.colors.active.badge.color
     },
     '& $text': {
@@ -55,7 +55,7 @@ const defaultIcon = <TickIcon size={10} color="currentColor" />
   disabled: {
     color: theme.stepper.colors.disabled.color,
     '& $badge': {
-      backgroundColor: theme.stepper.colors.disabled.badge.backgroundColor,
+      backgroundColor: theme.stepper.colors.disabled.badge.background,
       color: theme.stepper.colors.disabled.badge.color
     },
     '& $text': {
@@ -66,7 +66,7 @@ const defaultIcon = <TickIcon size={10} color="currentColor" />
 class Step extends Component {
   static propTypes = {
     /**
-     * Значение индекса шага, автоматически проставляется <Stepper />
+     * Значение индекса шага, автоматически проставляется компонентом `<Stepper />`
      */
     value: PropTypes.number.isRequired,
     /**
@@ -75,21 +75,21 @@ class Step extends Component {
     icon: PropTypes.node,
     /**
      * Недоступный шаг, автоматически проставляется <Stepper /> (index > currentValue).
-     * currentValue - выбранное значение, которое передали в Stepper
+     * currentValue - выбранное значение, которое передали в `<Stepper />`
      */
     disabled: PropTypes.bool,
     /**
      * Завершенный шаг, автоматически проставляется <Stepper /> (index < currentValue).
-     * currentValue - выбранное значение, которое передали в Stepper
+     * currentValue - выбранное значение, которое передали в `<Stepper />`
      */
     completed: PropTypes.bool,
     /**
      * Активный шаг, автоматически проставляется <Stepper /> (index === currentValue).
-     * currentValue - выбранное значение, которое передали в Stepper
+     * currentValue - выбранное значение, которое передали в `<Stepper />`
      */
     active: PropTypes.bool,
     /**
-     * Колбэк на клик по элементу.
+     * Колбэк на клик по элементу, `function (event: object, newValue: any) {}`
      * Если нет, то проставляется автоматически
      */
     onClick: PropTypes.func,
