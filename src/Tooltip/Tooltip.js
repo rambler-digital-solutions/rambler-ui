@@ -205,20 +205,26 @@ class TooltipContent extends PureComponent {
 
     if (anchorWidth)
       if (anchorPointX === 'left' && pointX === 'left') {
-        arrowStyle.left = (anchorWidth / 2 + 5) + 'px'
+        arrowStyle.left = (anchorWidth / 2 + 3) + 'px'
         arrowStyle.right = 'auto'
       } else if (anchorPointX === 'right' && pointX === 'right') {
         arrowStyle.left = 'auto'
-        arrowStyle.right = (anchorWidth / 2 - 4) + 'px'
+        arrowStyle.right = (anchorWidth / 2 - 7) + 'px'
       }
 
     if (anchorHeight)
       if (anchorPointY === 'top' && pointY === 'top') {
-        arrowStyle.top = (anchorHeight / 2 - 5) + 'px'
+        if (anchorPointX === 'left')
+          arrowStyle.top = (anchorHeight / 2 + 3) + 'px'
+        if (anchorPointX === 'right')
+          arrowStyle.top = (anchorHeight / 2 - 7) + 'px'
         arrowStyle.bottom = 'auto'
       } else if (anchorPointY === 'bottom' && pointY === 'bottom') {
         arrowStyle.top = 'auto'
-        arrowStyle.bottom = (anchorHeight / 2 + 4) + 'px'
+        if (anchorPointX === 'left')
+          arrowStyle.bottom = (anchorHeight / 2 - 7) + 'px'
+        if (anchorPointX === 'right')
+          arrowStyle.bottom = (anchorHeight / 2 + 3) + 'px'
       }
 
     return (
