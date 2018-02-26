@@ -360,6 +360,11 @@ export default class FixedOverlay extends PureComponent {
      */
     getYScroll: PropTypes.func,
     /**
+     * Функция для получения X скролла на странице
+     * Нужна исключительно внутри iframe
+     */
+    getXScroll: PropTypes.func,
+    /**
      * Обновлять при ресайзе
      */
     cachePositionOptions: PropTypes.bool,
