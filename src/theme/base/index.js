@@ -374,14 +374,12 @@ export function createTheme(config) {
           borderColor: colors.primaryDark
         }
       },
-
       clear: {
         color: colors.controls.grey.outline,
         hover: {
           color: colors.primary
         }
       },
-
       division: {
         color: colors.controls.grey.background
       },
@@ -405,7 +403,6 @@ export function createTheme(config) {
           icon: fade(colors.light, 0.2)
         }
       },
-
       bottomLinks: {
         fontSize: 12
       }
@@ -741,17 +738,27 @@ export function createTheme(config) {
       fontSize: 13
     },
     popup: {
-      borderRadius: 2,
-      boxShadow: '1px 2px 7px 0 rgba(124, 130, 134, 0.2)',
+      borderRadius: 1,
+      boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
       colors: {
         text: colors.dark,
         background: colors.light,
-        backdrop: fade(colors.fullDark, 0.6),
-        close: colors.controls.grey.icon
+        backdrop: {
+          default: fade(colors.fullDark, 0.8),
+          blue: fade(colors.blueDark, 0.95)
+        },
+        close: {
+          default: colors.dark,
+          hover: colors.primary
+        }
       },
-      font: {
-        textSize: 13,
-        titleSize: 15
+      text: {
+        fontSize: 13,
+        lineHeight: 20
+      },
+      title: {
+        fontSize: 20,
+        lineHeight: 25
       },
       animationDuration: 200
     },
@@ -868,6 +875,40 @@ export function createTheme(config) {
         disabled: {
           text: fade(colors.dark, 0.2),
           arrow: fade(colors.dark, 0.1)
+        }
+      }
+    },
+    stepper: {
+      fontSize: 13,
+      fontFamily: fontFamilies.Roboto,
+      badge: {
+        fontSize: 11
+      },
+      colors: {
+        default: {
+          color: colors.dark,
+          background: colors.light,
+          badge: {
+            color: colors.light,
+            background: colors.primary
+          },
+          separator: {
+            background: colors.controls.grey.default
+          }
+        },
+        active: {
+          color: colors.primary,
+          badge: {
+            color: colors.light,
+            background: colors.primary
+          }
+        },
+        disabled: {
+          color: colors.controls.grey.default,
+          badge: {
+            color: colors.light,
+            background: colors.controls.grey.default
+          }
         }
       }
     }

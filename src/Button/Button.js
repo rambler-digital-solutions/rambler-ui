@@ -163,7 +163,7 @@ function getIconColor(colorsConfig, isDisabled) {
     }
   }, {}))
   return css
-})
+}, {name: 'Button'})
 export default class Button extends Component {
 
   static propTypes = {

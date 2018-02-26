@@ -82,15 +82,15 @@ describe('<Popup />', () => {
     expect(popupStyles.position).toEqual('relative')
     expect(popupStyles.display).toEqual('inline-block')
     expect(popupStyles['font-family']).toEqual('Roboto, sans-serif')
-    expect(popupStyles['font-size']).toEqual(theme.popup.font.textSize + 'px')
+    expect(popupStyles['font-size']).toEqual(theme.popup.text.fontSize + 'px')
     expect(popupStyles['text-align']).toEqual('left')
     expect(nc(popupStyles['background-color'])).toEqual(nc(theme.popup.colors.background))
     expect(popupStyles.width).toEqual('350px')
     expect(popupStyles['min-width']).toEqual('350px')
     expect(popupStyles['padding-top']).toEqual('25px')
-    expect(popupStyles['padding-left']).toEqual('30px')
-    expect(popupStyles['padding-right']).toEqual('30px')
-    expect(popupStyles['padding-bottom']).toEqual('30px')
+    expect(popupStyles['padding-left']).toEqual('25px')
+    expect(popupStyles['padding-right']).toEqual('25px')
+    expect(popupStyles['padding-bottom']).toEqual('25px')
 
     const backdropNode = popupNode.parentElement
     const backdropStyles = getNodeStyles(backdropNode)
@@ -104,6 +104,7 @@ describe('<Popup />', () => {
     expect(backdropStyles['padding-bottom']).toEqual('20px')
     expect(backdropStyles['overflow-y']).toEqual('auto')
     expect(backdropStyles['overflow-x']).toEqual('hidden')
+    expect(nc(backdropStyles['background-color'])).toEqual(nc(theme.popup.colors.backdrop.default))
   })
 
   it('should apply custom width', () => {
@@ -119,7 +120,7 @@ describe('<Popup />', () => {
     const popupNode = containerNode.querySelector('.popup')
     const popupStyles = getNodeStyles(popupNode)
 
-    expect(popupStyles.width).toEqual('460px')
+    expect(popupStyles.width).toEqual('450px')
   })
 
   it('should not append title, buttons', () => {
@@ -139,25 +140,33 @@ describe('<Popup />', () => {
   it('should append className', () => {
     mountWrapper({
       isOpened: true,
+      title: 'Foo',
       className: 'popup',
+      titleClassName: 'test-title',
       backdropClassName: 'test-backdrop'
     })
 
     expect(containerNode.querySelector('.popup')).not.toBeUndefined()
     expect(containerNode.querySelector('.test-backdrop')).not.toBeUndefined()
+    expect(containerNode.querySelector('.test-title')).not.toBeUndefined()
   })
 
   it('should append styles', () => {
     const backgroundColor = nc('rgb(255, 0, 0)')
     const backdropBackgroundColor = nc('rgb(0, 0, 0)')
+    const titleColor = nc('rgb(255, 0, 0)')
 
     mountWrapper({
       style: {
         backgroundColor
       },
+      titleStyle: {
+        color: titleColor
+      },
       backdropStyle: {
         backgroundColor: backdropBackgroundColor
       },
+      title: 'Foo',
       isOpened: true
     })
 
@@ -170,6 +179,23 @@ describe('<Popup />', () => {
     const backdropStyles = getNodeStyles(backdropNode)
 
     expect(nc(backdropStyles['background-color'])).toEqual(backdropBackgroundColor)
+
+    const titleNode = popupNode.querySelector('header')
+    const titleStyles = getNodeStyles(titleNode)
+
+    expect(nc(titleStyles['color'])).toEqual(titleColor)
+  })
+
+  it('should append custom backdrop color', () => {
+    mountWrapper({
+      backdropColor: 'blue',
+      isOpened: true
+    })
+
+    const backdropNode = containerNode.querySelector('.popup').parentElement
+    const backdropStyles = getNodeStyles(backdropNode)
+
+    expect(nc(backdropStyles['background-color'])).toEqual(nc(theme.popup.colors.backdrop.blue))
   })
 
   it('should append title', () => {
@@ -184,9 +210,9 @@ describe('<Popup />', () => {
     const titleStyles = getNodeStyles(titleNode)
 
     expect(titleNode.textContent).toEqual(title)
-    expect(titleStyles['font-size']).toEqual('15px')
+    expect(titleStyles['font-size']).toEqual('20px')
     expect(titleStyles['font-weight']).toEqual('500')
-    expect(titleStyles['line-height']).toEqual('20px')
+    expect(titleStyles['line-height']).toEqual('25px')
     expect(titleStyles['margin-bottom']).toEqual('20px')
   })
 
@@ -216,8 +242,10 @@ describe('<Popup />', () => {
     const buttonStyles = getNodeStyles(buttonNode)
 
     expect(buttonStyles.position).toEqual('absolute')
-    expect(buttonStyles.top).toEqual('18px')
-    expect(buttonStyles.right).toEqual('23px')
+    expect(buttonStyles.top).toEqual('25px')
+    expect(buttonStyles.right).toEqual('25px')
+    expect(buttonStyles.width).toEqual('15px')
+    expect(buttonStyles.height).toEqual('15px')
   })
 
   it('should append action buttons', () => {

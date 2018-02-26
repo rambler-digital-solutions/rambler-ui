@@ -300,8 +300,7 @@ const activeBorder = borderColor => ({
   endPosition: {},
   startPosition: {},
   middlePosition: {}
-}))
-
+}), {name: 'Input'})
 export default class Input extends Component {
   constructor(props) {
     super(props)

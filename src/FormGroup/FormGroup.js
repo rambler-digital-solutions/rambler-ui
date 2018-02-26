@@ -68,8 +68,7 @@ import { ifDesktopSize, isolateMixin } from '../style/mixins'
       }
     }
   })
-}))
-
+}), {name: 'FormGroup'})
 export default class FormGroup extends Component {
   static propTypes = {
     /**

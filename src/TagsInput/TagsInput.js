@@ -73,7 +73,7 @@ import windowEvents from '../hoc/window-events'
     }
   },
   isDisabled: {}
-}))
+}), {name: 'TagsInput'})
 @windowEvents('resize')
 export default class TagsInput extends PureComponent {
 

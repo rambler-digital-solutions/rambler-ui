@@ -31,7 +31,7 @@ import { isolateMixin, bottomBorderMixin } from '../style/mixins'
       cursor: 'not-allowed'
     }
   }
-})
+}, {name: 'Tabs'})
 export default class Tabs extends Component {
 
   static propTypes = {
@@ -105,10 +105,10 @@ export default class Tabs extends Component {
     const tabs = React.Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiTabsItem')
         throw new Error('Child component should be instance of <Tab />')
-      const {value} = child.props
+      const {className, value} = child.props
       const hasValue = 'value' in child.props
       return cloneElement(child, {
-        className: css.item,
+        className: classnames(className, css.item),
         key: child.key !== undefined ? child.key : (typeof value === 'string' || typeof value === 'number') ? value : i++,
         isSelected: hasValue && child.props.value === this.state.value,
         onPress: hasValue && !disabled ? this.handleValueChange : null,

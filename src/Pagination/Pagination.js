@@ -128,7 +128,7 @@ const buttonContainer = () => (
     cursor: 'not-allowed'
   },
   isSelected: {}
-}))
+}), {name: 'Pagination'})
 export default class Pagination extends Component {
 
   static propTypes = {

@@ -100,7 +100,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     top: 13,
     right: 13
   }
-}))
+}), {name: 'Notification'})
 export default class Notification extends Component {
 
   static propTypes = {

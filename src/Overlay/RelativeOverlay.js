@@ -257,7 +257,7 @@ function getContentProps(params) {
     position: 'absolute',
     zIndex: 1
   }
-}))
+}), {name: 'RelativeOverlay'})
 export default class RelativeOverlay extends PureComponent {
 
   static propTypes = {

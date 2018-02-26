@@ -37,7 +37,7 @@ import { injectSheet } from '../theme'
   blur: {
     filter: 'blur(1px)'
   }
-}))
+}), {name: 'Loader'})
 export default class Loader extends Component {
 
   static propTypes = {

@@ -21,7 +21,7 @@ const emptyArr = []
     overflowY: 'auto',
     ...beautyScroll('&')
   }
-}))
+}), {name: 'Menu'})
 export default class Menu extends PureComponent {
 
   static propTypes = {
@@ -120,12 +120,13 @@ export default class Menu extends PureComponent {
 
   constructor(props) {
     super(props)
-    const value = props.value || (props.multiple ? [] : null)
+    this.value = props.multiple
+      ? Array.isArray(props.value) ? props.value : emptyArr
+      : props.value || null
     this.state = {
-      value
+      value: this.value
     }
     this.focusIndex = -1
-    this.value = value
     this.itemsKeys = []
     this.registeredItems = {}
   }
@@ -283,15 +284,19 @@ export default class Menu extends PureComponent {
   }
 
   handleOptionSelect = (value) => {
-    const currentValue = this.state.value
-    const nextValue = !this.props.multiple
-      ? value
-      : currentValue.indexOf(value) > -1
-        ? currentValue.filter(v => v !== value)
-        : currentValue.concat(value)
-
+    const {props} = this
+    let nextValue
+    if (props.multiple) {
+      const currValue = Array.isArray(this.value) ? this.value : emptyArr
+      const withoutValue = currValue.filter(v => !props.valuesEquality(v, value))
+      nextValue = withoutValue.length === currValue.length
+        ? currValue.concat(value)
+        : withoutValue
+    } else {
+      nextValue = value
+    }
     this.setValue(nextValue)
-    this.props.onChange(nextValue)
+    props.onChange(nextValue)
   }
 
   keyDown = (event) => {
