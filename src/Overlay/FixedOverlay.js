@@ -77,6 +77,16 @@ function originalGetYScroll() {
 }
 
 /**
+ * Получить scrollX
+ * @return {Number}
+ */
+function originalGetXScroll() {
+  if (window.pageXOffset !== undefined)
+    return window.pageXOffset
+  return document.documentElement.scrollLeft || document.body.scrollLeft
+}
+
+/**
  * Получить опции позиции контента
  * @param  {Object}  params       -
  * @param  {Object}  params.anchorRect    - объект с полями {left, right, top, bottom}
@@ -372,6 +382,7 @@ export default class FixedOverlay extends PureComponent {
     },
     getElementRect: originalGetBoundingClientRect,
     getYScroll: originalGetYScroll,
+    getXScroll: originalGetXScroll,
     cachePositionOptions: false,
     closeOnScroll: false
   };
@@ -472,11 +483,13 @@ export default class FixedOverlay extends PureComponent {
       getWindowSize,
       getElementRect,
       getYScroll,
+      getXScroll,
       cachePositionOptions,
       containerNodeStyle
     } = this.props
     // TODO получать от клиента
     this.scrollY = getYScroll()
+    this.scrollX = getXScroll()
     const anchorRect = getElementRect(this.anchorNode)
     const contentWidth = this.contentNode.offsetWidth
     const contentHeight = this.contentNode.offsetHeight
@@ -509,7 +522,7 @@ export default class FixedOverlay extends PureComponent {
       anchorHeight: this.anchorNode.offsetHeight
     })
     Object.assign(this.contentContainerNode.style, {
-      left: options.left + 'px',
+      left: options.left + this.scrollX + 'px',
       top: options.top + this.scrollY + 'px',
       ...containerNodeStyle
     })
