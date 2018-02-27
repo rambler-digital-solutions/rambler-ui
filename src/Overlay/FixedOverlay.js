@@ -70,13 +70,15 @@ class ContentElementWrapper extends Component {
  * Получить scrollY
  * @return {Number}
  */
-const originalGetYScroll = getElementRect => -getElementRect(document.documentElement).top
+const originalGetYScroll = getElementRect =>
+  document.documentElement.offsetTop - getElementRect(document.documentElement).top
 
 /**
  * Получить scrollX
  * @return {Number}
  */
-const originalGetXScroll = getElementRect => -getElementRect(document.documentElement).left
+const originalGetXScroll = getElementRect =>
+  document.documentElement.offsetLeft - getElementRect(document.documentElement).left
 
 /**
  * Получить опции позиции контента
