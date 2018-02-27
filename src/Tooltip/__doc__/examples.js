@@ -45,10 +45,24 @@ export default class TooltipExample extends Component {
             </Tooltip>
           </div>
           <div style={{marginTop: '20px'}}>
-            <Tooltip style={{marginRight: '20px'}} content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique quis nisl quis fermentum. Praesent lectus ligula, tincidunt a orci in, cursus fermentum leo. Praesent egestas scelerisque consectetur.">
+            <Tooltip
+              style={{marginRight: '20px'}}
+              content={`
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Nam tristique quis nisl quis fermentum.
+                Praesent lectus ligula, tincidunt a orci in, cursus fermentum leo.
+                Praesent egestas scelerisque consectetur.
+              `}>
               <Button type="secondary">Large text</Button>
             </Tooltip>
-            <Tooltip position="right" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam tristique quis nisl quis fermentum. Praesent lectus ligula, tincidunt a orci in, cursus fermentum leo. Praesent egestas scelerisque consectetur.">
+            <Tooltip
+              position="right"
+              content={`
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                Nam tristique quis nisl quis fermentum.
+                Praesent lectus ligula, tincidunt a orci in, cursus fermentum leo.
+                Praesent egestas scelerisque consectetur.
+              `}>
               <Button type="secondary">Large text right</Button>
             </Tooltip>
           </div>

@@ -19,7 +19,7 @@ describe('<FieldGroup />', () => {
     const wrapper = mount(
       withTheme(
         <FieldGroup>
-          <Select className="select">
+          <Select className="select" {...defaultProps}>
             <MenuItem value="foo">Foo</MenuItem>
             <MenuItem value="bar">Bar</MenuItem>
           </Select>
@@ -56,7 +56,7 @@ describe('<FieldGroup />', () => {
     const wrapper = mount(
       withTheme(
         <FieldGroup style={{width}} className="group">
-          <Select>
+          <Select {...defaultProps}>
             <MenuItem value="foo">Foo</MenuItem>
             <MenuItem value="bar">Bar</MenuItem>
           </Select>
@@ -93,7 +93,7 @@ describe('<FieldGroup />', () => {
     const wrapper = mount(
       withTheme(
         <FieldGroup {...props}>
-          <Select>
+          <Select {...defaultProps}>
             <MenuItem value="foo">Foo</MenuItem>
             <MenuItem value="bar">Bar</MenuItem>
           </Select>
@@ -121,11 +121,11 @@ describe('<FieldGroup />', () => {
     const wrapper = mount(
       withTheme(
         <FieldGroup showDivider>
-          <Select>
+          <Select {...defaultProps}>
             <MenuItem value="foo">Foo</MenuItem>
             <MenuItem value="bar">Bar</MenuItem>
           </Select>
-          <Input type="text" />
+          <Input {...defaultProps} />
         </FieldGroup>
       )
     )

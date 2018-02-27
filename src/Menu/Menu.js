@@ -61,7 +61,10 @@ export default class Menu extends PureComponent {
     /**
      * Опции поля
      */
-    children: PropTypes.arrayOf(PropTypes.element),
+    children: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.arrayOf(PropTypes.element)
+    ]),
     /**
      * Коллбек, вызывающийся при изменении состояния
      */
