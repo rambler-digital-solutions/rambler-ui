@@ -84,6 +84,7 @@ build_version_site:
     - git fetch origin
     - git checkout -b gh-pages origin/gh-pages
     - git remote add rds git@github.com:rambler-digital-solutions/rambler-ui.git
+    - git pull rds gh-pages
     - git push rds gh-pages
 
 mirror:
@@ -98,6 +99,7 @@ mirror:
     - git config --global user.email "${UI_BOT_EMAIL}"
     - git config --global user.name "${UI_BOT_NAME}"
     - git remote add rds git@github.com:rambler-digital-solutions/rambler-ui.git
+    - git pull rds master
     - git push rds master
 
 pages:
