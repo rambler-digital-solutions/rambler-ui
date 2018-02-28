@@ -31,7 +31,6 @@ build_package:
     - /^gh-pages$/
   only:
     - tags
-  when: manual
   script:
     - npm install
     - npm run build
@@ -71,7 +70,6 @@ build_version_site:
     - /^gh-pages$/
   only:
     - tags
-  when: manual
   script:
     - ./ci-git-push-prepare.sh gitlab.rambler.ru "${SSH_PRIVATE_KEY}"
     - git config --global user.email "${GITLAB_USER_EMAIL}"
@@ -93,7 +91,6 @@ mirror:
     - docker
   only:
     - master
-  when: manual
   script:
     - ./ci-git-push-prepare.sh github.com "${UI_BOT_SSH_PRIVATE_KEY}"
     - git config --global user.email "${UI_BOT_EMAIL}"
