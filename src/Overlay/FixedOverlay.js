@@ -70,21 +70,15 @@ class ContentElementWrapper extends Component {
  * Получить scrollY
  * @return {Number}
  */
-function originalGetYScroll() {
-  if (window.pageYOffset !== undefined)
-    return window.pageYOffset
-  return document.documentElement.scrollTop || document.body.scrollTop
-}
+const originalGetYScroll = getElementRect =>
+  document.documentElement.offsetTop - getElementRect(document.documentElement).top
 
 /**
  * Получить scrollX
  * @return {Number}
  */
-function originalGetXScroll() {
-  if (window.pageXOffset !== undefined)
-    return window.pageXOffset
-  return document.documentElement.scrollLeft || document.body.scrollLeft
-}
+const originalGetXScroll = getElementRect =>
+  document.documentElement.offsetLeft - getElementRect(document.documentElement).left
 
 /**
  * Получить опции позиции контента
@@ -493,8 +487,8 @@ export default class FixedOverlay extends PureComponent {
       containerNodeStyle
     } = this.props
     // TODO получать от клиента
-    this.scrollY = getYScroll()
-    this.scrollX = getXScroll()
+    this.scrollY = getYScroll(getElementRect)
+    this.scrollX = getXScroll(getElementRect)
     const anchorRect = getElementRect(this.anchorNode)
     const contentWidth = this.contentNode.offsetWidth
     const contentHeight = this.contentNode.offsetHeight
