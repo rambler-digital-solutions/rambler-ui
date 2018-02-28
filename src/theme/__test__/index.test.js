@@ -1,15 +1,29 @@
 import React from 'react'
 import classnames from 'classnames'
+import originalInjectSheet, {createTheming} from 'react-jss'
 import {ApplyTheme, injectSheet, createJss, createSheetsRegistry} from '../'
 import {mount, getNodeStyles} from '../../utils/test-utils'
 import {normalize as nc} from '../../utils/colors'
 
 const getTheme = color => ({button: {color}})
+const theming = createTheming('foo')
+const {ThemeProvider} = theming
 
-const Button = injectSheet(({button}) => ({button}))(
+const Button = injectSheet(
+  ({button}) => ({button}),
+  {name: 'Button'}
+)(
   function Button ({classes, className}) {
     return (
-      <button className={classnames(classes.button,  className)} />
+      <button className={classnames(classes.button, className)} />
+    )
+  }
+)
+
+const External = originalInjectSheet(({button}) => ({button}), {theming})(
+  function External ({classes, className}) {
+    return (
+      <button className={classnames(classes.button, className)} />
     )
   }
 )
@@ -43,6 +57,23 @@ describe('<ApplyTheme />', () => {
     expect(getNodeStyles(buttons[0]).color).toBe(nc('#ffffff'))
     expect(getNodeStyles(buttons[1]).color).toBe(nc('#000000'))
     expect(buttons[0].className).not.toBe(buttons[1].className)
+  })
+
+  it('should apply default className for external components', () => {
+    mount(
+      <ApplyTheme theme={getTheme('#ffffff')}>
+        <ThemeProvider theme={getTheme('#ffffff')}>
+          <div>
+            <Button className='class-names' />
+            <External className='class-names' />
+          </div>
+        </ThemeProvider>
+      </ApplyTheme>
+    )
+
+    const buttons = document.querySelectorAll('.class-names')
+    expect(buttons[0].className.indexOf('rui-')).toBe(0)
+    expect(buttons[1].className.indexOf('rui-')).toBe(-1)
   })
 
   it('should isolate multiple providers', () => {
