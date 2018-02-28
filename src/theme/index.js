@@ -1,7 +1,10 @@
 import React from 'react'
 import merge from 'lodash/merge'
 import {object} from 'prop-types'
-import {create as originalCreateJss} from 'jss'
+import {
+  create as originalCreateJss,
+  createGenerateClassName as originalCreateGenerateClassName
+} from 'jss'
 import originalInjectSheet, {createTheming, JssProvider, SheetsRegistry} from 'react-jss'
 import preset from 'jss-preset-default'
 import compose from 'recompose/compose'
@@ -32,12 +35,17 @@ export const createSheetsRegistry = () => new SheetsRegistry()
 export const globalSheetsRegistry = createSheetsRegistry()
 export const globalJss = createJss()
 
-export const createGenerateClassName = (themeId = 0) => (rule, sheet) => {
-  const displayNamePrefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : ''
-  const jssId = sheet ? sheet.options.jss.id : globalJss.id
-  const jssCounter = jssId === globalJss.id ? '' : `-${jssId}`
-  const themeCounter = themeId === 0 ? '' : `-${themeId}`
-  return ruiPrefix + displayNamePrefix + rule.key + jssCounter + themeCounter
+export const createGenerateClassName = (themeId = 0) => {
+  const generateClassName = originalCreateGenerateClassName()
+  return (rule, sheet) => {
+    const displayNamePrefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : ''
+    if (!displayNamePrefix)
+      return generateClassName(rule, sheet)
+    const jssId = sheet ? sheet.options.jss.id : globalJss.id
+    const jssCounter = jssId === globalJss.id ? '' : `-${jssId}`
+    const themeCounter = themeId === 0 ? '' : `-${themeId}`
+    return ruiPrefix + displayNamePrefix + rule.key + jssCounter + themeCounter
+  }
 }
 
 /**
