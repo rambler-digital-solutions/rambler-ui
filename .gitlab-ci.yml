@@ -52,6 +52,7 @@ build_site:
   except:
     - /^gh-pages$/
     - tags
+    - master
   when: manual
   script:
     - ./ci-git-push-prepare.sh gitlab.rambler.ru "${SSH_PRIVATE_KEY}"
@@ -83,8 +84,8 @@ mirror:
   tags:
     - docker
   only:
-    - master
     - tags
+    - master
   except:
     - /^gh-pages$/
   script:
