@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import PropTypes from 'prop-types'
 import {findDOMNode} from 'react-dom'
-import debounce from 'lodash/debounce'
+import throttle from 'lodash/throttle'
 import windowEvents from '../hoc/window-events'
 
 
@@ -15,7 +15,7 @@ export default class OnClickOutside extends Component {
     handler: PropTypes.func.isRequired
   };
 
-  onClick = debounce((e) => {
+  onClick = throttle((e) => {
     let outsideClick = true
     let el = e.target
     let insideBody = false

@@ -591,6 +591,8 @@ export default class FixedOverlay extends PureComponent {
    * Показать оверлей
    */
   show() {
+    if (this.portal && !this.isOpened)
+      return Promise.resolve()
     this.isOpened = true
     const transactionIndex = ++this.transactionIndex
     return this.mountPortal().then(() => {
