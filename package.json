@@ -75,7 +75,7 @@
     "karma-webpack": "^1.8.0",
     "lint-staged": "^6.1.0",
     "minimist": "^1.2.0",
-    "rambler-ui-playground": "^0.1.13",
+    "rambler-ui-playground": "^0.1.14",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
