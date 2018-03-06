@@ -10,6 +10,7 @@
     "dev": "NODE_ENV=development playground server",
     "pages": "NODE_ENV=production playground pages --publish",
     "eslint": "eslint '**/*.js'",
+    "size": "size-limit",
     "precommit": "lint-staged",
     "postversion": "git push --follow-tags"
   },
@@ -80,6 +81,7 @@
     "react-dom": "^16.2.0",
     "react-test-renderer": "^16.0.0",
     "run-sequence": "^1.2.2",
+    "size-limit": "^0.16.1",
     "webpack": "^1.13.2"
   },
   "peerDependencies": {

@@ -20,6 +20,8 @@ test:
     - npm install
     - npm run eslint
     - npm run test
+    - npm run build
+    - npm run size
 
 build_package:
   stage: build

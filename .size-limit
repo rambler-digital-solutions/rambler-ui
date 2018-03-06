@@ -1,0 +1,12 @@
+[
+  {
+    "name": "The initial cost people pay for using one component",
+    "limit": "35 KB",
+    "path": "test/overhead.js"
+  },
+  {
+    "name": "The size of the whole library",
+    "limit": "95 KB",
+    "path": "build/index.js"
+  }
+]
