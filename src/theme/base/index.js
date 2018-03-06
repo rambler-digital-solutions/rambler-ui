@@ -659,6 +659,7 @@ export function createTheme(config) {
       radioSize: 15,
       labelMargin: 10,
       fontSize: 13,
+      lineHeight: 1.54,
       marginBottom: 15,
       animationDuration: 200
     },

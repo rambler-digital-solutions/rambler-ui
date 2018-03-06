@@ -106,7 +106,7 @@ function isSimpleType(value) {
   label: {
     display: 'inline-block',
     verticalAlign: 'middle',
-    lineHeight: 1.54,
+    lineHeight: theme.radio.lineHeight,
     '$labelleft &': {
       order: -1,
       marginRight: 'auto'
