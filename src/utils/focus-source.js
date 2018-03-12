@@ -1,5 +1,5 @@
 /**
- * Module determines focus source (by pointer device or by keyboard/scripts) 
+ * Module determines focus source (by pointer device or by keyboard/scripts)
  * and sets an appropriate value ('pointer' or 'other') to <html> attribute 'data-focus-source'
  */
 import { canUseDOM } from './DOM'
@@ -39,15 +39,19 @@ const handlePointerStartEvent = () => {
 }
 
 const handlePointerEndEvent = event => {
-  if (event.touches) {
-    activePointers = event.touches.length
-    return
-  }
-  activePointers = Math.max(activePointers - 1, 0)
+  let touches
+
+  if (event.touches)
+    touches = event.touches.length
+
+  setTimeout(() => {
+    activePointers = touches != null ? touches : Math.max(activePointers - 1, 0)
+  }, 0)
 }
 
 const handleFocusEvent = event => {
   let source = ''
+
   if (event.type === 'focusin')
     source = activePointers ? 'pointer' : 'other'
 

@@ -8,8 +8,9 @@ import omit from 'lodash/omit'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin, focusSourceMixin } from '../style/mixins'
 import { RADIO_INPUT_CONTEXT } from '../constants/context'
+import '../utils/focus-source'
 
 function isSimpleType(value) {
   const type = typeof value
@@ -84,9 +85,9 @@ function isSimpleType(value) {
       borderColor: theme.radio.colors.hover.dotBorder,
       color: theme.radio.colors.hover.dot
     },
-    '$real:focus + &': {
+    ...focusSourceMixin('other', '$real:focus + &', {
       borderColor: theme.radio.colors.focus.dotBorder
-    },
+    }),
     '$isEnabled:active &': {
       borderColor: theme.radio.colors.active.dotBorder,
       background: theme.radio.colors.active.dotBackground,
