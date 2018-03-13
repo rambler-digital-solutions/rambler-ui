@@ -3,8 +3,9 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import TickIcon from '../icons/forms/TickIcon'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin, focusSourceMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
+import '../utils/focus-source'
 
 const setThemeForSelector = colors => ({
   background: colors.background,
@@ -48,7 +49,7 @@ const tickStyle = {
       '&$isEnabled:active $fake': setThemeForSelector(regular.colors.active),
       '&$isDisabled $fake': setThemeForSelector(regular.colors.disabled),
       '&$isChecked $fake': setThemeForSelector(regular.colors.checked),
-      '& $real:focus ~ $fake': setThemeForSelector(regular.colors.focus)
+      ...focusSourceMixin('other', '& $real:focus ~ $fake', setThemeForSelector(regular.colors.focus))
     },
     awesome: {
       color: awesome.colors.default.text,
