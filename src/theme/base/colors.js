@@ -23,7 +23,8 @@ export default {
       fieldOutline: '#dde0e8', // обводка на outline контролах
       iconBackground: '#f3f4f7',
       placeholder: '#a4a9b8',
-      fieldIcon: '#B0B4C2'
+      fieldIcon: '#B0B4C2',
+      disabledText: '#afb5c9'
     }
   }
 }

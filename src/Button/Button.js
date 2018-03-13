@@ -15,9 +15,6 @@ import { injectSheet } from '../theme'
 import { middleMixin, isolateMixin, fontSmoothingMixin, ifMobile, focusSourceMixin } from '../style/mixins'
 import '../utils/focus-source'
 
-function getIconColor(colorsConfig, isDisabled) {
-  return isDisabled && colorsConfig.disabled.icon || colorsConfig.default.icon
-}
 
 @pure
 @injectSheet((theme) => {
@@ -39,7 +36,9 @@ function getIconColor(colorsConfig, isDisabled) {
       border: 'none',
       userSelect: 'none',
       borderRadius: theme.button.borderRadius,
-      '&, & *': { transition: 'background-color .2s, border .2s, box-shadow .2s' },
+      '&, & *': {
+        transition: 'background-color .2s, border .2s, box-shadow .2s'
+      },
       '&:before, &:after': {
         content: '""',
         display: 'block',
@@ -68,6 +67,12 @@ function getIconColor(colorsConfig, isDisabled) {
       pointerEvents: 'none',
       opacity: 0
     },
+    loader: {
+      fontSize: 3,
+      ...ifMobile({
+        fontSize: 4
+      })
+    },
     content: {
       ...middleMixin,
       ...fontSmoothingMixin,
@@ -75,7 +80,11 @@ function getIconColor(colorsConfig, isDisabled) {
       whiteSpace: 'nowrap',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
-      position: 'relative'
+      position: 'relative',
+      padding: '0 20px',
+      ...ifMobile({
+        padding: '0 25px'
+      })
     },
     block: {
       display: 'block',
@@ -88,8 +97,7 @@ function getIconColor(colorsConfig, isDisabled) {
       }),
       '& $content': {
         height: theme.button.sizes.medium.height,
-        lineHeight: theme.button.sizes.medium.height + 'px',
-        padding: '0 20px'
+        lineHeight: theme.button.sizes.medium.height + 'px'
       }
     },
     'size-small': {
@@ -99,8 +107,7 @@ function getIconColor(colorsConfig, isDisabled) {
       }),
       '& $content': {
         height: theme.button.sizes.small.height,
-        lineHeight: theme.button.sizes.small.height + 'px',
-        padding: '0 20px'
+        lineHeight: theme.button.sizes.small.height + 'px'
       }
     },
     overlay: {
@@ -116,16 +123,23 @@ function getIconColor(colorsConfig, isDisabled) {
     },
     icon: {
       display: 'inline-block',
-      marginTop: -2
+      marginTop: -2,
+      translate: 'fill .2s'
     },
     'iconPosition-right': {
       '& $icon': {
-        marginLeft: 6
+        marginLeft: 5,
+        ...ifMobile({
+          marginLeft: 10
+        })
       }
     },
     'iconPosition-left': {
       '& $icon': {
-        marginRight: 6
+        marginRight: 5,
+        ...ifMobile({
+          marginRight: 10
+        })
       }
     }
   }
@@ -149,7 +163,10 @@ function getIconColor(colorsConfig, isDisabled) {
         bottom: -outlineOffset,
         borderColor: colors.outline,
         borderRadius: theme.button.borderRadius + outlineOffset / 1.5
-      })
+      }),
+      '& $icon': {
+        fill: colors.icon
+      }
     })
     return {
       ...result,
@@ -158,7 +175,10 @@ function getIconColor(colorsConfig, isDisabled) {
         '&:hover': setThemeForSelector(conf.colors.hover, offset),
         '&[disabled]': setThemeForSelector(conf.colors.disabled, offset),
         ...focusSourceMixin('other', '&:focus', setThemeForSelector(conf.colors.focus, offset)),
-        ...setThemeForSelector(conf.colors.default, offset)
+        ...setThemeForSelector(conf.colors.default, offset),
+        '& $loader': {
+          color: conf.colors.default.loader
+        }
       }
     }
   }, {}))
@@ -257,11 +277,11 @@ export default class Button extends Component {
   renderIcon(icon) {
     if (icon) {
       const {
-        theme, size, type, disabled
+        theme, size
       } = this.props
       const iconProps = {
         size: theme.button.sizes[size].icon,
-        color: getIconColor(theme.button.types[type].colors, disabled)
+        color: null
       }
       const initialProps = icon.props || {}
       const className = classnames(initialProps.className, this.css.icon)
@@ -288,9 +308,8 @@ export default class Button extends Component {
       iconPosition,
       rounded,
       style = {},
-      theme,
       ...other
-    } = omit(this.props, 'classes')
+    } = omit(this.props, 'classes', 'theme')
     const css = this.css
     const iconLeft = iconPosition === 'left'
     const iconEl = this.renderIcon(icon)
@@ -336,7 +355,9 @@ export default class Button extends Component {
       resultContainer,
       resultProps,
       resultChildren,
-      loading && <Spinner color={theme.button.types[type].colors.default.loader} size={3} />
+      loading && (
+        <Spinner className={css.loader} color={null} />
+      )
     )
   }
 }
