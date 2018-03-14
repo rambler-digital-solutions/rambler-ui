@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import SvgIcon from '../SvgIcon'
-import pure from 'recompose/pure'
 
-@pure
-export default class UndoIcon extends Component {
+export default class UndoIcon extends PureComponent {
 
   static displayName = 'UndoIcon'
 
