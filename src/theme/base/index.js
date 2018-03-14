@@ -444,7 +444,15 @@ export function createTheme(config) {
       iconPercentSize: 45,
       sizes: {
         medium: 45,
-        small: 23
+        small: 35,
+        icon: 15
+      },
+      mobile: {
+        sizes: {
+          medium: 55,
+          small: 45,
+          icon: 19
+        }
       }
     },
     // input, select, textarea
