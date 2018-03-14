@@ -107,10 +107,12 @@ export function createTheme(config) {
       mobile: {
         sizes: {
           medium: {
-            fontSize: 12
+            fontSize: 12,
+            height: 55
           },
           small: {
-            fontSize: 12
+            fontSize: 12,
+            height: 45
           }
         }
       },

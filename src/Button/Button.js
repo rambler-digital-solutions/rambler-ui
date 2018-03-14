@@ -97,7 +97,11 @@ import '../utils/focus-source'
       }),
       '& $content': {
         height: theme.button.sizes.medium.height,
-        lineHeight: theme.button.sizes.medium.height + 'px'
+        lineHeight: theme.button.sizes.medium.height + 'px',
+        ...ifMobile({
+          height: theme.button.mobile.sizes.medium.height,
+          lineHeight: theme.button.mobile.sizes.medium.height + 'px'
+        })
       }
     },
     'size-small': {
@@ -107,7 +111,11 @@ import '../utils/focus-source'
       }),
       '& $content': {
         height: theme.button.sizes.small.height,
-        lineHeight: theme.button.sizes.small.height + 'px'
+        lineHeight: theme.button.sizes.small.height + 'px',
+        ...ifMobile({
+          height: theme.button.mobile.sizes.small.height,
+          lineHeight: theme.button.mobile.sizes.small.height + 'px'
+        })
       }
     },
     overlay: {
@@ -124,7 +132,7 @@ import '../utils/focus-source'
     icon: {
       display: 'inline-block',
       marginTop: -2,
-      translate: 'fill .2s'
+      transition: 'fill .2s'
     },
     'iconPosition-right': {
       '& $icon': {
