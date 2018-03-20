@@ -117,8 +117,7 @@ const tickStyle = {
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'transform, opacity',
       '$isChecked &': {
-        opacity: 1,
-        transform: 'translateY(0)'
+        opacity: 1
       }
     },
     isEnabled: {},
@@ -142,7 +141,10 @@ const tickStyle = {
           left: Math.round(0.15 * checkboxTheme.sizes[size].size),
           width: Math.round(0.6 * checkboxTheme.sizes[size].size),
           height: Math.round(0.6 * checkboxTheme.sizes[size].size),
-          transform: `translateY(-${checkboxTheme.sizes[size].size * 0.3}px)`
+          transform: `translateY(-${checkboxTheme.sizes[size].size * 0.3}px)`,
+          '$isChecked&': {
+            transform: 'translateY(0)'
+          }
         },
         '& $label': {
           lineHeight: checkboxTheme.sizes[size].lineHeight + 'px',
