@@ -51,7 +51,7 @@ describe('<Checkbox />', () => {
     expect(checkboxStyles.height).toEqual('15px')
     expect(checkboxStyles.left).toEqual('0px')
     expect(inputStyles.opacity).toEqual('0')
-    expect(labelStyles['padding-left']).toEqual((theme.checkbox.sizes.medium + theme.checkbox.sizes.medium.labelMargin) + 'px')
+    expect(labelStyles['padding-left']).toEqual((theme.checkbox.sizes.medium.size + theme.checkbox.sizes.medium.labelMargin) + 'px')
   })
 
   it('expect affect small size', () => {
@@ -59,9 +59,9 @@ describe('<Checkbox />', () => {
     const checkboxStyles = getStyles(wrapper.find('.checkbox-cn'))
     const labelStyles = getStyles(wrapper.find('.label-cn'))
 
-    expect(checkboxStyles.width).toEqual(theme.checkbox.sizes.small.size)
-    expect(checkboxStyles.height).toEqual(theme.checkbox.sizes.small.size)
-    expect(checkboxStyles.top).toEqual((theme.checkbox.sizes.small.lineHeight - theme.checkbox.sizes.small.size) / 2)
+    expect(checkboxStyles.width).toEqual(theme.checkbox.sizes.small.size + 'px')
+    expect(checkboxStyles.height).toEqual(theme.checkbox.sizes.small.size + 'px')
+    expect(checkboxStyles.top).toEqual((theme.checkbox.sizes.small.lineHeight - theme.checkbox.sizes.small.size) / 2 + 'px')
 
     expect(labelStyles['padding-left']).toEqual((theme.checkbox.sizes.small.size + theme.checkbox.sizes.small.labelMargin) + 'px')
   })
