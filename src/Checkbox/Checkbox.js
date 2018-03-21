@@ -132,18 +132,16 @@ const tickStyle = {
           lineHeight: checkboxTheme.sizes[size].size + 'px'
         },
         '& $fake': {
-          top: size === 'small' ?
-            Math.round((checkboxTheme.sizes[size].lineHeight - checkboxTheme.sizes[size].size) / 2) :
-            Math.round((checkboxTheme.sizes[size].lineHeight - checkboxTheme.sizes[size].size) / 2) - 1,
+          top: checkboxTheme.sizes[size].fakeTop,
           width: checkboxTheme.sizes[size].size,
           height: checkboxTheme.sizes[size].size
         },
         '& $tick': {
-          top: Math.round(0.2 * checkboxTheme.sizes[size].size) - 1,
-          left: Math.round(0.15 * checkboxTheme.sizes[size].size),
-          width: Math.round(0.6 * checkboxTheme.sizes[size].size),
-          height: Math.round(0.6 * checkboxTheme.sizes[size].size),
-          transform: `translateY(-${checkboxTheme.sizes[size].size * 0.3}px)`,
+          top: Math.round(0.25 * checkboxTheme.sizes[size].tickSize),
+          left: Math.round(0.25 * checkboxTheme.sizes[size].tickSize),
+          width: checkboxTheme.sizes[size].tickSize,
+          height: checkboxTheme.sizes[size].tickSize,
+          transform: `translateY(-${checkboxTheme.sizes[size].tickSize * 0.5}px)`,
           '$isChecked&': {
             transform: 'translateY(0)'
           }
