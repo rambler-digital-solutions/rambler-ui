@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import range from 'lodash/range'
-import pure from 'recompose/pure'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
 
@@ -18,7 +17,6 @@ const getKeyframes = (delay = 0) => ({
   }
 })
 
-@pure
 @injectSheet(theme => ({
   '@keyframes ruiAnimateDot1': getKeyframes(),
   '@keyframes ruiAnimateDot2': getKeyframes(100 / (600 / 80)),
@@ -67,7 +65,7 @@ const getKeyframes = (delay = 0) => ({
     }
   }
 }), {name: 'Spinner'})
-export default class Spinner extends Component {
+export default class Spinner extends PureComponent {
 
   static propTypes = {
     /**

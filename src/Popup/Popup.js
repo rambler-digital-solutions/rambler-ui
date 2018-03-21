@@ -3,10 +3,9 @@
  * Скетч: * https://zpl.io/ZTWunL
  */
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import pure from 'recompose/pure'
 import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
@@ -17,7 +16,6 @@ import { POPUP_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
-@pure
 @zIndexStack(POPUP_ZINDEX)
 @renderToLayer
 @injectSheet(theme => ({
@@ -111,7 +109,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     }
   }
 }), {name: 'Popup'})
-export default class Popup extends Component {
+export default class Popup extends PureComponent {
 
   static propTypes = {
     /**

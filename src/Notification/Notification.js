@@ -1,7 +1,6 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import pure from 'recompose/pure'
 import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
 import ChevronRightIcon from '../icons/forms/ChevronRightIcon'
@@ -13,7 +12,6 @@ import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
-@pure
 @zIndexStack(SNACKBAR_ZINDEX)
 @renderToLayer
 @injectSheet(theme => ({
@@ -101,7 +99,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     right: 13
   }
 }), {name: 'Notification'})
-export default class Notification extends Component {
+export default class Notification extends PureComponent {
 
   static propTypes = {
     /**

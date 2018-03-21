@@ -1,7 +1,6 @@
-import React, { Component, cloneElement } from 'react'
+import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import pure from 'recompose/pure'
 import QuestionIcon from '../icons/forms/QuestionIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import { FixedOverlay } from '../Overlay'
@@ -9,7 +8,6 @@ import { POINTS_X } from '../constants/overlay'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
-@pure
 @injectSheet(theme => ({
   hint: {
     ...isolateMixin,
@@ -54,7 +52,7 @@ import { isolateMixin } from '../style/mixins'
     }
   }
 }), {name: 'HintContent'})
-class HintContent extends Component {
+class HintContent extends PureComponent {
 
   static propTypes = {
     className: PropTypes.string,
@@ -113,13 +111,12 @@ class HintContent extends Component {
   }
 }
 
-@pure
 @injectSheet(() => ({
   icon: {
     display: 'inline-block'
   }
 }), {name: 'Hint'})
-export default class Hint extends Component {
+export default class Hint extends PureComponent {
 
   static propTypes = {
     /**

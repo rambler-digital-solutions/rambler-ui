@@ -3,19 +3,17 @@
  * Скетч: https://zpl.io/ZTWunL
  */
 
-import React, { Component, cloneElement, isValidElement } from 'react'
+import React, { PureComponent, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import pickBy from 'lodash/pickBy'
-import pure from 'recompose/pure'
-import Spinner from '../Spinner'
 import merge from 'lodash/merge'
+import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
 import { isolateMixin, ifMobile, focusSourceMixin } from '../style/mixins'
 import '../utils/focus-source'
 
-@pure
 @injectSheet((theme) => {
   const css = {
     button: {
@@ -145,7 +143,7 @@ import '../utils/focus-source'
 
   return css
 }, {name: 'IconButton'})
-export default class IconButton extends Component {
+export default class IconButton extends PureComponent {
 
   static propTypes = {
     /**

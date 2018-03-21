@@ -1,8 +1,7 @@
-import React, { Component, cloneElement, isValidElement } from 'react'
+import React, { PureComponent, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import pure from 'recompose/pure'
 import * as profileIcons from '../icons/profiles'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
@@ -11,7 +10,6 @@ function calcProfileSize(size) {
   return Math.min(Math.max(14, 0.45 * size), 32)
 }
 
-@pure
 @injectSheet(() => ({
   avatar: {
     ...isolateMixin,
@@ -44,7 +42,7 @@ function calcProfileSize(size) {
     textAlign: 'center'
   }
 }), {name: 'Avatar'})
-export default class Avatar extends Component {
+export default class Avatar extends PureComponent {
 
   static propTypes = {
     /**

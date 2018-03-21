@@ -1,8 +1,6 @@
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import compose from 'recompose/compose'
-import getContext from 'recompose/getContext'
-import withProps from 'recompose/withProps'
-import withContext from 'recompose/withContext'
+import getDisplayName from '../utils/get-display-name'
 
 /**
  * Функция, задающая контекс zIndex
@@ -11,18 +9,27 @@ import withContext from 'recompose/withContext'
  * 3. Сохраняем новый zIndex в context
  */
 export default function zIndexStack(initialZIndex) {
-  return compose(
-    getContext({
-      ruiZIndex: PropTypes.number
-    }),
-    withProps(({ruiZIndex}) => ({
-      zIndex: (ruiZIndex || 0) + initialZIndex
-    })),
-    withContext({
-      ruiZIndex: PropTypes.number
-    }, ({zIndex}) => ({
-      ruiZIndex: zIndex
-    }))
-  )
-}
+  return Target => class extends PureComponent {
+    static displayName = `zIndexStack(${getDisplayName(Target)})`
 
+    static contextTypes = {
+      ruiZIndex: PropTypes.number
+    }
+
+    static childContextTypes = {
+      ruiZIndex: PropTypes.number
+    }
+
+    zIndex = (this.context.ruiZIndex || 0) + initialZIndex
+
+    getChildContext() {
+      return {
+        ruiZIndex: this.zIndex
+      }
+    }
+
+    render() {
+      return <Target {...this.props} zIndex={this.zIndex} />
+    }
+  }
+}

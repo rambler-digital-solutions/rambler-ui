@@ -1,16 +1,12 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import merge from 'lodash/merge'
-import {object} from 'prop-types'
 import {
   create as originalCreateJss,
   createGenerateClassName as originalCreateGenerateClassName
 } from 'jss'
 import originalInjectSheet, {createTheming, JssProvider, SheetsRegistry} from 'react-jss'
 import preset from 'jss-preset-default'
-import compose from 'recompose/compose'
-import getContext from 'recompose/getContext'
-import withContext from 'recompose/withContext'
-import withPropsOnChange from 'recompose/withPropsOnChange'
 import base from './base'
 import uuid from '../utils/uuid'
 
@@ -48,58 +44,75 @@ export const createGenerateClassName = (themeId = 0) => {
   }
 }
 
-/**
- * Делаем совместимым с нашим компонентом ApplyTheme
- */
-export const ApplyTheme = compose(
-  getContext({
-    [RAMBLER_UI_JSS]: object,
-    [RAMBLER_UI_SHEETS_REGISTRY]: object
-  }),
-  withPropsOnChange(
-    () => false,
-    ({theme = base, ...props}) => {
-      // Создаем свойства один раз при создании компонента
-      let resultTheme, currTheme, currParentTheme
-      const sheetsRegistry = props.sheetsRegistry || props[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry
-      const jss = props.jss || props[RAMBLER_UI_JSS] || globalJss
-      if (sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null)
-        sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0
-      const themeId = sheetsRegistry[RAMBLER_UI_THEME_COUNTER]++
-      const generateClassName = props.generateClassName || createGenerateClassName(themeId)
+export class ApplyTheme extends PureComponent {
+  static propTypes = {
+    theme: PropTypes.object,
+    jss: PropTypes.object,
+    sheetsRegistry: PropTypes.object,
+    generateClassName: PropTypes.func
+  }
 
-      return {
-        jss,
-        sheetsRegistry,
-        generateClassName,
-        getResultTheme: (parentTheme) => {
-          if (currTheme !== theme || currParentTheme !== parentTheme) {
-            resultTheme = merge({}, parentTheme, theme)
-            currParentTheme = parentTheme
-            currTheme = theme
-          }
-          return resultTheme
+  static contextTypes = {
+    [RAMBLER_UI_JSS]: PropTypes.object,
+    [RAMBLER_UI_SHEETS_REGISTRY]: PropTypes.object
+  }
+
+  static childContextTypes = {
+    [RAMBLER_UI_JSS]: PropTypes.object,
+    [RAMBLER_UI_SHEETS_REGISTRY]: PropTypes.object
+  }
+
+  computedProps = this.mapProps(this.props, this.context)
+
+  mapProps({theme = base, ...props}, context) {
+    let resultTheme, currTheme, currParentTheme
+    const sheetsRegistry = props.sheetsRegistry || context[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry
+    const jss = props.jss || context[RAMBLER_UI_JSS] || globalJss
+    if (sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null)
+      sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0
+    const themeId = sheetsRegistry[RAMBLER_UI_THEME_COUNTER]++
+    const generateClassName = props.generateClassName || createGenerateClassName(themeId)
+
+    return {
+      jss,
+      sheetsRegistry,
+      generateClassName,
+      getResultTheme: (parentTheme) => {
+        if (currTheme !== theme || currParentTheme !== parentTheme) {
+          resultTheme = merge({}, parentTheme, theme)
+          currParentTheme = parentTheme
+          currTheme = theme
         }
+        return resultTheme
       }
     }
-  ),
-  withContext(
-    {
-      [RAMBLER_UI_JSS]: object,
-      [RAMBLER_UI_SHEETS_REGISTRY]: object
-    },
-    ({jss, sheetsRegistry}) => ({
+  }
+
+  getChildContext() {
+    const {jss, sheetsRegistry} = this.computedProps
+    return {
       [RAMBLER_UI_JSS]: jss,
       [RAMBLER_UI_SHEETS_REGISTRY]: sheetsRegistry
-    })
-  )
-)(({jss, sheetsRegistry, getResultTheme, generateClassName, children}) => (
-  <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName}>
-    <ThemeProvider theme={getResultTheme}>
-      {children}
-    </ThemeProvider>
-  </JssProvider>
-))
+    }
+  }
+
+  render() {
+    const {children} = this.props
+    const {
+      jss,
+      sheetsRegistry,
+      getResultTheme,
+      generateClassName
+    } = this.computedProps
+    return (
+      <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName}>
+        <ThemeProvider theme={getResultTheme}>
+          {children}
+        </ThemeProvider>
+      </JssProvider>
+    )
+  }
+}
 
 export const injectSheet = (styles, options = {}) =>
   Component => originalInjectSheet(styles, {

@@ -3,20 +3,18 @@
  * Скетч: https://app.zeplin.io/project.html#pid=5788d29d450aa06b5691c466&sid=5788d41ba2e261bb69d6c68e
  */
 
-import React, { Component, cloneElement, isValidElement } from 'react'
+import React, { PureComponent, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import pickBy from 'lodash/pickBy'
 import merge from 'lodash/merge'
-import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
 import { middleMixin, isolateMixin, fontSmoothingMixin, ifMobile, focusSourceMixin } from '../style/mixins'
 import '../utils/focus-source'
 
 
-@pure
 @injectSheet((theme) => {
   const css = {
     button: {
@@ -192,7 +190,7 @@ import '../utils/focus-source'
   }, {}))
   return css
 }, {name: 'Button'})
-export default class Button extends Component {
+export default class Button extends PureComponent {
 
   static propTypes = {
     /**

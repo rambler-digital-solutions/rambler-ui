@@ -3,7 +3,7 @@ import {
   unmountComponentAtNode,
   unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
 } from 'react-dom'
-import uniqueId from 'lodash/uniqueId'
+import uuid from '../utils/uuid'
 
 /**
  * Предоставляет в оборачиваемый `Target` методы монтирования/размонтирования в отделную ноду в DOM.
@@ -51,7 +51,7 @@ export default function provideRenderToLayer(Target) {
     }
 
     renderToLayer = (element, props) => {
-      const key = uniqueId()
+      const key = uuid()
 
       const resultElement = cloneElement(element, {
         ...props,
