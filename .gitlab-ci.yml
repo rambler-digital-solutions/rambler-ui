@@ -95,7 +95,7 @@ mirror:
     - git config --global user.email "${UI_BOT_EMAIL}"
     - git config --global user.name "${UI_BOT_NAME}"
     - git fetch --prune
-    - git push --prune git@github.com:rambler-digital-solutions/rambler-ui.git +refs/remotes/origin/master:refs/heads/master +refs/remotes/origin/gh-pages:refs/heads/gh-pages
+    - git push --prune git@github.com:rambler-digital-solutions/rambler-ui.git +refs/remotes/origin/master:refs/heads/master +refs/remotes/origin/gh-pages:refs/heads/gh-pages +refs/tags/*:refs/tags/*
 
 pages:
   stage: setup
