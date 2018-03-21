@@ -1,4 +1,5 @@
-export TickIcon from './TickIcon'
+export TickIconMedium from './TickIconMedium'
+export TickIconSmall from './TickIconSmall'
 export Eye from './Eye'
 export ClosedEyeIcon from './ClosedEyeIcon'
 export QuestionIcon from './QuestionIcon'

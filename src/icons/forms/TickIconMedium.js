@@ -3,9 +3,9 @@ import SvgIcon from '../SvgIcon'
 import pure from 'recompose/pure'
 
 @pure
-export default class TickIcon extends Component {
+export default class TickIconMedium extends Component {
 
-  static displayName = 'TickIcon'
+  static displayName = 'TickIconMedium'
 
   render() {
     return (

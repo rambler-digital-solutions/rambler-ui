@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
-import TickIcon from '../icons/forms/TickIcon'
+import TickIconMedium from '../icons/forms/TickIconMedium'
+import TickIconSmall from '../icons/forms/TickIconSmall'
 import { isolateMixin, focusSourceMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
 import '../utils/focus-source'
@@ -290,7 +291,10 @@ export default class Checkbox extends Component {
           onChange={ this.onChange }
         />
         <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
-          <TickIcon className={css.tick} style={tickStyle} />
+          {size === 'small' ?
+            <TickIconSmall className={css.tick} style={tickStyle} /> :
+            <TickIconMedium className={css.tick} style={tickStyle} />
+          }
         </span>
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }

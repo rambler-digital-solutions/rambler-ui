@@ -2,7 +2,7 @@ import { Stepper, Step } from 'rambler-ui/Stepper'
 import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
 import Button from 'rambler-ui/Button'
-import TickIcon from 'rambler-ui/icons/forms/TickIcon'
+import TickIconMedium from 'rambler-ui/icons/forms/TickIconMedium'
 
 const recovery = ['Проверка почты', 'Восстановление пароля']
 const buy = ['Выберите товар', 'Выберите адрес доставки', 'Оплата']
@@ -58,7 +58,7 @@ export default class StepperExample extends Component {
                   key={index}
                   disabled={false}
                   completed={false}
-                  icon={this.state.value === index ? <TickIcon size={10} color="#fff" /> : undefined}
+                  icon={this.state.value === index ? <TickIconMedium size={10} color="#fff" /> : undefined}
                   onClick={e => {
                     e.preventDefault()
                     this.onChange(e, index)

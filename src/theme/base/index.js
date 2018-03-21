@@ -316,7 +316,7 @@ export function createTheme(config) {
         },
         small: {
           size: 13,
-          tickSize: 7,
+          tickSize: 11,
           labelMargin: 5,
           lineHeight: 15
         }
