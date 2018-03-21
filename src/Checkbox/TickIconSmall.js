@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../icons/SvgIcon'
 import pure from 'recompose/pure'
 
 @pure
