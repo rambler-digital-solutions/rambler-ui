@@ -9,9 +9,10 @@ import classnames from 'classnames'
 import omit from 'lodash/omit'
 import pickBy from 'lodash/pickBy'
 import pure from 'recompose/pure'
+import Spinner from '../Spinner'
 import merge from 'lodash/merge'
 import { injectSheet } from '../theme'
-import { isolateMixin, focusSourceMixin } from '../style/mixins'
+import { isolateMixin, ifMobile, focusSourceMixin } from '../style/mixins'
 import '../utils/focus-source'
 
 @pure
@@ -64,15 +65,46 @@ import '../utils/focus-source'
       cursor: 'pointer'
     },
     icon: {
-      width: `${theme.iconButton.iconPercentSize}% !important`,
-      height: `${theme.iconButton.iconPercentSize}% !important`,
-      position: 'absolute',
-      left: '50%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)'
+      flex: 'none',
+      fontSize: theme.iconButton.iconPercentSize + '%',
+      width: '1em',
+      height: '1em',
+      margin: 'auto',
+      transition: 'fill .2s',
+      '$size-medium &, $size-small &': {
+        fontSize: theme.iconButton.sizes.icon,
+        ...ifMobile({
+          fontSize: theme.iconButton.mobile.sizes.icon
+        })
+      }
+    },
+    iconWithStandardColor: {},
+    isLoading: {
+      pointerEvents: 'none',
+      opacity: 0
+    },
+    loader: {
+      fontSize: 3,
+      ...ifMobile({
+        fontSize: 4
+      })
     },
     content: {
-      position: 'relative'
+      display: 'flex',
+      width: '1em',
+      height: '1em'
+    },
+    'size-medium': {
+      fontSize: theme.iconButton.sizes.medium,
+      ...ifMobile({
+        fontSize: theme.iconButton.mobile.sizes.medium
+      })
+    },
+    'size-small': {
+      fontSize: theme.iconButton.sizes.small,
+      ...ifMobile({
+        fontSize: theme.iconButton.mobile.sizes.small
+      })
     }
   }
 
@@ -91,7 +123,10 @@ import '../utils/focus-source'
         top: -outlineOffset,
         bottom: -outlineOffset,
         borderColor: colors.outline
-      })
+      }),
+      '& $iconWithStandardColor': {
+        color: colors.icon
+      }
     })
 
     return merge(result, {
@@ -100,7 +135,10 @@ import '../utils/focus-source'
         '&:hover': setThemeForSelector(conf.colors.hover, offset),
         '&:active': setThemeForSelector(conf.colors.active, offset),
         '&[disabled]': setThemeForSelector(conf.colors.disabled, offset),
-        ...focusSourceMixin('other', '&:focus', setThemeForSelector(conf.colors.focus, offset))
+        ...focusSourceMixin('other', '&:focus', setThemeForSelector(conf.colors.focus, offset)),
+        '& $loader': {
+          color: conf.colors.default.loader
+        }
       }
     })
   }, {}))
@@ -158,7 +196,11 @@ export default class IconButton extends Component {
     /**
      * Тип кнопки
      */
-    buttonType: PropTypes.string
+    buttonType: PropTypes.string,
+    /**
+     * Показывать индикатор загрузки
+     */
+    loading: PropTypes.bool
   };
 
   static defaultProps = {
@@ -171,22 +213,26 @@ export default class IconButton extends Component {
     return this.props.classes
   }
 
-  get size() {
-    if (typeof this.props.size === 'number')
-      return this.props.size
-    return this.props.theme.iconButton.sizes[this.props.size]
-  }
-
   renderIcon(icon) {
     if (!icon)
       return null
-    const { theme, type, disabled } = this.props
-    const iconProps = {}
-    if (type === 'primary' || type === 'danger' || disabled)
-      iconProps.color = theme.button.types[type].colors[disabled ? 'disabled' : 'default'].text
+
+    const {type, disabled} = this.props
     const initialProps = icon.props || {}
-    const className = classnames(initialProps.className, this.css.icon)
-    const resultProps = { ...iconProps, ...initialProps, className }
+    const isStandardColor = type === 'primary' || type === 'danger' || disabled || !initialProps.hasOwnProperty('color')
+
+    const iconProps = {
+      size: null
+    }
+    if (isStandardColor)
+      iconProps.color = 'currentColor'
+
+    const className = classnames(
+      initialProps.className,
+      this.css.icon,
+      isStandardColor && this.css.iconWithStandardColor
+    )
+    const resultProps = { ...initialProps, ...iconProps, className }
     return cloneElement(icon, resultProps)
   }
 
@@ -201,31 +247,36 @@ export default class IconButton extends Component {
       className,
       overlay,
       width,
+      loading,
+      size,
       style = {},
       ...other
-    } = omit(this.props, 'classes', 'theme', 'size')
+    } = omit(this.props, 'classes', 'theme')
 
     const css = this.css
     const iconEl = this.renderIcon(children)
-    const size = this.size
+
+    const isStandardSize = typeof this.props.size !== 'number'
 
     const resultStyle = {
       width,
+      fontSize: isStandardSize ? null : size,
       ...style
     }
 
     const resultClassName = classnames(
+      className,
       css.button,
       css[`type-${type}`],
-      className
+      isStandardSize && css[`size-${size}`]
     )
 
-    const resultChildren = [
-      <div className={css.content} style={{width: size, height: size}}>
+    const resultChildren = (
+      <span className={classnames(css.content, loading && css.isLoading)}>
         { iconEl }
         { overlay && cloneElement(overlay, {className: css.overlay}) }
-      </div>
-    ]
+      </span>
+    )
 
     const resultProps = {
       ...other,
@@ -239,6 +290,13 @@ export default class IconButton extends Component {
         <a href={ href } /> : overlay ?
           <div /> : <button type={ buttonType } />
 
-    return cloneElement(resultContainer, resultProps, ...resultChildren)
+    return cloneElement(
+      resultContainer,
+      resultProps,
+      resultChildren,
+      loading && (
+        <Spinner className={css.loader} color={null} />
+      )
+    )
   }
 }

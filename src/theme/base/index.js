@@ -1,5 +1,5 @@
 import merge from 'lodash/merge'
-import {fade, darken, lighten} from '../../utils/colors'
+import {fade, darken, lighten, mix} from '../../utils/colors'
 import colorsConfig from './colors'
 import i18n from './i18n'
 
@@ -14,6 +14,13 @@ const fontFamilies = {
  */
 export function createTheme(config) {
   const { colors } = config
+
+  const disabledButtonColors = {
+    text: colors.controls.grey.disabledText,
+    icon: mix(colors.controls.grey.outline, '#ffffff', 0.7),
+    background: colors.controls.grey.background
+  }
+
   return merge({
     fontFamily: fontFamilies.Roboto,
     typography: {
@@ -100,10 +107,12 @@ export function createTheme(config) {
       mobile: {
         sizes: {
           medium: {
-            fontSize: 12
+            fontSize: 12,
+            height: 55
           },
           small: {
-            fontSize: 12
+            fontSize: 12,
+            height: 45
           }
         }
       },
@@ -135,10 +144,7 @@ export function createTheme(config) {
             active: {
               background: darken(colors.primary, 0.2)
             },
-            disabled: {
-              text: fade(colors.light, 0.2),
-              icon: fade(colors.light, 0.2)
-            },
+            disabled: disabledButtonColors,
             focus: {
               outline: colors.primary
             }
@@ -159,10 +165,7 @@ export function createTheme(config) {
             active: {
               background: darken(colors.danger, 0.2)
             },
-            disabled: {
-              text: fade(colors.light, 0.2),
-              icon: fade(colors.light, 0.2)
-            },
+            disabled: disabledButtonColors,
             focus: {
               outline: colors.danger
             }
@@ -178,17 +181,14 @@ export function createTheme(config) {
             },
             hover: {
               text: colors.primary,
-              background: fade(colors.controls.grey.outline, 0.2)
+              background: mix(colors.controls.grey.outline, '#ffffff', 0.2)
             },
             active: {
               text: darken(colors.primary, 0.2),
               icon: darken(colors.primary, 0.2),
-              background: fade(colors.controls.grey.outline, 0.2)
+              background: mix(colors.controls.grey.outline, '#ffffff', 0.2)
             },
-            disabled: {
-              text: colors.controls.grey.outline,
-              icon: fade(colors.dark, 0.1)
-            },
+            disabled: disabledButtonColors,
             focus: {
               outline: colors.primary
             }
@@ -200,7 +200,7 @@ export function createTheme(config) {
               text: colors.dark,
               icon: colors.primary,
               loader: colors.primary,
-              border: colors.controls.grey.default,
+              border: mix(colors.controls.grey.outline, '#ffffff', 0.3),
               background: 'transparent'
             },
             hover: {
@@ -214,9 +214,9 @@ export function createTheme(config) {
               background: colors.controls.grey.background
             },
             disabled: {
-              text: colors.controls.grey.disabled,
-              icon: colors.controls.grey.disabled,
-              border: colors.controls.grey.disabled
+              text: colors.controls.grey.disabledText,
+              icon: mix(colors.controls.grey.outline, '#ffffff', 0.7),
+              border: mix(colors.controls.grey.outline, '#ffffff', 0.2)
             },
             focus: {
               outline: colors.primary
@@ -238,8 +238,8 @@ export function createTheme(config) {
               background: colors.controls.grey.background
             },
             disabled: {
-              text: colors.controls.grey.disabled,
-              icon: colors.controls.grey.disabled
+              text: colors.controls.grey.disabledText,
+              icon: mix(colors.controls.grey.outline, '#ffffff', 0.7)
             },
             focus: {
               outline: colors.primary
@@ -444,7 +444,15 @@ export function createTheme(config) {
       iconPercentSize: 45,
       sizes: {
         medium: 45,
-        small: 23
+        small: 35,
+        icon: 15
+      },
+      mobile: {
+        sizes: {
+          medium: 55,
+          small: 45,
+          icon: 19
+        }
       }
     },
     // input, select, textarea

@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import SvgIcon from '../SvgIcon'
-import pure from 'recompose/pure'
 
-@pure
-export default class RssIcon extends Component {
+export default class RssIcon extends PureComponent {
 
   static displayName = 'RssIcon'
 

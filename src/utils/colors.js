@@ -197,3 +197,31 @@ export function fade(color, value) {
 
   return convertColorToString(color)
 }
+
+/**
+ * @param  {string} color - Hex, rgb or rgba
+ * @param  {string} mixinColor - Hex, rgb or rgba
+ * @param  {number} coefficient - multiplier for mixinColor in the range 0 - 1
+ * @return {string} color in rgba mode
+ */
+export function mix(color, mixinColor, coefficient = 1) {
+  // ported from sass implementation in C
+  // https://github.com/sass/libsass/blob/0e6b4a2850092356aa3ece07c6b249f0221caced/functions.cpp#L209
+  color = decomposeColor(color)
+  mixinColor = decomposeColor(mixinColor)
+
+  const colorAlpha = color.type === 'rgba' ? color.values[3] : 1
+  const mixinColorAlpha = color.type === 'rgba' ? color.mixinColor[3] : 1
+
+  const w = 2 * coefficient - 1
+  const a = colorAlpha - mixinColorAlpha
+
+  const w1 = (((w * a === -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0
+  const w2 = 1 - w1
+
+  for(let i = 0; i < 3; i++)
+    color.values[i] = w1 * color.values[i] + w2 * mixinColor.values[i]
+  color[3] = colorAlpha * coefficient + mixinColorAlpha * (1 - coefficient)
+
+  return convertColorToString(color)
+}

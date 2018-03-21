@@ -45,21 +45,22 @@ describe('<IconButton />', () => {
     expect(styles.width).toEqual(theme.iconButton.sizes.medium + 'px')
     expect(styles.height).toEqual(theme.iconButton.sizes.medium + 'px')
     expect(nc(styles['background-color'])).toEqual(nc(theme.button.types.primary.colors.default.background))
-    expect(Math.round(parseInt(stylesIcon.width))).toEqual(Math.round(theme.iconButton.sizes.medium * theme.iconButton.iconPercentSize / 100))
-    expect(Math.round(parseInt(stylesIcon.height))).toEqual(Math.round(theme.iconButton.sizes.medium * theme.iconButton.iconPercentSize / 100))
-    expect(nc(stylesIcon.fill)).toEqual(nc(theme.button.types.primary.colors.default.text))
+    expect(Math.round(parseInt(stylesIcon.width))).toEqual(theme.iconButton.sizes.icon)
+    expect(Math.round(parseInt(stylesIcon.height))).toEqual(theme.iconButton.sizes.icon)
+    expect(nc(stylesIcon.fill)).toEqual(nc(theme.button.types.primary.colors.default.icon))
   })
 
   it('expect type="secondary" size="small" affect style', () => {
-    const wrapper = mount(applyTheme(<IconButton type="secondary" size="small"><RamblerMailIcon color={theme.button.types.secondary.colors.default.text} /></IconButton>))
+    const color = '#00FF00'
+    const wrapper = mount(applyTheme(<IconButton type="secondary" size="small"><RamblerMailIcon color={color} /></IconButton>))
     const styles = getStyles(wrapper)
     const stylesIcon = getStyles(wrapper.find('svg'))
     expect(styles.width).toEqual(theme.iconButton.sizes.small + 'px')
     expect(styles.height).toEqual(theme.iconButton.sizes.small + 'px')
     expect(nc(styles['background-color'])).toEqual(nc(theme.button.types.secondary.colors.default.background))
-    expect(Math.round(parseInt(stylesIcon.width))).toEqual(Math.round(theme.iconButton.sizes.small * theme.iconButton.iconPercentSize / 100))
-    expect(Math.round(parseInt(stylesIcon.height))).toEqual(Math.round(theme.iconButton.sizes.small * theme.iconButton.iconPercentSize / 100))
-    expect(nc(stylesIcon.fill)).toEqual(nc(theme.button.types.secondary.colors.default.text))
+    expect(Math.round(parseInt(stylesIcon.width))).toEqual(theme.iconButton.sizes.icon)
+    expect(Math.round(parseInt(stylesIcon.height))).toEqual(theme.iconButton.sizes.icon)
+    expect(nc(stylesIcon.fill)).toEqual(nc(color))
   })
 
   it('expect type="danger" size={30} affect style', () => {
@@ -71,7 +72,7 @@ describe('<IconButton />', () => {
     expect(nc(styles['background-color'])).toEqual(nc(theme.button.types.danger.colors.default.background))
     expect(Math.floor(parseInt(stylesIcon.width))).toEqual(Math.floor(30 * theme.iconButton.iconPercentSize / 100))
     expect(Math.floor(parseInt(stylesIcon.height))).toEqual(Math.floor(30 * theme.iconButton.iconPercentSize / 100))
-    expect(nc(stylesIcon.fill)).toEqual(nc(theme.button.types.danger.colors.default.text))
+    expect(nc(stylesIcon.fill)).toEqual(nc(theme.button.types.danger.colors.default.icon))
   })
 
   it('callback onClick', () => {
