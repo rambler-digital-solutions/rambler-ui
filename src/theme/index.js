@@ -1,6 +1,6 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import merge from 'lodash/merge'
+import deepmerge from 'deepmerge'
 import {
   create as originalCreateJss,
   createGenerateClassName as originalCreateGenerateClassName
@@ -79,7 +79,7 @@ export class ApplyTheme extends PureComponent {
       generateClassName,
       getResultTheme: (parentTheme) => {
         if (currTheme !== theme || currParentTheme !== parentTheme) {
-          resultTheme = merge({}, parentTheme, theme)
+          resultTheme = parentTheme ? deepmerge(parentTheme, theme) : theme
           currParentTheme = parentTheme
           currTheme = theme
         }

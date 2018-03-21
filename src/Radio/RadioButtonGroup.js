@@ -4,7 +4,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
 import { injectSheet } from '../theme'
@@ -121,8 +120,12 @@ export default class RadioButtonGroup extends Component {
       className,
       classes: css,
       children,
+      theme, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars
+      value, // eslint-disable-line no-unused-vars
+      labelPosition, // eslint-disable-line no-unused-vars
       ...otherRootProps
-    } = omit(this.props, 'theme', 'onChange', 'value', 'labelPosition')
+    } = this.props
 
     const resultClassName = classnames(css.radioButtonGroup, className)
 

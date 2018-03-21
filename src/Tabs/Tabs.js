@@ -4,7 +4,6 @@
 import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, bottomBorderMixin } from '../style/mixins'
 
@@ -99,8 +98,11 @@ export default class Tabs extends Component {
       disabled,
       className,
       classes: css,
+      theme, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars
+      value, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'theme', 'onChange', 'value')
+    } = this.props
     let i = 0
     const tabs = React.Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiTabsItem')

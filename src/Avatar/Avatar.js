@@ -1,7 +1,6 @@
 import React, { PureComponent, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import * as profileIcons from '../icons/profiles'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
@@ -136,8 +135,11 @@ export default class Avatar extends PureComponent {
       shape,
       profileType,
       theme,
+      classes, // eslint-disable-line no-unused-vars
+      href, // eslint-disable-line no-unused-vars
+      container, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'classes', 'href', 'container')
+    } = this.props
 
     const styles = Object.assign({}, style, {
       backgroundColor,

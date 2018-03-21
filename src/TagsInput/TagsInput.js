@@ -4,7 +4,6 @@
 import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 import windowEvents from '../hoc/window-events'
@@ -228,8 +227,10 @@ export default class TagsInput extends PureComponent {
       onMoreClick,
       size,
       theme: { i18n },
+      windowEvents, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, ['windowEvents', 'onChange'])
+    } = this.props
 
     const {visibleItemsCount} = this.state
     const resultClassName = classnames(

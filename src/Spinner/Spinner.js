@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import range from 'lodash/range'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
 
@@ -116,11 +115,10 @@ export default class Spinner extends PureComponent {
     return (
       <span
         style={resultStyle}
-        className={classnames(className, this.css.spinner, !inline && this.css.position)}
-      >
-        {range(3).map(i => (
-          <span className={this.css.dot} key={i} />
-        ))}
+        className={classnames(className, this.css.spinner, !inline && this.css.position)}>
+        <span className={this.css.dot} />
+        <span className={this.css.dot} />
+        <span className={this.css.dot} />
       </span>
     )
   }

@@ -1,6 +1,6 @@
-import merge from 'lodash/merge'
 import baseColors from '../base/colors'
 
-export default merge(baseColors, {
+export default {
+  ...baseColors,
   primary: '#ff4800'
-})
+}

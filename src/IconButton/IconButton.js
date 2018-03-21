@@ -6,128 +6,127 @@
 import React, { PureComponent, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
-import pickBy from 'lodash/pickBy'
-import merge from 'lodash/merge'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
 import { isolateMixin, ifMobile, focusSourceMixin } from '../style/mixins'
 import '../utils/focus-source'
 
-@injectSheet((theme) => {
-  const css = {
-    button: {
-      ...isolateMixin,
-      cursor: 'pointer',
-      boxSizing: 'border-box',
-      borderRadius: theme.iconButton.borderRadius,
-      outline: 'none',
-      position: 'relative',
-      display: 'inline-block',
-      border: 'none !important',
-      userSelect: 'none',
-      verticalAlign: 'middle',
-      '&, & *': {
-        transition: 'background-color .2s, border .2s, box-shadow .2s'
-      },
-      '&:before, &:after': {
-        content: '""',
-        display: 'block',
-        position: 'absolute',
-        pointerEvents: 'none',
-        borderRadius: theme.iconButton.borderRadius,
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        border: '1px solid transparent',
-        transition: 'all .2s'
-      },
-      '&[disabled]': {
-        pointerEvents: 'none'
-      },
-      '&::-moz-focus-inner': {
-        border: 'none !important',
-        outline: 'none !important'
-      }
+@injectSheet((theme) => ({
+  button: {
+    ...isolateMixin,
+    cursor: 'pointer',
+    boxSizing: 'border-box',
+    borderRadius: theme.iconButton.borderRadius,
+    outline: 'none',
+    position: 'relative',
+    display: 'inline-block',
+    border: 'none !important',
+    userSelect: 'none',
+    verticalAlign: 'middle',
+    '&, & *': {
+      transition: 'background-color .2s, border .2s, box-shadow .2s'
     },
-    overlay: {
+    '&:before, &:after': {
+      content: '""',
+      display: 'block',
       position: 'absolute',
-      top: 0,
+      pointerEvents: 'none',
+      borderRadius: theme.iconButton.borderRadius,
       left: 0,
       right: 0,
+      top: 0,
       bottom: 0,
-      zIndex: 1,
-      opacity: 0,
-      width: '100%',
-      cursor: 'pointer'
+      border: '1px solid transparent',
+      transition: 'all .2s'
     },
-    icon: {
-      flex: 'none',
-      fontSize: theme.iconButton.iconPercentSize + '%',
-      width: '1em',
-      height: '1em',
-      margin: 'auto',
-      transition: 'fill .2s',
-      '$size-medium &, $size-small &': {
-        fontSize: theme.iconButton.sizes.icon,
-        ...ifMobile({
-          fontSize: theme.iconButton.mobile.sizes.icon
-        })
-      }
+    '&[disabled]': {
+      pointerEvents: 'none'
     },
-    iconWithStandardColor: {},
-    isLoading: {
-      pointerEvents: 'none',
-      opacity: 0
-    },
-    loader: {
-      fontSize: 3,
+    '&::-moz-focus-inner': {
+      border: 'none !important',
+      outline: 'none !important'
+    }
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
+    opacity: 0,
+    width: '100%',
+    cursor: 'pointer'
+  },
+  icon: {
+    flex: 'none',
+    fontSize: theme.iconButton.iconPercentSize + '%',
+    width: '1em',
+    height: '1em',
+    margin: 'auto',
+    transition: 'fill .2s',
+    '$size-medium &, $size-small &': {
+      fontSize: theme.iconButton.sizes.icon,
       ...ifMobile({
-        fontSize: 4
-      })
-    },
-    content: {
-      display: 'flex',
-      width: '1em',
-      height: '1em'
-    },
-    'size-medium': {
-      fontSize: theme.iconButton.sizes.medium,
-      ...ifMobile({
-        fontSize: theme.iconButton.mobile.sizes.medium
-      })
-    },
-    'size-small': {
-      fontSize: theme.iconButton.sizes.small,
-      ...ifMobile({
-        fontSize: theme.iconButton.mobile.sizes.small
+        fontSize: theme.iconButton.mobile.sizes.icon
       })
     }
-  }
-
-  merge(css, ['primary', 'secondary', 'outline', 'flat', 'danger'].reduce((result, type) => {
+  },
+  iconWithStandardColor: {},
+  isLoading: {
+    pointerEvents: 'none',
+    opacity: 0
+  },
+  loader: {
+    fontSize: 3,
+    ...ifMobile({
+      fontSize: 4
+    })
+  },
+  content: {
+    display: 'flex',
+    width: '1em',
+    height: '1em'
+  },
+  'size-medium': {
+    fontSize: theme.iconButton.sizes.medium,
+    ...ifMobile({
+      fontSize: theme.iconButton.mobile.sizes.medium
+    })
+  },
+  'size-small': {
+    fontSize: theme.iconButton.sizes.small,
+    ...ifMobile({
+      fontSize: theme.iconButton.mobile.sizes.small
+    })
+  },
+  ...['primary', 'secondary', 'outline', 'flat', 'danger'].reduce((result, type) => {
     const conf = theme.button.types[type]
     const offset = conf.outlineOffset || 0
 
-    const setThemeForSelector = (colors, outlineOffset) => pickBy({
+    const setThemeForSelector = (colors, outlineOffset) => ({
       background: colors.background,
-      '&:before': colors.border && {
-        borderColor: colors.border
+      '&:before': {
+        ...colors.border && {
+          borderColor: colors.border
+        }
       },
-      '&:after': colors.outline && pickBy({
-        left: -outlineOffset,
-        right: -outlineOffset,
-        top: -outlineOffset,
-        bottom: -outlineOffset,
-        borderColor: colors.outline
-      }),
+      '&:after': {
+        ...colors.outline && {
+          left: -outlineOffset,
+          right: -outlineOffset,
+          top: -outlineOffset,
+          bottom: -outlineOffset,
+          borderColor: colors.outline
+        }
+      },
       '& $iconWithStandardColor': {
         color: colors.icon
       }
     })
 
-    return merge(result, {
+    return {
+      ...result,
       [`type-${type}`]: {
         ...setThemeForSelector(conf.colors.default, offset),
         '&:hover': setThemeForSelector(conf.colors.hover, offset),
@@ -138,11 +137,9 @@ import '../utils/focus-source'
           color: conf.colors.default.loader
         }
       }
-    })
-  }, {}))
-
-  return css
-}, {name: 'IconButton'})
+    }
+  }, {})
+}), {name: 'IconButton'})
 export default class IconButton extends PureComponent {
 
   static propTypes = {
@@ -248,8 +245,10 @@ export default class IconButton extends PureComponent {
       loading,
       size,
       style = {},
+      classes, // eslint-disable-line no-unused-vars
+      theme, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'classes', 'theme')
+    } = this.props
 
     const css = this.css
     const iconEl = this.renderIcon(children)

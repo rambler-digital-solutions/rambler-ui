@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import TickIcon from '../icons/forms/TickIcon'
 import { isolateMixin, focusSourceMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
@@ -241,8 +240,10 @@ export default class Checkbox extends Component {
       checked,
       indeterminate,
       classes: css,
+      onCheck, // eslint-disable-line no-unused-vars
+      theme, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'onCheck', 'theme')
+    } = this.props
 
     const resultClassName = classnames(
       className,

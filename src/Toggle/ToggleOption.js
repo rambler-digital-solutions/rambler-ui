@@ -4,7 +4,6 @@
 import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
 
@@ -110,20 +109,21 @@ class ToggleOption extends Component {
   }
 
   render() {
-    /* eslint-disable no-unused-vars */
     const {
       icon,
       size,
       children,
       className,
-      isSelected,
-      onPress,
       nodeRef,
       classes: css,
+      isSelected, // eslint-disable-line no-unused-vars
+      onPress, // eslint-disable-line no-unused-vars
+      theme, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'theme')
-    /* eslint-enable no-unused-vars */
+    } = this.props
+
     const resultClassName = classnames(css.toggleOption, css[`size-${size}`], className)
+
     return (
       <button type="button" tabIndex="0" { ...other } className={ resultClassName } onClick={ this.onClick } ref={ nodeRef }>
         { this.renderIcon(icon) }

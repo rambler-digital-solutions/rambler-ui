@@ -4,7 +4,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
 import { injectSheet } from '../theme'
@@ -226,8 +225,11 @@ class RadioButton extends Component {
       classes: css,
       onFocus,
       onBlur,
+      theme, // eslint-disable-line no-unused-vars
+      value, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'theme', 'value', 'onChange')
+    } = this.props
 
     const rootClassName = classnames(
       className,
