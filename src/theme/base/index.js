@@ -311,14 +311,12 @@ export function createTheme(config) {
         medium: {
           size: 15,
           tickSize: 9,
-          fakeTop: 2,
           labelMargin: 10,
           lineHeight: 20
         },
         small: {
           size: 13,
           tickSize: 7,
-          fakeTop: 1,
           labelMargin: 5,
           lineHeight: 15
         }

@@ -132,7 +132,9 @@ const tickStyle = {
           lineHeight: checkboxTheme.sizes[size].size + 'px'
         },
         '& $fake': {
-          top: checkboxTheme.sizes[size].fakeTop,
+          top: size === 'small' ?
+            Math.round((checkboxTheme.sizes[size].lineHeight - checkboxTheme.sizes[size].size) / 2) :
+            Math.round((checkboxTheme.sizes[size].lineHeight - checkboxTheme.sizes[size].size) / 2) - 1,
           width: checkboxTheme.sizes[size].size,
           height: checkboxTheme.sizes[size].size
         },

@@ -61,7 +61,7 @@ describe('<Checkbox />', () => {
 
     expect(checkboxStyles.width).toEqual(theme.checkbox.sizes.small.size + 'px')
     expect(checkboxStyles.height).toEqual(theme.checkbox.sizes.small.size + 'px')
-    expect(checkboxStyles.top).toEqual(theme.checkbox.sizes.small.fakeTop + 'px')
+    expect(checkboxStyles.top).toEqual((theme.checkbox.sizes.small.lineHeight - theme.checkbox.sizes.small.size) / 2 + 'px')
 
     expect(labelStyles['padding-left']).toEqual((theme.checkbox.sizes.small.size + theme.checkbox.sizes.small.labelMargin) + 'px')
   })
