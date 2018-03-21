@@ -139,8 +139,8 @@ const tickStyle = {
           height: checkboxTheme.sizes[size].size
         },
         '& $tick': {
-          top: Math.round(0.25 * checkboxTheme.sizes[size].tickSize),
-          left: Math.round(0.25 * checkboxTheme.sizes[size].tickSize),
+          top: Math.round((checkboxTheme.sizes[size].size - checkboxTheme.sizes[size].tickSize) / 2) - 1,
+          left: Math.round((checkboxTheme.sizes[size].size - checkboxTheme.sizes[size].tickSize) / 2) - 1,
           width: checkboxTheme.sizes[size].tickSize,
           height: checkboxTheme.sizes[size].tickSize,
           transform: `translateY(-${checkboxTheme.sizes[size].tickSize * 0.5}px)`,
