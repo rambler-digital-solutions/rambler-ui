@@ -4,11 +4,11 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import TickIconMedium from '../icons/forms/TickIconMedium'
+import TickIcon from '../icons/forms/TickIcon'
 import { isolateMixin, ifDesktopSize, middleMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
 
-const defaultIcon = <TickIconMedium size={10} color="currentColor" />
+const defaultIcon = <TickIcon size={10} color="currentColor" />
 
 @injectSheet(theme => ({
   step: {
