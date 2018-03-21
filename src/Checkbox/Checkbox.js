@@ -144,7 +144,9 @@ const tickStyle = {
           left: Math.round((checkboxTheme.sizes[size].size - checkboxTheme.sizes[size].tickSize) / 2) - 1,
           width: checkboxTheme.sizes[size].tickSize,
           height: checkboxTheme.sizes[size].tickSize,
-          transform: `translateY(-${checkboxTheme.sizes[size].tickSize * 0.5}px)`,
+          transform: size === 'small' ?
+            `translateY(-${checkboxTheme.sizes[size].tickSize * 0.3}px)` :
+            `translateY(-${checkboxTheme.sizes[size].tickSize * 0.5}px)`,
           '$isChecked&': {
             transform: 'translateY(0)'
           }
