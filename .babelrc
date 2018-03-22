@@ -5,6 +5,14 @@
     "transform-decorators-legacy"
   ],
   "env": {
-    "development": {}
+    "production": {
+      "plugins": [
+        ["transform-inline-environment-variables", {
+          "include": [
+            "VERSION"
+          ]
+        }]
+      ]
+    }
   }
 }
