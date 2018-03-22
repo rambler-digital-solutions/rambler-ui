@@ -14,6 +14,7 @@ import { DROPDOWN_ZINDEX } from '../constants/z-indexes'
 import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
 import { getBoundingClientRect as originalGetBoundingClientRect, createMutationObserver } from '../utils/DOM'
 
+const noop = () => {}
 
 // 1. Рендерим анкор
 // 2. После маунта анкора, если нужно показать контент, маунтим контент в отдельный контейнер
@@ -620,7 +621,7 @@ export default class FixedOverlay extends PureComponent {
       }
       if (this.props.onContentOpen)
         this.props.onContentOpen()
-    })
+    }).catch(noop)
   }
 
   /**
