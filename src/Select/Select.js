@@ -10,6 +10,7 @@ import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin } from '../style/mixins'
+import ClearIcon from '../icons/forms/ClearIcon'
 
 const emptyArr = []
 
@@ -140,6 +141,20 @@ const absolutePosition = {
       maxHeight: theme.menu.sizes.small.height * 4 + 2
     }
   },
+  clear: {
+    flex: 'none',
+    alignSelf: 'center',
+    color: theme.field.icon.colors.default,
+    stroke: 'currentColor',
+    fill: 'currentColor',
+    marginTop: 5,
+    marginLeft: 5,
+    cursor: 'pointer',
+    pointerEvents: 'auto',
+    '&:hover , &:active': {
+      color: theme.field.icon.colors.active
+    }
+  },
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
@@ -232,6 +247,10 @@ export default class Select extends PureComponent {
      * Множественный выбор
      */
     multiple: PropTypes.bool,
+    /**
+     * Показывать кнопку очистки инпута
+     */
+    showClear: PropTypes.bool,
     /**
      * Дополнительный CSS-класс кнопки со стрелкой
      */
@@ -330,6 +349,7 @@ export default class Select extends PureComponent {
   static defaultProps = {
     value: null,
     multiple: false,
+    showClear: false,
     status: null,
     size: 'medium',
     variation: 'awesome',
@@ -347,8 +367,12 @@ export default class Select extends PureComponent {
   }
 
   get showArrow() {
-    const {children} = this.props
-    return children && children.length > 0
+    const {children, showClear} = this.props
+    return children && children.length > 0 && !showClear
+  }
+
+  get showClear() {
+    return this.props.showClear && this.state.isOpened && this.state.searchText !== ''
   }
 
   constructor(props) {
@@ -468,6 +492,20 @@ export default class Select extends PureComponent {
     }, 0)
   }
 
+  onClear = () => {
+    const {
+      searchText,
+      inputFocused
+    } = this.state
+
+    if (inputFocused && searchText !== '') {
+      this.setState({
+        searchText: ''
+      })
+      this.changeValue(null)
+    }
+  }
+
   clearValueOnBackspace() {
     const {
       searchText,
@@ -539,6 +577,7 @@ export default class Select extends PureComponent {
       'inputValueRenderer',
       'customElementRenderer',
       'multiple',
+      'showClear',
       'theme',
       'arrowClassName',
       'arrowStyle',
@@ -563,6 +602,16 @@ export default class Select extends PureComponent {
       </div>
     )
   }
+
+  Clear = () => (
+    <ClearIcon
+      className={this.css.clear}
+      size={8}
+      color="currentColor"
+      onMouseDown={this.preventBlurInput}
+      onClick={this.onClear}
+    ></ClearIcon>
+  )
 
   renderSelectedItems() {
     const selected = Array.isArray(this.props.value) ? this.props.value : emptyArr
@@ -633,7 +682,7 @@ export default class Select extends PureComponent {
         inputStyle={style}
         className={this.css.input}
         iconLeft={icon}
-        iconRight={this.showArrow ? createElement(this.Arrow) : undefined}
+        iconRight={this.showClear ? createElement(this.Clear) : this.showArrow ? createElement(this.Arrow) : undefined}
         iconRightClassName={this.css.icon}
         onKeyDown={this.keyDown}
         onClick={this.open}
