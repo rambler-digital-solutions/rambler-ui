@@ -1,9 +1,7 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import SvgIcon from '../icons/SvgIcon'
-import pure from 'recompose/pure'
 
-@pure
-export default class TickIconSmall extends Component {
+export default class TickIconSmall extends PureComponent {
 
   static displayName = 'TickIconSmall'
 
