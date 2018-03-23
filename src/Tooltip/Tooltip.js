@@ -203,16 +203,13 @@ class TooltipContent extends PureComponent {
     )
     const arrowStyle = {}
 
-    const arrowOffsetLeft = anchorWidth > 24 ? (anchorWidth / 2 + 3) : 24
-    const arrowOffsetRight = anchorWidth > 44 ? (anchorWidth / 2 - 7) : 14
-
     if (anchorWidth)
       if (anchorPointX === 'left' && pointX === 'left') {
-        arrowStyle.left = arrowOffsetLeft + 'px'
+        arrowStyle.left = (anchorWidth / 2 + 13) + 'px'
         arrowStyle.right = 'auto'
       } else if (anchorPointX === 'right' && pointX === 'right') {
         arrowStyle.left = 'auto'
-        arrowStyle.right = arrowOffsetRight + 'px'
+        arrowStyle.right = (anchorWidth / 2 + 3) + 'px'
       }
 
     if (anchorHeight)
