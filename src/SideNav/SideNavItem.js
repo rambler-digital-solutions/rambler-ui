@@ -4,7 +4,6 @@
 import React, { Component, cloneElement, isValidElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin } from '../style/mixins'
 
@@ -139,8 +138,10 @@ class SideNavItem extends Component {
       href,
       container,
       classes: css,
+      theme, // eslint-disable-line no-unused-vars
+      onPress, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'theme', 'onPress')
+    } = this.props
 
     const mediumSize = size === 'medium'
 

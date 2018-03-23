@@ -4,7 +4,6 @@
 import React, { Component, cloneElement } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import defaults from 'lodash/defaults'
 import { isolateMixin, ifDesktopSize } from '../style/mixins'
 import { injectSheet } from '../theme'
 
@@ -89,7 +88,7 @@ class Stepper extends Component {
       const active = index === currentValue
       const completed = index < currentValue
       const disabled = index > currentValue
-      const defaultProps = {...child.props}
+      const props = {...child.props}
       const extendedProps = {
         active,
         completed,
@@ -98,7 +97,11 @@ class Stepper extends Component {
         key: child.key !== undefined ? child.key : index,
         onClick: this.onChange
       }
-      acc.push(cloneElement(child, defaults(defaultProps, extendedProps)))
+      Object.keys(extendedProps).forEach(key => {
+        if (!props.hasOwnProperty(key))
+          props[key] = extendedProps[key]
+      })
+      acc.push(cloneElement(child, props))
       return acc
     }, [])
     return (

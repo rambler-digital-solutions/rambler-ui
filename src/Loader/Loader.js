@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import pure from 'recompose/pure'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
 
-@pure
 @injectSheet(theme => ({
   loader: {
     position: 'relative',
@@ -38,7 +36,7 @@ import { injectSheet } from '../theme'
     filter: 'blur(1px)'
   }
 }), {name: 'Loader'})
-export default class Loader extends Component {
+export default class Loader extends PureComponent {
 
   static propTypes = {
     /**

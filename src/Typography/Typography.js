@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
@@ -147,8 +146,9 @@ export default class Typography extends PureComponent {
       type,
       uppercase,
       children,
+      theme, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'theme')
+    } = this.props
 
     return React.createElement(tagName, {
       className: classnames(className, classes.reset, type && classes[type], uppercase && classes.uppercase),

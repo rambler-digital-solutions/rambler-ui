@@ -1,4 +1,4 @@
-import merge from 'lodash/merge'
+import deepmerge from 'deepmerge'
 import {fade, darken, lighten, mix} from '../../utils/colors'
 import colorsConfig from './colors'
 import i18n from './i18n'
@@ -21,7 +21,7 @@ export function createTheme(config) {
     background: colors.controls.grey.background
   }
 
-  return merge({
+  return deepmerge({
     fontFamily: fontFamilies.Roboto,
     typography: {
       h1: {

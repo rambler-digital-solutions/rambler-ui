@@ -1,7 +1,6 @@
-import React, { Component, cloneElement } from 'react'
+import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import pure from 'recompose/pure'
 import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../events/OnClickOutside'
@@ -11,7 +10,6 @@ import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
 import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
 
-@pure
 @zIndexStack(SNACKBAR_ZINDEX)
 @renderToLayer
 @injectSheet(theme => ({
@@ -144,7 +142,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
     padding: theme.snackbar.sizes.small.padding
   }
 }), {name: 'Snackbar'})
-export default class Snackbar extends Component {
+export default class Snackbar extends PureComponent {
 
   static propTypes = {
     /**

@@ -1,19 +1,17 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
-import pickBy from 'lodash/pickBy'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
-const setThemeForSelector = colors => pickBy({
+const setThemeForSelector = colors => ({
   color: colors.text,
-  '& $switcher': pickBy({
+  '& $switcher': {
     backgroundColor: colors.background
-  }),
-  '& $track': pickBy({
+  },
+  '& $track': {
     backgroundColor: colors.track
-  })
+  }
 })
 
 @injectSheet(theme => ({
@@ -205,8 +203,12 @@ export default class Switcher extends PureComponent {
       disabled,
       children,
       iconPosition,
+      checked: check, // eslint-disable-line no-unused-vars
+      theme, // eslint-disable-line no-unused-vars
+      classes, // eslint-disable-line no-unused-vars
+      onCheck, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'checked', 'theme', 'classes', 'onCheck')
+    } = this.props
 
     const rootClassName = classnames(
       this.css.root,

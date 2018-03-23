@@ -1,7 +1,6 @@
 import React, { cloneElement } from 'react'
 import Enzyme, {mount as enzymeMount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import once from 'lodash/once'
 import { ApplyTheme } from '../theme'
 
 const bodyStyle = document.body.style
@@ -11,12 +10,15 @@ bodyStyle.height = bodyStyle.minHeight = htmlStyle.height = htmlStyle.minHeight 
 
 Enzyme.configure({ adapter: new Adapter() })
 
-const provideContainer = once(() => {
-  const container = document.createElement('div')
-  container.className = 'test-container'
-  document.body.appendChild(container)
+const provideContainer = () => {
+  let container = document.querySelector('.test-container')
+  if (container == null) {
+    container = document.createElement('div')
+    container.className = 'test-container'
+    document.body.appendChild(container)
+  }
   return container
-})
+}
 
 export function mount(component) {
   return enzymeMount(component, {

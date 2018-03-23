@@ -1,7 +1,6 @@
 import React, { PureComponent, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
@@ -122,8 +121,9 @@ export default class FieldGroup extends PureComponent {
       disabled,
       variation,
       showDivider,
+      theme, // eslint-disable-line no-unused-vars
       ...props
-    } = omit(this.props, 'theme')
+    } = this.props
 
     const count = Children.count(children)
     let i = 1

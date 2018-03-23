@@ -4,7 +4,6 @@
 import React, { Component, Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
@@ -99,8 +98,9 @@ export default class SideNav extends Component {
       children,
       className,
       classes: css,
+      theme, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, 'theme')
+    } = this.props
 
     const resultChildren = Children.map(children, (child) => {
       if (!child.type || child.type.displayName !== 'ruiSideNavItem')

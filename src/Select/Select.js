@@ -1,7 +1,6 @@
 import React, { PureComponent, createElement, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import Menu from '../Menu/Menu'
 import Input from '../Input'
 import { TagsInput, TagsInputItem } from '../TagsInput'
@@ -523,29 +522,33 @@ export default class Select extends PureComponent {
   }
 
   getInputProps() {
-    return omit(this.props, [
-      'dropdownClassName',
-      'dropdownStyle',
-      'menuClassName',
-      'menuStyle',
-      'valuesEquality',
-      'children',
-      'value',
-      'appendToBody',
-      'classes',
-      'onFocus',
-      'onBlur',
-      'onChange',
-      'inputValueRenderer',
-      'customElementRenderer',
-      'multiple',
-      'theme',
-      'arrowClassName',
-      'arrowStyle',
-      'arrowIcon',
-      'containerStyle',
-      'containerClassName'
-    ])
+    /* eslint-disable no-unused-vars */
+    const {
+      dropdownClassName,
+      dropdownStyle,
+      menuClassName,
+      menuStyle,
+      valuesEquality,
+      children,
+      value,
+      appendToBody,
+      classes,
+      onFocus,
+      onBlur,
+      onChange,
+      inputValueRenderer,
+      customElementRenderer,
+      multiple,
+      theme,
+      arrowClassName,
+      arrowStyle,
+      arrowIcon,
+      containerStyle,
+      containerClassName,
+      ...props
+    } = this.props
+    /* eslint-enable no-unused-vars */
+    return props
   }
 
   Arrow = (props) => {
@@ -730,7 +733,7 @@ export default class Select extends PureComponent {
     )
 
     const resultIsOpened = isOpened && (children.length > 0 || (multiple && Array.isArray(value) && value.length > 0))
-    
+
     return (
       <OnClickOutside handler={this.closeOnClickOutside}>
         <div className={resultClassName}>

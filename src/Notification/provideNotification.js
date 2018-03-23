@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import omit from 'lodash/omit'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function provideNotification(Target) {
@@ -27,7 +26,11 @@ export default function provideNotification(Target) {
     }
 
     render() {
-      const props = omit(this.props, 'renderToLayer', 'unrenderAtLayer')
+      const {
+        renderToLayer, // eslint-disable-line no-unused-vars
+        unrenderAtLayer, // eslint-disable-line no-unused-vars
+        ...props
+      } = this.props
 
       return (
         <Target

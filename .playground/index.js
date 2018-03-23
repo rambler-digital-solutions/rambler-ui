@@ -2,11 +2,11 @@
 /* eslint global-require: ["off"] */
 
 const cp = require('child_process')
-const {merge} = require('lodash')
+const deepmerge = require('deepmerge')
 
 const env = process.env.NODE_ENV || 'development'
 
-module.exports = {
+const base =  {
   title: 'Rambler UI',
   libName: 'rambler-ui',
   repo: 'git@gitlab.rambler.ru:rambler-ui/rambler-ui',
@@ -14,8 +14,9 @@ module.exports = {
 }
 
 try {
-  merge(module.exports, require('./' + env))
+  module.exports = deepmerge(base, require('./' + env))
 } catch (e) {
   // eslint-disable-next-line no-console
   console.error(e)
+  module.exports = base
 }
