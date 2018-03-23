@@ -307,12 +307,23 @@ export function createTheme(config) {
           }
         }
       },
+      sizes: {
+        medium: {
+          size: 15,
+          tickSize: 9,
+          labelMargin: 10,
+          lineHeight: 20
+        },
+        small: {
+          size: 13,
+          tickSize: 13,
+          labelMargin: 5,
+          lineHeight: 15
+        }
+      },
       animationDuration: 200,
       borderRadius: 1,
-      size: 15,
-      labelMargin: 10,
-      fontSize: 13,
-      lineHeight: 20
+      fontSize: 13
     },
     switcher: {
       colors: {

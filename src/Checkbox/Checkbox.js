@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import omit from 'lodash/omit'
 import TickIcon from '../icons/forms/TickIcon'
+import TickIconSmall from './TickIconSmall'
 import { isolateMixin, focusSourceMixin } from '../style/mixins'
 import { injectSheet } from '../theme'
 import '../utils/focus-source'
@@ -30,7 +31,6 @@ const tickStyle = {
       position: 'relative',
       display: 'inline-block',
       verticalAlign: 'top',
-      lineHeight: checkboxTheme.size + 'px',
       cursor: 'pointer',
       userSelect: 'none',
       transition: `color ${checkboxTheme.animationDuration}ms`
@@ -67,9 +67,6 @@ const tickStyle = {
       display: 'block',
       boxSizing: 'border-box',
       position: 'absolute',
-      top: Math.round((checkboxTheme.lineHeight - checkboxTheme.size) / 2) - 1,
-      width: checkboxTheme.size,
-      height: checkboxTheme.size,
       borderRadius: checkboxTheme.borderRadius,
       borderStyle: 'solid',
       borderWidth: 1,
@@ -112,36 +109,59 @@ const tickStyle = {
     label: {
       fontSize: checkboxTheme.fontSize,
       fontWeight: 'normal',
-      display: 'inline-block',
-      lineHeight: checkboxTheme.lineHeight + 'px',
-      '$iconright &': {
-        paddingRight: checkboxTheme.size + checkboxTheme.labelMargin
-      },
-      '$iconleft &': {
-        paddingLeft: checkboxTheme.size + checkboxTheme.labelMargin
-      }
+      display: 'inline-block'
     },
     tick: {
       position: 'absolute',
-      top: Math.round(0.2 * checkboxTheme.size) - 1,
-      left: Math.round(0.15 * checkboxTheme.size),
       fill: 'currentColor',
       opacity: 0,
-      width: Math.round(0.6 * checkboxTheme.size),
-      height: Math.round(0.6 * checkboxTheme.size),
-      transform: `translateY(-${checkboxTheme.size * 0.3}px)`,
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'transform, opacity',
       '$isChecked &': {
-        opacity: 1,
-        transform: 'translateY(0)'
+        opacity: 1
       }
     },
     isEnabled: {},
     isChecked: {},
     indeterminate: {},
     iconright: {},
-    iconleft: {}
+    iconleft: {},
+    ...['medium', 'small'].reduce((result, size) => ({
+      ...result,
+      [size]: {
+        '&$checkbox': {
+          lineHeight: checkboxTheme.sizes[size].size + 'px'
+        },
+        '& $fake': {
+          top: size === 'small' ?
+            Math.round((checkboxTheme.sizes[size].lineHeight - checkboxTheme.sizes[size].size) / 2) :
+            Math.round((checkboxTheme.sizes[size].lineHeight - checkboxTheme.sizes[size].size) / 2) - 1,
+          width: checkboxTheme.sizes[size].size,
+          height: checkboxTheme.sizes[size].size
+        },
+        '& $tick': {
+          top: Math.round((checkboxTheme.sizes[size].size - checkboxTheme.sizes[size].tickSize) / 2) - 1,
+          left: Math.round((checkboxTheme.sizes[size].size - checkboxTheme.sizes[size].tickSize) / 2) - 1,
+          width: checkboxTheme.sizes[size].tickSize,
+          height: checkboxTheme.sizes[size].tickSize,
+          transform: size === 'small' ?
+            `translateY(-${checkboxTheme.sizes[size].tickSize * 0.3}px)` :
+            `translateY(-${checkboxTheme.sizes[size].tickSize * 0.5}px)`,
+          '$isChecked&': {
+            transform: 'translateY(0)'
+          }
+        },
+        '& $label': {
+          lineHeight: checkboxTheme.sizes[size].lineHeight + 'px',
+          '$iconright&': {
+            paddingRight: checkboxTheme.sizes[size].size + checkboxTheme.sizes[size].labelMargin
+          },
+          '$iconleft&': {
+            paddingLeft: checkboxTheme.sizes[size].size + checkboxTheme.sizes[size].labelMargin
+          }
+        }
+      }
+    }), {})
   }
 }, {name: 'Checkbox'})
 export default class Checkbox extends Component {
@@ -200,7 +220,11 @@ export default class Checkbox extends Component {
     /**
      * Разновидность инпута
      */
-    variation: PropTypes.oneOf(['regular', 'awesome'])
+    variation: PropTypes.oneOf(['regular', 'awesome']),
+    /**
+     * Размер чекбокса
+     */
+    size: PropTypes.oneOf(['small', 'medium'])
   };
 
   static defaultProps = {
@@ -209,7 +233,8 @@ export default class Checkbox extends Component {
     checked: false,
     indeterminate: false,
     name: '',
-    variation: 'regular'
+    variation: 'regular',
+    size: 'medium'
   }
 
   onChange = (event) => {
@@ -238,6 +263,7 @@ export default class Checkbox extends Component {
       labelStyle,
       children,
       variation,
+      size,
       checked,
       indeterminate,
       classes: css,
@@ -248,6 +274,7 @@ export default class Checkbox extends Component {
       className,
       css.checkbox,
       css[variation],
+      css[size],
       css[`icon${iconPosition}`],
       disabled ? css.isDisabled : css.isEnabled,
       indeterminate ? css.indeterminate : checked && css.isChecked
@@ -266,7 +293,10 @@ export default class Checkbox extends Component {
           onChange={ this.onChange }
         />
         <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
-          <TickIcon className={css.tick} style={tickStyle} />
+          {size === 'small' ?
+            <TickIconSmall className={css.tick} style={tickStyle} /> :
+            <TickIcon className={css.tick} style={tickStyle} />
+          }
         </span>
         <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
           { children }
