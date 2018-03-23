@@ -376,7 +376,7 @@ export default class FixedOverlay extends PureComponent {
   static defaultProps = {
     getWindowSize() {
       return {
-        width: window.innerWidth,
+        width: document.body.clientWidth,
         height: window.innerHeight
       }
     },
