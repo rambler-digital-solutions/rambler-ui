@@ -62,11 +62,11 @@ const containerNodeStyle = {'pointer-events': 'none'}
       },
       '&$xleft': {
         top: 13,
-        left: -3
+        left: -13
       },
       '&$xright': {
         top: 13,
-        right: -3
+        right: -13
       },
       '&$xcenter': {
         top: 13
@@ -83,11 +83,11 @@ const containerNodeStyle = {'pointer-events': 'none'}
       },
       '&$xleft': {
         top: -13,
-        left: -3
+        left: -13
       },
       '&$xright': {
         top: -13,
-        right: -3
+        right: -13
       },
       '&$xcenter': {
         top: -13
@@ -205,11 +205,11 @@ class TooltipContent extends PureComponent {
 
     if (anchorWidth)
       if (anchorPointX === 'left' && pointX === 'left') {
-        arrowStyle.left = (anchorWidth / 2 + 3) + 'px'
+        arrowStyle.left = (anchorWidth / 2 + 13) + 'px'
         arrowStyle.right = 'auto'
       } else if (anchorPointX === 'right' && pointX === 'right') {
         arrowStyle.left = 'auto'
-        arrowStyle.right = (anchorWidth / 2 - 7) + 'px'
+        arrowStyle.right = (anchorWidth / 2 + 3) + 'px'
       }
 
     if (anchorHeight)
