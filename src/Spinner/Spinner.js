@@ -112,13 +112,15 @@ export default class Spinner extends PureComponent {
       ...style
     }
 
+    const dot = <span className={this.css.dot} />
+
     return (
       <span
         style={resultStyle}
         className={classnames(className, this.css.spinner, !inline && this.css.position)}>
-        <span className={this.css.dot} />
-        <span className={this.css.dot} />
-        <span className={this.css.dot} />
+        {dot}
+        {dot}
+        {dot}
       </span>
     )
   }
