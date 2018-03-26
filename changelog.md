@@ -1,11 +1,16 @@
 # Changelog
 
+## v-3.15.1 - 2018-03-26
+### Fixed
+* Обновлен `jss-preset-default`
+
 ## v-3.15.0 - 2018-03-26
 ### Added
 * Добавлен размер `small` для компонента `<Checkbox />`
 
 ### Changed
 * Обновлены стили `<Button />` и `<IconButton />`
+* Обновлен `jss` и `react-jss`
 
 ### Fixed
 * Поправлена обработка фокуса в `<RadioButton />` и `<Checkbox />`
