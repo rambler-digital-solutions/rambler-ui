@@ -34,7 +34,7 @@
     "classnames": "^2.2.5",
     "deepmerge": "^2.1.0",
     "jss": "^9.8.1",
-    "jss-preset-default": "^4.0.1",
+    "jss-preset-default": "^4.3.0",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
     "react-jss": "^8.3.5"
