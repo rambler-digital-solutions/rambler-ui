@@ -1,5 +1,3 @@
-import isArray from 'lodash/isArray'
-
 export const middleMixin = {
   '&:before': {
     display: 'inline-block',
@@ -61,7 +59,7 @@ const responsiveFactory = (rule) => {
     const result = {}
     Object.keys(options).forEach((key) => {
       const value = options[key]
-      if (/[$&]/.test(key) && !(key === 'composes' && (isArray(value) || typeof value === 'string'))) {
+      if (/[$&]/.test(key) && !(key === 'composes' && (Array.isArray(value) || typeof value === 'string'))) {
         result[key] = replaceResponsiveKeys(options[key])
       } else {
         if (!result[rule])

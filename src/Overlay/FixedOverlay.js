@@ -6,14 +6,14 @@ import {
 import React, { Children, PureComponent, Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import EventEmitter from 'events'
-import debounce from 'lodash/debounce'
-import pick from 'lodash/pick'
+import debounce from 'lodash.debounce'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
 import { DROPDOWN_ZINDEX } from '../constants/z-indexes'
 import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
 import { getBoundingClientRect as originalGetBoundingClientRect, createMutationObserver } from '../utils/DOM'
 
+const noop = () => {}
 
 // 1. Рендерим анкор
 // 2. После маунта анкора, если нужно показать контент, маунтим контент в отдельный контейнер
@@ -375,7 +375,7 @@ export default class FixedOverlay extends PureComponent {
   static defaultProps = {
     getWindowSize() {
       return {
-        width: window.innerWidth,
+        width: document.body.clientWidth,
         height: window.innerHeight
       }
     },
@@ -506,7 +506,12 @@ export default class FixedOverlay extends PureComponent {
     }, this.cachedOptions))
 
     if (cachePositionOptions)
-      this.cachedOptions = pick(options, 'anchorPointX', 'anchorPointY', 'contentPointX', 'contentPointY')
+      this.cachedOptions = {
+        anchorPointX: options.anchorPointX,
+        anchorPointY: options.anchorPointY,
+        contentPointX: options.contentPointX,
+        contentPointY: options.contentPointY
+      }
 
     this.portal.updateContentProps({
       content,
@@ -620,7 +625,7 @@ export default class FixedOverlay extends PureComponent {
       }
       if (this.props.onContentOpen)
         this.props.onContentOpen()
-    })
+    }).catch(noop)
   }
 
   /**

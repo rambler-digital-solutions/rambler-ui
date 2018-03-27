@@ -6,6 +6,8 @@ import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
 import classnames from 'classnames'
 import EventEmitter from 'events'
 
+const noop = () => {}
+
 /**
  * Получить опции позиции контента
  * @param  {Object}  params       -
@@ -341,7 +343,7 @@ export default class RelativeOverlay extends PureComponent {
   static defaultProps = {
     getWindowSize() {
       return {
-        width: window.innerWidth,
+        width: document.body.clientWidth,
         height: window.innerHeight
       }
     },
@@ -527,7 +529,7 @@ export default class RelativeOverlay extends PureComponent {
     return Promise.all([whenPositioned, whenVisible]).then(() => {
       if (this.props.onContentOpen)
         this.props.onContentOpen()
-    })
+    }).catch(noop)
   }
 
   /**

@@ -4,7 +4,6 @@
 import React, { Component, createElement, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin, ifMobile } from '../style/mixins'
 import Tooltip from '../Tooltip'
@@ -508,8 +507,11 @@ export default class Input extends Component {
       classes: css,
       value,
       groupPosition,
+      onChange, // eslint-disable-line no-unused-vars
+      passwordIconTooltip, // eslint-disable-line no-unused-vars
+      inputRef, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, ['onChange', 'passwordIconTooltip', 'inputRef'])
+    } = this.props
 
     const trueType = this.props.type
     const resultClassName = classnames(

@@ -1,13 +1,11 @@
 /**
  * Компонент Textarea
  */
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import pure from 'recompose/pure'
 import Input from '../Input'
 
-@pure
-export default class Textarea extends Component {
+export default class Textarea extends PureComponent {
 
   static propTypes = {
     /**

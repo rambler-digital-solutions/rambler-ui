@@ -1,4 +1,5 @@
-export const version = '$VERSION'
+/* global process */
+export const version = process.env.VERSION
 export Button from './Button'
 export Dropdown from './Dropdown'
 export Tooltip from './Tooltip'

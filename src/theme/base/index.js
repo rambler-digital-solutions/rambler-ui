@@ -1,4 +1,4 @@
-import merge from 'lodash/merge'
+import deepmerge from 'deepmerge'
 import {fade, darken, lighten, mix} from '../../utils/colors'
 import colorsConfig from './colors'
 import i18n from './i18n'
@@ -21,7 +21,7 @@ export function createTheme(config) {
     background: colors.controls.grey.background
   }
 
-  return merge({
+  return deepmerge({
     fontFamily: fontFamilies.Roboto,
     typography: {
       h1: {
@@ -307,12 +307,23 @@ export function createTheme(config) {
           }
         }
       },
+      sizes: {
+        medium: {
+          size: 15,
+          tickSize: 9,
+          labelMargin: 10,
+          lineHeight: 20
+        },
+        small: {
+          size: 13,
+          tickSize: 13,
+          labelMargin: 5,
+          lineHeight: 15
+        }
+      },
       animationDuration: 200,
       borderRadius: 1,
-      size: 15,
-      labelMargin: 10,
-      fontSize: 13,
-      lineHeight: 20
+      fontSize: 13
     },
     switcher: {
       colors: {

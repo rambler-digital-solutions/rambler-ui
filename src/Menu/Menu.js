@@ -3,7 +3,6 @@ import { findDOMNode } from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'events'
-import omit from 'lodash/omit'
 import { ESCAPE, UP, DOWN, TAB } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
@@ -326,18 +325,22 @@ export default class Menu extends PureComponent {
   }
 
   getMenuProps() {
-    return omit(this.props, [
-      'autoFocus',
-      'value',
-      'classes',
-      'theme',
-      'onChange',
-      'onEscKeyDown',
-      'multiple',
-      'valuesEquality',
-      'disabled',
-      'size'
-    ])
+    /* eslint-disable no-unused-vars */
+    const {
+      autoFocus,
+      value,
+      classes,
+      theme,
+      onChange,
+      onEscKeyDown,
+      multiple,
+      valuesEquality,
+      disabled,
+      size,
+      ...props
+    } = this.props
+    /* eslint-enable no-unused-vars */
+    return props
   }
 
   render() {

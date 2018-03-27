@@ -4,7 +4,6 @@
 import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import omit from 'lodash/omit'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../style/mixins'
 
@@ -202,7 +201,7 @@ export default class Pagination extends Component {
         // последняя страница
         i === pagesCount ||
         // в диапозоне `aroundPages` страниц до и после текущей страницы
-        (i >= leftPageNum && i <= rightPageNum) || 
+        (i >= leftPageNum && i <= rightPageNum) ||
         // в диапозоне `edgePages` страниц с начала списка и при условии нахождения текущей страницы в этом диапозоне
         (i <= startRange && currentPage <= startRange) ||
         // в диапозоне `edgePages` страниц с конца списка и при условии нахождения текущей страницы в этом диапозоне
@@ -248,8 +247,11 @@ export default class Pagination extends Component {
       classes,
       currentPage,
       pagesCount,
+      pageContainer, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars
+      theme, // eslint-disable-line no-unused-vars
       ...other
-    } = omit(this.props, ['pageContainer', 'onChange', 'theme'])
+    } = this.props
 
     if (!(pagesCount > 1))
       return null
