@@ -371,7 +371,7 @@ export default class Select extends PureComponent {
   }
 
   get showClear() {
-    return this.props.showClear && this.state.showClear
+    return this.props.multiple === false && this.props.showClear === true && this.state.value !== null
   }
 
   constructor(props) {
@@ -381,8 +381,7 @@ export default class Select extends PureComponent {
       isOpened: false,
       inputFocused: false,
       value: props.value,
-      searchText: '',
-      showClear: false
+      searchText: ''
     }
   }
 
@@ -430,10 +429,6 @@ export default class Select extends PureComponent {
   }
 
   changeValue = (value) => {
-    if (value !== null)
-      this.setState({showClear: true})
-    else if (this.state.showClear)
-      this.setState({showClear: false})
     if (!this.props.multiple)
       this.setState({isOpened: false})
     this.setValue(value)
@@ -497,9 +492,7 @@ export default class Select extends PureComponent {
   }
 
   onClear = () => {
-    this.setState({
-      searchText: ''
-    })
+    this.setSearchText('')
     this.changeValue(null)
   }
 
