@@ -56,7 +56,7 @@ import { MENU_ITEM_CONTEXT } from '../constants/context'
     cursor: 'not-allowed'
   }
 }), {name: 'MenuItem'})
-export default class MenuItem extends PureComponent {
+class MenuItem extends PureComponent {
 
   static propTypes = {
     /**
@@ -194,3 +194,7 @@ export default class MenuItem extends PureComponent {
     )
   }
 }
+
+MenuItem.displayName = 'ruiMenuItem'
+
+export default MenuItem
