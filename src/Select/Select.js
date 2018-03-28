@@ -9,7 +9,7 @@ import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin } from '../style/mixins'
-import ClearIcon from '../icons/forms/ClearIcon'
+import ClearIconSmall from './ClearIconSmall'
 
 const emptyArr = []
 
@@ -144,10 +144,9 @@ const absolutePosition = {
     flex: 'none',
     alignSelf: 'center',
     color: theme.field.icon.colors.default,
-    stroke: 'currentColor',
     fill: 'currentColor',
-    marginTop: 5,
-    marginLeft: 5,
+    marginTop: 1,
+    marginLeft: 1,
     cursor: 'pointer',
     pointerEvents: 'auto',
     '&:hover , &:active': {
@@ -598,13 +597,13 @@ export default class Select extends PureComponent {
   }
 
   Clear = () => (
-    <ClearIcon
+    <ClearIconSmall
       className={this.css.clear}
-      size={8}
+      size={15}
       color="currentColor"
       onMouseDown={this.preventBlurInput}
       onClick={this.onClear}
-    ></ClearIcon>
+    ></ClearIconSmall>
   )
 
   renderSelectedItems() {
