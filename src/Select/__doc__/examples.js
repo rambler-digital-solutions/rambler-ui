@@ -236,7 +236,7 @@ export default class SelectExample extends Component {
               placeholder="Type something..."
               size='small'
               variation='regular'
-              showClear={true}
+              clearIcon={true}
               value={this.state.value1}
               onChange={this.setValue('value1')}
               onSearch={this.filterData}>

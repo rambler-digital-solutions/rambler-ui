@@ -249,7 +249,7 @@ export default class Select extends PureComponent {
     /**
      * Показывать кнопку очистки инпута
      */
-    showClear: PropTypes.bool,
+    clearIcon: PropTypes.bool,
     /**
      * Дополнительный CSS-класс кнопки со стрелкой
      */
@@ -348,7 +348,7 @@ export default class Select extends PureComponent {
   static defaultProps = {
     value: null,
     multiple: false,
-    showClear: false,
+    clearIcon: false,
     status: null,
     size: 'medium',
     variation: 'awesome',
@@ -366,12 +366,12 @@ export default class Select extends PureComponent {
   }
 
   get showArrow() {
-    const {children, showClear} = this.props
-    return children && children.length > 0 && !showClear
+    const {children, clearIcon} = this.props
+    return children && children.length > 0 && !clearIcon
   }
 
-  get showClear() {
-    return this.props.multiple === false && this.props.showClear === true && this.state.value !== null
+  get showClearIcon() {
+    return this.props.multiple === false && this.props.clearIcon === true && this.state.value !== null
   }
 
   constructor(props) {
@@ -574,7 +574,7 @@ export default class Select extends PureComponent {
       arrowIcon,
       containerStyle,
       containerClassName,
-      showClear,
+      clearIcon,
       ...props
     } = this.props
     /* eslint-enable no-unused-vars */
@@ -676,7 +676,7 @@ export default class Select extends PureComponent {
         inputStyle={style}
         className={this.css.input}
         iconLeft={icon}
-        iconRight={this.showClear ? createElement(this.Clear) : this.showArrow ? createElement(this.Arrow) : undefined}
+        iconRight={this.showClearIcon ? createElement(this.Clear) : this.showArrow ? createElement(this.Arrow) : undefined}
         iconRightClassName={this.css.icon}
         onKeyDown={this.keyDown}
         onClick={this.open}
