@@ -9,6 +9,7 @@ import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin } from '../style/mixins'
+import ClearIconSmall from './ClearIconSmall'
 
 const emptyArr = []
 
@@ -139,6 +140,19 @@ const absolutePosition = {
       maxHeight: theme.menu.sizes.small.height * 4 + 2
     }
   },
+  clear: {
+    flex: 'none',
+    alignSelf: 'center',
+    color: theme.field.icon.colors.default,
+    fill: 'currentColor',
+    marginTop: 1,
+    marginLeft: 1,
+    cursor: 'pointer',
+    pointerEvents: 'auto',
+    '&:hover , &:active': {
+      color: theme.field.icon.colors.active
+    }
+  },
   ...['medium', 'small'].reduce((result, size) => ({
     ...result,
     [size]: {
@@ -231,6 +245,10 @@ export default class Select extends PureComponent {
      * Множественный выбор
      */
     multiple: PropTypes.bool,
+    /**
+     * Показывать кнопку очистки инпута
+     */
+    clearIcon: PropTypes.bool,
     /**
      * Дополнительный CSS-класс кнопки со стрелкой
      */
@@ -329,6 +347,7 @@ export default class Select extends PureComponent {
   static defaultProps = {
     value: null,
     multiple: false,
+    clearIcon: false,
     status: null,
     size: 'medium',
     variation: 'awesome',
@@ -346,8 +365,12 @@ export default class Select extends PureComponent {
   }
 
   get showArrow() {
-    const {children} = this.props
-    return children && children.length > 0
+    const {children, clearIcon} = this.props
+    return children && children.length > 0 && !clearIcon
+  }
+
+  get showClearIcon() {
+    return this.props.multiple === false && this.props.clearIcon === true && this.state.value !== null
   }
 
   constructor(props) {
@@ -467,6 +490,11 @@ export default class Select extends PureComponent {
     }, 0)
   }
 
+  onClear = () => {
+    this.setSearchText('')
+    this.changeValue(null)
+  }
+
   clearValueOnBackspace() {
     const {
       searchText,
@@ -545,6 +573,7 @@ export default class Select extends PureComponent {
       arrowIcon,
       containerStyle,
       containerClassName,
+      clearIcon,
       ...props
     } = this.props
     /* eslint-enable no-unused-vars */
@@ -566,6 +595,16 @@ export default class Select extends PureComponent {
       </div>
     )
   }
+
+  Clear = () => (
+    <ClearIconSmall
+      className={this.css.clear}
+      size={15}
+      color="currentColor"
+      onMouseDown={this.preventBlurInput}
+      onClick={this.onClear}
+    ></ClearIconSmall>
+  )
 
   renderSelectedItems() {
     const selected = Array.isArray(this.props.value) ? this.props.value : emptyArr
@@ -636,7 +675,7 @@ export default class Select extends PureComponent {
         inputStyle={style}
         className={this.css.input}
         iconLeft={icon}
-        iconRight={this.showArrow ? createElement(this.Arrow) : undefined}
+        iconRight={this.showClearIcon ? createElement(this.Clear) : this.showArrow ? createElement(this.Arrow) : undefined}
         iconRightClassName={this.css.icon}
         onKeyDown={this.keyDown}
         onClick={this.open}
