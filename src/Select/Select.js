@@ -9,6 +9,9 @@ import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin } from '../style/mixins'
+import { ios, android } from '../utils/browser'
+
+const isNativeSelectAllowed = ios || android
 
 const emptyArr = []
 const noop = () => {}
@@ -851,8 +854,7 @@ export default class Select extends PureComponent {
     let resultValue = multiple ? [] : ''
     this.values = []
     const options = []
-    let index = 0
-    for (let item of React.Children.toArray(children)) {
+    React.Children.forEach(children, (item, index) => {
       const {children} = item.props
       if (item.type.displayName !== 'ruiMenuItem')
         throw new Error('Child component should be instance of <MenuItem />')
@@ -861,14 +863,12 @@ export default class Select extends PureComponent {
       options[index] = <option key={children} value={index}>{children}</option>
       this.values[index] = item.props.value
       if (multiple) {
-        const isSelected = value.some(selectedItem => valuesEquality(selectedItem, item.props.value))
-        if (isSelected)
+        if (value.some(selectedItem => valuesEquality(selectedItem, item.props.value)))
           resultValue.push(index)
       } else if (valuesEquality(value, item.props.value)) {
         resultValue = index
       }
-      index += 1
-    }
+    })
 
     const selectedOptions = multiple && Array.isArray(value) && value.length > 0 && this.renderSelectedItems()
 
@@ -915,7 +915,10 @@ export default class Select extends PureComponent {
           onBlur={this.blurInput}
           onFocus={this.focusInput}
         >
-          {multiple && multipleSelectFix}
+          {placeholder
+            ? <option disabled value="">{placeholder}</option>
+            : multiple && multipleSelectFix
+          }
           {options}
         </select>
       </div>
@@ -923,7 +926,7 @@ export default class Select extends PureComponent {
   }
 
   render() {
-    return this.props.native && !this.props.onSearch
+    return this.props.native && isNativeSelectAllowed && !this.props.onSearch
       ? this.renderNativeSelect()
       : this.renderSelect()
   }
