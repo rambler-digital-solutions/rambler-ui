@@ -215,7 +215,7 @@ export default class SelectExample extends Component {
             </Select>
           </div>
 
-          <div style={{ width: '66%', marginBottom: 55 }}>
+          <div style={{ width: '66%', marginBottom: 15 }}>
             <h3>Disabled</h3>
             <Select
               disabled={true}
@@ -225,6 +225,24 @@ export default class SelectExample extends Component {
               {[...Array(5)].map((item, i) => (
                 <MenuItem value={`Baz${i}`} key={i}>
                   Baz{i}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+
+          <div style={{ width: '50%', marginBottom: 55 }}>
+            <h3>С кнопкой удаления</h3>
+            <Select
+              placeholder="Type something..."
+              size='small'
+              variation='regular'
+              clearIcon={true}
+              value={this.state.value1}
+              onChange={this.setValue('value1')}
+              onSearch={this.filterData}>
+              {this.state.data.map(item => (
+                <MenuItem value={item} key={item}>
+                  {item}
                 </MenuItem>
               ))}
             </Select>
