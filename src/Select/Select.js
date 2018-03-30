@@ -581,6 +581,11 @@ export default class Select extends PureComponent {
   getInputProps() {
     const {
       /* eslint-disable no-unused-vars */
+      className,
+      style,
+      placeholder,
+      icon,
+      onSearch,
       dropdownClassName,
       dropdownStyle,
       menuClassName,
@@ -662,12 +667,10 @@ export default class Select extends PureComponent {
     const {
       className,
       style,
-      autoFocus,
       placeholder,
       icon,
-      onSearch,
-      ...other
-    } = this.getInputProps()
+      onSearch
+    } = this.props
 
     const {
       multiple,
@@ -712,7 +715,7 @@ export default class Select extends PureComponent {
 
     return (
       <Input
-        {...other}
+        {...this.getInputProps()}
         inputStyle={style}
         className={this.css.input}
         iconLeft={icon}
@@ -725,7 +728,6 @@ export default class Select extends PureComponent {
         onTouchStart={onSearch ? undefined : this.open}
         onTouchEnd={onSearch ? undefined : this.preventSelect}
         inputClassName={classnames(className, this.css.field)}
-        autoFocus={autoFocus}
         placeholder={resultPlaceholder}
         readOnly={!inputMode}
         value={resultInputValue}
@@ -949,6 +951,7 @@ export default class Select extends PureComponent {
           </TagsInput>
         }
         <select
+          {...this.getInputProps()}
           className={this.css.nativeSelect}
           multiple={multiple}
           value={resultValue}
