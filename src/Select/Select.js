@@ -9,9 +9,13 @@ import OnClickOutside from '../events/OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin } from '../style/mixins'
+import { ios, android } from '../utils/browser'
 import ClearIconSmall from './ClearIconSmall'
 
+const isNativeSelectAllowed = ios || android
+
 const emptyArr = []
+const noop = () => {}
 
 const absolutePosition = {
   position: 'absolute',
@@ -20,6 +24,10 @@ const absolutePosition = {
   right: 0,
   bottom: 0
 }
+
+/* Prevent strange behaviour of onChange event in multiple select */
+/* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
+const multipleSelectFix = (<optgroup disabled hidden />)
 
 @injectSheet(theme => ({
   root: {
@@ -204,6 +212,19 @@ const absolutePosition = {
       }
     }
   }), {}),
+  isNative: {
+    '& $icon': {
+      pointerEvents: 'none'
+    }
+  },
+  nativeSelect: {
+    extend: [isolateMixin, absolutePosition],
+    width: '100%',
+    height: '100%',
+    opacity: 0,
+    overflow: 'hidden',
+    outline: 0
+  },
   isFocused: {},
   isOpened: {},
   isReadonly: {},
@@ -341,8 +362,14 @@ export default class Select extends PureComponent {
     /**
      * Inline-стили контейнера кастомного элемента и `<Input>`
      */
-    containerStyle: PropTypes.object
-  };
+    containerStyle: PropTypes.object,
+    /**
+     * Применить логику выбора опций нативного select'a на мобильных устройствах.
+     * При использовании `onSearch` - не применяется.
+     * `<MenuItem>` в качестве `children` должен принимать элемент типа string
+     */
+    native: PropTypes.bool
+  }
 
   static defaultProps = {
     value: null,
@@ -358,7 +385,7 @@ export default class Select extends PureComponent {
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {}
-  };
+  }
 
   get css() {
     return this.props.classes
@@ -379,7 +406,9 @@ export default class Select extends PureComponent {
     this.state = {
       isOpened: false,
       inputFocused: false,
-      value: props.value,
+      value: props.multiple
+        ? Array.isArray(props.value) ? props.value : emptyArr
+        : props.value || undefined,
       searchText: ''
     }
   }
@@ -550,8 +579,13 @@ export default class Select extends PureComponent {
   }
 
   getInputProps() {
-    /* eslint-disable no-unused-vars */
     const {
+      /* eslint-disable no-unused-vars */
+      className,
+      style,
+      placeholder,
+      icon,
+      onSearch,
       dropdownClassName,
       dropdownStyle,
       menuClassName,
@@ -573,23 +607,27 @@ export default class Select extends PureComponent {
       arrowIcon,
       containerStyle,
       containerClassName,
+      native,
       clearIcon,
+      /* eslint-enable no-unused-vars */
       ...props
     } = this.props
-    /* eslint-enable no-unused-vars */
     return props
   }
 
   Arrow = (props) => {
     const {arrowStyle, arrowClassName, arrowIcon} = this.props
-    const {isOpened} = this.state
+    const {
+      className,
+      size, // eslint-disable-line no-unused-vars
+      color, // eslint-disable-line no-unused-vars
+      ...otherProps
+    } = props
     return (
       <div
         style={arrowStyle}
-        role="button"
-        className={classnames(props.className, this.css.arrow, arrowClassName)}
-        onMouseDown={this.preventBlurInput}
-        onClick={isOpened ? this.close : this.open}
+        className={classnames(className, this.css.arrow, arrowClassName)}
+        {...otherProps}
       >
         {arrowIcon}
       </div>
@@ -629,12 +667,10 @@ export default class Select extends PureComponent {
     const {
       className,
       style,
-      autoFocus,
       placeholder,
       icon,
-      onSearch,
-      ...other
-    } = this.getInputProps()
+      onSearch
+    } = this.props
 
     const {
       multiple,
@@ -669,13 +705,21 @@ export default class Select extends PureComponent {
       (multiple && (isOpened || !Array.isArray(value) || value.length === 0))
     )
 
+    const rightIcon = this.showClearIcon
+      ? createElement(this.Clear)
+      : this.showArrow && createElement(this.Arrow, {
+        role: 'button',
+        onMouseDown: this.preventBlurInput,
+        onClick: isOpened ? this.close : this.open
+      })
+
     return (
       <Input
-        {...other}
+        {...this.getInputProps()}
         inputStyle={style}
         className={this.css.input}
         iconLeft={icon}
-        iconRight={this.showClearIcon ? createElement(this.Clear) : this.showArrow ? createElement(this.Arrow) : undefined}
+        iconRight={rightIcon}
         iconRightClassName={this.css.icon}
         onKeyDown={this.keyDown}
         onClick={this.open}
@@ -684,7 +728,6 @@ export default class Select extends PureComponent {
         onTouchStart={onSearch ? undefined : this.open}
         onTouchEnd={onSearch ? undefined : this.preventSelect}
         inputClassName={classnames(className, this.css.field)}
-        autoFocus={autoFocus}
         placeholder={resultPlaceholder}
         readOnly={!inputMode}
         value={resultInputValue}
@@ -694,7 +737,7 @@ export default class Select extends PureComponent {
     )
   }
 
-  render() {
+  renderSelect() {
     const {
       value,
       inputFocused,
@@ -823,5 +866,112 @@ export default class Select extends PureComponent {
         </div>
       </OnClickOutside>
     )
+  }
+
+  handleNativeSelectChange = ({target}) => {
+    const nextValue = this.props.multiple
+      ? Array.prototype.map.call(target.selectedOptions, item => this.values[item.value])
+      : this.values[target.value]
+    this.setValue(nextValue)
+    this.props.onChange(nextValue)
+  }
+
+  renderNativeSelect() {
+    const {
+      placeholder,
+      disabled,
+      multiple,
+      children,
+      size,
+      icon,
+      valuesEquality,
+      inputValueRenderer,
+      className
+    } = this.props
+
+    const {
+      value,
+      inputFocused
+    } = this.state
+
+    let resultValue = multiple ? [] : ''
+    this.values = []
+    const options = []
+    React.Children.forEach(children, (item, index) => {
+      const {children} = item.props
+      if (item.type.displayName !== 'ruiMenuItem')
+        throw new Error('Child component should be instance of <MenuItem />')
+      if (typeof children !== 'string')
+        throw new Error('Children of <MenuItem /> should be a string')
+      options[index] = <option key={children} value={index}>{children}</option>
+      this.values[index] = item.props.value
+      if (multiple) {
+        if (value.some(selectedItem => valuesEquality(selectedItem, item.props.value)))
+          resultValue.push(index)
+      } else if (valuesEquality(value, item.props.value)) {
+        resultValue = index
+      }
+    })
+
+    const selectedOptions = multiple && Array.isArray(value) && value.length > 0 && this.renderSelectedItems()
+
+    return (
+      <div
+        className={
+          classnames(
+            this.css.root,
+            this.css.isNative,
+            this.css.withRightIcon,
+            icon && this.css.withLeftIcon,
+            size && this.css[size],
+            disabled && this.css.isDisabled,
+            inputFocused && this.css.isFocused,
+            multiple && this.css.isMultipleWithoutSearch,
+            multiple && this.css.withCustom
+          )
+        }
+      >
+        <Input
+          className={this.css.input}
+          inputClassName={classnames(className, this.css.field)}
+          disabled={disabled}
+          onChange={noop}
+          value={multiple ? '' : inputValueRenderer(value) || ''}
+          iconLeft={icon}
+          iconRight={createElement(this.Arrow)}
+          iconRightClassName={this.css.icon}
+          tabIndex={-1}
+          readOnly={true}
+          placeholder={selectedOptions ? null : placeholder}
+          isFocused={inputFocused}
+        />
+        {selectedOptions &&
+          <TagsInput className={this.css.options} size={size}>
+            {selectedOptions}
+          </TagsInput>
+        }
+        <select
+          {...this.getInputProps()}
+          className={this.css.nativeSelect}
+          multiple={multiple}
+          value={resultValue}
+          onChange={this.handleNativeSelectChange}
+          onBlur={this.blurInput}
+          onFocus={this.focusInput}
+        >
+          {placeholder
+            ? <option disabled value="">{placeholder}</option>
+            : multiple && multipleSelectFix
+          }
+          {options}
+        </select>
+      </div>
+    )
+  }
+
+  render() {
+    return this.props.native && isNativeSelectAllowed && !this.props.onSearch
+      ? this.renderNativeSelect()
+      : this.renderSelect()
   }
 }

@@ -5,7 +5,7 @@ import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin, focusSourceMixin } from '../style/mixins'
 
 const whenDomReady = new Promise((resolve) => {
   if (document.readyState === 'complete')
@@ -55,9 +55,6 @@ const whenDomReady = new Promise((resolve) => {
     '&:enabled:hover': {
       zIndex: 1
     },
-    '&:focus': {
-      color: theme.toggle.colors.focus.text
-    },
     '&:active': {
       zIndex: 1
     },
@@ -81,9 +78,9 @@ const whenDomReady = new Promise((resolve) => {
       // '&:before': borderMixin(theme.toggle.colors.hover.border),
       color: theme.toggle.colors.checked.text
     },
-    '& $option:focus': {
+    ...focusSourceMixin('other', '& $option:focus', {
       color: theme.toggle.colors.focus.text
-    },
+    }),
     '& $option:active': {
       // '&:before': borderMixin(theme.toggle.colors.active.border),
       color: theme.toggle.colors.active.text,
@@ -108,6 +105,9 @@ const whenDomReady = new Promise((resolve) => {
     '& $option:enabled:hover': {
       background: theme.toggle.transparentColors.hover.background
     },
+    ...focusSourceMixin('other', '& $option:focus', {
+      color: theme.toggle.colors.focus.text
+    }),
     '& $option:disabled': {
       borderColor: theme.toggle.transparentColors.disabled.border
     }
