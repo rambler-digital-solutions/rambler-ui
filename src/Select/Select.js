@@ -461,12 +461,12 @@ export default class Select extends PureComponent {
     this.setSearchText(event.target.value)
   }
 
-  changeValue = (value, onBlur) => {
+  changeValue = (value) => {
     if (!this.props.multiple)
       this.setState({isOpened: false})
     this.setValue(value)
     this.props.onChange(value)
-    if (!onBlur && !this.props.multiple)
+    if (!this.props.inputMode && !this.props.multiple)
       this.input.focus()
   }
 
@@ -486,7 +486,7 @@ export default class Select extends PureComponent {
         inputFocused: false
       })
       if (this.props.inputMode)
-        this.changeValue(event.target.value, true)
+        this.changeValue(event.target.value)
       this.props.onBlur(event)
     }
   }
@@ -707,7 +707,7 @@ export default class Select extends PureComponent {
       resultPlaceholder = this.isValueEmpty(inputValue) ? placeholder : (onSearch && focusedInput && searchText === '' ? inputValue : '')
     }
 
-    const inputMode = customMode && !!onSearch && (
+    const inputMode = (customMode || !!onSearch) && (
       (!customElementRenderer && !multiple) ||
       (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
       (multiple && (isOpened || !Array.isArray(value) || value.length === 0))
