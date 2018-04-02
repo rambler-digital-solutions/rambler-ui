@@ -341,7 +341,11 @@ export default class Select extends PureComponent {
     /**
      * Inline-стили контейнера кастомного элемента и `<Input>`
      */
-    containerStyle: PropTypes.object
+    containerStyle: PropTypes.object,
+    /**
+     * Позволяет вводить кастомное поле
+     */
+    customMode: PropTypes.bool
   };
 
   static defaultProps = {
@@ -357,7 +361,8 @@ export default class Select extends PureComponent {
     inputValueRenderer: value => value,
     onFocus: () => {},
     onBlur: () => {},
-    onChange: () => {}
+    onChange: () => {},
+    customMode: false
   };
 
   get css() {
@@ -389,7 +394,7 @@ export default class Select extends PureComponent {
   }
 
   handleDropdownClose = () => {
-    if (this.state.isOpened) return
+    if (this.state.isOpened || this.props.customMode) return
     this.setSearchText('')
   }
 
@@ -415,6 +420,9 @@ export default class Select extends PureComponent {
     this.setState({
       searchText
     })
+
+    if (this.props.customMode)
+      this.changeValue(searchText)
 
     if (this.props.onSearch)
       this.props.onSearch(searchText)
@@ -574,6 +582,7 @@ export default class Select extends PureComponent {
       containerStyle,
       containerClassName,
       clearIcon,
+      customMode,
       ...props
     } = this.props
     /* eslint-enable no-unused-vars */
