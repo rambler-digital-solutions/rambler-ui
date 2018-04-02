@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Button from 'rambler-ui/Button'
 import { Popup } from 'rambler-ui/Popup'
+import Tooltip from 'rambler-ui/Tooltip'
 import Loader from 'rambler-ui/Loader'
 import Select from 'rambler-ui/Select'
 import { MenuItem } from 'rambler-ui/Menu'
@@ -36,7 +37,9 @@ export default class SelectExample extends Component {
     value4: null,
     value5: null,
     value6: [customData[2].items[0]],
+    valueCustom: null,
     data,
+    status: null,
     objectData,
     objectValue: null,
     objectValue2: null,
@@ -64,6 +67,25 @@ export default class SelectExample extends Component {
   setValue = key => (value) => {
     this.setState({
       [key]: value
+    })
+  }
+
+  setCustomValue = (value) => {
+    if (value && value.length > 3) {
+      if (this.state.status !== 'error')
+        this.setState({
+          status: 'error'
+        })
+      return
+    }
+
+    if (this.state.status === 'error')
+      this.setState({
+        status: null
+      })
+
+    this.setState({
+      valueCustom: value
     })
   }
 
@@ -230,7 +252,7 @@ export default class SelectExample extends Component {
             </Select>
           </div>
 
-          <div style={{ width: '50%', marginBottom: 55 }}>
+          <div style={{ width: '50%', marginBottom: 15 }}>
             <h3>С кнопкой удаления</h3>
             <Select
               placeholder="Type something..."
@@ -246,6 +268,33 @@ export default class SelectExample extends Component {
                 </MenuItem>
               ))}
             </Select>
+          </div>
+
+          <div style={{ width: '50%', marginBottom: 55 }}>
+            <h3>С поддержкой кастомного ввода и состояниями</h3>
+            <Tooltip
+              content={'Length more than 3 characters!'}
+              position='right'
+              status='error'
+              isOpened={this.state.status === 'error'}
+            >
+              <Select
+                placeholder="Type something short..."
+                size='small'
+                variation='regular'
+                clearIcon={true}
+                customMode={true}
+                value={this.state.valueCustom}
+                status={this.state.status}
+                onChange={this.setCustomValue}
+                onSearch={this.filterData}>
+                {this.state.data.map(item => (
+                  <MenuItem value={item} key={item}>
+                    {item}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Tooltip>
           </div>
 
           <div style={{ maxWidth: 300, marginBottom: 15 }}>
@@ -424,6 +473,7 @@ export default class SelectExample extends Component {
           <div>this.state.value3: <b>{`${this.state.value3}`}</b></div>
           <div>this.state.value4: <b>{`${JSON.stringify(this.state.value4)}`}</b></div>
           <div>this.state.value5: <b>{`${JSON.stringify(this.state.value5)}`}</b></div>
+          <div>this.state.valueCustom: <b>{`${JSON.stringify(this.state.valueCustom)}`}</b></div>
           <div>this.state.objectValue1: <b>{`${JSON.stringify(this.state.objectValue1)}`}</b></div>
           <div>this.state.objectValue2: <b>{`${JSON.stringify(this.state.objectValue2)}`}</b></div>
           <div>this.state.objectValue3: <b>{`${JSON.stringify(this.state.objectValue3)}`}</b></div>
