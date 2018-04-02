@@ -1,1 +1,1 @@
-export default from './Switcher'
+export {default} from './Switcher'

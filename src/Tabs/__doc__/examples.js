@@ -10,7 +10,7 @@ export default class TabsExample extends Component {
     value: values[1]
   };
 
-  handleChange(event, value) {
+  handleChange = (event, value) => {
     this.setState({ value })
   }
 
@@ -20,7 +20,7 @@ export default class TabsExample extends Component {
         <div>
           <div style={{marginBottom: 40}}>
             <h4>default</h4>
-            <Tabs value={this.state.value} onChange={::this.handleChange}>
+            <Tabs value={this.state.value} onChange={this.handleChange}>
               {values.map((item, index) => (
                 <TabsItem value={item} key={index} className="customTabsItemClassName">
                   { item }
@@ -30,7 +30,7 @@ export default class TabsExample extends Component {
           </div>
           <div style={{marginBottom: 40}}>
             <h4>size: medium, Tab with href prop</h4>
-            <Tabs size="medium" value={this.state.value} onChange={::this.handleChange}>
+            <Tabs size="medium" value={this.state.value} onChange={this.handleChange}>
               {values.map((item, index) => (
                 <TabsItem href={'#/components/Tabs'} value={item} key={index}>
                   { item }
@@ -40,7 +40,7 @@ export default class TabsExample extends Component {
           </div>
           <div style={{marginBottom: 40}}>
             <h4>disabled</h4>
-            <Tabs disabled={true} value={this.state.value} onChange={::this.handleChange}>
+            <Tabs disabled={true} value={this.state.value} onChange={this.handleChange}>
               {values.map((item, index) => (
                 <TabsItem href={index % 2 ? '#/components/Tabs' : null} value={item} key={index}>
                   { item }

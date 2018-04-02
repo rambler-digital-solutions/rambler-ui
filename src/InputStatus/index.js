@@ -1,1 +1,1 @@
-export default from './InputStatus'
+export {default} from './InputStatus'

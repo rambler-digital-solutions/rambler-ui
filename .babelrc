@@ -1,8 +1,18 @@
 {
-  "presets": ["es2015", "react", "stage-0"],
+  "presets": [
+    ["env", {
+      "target": {
+        "browsers": "last 2 versions"
+      }
+    }],
+    "react"
+  ],
   "plugins": [
     "transform-react-constant-elements",
-    "transform-decorators-legacy"
+    "transform-decorators-legacy",
+    "transform-object-rest-spread",
+    "transform-class-properties",
+    "transform-export-extensions"
   ],
   "env": {
     "production": {

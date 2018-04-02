@@ -1,1 +1,1 @@
-export default from './VisibilityAnimation'
+export {default} from './VisibilityAnimation'

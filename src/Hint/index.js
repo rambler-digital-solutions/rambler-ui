@@ -1,1 +1,1 @@
-export default from './Hint'
+export {default} from './Hint'

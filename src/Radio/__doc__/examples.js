@@ -21,11 +21,11 @@ export default class RadioExample extends Component {
     stringValue: null
   }
 
-  onObjectsChange(event, value) {
+  onObjectsChange = (event, value) => {
     this.setState({ objectValue: value })
   }
 
-  onStringsChange(event, value) {
+  onStringsChange = (event, value) => {
     this.setState({ stringValue: value })
   }
 
@@ -38,7 +38,7 @@ export default class RadioExample extends Component {
             <RadioButtonGroup
               style={{marginBottom: 40, maxWidth: 300}}
               value={this.state.objectValue}
-              onChange={::this.onObjectsChange}>
+              onChange={this.onObjectsChange}>
               {
                 objects.map((city, i) => <RadioButton key={i} value={city}>{city.name}</RadioButton>)
               }
@@ -47,7 +47,7 @@ export default class RadioExample extends Component {
               name="city"
               style={{marginBottom: 40, maxWidth: 300}}
               value={this.state.stringValue}
-              onChange={::this.onStringsChange}>
+              onChange={this.onStringsChange}>
               {
                 strings.map((city, i) => <RadioButton key={i} value={city}>{city}</RadioButton>)
               }
@@ -55,7 +55,7 @@ export default class RadioExample extends Component {
             <RadioButtonGroup
               style={{marginBottom: 20, maxWidth: 300}}
               value={this.state.objectValue}
-              onChange={::this.onObjectsChange}>
+              onChange={this.onObjectsChange}>
               <div style={{background: '#eee', padding: '20px', borderRadius: '3px'}}>
                 {
                   objects.map((city, i) =>
@@ -69,7 +69,7 @@ export default class RadioExample extends Component {
             <RadioButtonGroup
               style={{margin: '40px 0', maxWidth: 300}}
               value={this.state.objectValue}
-              onChange={::this.onObjectsChange}>
+              onChange={this.onObjectsChange}>
               {
                 objects.map((city, i) => <RadioButton key={i} value={city} disabled labelPosition='left'>{city.name}</RadioButton>)
               }
