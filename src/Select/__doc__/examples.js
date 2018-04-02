@@ -298,7 +298,7 @@ export default class SelectExample extends Component {
                 size='small'
                 variation='regular'
                 clearIcon={true}
-                customMode={true}
+                inputMode={true}
                 value={this.state.valueCustom}
                 status={this.state.status}
                 onChange={this.setCustomValue}

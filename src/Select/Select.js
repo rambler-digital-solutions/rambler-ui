@@ -366,7 +366,7 @@ export default class Select extends PureComponent {
     /**
      * Позволяет вводить кастомное поле
      */
-    customMode: PropTypes.bool,
+    inputMode: PropTypes.bool,
     /**
      * Применить логику выбора опций нативного select'a на мобильных устройствах.
      * При использовании `onSearch` - не применяется.
@@ -389,7 +389,7 @@ export default class Select extends PureComponent {
     onFocus: () => {},
     onBlur: () => {},
     onChange: () => {},
-    customMode: false
+    inputMode: false
   }
 
   get css() {
@@ -423,7 +423,7 @@ export default class Select extends PureComponent {
   }
 
   handleDropdownClose = () => {
-    if (this.state.isOpened || this.props.customMode) return
+    if (this.state.isOpened || this.props.inputMode) return
     this.setSearchText('')
   }
 
@@ -485,7 +485,7 @@ export default class Select extends PureComponent {
         isOpened: false,
         inputFocused: false
       })
-      if (this.props.customMode)
+      if (this.props.inputMode)
         this.changeValue(event.target.value, true)
       this.props.onBlur(event)
     }
@@ -577,7 +577,7 @@ export default class Select extends PureComponent {
       })
     else if (code === UP || code === DOWN)
       this.openOnArrow(event)
-    else if (this.props.customMode && code === ENTER)
+    else if (this.props.inputMode && code === ENTER)
       this.changeValue(event.target.value)
     else if (!this.props.multiple && !this.props.customElementRenderer && (code === DELETE || code === BACKSPACE))
       this.clearValueOnBackspace(event)
@@ -618,7 +618,7 @@ export default class Select extends PureComponent {
       containerClassName,
       native,
       clearIcon,
-      customMode,
+      inputMode,
       /* eslint-enable no-unused-vars */
       ...props
     } = this.props
@@ -679,13 +679,11 @@ export default class Select extends PureComponent {
       style,
       placeholder,
       icon,
-      onSearch
-    } = this.props
-
-    const {
+      onSearch,
       multiple,
       inputValueRenderer,
-      customElementRenderer
+      customElementRenderer,
+      inputMode: customMode
     } = this.props
 
     const focusedInput = inputFocused || isOpened
@@ -709,7 +707,7 @@ export default class Select extends PureComponent {
       resultPlaceholder = this.isValueEmpty(inputValue) ? placeholder : (onSearch && focusedInput && searchText === '' ? inputValue : '')
     }
 
-    const inputMode = !!onSearch && (
+    const inputMode = customMode && !!onSearch && (
       (!customElementRenderer && !multiple) ||
       (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
       (multiple && (isOpened || !Array.isArray(value) || value.length === 0))
