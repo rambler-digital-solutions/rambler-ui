@@ -87,8 +87,7 @@ export default class SelectExample extends Component {
           })
       } else if (this.state.status !== 'success') {
         this.setState({
-          status: 'success',
-          valueCustom: value
+          status: 'success'
         })
       } else {
         this.setState({
@@ -99,6 +98,10 @@ export default class SelectExample extends Component {
       this.setState({
         status: null
       })
+
+    this.setState({
+      valueCustom: value
+    })
   }
 
   filterData = (search) => {
