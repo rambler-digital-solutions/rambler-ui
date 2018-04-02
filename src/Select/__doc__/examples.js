@@ -71,7 +71,7 @@ export default class SelectExample extends Component {
   }
 
   setCustomValue = (value) => {
-    if (value && value.length > 3) {
+    if (value && value.length > 4) {
       if (this.state.status !== 'error')
         this.setState({
           status: 'error'
@@ -271,7 +271,7 @@ export default class SelectExample extends Component {
           <div style={{ width: '50%', marginBottom: 55 }}>
             <h3>С поддержкой кастомного ввода и состояниями</h3>
             <Tooltip
-              content={'Length more than 3 characters!'}
+              content={'Length more than 4 characters!'}
               position='right'
               status='error'
               isOpened={this.state.status === 'error'}
