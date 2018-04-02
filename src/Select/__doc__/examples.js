@@ -76,13 +76,11 @@ export default class SelectExample extends Component {
         this.setState({
           status: 'error'
         })
-      return
-    }
-
-    if (this.state.status === 'error')
+    } else if (this.state.status === 'error') {
       this.setState({
         status: null
       })
+    }
 
     this.setState({
       valueCustom: value
