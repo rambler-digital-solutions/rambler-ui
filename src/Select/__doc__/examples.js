@@ -87,9 +87,18 @@ export default class SelectExample extends Component {
           })
       } else if (this.state.status !== 'success') {
         this.setState({
-          status: 'success'
+          status: 'success',
+          valueCustom: value
+        })
+      } else {
+        this.setState({
+          status: null
         })
       }
+    else
+      this.setState({
+        status: null
+      })
   }
 
   filterData = (search) => {
@@ -289,8 +298,7 @@ export default class SelectExample extends Component {
                 customMode={true}
                 value={this.state.valueCustom}
                 status={this.state.status}
-                onChange={this.setValue('valueCustom')}
-                onCustomChange={this.setCustomValue}
+                onChange={this.setCustomValue}
                 onSearch={this.filterData}>
                 {this.state.data.map(item => (
                   <MenuItem value={item} key={item}>

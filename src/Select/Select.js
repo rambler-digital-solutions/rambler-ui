@@ -339,10 +339,6 @@ export default class Select extends PureComponent {
      */
     onFocus: PropTypes.func,
     /**
-     * Коллбек вызывающийся при потере фокусе
-     */
-    onCustomChange: PropTypes.func,
-    /**
      * Коллбек вызывающийся при блюре
      */
     onBlur: PropTypes.func,
@@ -391,7 +387,6 @@ export default class Select extends PureComponent {
     valuesEquality: (a, b) => a === b,
     inputValueRenderer: value => value,
     onFocus: () => {},
-    onCustomChange: () => {},
     onBlur: () => {},
     onChange: () => {},
     customMode: false
@@ -455,9 +450,6 @@ export default class Select extends PureComponent {
       searchText
     })
 
-    if (this.props.customMode)
-      this.changeValue(searchText)
-
     if (this.props.onSearch)
       this.props.onSearch(searchText)
   }
@@ -493,9 +485,9 @@ export default class Select extends PureComponent {
         isOpened: false,
         inputFocused: false
       })
-      this.props.onBlur(event)
       if (this.props.customMode)
-        this.props.onCustomChange(this.state.value)
+        this.changeValue(event.target.value)
+      this.props.onBlur(event)
     }
   }
 
@@ -571,8 +563,6 @@ export default class Select extends PureComponent {
         inputFocused: false
       })
       this.props.onBlur(event)
-      if (this.props.customMode)
-        this.props.onCustomChange(this.state.value)
     }
   }
 
@@ -588,7 +578,7 @@ export default class Select extends PureComponent {
     else if (code === UP || code === DOWN)
       this.openOnArrow(event)
     else if (this.props.customMode && code === ENTER)
-      this.props.onCustomChange(this.state.value)
+      this.changeValue(event.target.value)
     else if (!this.props.multiple && !this.props.customElementRenderer && (code === DELETE || code === BACKSPACE))
       this.clearValueOnBackspace(event)
   }
@@ -615,7 +605,6 @@ export default class Select extends PureComponent {
       appendToBody,
       classes,
       onFocus,
-      onCustomChange,
       onBlur,
       onChange,
       inputValueRenderer,

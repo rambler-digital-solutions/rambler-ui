@@ -65,7 +65,7 @@ const activeBorder = borderColor => ({
       color: theme.field.colors.disabled.placeholder,
       opacity: 1
     }),
-    ...placeholderMixin('&:focus', {
+    ...placeholderMixin('&:focus,  $isEnabled$isFocused &', {
       opacity: 0.54
     })
   },
