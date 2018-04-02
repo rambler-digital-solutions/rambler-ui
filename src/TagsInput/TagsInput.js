@@ -109,11 +109,11 @@ export default class TagsInput extends PureComponent {
     * Коллбек вызывающийся при нажатии на кнопку "еще"
     */
     onMoreClick: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     size: 'medium'
-  };
+  }
 
   state = {
     visibleItemsCount: null,
@@ -210,7 +210,7 @@ export default class TagsInput extends PureComponent {
   }
 
   onItemClick = (event, value) => {
-    if (!this.props.onChange) return
+    if (this.props.disabled) return
     event.stopPropagation()
     const values = React.Children.toArray(this.props.children).map(item => item.props.value)
     this.props.onChange(values.filter(item => item !== value))
@@ -227,8 +227,8 @@ export default class TagsInput extends PureComponent {
       onMoreClick,
       size,
       theme: { i18n },
+      onChange,
       windowEvents, // eslint-disable-line no-unused-vars
-      onChange, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 
@@ -248,7 +248,7 @@ export default class TagsInput extends PureComponent {
         nodeRef: (ref) => {this.saveItemsRefs(ref, index, count)},
         className: classnames(classes.item, visibleItemsCount !== null && visibleItemsCount <= index && !isExpanded && classes.isHidden),
         key: child.props.children,
-        onClick: 'value' in child.props && !disabled ? this.onItemClick : null,
+        onClick: onChange ? this.onItemClick : undefined,
         disabled
       })
     })

@@ -79,12 +79,11 @@ class TagsInputItem extends Component {
      * Отключить элемент (автоматически проставляется компонентом `<TagsInput/>`)
      */
     disabled: PropTypes.bool
-  };
+  }
 
   handleClick = (event) => {
     const {props} = this
-    if (props.onClick)
-      props.onClick(event, props.value)
+    props.onClick(event, props.value)
   }
 
   handleMouseDown = (event) => {
@@ -102,14 +101,16 @@ class TagsInputItem extends Component {
         <span className={classes.text}>
           {props.children}
         </span>
-        <ClearIcon
-          className={classes.icon}
-          size={8}
-          style={iconStyle}
-          onClick={props.disabled ? undefined : this.handleClick}
-          onMouseDown={props.disabled ? undefined : this.handleMouseDown}
-          role={props.disabled ? undefined : 'button'}
-        />
+        {props.onClick &&
+          <ClearIcon
+            className={classes.icon}
+            size={8}
+            style={iconStyle}
+            onClick={props.disabled ? undefined : this.handleClick}
+            onMouseDown={props.disabled ? undefined : this.handleMouseDown}
+            role={props.disabled ? undefined : 'button'}
+          />
+        }
       </div>
     )
   }

@@ -37,11 +37,8 @@ const activeBorder = borderColor => ({
     'textarea&&': {
       resize: 'vertical',
       height: '100%',
-      padding: theme.input.sizes.medium.padding,
-      '$promo &': {
-        paddingLeft: 0,
-        paddingRight: 0
-      }
+      paddingTop: theme.input.sizes.medium.padding,
+      paddingBottom: theme.input.sizes.medium.padding
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
@@ -249,7 +246,7 @@ const activeBorder = borderColor => ({
     pointerEvents: 'none',
     transition: `all ${Math.round(theme.field.animationDuration * 0.7)}ms linear`,
     border: '0 solid transparent',
-    '$input:focus + &': activeBorder(theme.field.colors.focus.border),
+    '$input:focus + &, $isEnabled$isFocused &': activeBorder(theme.field.colors.focus.border),
     '$success$isEnabled &': activeBorder(theme.colors.success),
     '$error$isEnabled &': activeBorder(theme.colors.danger),
     '$warning$isEnabled &': activeBorder(theme.colors.warn)
@@ -288,6 +285,7 @@ const activeBorder = borderColor => ({
   iconRight: {
     composes: '$icon'
   },
+  isFocused: {},
   filled: {},
   isDisabled: {},
   isEnabled: {},
@@ -349,6 +347,10 @@ export default class Input extends Component {
      * Валидация input'a
      */
     status: PropTypes.oneOf(['error', 'warning', 'success', null]),
+    /**
+     * Подсветка импута, как в состоянии `:focus`
+     */
+    isFocused: PropTypes.bool,
     /**
      * Класс контейнера
      */
@@ -486,6 +488,21 @@ export default class Input extends Component {
     )
   }
 
+  renderIcon(Icon, className) {
+    const {props} = this
+    const {field} = props.theme
+    return (
+      <div className={className}>
+        {cloneElement(Icon, {
+          color: props.disabled
+            ? field.colors.disabled.text
+            : Icon.props.color || 'currentColor',
+          size: Icon.props.size || field.sizes[props.size].icon
+        })}
+      </div>
+    )
+  }
+
   render() {
     const {
       tag = 'input',
@@ -503,10 +520,11 @@ export default class Input extends Component {
       iconLeft,
       iconRight,
       status,
-      theme,
+      isFocused,
       classes: css,
       value,
       groupPosition,
+      theme, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       passwordIconTooltip, // eslint-disable-line no-unused-vars
       inputRef, // eslint-disable-line no-unused-vars
@@ -519,6 +537,7 @@ export default class Input extends Component {
       css.root,
       css[variation],
       css[status],
+      isFocused && css.isFocused,
       disabled ? css.isDisabled : css.isEnabled,
       css[size],
       iconLeft && css.withLeftIcon,
@@ -528,23 +547,6 @@ export default class Input extends Component {
       groupPosition && css.inGroup
     )
 
-    const resultIconLeft = iconLeft && <div className={classnames(iconLeftClassName, css.iconLeft)}>
-      {
-        cloneElement(iconLeft, {
-          color: disabled ? theme.field.colors.disabled.text : (iconLeft.props.color || 'currentColor'),
-          size: iconLeft.props.size || theme.field.sizes[size].icon
-        })
-      }
-    </div>
-
-    const resultIconRight = iconRight && <div className={classnames(iconRightClassName, css.iconRight)}>
-      {
-        cloneElement(iconRight, {
-          color: disabled ? theme.field.colors.disabled.text : (iconRight.props.color || 'currentColor'),
-          size: iconRight.props.size || theme.field.sizes[size].icon
-        })
-      }
-    </div>
 
     const inputElement = createElement(tag, {
       name,
@@ -554,17 +556,17 @@ export default class Input extends Component {
       className: classnames(css.input, inputClassName, value !== '' && value != null && css.filled),
       style: inputStyle,
       onChange: this.onChangeHelper,
-      tabIndex: '0',
+      tabIndex: 0,
       placeholder,
       ...other
     })
 
     return (
       <div style={style} className={resultClassName}>
-        {resultIconLeft}
+        {iconLeft && this.renderIcon(iconLeft, classnames(iconLeftClassName, css.iconLeft))}
         {inputElement}
         <div className={css.activeBorder} />
-        {resultIconRight}
+        {iconRight && this.renderIcon(iconRight, classnames(iconRightClassName, css.iconRight))}
         {this.renderPasswordIcon()}
       </div>
     )

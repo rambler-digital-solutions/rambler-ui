@@ -67,8 +67,8 @@ export default function provideRenderToLayer(Target) {
 
     unrenderAtLayer = (element) => {
       const elementIndex = this.elements.indexOf(element)
-      if (elementIndex < 0) return
-
+      if (elementIndex < 0)
+        return Promise.resolve()
       return new Promise((resolve) => {
         const { containerRef } = element.props
 

@@ -63,8 +63,9 @@ describe('Input', () => {
       <InputStatus>
         <Input {...defaultProps} />
         <Input {...defaultProps} inputClassName='inputCls2' status='warning' />
-        <Input {...defaultProps} inputClassName='inputCls3' status='error' />
+        <Input {...defaultProps} inputClassName='inputCls3' status='error' isFocused={true} />
         <Input {...defaultProps} inputClassName='inputCls4' status={null} />
+        <Input {...defaultProps} inputClassName='inputCls5' status={null} isFocused={true} />
       </InputStatus>
     </FormGroup>))
 
@@ -72,6 +73,7 @@ describe('Input', () => {
     const inputWarning = wrapper.find('.inputCls2 + div')
     const inputError = wrapper.find('.inputCls3 + div')
     const inputWithoutStatus = wrapper.find('.inputCls4 + div')
+    const inputWithFocus = wrapper.find('.inputCls5 + div')
 
     // Стили border - success
     const inputSuccessStyles = getStyles(inputSuccess)
@@ -88,7 +90,11 @@ describe('Input', () => {
     const inputErrorStyles = getStyles(inputError)
     expect(nc(inputErrorStyles['border-bottom-color'])).toEqual(nc(theme.colors.danger))
 
-    // Станратные стили input'a
+    // border - isFocused
+    const inputWithFocusStyles = getStyles(inputWithFocus)
+    expect(nc(inputWithFocusStyles['border-bottom-color'])).toEqual(nc(theme.field.colors.focus.border))
+
+    // Стандартные стили input'a
     const inputWithoutStatusStyles = getStyles(inputWithoutStatus)
     expect(inputWithoutStatusStyles['border-bottom-color']).toEqual('rgba(0, 0, 0, 0)')
   })

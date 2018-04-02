@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.16.0 - 2018-03-29
+### Added
+* Добавлена кнопка очищения `clearIcon` в компонент `<Select />`
+
 ## v-3.15.1 - 2018-03-26
 ### Fixed
 * Обновлен `jss-preset-default`

@@ -32,6 +32,9 @@ export default class InputExample extends Component {
                   <FormGroup label='Input password'>
                     <Input type="password" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' passwordIconTooltip='Показать пароль' variation={variation} />
                   </FormGroup>
+                  <FormGroup label='Input isFocused'>
+                    <Input isFocused={true} type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' variation={variation} tabIndex={-1} />
+                  </FormGroup>
                   <FormGroup label='Input success'>
                     <InputStatus type='success' message='Success message' >
                       <Input status="success" type="text" value={this.state.value} onChange={::this.onChange} placeholder='placeholder' variation={variation} />
