@@ -11,6 +11,8 @@ import { ApplyTheme } from 'rambler-ui/theme'
 
 const data = [...Array(5)].map((item, i) => `Foo${i}`)
 
+const regexEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 const customData = ['Foo', 'Bar', 'Baz'].map(category => ({
   category,
   items: [...Array(5)].map((item, i) => `${category}${i}`)
@@ -65,26 +67,28 @@ export default class SelectExample extends Component {
   }
 
   setValue = key => (value) => {
+    if (key === 'valueCustom' && this.state.status !== null)
+      this.setState({
+        status: null
+      })
+
     this.setState({
       [key]: value
     })
   }
 
   setCustomValue = (value) => {
-    if (value && value.length > 4) {
-      if (this.state.status !== 'error')
+    if (value)
+      if (!regexEmail.test(value)) {
+        if (this.state.status !== 'error')
+          this.setState({
+            status: 'error'
+          })
+      } else if (this.state.status !== 'success') {
         this.setState({
-          status: 'error'
+          status: 'success'
         })
-    } else if (this.state.status === 'error') {
-      this.setState({
-        status: null
-      })
-    }
-
-    this.setState({
-      valueCustom: value
-    })
+      }
   }
 
   filterData = (search) => {
@@ -271,10 +275,10 @@ export default class SelectExample extends Component {
           <div style={{ width: '50%', marginBottom: 55 }}>
             <h3>С поддержкой кастомного ввода и состояниями</h3>
             <Tooltip
-              content={'Length more than 4 characters!'}
+              content={this.state.status === 'error' ? 'This is not an email!' : 'This is a correct email!'}
               position='right'
-              status='error'
-              isOpened={this.state.status === 'error'}
+              status={this.state.status === 'error' ? 'error' : 'success'}
+              isOpened={this.state.status !== null}
             >
               <Select
                 placeholder="Type something short..."
@@ -284,7 +288,8 @@ export default class SelectExample extends Component {
                 customMode={true}
                 value={this.state.valueCustom}
                 status={this.state.status}
-                onChange={this.setCustomValue}
+                onChange={this.setValue('valueCustom')}
+                onCustomChange={this.setCustomValue}
                 onSearch={this.filterData}>
                 {this.state.data.map(item => (
                   <MenuItem value={item} key={item}>
