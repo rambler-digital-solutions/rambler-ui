@@ -402,7 +402,7 @@ export default class Select extends PureComponent {
   }
 
   get showClearIcon() {
-    return !this.props.multiple && this.props.clearIcon && this.state.value !== null && this.state.value !== undefined
+    return !this.props.multiple && this.props.clearIcon && this.state.value
   }
 
   constructor(props) {
