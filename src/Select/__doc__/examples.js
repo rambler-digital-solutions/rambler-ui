@@ -295,6 +295,7 @@ export default class SelectExample extends Component {
             >
               <Select
                 placeholder="Type something short..."
+                style={{width: 400}}
                 size='small'
                 variation='regular'
                 clearIcon={true}
