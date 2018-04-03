@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
-import OnClickOutside from '../events/OnClickOutside'
+import OnClickOutside from '../OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
 import { injectSheet } from '../theme'
-import { isolateMixin, middleMixin, ifDesktop } from '../style/mixins'
+import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
 
 @zIndexStack(SNACKBAR_ZINDEX)
 @renderToLayer

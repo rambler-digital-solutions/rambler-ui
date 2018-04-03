@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin, ifMobile } from '../style/mixins'
+import { isolateMixin, ifMobile } from '../utils/mixins'
 
 @injectSheet(theme => ({
   success: {

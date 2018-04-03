@@ -1,12 +1,12 @@
 import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import OnClickOutside from '../events/OnClickOutside'
+import OnClickOutside from '../OnClickOutside'
 import VisibilityAnimation from '../VisibilityAnimation'
 import { FixedOverlay } from '../Overlay'
 import { injectSheet } from '../theme'
 import { POINTS_Y } from '../constants/overlay'
-import { isolateMixin, fontSmoothingMixin } from '../style/mixins'
+import { isolateMixin, fontSmoothingMixin } from '../utils/mixins'
 
 const containerNodeStyle = {'pointer-events': 'none'}
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TickIcon from '../icons/forms/TickIcon'
 import TickIconSmall from './TickIconSmall'
-import { isolateMixin, focusSourceMixin } from '../style/mixins'
+import { isolateMixin, focusSourceMixin } from '../utils/mixins'
 import { injectSheet } from '../theme'
 import '../utils/focus-source'
 

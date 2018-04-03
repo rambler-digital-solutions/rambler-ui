@@ -4,7 +4,7 @@
 import React, { Component, cloneElement } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import { isolateMixin, ifDesktopSize } from '../style/mixins'
+import { isolateMixin, ifDesktopSize } from '../utils/mixins'
 import { injectSheet } from '../theme'
 
 @injectSheet(theme => ({

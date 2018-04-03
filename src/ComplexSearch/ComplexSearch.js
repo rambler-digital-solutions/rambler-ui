@@ -4,10 +4,10 @@ import classnames from 'classnames'
 import EventEmitter from 'events'
 import { injectSheet } from '../theme'
 import Dropdown from '../Dropdown'
-import OnClickOutside from '../events/OnClickOutside'
+import OnClickOutside from '../OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../utils/mixins'
 import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => ({

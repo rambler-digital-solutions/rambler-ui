@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../utils/mixins'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
 import { MENU_ITEM_CONTEXT } from '../constants/context'
@@ -142,7 +142,7 @@ class MenuItem extends PureComponent {
       ctx.isMenuDisabled() !== this.disabled ||
       ctx.getMenuSize() !== this.size
     )
-      this.forceUpdate() 
+      this.forceUpdate()
   }
 
   handleFocus = () => {

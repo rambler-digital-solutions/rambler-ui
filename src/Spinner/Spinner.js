@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin, middleMixin } from '../style/mixins'
+import { isolateMixin, middleMixin } from '../utils/mixins'
 
 const getKeyframes = (delay = 0) => ({
   [`${0 + delay}%`]: {

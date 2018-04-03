@@ -4,7 +4,6 @@ import {findDOMNode} from 'react-dom'
 import throttle from 'lodash.throttle'
 import windowEvents from '../hoc/window-events'
 
-
 @windowEvents('touchstart', 'click')
 export default class OnClickOutside extends Component {
 

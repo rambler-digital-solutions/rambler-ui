@@ -6,7 +6,7 @@ import EventEmitter from 'events'
 import { ESCAPE, UP, DOWN, TAB } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { getBoundingClientRect } from '../utils/DOM'
-import { isolateMixin, beautyScroll } from '../style/mixins'
+import { isolateMixin, beautyScroll } from '../utils/mixins'
 import { MENU_ITEM_CONTEXT } from '../constants/context'
 
 const emptyArr = []

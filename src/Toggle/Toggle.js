@@ -5,7 +5,7 @@ import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin, focusSourceMixin } from '../style/mixins'
+import { isolateMixin, focusSourceMixin } from '../utils/mixins'
 
 const whenDomReady = new Promise((resolve) => {
   if (document.readyState === 'complete')

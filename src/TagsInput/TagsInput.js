@@ -5,7 +5,7 @@ import React, { PureComponent, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../utils/mixins'
 import windowEvents from '../hoc/window-events'
 
 @injectSheet(theme => ({

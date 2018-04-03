@@ -6,7 +6,7 @@ import VisibilityAnimation from '../VisibilityAnimation'
 import { FixedOverlay } from '../Overlay'
 import { POINTS_X } from '../constants/overlay'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   hint: {

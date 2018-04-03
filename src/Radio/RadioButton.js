@@ -7,7 +7,7 @@ import classnames from 'classnames'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
 import { injectSheet } from '../theme'
-import { isolateMixin, focusSourceMixin } from '../style/mixins'
+import { isolateMixin, focusSourceMixin } from '../utils/mixins'
 import { RADIO_INPUT_CONTEXT } from '../constants/context'
 import '../utils/focus-source'
 

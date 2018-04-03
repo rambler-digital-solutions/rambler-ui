@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Spinner from '../Spinner'
 import { injectSheet } from '../theme'
-import { middleMixin, isolateMixin, fontSmoothingMixin, ifMobile, focusSourceMixin } from '../style/mixins'
+import { middleMixin, isolateMixin, fontSmoothingMixin, ifMobile, focusSourceMixin } from '../utils/mixins'
 import '../utils/focus-source'
 
 @injectSheet((theme) => ({

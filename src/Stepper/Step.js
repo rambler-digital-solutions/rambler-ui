@@ -5,7 +5,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TickIcon from '../icons/forms/TickIcon'
-import { isolateMixin, ifDesktopSize, middleMixin } from '../style/mixins'
+import { isolateMixin, ifDesktopSize, middleMixin } from '../utils/mixins'
 import { injectSheet } from '../theme'
 
 const defaultIcon = <TickIcon size={10} color="currentColor" />

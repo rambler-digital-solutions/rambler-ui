@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import * as profileIcons from '../icons/profiles'
 import { injectSheet } from '../theme'
-import { isolateMixin, middleMixin } from '../style/mixins'
+import { isolateMixin, middleMixin } from '../utils/mixins'
 
 function calcProfileSize(size) {
   return Math.min(Math.max(14, 0.45 * size), 32)

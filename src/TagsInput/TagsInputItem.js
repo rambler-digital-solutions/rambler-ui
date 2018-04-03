@@ -4,7 +4,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../utils/mixins'
 import { injectSheet } from '../theme'
 import ClearIcon from '../icons/forms/ClearIcon'
 

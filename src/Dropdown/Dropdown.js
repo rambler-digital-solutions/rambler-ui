@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { FixedOverlay, RelativeOverlay } from '../Overlay'
 import VisibilityAnimation from '../VisibilityAnimation'
-import OnClickOutside from '../events/OnClickOutside'
+import OnClickOutside from '../OnClickOutside'
 import { POINTS_Y } from '../constants/overlay'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../style/mixins'
+import { isolateMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   dropdown: {
