@@ -79,7 +79,7 @@ export default class SelectExample extends Component {
   }
 
   setCustomValue = (value) => {
-    if (value)
+    if (value) {
       if (!regexEmail.test(value)) {
         if (this.state.status !== 'error')
           this.setState({
@@ -89,15 +89,12 @@ export default class SelectExample extends Component {
         this.setState({
           status: 'success'
         })
-      } else {
-        this.setState({
-          status: null
-        })
       }
-    else
+    } else {
       this.setState({
         status: null
       })
+    }
 
     this.setState({
       valueCustom: value
