@@ -16,10 +16,14 @@ const RAMBLER_UI_SHEETS_REGISTRY = '__RAMBLER_UI_SHEETS_REGISTRY__'
 const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 const RAMBLER_UI_CLASS_NAME_PREFIX = '__RAMBLER_UI_CLASS_NAME_PREFIX__'
 
-const theming = createTheming(RAMBLER_UI_THEME)
-const {ThemeProvider} = theming
-
 const ruiPrefix = 'rui-'
+
+const theming = createTheming(RAMBLER_UI_THEME)
+const {ThemeProvider, withTheme} = theming
+
+export {
+  withTheme
+}
 
 export const createJss = (options = {}) => originalCreateJss({
   ...preset(options),
