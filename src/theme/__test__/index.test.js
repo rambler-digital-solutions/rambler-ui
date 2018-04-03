@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import originalInjectSheet, {createTheming} from 'react-jss'
-import {ApplyTheme, injectSheet, createJss, createSheetsRegistry} from '../'
+import {ApplyTheme, injectSheet, withTheme, createJss, createSheetsRegistry} from '../'
 import {mount, getNodeStyles} from '../../utils/test-utils'
 import {normalize as nc} from '../../utils/colors'
 
@@ -213,4 +213,24 @@ describe('<ApplyTheme />', () => {
       '}'
     )
   })
+
+  it('should pass theme to props', () => {
+    const Button = withTheme(
+      function Button ({theme, className}) {
+        return (
+          <button className={className} style={{color: theme.button.color}} />
+        )
+      }
+    )
+
+    mount(
+      <ApplyTheme theme={getTheme('#ffffff')}>
+        <Button className='with-theme' />
+      </ApplyTheme>
+    )
+
+    const button = document.querySelector('.with-theme')
+    expect(getNodeStyles(button).color).toBe(nc('#ffffff'))
+  })
+
 })
