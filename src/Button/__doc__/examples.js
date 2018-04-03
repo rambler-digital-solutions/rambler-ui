@@ -16,7 +16,7 @@ export default class ButtonExample extends Component {
     }, 1000)
   }
 
-  handleClick() {
+  handleClick = () => {
     this.setState({loading: true})
     this.onServerResponse()
   }
@@ -38,7 +38,7 @@ export default class ButtonExample extends Component {
             <Button block={true} type="secondary" size="small" disabled>Primary block disabled</Button>
           </div>
           <div>
-            <Button style={{margin: 20}} rounded={true} type="secondary" size="small" onClick={::this.handleClick} loading={this.state.loading}>Secondary loader</Button>
+            <Button style={{margin: 20}} rounded={true} type="secondary" size="small" onClick={this.handleClick} loading={this.state.loading}>Secondary loader</Button>
             <Button style={{margin: 20}} size="small" overlay={<input type="file" name="hello"/>}>Upload file</Button>
             <Button icon={<ChevronRightIcon/>} iconPosition="right" style={{margin: 20}} rounded={true}>Rounded With Icon</Button>
             <Button style={{margin: 20}} rounded={true}>Rounded</Button>

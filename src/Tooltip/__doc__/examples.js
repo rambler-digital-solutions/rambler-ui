@@ -14,15 +14,15 @@ export default class TooltipExample extends Component {
     isTooltipOpened: false
   };
 
-  onChange(e, value) {
+  onChange = (e, value) => {
     this.setState({value})
   }
 
-  openTooltip() {
+  openTooltip = () => {
     this.setState({isTooltipOpened: true})
   }
 
-  closeTooltip() {
+  closeTooltip = () => {
     this.setState({isTooltipOpened: false})
   }
 
@@ -109,9 +109,9 @@ export default class TooltipExample extends Component {
                   status="error"
                   type="text"
                   value={this.state.value}
-                  onFocus={::this.openTooltip}
-                  onBlur={::this.closeTooltip}
-                  onChange={::this.onChange} />
+                  onFocus={this.openTooltip}
+                  onBlur={this.closeTooltip}
+                  onChange={this.onChange} />
               </Tooltip>
             </FormGroup>
           </div>

@@ -54,10 +54,19 @@ module.exports = function (config) {
       'karma-jasmine',
       'karma-sourcemap-loader',
       'karma-chrome-launcher',
-      'karma-phantomjs-launcher'
+      'karma-phantomjs-launcher',
+      'karma-spec-reporter'
     ],
 
-    reporters: ['progress'],
+    reporters: ['spec'],
+    specReporter: {
+      maxLogLines: 5,
+      suppressErrorSummary: true,
+      suppressFailed: false,
+      suppressPassed: false,
+      suppressSkipped: true,
+      showSpecTiming: false
+    },
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

@@ -9,7 +9,7 @@ export default class SideNavExample extends Component {
     value: 'general'
   };
 
-  onChange(event, newValue) {
+  onChange = (event, newValue) => {
     this.setState({ value: newValue })
   }
 
@@ -19,7 +19,7 @@ export default class SideNavExample extends Component {
       <ApplyTheme>
         <div>
           <div style={{ width: '300px', marginBottom: 40, display: 'inline-block' }}>
-            <SideNav value={this.state.value} onChange={::this.onChange}>
+            <SideNav value={this.state.value} onChange={this.onChange}>
               <SideNavItem value="general" icon={<BookIcon />}>Личные данные</SideNavItem>
               <SideNavItem value="email" icon={<EmailIcon />}>Адреса электронной почты</SideNavItem>
               <SideNavItem value="phone" icon={<PhoneIcon />}>Телефонные номера</SideNavItem>
@@ -28,7 +28,7 @@ export default class SideNavExample extends Component {
             </SideNav>
           </div>
           <div style={{ width: '300px', marginBottom: 40, display: 'inline-block' }}>
-            <SideNav size="small" value={this.state.value} onChange={::this.onChange}>
+            <SideNav size="small" value={this.state.value} onChange={this.onChange}>
               <SideNavItem value="general" icon={<BookIcon />}>Личные данные</SideNavItem>
               <SideNavItem value="email" icon={<EmailIcon />}>Адреса электронной почты</SideNavItem>
               <SideNavItem value="phone" icon={<PhoneIcon />}>Телефонные номера</SideNavItem>
