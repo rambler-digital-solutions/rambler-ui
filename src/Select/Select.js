@@ -6,7 +6,7 @@ import Input from '../Input'
 import { TagsInput, TagsInputItem } from '../TagsInput'
 import Dropdown from '../Dropdown'
 import OnClickOutside from '../events/OnClickOutside'
-import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE } from '../constants/keys'
+import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE, ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
 import { isolateMixin, placeholderMixin } from '../style/mixins'
 import { ios, android } from '../utils/browser'
@@ -364,6 +364,10 @@ export default class Select extends PureComponent {
      */
     containerStyle: PropTypes.object,
     /**
+     * Позволяет вводить кастомное поле
+     */
+    inputMode: PropTypes.bool,
+    /**
      * Применить логику выбора опций нативного select'a на мобильных устройствах.
      * При использовании `onSearch` - не применяется.
      * `<MenuItem>` в качестве `children` должен принимать элемент типа string
@@ -384,7 +388,8 @@ export default class Select extends PureComponent {
     inputValueRenderer: value => value,
     onFocus: () => {},
     onBlur: () => {},
-    onChange: () => {}
+    onChange: () => {},
+    inputMode: false
   }
 
   get css() {
@@ -397,7 +402,7 @@ export default class Select extends PureComponent {
   }
 
   get showClearIcon() {
-    return this.props.multiple === false && this.props.clearIcon === true && this.state.value !== null
+    return !this.props.multiple && this.props.clearIcon && this.state.value
   }
 
   constructor(props) {
@@ -418,7 +423,7 @@ export default class Select extends PureComponent {
   }
 
   handleDropdownClose = () => {
-    if (this.state.isOpened) return
+    if (this.state.isOpened || this.props.inputMode) return
     this.setSearchText('')
   }
 
@@ -459,9 +464,11 @@ export default class Select extends PureComponent {
   changeValue = (value) => {
     if (!this.props.multiple)
       this.setState({isOpened: false})
+    if (this.props.inputMode)
+      this.setSearchText(value || '')
     this.setValue(value)
     this.props.onChange(value)
-    if (!this.props.multiple)
+    if (!this.props.inputMode && !this.props.multiple)
       this.input.focus()
   }
 
@@ -480,6 +487,8 @@ export default class Select extends PureComponent {
         isOpened: false,
         inputFocused: false
       })
+      if (this.props.inputMode)
+        this.changeValue(this.state.searchText)
       this.props.onBlur(event)
     }
   }
@@ -570,6 +579,8 @@ export default class Select extends PureComponent {
       })
     else if (code === UP || code === DOWN)
       this.openOnArrow(event)
+    else if (this.props.inputMode && code === ENTER)
+      this.changeValue(this.state.searchText)
     else if (!this.props.multiple && !this.props.customElementRenderer && (code === DELETE || code === BACKSPACE))
       this.clearValueOnBackspace(event)
   }
@@ -609,6 +620,7 @@ export default class Select extends PureComponent {
       containerClassName,
       native,
       clearIcon,
+      inputMode,
       /* eslint-enable no-unused-vars */
       ...props
     } = this.props
@@ -669,19 +681,17 @@ export default class Select extends PureComponent {
       style,
       placeholder,
       icon,
-      onSearch
-    } = this.props
-
-    const {
+      onSearch,
       multiple,
       inputValueRenderer,
-      customElementRenderer
+      customElementRenderer,
+      inputMode: customMode
     } = this.props
 
     const focusedInput = inputFocused || isOpened
 
     let resultInputValue = ''
-    if (onSearch && focusedInput && isOpened) {
+    if ((onSearch || inputMode) && focusedInput && isOpened) {
       resultInputValue = searchText
     } else if (!multiple && !customElementRenderer) {
       const inputValue = inputValueRenderer(value)
@@ -699,7 +709,7 @@ export default class Select extends PureComponent {
       resultPlaceholder = this.isValueEmpty(inputValue) ? placeholder : (onSearch && focusedInput && searchText === '' ? inputValue : '')
     }
 
-    const inputMode = !!onSearch && (
+    const inputMode = (customMode || !!onSearch) && (
       (!customElementRenderer && !multiple) ||
       (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
       (multiple && (isOpened || !Array.isArray(value) || value.length === 0))
