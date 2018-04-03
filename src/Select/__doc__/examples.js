@@ -278,7 +278,7 @@ export default class SelectExample extends Component {
           </div>
 
           <div style={{ width: '50%', marginBottom: 55 }}>
-            <h3>С поддержкой кастомного ввода и состояниями</h3>
+            <h3>С поддержкой ввода произвольного значения</h3>
             <Tooltip
               content={this.state.status === 'error' ? 'This is not an email!' : 'This is a correct email!'}
               position='right'
