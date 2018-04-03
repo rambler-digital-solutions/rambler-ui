@@ -464,6 +464,8 @@ export default class Select extends PureComponent {
   changeValue = (value) => {
     if (!this.props.multiple)
       this.setState({isOpened: false})
+    if (this.props.inputMode)
+      this.setSearchText(value)
     this.setValue(value)
     this.props.onChange(value)
     if (!this.props.inputMode && !this.props.multiple)
@@ -486,7 +488,7 @@ export default class Select extends PureComponent {
         inputFocused: false
       })
       if (this.props.inputMode)
-        this.changeValue(event.target.value)
+        this.changeValue(this.state.searchText)
       this.props.onBlur(event)
     }
   }
@@ -578,7 +580,7 @@ export default class Select extends PureComponent {
     else if (code === UP || code === DOWN)
       this.openOnArrow(event)
     else if (this.props.inputMode && code === ENTER)
-      this.changeValue(event.target.value)
+      this.changeValue(this.state.searchText)
     else if (!this.props.multiple && !this.props.customElementRenderer && (code === DELETE || code === BACKSPACE))
       this.clearValueOnBackspace(event)
   }
@@ -689,7 +691,7 @@ export default class Select extends PureComponent {
     const focusedInput = inputFocused || isOpened
 
     let resultInputValue = ''
-    if (onSearch && focusedInput && isOpened) {
+    if ((onSearch || inputMode) && focusedInput && isOpened) {
       resultInputValue = searchText
     } else if (!multiple && !customElementRenderer) {
       const inputValue = inputValueRenderer(value)
