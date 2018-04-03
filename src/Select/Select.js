@@ -465,7 +465,7 @@ export default class Select extends PureComponent {
     if (!this.props.multiple)
       this.setState({isOpened: false})
     if (this.props.inputMode)
-      this.setSearchText(value)
+      this.setSearchText(value || '')
     this.setValue(value)
     this.props.onChange(value)
     if (!this.props.inputMode && !this.props.multiple)
