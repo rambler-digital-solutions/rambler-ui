@@ -68,11 +68,6 @@ export default class SelectExample extends Component {
   }
 
   setValue = key => (value) => {
-    if (key === 'valueCustom' && this.state.status !== null)
-      this.setState({
-        status: null
-      })
-
     this.setState({
       [key]: value
     })
