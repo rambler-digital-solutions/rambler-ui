@@ -36,6 +36,8 @@ export default () => (
 )
 ```
 
+Более подробно можно посмотреть в [примере](../examples/simple).
+
 ## Server-Side rendering
 
 Для отрисовки на сервере необходимо в `<ApplyTheme />` пробрасывать отдельный `sheetsRegistry`, для извлечения стилей и вставки их непосредственно в html ответа сервера. После загрузки и регидратации приложения в браузере, необходимо удалить извлеченные на сервере стили из DOM для избежания сайд-эффектов.
@@ -56,19 +58,23 @@ export default function render(req, res) {
     </ApplyTheme>
   )
 
-  return res.send(renderToString(
+  return res.send(`
+    <!DOCTYPE html>
     <html>
       <head>
         <style type="text/css">
-          {sheetsRegistry.toString()}
+          ${sheetsRegistry.toString()}
         </style>
       </head>
       <body>
-        {app}
+        <div id="app">
+          ${app}
+        </div>
+        <script src="./index.js"></script>
       </body>
     </html>
-  ))
+  `)
 }
 ```
 
-Более подробное описание использования SSR в документации [JSS](https://github.com/cssinjs/jss/blob/master/docs/ssr.md).
+Более подробно можно посмотреть в [примере с SSR](../examples/ssr) или в документации [JSS](https://github.com/cssinjs/jss/blob/master/docs/ssr.md).

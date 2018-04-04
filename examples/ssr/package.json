@@ -1,0 +1,25 @@
+{
+  "name": "rambler-ui",
+  "version": "0.0.0",
+  "description": "Rambler UI example with SSR",
+  "scripts": {
+    "dev": "webpack -p && node server/index.js"
+  },
+  "dependencies": {
+    "babel-register": "^6.26.0",
+    "koa": "^2.5.0",
+    "koa-static": "^4.0.2",
+    "rambler-ui": "^3",
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.11.2"
+  }
+}
