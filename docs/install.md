@@ -1,46 +1,74 @@
 # Установка
 
-```
+```sh
 npm install --save rambler-ui
 ```
 
-# Использование
-Обязательно включите babel-polyfill в свой код
-```
-import Button from 'rambler-ui/Button'
+Библиотека и ее зависимости используют фичи ES2015+: `Promise` и т. д. Для использования в старых браузерах необходимо добавить [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/) в ваше приложение.
+
+## Использование
+
+```js
+// src/index.js
+import React from 'react'
+import { render } from 'react-dom'
 import { ApplyTheme } from 'rambler-ui/theme'
-import 'babel-polyfill'
+import App from './App'
 
-export default function() {
-  return <ApplyTheme>
-    <Button>Кнопка</Button> 
-  </ApplyTheme> 
-}
+const app = (
+  <ApplyTheme>
+    <App />
+  </ApplyTheme>
+)
+
+render(app, document.getElementById('app'))
+
+// src/App.js
+import React from 'react'
+import Button from 'rambler-ui/Button'
+
+export default () => (
+  <div>
+    <Button buttonType="button">
+      Кнопка
+    </Button>
+  </div>
+)
 ```
 
+## Server-Side rendering
 
+Для отрисовки на сервере необходимо в `<ApplyTheme />` пробрасывать отдельный `sheetsRegistry`, для извлечения стилей и вставки их непосредственно в html ответа сервера. После загрузки и регидратации приложения в браузере, необходимо удалить извлеченные на сервере стили из DOM для избежания сайд-эффектов.
 
-## Использование с Webpack
-Использование babel-loader необязательно, т.к. весь код уже скомпилирован
-Тестовый конфиг вы можете найти [здесь](https://gitlab.rambler.ru/rambler-ui/rambler-ui-example/blob/master/webpack.js)
-
-## Использование с server-side-rendering
-См. как используется ssr с [JSS](https://github.com/cssinjs/jss/blob/master/docs/ssr.md)
-```
+```js
+// src/render.js
+import React from 'react'
+import { renderToString } from 'react-dom/server'
 import { ApplyTheme, createSheetsRegistry } from 'rambler-ui/theme'
+import App from './App'
 
-function render() {
-    const sheetsRegistry = createSheetsRegistry()
+export default function render(req, res) {
+  const sheetsRegistry = createSheetsRegistry()
 
-    const component = (
-      <ApplyTheme sheetsRegistry={sheetsRegistry}>
+  const app = renderToString(
+    <ApplyTheme sheetsRegistry={sheetsRegistry}>
+      <App />
+    </ApplyTheme>
+  )
 
-      </ApplyTheme>
-    )
-    const html = renderToString(component)
-    const css = sheetsRegistry.toString()
+  return res.send(renderToString(
+    <html>
+      <head>
+        <style type="text/css">
+          {sheetsRegistry.toString()}
+        </style>
+      </head>
+      <body>
+        {app}
+      </body>
+    </html>
+  ))
 }
 ```
 
-
-Теперь ваш проект должен собраться корректно.
+Более подробное описание использования SSR в документации [JSS](https://github.com/cssinjs/jss/blob/master/docs/ssr.md).
