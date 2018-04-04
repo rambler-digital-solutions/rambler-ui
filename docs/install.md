@@ -36,7 +36,7 @@ export default () => (
 )
 ```
 
-Более подробно можно посмотреть в [примере](../examples/simple).
+Более подробно можно посмотреть в [примере](https://github.com/rambler-digital-solutions/rambler-ui/tree/master/examples/simple).
 
 ## Server-Side rendering
 
@@ -77,4 +77,4 @@ export default function render(req, res) {
 }
 ```
 
-Более подробно можно посмотреть в [примере с SSR](../examples/ssr) или в документации [JSS](https://github.com/cssinjs/jss/blob/master/docs/ssr.md).
+Более подробно можно посмотреть в [примере с SSR](https://github.com/rambler-digital-solutions/rambler-ui/tree/master/examples/ssr) или в документации [JSS](https://github.com/cssinjs/jss/blob/master/docs/ssr.md).
