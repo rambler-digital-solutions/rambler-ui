@@ -3,7 +3,7 @@
 Склонируйте репозиторий локально и установите зависимости:
 
 ```sh
-git clone git@github.rambler.ru:rambler-ui/rambler-ui.git
+git clone git@github.com:rambler-digital-solutions/rambler-ui.git
 cd ./rambler-ui
 npm install
 ```
