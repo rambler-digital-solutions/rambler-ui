@@ -356,6 +356,14 @@ export default class Select extends PureComponent {
      */
     customElementRenderer: PropTypes.func,
     /**
+     * Дополнительный CSS-класс корневого контейнера
+     */
+    rootClassName: PropTypes.string,
+    /**
+     * Inline-стили корневого контейнера
+     */
+    rootStyle: PropTypes.object,
+    /**
      * Дополнительный CSS-класс контейнера кастомного элемента и `<Input>`
      */
     containerClassName: PropTypes.string,
@@ -611,6 +619,8 @@ export default class Select extends PureComponent {
       arrowIcon,
       containerStyle,
       containerClassName,
+      rootStyle,
+      rootClassName,
       native,
       clearIcon,
       inputMode,
@@ -758,6 +768,8 @@ export default class Select extends PureComponent {
       dropdownClassName,
       containerStyle,
       containerClassName,
+      rootStyle,
+      rootClassName,
       customElementRenderer,
       menuStyle,
       menuClassName,
@@ -777,6 +789,7 @@ export default class Select extends PureComponent {
     const options = multipleWithValue ? this.renderSelectedItems() : null
 
     const resultClassName = classnames(
+      rootClassName,
       classes.root,
       !disabled && !onSearch && classes.isReadonly,
       !disabled && onSearch && classes.withSearch,
@@ -828,7 +841,7 @@ export default class Select extends PureComponent {
 
     return (
       <OnClickOutside handler={this.closeOnClickOutside}>
-        <div className={resultClassName}>
+        <div className={resultClassName} style={rootStyle}>
           <Dropdown
             isOpened={resultIsOpened}
             anchor={dropdownAnchor}
@@ -897,7 +910,9 @@ export default class Select extends PureComponent {
       valuesEquality,
       inputValueRenderer,
       className,
-      classes
+      classes,
+      rootStyle,
+      rootClassName
     } = this.props
 
     const {
@@ -927,6 +942,7 @@ export default class Select extends PureComponent {
     const selectedOptions = multiple && Array.isArray(value) && value.length > 0 && this.renderSelectedItems()
 
     const resultClassName = classnames(
+      rootClassName,
       classes.root,
       classes.isNative,
       classes.withRightIcon,
@@ -939,7 +955,7 @@ export default class Select extends PureComponent {
     )
 
     return (
-      <div className={resultClassName}>
+      <div className={resultClassName} style={rootStyle}>
         <Input
           className={classes.input}
           inputClassName={classnames(className, classes.field)}
