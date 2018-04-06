@@ -78,7 +78,10 @@ class Stepper extends Component {
       value: currentValue,
       className,
       classes,
-      style
+      style,
+      theme, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars
+      ...other
     } = this.props
     const steps = React.Children.toArray(children).reduce((acc, child, index, children) => {
       if (index > 0 && index < children.length)
@@ -105,7 +108,7 @@ class Stepper extends Component {
       return acc
     }, [])
     return (
-      <div className={classnames(className, classes.stepper)} style={style}>
+      <div {...other} className={classnames(className, classes.stepper)} style={style}>
         {steps}
       </div>
     )

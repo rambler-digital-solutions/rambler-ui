@@ -133,7 +133,11 @@ class Step extends Component {
       disabled,
       completed,
       active,
-      icon
+      icon,
+      children,
+      theme, // eslint-disable-line no-unused-vars
+      onClick, // eslint-disable-line no-unused-vars
+      ...other
     } = this.props
     const resultClassName = classnames(
       className,
@@ -144,9 +148,13 @@ class Step extends Component {
       }
     )
     return (
-      <div className={resultClassName} style={style} onClick={this.onClick}>
-        <span className={classnames(classes.badge, badgeClassName)}>{icon ? icon : (completed ? defaultIcon : value + 1)}</span>
-        <span className={classnames(classes.text, textClassName)}>{this.props.children}</span>
+      <div {...other} className={resultClassName} style={style} onClick={this.onClick}>
+        <span className={classnames(classes.badge, badgeClassName)}>
+          {icon ? icon : (completed ? defaultIcon : value + 1)}
+        </span>
+        <span className={classnames(classes.text, textClassName)}>
+          {children}
+        </span>
       </div>
     )
   }

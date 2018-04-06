@@ -82,8 +82,8 @@ class TagsInputItem extends Component {
   }
 
   handleClick = (event) => {
-    const {props} = this
-    props.onClick(event, props.value)
+    const {value, onClick} = this.props
+    onClick(event, value)
   }
 
   handleMouseDown = (event) => {
@@ -91,24 +91,36 @@ class TagsInputItem extends Component {
   }
 
   render() {
-    const {props} = this
-    const {classes} = props
+    const {
+      className,
+      style,
+      disabled,
+      nodeRef,
+      children,
+      onClick,
+      classes,
+      theme, // eslint-disable-line no-unused-vars
+      value, // eslint-disable-line no-unused-vars
+      ...other
+    } = this.props
     return (
       <div
-        className={classnames(props.className, classes.root, props.disabled && classes.isDisabled)}
-        ref={props.nodeRef}
+        {...other}
+        className={classnames(className, classes.root, disabled && classes.isDisabled)}
+        style={style}
+        ref={nodeRef}
       >
         <span className={classes.text}>
-          {props.children}
+          {children}
         </span>
-        {props.onClick &&
+        {onClick &&
           <ClearIcon
             className={classes.icon}
             size={8}
             style={iconStyle}
-            onClick={props.disabled ? undefined : this.handleClick}
-            onMouseDown={props.disabled ? undefined : this.handleMouseDown}
-            role={props.disabled ? undefined : 'button'}
+            onClick={disabled ? undefined : this.handleClick}
+            onMouseDown={disabled ? undefined : this.handleMouseDown}
+            role={disabled ? undefined : 'button'}
           />
         }
       </div>
