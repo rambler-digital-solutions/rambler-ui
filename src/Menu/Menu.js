@@ -325,7 +325,6 @@ export default class Menu extends PureComponent {
     const {
       autoFocus,
       value,
-      classes,
       theme,
       onChange,
       onEscKeyDown,

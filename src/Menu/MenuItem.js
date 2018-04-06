@@ -162,19 +162,27 @@ class MenuItem extends PureComponent {
   }
 
   render() {
-    const {props, ctx} = this
-    const {classes} = this.props
-    this.isSelected = ctx.isValueSelected(props.value)
-    this.isFocused = ctx.isItemFocused(this.id)
-    this.disabled = ctx.isMenuDisabled()
-    this.size = ctx.getMenuSize()
+    const {
+      className,
+      style,
+      value,
+      classes,
+      children,
+      theme, // eslint-disable-line no-unused-vars
+      ...other
+    } = this.props
+    this.isSelected = this.ctx.isValueSelected(value)
+    this.isFocused = this.ctx.isItemFocused(this.id)
+    this.disabled = this.ctx.isMenuDisabled()
+    this.size = this.ctx.getMenuSize()
 
     return (
       <div
+        {...other}
         ref={this.saveRef}
-        style={props.style}
+        style={style}
         className={classnames(
-          props.className,
+          className,
           classes.root,
           this.size && classes[this.size],
           this.disabled ? classes.isDisabled : classes.isEnabled,
@@ -186,7 +194,7 @@ class MenuItem extends PureComponent {
         onKeyDown={this.disabled ? null : this.handlePressKey}
         data-menu-item-id={this.id}
       >
-        {props.children}
+        {children}
       </div>
     )
   }
