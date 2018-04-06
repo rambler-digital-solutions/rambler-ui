@@ -97,7 +97,7 @@ export default class SideNav extends Component {
       block,
       children,
       className,
-      classes: css,
+      classes,
       theme, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
@@ -120,9 +120,9 @@ export default class SideNav extends Component {
     })
 
     const resultClassName = classnames(
-      css.sideNav,
+      classes.sideNav,
       {
-        [css.block]: block
+        [classes.block]: block
       },
       className
     )

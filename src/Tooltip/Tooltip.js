@@ -169,10 +169,6 @@ class TooltipContent extends PureComponent {
     children: PropTypes.node
   };
 
-  get css() {
-    return this.props.classes
-  }
-
   render() {
     const {
       isVisible,
@@ -187,6 +183,7 @@ class TooltipContent extends PureComponent {
       anchorWidth,
       anchorHeight,
       theme,
+      classes,
       status,
       onClickOutside,
       onBecomeVisible,
@@ -194,12 +191,12 @@ class TooltipContent extends PureComponent {
     } = this.props
     const resultClassName = classnames(
       className,
-      this.css.content,
-      this.css['x' + pointX],
-      this.css['y' + pointY],
-      this.css['xa' + anchorPointX],
-      this.css['ya' + anchorPointY],
-      this.css[status]
+      classes.content,
+      classes['x' + pointX],
+      classes['y' + pointY],
+      classes['xa' + anchorPointX],
+      classes['ya' + anchorPointY],
+      classes[status]
     )
     const arrowStyle = {}
 
@@ -231,15 +228,15 @@ class TooltipContent extends PureComponent {
       <OnClickOutside handler={onClickOutside}>
         <VisibilityAnimation
           isVisible={isVisible}
-          activeClassName={this.css.isVisible}
+          activeClassName={classes.isVisible}
           animationDuration={theme.tooltip.animationDuration}
           onVisible={onBecomeVisible}
           onInvisible={onBecomeInvisible}>
           <div
             style={{padding: '3px'}}
             className={resultClassName}>
-            <div className={this.css.arrow} style={ arrowStyle } />
-            <div style={ style } className={ classnames(bodyClassName, this.css.body) }>
+            <div className={classes.arrow} style={ arrowStyle } />
+            <div style={ style } className={ classnames(bodyClassName, classes.body) }>
               { children }
             </div>
           </div>
@@ -327,10 +324,6 @@ export default class Tooltip extends PureComponent {
     isOpened: false
   };
 
-  get css() {
-    return this.props.classes
-  }
-
   componentWillReceiveProps(nextProps) {
     if (nextProps.isOpened !== undefined && nextProps.isOpened !== this.props.isOpened)
       if (nextProps.isOpened)
@@ -394,8 +387,8 @@ export default class Tooltip extends PureComponent {
   };
 
   renderAnchor() {
-    const { className, style, children } = this.props
-    const anchor = <span style={ style } className={classnames(className, this.css.anchor)}>{ children }</span>
+    const { className, style, children, classes } = this.props
+    const anchor = <span style={ style } className={classnames(className, classes.anchor)}>{ children }</span>
     if (this.props.isOpened !== undefined)
       return anchor
     return cloneElement(anchor, {

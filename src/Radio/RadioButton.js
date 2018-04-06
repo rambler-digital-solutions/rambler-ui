@@ -222,7 +222,7 @@ class RadioButton extends Component {
       labelClassName,
       style,
       labelStyle,
-      classes: css,
+      classes,
       onFocus,
       onBlur,
       theme, // eslint-disable-line no-unused-vars
@@ -233,16 +233,16 @@ class RadioButton extends Component {
 
     const rootClassName = classnames(
       className,
-      css.root,
-      css[`label${labelPosition}`],
-      disabled ? css.isDisabled : css.isEnabled,
-      this.isChecked && css.isChecked
+      classes.root,
+      classes[`label${labelPosition}`],
+      disabled ? classes.isDisabled : classes.isEnabled,
+      this.isChecked && classes.isChecked
     )
 
     return (
       <label className={rootClassName} style={ style } {...other}>
         <input
-          className={ css.real }
+          className={ classes.real }
           type="radio"
           ref={(input) => { this.input = input }}
           name={ this.context[RADIO_INPUT_CONTEXT].getName() }
@@ -252,8 +252,8 @@ class RadioButton extends Component {
           onFocus={ onFocus }
           onBlur={ onBlur }
         />
-        <span className={ classnames(radioClassName, css.fake) } />
-        <span className={ classnames(labelClassName, css.label) } style={ labelStyle }>
+        <span className={ classnames(radioClassName, classes.fake) } />
+        <span className={ classnames(labelClassName, classes.label) } style={ labelStyle }>
           { children }
         </span>
       </label>

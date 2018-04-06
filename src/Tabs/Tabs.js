@@ -97,7 +97,7 @@ export default class Tabs extends Component {
       size,
       disabled,
       className,
-      classes: css,
+      classes,
       theme, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       value, // eslint-disable-line no-unused-vars
@@ -110,7 +110,7 @@ export default class Tabs extends Component {
       const {className, value} = child.props
       const hasValue = 'value' in child.props
       return cloneElement(child, {
-        className: classnames(className, css.item),
+        className: classnames(className, classes.item),
         key: child.key !== undefined ? child.key : (typeof value === 'string' || typeof value === 'number') ? value : i++,
         isSelected: hasValue && child.props.value === this.state.value,
         onPress: hasValue && !disabled ? this.handleValueChange : null,
@@ -120,7 +120,7 @@ export default class Tabs extends Component {
     })
 
     return (
-      <div { ...other } className={ classnames(className, css.tabs, disabled && css.isDisabled) }>
+      <div { ...other } className={ classnames(className, classes.tabs, disabled && classes.isDisabled) }>
         { tabs }
       </div>
     )

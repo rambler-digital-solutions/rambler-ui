@@ -115,13 +115,13 @@ export default class FormGroup extends Component {
       children,
       style,
       size,
-      classes: css
+      classes
     } = this.props
 
     const rootClass = inline === true ? 'inline' : 'normal'
-    const rootClassName = classnames(css[size], css[rootClass], css.root, className)
-    const labelClassName = css.label
-    const innerClassName = css.inner
+    const rootClassName = classnames(classes[size], classes[rootClass], classes.root, className)
+    const labelClassName = classes.label
+    const innerClassName = classes.inner
 
     return (
       <section className={rootClassName} style={style}>

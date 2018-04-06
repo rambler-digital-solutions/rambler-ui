@@ -93,17 +93,14 @@ export default class Spinner extends PureComponent {
     inline: false
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   render() {
     const {
       className,
       style,
       color,
       size,
-      inline
+      inline,
+      classes
     } = this.props
 
     const resultStyle = {
@@ -112,12 +109,12 @@ export default class Spinner extends PureComponent {
       ...style
     }
 
-    const dot = <span className={this.css.dot} />
+    const dot = <span className={classes.dot} />
 
     return (
       <span
         style={resultStyle}
-        className={classnames(className, this.css.spinner, !inline && this.css.position)}>
+        className={classnames(className, classes.spinner, !inline && classes.position)}>
         {dot}
         {dot}
         {dot}

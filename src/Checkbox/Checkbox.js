@@ -265,7 +265,7 @@ export default class Checkbox extends Component {
       size,
       checked,
       indeterminate,
-      classes: css,
+      classes,
       onCheck, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
       ...other
@@ -273,12 +273,12 @@ export default class Checkbox extends Component {
 
     const resultClassName = classnames(
       className,
-      css.checkbox,
-      css[variation],
-      css[size],
-      css[`icon${iconPosition}`],
-      disabled ? css.isDisabled : css.isEnabled,
-      indeterminate ? css.indeterminate : checked && css.isChecked
+      classes.checkbox,
+      classes[variation],
+      classes[size],
+      classes[`icon${iconPosition}`],
+      disabled ? classes.isDisabled : classes.isEnabled,
+      indeterminate ? classes.indeterminate : checked && classes.isChecked
     )
 
     return (
@@ -289,17 +289,17 @@ export default class Checkbox extends Component {
           checked={ checked }
           name={ name }
           type="checkbox"
-          className={ css.real }
+          className={ classes.real }
           disabled={ disabled }
           onChange={ this.onChange }
         />
-        <span className={classnames(css.fake, checkboxClassName)} style={ checkboxStyle }>
+        <span className={classnames(classes.fake, checkboxClassName)} style={ checkboxStyle }>
           {size === 'small' ?
-            <TickIconSmall className={css.tick} style={tickStyle} /> :
-            <TickIcon className={css.tick} style={tickStyle} />
+            <TickIconSmall className={classes.tick} style={tickStyle} /> :
+            <TickIcon className={classes.tick} style={tickStyle} />
           }
         </span>
-        <span className={classnames(css.label, labelClassName)} style={ labelStyle }>
+        <span className={classnames(classes.label, labelClassName)} style={ labelStyle }>
           { children }
         </span>
       </label>

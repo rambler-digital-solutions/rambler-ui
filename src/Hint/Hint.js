@@ -66,10 +66,6 @@ class HintContent extends PureComponent {
     onBecomeInvisible: PropTypes.func
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   render() {
     const {
       isVisible,
@@ -79,28 +75,28 @@ class HintContent extends PureComponent {
       children,
       pointX,
       theme,
+      classes,
       onMouseLeave,
       onBecomeVisible,
       onBecomeInvisible
     } = this.props
 
-    const css = this.css
     const iconProps = icon.props || {}
 
     const anchor = cloneElement(icon, {
-      className: classnames(css.icon, iconProps.className),
+      className: classnames(classes.icon, iconProps.className),
       color: iconProps.color || theme.hint.colors.icon
     })
 
     return (
       <VisibilityAnimation
         isVisible={isVisible}
-        activeClassName={css.isVisible}
+        activeClassName={classes.isVisible}
         animationDuration={theme.hint.animationDuration}
         onVisible={onBecomeVisible}
         onInvisible={onBecomeInvisible}>
         <div
-          className={classnames(css.hint, css[pointX], className)}
+          className={classnames(classes.hint, classes[pointX], className)}
           style={style}
           onMouseLeave={onMouseLeave}>
           {anchor}
@@ -173,10 +169,6 @@ export default class Hint extends PureComponent {
     }
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   componentWillReceiveProps({ isOpened }) {
     if (isOpened !== undefined && isOpened !== this.props.isOpened)
       if (isOpened)
@@ -209,16 +201,16 @@ export default class Hint extends PureComponent {
       children,
       positionX,
       theme,
+      classes,
       closeOnScroll
     } = this.props
 
-    const css = this.css
     const pointX = positionX === 'left' ? 'right' : 'left'
     const iconProps = icon.props || {}
 
     const anchor = cloneElement(icon, {
       style,
-      className: classnames(css.icon, className),
+      className: classnames(classes.icon, className),
       color: iconProps.color || theme.hint.colors.icon,
       onMouseEnter: this.show
     })

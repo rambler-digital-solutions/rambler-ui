@@ -133,10 +133,6 @@ export default class Menu extends PureComponent {
     this.registeredItems = {}
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   getChildContext() {
     if (!this.events)
       this.createEvents()
@@ -349,6 +345,7 @@ export default class Menu extends PureComponent {
       style,
       maxHeight,
       children,
+      classes,
       ...other
     } = this.getMenuProps()
 
@@ -357,7 +354,7 @@ export default class Menu extends PureComponent {
         {...other}
         ref={this.saveMenuRef}
         style={{ maxHeight, ...style }}
-        className={classnames(this.css.menu, className)}
+        className={classnames(classes.menu, className)}
         onKeyDown={this.keyDown}
         onBlur={this.handleBlur}
       >

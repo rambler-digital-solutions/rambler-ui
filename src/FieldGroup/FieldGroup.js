@@ -116,7 +116,7 @@ export default class FieldGroup extends PureComponent {
     const {
       className,
       style,
-      classes: css,
+      classes,
       children,
       disabled,
       variation,
@@ -131,7 +131,7 @@ export default class FieldGroup extends PureComponent {
     return (
       <div
         style={style}
-        className={classnames(className, css.root, css[variation], disabled && css.disabled, showDivider && css.showDivider)}>
+        className={classnames(className, classes.root, classes[variation], disabled && classes.disabled, showDivider && classes.showDivider)}>
         {Children.map(children, child => {
           let groupPosition = 'middle'
           if (i === 1)

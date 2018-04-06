@@ -118,7 +118,7 @@ export default class RadioButtonGroup extends Component {
   render() {
     const {
       className,
-      classes: css,
+      classes,
       children,
       theme, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
@@ -127,7 +127,7 @@ export default class RadioButtonGroup extends Component {
       ...otherRootProps
     } = this.props
 
-    const resultClassName = classnames(css.radioButtonGroup, className)
+    const resultClassName = classnames(classes.radioButtonGroup, className)
 
     return (
       <div className={resultClassName} {...otherRootProps}>

@@ -197,10 +197,6 @@ export default class Popup extends PureComponent {
     onClose: () => {}
   };
 
-  get css() {
-    return this.props.classes
-  }
-
   componentWillUnmount() {
     this.onWillInvisible()
   }
@@ -227,6 +223,7 @@ export default class Popup extends PureComponent {
       title,
       titleStyle,
       titleClassName,
+      classes,
       showClose,
       okButton,
       cancelButton,
@@ -237,22 +234,22 @@ export default class Popup extends PureComponent {
     const content = (
       <div
         style={style}
-        className={classnames(this.css.popup, className)}>
+        className={classnames(classes.popup, className)}>
         {showClose &&
-          <button className={this.css.close} onClick={onRequestClose}>
+          <button className={classes.close} onClick={onRequestClose}>
             <ClearIcon size={15} color='currentColor' />
           </button>
         }
         {title &&
           <header
             style={titleStyle}
-            className={classnames(this.css.title, titleClassName)}>
+            className={classnames(classes.title, titleClassName)}>
             {title}
           </header>
         }
         {children}
         {(okButton || cancelButton) &&
-          <footer className={this.css.buttons}>
+          <footer className={classes.buttons}>
             {okButton}
             {cancelButton}
           </footer>
@@ -277,6 +274,7 @@ export default class Popup extends PureComponent {
       backdropStyle,
       backdropColor,
       theme,
+      classes,
       onOpen,
       onClose
     } = this.props
@@ -284,7 +282,7 @@ export default class Popup extends PureComponent {
     return (
       <VisibilityAnimation
         isVisible={isOpened}
-        activeClassName={this.css.isVisible}
+        activeClassName={classes.isVisible}
         animationDuration={theme.popup.animationDuration}
         onWillVisible={this.onWillVisible}
         onVisible={onOpen}
@@ -294,8 +292,8 @@ export default class Popup extends PureComponent {
           ref={(el) => { this.backdrop = el }}
           style={backdropStyle}
           className={classnames(
-            this.css.backdrop,
-            this.css[`backdrop-${backdropColor}`],
+            classes.backdrop,
+            classes[`backdrop-${backdropColor}`],
             backdropClassName)}>
           {this.renderContent()}
         </div>

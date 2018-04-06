@@ -204,15 +204,11 @@ export default class IconButton extends PureComponent {
     buttonType: 'button'
   };
 
-  get css() {
-    return this.props.classes
-  }
-
   renderIcon(icon) {
     if (!icon)
       return null
 
-    const {type, disabled} = this.props
+    const {type, disabled, classes} = this.props
     const initialProps = icon.props || {}
     const isStandardColor = type === 'primary' || type === 'danger' || disabled || !initialProps.hasOwnProperty('color')
 
@@ -224,8 +220,8 @@ export default class IconButton extends PureComponent {
 
     const className = classnames(
       initialProps.className,
-      this.css.icon,
-      isStandardColor && this.css.iconWithStandardColor
+      classes.icon,
+      isStandardColor && classes.iconWithStandardColor
     )
     const resultProps = { ...initialProps, ...iconProps, className }
     return cloneElement(icon, resultProps)
@@ -245,12 +241,11 @@ export default class IconButton extends PureComponent {
       loading,
       size,
       style = {},
-      classes, // eslint-disable-line no-unused-vars
+      classes,
       theme, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 
-    const css = this.css
     const iconEl = this.renderIcon(children)
 
     const isStandardSize = typeof this.props.size !== 'number'
@@ -263,15 +258,15 @@ export default class IconButton extends PureComponent {
 
     const resultClassName = classnames(
       className,
-      css.button,
-      css[`type-${type}`],
-      isStandardSize && css[`size-${size}`]
+      classes.button,
+      classes[`type-${type}`],
+      isStandardSize && classes[`size-${size}`]
     )
 
     const resultChildren = (
-      <span className={classnames(css.content, loading && css.isLoading)}>
+      <span className={classnames(classes.content, loading && classes.isLoading)}>
         { iconEl }
-        { overlay && cloneElement(overlay, {className: css.overlay}) }
+        { overlay && cloneElement(overlay, {className: classes.overlay}) }
       </span>
     )
 
@@ -292,7 +287,7 @@ export default class IconButton extends PureComponent {
       resultProps,
       resultChildren,
       loading && (
-        <Spinner className={css.loader} color={null} />
+        <Spinner className={classes.loader} color={null} />
       )
     )
   }

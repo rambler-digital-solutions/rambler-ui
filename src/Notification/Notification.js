@@ -161,10 +161,6 @@ export default class Notification extends PureComponent {
     onRequestClose: () => {}
   };
 
-  get css() {
-    return this.props.classes
-  }
-
   onClickOutside = () => {
     if (this.state.isVisible)
       this.props.onRequestClose()
@@ -177,6 +173,7 @@ export default class Notification extends PureComponent {
       positionX,
       style,
       theme,
+      classes,
       icon,
       title,
       body,
@@ -188,40 +185,38 @@ export default class Notification extends PureComponent {
       onClose
     } = this.props
 
-    const css = this.css
-
     const content = (
       <VisibilityAnimation
         isVisible={isOpened}
-        activeClassName={css.isVisible}
+        activeClassName={classes.isVisible}
         animationDuration={theme.notification.animationDuration}
         onInvisible={onClose}>
         <div
           style={style}
-          className={classnames(css.notification, css[positionX], className)}>
+          className={classnames(classes.notification, classes[positionX], className)}>
           {showClose &&
             <IconButton
               type="flat"
               buttonType="button"
               size="small"
-              className={css.close}
+              className={classes.close}
               onClick={onRequestClose}>
               <ClearIcon color={theme.notification.colors.close} />
             </IconButton>
           }
-          <div className={css.title}>
+          <div className={classes.title}>
             {icon &&
-              <div className={css.icon}>
+              <div className={classes.icon}>
                 {icon}
               </div>
             }
             {title}
           </div>
-          <div className={css.body}>
+          <div className={classes.body}>
             {body}
           </div>
           {actionButton &&
-            <button type="button" className={css.actionButton} onClick={onAction}>
+            <button type="button" className={classes.actionButton} onClick={onAction}>
               {actionButton}
               <ChevronRightIcon size={9} color={theme.notification.actionButton.colors.default} />
             </button>

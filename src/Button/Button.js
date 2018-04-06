@@ -273,21 +273,15 @@ export default class Button extends PureComponent {
     block: false
   };
 
-  get css() {
-    return this.props.classes
-  }
-
   renderIcon(icon) {
     if (icon) {
-      const {
-        theme, size
-      } = this.props
+      const { theme, size, classes } = this.props
       const iconProps = {
         size: theme.button.sizes[size].icon,
         color: null
       }
       const initialProps = icon.props || {}
-      const className = classnames(initialProps.className, this.css.icon)
+      const className = classnames(initialProps.className, classes.icon)
       const resultProps = { ...iconProps, ...initialProps, className }
       return cloneElement(icon, resultProps)
     }
@@ -316,7 +310,6 @@ export default class Button extends PureComponent {
       ...other
     } = this.props
 
-    const css = this.css
     const iconLeft = iconPosition === 'left'
     const iconEl = this.renderIcon(icon)
 
@@ -325,23 +318,23 @@ export default class Button extends PureComponent {
       ...style
     }
     const resultClassName = classnames(
-      css.button,
-      rounded && css.isRounded,
-      css[`type-${type}`],
-      css[`size-${size}`],
-      css[`iconPosition-${iconPosition}`],
+      classes.button,
+      rounded && classes.isRounded,
+      classes[`type-${type}`],
+      classes[`size-${size}`],
+      classes[`iconPosition-${iconPosition}`],
       className,
       {
-        [css.block]: block
+        [classes.block]: block
       }
     )
 
     const resultChildren = (
-      <span className={classnames(css.content, loading && css.isLoading)}>
+      <span className={classnames(classes.content, loading && classes.isLoading)}>
         { iconLeft && iconEl }
         { children }
         { !iconLeft && iconEl }
-        { overlay && cloneElement(overlay, {className: css.overlay}) }
+        { overlay && cloneElement(overlay, {className: classes.overlay}) }
       </span>
     )
 
@@ -362,7 +355,7 @@ export default class Button extends PureComponent {
       resultProps,
       resultChildren,
       loading && (
-        <Spinner className={css.loader} color={null} />
+        <Spinner className={classes.loader} color={null} />
       )
     )
   }

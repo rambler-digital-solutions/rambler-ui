@@ -57,10 +57,6 @@ class DropdownContainer extends PureComponent {
 
   state = {};
 
-  get css() {
-    return this.props.classes
-  }
-
   componentWillReceiveProps(nextProps) {
     if (this.props.isVisible !== nextProps.isVisible && nextProps.isVisible && !this.state.pointY)
       this.setState({
@@ -83,6 +79,7 @@ class DropdownContainer extends PureComponent {
       className,
       style,
       theme,
+      classes,
       padding,
       onBecomeVisible,
       onBecomeInvisible
@@ -100,12 +97,12 @@ class DropdownContainer extends PureComponent {
     const content = (
       <VisibilityAnimation
         isVisible={isVisible}
-        activeClassName={this.css.isVisible}
+        activeClassName={classes.isVisible}
         animationDuration={theme.dropdown.animationDuration}
         onVisible={onBecomeVisible}
         onInvisible={onBecomeInvisible}>
         <div
-          className={classnames(className, this.css.dropdown, this.css['pointY-' + pointY])}
+          className={classnames(className, classes.dropdown, classes['pointY-' + pointY])}
           style={resultStyle}>
           { children }
         </div>

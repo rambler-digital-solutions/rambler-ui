@@ -62,8 +62,8 @@ class Stepper extends Component {
   }
 
   separator = key => {
-    const {classes: css} = this.props
-    return <span className={css.separator} key={key}/>
+    const {classes} = this.props
+    return <span className={classes.separator} key={key}/>
   }
 
   onChange = (e, index) => {
@@ -77,7 +77,7 @@ class Stepper extends Component {
       children,
       value: currentValue,
       className,
-      classes: css,
+      classes,
       style
     } = this.props
     const steps = React.Children.toArray(children).reduce((acc, child, index, children) => {
@@ -105,7 +105,7 @@ class Stepper extends Component {
       return acc
     }, [])
     return (
-      <div className={classnames(className, css.stepper)} style={style}>
+      <div className={classnames(className, classes.stepper)} style={style}>
         {steps}
       </div>
     )

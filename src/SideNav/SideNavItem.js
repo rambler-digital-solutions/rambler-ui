@@ -113,7 +113,7 @@ class SideNavItem extends Component {
       const {
         isSelected,
         theme,
-        classes: css
+        classes
       } = this.props
 
       const iconProps = {
@@ -121,7 +121,7 @@ class SideNavItem extends Component {
       }
 
       const initialProps = icon.props || {}
-      const className = classnames(initialProps.className, css.icon)
+      const className = classnames(initialProps.className, classes.icon)
       const resultProps = { ...iconProps, ...initialProps, className }
 
       return cloneElement(icon, resultProps)
@@ -137,7 +137,7 @@ class SideNavItem extends Component {
       isSelected,
       href,
       container,
-      classes: css,
+      classes,
       theme, // eslint-disable-line no-unused-vars
       onPress, // eslint-disable-line no-unused-vars
       ...other
@@ -146,10 +146,10 @@ class SideNavItem extends Component {
     const mediumSize = size === 'medium'
 
     const resultClassName = classnames(
-      css.sideNavItem,
+      classes.sideNavItem,
       {
-        [css.medium]: mediumSize,
-        [css.isSelected]: isSelected && !container
+        [classes.medium]: mediumSize,
+        [classes.isSelected]: isSelected && !container
       },
       className
     )
@@ -163,7 +163,7 @@ class SideNavItem extends Component {
       className: resultClassName,
       onClick: this.onClick,
       ...container && {
-        activeClassName: css.isSelected
+        activeClassName: classes.isSelected
       }
     }
 

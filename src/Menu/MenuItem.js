@@ -113,10 +113,6 @@ class MenuItem extends PureComponent {
     return this.context[MENU_ITEM_CONTEXT]
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   componentDidMount() {
     this.ctx.events.on('onPropsChange', this.handlePropsChange)
     this.ctx.events.emit('onItemMount', this.id, this)
@@ -166,7 +162,8 @@ class MenuItem extends PureComponent {
   }
 
   render() {
-    const {props, css, ctx} = this
+    const {props, ctx} = this
+    const {classes} = this.props
     this.isSelected = ctx.isValueSelected(props.value)
     this.isFocused = ctx.isItemFocused(this.id)
     this.disabled = ctx.isMenuDisabled()
@@ -178,10 +175,10 @@ class MenuItem extends PureComponent {
         style={props.style}
         className={classnames(
           props.className,
-          css.root,
-          this.size && css[this.size],
-          this.disabled ? css.isDisabled : css.isEnabled,
-          this.isSelected && css.isSelected
+          classes.root,
+          this.size && classes[this.size],
+          this.disabled ? classes.isDisabled : classes.isEnabled,
+          this.isSelected && classes.isSelected
         )}
         tabIndex={this.disabled ? null : 0}
         onFocus={this.disabled ? null : this.handleFocus}

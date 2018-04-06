@@ -454,7 +454,7 @@ export default class Input extends Component {
       type: trueType,
       size,
       theme,
-      classes: css,
+      classes,
       passwordIconTooltip
     } = this.props
 
@@ -464,10 +464,10 @@ export default class Input extends Component {
     const Icon = type === 'password' ? ClosedEyeIcon : Eye
 
     const icon = (
-      <span className={css.eyeWrapper} onClick={this.inputTypeHelper}>
+      <span className={classes.eyeWrapper} onClick={this.inputTypeHelper}>
         <Icon
           size={theme.field.sizes[size].eyeIcon}
-          className={css.eyeIcon}
+          className={classes.eyeIcon}
           color="currentColor" />
       </span>
     )
@@ -478,14 +478,14 @@ export default class Input extends Component {
         : passwordIconTooltip
 
       return (
-        <Tooltip content={content} className={css.eye}>
+        <Tooltip content={content} className={classes.eye}>
           {icon}
         </Tooltip>
       )
     }
 
     return (
-      <div className={css.eye}>
+      <div className={classes.eye}>
         {icon}
       </div>
     )
@@ -524,7 +524,7 @@ export default class Input extends Component {
       iconRight,
       status,
       isFocused,
-      classes: css,
+      classes,
       value,
       groupPosition,
       theme, // eslint-disable-line no-unused-vars
@@ -537,17 +537,17 @@ export default class Input extends Component {
     const trueType = this.props.type
     const resultClassName = classnames(
       className,
-      css.root,
-      css[variation],
-      css[status],
-      isFocused && css.isFocused,
-      disabled ? css.isDisabled : css.isEnabled,
-      css[size],
-      iconLeft && css.withLeftIcon,
-      iconRight && css.withRightIcon,
-      trueType === 'password' && css.withEye,
-      groupPosition && css[`${groupPosition}Position`],
-      groupPosition && css.inGroup
+      classes.root,
+      classes[variation],
+      classes[status],
+      isFocused && classes.isFocused,
+      disabled ? classes.isDisabled : classes.isEnabled,
+      classes[size],
+      iconLeft && classes.withLeftIcon,
+      iconRight && classes.withRightIcon,
+      trueType === 'password' && classes.withEye,
+      groupPosition && classes[`${groupPosition}Position`],
+      groupPosition && classes.inGroup
     )
 
 
@@ -556,7 +556,7 @@ export default class Input extends Component {
       value,
       disabled,
       ref: this.saveRef,
-      className: classnames(css.input, inputClassName, value !== '' && value != null && css.filled),
+      className: classnames(classes.input, inputClassName, value !== '' && value != null && classes.filled),
       style: inputStyle,
       onChange: this.onChangeHelper,
       tabIndex: 0,
@@ -566,10 +566,10 @@ export default class Input extends Component {
 
     return (
       <div style={style} className={resultClassName}>
-        {iconLeft && this.renderIcon(iconLeft, classnames(iconLeftClassName, css.iconLeft))}
+        {iconLeft && this.renderIcon(iconLeft, classnames(iconLeftClassName, classes.iconLeft))}
         {inputElement}
-        <div className={css.activeBorder} />
-        {iconRight && this.renderIcon(iconRight, classnames(iconRightClassName, css.iconRight))}
+        <div className={classes.activeBorder} />
+        {iconRight && this.renderIcon(iconRight, classnames(iconRightClassName, classes.iconRight))}
         {this.renderPasswordIcon()}
       </div>
     )

@@ -94,10 +94,6 @@ export default class Loader extends PureComponent {
     loading: false
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   componentDidMount() {
     this.updateLoading(this.props.loading)
   }
@@ -132,6 +128,7 @@ export default class Loader extends PureComponent {
       loadingClassName,
       overlayClassName,
       style,
+      classes,
       spinnerClassName,
       spinnerColor,
       children,
@@ -142,18 +139,18 @@ export default class Loader extends PureComponent {
     return (
       <div
         style={style}
-        className={classnames(this.css.loader, className, loading && classnames(loadingClassName, this.css.isLoading))}>
+        className={classnames(classes.loader, className, loading && classnames(loadingClassName, classes.isLoading))}>
         {!(loading && hideContent) && (
           blurContent ? (
-            <div className={classnames(loading && blurContent && this.css.blur)}>
+            <div className={classnames(loading && blurContent && classes.blur)}>
               {children}
             </div>
           ) :
             children
         )}
-        <div className={classnames(this.css.overlay, overlayClassName, loading && this.css.isLoading)} />
+        <div className={classnames(classes.overlay, overlayClassName, loading && classes.isLoading)} />
         {loading &&
-          <Spinner className={classnames(this.css.spinner, spinnerClassName)} color={spinnerColor} />
+          <Spinner className={classnames(classes.spinner, spinnerClassName)} color={spinnerColor} />
         }
       </div>
     )

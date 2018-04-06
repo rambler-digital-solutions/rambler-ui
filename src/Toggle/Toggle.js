@@ -247,7 +247,7 @@ export default class Toggle extends Component {
       disabled,
       variation,
       className,
-      classes: css,
+      classes,
       theme, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
@@ -267,18 +267,18 @@ export default class Toggle extends Component {
         key: child.key !== undefined ? child.key : (typeof value === 'string' || typeof value === 'number') ? value : i++,
         onPress: this.onValueChange,
         nodeRef: this.shouldCalcMinWidth() ? this.addElement : null,
-        className: classnames(css.option, isSelected && css.isSelected, child.props.className),
+        className: classnames(classes.option, isSelected && classes.isSelected, child.props.className),
         style: {...child.props.style, minWidth: this.state.minWidth}
       })
     })
 
     const resultClassName = classnames(
       className,
-      css.toggle,
-      css[`behavior-${behavior}`],
-      block && css.block,
-      css[variation],
-      equalWidth && css.equalWidth
+      classes.toggle,
+      classes[`behavior-${behavior}`],
+      block && classes.block,
+      classes[variation],
+      equalWidth && classes.equalWidth
     )
 
     return (

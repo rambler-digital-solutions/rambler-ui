@@ -129,7 +129,7 @@ class Step extends Component {
       badgeClassName,
       textClassName,
       style,
-      classes: css,
+      classes,
       disabled,
       completed,
       active,
@@ -137,16 +137,16 @@ class Step extends Component {
     } = this.props
     const resultClassName = classnames(
       className,
-      css.step,
+      classes.step,
       {
-        [css.active]: active,
-        [css.disabled]: disabled
+        [classes.active]: active,
+        [classes.disabled]: disabled
       }
     )
     return (
       <div className={resultClassName} style={style} onClick={this.onClick}>
-        <span className={classnames(css.badge, badgeClassName)}>{icon ? icon : (completed ? defaultIcon : value + 1)}</span>
-        <span className={classnames(css.text, textClassName)}>{this.props.children}</span>
+        <span className={classnames(classes.badge, badgeClassName)}>{icon ? icon : (completed ? defaultIcon : value + 1)}</span>
+        <span className={classnames(classes.text, textClassName)}>{this.props.children}</span>
       </div>
     )
   }

@@ -103,10 +103,6 @@ export default class Avatar extends PureComponent {
     shape: 'circle'
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   getContainer() {
     const {
       href,
@@ -135,7 +131,7 @@ export default class Avatar extends PureComponent {
       shape,
       profileType,
       theme,
-      classes, // eslint-disable-line no-unused-vars
+      classes,
       href, // eslint-disable-line no-unused-vars
       container, // eslint-disable-line no-unused-vars
       ...other
@@ -155,7 +151,7 @@ export default class Avatar extends PureComponent {
     const profileSizePx = profileSize + 'px'
     const children = profileType && (
       <div
-        className={this.css.profile}
+        className={classes.profile}
         style={{
           backgroundColor: iconBackgroundColor || theme.avatar.colors.iconBackground,
           width: profileSizePx,
@@ -170,7 +166,7 @@ export default class Avatar extends PureComponent {
       {
         ...other,
         style: styles,
-        className: classnames(this.css.avatar, this.css[shape], className)
+        className: classnames(classes.avatar, classes[shape], className)
       },
       children
     )

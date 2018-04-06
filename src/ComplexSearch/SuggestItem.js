@@ -131,7 +131,7 @@ class SuggestItem extends React.Component {
 
   render() {
     const {
-      classes: css,
+      classes,
       className,
       removeButton,
       value, // eslint-disable-line no-unused-vars
@@ -142,20 +142,20 @@ class SuggestItem extends React.Component {
       <div
         data-suggest-item-id={this.id}
         className={classnames(
-          css.root,
+          classes.root,
           className,
-          {[css.isHighlighted]: this.state.isHighlighted}
+          {[classes.isHighlighted]: this.state.isHighlighted}
         )}
         onClick={this.onItemClick}
         onMouseEnter={this.onMouseEnter}
         {...other}
       >
-        <span className={css.string}>
+        <span className={classes.string}>
           {this.props.children}
         </span>
         {removeButton && (
           <span
-            className={css.removeButton}
+            className={classes.removeButton}
             onClick={this.onRemoveClick}
           >
             {removeButton}

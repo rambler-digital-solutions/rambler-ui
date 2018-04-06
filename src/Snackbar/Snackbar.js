@@ -220,10 +220,6 @@ export default class Snackbar extends PureComponent {
     size: 'medium'
   };
 
-  get css() {
-    return this.props.classes
-  }
-
   componentWillUnmount() {
     this.onWillInvisible()
   }
@@ -261,37 +257,36 @@ export default class Snackbar extends PureComponent {
       onRequestClose,
       closeOnClickOutside,
       onClose,
-      size
+      size,
+      classes
     } = this.props
-
-    const css = this.css
 
     const content = (
       <VisibilityAnimation
         isVisible={isOpened}
-        activeClassName={css.isVisible}
+        activeClassName={classes.isVisible}
         animationDuration={theme.snackbar.animationDuration}
         onWillVisible={this.onWillVisible}
         onWillInvisible={this.onWillInvisible}
         onInvisible={onClose}>
         <div
           style={style}
-          className={classnames(css.snackbar, css[positionX], css[positionY], css[type], size === 'small' && css.small, className)}>
+          className={classnames(classes.snackbar, classes[positionX], classes[positionY], classes[type], size === 'small' && classes.small, className)}>
           {icon &&
-            <div className={css.icon}>
+            <div className={classes.icon}>
               {cloneElement(icon, {color: icon.props.color || theme.snackbar.colors.text})}
             </div>
           }
-          <div className={css.content}>
+          <div className={classes.content}>
             {children}
           </div>
           {actionButton &&
-            <button type="button" className={css.button} onClick={onAction}>
+            <button type="button" className={classes.button} onClick={onAction}>
               {actionButton}
             </button>
           }
           {showClose &&
-            <button type="button" className={css.close} onClick={onRequestClose}>
+            <button type="button" className={classes.close} onClick={onRequestClose}>
               <ClearIcon size={10} color={theme.snackbar.colors.text} />
             </button>
           }

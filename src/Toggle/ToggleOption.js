@@ -95,14 +95,14 @@ class ToggleOption extends Component {
         size,
         isSelected,
         theme,
-        classes: css
+        classes
       } = this.props
       const iconProps = {
         size: theme.toggle.sizes[size].icon,
         color: isSelected ? theme.toggle.selectedColor : theme.toggle.color
       }
       const initialProps = icon.props || {}
-      const className = classnames(initialProps.className, css.icon)
+      const className = classnames(initialProps.className, classes.icon)
       const resultProps = { ...iconProps, ...initialProps, className }
       return cloneElement(icon, resultProps)
     }
@@ -115,14 +115,14 @@ class ToggleOption extends Component {
       children,
       className,
       nodeRef,
-      classes: css,
+      classes,
       isSelected, // eslint-disable-line no-unused-vars
       onPress, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 
-    const resultClassName = classnames(css.toggleOption, css[`size-${size}`], className)
+    const resultClassName = classnames(classes.toggleOption, classes[`size-${size}`], className)
 
     return (
       <button type="button" tabIndex="0" { ...other } className={ resultClassName } onClick={ this.onClick } ref={ nodeRef }>

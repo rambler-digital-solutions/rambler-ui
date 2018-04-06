@@ -159,10 +159,6 @@ export default class Switcher extends PureComponent {
     checked: false
   }
 
-  get css() {
-    return this.props.classes
-  }
-
   componentWillMount() {
     this.switch(this.props.checked)
   }
@@ -203,19 +199,19 @@ export default class Switcher extends PureComponent {
       disabled,
       children,
       iconPosition,
+      classes,
       checked: check, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
-      classes, // eslint-disable-line no-unused-vars
       onCheck, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 
     const rootClassName = classnames(
-      this.css.root,
-      this.css[iconPosition],
+      classes.root,
+      classes[iconPosition],
       {
-        [this.css.checked]: checked,
-        [this.css.disabled]: disabled
+        [classes.checked]: checked,
+        [classes.disabled]: disabled
       },
       className
     )
@@ -224,22 +220,22 @@ export default class Switcher extends PureComponent {
       <label style={style} className={rootClassName}>
         <input
           {...other}
-          className={this.css.checkbox}
+          className={classes.checkbox}
           type="checkbox"
           checked={checked}
           disabled={disabled}
           onChange={this.onCheck} />
         <span
           style={switcherStyle}
-          className={classnames(this.css.switcher, switcherClassName)}>
+          className={classnames(classes.switcher, switcherClassName)}>
           <span
             style={trackStyle}
-            className={classnames(this.css.track, trackClassName)} />
+            className={classnames(classes.track, trackClassName)} />
         </span>
         {children &&
           <span
             style={labelStyle}
-            className={classnames(this.css.label, labelClassName)}>
+            className={classnames(classes.label, labelClassName)}>
             {children}
           </span>
         }

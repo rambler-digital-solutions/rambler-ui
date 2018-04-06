@@ -489,12 +489,12 @@ class ComplexSearch extends React.Component {
       division,
       placeholder,
       inputProps,
-      classes: css
+      classes
     } = this.props
 
     return (
-      <div className={classnames(css.inputWrapper, this.state.isDropdownOpened && css.active)}>
-        {division && <div className={css.division}>{division}</div> }
+      <div className={classnames(classes.inputWrapper, this.state.isDropdownOpened && classes.active)}>
+        {division && <div className={classes.division}>{division}</div> }
         <input
           type="text"
           onChange={this.onSearchInput}
@@ -502,13 +502,13 @@ class ComplexSearch extends React.Component {
           onFocus={this.onFocus}
           onBlur={this.onBlur}
           value={this.state.value}
-          className={css.input}
+          className={classes.input}
           placeholder={placeholder}
           {...inputProps}
           ref={this.setNode('input')}
         />
         {this.isClearVisible && <ClearIcon
-          className={css.clear}
+          className={classes.clear}
           size={16}
           color="currentColor"
           onClick={this.clearForm}
@@ -519,7 +519,7 @@ class ComplexSearch extends React.Component {
 
   renderButton() {
     const {
-      classes: css,
+      classes,
       searchButton,
       searchButtonStyle,
       searchButtonClassName,
@@ -535,7 +535,7 @@ class ComplexSearch extends React.Component {
 
     return (
       <button
-        className={classnames(css.searchButton, searchButtonClassName)}
+        className={classnames(classes.searchButton, searchButtonClassName)}
         onClick={this.onSubmit}
         size="small"
         style={searchButtonStyle}
@@ -566,7 +566,7 @@ class ComplexSearch extends React.Component {
       children,
       appendToBody,
       autoPositionY,
-      classes: css
+      classes
     } = this.props
 
     return (
@@ -574,17 +574,17 @@ class ComplexSearch extends React.Component {
         isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
         anchor={this.renderInput()}
         padding={false}
-        className={css.dropdown}
+        className={classes.dropdown}
         appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={autoPositionY}
         anchorPointY="bottom"
         contentPointY="top"
-        overlayClassName={css.overlay}
+        overlayClassName={classes.overlay}
         cachePositionOptions={false}
         closeOnClickOutside={false}
       >
-        <div className={css.suggest} ref={this.setNode('suggest')}>
+        <div className={classes.suggest} ref={this.setNode('suggest')}>
           {children}
         </div>
       </Dropdown>
@@ -593,7 +593,7 @@ class ComplexSearch extends React.Component {
 
   render() {
     const {
-      classes: css,
+      classes,
       style,
       className
     } = this.props
@@ -603,16 +603,14 @@ class ComplexSearch extends React.Component {
       <OnClickOutside handler={this.onClickOutside}>
         <div
           className={classnames(
-            css.root,
-            !button && css.withoutButton,
+            classes.root,
+            !button && classes.withoutButton,
             className,
           )}
           style={style}
           ref={this.setNode('root')}
         >
-          <div
-            className={css.inputRow}
-          >
+          <div className={classes.inputRow}>
             {this.renderDropdown()}
             {button}
           </div>
