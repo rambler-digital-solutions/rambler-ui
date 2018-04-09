@@ -775,6 +775,7 @@ export default class Select extends PureComponent {
       menuClassName,
       valuesEquality,
       onSearch,
+      inputMode,
       children,
       appendToBody,
       multiple,
@@ -787,12 +788,13 @@ export default class Select extends PureComponent {
     const focusedInput = inputFocused || isOpened
     const multipleWithValue = multiple && Array.isArray(value) && value.length > 0
     const options = multipleWithValue ? this.renderSelectedItems() : null
+    const canBeModified = !!onSearch || inputMode
 
     const resultClassName = classnames(
       rootClassName,
       classes.root,
-      !disabled && !onSearch && classes.isReadonly,
-      !disabled && onSearch && classes.withSearch,
+      !disabled && !canBeModified && classes.isReadonly,
+      !disabled && canBeModified && classes.withSearch,
       icon && classes.withLeftIcon,
       this.showArrow && classes.withRightIcon,
       size && classes[size],
