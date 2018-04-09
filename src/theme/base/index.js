@@ -535,7 +535,7 @@ export function createTheme(config) {
       animationDuration: 200
     },
     tagsInput: {
-      sideMargin: 20,
+      sideMargin: 15,
       height: 25,
       fontSize: 13,
       colors: {
