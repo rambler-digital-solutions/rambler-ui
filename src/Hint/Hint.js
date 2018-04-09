@@ -61,6 +61,7 @@ class HintContent extends PureComponent {
     children: PropTypes.node.isRequired,
     isVisible: PropTypes.bool.isRequired,
     pointX: PropTypes.oneOf(POINTS_X),
+    onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func
@@ -76,6 +77,7 @@ class HintContent extends PureComponent {
       pointX,
       theme,
       classes,
+      onMouseEnter,
       onMouseLeave,
       onBecomeVisible,
       onBecomeInvisible
@@ -98,6 +100,7 @@ class HintContent extends PureComponent {
         <div
           className={classnames(classes.hint, classes[pointX], className)}
           style={style}
+          onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}>
           {anchor}
           {children}
@@ -178,17 +181,23 @@ export default class Hint extends PureComponent {
   }
 
   show = () => {
-    if (!this.state.isOpened)
+    if (this.state.isOpened)
+      clearTimeout(this.hideTimeout)
+    else
       this.setState({
         isOpened: true
       })
   }
 
   hide = () => {
-    if (this.state.isOpened)
+    if (!this.state.isOpened)
+      return
+    clearTimeout(this.hideTimeout)
+    this.hideTimeout = setTimeout(() => {
       this.setState({
         isOpened: false
       })
+    }, 60)
   }
 
   render() {
@@ -212,7 +221,8 @@ export default class Hint extends PureComponent {
       style,
       className: classnames(classes.icon, className),
       color: iconProps.color || theme.hint.colors.icon,
-      onMouseEnter: this.show
+      onMouseEnter: this.show,
+      onMouseLeave: this.hide
     })
 
     return (
@@ -224,6 +234,7 @@ export default class Hint extends PureComponent {
             className={contentClassName}
             style={contentStyle}
             icon={icon}
+            onMouseEnter={this.show}
             onMouseLeave={this.hide}>
             {children}
           </HintContent>
