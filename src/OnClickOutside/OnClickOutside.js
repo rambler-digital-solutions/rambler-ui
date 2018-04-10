@@ -23,7 +23,7 @@ export default class OnClickOutside extends Component {
         outsideClick = false
         break
       }
-      if (el.parentNode === document.body)
+      if (el === document.body)
         insideBody = true
       el = el.parentNode
     }
