@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { isolateMixin } from '../utils/mixins'
 import { injectSheet } from '../theme'
-import ClearIcon from '../icons/forms/ClearIcon'
+import ClearIcon from './ClearIcon'
 
 const iconStyle = {
   fill: null
@@ -29,12 +29,12 @@ const iconStyle = {
   },
   icon: {
     flex: 'none',
+    fontSize: 15,
+    width: '1em',
+    height: '1em',
     alignSelf: 'center',
     color: theme.tagsInput.colors.default.icon,
-    stroke: 'currentColor',
     fill: 'currentColor',
-    marginTop: 1,
-    marginLeft: 6,
     cursor: 'pointer',
     pointerEvents: 'auto',
     '&:hover , &:active': {
@@ -44,7 +44,8 @@ const iconStyle = {
   isDisabled: {
     color: theme.tagsInput.colors.disabled.text,
     '&& $icon': {
-      color: theme.tagsInput.colors.disabled.icon
+      color: theme.tagsInput.colors.disabled.icon,
+      cursor: 'not-allowed'
     }
   }
 }), {name: 'TagsInputItem'})
@@ -116,7 +117,7 @@ class TagsInputItem extends Component {
         {onClick &&
           <ClearIcon
             className={classes.icon}
-            size={8}
+            size={null}
             style={iconStyle}
             onClick={disabled ? undefined : this.handleClick}
             onMouseDown={disabled ? undefined : this.handleMouseDown}
