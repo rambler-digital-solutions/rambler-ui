@@ -875,7 +875,7 @@ export default class Select extends PureComponent {
               <Menu
                 style={menuStyle}
                 className={classnames(menuClassName, classes.menu)}
-                autoFocus={!inputFocused}
+                autoFocus={resultIsOpened && !inputFocused}
                 value={multiple ? Array.isArray(value) ? value : emptyArr : value}
                 valuesEquality={valuesEquality}
                 onChange={this.changeValue}
