@@ -13,7 +13,7 @@ const emptyArr = []
 
 @injectSheet(theme => ({
   menu: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     padding: 0,

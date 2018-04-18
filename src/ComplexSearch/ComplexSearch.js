@@ -12,7 +12,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => ({
   root: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     fontSize: theme.search.fontSize,
     width: '100%',
@@ -65,7 +65,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     cursor: 'pointer'
   },
   input: {
-    ...isolateMixin,
+    extend: isolateMixin,
     padding: '10px 12px',
     border: 'none',
     boxSizing: 'border-box',
@@ -86,7 +86,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     }
   },
   searchButton: {
-    ...isolateMixin,
+    extend: isolateMixin,
     color: theme.search.button.color,
     top: 0,
     height: theme.search.height,

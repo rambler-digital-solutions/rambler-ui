@@ -18,7 +18,7 @@ function isSimpleType(value) {
 
 @injectSheet(theme => ({
   root: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     fontSize: theme.radio.fontSize,
     display: 'flex',

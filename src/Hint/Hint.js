@@ -10,7 +10,7 @@ import { isolateMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   hint: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     position: 'relative',
     top: -14,

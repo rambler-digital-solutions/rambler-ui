@@ -14,8 +14,10 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
 @renderToLayer
 @injectSheet(theme => ({
   snackbar: {
-    ...isolateMixin,
-    ...middleMixin,
+    extend: [
+      isolateMixin,
+      middleMixin
+    ],
     fontFamily: theme.fontFamily,
     position: 'fixed',
     boxSizing: 'border-box',
@@ -93,7 +95,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
     backgroundColor: theme.snackbar.colors.background.danger
   },
   icon: {
-    ...middleMixin,
+    extend: middleMixin,
     marginRight: 15
   },
   content: {
@@ -129,8 +131,8 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
     }
   },
   close: {
-    extend: 'button',
-    ...middleMixin,
+    composes: '$button',
+    extend: middleMixin,
     borderRadius: '50%',
     width: 20,
     padding: 0,

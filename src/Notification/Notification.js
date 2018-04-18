@@ -16,7 +16,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
 @renderToLayer
 @injectSheet(theme => ({
   notification: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     position: 'fixed',
     left: 15,
@@ -50,12 +50,12 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
     opacity: 1
   },
   title: {
-    ...middleMixin,
+    extend: middleMixin,
     fontSize: theme.notification.titleSize,
     fontWeight: 500
   },
   icon: {
-    ...middleMixin,
+    extend: middleMixin,
     display: 'inline-block',
     borderRadius: '50%',
     marginRight: 10,
@@ -68,7 +68,7 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
     marginTop: 10
   },
   actionButton: {
-    ...middleMixin,
+    extend: middleMixin,
     boxSizing: 'border-box',
     outline: 'none',
     border: 0,

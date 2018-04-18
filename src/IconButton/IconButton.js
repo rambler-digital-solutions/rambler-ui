@@ -13,7 +13,7 @@ import '../utils/focus-source'
 
 @injectSheet((theme) => ({
   button: {
-    ...isolateMixin,
+    extend: isolateMixin,
     cursor: 'pointer',
     boxSizing: 'border-box',
     borderRadius: theme.iconButton.borderRadius,

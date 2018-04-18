@@ -9,8 +9,10 @@ import { isolateMixin, middleMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   toggleOption: {
-    ...isolateMixin,
-    ...middleMixin,
+    extend: [
+      isolateMixin,
+      middleMixin
+    ],
     fontFamily: theme.fontFamily,
     display: 'inline-block',
     textAlign: 'center',

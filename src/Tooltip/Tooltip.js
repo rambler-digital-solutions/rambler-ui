@@ -12,8 +12,10 @@ const containerNodeStyle = {'pointer-events': 'none'}
 
 @injectSheet(theme => ({
   content: {
-    ...isolateMixin,
-    ...fontSmoothingMixin,
+    extend: [
+      isolateMixin,
+      fontSmoothingMixin
+    ],
     display: 'inline-block',
     fontFamily: theme.fontFamily,
     opacity: '0.01',

@@ -10,7 +10,7 @@ import { MENU_ITEM_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => ({
   root: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     display: 'flex',

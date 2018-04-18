@@ -9,7 +9,7 @@ import { isolateMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   sideNav: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     display: 'inline-block',
     '&, & *': {

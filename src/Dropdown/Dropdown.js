@@ -10,7 +10,7 @@ import { isolateMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   dropdown: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     borderRadius: theme.dropdown.borderRadius,
     boxSizing: 'border-box',
