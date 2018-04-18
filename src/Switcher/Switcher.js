@@ -16,7 +16,7 @@ const setThemeForSelector = colors => ({
 
 @injectSheet(theme => ({
   root: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     fontSize: theme.switcher.fontSize,
     position: 'relative',

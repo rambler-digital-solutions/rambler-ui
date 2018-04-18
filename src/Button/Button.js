@@ -13,7 +13,7 @@ import '../utils/focus-source'
 
 @injectSheet((theme) => ({
   button: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.button.fontFamily,
     fontStyle: theme.button.fontStyle,
     fontWeight: theme.button.fontWeight,
@@ -67,8 +67,10 @@ import '../utils/focus-source'
     })
   },
   content: {
-    ...middleMixin,
-    ...fontSmoothingMixin,
+    extend: [
+      middleMixin,
+      fontSmoothingMixin
+    ],
     display: 'block',
     whiteSpace: 'nowrap',
     overflow: 'hidden',

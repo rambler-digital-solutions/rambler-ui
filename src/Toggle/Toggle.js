@@ -16,7 +16,7 @@ const whenDomReady = new Promise((resolve) => {
 
 @injectSheet(theme => ({
   toggle: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     display: 'inline-block',
     '&$block': {

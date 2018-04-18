@@ -31,7 +31,7 @@ const multipleSelectFix = <optgroup disabled hidden />
 
 @injectSheet(theme => ({
   root: {
-    ...isolateMixin,
+    extend: isolateMixin,
     position: 'relative',
     '&:hover, &$isFocused': {
       '& $arrow': {
@@ -218,7 +218,10 @@ const multipleSelectFix = <optgroup disabled hidden />
     }
   },
   nativeSelect: {
-    extend: [isolateMixin, absolutePosition],
+    extend: [
+      isolateMixin,
+      absolutePosition
+    ],
     width: '100%',
     height: '100%',
     opacity: 0,

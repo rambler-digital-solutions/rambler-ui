@@ -10,7 +10,7 @@ import { ifDesktopSize, isolateMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   root: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     fontSize: theme.formGroup.fontSize
   },

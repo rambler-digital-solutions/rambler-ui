@@ -24,7 +24,7 @@ const tickStyle = {
   const {regular, awesome} = checkboxTheme.types
   return {
     checkbox: {
-      ...isolateMixin,
+      extend: isolateMixin,
       fontFamily: theme.fontFamily,
       fontSize: checkboxTheme.fontSize,
       position: 'relative',

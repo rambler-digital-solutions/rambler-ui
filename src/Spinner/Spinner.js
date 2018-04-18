@@ -21,8 +21,10 @@ const getKeyframes = (delay = 0) => ({
   '@keyframes ruiAnimateDot2': getKeyframes(100 / (600 / 80)),
   '@keyframes ruiAnimateDot3': getKeyframes(100 / (600 / 160)),
   spinner: {
-    ...isolateMixin,
-    ...middleMixin,
+    extend: [
+      isolateMixin,
+      middleMixin
+    ],
     display: 'inline-block',
     color: theme.spinner.color,
     verticalAlign: 'middle',

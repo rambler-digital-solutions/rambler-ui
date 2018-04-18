@@ -24,15 +24,15 @@ import { isolateMixin, ifMobile } from '../utils/mixins'
     }
   },
   message: {
-    ...isolateMixin,
-    ...ifMobile({
-      fontSize: theme.inputStatus.sizes.mobile.fontSize
-    }),
+    extend: isolateMixin,
     fontFamily: theme.fontFamily,
     marginTop: 10,
     fontSize: theme.inputStatus.sizes.fontSize,
     lineHeight: theme.inputStatus.sizes.fontSize + 2 + 'px',
-    textAlign: 'left'
+    textAlign: 'left',
+    ...ifMobile({
+      fontSize: theme.inputStatus.sizes.mobile.fontSize
+    })
   }
 }), {name: 'InputStatus'})
 export default class InputStatus extends Component {

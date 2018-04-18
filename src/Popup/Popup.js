@@ -20,8 +20,10 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
 @renderToLayer
 @injectSheet(theme => ({
   backdrop: {
-    ...isolateMixin,
-    ...middleMixin,
+    extend: [
+      isolateMixin,
+      middleMixin
+    ],
     fontFamily: theme.fontFamily,
     position: 'fixed',
     top: 0,

@@ -7,30 +7,29 @@ import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import { isolateMixin, bottomBorderMixin } from '../utils/mixins'
 
-@injectSheet((theme) => {
-  const {tabs, tabs: {colors}} = theme
-  return {
-    tabs: {
-      ...isolateMixin,
-      display: 'inline-flex',
-      fontFamily: theme.fontFamily,
-      paddingLeft: tabs.sidePadding,
-      paddingRight: tabs.sidePadding,
-      ...bottomBorderMixin(colors.default.outline)
+@injectSheet((theme) => ({
+  tabs: {
+    extend: [
+      isolateMixin,
+      bottomBorderMixin(theme.tabs.colors.default.outline)
+    ],
+    display: 'inline-flex',
+    fontFamily: theme.fontFamily,
+    paddingLeft: theme.tabs.sidePadding,
+    paddingRight: theme.tabs.sidePadding
+  },
+  item: {
+    '&&': {
+      flex: 'none'
     },
-    item: {
-      '&&': {
-        flex: 'none'
-      },
-      '&:nth-child(1n+2)': {
-        marginLeft: tabs.betweenMargin
-      }
-    },
-    isDisabled: {
-      cursor: 'not-allowed'
+    '&:nth-child(1n+2)': {
+      marginLeft: theme.tabs.betweenMargin
     }
+  },
+  isDisabled: {
+    cursor: 'not-allowed'
   }
-}, {name: 'Tabs'})
+}), {name: 'Tabs'})
 export default class Tabs extends Component {
 
   static propTypes = {

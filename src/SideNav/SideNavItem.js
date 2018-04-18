@@ -9,8 +9,10 @@ import { isolateMixin, middleMixin } from '../utils/mixins'
 
 @injectSheet(theme => ({
   sideNavItem: {
-    ...middleMixin,
-    ...isolateMixin,
+    extend: [
+      isolateMixin,
+      middleMixin
+    ],
     fontFamily: theme.fontFamily,
     display: 'block',
     textAlign: 'left',

@@ -11,7 +11,7 @@ function calcProfileSize(size) {
 
 @injectSheet(() => ({
   avatar: {
-    ...isolateMixin,
+    extend: isolateMixin,
     position: 'relative',
     display: 'inline-block',
     verticalAlign: 'middle',
@@ -30,7 +30,7 @@ function calcProfileSize(size) {
     borderRadius: '7%'
   },
   profile: {
-    ...middleMixin,
+    extend: middleMixin,
     position: 'absolute',
     right: 0,
     bottom: 0,

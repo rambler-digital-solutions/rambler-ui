@@ -12,7 +12,7 @@ import { RADIO_INPUT_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => ({
   radioButtonGroup: {
-    ...isolateMixin,
+    extend: isolateMixin,
     fontFamily: theme.fontFamily
   }
 }), {name: 'RadioButtonGroup'})
