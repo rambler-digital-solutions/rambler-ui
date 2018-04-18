@@ -166,6 +166,10 @@ class ComplexSearch extends React.Component {
      */
     className: PropTypes.string,
     /**
+     * CSS-класс для родителя инпута
+     */
+    inputWrapperClassName: PropTypes.string,
+    /**
      * Текущий поисковый запрос
      */
     value: PropTypes.string,
@@ -488,12 +492,13 @@ class ComplexSearch extends React.Component {
     const {
       division,
       placeholder,
+      inputWrapperClassName,
       inputProps,
       classes
     } = this.props
 
     return (
-      <div className={classnames(classes.inputWrapper, this.state.isDropdownOpened && classes.active)}>
+      <div className={classnames(classes.inputWrapper, inputWrapperClassName, this.state.isDropdownOpened && classes.active)}>
         {division && <div className={classes.division}>{division}</div> }
         <input
           type="text"

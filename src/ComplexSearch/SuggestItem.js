@@ -45,6 +45,10 @@ class SuggestItem extends React.Component {
     */
     className: PropTypes.string,
     /**
+    * Дополнительный css-класс компонента при его выделении
+    */
+    highlightedClassName: PropTypes.string,
+    /**
     * Текст ссылки для удаления
     */
     removeButton: PropTypes.string,
@@ -133,6 +137,7 @@ class SuggestItem extends React.Component {
     const {
       classes,
       className,
+      highlightedClassName,
       removeButton,
       value, // eslint-disable-line no-unused-vars
       ...other
@@ -144,7 +149,10 @@ class SuggestItem extends React.Component {
         className={classnames(
           classes.root,
           className,
-          {[classes.isHighlighted]: this.state.isHighlighted}
+          {
+            [classes.isHighlighted]: this.state.isHighlighted,
+            [highlightedClassName]: this.state.isHighlighted
+          }
         )}
         onClick={this.onItemClick}
         onMouseEnter={this.onMouseEnter}
