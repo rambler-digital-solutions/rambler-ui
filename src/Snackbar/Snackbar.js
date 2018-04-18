@@ -41,30 +41,28 @@ import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
     top: -10,
     ...ifDesktop({
       top: 0
-    })
+    }),
+    '&$isVisible': {
+      top: 0,
+      ...ifDesktop({
+        top: 10
+      })
+    }
   },
   bottom: {
     bottom: -10,
     ...ifDesktop({
       bottom: 0
-    })
+    }),
+    '&$isVisible': {
+      bottom: 0,
+      ...ifDesktop({
+        bottom: 10
+      })
+    }
   },
   isVisible: {
-    opacity: 1,
-    '&$top': {
-      top: 0
-    },
-    '&$bottom': {
-      bottom: 0
-    },
-    ...ifDesktop({
-      '&$top': {
-        top: 10
-      },
-      '&$bottom': {
-        bottom: 10
-      }
-    })
+    opacity: 1
   },
   left: {
     left: 0,
