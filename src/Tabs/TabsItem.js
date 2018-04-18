@@ -120,6 +120,7 @@ class TabsItem extends Component {
       disabled,
       size,
       classes,
+      value, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
       onPress, // eslint-disable-line no-unused-vars
       ...other
@@ -143,7 +144,8 @@ class TabsItem extends Component {
     let isLink
     if (container && isValidElement(container)) {
       element = container
-      elemProps.activeClassName = classes.isSelected
+      if (typeof element.type !== 'string')
+        elemProps.activeClassName = classes.isSelected
       isLink = true
     } else if (href) {
       element = <a href={ href } />
