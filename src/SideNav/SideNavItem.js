@@ -162,7 +162,7 @@ class SideNavItem extends Component {
       ...other,
       className: resultClassName,
       onClick: this.onClick,
-      ...container && {
+      ...container && typeof container.type !== 'string' && {
         activeClassName: classes.isSelected
       }
     }
