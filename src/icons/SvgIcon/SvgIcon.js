@@ -17,9 +17,13 @@ export default class SvgIcon extends Component {
      */
     color: PropTypes.string,
     /**
-     * Элементы, которые отрисуются внутри svg-элемента
+     * Элементы, которые отрисуются внутри svg-элемента,
+     * ожидается `ReactElement` или функция возвращающая его и получающая размер как аргумент `size => ReactElement`
      */
-    children: PropTypes.node,
+    children: PropTypes.oneOfType([
+      PropTypes.node,
+      PropTypes.func
+    ]),
     /**
      * Размер иконки. Может быть строкой или значением в пикселях
      */
@@ -66,11 +70,13 @@ export default class SvgIcon extends Component {
       ...style
     }
 
+    const resultChildren = typeof children === 'function' ?
+      children(resultSize) :
+      children
+
     return (
-      <svg { ...other }
-        viewBox={ viewBox }
-        style={ resultStyle }>
-        { children }
+      <svg { ...other } viewBox={ viewBox } style={ resultStyle }>
+        { resultChildren }
       </svg>
     )
   }
