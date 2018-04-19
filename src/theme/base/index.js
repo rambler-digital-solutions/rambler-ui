@@ -4,9 +4,9 @@ import colorsConfig from './colors'
 import i18n from './i18n'
 
 const fontFamilies = {
-  Corsica: 'Corsica, sans-serif',
+  Georgia: 'Georgia, serif',
   Roboto: 'Roboto, sans-serif',
-  Georgia: 'Georgia, serif'
+  CorsicaRamblerLX: 'CorsicaRamblerLX, sans-serif'
 }
 
 /**
@@ -28,19 +28,19 @@ export function createTheme(config) {
         fontSize: 30,
         lineHeight: 40,
         fontWeight: 500,
-        fontFamily: fontFamilies.Corsica
+        fontFamily: fontFamilies.CorsicaRamblerLX
       },
       h2: {
         fontSize: 24,
         lineHeight: 35,
         fontWeight: 500,
-        fontFamily: fontFamilies.Corsica
+        fontFamily: fontFamilies.CorsicaRamblerLX
       },
       h3: {
         fontSize: 20,
         lineHeight: 30,
         fontWeight: 500,
-        fontFamily: fontFamilies.Corsica
+        fontFamily: fontFamilies.CorsicaRamblerLX
       },
       text: {
         fontSize: 18,
@@ -76,7 +76,7 @@ export function createTheme(config) {
       galleryDescription: {
         fontSize: 13,
         lineHeight: 20,
-        fontFamily: fontFamilies.Corsica
+        fontFamily: fontFamilies.CorsicaRamblerLX
       },
       photoSource: {
         fontSize: 12,
@@ -105,13 +105,15 @@ export function createTheme(config) {
       textTransform: 'uppercase',
       borderRadius: 1,
       mobile: {
+        fontWeight: 500,
+        letterSpacing: 1.4,
         sizes: {
           medium: {
-            fontSize: 12,
+            fontSize: 13,
             height: 55
           },
           small: {
-            fontSize: 12,
+            fontSize: 13,
             height: 45
           }
         }
@@ -470,6 +472,7 @@ export function createTheme(config) {
     field: {
       fontFamily: fontFamilies.Roboto,
       fontWeight: 400,
+      letterSpacing: 0,
       borderRadius: 1,
       icon: {
         colors: {
@@ -503,6 +506,8 @@ export function createTheme(config) {
         }
       },
       mobile: {
+        fontWeight: 400,
+        letterSpacing: 0,
         sizes: {
           medium: {
             fontSize: 14
