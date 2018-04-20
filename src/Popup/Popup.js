@@ -151,6 +151,14 @@ export default class Popup extends PureComponent {
      */
     titleStyle: PropTypes.object,
     /**
+     * Css-класс блока с кнопками
+     */
+    buttonsContainerClassName: PropTypes.string,
+    /**
+     * Inline-стили блока с кнопками
+     */
+    buttonsContainerStyle: PropTypes.object,
+    /**
      * Контролирует видимость попапа
      */
     isOpened: PropTypes.bool,
@@ -225,6 +233,8 @@ export default class Popup extends PureComponent {
       title,
       titleStyle,
       titleClassName,
+      buttonsContainerStyle,
+      buttonsContainerClassName,
       classes,
       showClose,
       okButton,
@@ -251,7 +261,9 @@ export default class Popup extends PureComponent {
         }
         {children}
         {(okButton || cancelButton) &&
-          <footer className={classes.buttons}>
+          <footer
+            style={buttonsContainerStyle}
+            className={classnames(classes.buttons, buttonsContainerClassName)}>
             {okButton}
             {cancelButton}
           </footer>

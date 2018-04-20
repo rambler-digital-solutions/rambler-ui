@@ -143,18 +143,26 @@ describe('<Popup />', () => {
       title: 'Foo',
       className: 'popup',
       titleClassName: 'test-title',
-      backdropClassName: 'test-backdrop'
+      backdropClassName: 'test-backdrop',
+      buttonsContainerClassName: 'test-buttons',
+      okButton: (
+        <Button className="ok-button">
+          Ok
+        </Button>
+      )
     })
 
     expect(containerNode.querySelector('.popup')).not.toBeUndefined()
     expect(containerNode.querySelector('.test-backdrop')).not.toBeUndefined()
     expect(containerNode.querySelector('.test-title')).not.toBeUndefined()
+    expect(containerNode.querySelector('.test-buttons')).not.toBeUndefined()
   })
 
   it('should append styles', () => {
     const backgroundColor = nc('rgb(255, 0, 0)')
     const backdropBackgroundColor = nc('rgb(0, 0, 0)')
     const titleColor = nc('rgb(255, 0, 0)')
+    const buttonsContainerColor = nc('rgb(255, 0, 0)')
 
     mountWrapper({
       style: {
@@ -166,8 +174,16 @@ describe('<Popup />', () => {
       backdropStyle: {
         backgroundColor: backdropBackgroundColor
       },
+      buttonsContainerStyle: {
+        backgroundColor: buttonsContainerColor
+      },
       title: 'Foo',
-      isOpened: true
+      isOpened: true,
+      okButton: (
+        <Button className="ok-button">
+          Ok
+        </Button>
+      )
     })
 
     const popupNode = containerNode.querySelector('.popup')
@@ -184,6 +200,11 @@ describe('<Popup />', () => {
     const titleStyles = getNodeStyles(titleNode)
 
     expect(nc(titleStyles['color'])).toEqual(titleColor)
+
+    const footerNode = popupNode.querySelector('footer')
+    const footerStyles = getNodeStyles(footerNode)
+
+    expect(nc(footerStyles['background-color'])).toEqual(buttonsContainerColor)
   })
 
   it('should append custom backdrop color', () => {
