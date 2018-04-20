@@ -14,7 +14,7 @@ export default function Doc() {
             const Icon = icons[iconName]
             return (
               <div key={ i } className={ css.Icon }>
-                <Tooltip content={ `<${iconName} />` }><Icon/></Tooltip>
+                <Tooltip content={ `<${iconName} />` }><Icon /></Tooltip>
               </div>
             )
           })
