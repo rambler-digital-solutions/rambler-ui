@@ -34,6 +34,10 @@ const activeBorder = borderColor => ({
     border: '0 solid',
     borderColor: theme.field.colors.default.outline,
     transition: `all ${theme.field.animationDuration}ms ease`,
+    ...ifMobile({
+      fontWeight: theme.field.mobile.fontWeight,
+      letterSpacing: theme.field.mobile.letterSpacing
+    }),
     'textarea&&': {
       resize: 'vertical',
       height: '100%',

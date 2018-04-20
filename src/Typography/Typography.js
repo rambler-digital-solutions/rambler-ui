@@ -2,34 +2,48 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import { isolateMixin, ifMobile } from '../utils/mixins'
 
-const getFontStyle = ({fontSize, fontWeight = 400, fontStyle, letterSpacing, lineHeight, fontFamily}) => ({
-  fontSize,
+const getFontStyle = ({
+  fontWeight = 400,
+  lineHeight,
+  mobile, // eslint-disable-line no-unused-vars
+  ...style
+} = {}) => ({
+  ...style,
   fontWeight,
-  fontStyle,
-  letterSpacing,
-  lineHeight: lineHeight && lineHeight + 'px',
-  fontFamily
+  lineHeight: lineHeight && lineHeight + 'px'
 })
 
 @injectSheet(({typography}) => ({
   reset: isolateMixin,
   h1: {
     extend: getFontStyle(typography.h1),
-    margin: '15px 0'
+    margin: '15px 0',
+    ...ifMobile({
+      extend: getFontStyle(typography.h1.mobile)
+    })
   },
   h2: {
     extend: getFontStyle(typography.h2),
-    margin: '20px 0'
+    margin: '20px 0',
+    ...ifMobile({
+      extend: getFontStyle(typography.h2.mobile)
+    })
   },
   h3: {
     extend: getFontStyle(typography.h3),
-    margin: '20px 0'
+    margin: '20px 0',
+    ...ifMobile({
+      extend: getFontStyle(typography.h3.mobile)
+    })
   },
   text: {
     extend: getFontStyle(typography.text),
-    margin: '20px 0'
+    margin: '20px 0',
+    ...ifMobile({
+      extend: getFontStyle(typography.text.mobile)
+    })
   },
   quote: {
     extend: getFontStyle(typography.quote),

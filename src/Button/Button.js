@@ -29,6 +29,10 @@ import '../utils/focus-source'
     border: 'none',
     userSelect: 'none',
     borderRadius: theme.button.borderRadius,
+    ...ifMobile({
+      fontWeight: theme.button.mobile.fontWeight,
+      letterSpacing: theme.button.mobile.letterSpacing
+    }),
     '&, & *': {
       transition: 'background-color .2s, border .2s, box-shadow .2s'
     },
