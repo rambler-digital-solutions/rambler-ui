@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import SvgIcon from '../SvgIcon'
 
-export default class RamblerKlassIcon extends PureComponent {
+export default class RamblerClassIcon extends PureComponent {
 
-  static displayName = 'RamblerKlassIcon'
+  static displayName = 'RamblerClassIcon'
 
   render() {
     return (

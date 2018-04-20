@@ -12,13 +12,10 @@ export default function Doc() {
         {
           Object.keys(icons).map((iconName, i) => {
             const Icon = icons[iconName]
-            const props = {}
-            if (iconName.match(/Big$/) !== null) 
-              props.size = 80
             
             return (
               <div key={ i } className={ css.Icon }>
-                <Tooltip content={ `<${iconName} />` }><Icon {...props} /></Tooltip>
+                <Tooltip content={ `<${iconName} />` }><Icon /></Tooltip>
               </div>
             )
           })
