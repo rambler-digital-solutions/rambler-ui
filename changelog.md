@@ -1,5 +1,14 @@
 # Changelog
 
+## v-3.19.0 - 2018-04-20
+### Added
+* Добавлены свойства `buttonsContainerClassName` и `buttonsContainerStyle` для контейнера кнопок в `<Popup />`
+* Добавлены свойства `inputWrapperClassName` в компоненте `<ComplexSearch />` и `highlightedClassName` в `<SuggestItem />`
+* Добавлены иконки сервисов
+
+## Fixed
+* Доработана поддержка темизации свойств текста отдельно для десктов и мобильных в `<Input />`, `<Textarea />`, `<Select />`, `<Button />`, `<IconButton />`
+
 ## v-3.18.4 - 2018-04-18
 ### Fixed
 * Удалено пробрасывание `activeClassName` в компонентах `<TabsItem />` и `<SideNavItem />` если `container` — html элемент
