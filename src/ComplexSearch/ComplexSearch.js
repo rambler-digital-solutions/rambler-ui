@@ -1,4 +1,4 @@
-import React, { Children } from 'react'
+import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'events'
@@ -84,6 +84,9 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
     }
+  },
+  inputLeftIcon: {
+    marginLeft:  12
   },
   searchButton: {
     extend: isolateMixin,
@@ -174,6 +177,10 @@ class ComplexSearch extends React.Component {
      */
     value: PropTypes.string,
     /**
+     * Иконка инпута слева
+     */
+    inputLeftIcon: PropTypes.node,
+    /**
      * Кнопка поиска
      */
     searchButton: PropTypes.node,
@@ -189,6 +196,14 @@ class ComplexSearch extends React.Component {
      * Иконка поиска, по дефолту подставляется иконка с лупой
      */
     searchIcon: PropTypes.node,
+    /**
+     * Объект для дополнительных стилей для дропдауна
+     */
+    dropdownStyle: PropTypes.object,
+    /**
+     * Дополнительный css-класс для дропдауна
+     */
+    dropdownClassName: PropTypes.string,
     /**
      * Имя раздела, по которому ищем
      */
@@ -488,6 +503,18 @@ class ComplexSearch extends React.Component {
     this.props.onSearch(value)
   }
 
+  renderInputIcon() {
+    const {inputLeftIcon, theme, classes} = this.props
+    if (!inputLeftIcon)
+      return
+    const {size, className, color} = inputLeftIcon.props
+    return cloneElement(inputLeftIcon, {
+      className: classnames(classes.inputLeftIcon, className),
+      size: size || 15,
+      color: color || theme.search.input.default.icon
+    })
+  }
+
   renderInput = () => {
     const {
       division,
@@ -500,6 +527,7 @@ class ComplexSearch extends React.Component {
     return (
       <div className={classnames(classes.inputWrapper, inputWrapperClassName, this.state.isDropdownOpened && classes.active)}>
         {division && <div className={classes.division}>{division}</div> }
+        {this.renderInputIcon()}
         <input
           type="text"
           onChange={this.onSearchInput}
@@ -547,12 +575,12 @@ class ComplexSearch extends React.Component {
         tabIndex={-1}
         {...searchButtonProps}
       >
-        {this.renderIcon()}{searchButton}
+        {this.renderSearchIcon()}{searchButton}
       </button>
     )
   }
 
-  renderIcon() {
+  renderSearchIcon() {
     if (this.props.searchIcon === undefined)
       return (
         <SearchIcon
@@ -571,6 +599,8 @@ class ComplexSearch extends React.Component {
       children,
       appendToBody,
       autoPositionY,
+      dropdownStyle,
+      dropdownClassName,
       classes
     } = this.props
 
@@ -579,7 +609,8 @@ class ComplexSearch extends React.Component {
         isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
         anchor={this.renderInput()}
         padding={false}
-        className={classes.dropdown}
+        style={dropdownStyle}
+        className={classnames(classes.dropdown, dropdownClassName)}
         appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={autoPositionY}

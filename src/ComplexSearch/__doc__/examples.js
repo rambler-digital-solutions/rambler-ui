@@ -1,6 +1,7 @@
 import { ComplexSearch, SuggestItem } from 'rambler-ui/ComplexSearch'
 import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
+import SearchIcon from 'rambler-ui/icons/forms/SearchIcon'
 
 const queryResults = [
   ['base', 'это россия детка русские приколы 2015 выпуск 8', '10', ''],
@@ -107,6 +108,9 @@ export default class SearchExample extends Component {
           </ComplexSearch>
           <br/>
           <ComplexSearch
+            inputLeftIcon={
+              <SearchIcon />
+            }
             placeholder="Компонент без параметров"/>
         </div>
       </ApplyTheme>

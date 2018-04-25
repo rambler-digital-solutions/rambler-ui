@@ -381,7 +381,8 @@ export function createTheme(config) {
       input: {
         color: colors.dark,
         default: {
-          borderColor: colors.primary
+          borderColor: colors.primary,
+          icon: colors.controls.grey.fieldIcon
         },
         hover: {
           borderColor: colors.primaryDark
