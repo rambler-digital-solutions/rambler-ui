@@ -197,6 +197,14 @@ class ComplexSearch extends React.Component {
      */
     searchIcon: PropTypes.node,
     /**
+     * Объект для дополнительных стилей для дропдауна
+     */
+    dropdownStyle: PropTypes.object,
+    /**
+     * Дополнительный css-класс для дропдауна
+     */
+    dropdownClassName: PropTypes.string,
+    /**
      * Имя раздела, по которому ищем
      */
     division: PropTypes.string,
@@ -591,6 +599,8 @@ class ComplexSearch extends React.Component {
       children,
       appendToBody,
       autoPositionY,
+      dropdownStyle,
+      dropdownClassName,
       classes
     } = this.props
 
@@ -599,7 +609,8 @@ class ComplexSearch extends React.Component {
         isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
         anchor={this.renderInput()}
         padding={false}
-        className={classes.dropdown}
+        style={dropdownStyle}
+        className={classnames(classes.dropdown, dropdownClassName)}
         appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={autoPositionY}
