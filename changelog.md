@@ -1,5 +1,10 @@
 # Changelog
 
+## v-3.20.0 - 2018-04-25
+### Added
+* Добавлена иконка `inputLeftIcon` для поля ввода компонента `<ComplexSearch />`
+* Добавлены свойства `dropdownStyle` и `dropdownClassName` в компонент `<ComplexSearch />`
+
 ## v-3.19.0 - 2018-04-20
 ### Added
 * Добавлены свойства `buttonsContainerClassName` и `buttonsContainerStyle` для контейнера кнопок в `<Popup />`
