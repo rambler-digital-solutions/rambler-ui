@@ -34,14 +34,16 @@ import { isolateMixin, middleMixin } from '../utils/mixins'
     },
     'a&:visited': {
       color: theme.sideNav.colors.default.text
+    },
+    '&$isSelected, &:hover, a&:hover': {
+      color: theme.sideNav.colors.selected.text
     }
   },
   icon: {
     display: 'inline-block'
   },
   isSelected: {
-    cursor: 'default',
-    color: theme.sideNav.colors.selected.text
+    cursor: 'default'
   },
   medium: {
     '& $icon': {
@@ -112,21 +114,12 @@ class SideNavItem extends Component {
 
   renderIcon(icon) {
     if (icon) {
-      const {
-        isSelected,
-        theme,
-        classes
-      } = this.props
-
-      const iconProps = {
-        color: isSelected ? theme.sideNav.colors.selected.text : theme.sideNav.colors.default.text
-      }
-
-      const initialProps = icon.props || {}
-      const className = classnames(initialProps.className, classes.icon)
-      const resultProps = { ...iconProps, ...initialProps, className }
-
-      return cloneElement(icon, resultProps)
+      const {classes} = this.props
+      return cloneElement(icon, {
+        color: 'currentColor',
+        ...icon.props,
+        className: classnames(icon.props.className, classes.icon)
+      })
     }
   }
 
