@@ -13,7 +13,7 @@ const setThemeForSelector = colors => ({
 })
 
 @injectSheet((theme) => {
-  const {sizes, sizesBottom, colors} = theme.tabs
+  const {sizes, bottom, colors} = theme.tabs
   return {
     tab: {
       extend: isolateMixin,
@@ -53,13 +53,13 @@ const setThemeForSelector = colors => ({
       lineHeight: 1.43
     },
     'size-small-bottom': {
-      extend: sizesBottom.small,
+      extend: bottom.sizes.small,
       lineHeight: 1.36,
       letterSpacing: 1.3,
       textTransform: 'uppercase'
     },
     'size-medium-bottom': {
-      extend: sizesBottom.medium,
+      extend: bottom.sizes.medium,
       lineHeight: 1.43
     },
     isDisabled: {

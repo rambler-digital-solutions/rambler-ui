@@ -872,14 +872,16 @@ export function createTheme(config) {
           paddingBottom: 11
         }
       },
-      sizesBottom: {
-        small: {
-          fontSize: 11,
-          paddingTop: 9
-        },
-        medium: {
-          fontSize: 14,
-          paddingTop: 11
+      bottom: {
+        sizes: {
+          small: {
+            fontSize: 11,
+            paddingTop: 9
+          },
+          medium: {
+            fontSize: 14,
+            paddingTop: 11
+          }
         }
       }
     },
