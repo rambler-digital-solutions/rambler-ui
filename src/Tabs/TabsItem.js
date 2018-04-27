@@ -146,8 +146,7 @@ class TabsItem extends Component {
       className,
       classes.tab,
       isBottomPosition && classes.tabBottom,
-      classes[`size-${size}`],
-      isBottomPosition && classes[`size-${size}-bottom`],
+      classes[`size-${size}${isBottomPosition ? '-bottom' : ''}`],
       disabled ? classes.isDisabled : classes.isEnabled,
       isSelected && classes.isSelected
     )

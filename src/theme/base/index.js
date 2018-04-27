@@ -875,13 +875,11 @@ export function createTheme(config) {
       sizesBottom: {
         small: {
           fontSize: 11,
-          paddingTop: 9,
-          paddingBottom: 0
+          paddingTop: 9
         },
         medium: {
           fontSize: 14,
-          paddingTop: 11,
-          paddingBottom: 0
+          paddingTop: 11
         }
       }
     },
