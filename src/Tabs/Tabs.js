@@ -5,7 +5,7 @@ import React, { Component, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import { isolateMixin, bottomBorderMixin } from '../utils/mixins'
+import { isolateMixin, topBorderMixin, bottomBorderMixin } from '../utils/mixins'
 
 @injectSheet((theme) => ({
   tabs: {
@@ -28,6 +28,11 @@ import { isolateMixin, bottomBorderMixin } from '../utils/mixins'
   },
   isDisabled: {
     cursor: 'not-allowed'
+  },
+  isBottom: {
+    extend: [
+      topBorderMixin(theme.tabs.colors.default.outline)
+    ]
   }
 }), {name: 'Tabs'})
 export default class Tabs extends Component {
@@ -54,6 +59,10 @@ export default class Tabs extends Component {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
+     * Позиционирование табов
+     */
+    position: PropTypes.oneOf(['top', 'bottom']),
+    /**
      * Перевод табов в состояние disabled
      */
     disabled: PropTypes.bool,
@@ -65,7 +74,12 @@ export default class Tabs extends Component {
 
   static defaultProps = {
     size: 'small',
+    position: 'top',
     disabled: false
+  };
+
+  static childContextTypes = {
+    position: PropTypes.string
   };
 
   constructor(props) {
@@ -77,6 +91,12 @@ export default class Tabs extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setValue(nextProps.value)
+  }
+
+  getChildContext() {
+    return {
+      position: this.props.position
+    }
   }
 
   setValue(value) {
@@ -94,6 +114,7 @@ export default class Tabs extends Component {
     const {
       children,
       size,
+      position,
       disabled,
       className,
       classes,
@@ -114,12 +135,23 @@ export default class Tabs extends Component {
         isSelected: hasValue && child.props.value === this.state.value,
         onPress: hasValue && !disabled ? this.handleValueChange : null,
         size,
-        disabled
+        disabled,
+        position
       })
     })
 
+    const isBottomPosition = position === 'bottom'
+
     return (
-      <div { ...other } className={ classnames(className, classes.tabs, disabled && classes.isDisabled) }>
+      <div
+        { ...other }
+        className={ classnames(
+          className,
+          classes.tabs,
+          disabled && classes.isDisabled,
+          isBottomPosition && classes.isBottom
+        ) }
+      >
         { tabs }
       </div>
     )

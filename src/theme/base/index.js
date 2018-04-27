@@ -871,6 +871,18 @@ export function createTheme(config) {
           fontSize: 14,
           paddingBottom: 11
         }
+      },
+      sizesBottom: {
+        small: {
+          fontSize: 11,
+          paddingTop: 9,
+          paddingBottom: 0
+        },
+        medium: {
+          fontSize: 14,
+          paddingTop: 11,
+          paddingBottom: 0
+        }
       }
     },
     pagination: {

@@ -15,6 +15,10 @@ export const borderMixin = color => ({
   boxShadow: `inset 0 0 0 1px ${color}`
 })
 
+export const topBorderMixin = color => ({
+  boxShadow: `inset 0 1px 0px ${color}`
+})
+
 export const bottomBorderMixin = color => ({
   boxShadow: `inset 0 -1px 0px ${color}`
 })

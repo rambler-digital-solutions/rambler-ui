@@ -29,6 +29,16 @@ export default class TabsExample extends Component {
             </Tabs>
           </div>
           <div style={{marginBottom: 40}}>
+            <h4>default bottom</h4>
+            <Tabs position="bottom" value={this.state.value} onChange={this.handleChange}>
+              {values.map((item, index) => (
+                <TabsItem value={item} key={index} className="customTabsItemClassName">
+                  { item }
+                </TabsItem>
+              ))}
+            </Tabs>
+          </div>
+          <div style={{marginBottom: 40}}>
             <h4>size: medium, Tab with href prop</h4>
             <Tabs size="medium" value={this.state.value} onChange={this.handleChange}>
               {values.map((item, index) => (
@@ -39,8 +49,28 @@ export default class TabsExample extends Component {
             </Tabs>
           </div>
           <div style={{marginBottom: 40}}>
+            <h4>size: medium, position: bottom, Tab with href prop</h4>
+            <Tabs size="medium" position="bottom" value={this.state.value} onChange={this.handleChange}>
+              {values.map((item, index) => (
+                <TabsItem href={'#/components/Tabs'} value={item} key={index}>
+                  { item }
+                </TabsItem>
+              ))}
+            </Tabs>
+          </div>
+          <div style={{marginBottom: 40}}>
             <h4>disabled</h4>
             <Tabs disabled={true} value={this.state.value} onChange={this.handleChange}>
+              {values.map((item, index) => (
+                <TabsItem href={index % 2 ? '#/components/Tabs' : null} value={item} key={index}>
+                  { item }
+                </TabsItem>
+              ))}
+            </Tabs>
+          </div>
+          <div style={{marginBottom: 40}}>
+            <h4>disabled bottom</h4>
+            <Tabs disabled={true} position="bottom" value={this.state.value} onChange={this.handleChange}>
               {values.map((item, index) => (
                 <TabsItem href={index % 2 ? '#/components/Tabs' : null} value={item} key={index}>
                   { item }
