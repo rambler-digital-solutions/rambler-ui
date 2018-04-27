@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.20.1 - 2018-04-27
+### Fixed
+* Поправлено использование `overlayClassName` и `overlayStyle` в компоненте `<Dropdown />` для разных типов оверлея
+
 ## v-3.20.0 - 2018-04-25
 ### Added
 * Добавлена иконка `inputLeftIcon` для поля ввода компонента `<ComplexSearch />`
