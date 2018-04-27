@@ -134,17 +134,21 @@ export default class Dropdown extends PureComponent {
      */
     children: PropTypes.node.isRequired,
     /**
-     * css класс для контейнера Dropdown
+     * CSS класс для контейнера Dropdown
      */
     className: PropTypes.string,
     /**
-     * css класс только для контейнера оверлея (только RelativeOverlay)
-     */
-    overlayClassName: PropTypes.string,
-    /**
-     * Стили для контейнера dropdown
+     * Стили для контейнера Dropdown
      */
     style: PropTypes.object,
+    /**
+     * CSS класс контейнера оверлея
+    */
+    overlayClassName: PropTypes.string,
+    /**
+     * Стили для контейнера оверлея
+     */
+    overlayStyle: PropTypes.object,
     /**
      * Показывать ли дропдаун
      * Укажите этот параметр, если хотите контроллировать состояние открытия
@@ -229,7 +233,9 @@ export default class Dropdown extends PureComponent {
       className,
       style,
       padding,
-      overlayClassName
+      overlayClassName,
+      overlayStyle,
+      appendToBody
     } = this.props
     const dropdownProps = {
       closeOnClickOutside,
@@ -246,12 +252,17 @@ export default class Dropdown extends PureComponent {
       contentPointY,
       anchorPointY,
       isOpened,
-      className: overlayClassName,
       onContentOpen: onOpen,
       onContentClose: onClose,
       content: <DropdownContainer { ...dropdownProps }>{ children }</DropdownContainer>
     }
-
+    if (appendToBody) {
+      overlayProps.containerNodeClassName = overlayClassName
+      overlayProps.containerNodeStyle = overlayStyle
+    } else {
+      overlayProps.className = overlayClassName
+      overlayProps.style = overlayStyle
+    }
     return <this.Overlay { ...overlayProps } />
   }
 

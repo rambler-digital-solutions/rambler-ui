@@ -367,6 +367,10 @@ export default class FixedOverlay extends PureComponent {
      */
     closeOnScroll: PropTypes.bool,
     /**
+     * CSS-класс для DOM-ноды контейнера
+     */
+    containerNodeClassName: PropTypes.string,
+    /**
      * Дополнительные стили для DOM-ноды контейнера
      */
     containerNodeStyle: PropTypes.object
@@ -484,7 +488,8 @@ export default class FixedOverlay extends PureComponent {
       getYScroll,
       getXScroll,
       cachePositionOptions,
-      containerNodeStyle
+      containerNodeStyle,
+      containerNodeClassName
     } = this.props
     // TODO получать от клиента
     this.scrollY = getYScroll(getElementRect)
@@ -525,6 +530,8 @@ export default class FixedOverlay extends PureComponent {
       anchorWidth: this.anchorNode.offsetWidth,
       anchorHeight: this.anchorNode.offsetHeight
     })
+    if (containerNodeClassName)
+      this.contentContainerNode.className = containerNodeClassName
     Object.assign(this.contentContainerNode.style, {
       left: options.left + this.scrollX + 'px',
       top: options.top + this.scrollY + 'px',
