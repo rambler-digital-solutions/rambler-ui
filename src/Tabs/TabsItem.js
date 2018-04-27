@@ -13,7 +13,7 @@ const setThemeForSelector = colors => ({
 })
 
 @injectSheet((theme) => {
-  const {sizes, colors} = theme.tabs
+  const {sizes, bottom, colors} = theme.tabs
   return {
     tab: {
       extend: isolateMixin,
@@ -39,6 +39,9 @@ const setThemeForSelector = colors => ({
       '&$isDisabled': setThemeForSelector(colors.disabled),
       '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
     },
+    tabBottom: {
+      borderWidth: `${theme.tabs.borderWidth}px 0 0`
+    },
     'size-small': {
       extend: sizes.small,
       lineHeight: 1.36,
@@ -47,6 +50,16 @@ const setThemeForSelector = colors => ({
     },
     'size-medium': {
       extend: sizes.medium,
+      lineHeight: 1.43
+    },
+    'size-small-bottom': {
+      extend: bottom.sizes.small,
+      lineHeight: 1.36,
+      letterSpacing: 1.3,
+      textTransform: 'uppercase'
+    },
+    'size-medium-bottom': {
+      extend: bottom.sizes.medium,
       lineHeight: 1.43
     },
     isDisabled: {
@@ -119,6 +132,7 @@ class TabsItem extends Component {
       isSelected,
       disabled,
       size,
+      position,
       classes,
       value, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
@@ -126,10 +140,13 @@ class TabsItem extends Component {
       ...other
     } = this.props
 
+    const isBottomPosition = position === 'bottom'
+
     const resultClassName = classnames(
       className,
       classes.tab,
-      classes[`size-${size}`],
+      isBottomPosition && classes.tabBottom,
+      classes[`size-${size}${isBottomPosition ? '-bottom' : ''}`],
       disabled ? classes.isDisabled : classes.isEnabled,
       isSelected && classes.isSelected
     )
