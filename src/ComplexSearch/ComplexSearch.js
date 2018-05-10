@@ -396,6 +396,7 @@ class ComplexSearch extends React.Component {
     super(props)
     this.state = {
       isDropdownOpened: false,
+      sourceType: 'global',
       value: this.props.value
     }
     this.events = new EventEmitter
@@ -548,7 +549,7 @@ class ComplexSearch extends React.Component {
     this.setHighlightedId(null)
     this.setState({value})
     this.openDropdown()
-    this.props.onSearch(value)
+    this.props.onSearch(value, {globalSearch: this.state.sourceType})
   }
 
   onClickOutside = (e) => {
@@ -661,7 +662,6 @@ class ComplexSearch extends React.Component {
         ></ClearIcon>}
       </div>
     )
-
   }
 
   renderInput = () => this.props.layout === 'media' ? this.renderMediaInput() : this.renderServiceInput()
@@ -742,6 +742,12 @@ class ComplexSearch extends React.Component {
       </Dropdown>
     )
   }
+
+  // renderServiceIcons() {
+  //   return (
+
+  //   )
+  // }
 
   render() {
     const {
