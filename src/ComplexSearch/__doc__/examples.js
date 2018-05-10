@@ -112,6 +112,15 @@ export default class SearchExample extends Component {
               <SearchIcon />
             }
             placeholder="Компонент без параметров"/>
+          <br />
+          <ComplexSearch
+            layout="service"
+            placeholder="Сервисный инпут"/>
+          <br />
+          <ComplexSearch
+            size="small"
+            layout="service"
+            placeholder="Сервисный инпут маленький"/>
         </div>
       </ApplyTheme>
     )

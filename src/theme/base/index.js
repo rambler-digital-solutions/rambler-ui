@@ -378,6 +378,26 @@ export function createTheme(config) {
       height: 40,
       maxWidth: 765,
 
+      sizes: {
+        small: {
+          media: {
+            height: 40
+          },
+          service: {
+            height: 35
+          }
+        },
+
+        medium: {
+          media: {
+            height: 40
+          },
+          service: {
+            height: 45
+          }
+        }
+      },
+      
       input: {
         color: colors.dark,
         default: {

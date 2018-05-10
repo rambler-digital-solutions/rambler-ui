@@ -1,6 +1,7 @@
 import React, { Children, cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import merge from 'lodash/merge'
 import EventEmitter from 'events'
 import { injectSheet } from '../theme'
 import Dropdown from '../Dropdown'
@@ -10,154 +11,213 @@ import SearchIcon from '../icons/forms/SearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
-@injectSheet(theme => ({
-  root: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    fontSize: theme.search.fontSize,
-    width: '100%',
-    maxWidth: theme.search.maxWidth,
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  inputRow: {
-    height: theme.search.height,
-    position: 'relative',
-    width: '100%',
-    display: 'flex'
-  },
-  active: {},
-  inputWrapper: {
-    borderColor: theme.search.input.default.borderColor,
-    borderWidth: 2,
-    borderStyle: 'solid',
-    borderRightWidth: 0,
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    paddingRight: 30,
-    borderRadius: '1px 0 0 1px',
-    width: '100%',
-    height: theme.search.height,
-    boxSizing: 'border-box',
-    '&$active': {
-      borderColor: theme.search.input.hover.borderColor
-    }
-  },
-  bottomWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '15px 0',
-    fontSize: 12
-  },
-  division: {
-    height: 30,
-    padding: '0 12px',
-    display: 'flex',
-    alignItems: 'center',
-    margin: '0 3px',
-    fontSize: 11,
-    textTransform: 'uppercase',
-    fontWeight: 500,
-    borderRadius: '1px',
-    backgroundColor: theme.search.division.color,
-    letterSpacing: 1.3,
-    cursor: 'pointer'
-  },
-  input: {
-    extend: isolateMixin,
-    padding: '10px 12px',
-    border: 'none',
-    boxSizing: 'border-box',
-    display: 'block',
-    borderRadius: 0,
-    width: '100%',
-    fontWeight: 400,
-    fontSize: theme.search.fontSize,
-    lineHeight: 1.43,
-    appearance: 'none',
-    color: theme.search.input.color,
-    height: '100%',
-    outline: 0,
-    boxShadow: 'none',
-
-    '&::-ms-reveal, &::-ms-clear': {
-      display: 'none'
-    }
-  },
-  inputLeftIcon: {
-    marginLeft:  12
-  },
-  searchButton: {
-    extend: isolateMixin,
-    color: theme.search.button.color,
-    top: 0,
-    height: theme.search.height,
-    borderRadius: '0 1px 1px 0',
-    textAlign: 'center',
-    border: 'none',
-    flexShrink: 0,
-    cursor: 'pointer',
-    padding: '0 20px',
-    boxSizing: 'border-box',
-    background: theme.search.button.default.background,
-    outline: 'none',
-    fontSize: theme.search.button.fontSize,
-    fontWeight: theme.search.button.fontWeight,
-    letterSpacing: theme.search.button.letterSpacing,
-    textTransform: theme.search.button.textTransform,
-
-    '&:hover': {
-      background: theme.search.button.hover.background
+@injectSheet(theme => {
+  const css = {
+    small: {},
+    medium: {},
+    root: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      fontSize: theme.search.fontSize,
+      width: '100%',
+      maxWidth: theme.search.maxWidth,
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    inputRow: {
+      height: theme.search.height,
+      position: 'relative',
+      width: '100%',
+      display: 'flex'
+    },
+    active: {},
+    inputWrapper: {
+      borderColor: theme.search.input.default.borderColor,
+      borderWidth: 2,
+      borderStyle: 'solid',
+      borderRightWidth: 0,
+      display: 'flex',
+      alignItems: 'center',
+      position: 'relative',
+      paddingRight: 30,
+      borderRadius: '1px 0 0 1px',
+      width: '100%',
+      height: theme.search.height,
+      boxSizing: 'border-box',
+      '&$active': {
+        borderColor: theme.search.input.hover.borderColor
+      }
     },
 
-    '&:active': {
-      background: theme.search.button.active.background
-    }
-  },
-  searchIcon: {
-    marginRight: 8,
-    marginTop: -2,
-    verticalAlign: 'middle'
-  },
-  withoutButton: {
-    '& $inputWrapper': {
-      borderRadius: 1,
-      borderRightWidth: 2,
-      boxShadow: 'none'
-    }
-  },
-  clear: {
-    position: 'absolute',
-    right: 15,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    cursor: 'pointer',
-    opacity: 0.6,
+    serviceInputWrapper: {
+      extend: 'inputWrapper',
+      borderColor: theme.field.colors.disabled.outline,
+      borderWidth: 1,
+      borderRightWidth: 1,
 
-    '&:hover': {
-      opacity: 1,
-      color:  theme.search.clear.hover.color
+      '& $input': {
+        fontSize: 13
+      }
+    },
+    bottomWrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: '15px 0',
+      fontSize: 12
+    },
+    division: {
+      height: 30,
+      padding: '0 12px',
+      display: 'flex',
+      alignItems: 'center',
+      margin: '0 3px',
+      fontSize: 11,
+      textTransform: 'uppercase',
+      fontWeight: 500,
+      borderRadius: '1px',
+      backgroundColor: theme.search.division.color,
+      letterSpacing: 1.3,
+      cursor: 'pointer'
+    },
+    input: {
+      extend: isolateMixin,
+      padding: '10px 12px',
+      border: 'none',
+      boxSizing: 'border-box',
+      display: 'block',
+      borderRadius: 0,
+      width: '100%',
+      fontWeight: 400,
+      fontSize: theme.search.fontSize,
+      lineHeight: 1.43,
+      appearance: 'none',
+      color: theme.search.input.color,
+      height: '100%',
+      outline: 0,
+      boxShadow: 'none',
+
+      '&::-ms-reveal, &::-ms-clear': {
+        display: 'none'
+      }
+    },
+    serviceIcon: {
+      color: theme.search.input.default.icon,
+      position: 'absolute',
+      right: 15,
+      top: '50%',
+      transform: 'translateY(-50%)'
+    },
+    inputLeftIcon: {
+      marginLeft:  12
+    },
+    searchButton: {
+      extend: isolateMixin,
+      color: theme.search.button.color,
+      top: 0,
+      height: theme.search.height,
+      borderRadius: '0 1px 1px 0',
+      textAlign: 'center',
+      border: 'none',
+      flexShrink: 0,
+      cursor: 'pointer',
+      padding: '0 20px',
+      boxSizing: 'border-box',
+      background: theme.search.button.default.background,
+      outline: 'none',
+      fontSize: theme.search.button.fontSize,
+      fontWeight: theme.search.button.fontWeight,
+      letterSpacing: theme.search.button.letterSpacing,
+      textTransform: theme.search.button.textTransform,
+
+      '&:hover': {
+        background: theme.search.button.hover.background
+      },
+
+      '&:active': {
+        background: theme.search.button.active.background
+      }
+    },
+    searchIcon: {
+      marginRight: 8,
+      marginTop: -2,
+      verticalAlign: 'middle'
+    },
+    withoutButton: {
+      '& $inputWrapper': {
+        borderRadius: 1,
+        borderRightWidth: 2,
+        boxShadow: 'none'
+      }
+    },
+    clear: {
+      position: 'absolute',
+      right: 15,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      cursor: 'pointer',
+      opacity: 0.6,
+
+      '&:hover': {
+        opacity: 1,
+        color:  theme.search.clear.hover.color
+      },
+
+      '&:active': {
+        opacity: 1
+      }
     },
 
-    '&:active': {
-      opacity: 1
+    serviceClearIcon: {
+      position: 'absolute',
+      right: 15,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      cursor: 'pointer',
+      opacity: 0.6,
+
+      '&:hover': {
+        opacity: 1,
+        color:  theme.search.clear.hover.color
+      },
+
+      '&:active': {
+        opacity: 1
+      }
+    },
+    suggest: {
+      width: '100%',
+      background: 'white',
+      boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
+    },
+    dropdown: {
+      transition: 'none',
+      animation: 'none',
+      width: '100%'
+    },
+    overlay: {
+      width: '100%'
     }
-  },
-  suggest: {
-    width: '100%',
-    background: 'white',
-    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
-  },
-  dropdown: {
-    transition: 'none',
-    animation: 'none',
-    width: '100%'
-  },
-  overlay: {
-    width: '100%'
   }
-}), {name: 'ComplexSearch'})
+
+  merge(css, ['small', 'medium'].reduce((result, size) => {
+    const styles = theme.search.sizes[size]
+
+    return {
+      ...result,
+      [`size-${size}`]: {
+        '& $serviceInputWrapper': {
+          height: styles.service.height
+        },
+
+        '& $inputWrapper': {
+          height: styles.media.height
+        }
+      }
+    }
+  }, {}))
+
+  return css
+}, {name: 'ComplexSearch'})
 class ComplexSearch extends React.Component {
   static propTypes = {
     /**
@@ -177,10 +237,6 @@ class ComplexSearch extends React.Component {
      */
     value: PropTypes.string,
     /**
-     * Иконка инпута слева
-     */
-    inputLeftIcon: PropTypes.node,
-    /**
      * Кнопка поиска
      */
     searchButton: PropTypes.node,
@@ -196,6 +252,10 @@ class ComplexSearch extends React.Component {
      * Иконка поиска, по дефолту подставляется иконка с лупой
      */
     searchIcon: PropTypes.node,
+    /**
+    * Иконка инпута слева
+     */
+    inputLeftIcon: PropTypes.node,
     /**
      * Объект для дополнительных стилей для дропдауна
      */
@@ -263,7 +323,19 @@ class ComplexSearch extends React.Component {
     /**
      * 	Дополнительные аттрибуты для кнопки
      */
-    searchButtonProps: PropTypes.object
+    searchButtonProps: PropTypes.object,
+    /**
+     * Размер поискового блока
+     */
+    size: PropTypes.oneOf(['small', 'medium']),
+    /**
+     * Для отображения поиска по сервису/интернету
+     */
+    sourceType: PropTypes.bool,
+    /**
+     * Вариант отображения поиска
+     */
+    layout: PropTypes.oneOf(['media', 'service'])
   };
 
   static defaultProps = {
@@ -277,6 +349,9 @@ class ComplexSearch extends React.Component {
     searchButtonClassName: '',
     inputProps: {},
     searchButtonProps: {},
+    layout: 'media',
+    sourceType: false,
+    size: 'medium',
     onSearch() {},
     onFocus() {},
     onBlur() {},
@@ -515,12 +590,33 @@ class ComplexSearch extends React.Component {
     })
   }
 
-  renderInput = () => {
+  renderInputNode() {
+    const {
+      placeholder,
+      inputProps,
+      classes
+    } = this.props
+
+    return (
+      <input
+        type="text"
+        onChange={this.onSearchInput}
+        onKeyDown={this.onKeyDown}
+        onFocus={this.onFocus}
+        onBlur={this.onBlur}
+        value={this.state.value}
+        className={classes.input}
+        placeholder={placeholder}
+        {...inputProps}
+        ref={this.setNode('input')}
+      />
+    )
+  }
+
+  renderMediaInput = () => {
     const {
       division,
-      placeholder,
       inputWrapperClassName,
-      inputProps,
       classes
     } = this.props
 
@@ -528,27 +624,47 @@ class ComplexSearch extends React.Component {
       <div className={classnames(classes.inputWrapper, inputWrapperClassName, this.state.isDropdownOpened && classes.active)}>
         {division && <div className={classes.division}>{division}</div> }
         {this.renderInputIcon()}
-        <input
-          type="text"
-          onChange={this.onSearchInput}
-          onKeyDown={this.onKeyDown}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
-          value={this.state.value}
-          className={classes.input}
-          placeholder={placeholder}
-          {...inputProps}
-          ref={this.setNode('input')}
-        />
+        {this.renderInputNode()}
         {this.isClearVisible && <ClearIcon
           className={classes.clear}
-          size={16}
+          size={15}
           color="currentColor"
           onClick={this.clearForm}
         ></ClearIcon>}
       </div>
     )
   }
+
+  renderServiceInput = () => {
+    const {
+      inputWrapperClassName,
+      classes
+    } = this.props
+
+    return (
+      <div className={classnames(
+        classes.serviceInputWrapper, 
+        inputWrapperClassName, 
+        this.state.isDropdownOpened && classes.active
+      )}>
+        {this.renderInputNode()}
+        {!this.isClearVisible && <SearchIcon
+          size="15"
+          className={classes.serviceIcon}
+          color="currentColor"
+        />}
+        {this.isClearVisible && <ClearIcon
+          className={classes.serviceClearIcon}
+          size={15}
+          color="currentColor"
+          onClick={this.clearForm}
+        ></ClearIcon>}
+      </div>
+    )
+
+  }
+
+  renderInput = () => this.props.layout === 'media' ? this.renderMediaInput() : this.renderServiceInput()
 
   renderButton() {
     const {
@@ -631,7 +747,8 @@ class ComplexSearch extends React.Component {
     const {
       classes,
       style,
-      className
+      className,
+      size
     } = this.props
     const button = this.renderButton()
 
@@ -642,6 +759,7 @@ class ComplexSearch extends React.Component {
             classes.root,
             !button && classes.withoutButton,
             className,
+            classes[`size-${size}`]
           )}
           style={style}
           ref={this.setNode('root')}
