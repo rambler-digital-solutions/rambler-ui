@@ -810,7 +810,7 @@ class ComplexSearch extends React.Component {
       />,
       <ServiceSearchIcon
         key="service-search-icon"
-        onClick={() => this.setState({serviceIcon: 'service'})}
+        onClick={() => this.setState({sourceType: 'service'})}
         color="currentColor"
         className={classnames(classes.serviceIcon, {
           [classes.active]: sourceType === 'service'
