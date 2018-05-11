@@ -408,11 +408,14 @@ export function createTheme(config) {
           borderColor: colors.primaryDark
         }
       },
-      clear: {
+      serviceIcon: {
         color: colors.controls.grey.outline,
         hover: {
           color: colors.primary
         }
+      },
+      serviceClear: {
+        color: colors.dark
       },
       division: {
         color: colors.controls.grey.background

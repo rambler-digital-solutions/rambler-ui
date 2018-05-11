@@ -8,6 +8,8 @@ import Dropdown from '../Dropdown'
 import OnClickOutside from '../OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
+import GlobalSearchIcon from '../icons/forms/GlobalSearchIcon'
+import ServiceSearchIcon from '../icons/forms/ServiceSearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
@@ -15,6 +17,8 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   const css = {
     small: {},
     medium: {},
+    withSourceButtons: {},
+    active: {},
     root: {
       extend: isolateMixin,
       fontFamily: theme.fontFamily,
@@ -22,7 +26,12 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
       width: '100%',
       maxWidth: theme.search.maxWidth,
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+
+
+      '&$withSourceButtons $inputWrapper, &$withSourceButtons $inputServiceWrapper': {
+        paddingRight: 115
+      }
     },
     inputRow: {
       height: theme.search.height,
@@ -30,7 +39,6 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
       width: '100%',
       display: 'flex'
     },
-    active: {},
     inputWrapper: {
       borderColor: theme.search.input.default.borderColor,
       borderWidth: 2,
@@ -48,7 +56,6 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
         borderColor: theme.search.input.hover.borderColor
       }
     },
-
     serviceInputWrapper: {
       extend: 'inputWrapper',
       borderColor: theme.field.colors.disabled.outline,
@@ -100,7 +107,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
         display: 'none'
       }
     },
-    serviceIcon: {
+    serviceSearchIcon: {
       color: theme.search.input.default.icon,
       position: 'absolute',
       right: 15,
@@ -159,7 +166,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
       '&:hover': {
         opacity: 1,
-        color:  theme.search.clear.hover.color
+        color:  theme.search.serviceIcon.hover.color
       },
 
       '&:active': {
@@ -177,10 +184,36 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
       '&:hover': {
         opacity: 1,
-        color:  theme.search.clear.hover.color
+        color:  theme.search.serviceIcon.hover.color
       },
 
       '&:active': {
+        opacity: 1
+      }
+    },
+    serviceIcons: {
+      display: 'flex',
+      position: 'absolute',
+      alignItems: 'center',
+      right: 15
+    },
+    serviceIcon: {
+      opacity: 0.5,
+      transition: 'opacity 0.2s, color 0.2s',
+      color: theme.search.serviceIcon.color,
+      cursor: 'pointer',
+      marginRight: 10,
+
+      '&:last-child': {
+        marginRight: 0
+      },
+
+      '&:hover': {
+        opacity: 1,
+        color: theme.search.serviceIcon.hover.color
+      },
+      
+      '&$active': {
         opacity: 1
       }
     },
@@ -350,7 +383,7 @@ class ComplexSearch extends React.Component {
     inputProps: {},
     searchButtonProps: {},
     layout: 'media',
-    sourceType: false,
+    sourceType: true,
     size: 'medium',
     onSearch() {},
     onFocus() {},
@@ -622,18 +655,38 @@ class ComplexSearch extends React.Component {
     } = this.props
 
     return (
-      <div className={classnames(classes.inputWrapper, inputWrapperClassName, this.state.isDropdownOpened && classes.active)}>
+      <div 
+        className={classnames(
+          classes.inputWrapper, 
+          inputWrapperClassName, 
+          this.state.isDropdownOpened && classes.active
+        )}
+      >
         {division && <div className={classes.division}>{division}</div> }
         {this.renderInputIcon()}
         {this.renderInputNode()}
+        {this.renderServiceIcons()}
+      </div>
+    )
+  }
+
+  renderServiceIcons() {
+    const {
+      classes, 
+      sourceType
+    } = this.props
+    return (
+      <div className={classes.serviceIcons}>
         {this.isClearVisible && <ClearIcon
-          className={classes.clear}
+          className={classes.serviceIcon}
           size={15}
           color="currentColor"
           onClick={this.clearForm}
         ></ClearIcon>}
+        {sourceType && this.renderSourceIcons()}
       </div>
     )
+    
   }
 
   renderServiceInput = () => {
@@ -651,7 +704,7 @@ class ComplexSearch extends React.Component {
         {this.renderInputNode()}
         {!this.isClearVisible && <SearchIcon
           size="15"
-          className={classes.serviceIcon}
+          className={classes.serviceSearchIcon}
           color="currentColor"
         />}
         {this.isClearVisible && <ClearIcon
@@ -743,18 +796,36 @@ class ComplexSearch extends React.Component {
     )
   }
 
-  // renderServiceIcons() {
-  //   return (
-
-  //   )
-  // }
+  renderSourceIcons() {
+    const {classes} = this.props
+    const {sourceType} = this.state
+    return [
+      <GlobalSearchIcon
+        key="global-search-icon"
+        onClick={() => this.setState({sourceType: 'global'})}
+        className={classnames(classes.serviceIcon, {
+          [classes.active]: sourceType === 'global'
+        })}
+        color="currentColor"
+      />,
+      <ServiceSearchIcon
+        key="service-search-icon"
+        onClick={() => this.setState({serviceIcon: 'service'})}
+        color="currentColor"
+        className={classnames(classes.serviceIcon, {
+          [classes.active]: sourceType === 'service'
+        })}
+      />
+    ]
+  }
 
   render() {
     const {
       classes,
       style,
       className,
-      size
+      size,
+      sourceType
     } = this.props
     const button = this.renderButton()
 
@@ -765,6 +836,7 @@ class ComplexSearch extends React.Component {
             classes.root,
             !button && classes.withoutButton,
             className,
+            sourceType && classes.withSourceButtons,
             classes[`size-${size}`]
           )}
           style={style}
