@@ -354,6 +354,13 @@ class ComplexSearch extends React.Component {
      */
     inputProps: PropTypes.object,
     /**
+     * 	Дополнительные аттрибуты для кнопок переключения источника поиска
+     */
+    sourceButtonsProps: PropTypes.shape({
+      service: PropTypes.object,
+      global: PropTypes.object
+    }),
+    /**
      * 	Дополнительные аттрибуты для кнопки
      */
     searchButtonProps: PropTypes.object,
@@ -382,8 +389,9 @@ class ComplexSearch extends React.Component {
     searchButtonClassName: '',
     inputProps: {},
     searchButtonProps: {},
+    sourceButtonsProps: {},
     layout: 'media',
-    sourceType: true,
+    sourceType: false,
     size: 'medium',
     onSearch() {},
     onFocus() {},
@@ -797,7 +805,7 @@ class ComplexSearch extends React.Component {
   }
 
   renderSourceIcons() {
-    const {classes} = this.props
+    const {classes, sourceButtonsProps: {global, service}} = this.props
     const {sourceType} = this.state
     return [
       <GlobalSearchIcon
@@ -807,6 +815,7 @@ class ComplexSearch extends React.Component {
           [classes.active]: sourceType === 'global'
         })}
         color="currentColor"
+        {...global}
       />,
       <ServiceSearchIcon
         key="service-search-icon"
@@ -815,6 +824,7 @@ class ComplexSearch extends React.Component {
         className={classnames(classes.serviceIcon, {
           [classes.active]: sourceType === 'service'
         })}
+        {...service}
       />
     ]
   }

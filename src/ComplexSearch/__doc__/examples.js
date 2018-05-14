@@ -93,6 +93,11 @@ export default class SearchExample extends Component {
             searchButtonStyle={{minWidth: 125}}
             autoPositionY={false}
             inputProps={{'data-cerber-head': 'main::search'}}
+            sourceType
+            sourceButtonsProps={{
+              service: {'data-cerber-head': 'main::service'},
+              global: {'data-cerber-head': 'main::global'}
+            }}
             searchButtonProps={{'data-cerber-head': 'main::button'}}
           >
             {this.state.items.map(item => (
