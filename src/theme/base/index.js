@@ -378,6 +378,10 @@ export function createTheme(config) {
       height: 40,
       maxWidth: 765,
 
+      simple: {
+        height: 35
+      },
+
       sizes: {
         small: {
           media: {

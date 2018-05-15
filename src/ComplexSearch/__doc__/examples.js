@@ -1,4 +1,9 @@
-import { ComplexSearch, SuggestItem } from 'rambler-ui/ComplexSearch'
+import { 
+  ComplexSearch,
+  ServiceSearch,
+  SimpleSearch,
+  SuggestItem
+} from 'rambler-ui/ComplexSearch'
 import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
 import SearchIcon from 'rambler-ui/icons/forms/SearchIcon'
@@ -72,7 +77,6 @@ export default class SearchExample extends Component {
       return <span><b>{query}</b>{string.replace(query, '')}</span>
 
     return string
-
   }
 
   render() {
@@ -94,10 +98,9 @@ export default class SearchExample extends Component {
             autoPositionY={false}
             inputProps={{'data-cerber-head': 'main::search'}}
             sourceType
-            sourceButtonsProps={{
-              service: {'data-cerber-head': 'main::service'},
-              global: {'data-cerber-head': 'main::global'}
-            }}
+            sourceButtonsProps={(type) => ({
+              'data-cerber-head': `main::${type}`
+            })}
             searchButtonProps={{'data-cerber-head': 'main::button'}}
           >
             {this.state.items.map(item => (
@@ -118,18 +121,25 @@ export default class SearchExample extends Component {
             }
             placeholder="Компонент без параметров"/>
           <br />
-          <ComplexSearch
+          <ServiceSearch
             layout="service"
-            placeholder="Сервисный инпут"/>
+            placeholder="Сервисный инпут"
+          >
+          </ServiceSearch>
           <br />
-          <ComplexSearch
+          <ServiceSearch
             size="small"
             layout="service"
-            placeholder="Сервисный инпут маленький"/>
+            placeholder="Сервисный инпут маленький"
+          >
+          </ServiceSearch>
+          <br />
+          <SimpleSearch
+            sourceType
+          />
         </div>
       </ApplyTheme>
     )
-
   }
 
 }
