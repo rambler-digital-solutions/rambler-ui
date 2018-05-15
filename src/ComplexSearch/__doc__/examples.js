@@ -83,6 +83,7 @@ export default class SearchExample extends Component {
     return (
       <ApplyTheme>
         <div>
+          <h4>ComplexSearch</h4>
           <ComplexSearch
             value={this.state.value}
             onSearch={this.fetchQuery.bind(this)}
@@ -121,6 +122,7 @@ export default class SearchExample extends Component {
             }
             placeholder="Компонент без параметров"/>
           <br />
+          <h4>ServiceSearch</h4>
           <ServiceSearch
             layout="service"
             placeholder="Сервисный инпут"
@@ -134,6 +136,7 @@ export default class SearchExample extends Component {
           >
           </ServiceSearch>
           <br />
+          <h4>SimpleSearch (topline search)</h4>
           <SimpleSearch
             sourceType
           />

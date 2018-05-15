@@ -245,14 +245,6 @@ export default class ServiceSearch extends React.Component {
      */
     value: PropTypes.string,
     /**
-     * Объект для дополнительных стилей для кнопки
-     */
-    searchButtonStyle: PropTypes.object,
-    /**
-     * Дополнительный css-класс для кнопки поиска
-     */
-    searchButtonClassName: PropTypes.string,
-    /**
      * Иконка поиска, по дефолту подставляется иконка с лупой
      */
     searchIcon: PropTypes.node,
@@ -264,10 +256,6 @@ export default class ServiceSearch extends React.Component {
      * Дополнительный css-класс для дропдауна
      */
     dropdownClassName: PropTypes.string,
-    /**
-     * Имя раздела, по которому ищем
-     */
-    division: PropTypes.string,
     /**
      * Плейсхолдер поискового инпута
      */
@@ -331,32 +319,16 @@ export default class ServiceSearch extends React.Component {
     /**
      * Размер поискового блока
      */
-    size: PropTypes.oneOf(['small', 'medium']),
-    /**
-     * Для отображения поиска по сервису/интернету
-     */
-    sourceType: PropTypes.bool,
-    /**
-     * Вариант отображения поиска
-     */
-    layout: PropTypes.oneOf(['media', 'service'])
+    size: PropTypes.oneOf(['small', 'medium'])
   };
 
   static defaultProps = {
     value: '',
     placeholder: '',
-    division: null,
     appendToBody: true,
     autoPositionY: false,
-    searchButton: null,
-    withClearButton: true,
-    searchButtonStyle: {},
-    searchButtonClassName: '',
     inputProps: {},
     searchButtonProps: {},
-    sourceButtonsProps: () => ({}),
-    layout: 'media',
-    sourceType: false,
     size: 'medium',
     onSearch() {},
     onFocus() {},
@@ -427,7 +399,7 @@ export default class ServiceSearch extends React.Component {
    * @return {Boolean}
    */
   get isClearVisible() {
-    return this.props.withClearButton && Boolean(this.state.value)
+    return Boolean(this.state.value)
   }
 
   getChildContext() {
@@ -678,8 +650,7 @@ export default class ServiceSearch extends React.Component {
       classes,
       style,
       className,
-      size,
-      sourceType
+      size
     } = this.props
 
     return (
@@ -688,7 +659,6 @@ export default class ServiceSearch extends React.Component {
           className={classnames(
             classes.root,
             className,
-            sourceType && classes.withSourceButtons,
             classes[`size-${size}`]
           )}
           style={style}

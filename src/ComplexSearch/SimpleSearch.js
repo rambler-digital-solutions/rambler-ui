@@ -198,10 +198,6 @@ export default class SimpleSearch extends React.Component {
      */
     showSearchButton: PropTypes.bool,
     /**
-     * Иконка поиска, по дефолту подставляется иконка с лупой
-     */
-    searchIcon: PropTypes.node,
-    /**
     * Иконка инпута слева
      */
     inputLeftIcon: PropTypes.node,
@@ -213,10 +209,6 @@ export default class SimpleSearch extends React.Component {
      * Дополнительный css-класс для дропдауна
      */
     dropdownClassName: PropTypes.string,
-    /**
-     * Имя раздела, по которому ищем
-     */
-    division: PropTypes.string,
     /**
      * Плейсхолдер поискового инпута
      */
@@ -242,14 +234,6 @@ export default class SimpleSearch extends React.Component {
      */
     onPressEnter: PropTypes.func,
     /**
-     * Вставлять ли dropdown внутри body
-     */
-    appendToBody: PropTypes.bool,
-    /**
-     * 	Автоматическое позиционирование дропдауна по оси Y (если выходит за пределы экрана)
-     */
-    autoPositionY: PropTypes.bool,
-    /**
      * 	Дополнительные аттрибуты для поискового инпута
      */
     inputProps: PropTypes.object,
@@ -268,33 +252,21 @@ export default class SimpleSearch extends React.Component {
     /**
      * Для отображения поиска по сервису/интернету
      */
-    sourceType: PropTypes.bool,
-    /**
-     * Вариант отображения поиска
-     */
-    layout: PropTypes.oneOf(['media', 'service'])
+    sourceType: PropTypes.bool
   };
 
   static defaultProps = {
     value: '',
     placeholder: '',
-    division: null,
-    appendToBody: true,
-    autoPositionY: false,
-    searchButton: null,
-    searchButtonStyle: {},
-    searchButtonClassName: '',
     showSearchButton: true,
     inputProps: {},
     searchButtonProps: {},
     sourceButtonsProps: () => ({}),
-    layout: 'media',
     sourceType: false,
     size: 'medium',
     onSearch() {},
     onFocus() {},
     onBlur() {},
-    onHoverItem() {},
     onSubmit() {},
     onPressEnter() {}
   };
@@ -330,11 +302,6 @@ export default class SimpleSearch extends React.Component {
 
   setNode = name => node => {
     this[`${name}Node`] = node
-  }
-
-  isNodeNotInComponent(node) {
-    if (!this.props.appendToBody)
-      return !this.rootNode.contains(node)
   }
 
   onSubmit = () => {
