@@ -4,11 +4,11 @@ import classnames from 'classnames'
 import deepmerge from 'deepmerge'
 import EventEmitter from 'events'
 import { injectSheet } from '../theme'
-import Dropdown from '../Dropdown'
 import OnClickOutside from '../OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
 import { isolateMixin } from '../utils/mixins'
+import SuggestDropdown from './SuggestDropdown'
 import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 
 @injectSheet(theme => {
@@ -200,14 +200,6 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
       width: '100%',
       background: 'white',
       boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
-    },
-    dropdown: {
-      transition: 'none',
-      animation: 'none',
-      width: '100%'
-    },
-    overlay: {
-      width: '100%'
     }
   }
 
@@ -623,25 +615,19 @@ export default class ServiceSearch extends React.Component {
     } = this.props
 
     return (
-      <Dropdown
+      <SuggestDropdown
         isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
         anchor={this.renderInput()}
-        padding={false}
-        style={dropdownStyle}
         className={classnames(classes.dropdown, dropdownClassName)}
         appendToBody={appendToBody}
-        anchorFullWidth={true}
         autoPositionY={autoPositionY}
-        anchorPointY="bottom"
-        contentPointY="top"
         overlayClassName={classes.overlay}
-        cachePositionOptions={false}
-        closeOnClickOutside={false}
+        style={dropdownStyle}
       >
         <div className={classes.suggest} ref={this.setNode('suggest')}>
           {children}
         </div>
-      </Dropdown>
+      </SuggestDropdown>
     )
   }
 

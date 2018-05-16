@@ -3,19 +3,17 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'events'
 import { injectSheet } from '../theme'
-import Dropdown from '../Dropdown'
 import OnClickOutside from '../OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import SourceButtons from './SourceButtons'
+import SuggestDropdown from './SuggestDropdown'
 import { 
   COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT 
 } from '../constants/context'
 
 @injectSheet(theme => ({
-  small: {},
-  medium: {},
   withSourceButtons: {},
   active: {},
   root: {
@@ -47,16 +45,6 @@ import {
     boxSizing: 'border-box',
     '&$active': {
       borderColor: theme.search.input.hover.borderColor
-    }
-  },
-  serviceInputWrapper: {
-    extend: 'inputWrapper',
-    borderColor: theme.field.colors.disabled.outline,
-    borderWidth: 1,
-    borderRightWidth: 1,
-
-    '& $input': {
-      fontSize: 13
     }
   },
   bottomWrapper: {
@@ -99,13 +87,6 @@ import {
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
     }
-  },
-  serviceSearchIcon: {
-    color: theme.search.input.default.icon,
-    position: 'absolute',
-    right: 15,
-    top: '50%',
-    transform: 'translateY(-50%)'
   },
   inputLeftIcon: {
     marginLeft:  12
@@ -167,23 +148,6 @@ import {
     }
   },
 
-  serviceClearIcon: {
-    position: 'absolute',
-    right: 15,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    cursor: 'pointer',
-    opacity: 0.6,
-
-    '&:hover': {
-      opacity: 1,
-      color:  theme.search.serviceIcon.hover.color
-    },
-
-    '&:active': {
-      opacity: 1
-    }
-  },
   serviceIcons: {
     display: 'flex',
     flexShrink: 0,
@@ -214,14 +178,6 @@ import {
     width: '100%',
     background: 'white',
     boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
-  },
-  dropdown: {
-    transition: 'none',
-    animation: 'none',
-    width: '100%'
-  },
-  overlay: {
-    width: '100%'
   }
 }), {name: 'ComplexSearch'})
 class ComplexSearch extends React.Component {
@@ -725,25 +681,19 @@ class ComplexSearch extends React.Component {
     } = this.props
 
     return (
-      <Dropdown
+      <SuggestDropdown
         isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
         anchor={this.renderInput()}
-        padding={false}
-        style={dropdownStyle}
         className={classnames(classes.dropdown, dropdownClassName)}
         appendToBody={appendToBody}
-        anchorFullWidth={true}
         autoPositionY={autoPositionY}
-        anchorPointY="bottom"
-        contentPointY="top"
         overlayClassName={classes.overlay}
-        cachePositionOptions={false}
-        closeOnClickOutside={false}
+        style={dropdownStyle}
       >
         <div className={classes.suggest} ref={this.setNode('suggest')}>
           {children}
         </div>
-      </Dropdown>
+      </SuggestDropdown>
     )
   }
 
