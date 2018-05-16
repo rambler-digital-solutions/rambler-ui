@@ -203,10 +203,6 @@ class ComplexSearch extends React.Component {
      */
     searchButton: PropTypes.node,
     /**
-     * Отображать крестик для удаления набранного запроса
-     */
-    withClearButton: PropTypes.bool,
-    /**
      * Объект для дополнительных стилей для кнопки
      */
     searchButtonStyle: PropTypes.object,
@@ -307,7 +303,6 @@ class ComplexSearch extends React.Component {
     appendToBody: true,
     autoPositionY: false,
     searchButton: null,
-    withClearButton: true,
     searchButtonStyle: {},
     searchButtonClassName: '',
     inputProps: {},
@@ -383,7 +378,7 @@ class ComplexSearch extends React.Component {
    * @return {Boolean}
    */
   get isClearVisible() {
-    return this.props.withClearButton && Boolean(this.state.value)
+    return Boolean(this.state.value)
   }
 
   getChildContext() {
