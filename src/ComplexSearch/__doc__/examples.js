@@ -99,6 +99,7 @@ export default class SearchExample extends Component {
             autoPositionY={false}
             inputProps={{'data-cerber-head': 'main::search'}}
             sourceType
+            serviceTooltipLabel="Поиск по новостям"
             sourceButtonsProps={(type) => ({
               'data-cerber-head': `main::${type}`
             })}
@@ -139,6 +140,7 @@ export default class SearchExample extends Component {
           <h4>SimpleSearch (topline search)</h4>
           <SimpleSearch
             sourceType
+            serviceTooltipLabel="Поиск по новостям"
           />
         </div>
       </ApplyTheme>

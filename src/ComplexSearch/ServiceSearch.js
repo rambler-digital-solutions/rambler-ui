@@ -15,7 +15,6 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
   const css = {
     small: {},
     medium: {},
-    withSourceButtons: {},
     active: {},
     root: {
       extend: isolateMixin,

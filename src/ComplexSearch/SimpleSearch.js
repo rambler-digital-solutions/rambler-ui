@@ -9,8 +9,6 @@ import { isolateMixin } from '../utils/mixins'
 
 @injectSheet(theme => {
   const css = {
-    small: {},
-    medium: {},
     withSourceButtons: {},
     active: {},
     withoutButton: {},
@@ -252,7 +250,11 @@ export default class SimpleSearch extends React.Component {
     /**
      * Для отображения поиска по сервису/интернету
      */
-    sourceType: PropTypes.bool
+    sourceType: PropTypes.bool,
+    /**
+     * 	Текст тултипа поиска по сервису
+     */
+    serviceTooltipLabel: PropTypes.string
   };
 
   static defaultProps = {

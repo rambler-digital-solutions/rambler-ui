@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import Tooltip from '../Tooltip'
 import { injectSheet } from '../theme'
 import GlobalSearchIcon from '../icons/forms/GlobalSearchIcon'
 import ServiceSearchIcon from '../icons/forms/ServiceSearchIcon'
@@ -47,6 +48,10 @@ export default class SourceButtons extends React.Component {
      */
     sourceButtonsProps: PropTypes.func,
     /**
+     * 	Текст тултипа поиска по сервису
+     */
+    serviceTooltipLabel: PropTypes.string,
+    /**
      * 	Коллбек клика по иконке
      */
     onSourceIconClick: PropTypes.func,
@@ -58,29 +63,43 @@ export default class SourceButtons extends React.Component {
 
   static defaultProps = {
     className: '',
-    sourceButtonsProps: () => ({})
+    sourceButtonsProps: () => ({}),
+    serviceTooltipLabel: ''
   };
 
   render() {
-    const {classes, sourceButtonsProps, className, activeType, onSourceIconClick} = this.props
+    const {
+      classes, 
+      sourceButtonsProps,
+      serviceTooltipLabel,
+      className, 
+      activeType, 
+      onSourceIconClick
+    } = this.props
     return (
       <div className={classnames(classes.root, className)}>
-        <GlobalSearchIcon
-          onClick={() => onSourceIconClick('global')}
-          className={classnames(classes.icon, {
-            [classes.active]: activeType === 'global'
-          })}
-          color="currentColor"
-          {...sourceButtonsProps('global')}
-        />
-        <ServiceSearchIcon
-          onClick={() => onSourceIconClick('service')}
-          color="currentColor"
-          className={classnames(classes.icon, {
-            [classes.active]: activeType === 'service'
-          })}
-          {...sourceButtonsProps('service')}
-        />
+        <Tooltip content="Искать в интернете">
+          <GlobalSearchIcon
+            onClick={() => onSourceIconClick('global')}
+            className={classnames(classes.icon, {
+              [classes.active]: activeType === 'global'
+            })}
+            color="currentColor"
+            {...sourceButtonsProps('global')}
+          />
+        </Tooltip>
+        <Tooltip content={serviceTooltipLabel}>
+          <div>
+            <ServiceSearchIcon
+              onClick={() => onSourceIconClick('service')}
+              color="currentColor"
+              className={classnames(classes.icon, {
+                [classes.active]: activeType === 'service'
+              })}
+              {...sourceButtonsProps('service')}
+            />
+          </div>
+        </Tooltip>
       </div>
     )
   }
