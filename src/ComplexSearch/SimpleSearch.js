@@ -315,7 +315,6 @@ class SimpleSearch extends React.Component {
       classes,
       onSearchInput,
       onKeyDown,
-      setNode,
       onFocusInput,
       onBlurInput,
       value
@@ -332,7 +331,6 @@ class SimpleSearch extends React.Component {
         className={classes.input}
         placeholder={placeholder}
         {...inputProps}
-        ref={setNode('input')}
       />
     )
   }
@@ -408,8 +406,7 @@ class SimpleSearch extends React.Component {
       style,
       className,
       sourceType,
-      showSearchButton,
-      setNode
+      showSearchButton
     } = this.props
 
     return (
@@ -421,7 +418,6 @@ class SimpleSearch extends React.Component {
           className,
         )}
         style={style}
-        ref={setNode('root')}
       >
         <div className={classes.inputRow}>
           {this.renderInput()}

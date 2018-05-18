@@ -1,14 +1,13 @@
-import React, { Children, cloneElement } from 'react'
+import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
-import OnClickOutside from '../OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import SourceButtons from './SourceButtons'
-import SuggestDropdown from './SuggestDropdown'
 import provideSearch from './provideSearch'
+import provideSearchDropdown from './provideSearchDropdown'
 import { 
   COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT 
 } from '../constants/context'
@@ -173,11 +172,6 @@ import {
     '&$active': {
       opacity: 1
     }
-  },
-  suggest: {
-    width: '100%',
-    background: 'white',
-    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
   }
 }), {name: 'ComplexSearch'})
 class ComplexSearch extends React.Component {
@@ -362,26 +356,6 @@ class ComplexSearch extends React.Component {
     return Boolean(this.props.value)
   }
 
-  onBlur = (e) => {
-    // на всякий случай проверяем, находится у нас еще компонент в DOM, т.к. React может прислать blur после анмаунта компонента
-    if (this.rootNode && e.relatedTarget && this.isNodeNotInComponent(e.relatedTarget))       
-      this.closeDropdown()
-    
-    this.props.onBlurInput()
-  }
-
-  isNodeNotInComponent(node) {
-    if (!this.props.appendToBody)
-      return !this.rootNode.contains(node)
-    return (!this.suggestNode || this.suggestNode !== node && !this.suggestNode.contains(node)) &&
-      (this.rootNode !== node && !this.rootNode.contains(node))
-  }
-
-  onClickOutside = (e) => {
-    if (this.rootNode && e.target && this.isNodeNotInComponent(e.target))
-      this.props.closeDropdown()
-  }
-
   onSourceIconClick = (type) => {
     this.setState({sourceType: type})
   }
@@ -405,18 +379,19 @@ class ComplexSearch extends React.Component {
       classes,
       setNode,
       onKeyDown,
-      onSearchInput,
-      onFocusInput,
+      onSearch,
+      onFocus,
+      onBlur,
       value
     } = this.props
 
     return (
       <input
         type="text"
-        onChange={onSearchInput}
+        onChange={onSearch}
         onKeyDown={onKeyDown}
-        onFocus={onFocusInput}
-        onBlur={this.onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={value}
         className={classes.input}
         placeholder={placeholder}
@@ -521,32 +496,7 @@ class ComplexSearch extends React.Component {
   }
 
   renderDropdown() {
-    const {
-      children,
-      appendToBody,
-      autoPositionY,
-      dropdownStyle,
-      dropdownClassName,
-      isDropdownOpened,
-      classes,
-      setNode
-    } = this.props
-
-    return (
-      <SuggestDropdown
-        isOpened={isDropdownOpened && Children.count(children) > 0}
-        anchor={this.renderInput()}
-        className={classnames(classes.dropdown, dropdownClassName)}
-        appendToBody={appendToBody}
-        autoPositionY={autoPositionY}
-        overlayClassName={classes.overlay}
-        style={dropdownStyle}
-      >
-        <div className={classes.suggest} ref={setNode('suggest')}>
-          {children}
-        </div>
-      </SuggestDropdown>
-    )
+    return this.props.renderDropdown(this.renderInput())
   }
 
   render() {
@@ -560,25 +510,23 @@ class ComplexSearch extends React.Component {
     const button = this.renderButton()
 
     return (
-      <OnClickOutside handler={this.onClickOutside}>
-        <div
-          className={classnames(
-            classes.root,
-            !button && classes.withoutButton,
-            className,
-            sourceType && classes.withSourceButtons
-          )}
-          style={style}
-          ref={setNode('root')}
-        >
-          <div className={classes.inputRow}>
-            {this.renderDropdown()}
-            {button}
-          </div>
+      <div
+        className={classnames(
+          classes.root,
+          !button && classes.withoutButton,
+          className,
+          sourceType && classes.withSourceButtons
+        )}
+        style={style}
+        ref={setNode('root')}
+      >
+        <div className={classes.inputRow}>
+          {this.renderDropdown()}
+          {button}
         </div>
-      </OnClickOutside>
+      </div>
     )
   }
 }
 
-export default provideSearch(ComplexSearch)
+export default provideSearch(provideSearchDropdown(ComplexSearch))

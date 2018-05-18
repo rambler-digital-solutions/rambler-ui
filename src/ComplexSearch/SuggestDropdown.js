@@ -16,6 +16,11 @@ import {
   },
   overlay: {
     width: '100%'
+  },
+  suggest: {
+    width: '100%',
+    background: 'white',
+    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
   }
 }), {name: 'SuggestDropdown'})
 export default class SuggestDropdown extends React.Component {
@@ -53,7 +58,8 @@ export default class SuggestDropdown extends React.Component {
     autoPositionY: false,
     appendToBody: true,
     overlayClassName: '',
-    style: {}
+    style: {},
+    setNode: () => {}
   }
 
   static contextTypes = {
@@ -114,7 +120,9 @@ export default class SuggestDropdown extends React.Component {
         cachePositionOptions={false}
         closeOnClickOutside={false}
       >
-        {children}
+        <div className={classes.suggest}>
+          {children}
+        </div>
       </Dropdown>
     )
   }

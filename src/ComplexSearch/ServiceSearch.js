@@ -1,14 +1,13 @@
-import React, { Children } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import deepmerge from 'deepmerge'
 import { injectSheet } from '../theme'
-import OnClickOutside from '../OnClickOutside'
 import ClearIcon from '../icons/forms/ClearIcon'
 import SearchIcon from '../icons/forms/SearchIcon'
 import { isolateMixin } from '../utils/mixins'
-import SuggestDropdown from './SuggestDropdown'
 import provideSearch from './provideSearch'
+import provideSearchDropdown from './provideSearchDropdown'
 
 @injectSheet(theme => {
   const css = {
@@ -193,11 +192,6 @@ import provideSearch from './provideSearch'
       '&$active': {
         opacity: 1
       }
-    },
-    suggest: {
-      width: '100%',
-      background: 'white',
-      boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
     }
   }
 
@@ -343,28 +337,9 @@ class ServiceSearch extends React.Component {
     return Boolean(this.state.value)
   }
   
-  isNodeNotInComponent(node) {
-    if (!this.props.appendToBody)
-      return !this.rootNode.contains(node)
-    return (!this.suggestNode || this.suggestNode !== node && !this.suggestNode.contains(node)) &&
-      (this.rootNode !== node && !this.rootNode.contains(node))
-  }
-
-  onClickOutside = (e) => {
-    if (this.rootNode && e.target && this.isNodeNotInComponent(e.target))
-      this.closeDropdown()
-  }
 
   onSourceIconClick = (type) => {
     this.setState({sourceType: type})
-  }
-
-  onBlur = (e) => {
-    // на всякий случай проверяем, находится у нас еще компонент в DOM, т.к. React может прислать blur после анмаунта компонента
-    if (this.rootNode && e.relatedTarget && this.isNodeNotInComponent(e.relatedTarget))       
-      this.closeDropdown()
-    
-    this.props.onBlurInput()
   }
 
   renderInputNode() {
@@ -372,20 +347,21 @@ class ServiceSearch extends React.Component {
       placeholder,
       inputProps,
       classes,
-      onSearchInput,
+      onSearch,
+      onBlur,
       onKeyDown,
       setNode,
-      onFocusInput,
+      onFocus,
       value
     } = this.props
 
     return (
       <input
         type="text"
-        onChange={onSearchInput}
+        onChange={onSearch}
         onKeyDown={onKeyDown}
-        onFocus={onFocusInput}
-        onBlur={this.onBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
         value={value}
         className={classes.input}
         placeholder={placeholder}
@@ -425,32 +401,7 @@ class ServiceSearch extends React.Component {
   }
 
   renderDropdown() {
-    const {
-      children,
-      appendToBody,
-      autoPositionY,
-      dropdownStyle,
-      dropdownClassName,
-      classes,
-      setNode,
-      isDropdownOpened
-    } = this.props
-
-    return (
-      <SuggestDropdown
-        isOpened={isDropdownOpened && Children.count(children) > 0}
-        anchor={this.renderInput()}
-        className={classnames(classes.dropdown, dropdownClassName)}
-        appendToBody={appendToBody}
-        autoPositionY={autoPositionY}
-        overlayClassName={classes.overlay}
-        style={dropdownStyle}
-      >
-        <div className={classes.suggest} ref={setNode('suggest')}>
-          {children}
-        </div>
-      </SuggestDropdown>
-    )
+    return this.props.renderDropdown(this.renderInput())
   }
 
   render() {
@@ -463,23 +414,21 @@ class ServiceSearch extends React.Component {
     } = this.props
 
     return (
-      <OnClickOutside handler={this.onClickOutside}>
-        <div
-          className={classnames(
-            classes.root,
-            className,
-            classes[`size-${size}`]
-          )}
-          style={style}
-          ref={setNode('root')}
-        >
-          <div className={classes.inputRow}>
-            {this.renderDropdown()}
-          </div>
+      <div
+        className={classnames(
+          classes.root,
+          className,
+          classes[`size-${size}`]
+        )}
+        style={style}
+        ref={setNode('root')}
+      >
+        <div className={classes.inputRow}>
+          {this.renderDropdown()}
         </div>
-      </OnClickOutside>
+      </div>
     )
   }
 }
 
-export default provideSearch(ServiceSearch)
+export default provideSearch(provideSearchDropdown(ServiceSearch))
