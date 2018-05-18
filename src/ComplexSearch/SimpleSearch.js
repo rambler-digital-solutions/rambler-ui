@@ -1,11 +1,11 @@
 import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'events'
 import { injectSheet } from '../theme'
 import SearchIcon from '../icons/forms/SearchIcon'
 import SourceButtons from './SourceButtons'
 import { isolateMixin } from '../utils/mixins'
+import provideSearch from './provideSearch'
 
 @injectSheet(theme => {
   const css = {
@@ -173,7 +173,7 @@ import { isolateMixin } from '../utils/mixins'
 
   return css
 }, {name: 'SimpleSearch'})
-export default class SimpleSearch extends React.Component {
+class SimpleSearch extends React.Component {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента Search
@@ -273,14 +273,8 @@ export default class SimpleSearch extends React.Component {
     onPressEnter() {}
   };
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      sourceType: 'global',
-      value: this.props.value
-    }
-    this.events = new EventEmitter
-    this.events.setMaxListeners(0)
+  state = {
+    sourceType: 'global'
   }
 
   /**
@@ -289,55 +283,6 @@ export default class SimpleSearch extends React.Component {
    */
   get isClearVisible() {
     return Boolean(this.state.value)
-  }
-
-  componentWillUnmount() {
-    this.events.removeAllListeners()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.value !== nextProps.value)
-      this.setState({
-        value: nextProps.value
-      })
-  }
-
-  setNode = name => node => {
-    this[`${name}Node`] = node
-  }
-
-  onSubmit = () => {
-    this.props.onSubmit(this.state.value)
-  }
-
-  onKeyDown = (e) => {
-    if (!this.inputNode) // на всякий случай проверяем не пришло ли событие после анмаунта компонента
-      return
-
-    switch (e.key) {
-    case 'Enter':
-      e.preventDefault()
-      this.props.onPressEnter(this.state.value)
-      break
-
-    case 'Escape':
-      e.preventDefault()
-      break
-    }
-  }
-
-  onFocus = () => {
-    this.props.onFocus()
-  }
-
-  onBlur = () => {
-    this.props.onBlur()
-  }
-
-  onSearchInput = (e) => {
-    const value = e.target.value
-    this.setState({value})
-    this.props.onSearch(value, {globalSearch: this.state.sourceType})
   }
 
   onSourceIconClick = (type) => {
@@ -367,21 +312,27 @@ export default class SimpleSearch extends React.Component {
     const {
       placeholder,
       inputProps,
-      classes
+      classes,
+      onSearchInput,
+      onKeyDown,
+      setNode,
+      onFocusInput,
+      onBlurInput,
+      value
     } = this.props
 
     return (
       <input
         type="text"
-        onChange={this.onSearchInput}
-        onKeyDown={this.onKeyDown}
-        onFocus={this.onFocus}
-        onBlur={this.onBlur}
-        value={this.state.value}
+        onChange={onSearchInput}
+        onKeyDown={onKeyDown}
+        onFocus={onFocusInput}
+        onBlur={onBlurInput}
+        value={value}
         className={classes.input}
         placeholder={placeholder}
         {...inputProps}
-        ref={this.setNode('input')}
+        ref={setNode('input')}
       />
     )
   }
@@ -457,7 +408,8 @@ export default class SimpleSearch extends React.Component {
       style,
       className,
       sourceType,
-      showSearchButton
+      showSearchButton,
+      setNode
     } = this.props
 
     return (
@@ -469,7 +421,7 @@ export default class SimpleSearch extends React.Component {
           className,
         )}
         style={style}
-        ref={this.setNode('root')}
+        ref={setNode('root')}
       >
         <div className={classes.inputRow}>
           {this.renderInput()}
@@ -478,3 +430,5 @@ export default class SimpleSearch extends React.Component {
     )
   }
 }
+
+export default provideSearch(SimpleSearch)

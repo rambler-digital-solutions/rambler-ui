@@ -7,32 +7,29 @@ import {
 
 export default function provideSearch(Search) {
   return class extends Component {
-    constructor(props) {
-      super(props)
-
-      this.state = {
-        isDropdownOpened: false,
-        sourceType: 'global',
-        value: this.props.value
-      }
-
-      this.events = new EventEmitter
-      this.events.setMaxListeners(0)
-
-      /**
-     * Упорядоченный массив с зарегестрированными компонентами SuggestItem
-     * @type {Array}
-     */
-      this.sortedSuggestItems = []
-      /**
-     * Объект с сохраненными suggestItems
-     */
-      this.suggestItems = {}
-      /**
-     * Текущий подсвеченный элемент
-     */
-      this.highlightedSuggestItemId = null
-    }
+    static defaultProps = {
+      value: '',
+      placeholder: '',
+      division: null,
+      appendToBody: true,
+      autoPositionY: false,
+      searchButton: null,
+      searchButtonStyle: {},
+      searchButtonClassName: '',
+      inputProps: {},
+      searchButtonProps: {},
+      sourceButtonsProps: () => ({}),
+      sourceType: false,
+      onSearch() {},
+      onFocus() {},
+      onBlur() {},
+      onSelectItem() {},
+      onClickItem() {},
+      onRemoveItem() {},
+      onHoverItem() {},
+      onSubmit() {},
+      onPressEnter() {}
+    };
 
     static childContextTypes = {
       [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
@@ -62,6 +59,44 @@ export default function provideSearch(Search) {
         events: PropTypes.instanceOf(EventEmitter)
       })
     };
+
+    constructor(props) {
+      super(props)
+
+      this.state = {
+        isDropdownOpened: false,
+        sourceType: 'global',
+        value: this.props.value
+      }
+
+      this.events = new EventEmitter
+      this.events.setMaxListeners(0)
+
+      /**
+      * Упорядоченный массив с зарегестрированными компонентами SuggestItem
+      * @type {Array}
+      */
+      this.sortedSuggestItems = []
+      /**
+      * Объект с сохраненными suggestItems
+      */
+      this.suggestItems = {}
+      /**
+      * Текущий подсвеченный элемент
+      */
+      this.highlightedSuggestItemId = null
+    }
+
+    componentWillUnmount() {
+      this.events.removeAllListeners()
+    }
+
+    componentWillReceiveProps(nextProps) {
+      if (this.props.value !== nextProps.value)
+        this.setState({
+          value: nextProps.value
+        })
+    }
 
     getChildContext() {
       return {
@@ -111,6 +146,39 @@ export default function provideSearch(Search) {
       }
     }
 
+    openDropdown() {
+      this.setState({isDropdownOpened: true})
+    }
+
+    onSubmit = () => {
+      this.props.onSubmit(this.state.value)
+    }
+  
+    onFocus = () => {
+      this.openDropdown()
+      this.props.onFocus()
+    }
+  
+    onBlur = () => {      
+      this.props.onBlur()
+    }
+
+    onSearchInput = (e) => {
+      const value = e.target.value
+      this.setHighlightedId(null)
+      this.setState({value})
+      this.openDropdown()
+      this.props.onSearch(value, {globalSearch: this.state.sourceType})
+    }
+
+    clearForm = () => {
+      const value = ''
+      this.setState({value})
+      this.setHighlightedId(null)
+      this.inputNode.focus()
+      this.props.onSearch(value)
+    }
+  
     onKeyDown = (e) => {
       if (!this.inputNode) // на всякий случай проверяем не пришло ли событие после анмаунта компонента
         return
@@ -149,25 +217,30 @@ export default function provideSearch(Search) {
       }
     }
   
-    // onSearchInput = (e) => {
-    //   const value = e.target.value
-    //   this.setHighlightedId(null)
-    //   this.setState({value})
-    //   this.openDropdown()
-    //   this.props.onSearch(value, {globalSearch: this.state.sourceType})
-    // }
-
     setNode = name => node => {
       this[`${name}Node`] = node
     }
 
     render() {
+      const {
+        value,
+        isDropdownOpened
+      } = this.state
+
       return <Search
         {...this.props}
-        value={this.state.value}
+        value={value}
+        isDropdownOpened={isDropdownOpened}
+        clearForm={this.clearForm}
         setNode={this.setNode}
+        onSubmitInput={this.onSubmit}
+        onBlurInput={this.onBlur}
+        onFocusInput={this.onFocus}
+        openDropdown={this.openDropdown}
+        closeDropdown={this.closeDropdown}
         onKeyDown={this.onKeyDown}
-        // onSearchInput={this.onSearch}
+        onSearchInput={this.onSearchInput}
+        setHighlightedId={this.setHighlightedId}
       />
     }
   }

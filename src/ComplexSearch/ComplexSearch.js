@@ -350,13 +350,8 @@ class ComplexSearch extends React.Component {
   }
 
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      isDropdownOpened: false,
-      sourceType: 'global',
-      value: this.props.value
-    }
+  state = {
+    sourceType: 'global'
   }
 
   /**
@@ -364,22 +359,15 @@ class ComplexSearch extends React.Component {
    * @return {Boolean}
    */
   get isClearVisible() {
-    return Boolean(this.state.value)
+    return Boolean(this.props.value)
   }
 
-  componentWillUnmount() {
-    this.events.removeAllListeners()
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (this.props.value !== nextProps.value)
-      this.setState({
-        value: nextProps.value
-      })
-  }
-
-  setNode = name => node => {
-    this[`${name}Node`] = node
+  onBlur = (e) => {
+    // на всякий случай проверяем, находится у нас еще компонент в DOM, т.к. React может прислать blur после анмаунта компонента
+    if (this.rootNode && e.relatedTarget && this.isNodeNotInComponent(e.relatedTarget))       
+      this.closeDropdown()
+    
+    this.props.onBlurInput()
   }
 
   isNodeNotInComponent(node) {
@@ -389,66 +377,13 @@ class ComplexSearch extends React.Component {
       (this.rootNode !== node && !this.rootNode.contains(node))
   }
 
-  initializeSortedSuggestItems() {
-    if (!this.suggestNode) {
-      this.sortedSuggestItems = []
-    } else {
-      const items = this.suggestNode.querySelectorAll('[data-suggest-item-id]')
-      this.sortedSuggestItems = Array.prototype.slice.call(items).map((node) =>
-        node.getAttribute('data-suggest-item-id')
-      )
-    }
-  }
-
-  onSubmit = () => {
-    this.props.onSubmit(this.state.value)
-  }
-
-  onFocus = () => {
-    this.openDropdown()
-    this.props.onFocus()
-  }
-
-  onBlur = (e) => {
-    // на всякий случай проверяем, находится у нас еще компонент в DOM, т.к. React может прислать blur после анмаунта компонента
-    if (this.rootNode && e.relatedTarget && this.isNodeNotInComponent(e.relatedTarget))
-      this.closeDropdown()
-
-    this.props.onBlur()
-  }
-
-  onSearchInput = (e) => {
-    const value = e.target.value
-    // this.setHighlightedId(null)
-    this.setState({value})
-    this.openDropdown()
-    this.props.onSearch(value, {globalSearch: this.state.sourceType})
-  }
-
   onClickOutside = (e) => {
     if (this.rootNode && e.target && this.isNodeNotInComponent(e.target))
-      this.closeDropdown()
+      this.props.closeDropdown()
   }
 
   onSourceIconClick = (type) => {
     this.setState({sourceType: type})
-  }
-
-  openDropdown() {
-    this.setState({isDropdownOpened: true})
-  }
-
-  closeDropdown() {
-    // this.setHighlightedId(null)
-    this.setState({isDropdownOpened: false})
-  }
-
-  clearForm = () => {
-    const value = ''
-    // this.setHighlightedId(null)
-    this.setState({value})
-    this.inputNode.focus()
-    this.props.onSearch(value)
   }
 
   renderInputIcon() {
@@ -469,17 +404,20 @@ class ComplexSearch extends React.Component {
       inputProps,
       classes,
       setNode,
-      onKeyDown
+      onKeyDown,
+      onSearchInput,
+      onFocusInput,
+      value
     } = this.props
 
     return (
       <input
         type="text"
-        onChange={this.onSearchInput}
+        onChange={onSearchInput}
         onKeyDown={onKeyDown}
-        onFocus={this.onFocus}
+        onFocus={onFocusInput}
         onBlur={this.onBlur}
-        value={this.state.value}
+        value={value}
         className={classes.input}
         placeholder={placeholder}
         {...inputProps}
@@ -492,7 +430,8 @@ class ComplexSearch extends React.Component {
     const {
       division,
       inputWrapperClassName,
-      classes
+      classes,
+      isDropdownOpened
     } = this.props
 
     return (
@@ -500,7 +439,7 @@ class ComplexSearch extends React.Component {
         className={classnames(
           classes.inputWrapper, 
           inputWrapperClassName, 
-          this.state.isDropdownOpened && classes.active
+          isDropdownOpened && classes.active
         )}
       >
         {division && <div className={classes.division}>{division}</div> }
@@ -524,7 +463,7 @@ class ComplexSearch extends React.Component {
           className={classes.serviceIcon}
           size={15}
           color="currentColor"
-          onClick={this.clearForm}
+          onClick={this.props.clearForm}
         ></ClearIcon>}
         {sourceType && <SourceButtons
           serviceTooltipLabel={serviceTooltipLabel}
@@ -542,7 +481,8 @@ class ComplexSearch extends React.Component {
       searchButton,
       searchButtonStyle,
       searchButtonClassName,
-      searchButtonProps
+      searchButtonProps,
+      onSubmitInput
     } = this.props
 
     if (!searchButton)
@@ -555,7 +495,7 @@ class ComplexSearch extends React.Component {
     return (
       <button
         className={classnames(classes.searchButton, searchButtonClassName)}
-        onClick={this.onSubmit}
+        onClick={onSubmitInput}
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}
@@ -587,13 +527,14 @@ class ComplexSearch extends React.Component {
       autoPositionY,
       dropdownStyle,
       dropdownClassName,
+      isDropdownOpened,
       classes,
       setNode
     } = this.props
 
     return (
       <SuggestDropdown
-        isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
+        isOpened={isDropdownOpened && Children.count(children) > 0}
         anchor={this.renderInput()}
         className={classnames(classes.dropdown, dropdownClassName)}
         appendToBody={appendToBody}
