@@ -78,24 +78,28 @@ export default class SourceButtons extends React.Component {
     } = this.props
     return (
       <div className={classnames(classes.root, className)}>
-        <Tooltip content="Искать в интернете">
+        <Tooltip 
+          content="Искать в интернете"
+          className={classnames(classes.icon, {
+            [classes.active]: activeType === 'global'
+          })}
+        >
           <GlobalSearchIcon
             onClick={() => onSourceIconClick('global')}
-            className={classnames(classes.icon, {
-              [classes.active]: activeType === 'global'
-            })}
             color="currentColor"
             {...sourceButtonsProps('global')}
           />
         </Tooltip>
-        <Tooltip content={serviceTooltipLabel}>
+        <Tooltip 
+          content={serviceTooltipLabel}
+          className={classnames(classes.icon, {
+            [classes.active]: activeType === 'service'
+          })}
+        >
           <div>
             <ServiceSearchIcon
               onClick={() => onSourceIconClick('service')}
               color="currentColor"
-              className={classnames(classes.icon, {
-                [classes.active]: activeType === 'service'
-              })}
               {...sourceButtonsProps('service')}
             />
           </div>

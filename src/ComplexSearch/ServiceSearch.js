@@ -195,7 +195,7 @@ import provideSearchDropdown from './provideSearchDropdown'
     }
   }
 
-  deepmerge(css, ['small', 'medium'].reduce((result, size) => {
+  return deepmerge(css, ['small', 'medium'].reduce((result, size) => {
     const styles = theme.search.sizes[size]
 
     return {
@@ -207,8 +207,6 @@ import provideSearchDropdown from './provideSearchDropdown'
       }
     }
   }, {}))
-
-  return css
 }, {name: 'ServiceSearch'})
 class ServiceSearch extends React.Component {
   static propTypes = {
@@ -334,7 +332,7 @@ class ServiceSearch extends React.Component {
    * @return {Boolean}
    */
   get isClearVisible() {
-    return Boolean(this.state.value)
+    return Boolean(this.props.value)
   }
   
 

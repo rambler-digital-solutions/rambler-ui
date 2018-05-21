@@ -277,16 +277,12 @@ class SimpleSearch extends React.Component {
     sourceType: 'global'
   }
 
-  /**
-   * Показывать ли крестик очищения input
-   * @return {Boolean}
-   */
-  get isClearVisible() {
-    return Boolean(this.state.value)
-  }
-
   onSourceIconClick = (type) => {
     this.setState({sourceType: type})
+  }
+
+  onSearch = (e) => {
+    this.props.onSearch(e, {globalSearch: this.state.sourceType})
   }
 
   clearForm = () => {
@@ -313,7 +309,6 @@ class SimpleSearch extends React.Component {
       placeholder,
       inputProps,
       classes,
-      onSearchInput,
       onKeyDown,
       onFocusInput,
       onBlurInput,
@@ -323,7 +318,7 @@ class SimpleSearch extends React.Component {
     return (
       <input
         type="text"
-        onChange={onSearchInput}
+        onChange={this.onSearch}
         onKeyDown={onKeyDown}
         onFocus={onFocusInput}
         onBlur={onBlurInput}

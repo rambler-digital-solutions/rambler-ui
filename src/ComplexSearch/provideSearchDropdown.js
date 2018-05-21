@@ -167,8 +167,8 @@ export default function provideSearchDropdown(Search) {
       this.props.onBlur()
     }
 
-    onSearch = (e) => {
-      this.props.onSearch(e)
+    onSearch = (e, options = {}) => {
+      this.props.onSearch(e, options)
       this.setHighlightedId(null)
       this.openDropdown()
     }

@@ -356,6 +356,10 @@ class ComplexSearch extends React.Component {
     return Boolean(this.props.value)
   }
 
+  onSearch = (e) => {
+    this.props.onSearch(e, {globalSearch: this.state.sourceType})
+  }
+
   onSourceIconClick = (type) => {
     this.setState({sourceType: type})
   }
@@ -379,7 +383,6 @@ class ComplexSearch extends React.Component {
       classes,
       setNode,
       onKeyDown,
-      onSearch,
       onFocus,
       onBlur,
       value
@@ -388,7 +391,7 @@ class ComplexSearch extends React.Component {
     return (
       <input
         type="text"
-        onChange={onSearch}
+        onChange={this.onSearch}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
         onBlur={onBlur}

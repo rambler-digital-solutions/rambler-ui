@@ -53,10 +53,10 @@ export default function provideSearch(Search) {
       this.props.onBlur()
     }
 
-    onSearch = (e) => {
+    onSearch = (e, options = {}) => {
       const value = e.target.value
       this.setState({value})
-      this.props.onSearch(value, {globalSearch: this.state.sourceType})
+      this.props.onSearch(value, options)
     }
 
     clearForm = () => {

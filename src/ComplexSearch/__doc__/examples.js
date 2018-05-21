@@ -8,7 +8,32 @@ import React, { Component } from 'react'
 import { ApplyTheme } from 'rambler-ui/theme'
 import SearchIcon from 'rambler-ui/icons/forms/SearchIcon'
 
-const queryResults = [
+const mediaInputResults = {
+  global: [
+    ['base', 'это россия детка русские приколы 2015 выпуск 8', '10', ''],
+    ['base', 'это рыночная форма в которой на рынке доминирует небольшое количество продавцов', '8', ''],
+    ['base', 'это россия детка её не победить', '7', ''],
+    ['base', 'это ретро', '6', ''],
+    ['base', 'это русская наследница с первой до последней серии', '5', ''],
+    ['base', 'это рукопашный бой', '4', ''],
+    ['base', 'это расширение контролируется правилами и не может быть удалено или отключено', '3', ''],
+    ['base', 'это работает вк', '2', ''],
+    ['base', 'это россия детка ютуб', '1', '']
+  ],
+  service: [
+    ['base', 'кексы рецепты самые простые', '10', ''],
+    ['base', 'кекусин кан', '9', ''], ['base', 'кекс', '8', ''],
+    ['base', 'кексы', '7', ''],
+    ['base', 'кекс фм', '6', ''],
+    ['base', 'кекс шоп 2', '5', ''], 
+    ['base', 'кекс шоп 2 играть онлайн', '4', ''], 
+    ['base', 'кекс на кефире', '3', ''], 
+    ['base', 'кекс на сметане', '2', ''], 
+    ['base', 'кекс шоп 3 играть', '1', '']
+  ]
+}
+
+const serviceInputResults = [
   ['base', 'это россия детка русские приколы 2015 выпуск 8', '10', ''],
   ['base', 'это рыночная форма в которой на рынке доминирует небольшое количество продавцов', '8', ''],
   ['base', 'это россия детка её не победить', '7', ''],
@@ -17,23 +42,44 @@ const queryResults = [
   ['base', 'это рукопашный бой', '4', ''],
   ['base', 'это расширение контролируется правилами и не может быть удалено или отключено', '3', ''],
   ['base', 'это работает вк', '2', ''],
-  ['base', 'это россия детка ютуб', '1', '']
+  ['base', 'это россия детка ютуб', '1', ''] 
 ]
 
 export default class SearchExample extends Component {
   state = {
-    items: [],
+    mediaSearchItems: [],
+    serviceSearchItems: [],
     query: '',
-    value: ''
+    value: '',
+    serviceValue: ''
   }
 
-  fetchQuery = (query) => {
+  fetchQuery = (query, options) => {
     if (!query) {
-      this.setState({items: []})
+      this.setState({mediaInputResults: []})
       return false
     }
+
+    if (options.globalSearch === 'service')
+      this.setState({
+        mediaSearchItems: mediaInputResults.service,
+        query
+      })
+    else 
+      this.setState({
+        mediaSearchItems: mediaInputResults.global,
+        query
+      })
+  }
+
+  fetchServiceQuery = (query) => {
+    if (!query) {
+      this.setState({serviceSearchItems: []})
+      return false
+    }
+
     this.setState({
-      items: queryResults,
+      serviceSearchItems: serviceInputResults,
       query
     })
   }
@@ -59,8 +105,17 @@ export default class SearchExample extends Component {
     this.goToSearch(query)
   }
 
+  onServiceEnter = (query) => {
+    this.setState({serviceValue: query})
+    this.goToSearch(query)
+  }
+
   onSelectItem = (query) => {
     this.setState({value: query, query})
+  }
+
+  onServiceSelectItem = (query) => {
+    this.setState({serviceValue: query, query})
   }
 
   onItemClick = (query) => {
@@ -83,6 +138,17 @@ export default class SearchExample extends Component {
     return (
       <ApplyTheme>
         <div>
+          <style>
+            {`
+              .example-topline-search {
+                width: 270px;
+              }
+
+              .example-topline-search-wrapper {
+                border: solid 1px rgba(141, 150, 178, 0.3);
+              }
+            `}
+          </style>
           <h4>ComplexSearch</h4>
           <ComplexSearch
             value={this.state.value}
@@ -105,7 +171,7 @@ export default class SearchExample extends Component {
             })}
             searchButtonProps={{'data-cerber-head': 'main::button'}}
           >
-            {this.state.items.map(item => (
+            {this.state.mediaSearchItems.map(item => (
               <div key={item[0] + item[2]} style={{borderTop: '1px solid #eee'}}>
                 <SuggestItem
                   value={item[1]}
@@ -125,22 +191,42 @@ export default class SearchExample extends Component {
           <br />
           <h4>ServiceSearch</h4>
           <ServiceSearch
-            layout="service"
             placeholder="Сервисный инпут"
+            value={this.state.serviceValue}
+            onSearch={this.fetchServiceQuery.bind(this)}
+            onSelectItem={this.onServiceSelectItem}
+            onClickItem={this.onItemClick}
+            hint={this.renderHint()}
+            bottomLinks={this.renderBottomLinks()}
+            onPressEnter={this.onServiceEnter}
+            placeholder="Напишите 'это...'"
+            searchButton="Search"
+            searchButtonStyle={{minWidth: 125}}
           >
+            {this.state.serviceSearchItems.map(item => (
+              <div key={item[0] + item[2]} style={{borderTop: '1px solid #eee'}}>
+                <SuggestItem
+                  value={item[1]}
+                >
+                  {this.renderItem(item[1])}
+                </SuggestItem>
+              </div>)
+            )}
           </ServiceSearch>
           <br />
           <ServiceSearch
             size="small"
-            layout="service"
             placeholder="Сервисный инпут маленький"
           >
           </ServiceSearch>
           <br />
           <h4>SimpleSearch (topline search)</h4>
           <SimpleSearch
+            placeholder="Поиск в топлайне"
             sourceType
             serviceTooltipLabel="Поиск по новостям"
+            className="example-topline-search"
+            inputWrapperClassName="example-topline-search-wrapper"
           />
         </div>
       </ApplyTheme>
