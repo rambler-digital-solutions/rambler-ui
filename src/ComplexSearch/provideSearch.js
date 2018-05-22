@@ -30,10 +30,6 @@ export default function provideSearch(Search) {
       value: this.props.value
     }
 
-    componentWillUnmount() {
-      this.events.removeAllListeners()
-    }
-
     componentWillReceiveProps(nextProps) {
       if (this.props.value !== nextProps.value)
         this.setState({
@@ -47,10 +43,6 @@ export default function provideSearch(Search) {
   
     onFocus = () => {
       this.props.onFocus()
-    }
-  
-    onBlur = () => {      
-      this.props.onBlur()
     }
 
     onSearch = (e, options = {}) => {
@@ -93,7 +85,7 @@ export default function provideSearch(Search) {
         clearForm={this.clearForm}
         setNode={this.setNode}
         onSubmit={this.onSubmit}
-        onBlur={this.onBlur}
+        onBlur={this.props.onBlur}
         onFocus={this.onFocus}
         onKeyDown={this.onKeyDown}
         onSearch={this.onSearch}

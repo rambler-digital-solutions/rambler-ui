@@ -8,12 +8,8 @@ import { isolateMixin } from '../utils/mixins'
 import SourceButtons from './SourceButtons'
 import provideSearch from './provideSearch'
 import provideSearchDropdown from './provideSearchDropdown'
-import { 
-  COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT 
-} from '../constants/context'
 
 @injectSheet(theme => ({
-  withSourceButtons: {},
   active: {},
   root: {
     extend: isolateMixin,
@@ -318,32 +314,6 @@ class ComplexSearch extends React.Component {
     onPressEnter() {}
   };
 
-  static contextTypes = {
-    [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-      /**
-       * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-       */
-      registerSuggestItem: PropTypes.func,
-      /**
-       * Колбек удаления SuggestItem
-       */
-      onRemoveSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек клика по SuggestItem
-       */
-      onSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек наведения на SuggstItem
-       */
-      onSuggestItemHover: PropTypes.func,
-      /**
-       * Функция для подсветки SuggestItem
-       */
-      setHighlightedId: PropTypes.func
-    })
-  }
-
-
   state = {
     sourceType: 'global'
   }
@@ -507,7 +477,6 @@ class ComplexSearch extends React.Component {
       classes,
       style,
       className,
-      sourceType,
       setNode
     } = this.props
     const button = this.renderButton()
@@ -518,7 +487,6 @@ class ComplexSearch extends React.Component {
           classes.root,
           !button && classes.withoutButton,
           className,
-          sourceType && classes.withSourceButtons
         )}
         style={style}
         ref={setNode('root')}

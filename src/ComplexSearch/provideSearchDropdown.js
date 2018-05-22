@@ -2,8 +2,9 @@ import React, {Component, Children} from 'react'
 import PropTypes from 'prop-types'
 import EventEmitter from 'events'
 import SuggestDropdown from './SuggestDropdown'
-import { 
-  COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT 
+import OnClickOutside from '../OnClickOutside'
+import {
+  COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT
 } from '../constants/context'
 
 export default function provideSearchDropdown(Search) {
@@ -90,13 +91,6 @@ export default function provideSearchDropdown(Search) {
       this.events.removeAllListeners()
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (this.props.value !== nextProps.value)
-        this.setState({
-          value: nextProps.value
-        })
-    }
-
     getChildContext() {
       return {
         [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: {
@@ -180,7 +174,7 @@ export default function provideSearchDropdown(Search) {
       this.inputNode.focus()
       this.props.onSearch(e)
     }
-  
+
     onKeyDown = (e) => {
       if (!this.inputNode) // на всякий случай проверяем не пришло ли событие после анмаунта компонента
         return
@@ -218,7 +212,7 @@ export default function provideSearchDropdown(Search) {
   
     setNode = name => node => {
       this[`${name}Node`] = node
-      this.props.setNode && this.props.setNode(node)
+      this.props.setNode && this.props.setNode(name)(node)
     }
 
 
@@ -229,13 +223,16 @@ export default function provideSearchDropdown(Search) {
       (this.rootNode !== node && !this.rootNode.contains(node))
     }
 
+    onClickOutside = (e) => {
+      if (this.rootNode && e.target && this.isNodeNotInComponent(e.target))
+        this.closeDropdown()
+    }
     
     onBlur = (e) => {
       // // на всякий случай проверяем, находится у нас еще компонент в DOM, т.к. React может прислать blur после анмаунта компонента
       if (this.rootNode && e.relatedTarget && this.isNodeNotInComponent(e.relatedTarget))       
         this.closeDropdown()
       
-      this.closeDropdown()
       this.props.onBlur()
     }
 
@@ -266,24 +263,24 @@ export default function provideSearchDropdown(Search) {
 
     render() {
       const {
-        value,
         isDropdownOpened
       } = this.state
 
-      return <Search
-        {...this.props}
-        value={value}
-        isDropdownOpened={isDropdownOpened}
-        renderDropdown={this.renderDropdown}
-        clearForm={this.clearForm}
-        setNode={this.setNode}
-        onSubmit={this.onSubmit}
-        onBlur={this.onBlur}
-        onFocus={this.onFocus}
-        onKeyDown={this.onKeyDown}
-        onSearch={this.props.onSearch}
-        setHighlightedId={this.setHighlightedId}
-      />
+      return <OnClickOutside handler={this.onClickOutside}>
+        <Search
+          {...this.props}
+          isDropdownOpened={isDropdownOpened}
+          renderDropdown={this.renderDropdown}
+          clearForm={this.clearForm}
+          setNode={this.setNode}
+          onSubmit={this.onSubmit}
+          onBlur={this.onBlur}
+          onFocus={this.onFocus}
+          onKeyDown={this.onKeyDown}
+          onSearch={this.props.onSearch}
+          setHighlightedId={this.setHighlightedId}
+        />
+      </OnClickOutside>
     }
   }
 }

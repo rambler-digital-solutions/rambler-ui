@@ -10,7 +10,6 @@ import provideSearch from './provideSearch'
 
 @injectSheet(theme => {
   const css = {
-    withSourceButtons: {},
     active: {},
     withoutButton: {},
     root: {
@@ -104,66 +103,11 @@ import provideSearch from './provideSearch'
         color: theme.search.button.active.background
       }
     },
-    clear: {
-      position: 'absolute',
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)',
-      cursor: 'pointer',
-      opacity: 0.6,
-
-      '&:hover': {
-        opacity: 1,
-        color:  theme.search.serviceIcon.hover.color
-      },
-
-      '&:active': {
-        opacity: 1
-      }
-    },
-
-    serviceClearIcon: {
-      position: 'absolute',
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)',
-      cursor: 'pointer',
-      opacity: 0.6,
-
-      '&:hover': {
-        opacity: 1,
-        color:  theme.search.serviceIcon.hover.color
-      },
-
-      '&:active': {
-        opacity: 1
-      }
-    },
     serviceIcons: {
       display: 'flex',
       flexShrink: 0,
       padding: '0 15px',
       alignItems: 'center'
-    },
-    serviceIcon: {
-      opacity: 0.5,
-      transition: 'opacity 0.2s, color 0.2s',
-      color: theme.search.serviceIcon.color,
-      cursor: 'pointer',
-      marginRight: 10,
-
-      '&:last-child': {
-        marginRight: 0
-      },
-
-      '&:hover': {
-        opacity: 1,
-        color: theme.search.serviceIcon.hover.color
-      },
-      
-      '&$active': {
-        opacity: 1
-      }
     },
     overlay: {
       width: '100%'
@@ -287,13 +231,6 @@ class SimpleSearch extends React.Component {
     this.props.onSearch(e, {globalSearch: this.state.sourceType})
   }
 
-  clearForm = () => {
-    const value = ''
-    this.setState({value})
-    this.inputNode.focus()
-    this.props.onSearch(value)
-  }
-
   renderInputIcon() {
     const {inputLeftIcon, theme, classes} = this.props
     if (!inputLeftIcon)
@@ -314,6 +251,7 @@ class SimpleSearch extends React.Component {
       onKeyDown,
       onFocusInput,
       onBlurInput,
+      setNode,
       value
     } = this.props
 
@@ -327,6 +265,7 @@ class SimpleSearch extends React.Component {
         value={value}
         className={classes.input}
         placeholder={placeholder}
+        ref={setNode('input')}
         {...inputProps}
       />
     )
@@ -402,7 +341,6 @@ class SimpleSearch extends React.Component {
       classes,
       style,
       className,
-      sourceType,
       size,
       showSearchButton
     } = this.props
@@ -412,7 +350,6 @@ class SimpleSearch extends React.Component {
         className={classnames(
           classes.root,
           !showSearchButton && classes.withoutButton,
-          sourceType && classes.withSourceButtons,
           className,
           classes[`size-${size}`]
         )}
