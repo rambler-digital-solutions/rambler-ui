@@ -41,10 +41,6 @@ export default function provideSearch(Search) {
       this.props.onSubmit(this.state.value)
     }
   
-    onFocus = () => {
-      this.props.onFocus()
-    }
-
     onSearch = (e, options = {}) => {
       const value = e.target.value
       this.setState({value})
@@ -86,7 +82,7 @@ export default function provideSearch(Search) {
         setNode={this.setNode}
         onSubmit={this.onSubmit}
         onBlur={this.props.onBlur}
-        onFocus={this.onFocus}
+        onFocus={this.props.onFocus}
         onKeyDown={this.onKeyDown}
         onSearch={this.onSearch}
         setHighlightedId={this.setHighlightedId}

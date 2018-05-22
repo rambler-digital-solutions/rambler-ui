@@ -56,7 +56,7 @@ export default class SearchExample extends Component {
 
   fetchQuery = (query, options) => {
     if (!query) {
-      this.setState({mediaInputResults: []})
+      this.setState({mediaSearchItems: []})
       return false
     }
 

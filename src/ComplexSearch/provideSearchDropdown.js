@@ -147,18 +147,9 @@ export default function provideSearchDropdown(Search) {
       this.setState({isDropdownOpened: false})
     }
 
-    onSubmit = () => {
-      this.props.onSubmit(this.state.value)
-    }
-  
     onFocus = () => {
       this.openDropdown()
       this.props.onFocus()
-    }
-  
-    onBlur = () => {
-      this.closeDropdown()      
-      this.props.onBlur()
     }
 
     onSearch = (e, options = {}) => {
@@ -168,11 +159,9 @@ export default function provideSearchDropdown(Search) {
     }
 
     clearForm = (e) => {
-      const value = ''
-      this.setState({value})
       this.setHighlightedId(null)
-      this.inputNode.focus()
-      this.props.onSearch(e)
+      this.closeDropdown()
+      this.props.clearForm(e)
     }
 
     onKeyDown = (e) => {
@@ -206,15 +195,13 @@ export default function provideSearchDropdown(Search) {
         break
       }
 
-      this.props.onKeyDown(e)  
+      this.props.onKeyDown(e)
     }
     
-  
     setNode = name => node => {
       this[`${name}Node`] = node
       this.props.setNode && this.props.setNode(name)(node)
     }
-
 
     isNodeNotInComponent(node) {
       if (!this.props.appendToBody)
