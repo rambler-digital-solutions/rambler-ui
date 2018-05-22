@@ -2,6 +2,7 @@ import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
+import deepmerge from 'deepmerge'
 import SearchIcon from '../icons/forms/SearchIcon'
 import SourceButtons from './SourceButtons'
 import { isolateMixin } from '../utils/mixins'
@@ -22,7 +23,6 @@ import provideSearch from './provideSearch'
       flexDirection: 'column'
     },
     inputRow: {
-      height: theme.search.simple.height,
       position: 'relative',
       width: '100%',
       display: 'flex'
@@ -36,7 +36,6 @@ import provideSearch from './provideSearch'
       position: 'relative',
       borderRadius: '1px 0 0 1px',
       width: '100%',
-      height: theme.search.simple.height,
       boxSizing: 'border-box',
 
       '&$active': {
@@ -171,7 +170,18 @@ import provideSearch from './provideSearch'
     }
   }
 
-  return css
+  return deepmerge(css, ['small', 'medium'].reduce((result, size) => {
+    const styles = theme.search.sizes[size]
+
+    return {
+      ...result,
+      [`size-${size}`]: {
+        '& $inputWrapper': {
+          height: styles.simple.height
+        }
+      }
+    }
+  }, {}))
 }, {name: 'SimpleSearch'})
 class SimpleSearch extends React.Component {
   static propTypes = {
@@ -199,14 +209,6 @@ class SimpleSearch extends React.Component {
     * Иконка инпута слева
      */
     inputLeftIcon: PropTypes.node,
-    /**
-     * Объект для дополнительных стилей для дропдауна
-     */
-    dropdownStyle: PropTypes.object,
-    /**
-     * Дополнительный css-класс для дропдауна
-     */
-    dropdownClassName: PropTypes.string,
     /**
      * Плейсхолдер поискового инпута
      */
@@ -401,6 +403,7 @@ class SimpleSearch extends React.Component {
       style,
       className,
       sourceType,
+      size,
       showSearchButton
     } = this.props
 
@@ -411,6 +414,7 @@ class SimpleSearch extends React.Component {
           !showSearchButton && classes.withoutButton,
           sourceType && classes.withSourceButtons,
           className,
+          classes[`size-${size}`]
         )}
         style={style}
       >

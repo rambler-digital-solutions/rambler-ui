@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tooltip from '../Tooltip'
 import { injectSheet } from '../theme'
-import GlobalSearchIcon from '../icons/forms/GlobalSearchIcon'
-import ServiceSearchIcon from '../icons/forms/ServiceSearchIcon'
+import GlobalSearchIcon from './GlobalSearchIcon'
+import ServiceSearchIcon from './ServiceSearchIcon'
 
 @injectSheet(theme => ({
   root: {
@@ -18,6 +18,8 @@ import ServiceSearchIcon from '../icons/forms/ServiceSearchIcon'
     color: theme.search.serviceIcon.color,
     cursor: 'pointer',
     marginRight: 10,
+    height: 15,
+    display: 'inline-flex',
 
     '&:last-child': {
       marginRight: 0
@@ -88,6 +90,7 @@ export default class SourceButtons extends React.Component {
             onClick={() => onSourceIconClick('global')}
             color="currentColor"
             {...sourceButtonsProps('global')}
+            size="15"
           />
         </Tooltip>
         <Tooltip 
@@ -100,6 +103,7 @@ export default class SourceButtons extends React.Component {
             <ServiceSearchIcon
               onClick={() => onSourceIconClick('service')}
               color="currentColor"
+              size="15"
               {...sourceButtonsProps('service')}
             />
           </div>

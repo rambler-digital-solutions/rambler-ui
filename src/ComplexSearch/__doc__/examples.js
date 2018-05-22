@@ -143,10 +143,6 @@ export default class SearchExample extends Component {
               .example-topline-search {
                 width: 270px;
               }
-
-              .example-topline-search-wrapper {
-                border: solid 1px rgba(141, 150, 178, 0.3);
-              }
             `}
           </style>
           <h4>ComplexSearch</h4>

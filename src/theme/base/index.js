@@ -378,16 +378,15 @@ export function createTheme(config) {
       height: 40,
       maxWidth: 765,
 
-      simple: {
-        height: 35
-      },
-
       sizes: {
         small: {
           media: {
             height: 40
           },
           service: {
+            height: 35
+          },
+          simple: {
             height: 35
           }
         },
@@ -398,6 +397,9 @@ export function createTheme(config) {
           },
           service: {
             height: 45
+          },
+          simple: {
+            height: 35
           }
         }
       },

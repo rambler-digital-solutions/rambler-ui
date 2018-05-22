@@ -24,7 +24,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       flexDirection: 'column'
     },
     inputRow: {
-      height: theme.search.height,
+      height: '100%',
       position: 'relative',
       width: '100%',
       display: 'flex'
