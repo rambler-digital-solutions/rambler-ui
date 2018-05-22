@@ -17,7 +17,7 @@ import ServiceSearchIcon from './ServiceSearchIcon'
     transition: 'opacity 0.2s, color 0.2s',
     color: theme.search.serviceIcon.color,
     cursor: 'pointer',
-    marginRight: 10,
+    marginRight: 15,
     height: 15,
     display: 'inline-flex',
 
