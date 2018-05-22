@@ -141,7 +141,7 @@ export default class SearchExample extends Component {
           <style>
             {`
               .example-topline-search {
-                width: 270px;
+                width: 300px;
               }
             `}
           </style>

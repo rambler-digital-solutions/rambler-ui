@@ -16,7 +16,7 @@ import provideSearch from './provideSearch'
     root: {
       extend: isolateMixin,
       fontFamily: theme.fontFamily,
-      fontSize: theme.search.fontSize,
+      fontSize: 13,
       width: '100%',
       maxWidth: theme.search.maxWidth,
       display: 'flex',
@@ -57,7 +57,7 @@ import provideSearch from './provideSearch'
       borderRadius: 0,
       width: '100%',
       fontWeight: 400,
-      fontSize: theme.search.fontSize,
+      fontSize: 13,
       lineHeight: 1.43,
       appearance: 'none',
       color: theme.search.input.color,
