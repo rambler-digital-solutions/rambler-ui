@@ -260,7 +260,6 @@ export default function provideSearchDropdown(Search) {
           renderDropdown={this.renderDropdown}
           clearForm={this.clearForm}
           setNode={this.setNode}
-          onSubmit={this.onSubmit}
           onBlur={this.onBlur}
           onFocus={this.onFocus}
           onKeyDown={this.onKeyDown}

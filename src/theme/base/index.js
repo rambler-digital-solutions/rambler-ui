@@ -375,35 +375,30 @@ export function createTheme(config) {
     },
     search: {
       fontSize: 14,
-      height: 40,
       maxWidth: 765,
 
       sizes: {
         small: {
-          media: {
-            height: 40
-          },
-          service: {
-            height: 35
-          },
-          simple: {
-            height: 35
-          }
+          height: 40
         },
-
         medium: {
-          media: {
-            height: 40
-          },
-          service: {
-            height: 45
-          },
-          simple: {
-            height: 35
-          }
+          height: 40
         }
       },
+
+      division: {
+        color: colors.controls.grey.background
+      },
       
+      serviceIcon: {
+        color: colors.controls.grey.outline,
+        hover: {
+          color: colors.primary
+        }
+      },
+      сlearIcon: {
+        color: colors.dark
+      },
       input: {
         color: colors.dark,
         default: {
@@ -413,18 +408,6 @@ export function createTheme(config) {
         hover: {
           borderColor: colors.primaryDark
         }
-      },
-      serviceIcon: {
-        color: colors.controls.grey.outline,
-        hover: {
-          color: colors.primary
-        }
-      },
-      serviceClear: {
-        color: colors.dark
-      },
-      division: {
-        color: colors.controls.grey.background
       },
       button: {
         color: colors.light,
@@ -445,13 +428,83 @@ export function createTheme(config) {
           text: fade(colors.light, 0.2),
           icon: fade(colors.light, 0.2)
         }
+      }
+    },
+    simpleSearch: {
+      fontSize: 13,
+      maxWidth: 765,
+
+      sizes: {
+        small: {
+          height: 35
+        },
+        medium: {
+          height: 35
+        }
       },
-      bottomLinks: {
-        fontSize: 12
+      
+      serviceIcon: {
+        color: colors.controls.grey.outline,
+        hover: {
+          color: colors.primary
+        }
+      },
+      serviceClear: {
+        color: colors.dark
+      },
+      button: {
+        color: colors.primary,
+        active: {
+          color: colors.primaryDark
+        }
+      },
+      input: {
+        color: colors.dark,
+        default: {
+          borderColor: colors.primary,
+          icon: colors.controls.grey.fieldIcon
+        },
+        hover: {
+          borderColor: colors.primaryDark
+        }
+      }
+    },
+    serviceSearch: {
+      fontSize: 13,
+      maxWidth: 765,
+
+      sizes: {
+        small: {
+          height: 35
+        },
+
+        medium: {
+          height: 45
+        }
+      },
+      searchIcon: {
+        color: colors.controls.grey.outline
+      },
+      clearIcon: {
+        color: colors.dark
+      },
+      division: {
+        color: colors.controls.grey.background
+      },
+
+      input: {
+        color: colors.dark,
+        default: {
+          borderColor: colors.controls.grey.outline
+        },
+        hover: {
+          borderColor: colors.primaryDark
+        }
       }
     },
     suggestItem: {
       fontSize: 14,
+      height: 40,
 
       removeButton: {
         fontSize: 13,

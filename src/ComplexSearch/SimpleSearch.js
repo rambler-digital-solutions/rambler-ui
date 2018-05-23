@@ -1,4 +1,4 @@
-import React, { cloneElement } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
@@ -17,7 +17,7 @@ import provideSearch from './provideSearch'
       fontFamily: theme.fontFamily,
       fontSize: 13,
       width: '100%',
-      maxWidth: theme.search.maxWidth,
+      maxWidth: theme.simpleSearch.maxWidth,
       display: 'flex',
       flexDirection: 'column'
     },
@@ -27,7 +27,7 @@ import provideSearch from './provideSearch'
       display: 'flex'
     },
     inputWrapper: {
-      borderColor: theme.search.input.default.borderColor,
+      borderColor: theme.simpleSearch.input.default.borderColor,
       borderWidth: 2,
       borderStyle: 'solid',
       display: 'flex',
@@ -38,7 +38,7 @@ import provideSearch from './provideSearch'
       boxSizing: 'border-box',
 
       '&$active': {
-        borderColor: theme.search.input.hover.borderColor
+        borderColor: theme.simpleSearch.input.hover.borderColor
       }
     },
     bottomWrapper: {
@@ -59,7 +59,7 @@ import provideSearch from './provideSearch'
       fontSize: 13,
       lineHeight: 1.43,
       appearance: 'none',
-      color: theme.search.input.color,
+      color: theme.simpleSearch.input.color,
       height: '100%',
       outline: 0,
       boxShadow: 'none',
@@ -69,7 +69,7 @@ import provideSearch from './provideSearch'
       }
     },
     serviceSearchIcon: {
-      color: theme.search.input.default.icon,
+      color: theme.simpleSearch.input.default.icon,
       position: 'absolute',
       right: 15,
       top: '50%',
@@ -80,6 +80,7 @@ import provideSearch from './provideSearch'
     },
     searchButton: {
       extend: isolateMixin,
+      display: 'inline-flex',
       background: 'none',
       borderRadius: '0 1px 1px 0',
       textAlign: 'center',
@@ -88,19 +89,11 @@ import provideSearch from './provideSearch'
       flexShrink: 0,
       cursor: 'pointer',
       boxSizing: 'border-box',
-      color: theme.search.button.default.background,
+      color: theme.simpleSearch.button.color,
       outline: 'none',
-      fontSize: theme.search.button.fontSize,
-      fontWeight: theme.search.button.fontWeight,
-      letterSpacing: theme.search.button.letterSpacing,
-      textTransform: theme.search.button.textTransform,
-
-      '&:hover': {
-        color: theme.search.button.hover.background
-      },
 
       '&:active': {
-        color: theme.search.button.active.background
+        color: theme.search.button.active.color
       }
     },
     serviceIcons: {
@@ -115,13 +108,13 @@ import provideSearch from './provideSearch'
   }
 
   return deepmerge(css, ['small', 'medium'].reduce((result, size) => {
-    const styles = theme.search.sizes[size]
+    const styles = theme.simpleSearch.sizes[size]
 
     return {
       ...result,
       [`size-${size}`]: {
         '& $inputWrapper': {
-          height: styles.simple.height
+          height: styles.height
         }
       }
     }
@@ -231,17 +224,6 @@ class SimpleSearch extends React.Component {
     this.props.onSearch(e, {globalSearch: this.state.sourceType})
   }
 
-  renderInputIcon() {
-    const {inputLeftIcon, theme, classes} = this.props
-    if (!inputLeftIcon)
-      return
-    const {size, className, color} = inputLeftIcon.props
-    return cloneElement(inputLeftIcon, {
-      className: classnames(classes.inputLeftIcon, className),
-      size: size || 15,
-      color: color || theme.search.input.default.icon
-    })
-  }
 
   renderInputNode() {
     const {
@@ -284,7 +266,6 @@ class SimpleSearch extends React.Component {
           inputWrapperClassName, 
         )}
       >
-        {this.renderInputIcon()}
         {this.renderInputNode()}
         {this.renderServiceIcons()}
       </div>
@@ -321,7 +302,7 @@ class SimpleSearch extends React.Component {
     return (
       <button
         className={classnames(classes.searchButton, searchButtonClassName)}
-        onClick={this.onSubmit}
+        onClick={this.props.onSubmit}
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}
