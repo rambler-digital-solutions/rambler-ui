@@ -38,6 +38,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       borderRadius: '1px 0 0 1px',
       width: '100%',
       boxSizing: 'border-box',
+
       '&$active': {
         borderColor: theme.search.input.hover.borderColor
       }
@@ -61,7 +62,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       padding: '10px 12px',
       border: 'none',
       boxSizing: 'border-box',
-      display: 'inline-flex',
+      display: 'block',
       borderRadius: 0,
       height: '100%',
       width: '100%',
@@ -83,12 +84,11 @@ import provideSearchDropdown from './provideSearchDropdown'
     searchButton: {
       extend: isolateMixin,
       color: theme.search.button.color,
-      top: 0,
-      bottom: 0,
       borderRadius: '0 1px 1px 0',
       textAlign: 'center',
       border: 'none',
       flexShrink: 0,
+      display: 'inline-flex',
       cursor: 'pointer',
       padding: '0 20px',
       boxSizing: 'border-box',
@@ -491,6 +491,7 @@ class ComplexSearch extends React.Component {
       classes,
       style,
       className,
+      size,
       setNode
     } = this.props
     const button = this.renderButton()
@@ -501,6 +502,7 @@ class ComplexSearch extends React.Component {
           classes.root,
           !button && classes.withoutButton,
           className,
+          classes[`size-${size}`]
         )}
         style={style}
         ref={setNode('root')}

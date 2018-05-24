@@ -69,7 +69,7 @@ describe('<ComplexSearch />', () => {
 
       const search = wrapper.find(ComplexSearch)
       const sizeProp = search.prop('size')
-      const input = search.find('input')
+      const input = search.find('input').closest('div')
       const inputStyles = getStyles(input)
       expect(inputStyles.height).toEqual(`${theme.search.sizes[sizeProp].height}px`)
     })
