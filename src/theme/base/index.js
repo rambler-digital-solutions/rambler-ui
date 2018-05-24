@@ -389,15 +389,20 @@ export function createTheme(config) {
       division: {
         color: colors.controls.grey.background
       },
+
+      clear: {
+        color: colors.dark,
+
+        hover: {
+          color: colors.primary
+        }
+      },
       
       serviceIcon: {
         color: colors.controls.grey.outline,
         hover: {
           color: colors.primary
         }
-      },
-      сlearIcon: {
-        color: colors.dark
       },
       input: {
         color: colors.dark,
@@ -406,7 +411,8 @@ export function createTheme(config) {
           icon: colors.controls.grey.fieldIcon
         },
         hover: {
-          borderColor: colors.primaryDark
+          borderColor: colors.primaryDark,
+          icon: colors.primary
         }
       },
       button: {
@@ -442,16 +448,7 @@ export function createTheme(config) {
           height: 35
         }
       },
-      
-      serviceIcon: {
-        color: colors.controls.grey.outline,
-        hover: {
-          color: colors.primary
-        }
-      },
-      serviceClear: {
-        color: colors.dark
-      },
+    
       button: {
         color: colors.primary,
         active: {
@@ -482,11 +479,12 @@ export function createTheme(config) {
           height: 45
         }
       },
-      searchIcon: {
-        color: colors.controls.grey.outline
-      },
-      clearIcon: {
-        color: colors.dark
+      clear: {
+        color: colors.dark,
+
+        hover: {
+          color: colors.dark
+        }
       },
       division: {
         color: colors.controls.grey.background
@@ -495,7 +493,8 @@ export function createTheme(config) {
       input: {
         color: colors.dark,
         default: {
-          borderColor: colors.controls.grey.outline
+          borderColor: colors.controls.grey.outline,
+          icon: colors.controls.grey.outline
         },
         hover: {
           borderColor: colors.primaryDark

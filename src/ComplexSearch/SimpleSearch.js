@@ -68,16 +68,6 @@ import provideSearch from './provideSearch'
         display: 'none'
       }
     },
-    serviceSearchIcon: {
-      color: theme.simpleSearch.input.default.icon,
-      position: 'absolute',
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)'
-    },
-    inputLeftIcon: {
-      marginLeft:  12
-    },
     searchButton: {
       extend: isolateMixin,
       display: 'inline-flex',
@@ -142,10 +132,6 @@ class SimpleSearch extends React.Component {
      * Отображать или нет кнопку поиска
      */
     showSearchButton: PropTypes.bool,
-    /**
-    * Иконка инпута слева
-     */
-    inputLeftIcon: PropTypes.node,
     /**
      * Плейсхолдер поискового инпута
      */

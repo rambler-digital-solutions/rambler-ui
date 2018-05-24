@@ -15,7 +15,7 @@ import ServiceSearchIcon from './ServiceSearchIcon'
   icon: {
     opacity: 0.5,
     transition: 'opacity 0.2s, color 0.2s',
-    color: theme.search.serviceIcon.color,
+    color: theme.search.input.default.icon,
     cursor: 'pointer',
     marginRight: 15,
     height: 15,
@@ -27,7 +27,7 @@ import ServiceSearchIcon from './ServiceSearchIcon'
 
     '&:hover': {
       opacity: 1,
-      color: theme.search.serviceIcon.hover.color
+      color: theme.search.input.hover.icon
     },
       
     '&$active': {

@@ -67,7 +67,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       }
     },
     searchIcon: {
-      color: theme.serviceSearch.searchIcon.color,
+      color: theme.serviceSearch.input.default.icon,
       position: 'absolute',
       right: 15,
       top: '50%',
@@ -79,7 +79,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       top: '50%',
       transform: 'translateY(-50%)',
       cursor: 'pointer',
-      color:  theme.serviceSearch.clearIcon.color
+      color:  theme.serviceSearch.clear.color
     },
     serviceIcons: {
       display: 'flex',

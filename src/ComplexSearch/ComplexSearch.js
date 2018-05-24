@@ -129,7 +129,7 @@ import provideSearchDropdown from './provideSearchDropdown'
   
       '&:hover': {
         opacity: 1,
-        color:  theme.search.serviceIcon.hover.color
+        color:  theme.search.clear.hover.color
       },
   
       '&:active': {
@@ -143,10 +143,11 @@ import provideSearchDropdown from './provideSearchDropdown'
       padding: '0 15px',
       alignItems: 'center'
     },
+
     serviceIcon: {
       opacity: 0.5,
       transition: 'opacity 0.2s, color 0.2s',
-      color: theme.search.serviceIcon.color,
+      color: theme.search.input.default.icon,
       cursor: 'pointer',
       marginRight: 10,
   
@@ -156,9 +157,9 @@ import provideSearchDropdown from './provideSearchDropdown'
   
       '&:hover': {
         opacity: 1,
-        color: theme.search.serviceIcon.hover.color
+        color: theme.search.input.hover.icon
       },
-        
+
       '&$active': {
         opacity: 1
       }
