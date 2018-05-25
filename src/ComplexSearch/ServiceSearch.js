@@ -55,7 +55,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       width: '100%',
       fontWeight: 400,
       fontSize: theme.serviceSearch.fontSize,
-      lineHeight: 1.43,
+      lineHeight: '25px',
       appearance: 'none',
       color: theme.serviceSearch.input.color,
       height: '100%',
@@ -278,7 +278,7 @@ class ServiceSearch extends React.Component {
         />}
         {this.isClearVisible && <ClearIcon
           className={classes.сlearIcon}
-          size={15}
+          size="20"
           color="currentColor"
           onClick={this.props.clearForm}
         ></ClearIcon>}

@@ -168,7 +168,7 @@ export default class SearchExample extends Component {
             searchButtonProps={{'data-cerber-head': 'main::button'}}
           >
             {this.state.mediaSearchItems.map(item => (
-              <div key={item[0] + item[2]} style={{borderTop: '1px solid #eee'}}>
+              <div key={item[0] + item[2]}>
                 <SuggestItem
                   value={item[1]}
                   data-cerber-head={`search::suggest:item-${item[2]}`}

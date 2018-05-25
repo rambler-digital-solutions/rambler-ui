@@ -68,7 +68,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       width: '100%',
       fontWeight: 400,
       fontSize: theme.search.fontSize,
-      lineHeight: 1.43,
+      lineHeight: '20px',
       appearance: 'none',
       color: theme.search.input.color,
       outline: 0,
@@ -424,7 +424,7 @@ class ComplexSearch extends React.Component {
       <div className={classes.serviceIcons}>
         {this.isClearVisible && <ClearIcon
           className={classes.serviceIcon}
-          size={15}
+          size={20}
           color="currentColor"
           onClick={this.props.clearForm}
         ></ClearIcon>}

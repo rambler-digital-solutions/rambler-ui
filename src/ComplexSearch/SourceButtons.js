@@ -17,8 +17,8 @@ import ServiceSearchIcon from './ServiceSearchIcon'
     transition: 'opacity 0.2s, color 0.2s',
     color: theme.search.input.default.icon,
     cursor: 'pointer',
-    marginRight: 15,
-    height: 15,
+    marginRight: 10,
+    height: 20,
     display: 'inline-flex',
 
     '&:last-child': {
@@ -90,7 +90,7 @@ export default class SourceButtons extends React.Component {
             onClick={() => onSourceIconClick('global')}
             color="currentColor"
             {...sourceButtonsProps('global')}
-            size="15"
+            size="20"
           />
         </Tooltip>
         <Tooltip 
@@ -103,7 +103,7 @@ export default class SourceButtons extends React.Component {
             <ServiceSearchIcon
               onClick={() => onSourceIconClick('service')}
               color="currentColor"
-              size="15"
+              size="20"
               {...sourceButtonsProps('service')}
             />
           </div>

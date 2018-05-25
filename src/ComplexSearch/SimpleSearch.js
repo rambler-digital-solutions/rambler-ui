@@ -57,7 +57,7 @@ import provideSearch from './provideSearch'
       width: '100%',
       fontWeight: 400,
       fontSize: 13,
-      lineHeight: 1.43,
+      lineHeight: '25px',
       appearance: 'none',
       color: theme.simpleSearch.input.color,
       height: '100%',
