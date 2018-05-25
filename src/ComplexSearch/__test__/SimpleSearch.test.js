@@ -1,7 +1,7 @@
 import React from 'react'
 import SimpleSearch from '../SimpleSearch'
 import SourceButtons from '../SourceButtons'
-import ServiceSearchIcon from '../ServiceSearchIcon'
+import ServiceSourceIcon from '../ServiceSourceIcon'
 import theme from '../../theme/base'
 import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
 
@@ -112,7 +112,7 @@ describe('<SimpleSearch />', () => {
     getWrapperNode(input).value = 'value'
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {globalSearch: 'global'})
-    sourceButtons.find(ServiceSearchIcon).simulate('click')
+    sourceButtons.find(ServiceSourceIcon).simulate('click')
     getWrapperNode(input).value = 'value2'
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {globalSearch: 'service'})

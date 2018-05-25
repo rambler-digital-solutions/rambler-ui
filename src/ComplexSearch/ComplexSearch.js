@@ -83,6 +83,7 @@ import provideSearchDropdown from './provideSearchDropdown'
     },
     searchButton: {
       extend: isolateMixin,
+      width: 125,
       color: theme.search.button.color,
       borderRadius: '0 1px 1px 0',
       textAlign: 'center',

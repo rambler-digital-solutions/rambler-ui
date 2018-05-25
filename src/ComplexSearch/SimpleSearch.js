@@ -263,13 +263,15 @@ class SimpleSearch extends React.Component {
       classes, 
       sourceType,
       showSearchButton,
-      sourceButtonsProps
+      sourceButtonsProps,
+      serviceTooltipLabel
     } = this.props
     return (
       <div className={classes.serviceIcons}>
         {sourceType && <SourceButtons
           onSourceIconClick={this.onSourceIconClick}
           sourceButtonsProps={sourceButtonsProps}
+          serviceTooltipLabel={serviceTooltipLabel}
           activeType={this.state.sourceType}
         />}
         {showSearchButton && this.renderButton()}

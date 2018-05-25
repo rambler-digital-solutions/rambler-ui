@@ -3,7 +3,7 @@ import ComplexSearch from '../ComplexSearch'
 import Dropdown from '../../Dropdown'
 import SuggestItem from '../SuggestItem'
 import SourceButtons from '../SourceButtons'
-import ServiceSearchIcon from '../ServiceSearchIcon'
+import ServiceSourceIcon from '../ServiceSourceIcon'
 import theme from '../../theme/base'
 import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
 import { normalize as nc } from '../../utils/colors'
@@ -160,7 +160,7 @@ describe('<ComplexSearch />', () => {
     getWrapperNode(input).value = 'value'
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {globalSearch: 'global'})
-    sourceButtons.find(ServiceSearchIcon).simulate('click')
+    sourceButtons.find(ServiceSourceIcon).simulate('click')
     getWrapperNode(input).value = 'value2'
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {globalSearch: 'service'})
