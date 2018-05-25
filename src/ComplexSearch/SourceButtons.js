@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tooltip from '../Tooltip'
 import { injectSheet } from '../theme'
-import GlobalSearchIcon from './GlobalSearchIcon'
-import ServiceSearchIcon from './ServiceSearchIcon'
+import GlobalSourceIcon from './GlobalSourceIcon'
+import ServiceSourceIcon from './ServiceSourceIcon'
 
 @injectSheet(theme => ({
   root: {
@@ -86,7 +86,7 @@ export default class SourceButtons extends React.Component {
             [classes.active]: activeType === 'global'
           })}
         >
-          <GlobalSearchIcon
+          <GlobalSourceIcon
             onClick={() => onSourceIconClick('global')}
             color="currentColor"
             {...sourceButtonsProps('global')}
@@ -100,7 +100,7 @@ export default class SourceButtons extends React.Component {
           })}
         >
           <div>
-            <ServiceSearchIcon
+            <ServiceSourceIcon
               onClick={() => onSourceIconClick('service')}
               color="currentColor"
               size="20"

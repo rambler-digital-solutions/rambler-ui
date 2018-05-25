@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import deepmerge from 'deepmerge'
 import ClearIcon from '../icons/forms/ClearIcon'
-import MediaSearchIcon from '../icons/forms/MediaSearchIcon'
+import MediaSearchIcon from './MediaSearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import SourceButtons from './SourceButtons'
 import provideSearch from './provideSearch'
@@ -110,7 +110,6 @@ import provideSearchDropdown from './provideSearchDropdown'
     },
     searchIcon: {
       marginRight: 8,
-      marginTop: -2,
       verticalAlign: 'middle'
     },
     withoutButton: {
