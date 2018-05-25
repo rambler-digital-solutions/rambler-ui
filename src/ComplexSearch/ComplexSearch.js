@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import deepmerge from 'deepmerge'
 import ClearIcon from '../icons/forms/ClearIcon'
-import SearchIcon from '../icons/forms/SearchIcon'
+import MediaSearchIcon from '../icons/forms/MediaSearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import SourceButtons from './SourceButtons'
 import provideSearch from './provideSearch'
@@ -89,6 +89,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       border: 'none',
       flexShrink: 0,
       display: 'inline-flex',
+      alignItems: 'center',
       cursor: 'pointer',
       padding: '0 20px',
       boxSizing: 'border-box',
@@ -471,8 +472,8 @@ class ComplexSearch extends React.Component {
   renderSearchIcon() {
     if (this.props.searchIcon === undefined)
       return (
-        <SearchIcon
-          size={12}
+        <MediaSearchIcon
+          size={20}
           className={this.props.classes.searchIcon}
           color={this.props.theme.search.button.color}
         />

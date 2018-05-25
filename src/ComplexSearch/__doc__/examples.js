@@ -156,7 +156,7 @@ export default class SearchExample extends Component {
             bottomLinks={this.renderBottomLinks()}
             onPressEnter={this.onPressEnter}
             placeholder="Напишите 'это...'"
-            searchButton="Search"
+            searchButton="НАЙТИ"
             searchButtonStyle={{minWidth: 125}}
             autoPositionY={false}
             inputProps={{'data-cerber-head': 'main::search'}}

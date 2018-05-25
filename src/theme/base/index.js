@@ -408,7 +408,7 @@ export function createTheme(config) {
         color: colors.dark,
         default: {
           borderColor: colors.primary,
-          icon: colors.controls.grey.fieldIcon
+          icon: colors.controls.grey.outline
         },
         hover: {
           borderColor: colors.primaryDark,
@@ -462,7 +462,7 @@ export function createTheme(config) {
           icon: colors.controls.grey.fieldIcon
         },
         hover: {
-          borderColor: colors.primaryDark
+          borderColor: colors.primary
         }
       }
     },
@@ -486,18 +486,14 @@ export function createTheme(config) {
           color: colors.dark
         }
       },
-      division: {
-        color: colors.controls.grey.background
-      },
-
       input: {
         color: colors.dark,
         default: {
-          borderColor: colors.controls.grey.outline,
+          borderColor: lighten(colors.controls.grey.outline, 0.3),
           icon: colors.controls.grey.outline
         },
         hover: {
-          borderColor: colors.primaryDark
+          borderColor: colors.primary
         }
       }
     },

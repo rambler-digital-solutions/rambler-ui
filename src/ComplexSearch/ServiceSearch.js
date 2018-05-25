@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import deepmerge from 'deepmerge'
 import { injectSheet } from '../theme'
 import ClearIcon from '../icons/forms/ClearIcon'
-import SearchIcon from '../icons/forms/SearchIcon'
+import ServiceSearchIcon from '../icons/forms/ServiceSearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import provideSearch from './provideSearch'
 import provideSearchDropdown from './provideSearchDropdown'
@@ -47,7 +47,7 @@ import provideSearchDropdown from './provideSearchDropdown'
     },
     input: {
       extend: isolateMixin,
-      padding: '10px 12px',
+      padding: '10px 14px',
       border: 'none',
       boxSizing: 'border-box',
       display: 'block',
@@ -271,7 +271,7 @@ class ServiceSearch extends React.Component {
         isDropdownOpened && classes.active
       )}>
         {this.renderInputNode()}
-        {!this.isClearVisible && <SearchIcon
+        {!this.isClearVisible && <ServiceSearchIcon
           size="15"
           className={classes.searchIcon}
           color="currentColor"
