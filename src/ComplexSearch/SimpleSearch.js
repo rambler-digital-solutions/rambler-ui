@@ -90,7 +90,7 @@ import provideSearch from './provideSearch'
       background: 'none',
       borderRadius: '0 1px 1px 0',
       textAlign: 'center',
-      paddingLeft: 15,
+      paddingLeft: 13,
       border: 'none',
       flexShrink: 0,
       cursor: 'pointer',
@@ -105,7 +105,7 @@ import provideSearch from './provideSearch'
     serviceIcons: {
       display: 'flex',
       flexShrink: 0,
-      padding: '0 15px',
+      padding: '0 13px',
       alignItems: 'center'
     },
     overlay: {

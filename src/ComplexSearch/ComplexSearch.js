@@ -100,15 +100,14 @@ import provideSearchDropdown from './provideSearchDropdown'
     searchButton: {
       extend: isolateMixin,
       width: 125,
+      padding: '0 0 0 21px',
       color: theme.search.button.color,
       borderRadius: '0 1px 1px 0',
-      textAlign: 'center',
       border: 'none',
       flexShrink: 0,
       display: 'inline-flex',
       alignItems: 'center',
       cursor: 'pointer',
-      padding: '0 20px',
       boxSizing: 'border-box',
       background: theme.search.button.default.background,
       outline: 'none',
@@ -126,7 +125,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       }
     },
     searchIcon: {
-      marginRight: 8,
+      marginRight: 7,
       verticalAlign: 'middle'
     },
     withoutButton: {
