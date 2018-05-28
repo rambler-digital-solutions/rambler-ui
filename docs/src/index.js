@@ -15,7 +15,8 @@ const root = (
         <SideNav pages={docPages} />
         <Switch>
           <Redirect exact from='/' to="components" />
-          <Route path='/components' component={ComponentPage} />
+          <Route exact path='/components' component={ComponentPage} />
+          <Route path='/components/:component' component={ComponentPage} />
           <Route path='*' component={DocPage} />
         </Switch>
       </App>

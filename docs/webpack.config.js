@@ -1,6 +1,7 @@
 /* eslint-env node */
 const webpack = require('webpack')
 const path = require('path')
+const highlight = require('remark-highlight.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const {NODE_ENV} = process.env
@@ -26,15 +27,34 @@ module.exports = {
         }
       },
       {
+        test: /\.md$/,
+        exclude: /node_modules/,
+        use: [
+          'babel-loader',
+          {
+            loader: '@mdx-js/loader',
+            options: {
+              mdPlugins: [
+                highlight
+              ]
+            }
+          },
+          'meta-loader'
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
+      {
         test: /\.html$/,
         loader: 'html-loader',
         options: {
           removeAttributeQuotes: false
         }
-      },
-      {
-        test: /\.md$/,
-        loader: 'raw-loader'
       }
     ]
   },
@@ -46,6 +66,12 @@ module.exports = {
     alias: {
       'rambler-ui': path.resolve(__dirname, '../src')
     }
+  },
+  resolveLoader: {
+    modules: [
+      'node_modules',
+      path.resolve(__dirname, './')
+    ]
   },
   plugins: [
     new webpack.DefinePlugin({
