@@ -66,6 +66,22 @@ import provideSearch from './provideSearch'
 
       '&::-ms-reveal, &::-ms-clear': {
         display: 'none'
+      },
+
+      '&::-webkit-input-placeholder': {
+        fontSize: theme.simpleSearch.input.placeholder.fontSize,
+        color: theme.simpleSearch.input.placeholder.color,
+        opacity: 1
+      },
+      '&::-moz-placeholder': {
+        fontSize: theme.simpleSearch.input.placeholder.fontSize,
+        color: theme.simpleSearch.input.placeholder.color,
+        opacity: 1
+      },
+      '&:-ms-input-placeholder': {
+        fontSize: theme.simpleSearch.input.placeholder.fontSize,
+        color: theme.simpleSearch.input.placeholder.color,
+        opacity: 1
       }
     },
     searchButton: {

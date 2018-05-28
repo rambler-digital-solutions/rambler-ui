@@ -76,6 +76,22 @@ import provideSearchDropdown from './provideSearchDropdown'
   
       '&::-ms-reveal, &::-ms-clear': {
         display: 'none'
+      },
+
+      '&::-webkit-input-placeholder': {
+        fontSize: theme.search.input.placeholder.fontSize,
+        color: theme.search.input.placeholder.color,
+        opacity: 1
+      },
+      '&::-moz-placeholder': {
+        fontSize: theme.search.input.placeholder.fontSize,
+        color: theme.search.input.placeholder.color,
+        opacity: 1
+      },
+      '&:-ms-input-placeholder': {
+        fontSize: theme.search.input.placeholder.fontSize,
+        color: theme.search.input.placeholder.color,
+        opacity: 1
       }
     },
     inputLeftIcon: {

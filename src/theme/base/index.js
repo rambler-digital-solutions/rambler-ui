@@ -385,11 +385,9 @@ export function createTheme(config) {
           height: 40
         }
       },
-
       division: {
         color: colors.controls.grey.background
       },
-
       clear: {
         color: colors.dark,
 
@@ -397,7 +395,6 @@ export function createTheme(config) {
           color: colors.primary
         }
       },
-      
       serviceIcon: {
         color: colors.controls.grey.outline,
         hover: {
@@ -413,6 +410,10 @@ export function createTheme(config) {
         hover: {
           borderColor: colors.primaryDark,
           icon: colors.primary
+        },
+        placeholder: {
+          fontSize: 14,
+          color: colors.controls.grey.outline
         }
       },
       button: {
@@ -463,6 +464,10 @@ export function createTheme(config) {
         },
         hover: {
           borderColor: colors.primary
+        },
+        placeholder: {
+          fontSize: 13,
+          color: colors.controls.grey.outline
         }
       }
     },
@@ -494,6 +499,10 @@ export function createTheme(config) {
         },
         hover: {
           borderColor: colors.primary
+        },
+        placeholder: {
+          fontSize: 13,
+          color: colors.controls.grey.outline
         }
       }
     },
