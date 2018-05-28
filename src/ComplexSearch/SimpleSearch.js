@@ -33,7 +33,7 @@ import provideSearch from './provideSearch'
       display: 'flex',
       alignItems: 'center',
       position: 'relative',
-      borderRadius: '1px 0 0 1px',
+      borderRadius: '1px',
       width: '100%',
       boxSizing: 'border-box',
 
