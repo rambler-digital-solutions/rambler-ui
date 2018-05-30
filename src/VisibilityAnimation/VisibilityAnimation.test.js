@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import VisibilityAnimation from '../VisibilityAnimation'
-import renderToLayer from '../../hoc/render-to-layer'
-import { mount, getWrapperNode } from '../../utils/test-utils'
+import VisibilityAnimation from './VisibilityAnimation'
+import renderToLayer from '../hoc/render-to-layer'
+import { mount, getWrapperNode } from '../utils/test-utils'
 
 class Animated extends Component {
 

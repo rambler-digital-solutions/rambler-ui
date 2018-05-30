@@ -1,8 +1,8 @@
 import React from 'react'
-import Switcher from '../Switcher'
-import theme from '../../theme/base'
-import {normalize as nc} from '../../utils/colors'
-import { mount, withTheme, getWrapperNode, getStyles } from '../../utils/test-utils'
+import Switcher from './Switcher'
+import theme from '../theme/base'
+import {normalize as nc} from '../utils/colors'
+import { mount, withTheme, getWrapperNode, getStyles } from '../utils/test-utils'
 
 describe('<Switcher />', () => {
 

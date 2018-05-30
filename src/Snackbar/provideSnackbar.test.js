@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
-import Snackbar from '../Snackbar'
-import provideSnackbar from '../provideSnackbar'
-import { withTheme, mount } from '../../utils/test-utils'
+import Snackbar from './Snackbar'
+import provideSnackbar from './provideSnackbar'
+import { withTheme, mount } from '../utils/test-utils'
 
-@provideSnackbar
-class WithSnackbar extends Component {
+const WithSnackbar = provideSnackbar(
+  class extends Component {
 
-  static displayName = 'WithSnackbar'
+    static displayName = 'WithSnackbar'
 
-  render() {
-    return (
-      <div className="wrapped">Hi</div>
-    )
+    render() {
+      return (
+        <div className="wrapped">Hi</div>
+      )
+    }
+
   }
-
-}
+)
 
 describe('provideSnackbar()', () => {
   let containerNode

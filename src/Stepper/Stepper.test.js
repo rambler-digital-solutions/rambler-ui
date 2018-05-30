@@ -1,9 +1,9 @@
 import React from 'react'
-import { Step, Stepper } from '../../Stepper'
-import { ApplyTheme } from '../../theme'
-import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
-import theme from '../../theme/base'
-import { normalize as nc } from '../../utils/colors'
+import { Step, Stepper } from '../Stepper'
+import { ApplyTheme } from '../theme'
+import { mount, getStyles, getWrapperNode } from '../utils/test-utils'
+import theme from '../theme/base'
+import { normalize as nc } from '../utils/colors'
 
 const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>

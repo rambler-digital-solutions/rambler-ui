@@ -1,6 +1,6 @@
 import React from 'react'
-import Spinner from '../Spinner'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import Spinner from './Spinner'
+import { mount, withTheme, getStyles } from '../utils/test-utils'
 
 describe('<Spinner />', () => {
 

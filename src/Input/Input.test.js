@@ -1,12 +1,12 @@
 import React from 'react'
-import Input from '../../Input'
-import InputStatus from '../../InputStatus'
-import FormGroup from '../../FormGroup'
-import { ApplyTheme } from '../../theme'
-import { mount, getStyles, getNodeStyles, getWrapperNode } from '../../utils/test-utils'
-import theme from '../../theme/base'
-import {normalize as nc} from '../../utils/colors'
-import RamblerMailIcon from '../../icons/services/RamblerMailIcon'
+import Input from './Input'
+import InputStatus from '../InputStatus'
+import FormGroup from '../FormGroup'
+import { ApplyTheme } from '../theme'
+import { mount, getStyles, getNodeStyles, getWrapperNode } from '../utils/test-utils'
+import theme from '../theme/base'
+import {normalize as nc} from '../utils/colors'
+import RamblerMailIcon from '../icons/services/RamblerMailIcon'
 
 const applyTheme = children => (
   <ApplyTheme>{ children }</ApplyTheme>
@@ -132,7 +132,7 @@ describe('Input', () => {
     const inputNode = getWrapperNode(wrapper.find('.inputCls'))
     const inputDisabledNode = getWrapperNode(wrapper.find('.disabledInput'))
     const inputPassNode = getWrapperNode(wrapper.find('.passwordCls'))
-    
+
     const disabledInputStyles = getNodeStyles(inputDisabledNode)
     // input is disabled
     expect(inputNode.disabled).toBe(false)

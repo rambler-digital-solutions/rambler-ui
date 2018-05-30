@@ -1,10 +1,10 @@
 import React from 'react'
-import ComplexSearch from '../ComplexSearch'
-import Dropdown from '../../Dropdown'
-import SuggestItem from '../SuggestItem'
-import theme from '../../theme/base'
-import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
-import { normalize as nc } from '../../utils/colors'
+import ComplexSearch from './ComplexSearch'
+import SuggestItem from './SuggestItem'
+import Dropdown from '../Dropdown'
+import theme from '../theme/base'
+import { mount, withTheme, getStyles, getWrapperNode } from '../utils/test-utils'
+import { normalize as nc } from '../utils/colors'
 
 
 const SEARCH_BUTTON_WIDTH = 125
@@ -25,8 +25,8 @@ describe('<ComplexSearch />', () => {
 
     wrapper = mount(
       withTheme(
-        <ComplexSearch 
-          {...handlersProps} 
+        <ComplexSearch
+          {...handlersProps}
           searchButton="search"
           searchButtonStyle={{minWidth: SEARCH_BUTTON_WIDTH}}
           inputProps={{[DATA_ATTR]: SEARCH_DATA_ATTR}}
@@ -118,5 +118,5 @@ describe('<ComplexSearch />', () => {
     const button = search.find('button')
     expect(getWrapperNode(button).getAttribute(DATA_ATTR)).toEqual(BUTTON_DATA_ATTR)
   })
-  
+
 })

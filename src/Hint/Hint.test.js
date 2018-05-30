@@ -1,8 +1,8 @@
 import React from 'react'
-import Hint from '../Hint'
-import { withTheme, mount, getStyles, getNodeStyles } from '../../utils/test-utils'
-import theme from '../../theme/base'
-import { normalize as nc } from '../../utils/colors'
+import Hint from './Hint'
+import { withTheme, mount, getStyles, getNodeStyles } from '../utils/test-utils'
+import theme from '../theme/base'
+import { normalize as nc } from '../utils/colors'
 
 describe('<Hint />', () => {
   const mountWrapper = props => mount(withTheme(<Hint

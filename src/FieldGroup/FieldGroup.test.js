@@ -1,11 +1,11 @@
 import React from 'react'
-import FieldGroup from '../FieldGroup'
-import Input from '../../Input/Input'
-import Select from '../../Select/Select'
-import MenuItem from '../../Menu/MenuItem'
-import theme from '../../theme/base'
-import {normalize as nc} from '../../utils/colors'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
+import FieldGroup from './FieldGroup'
+import Input from '../Input/Input'
+import Select from '../Select/Select'
+import MenuItem from '../Menu/MenuItem'
+import theme from '../theme/base'
+import {normalize as nc} from '../utils/colors'
+import { mount, withTheme, getStyles } from '../utils/test-utils'
 
 describe('<FieldGroup />', () => {
 

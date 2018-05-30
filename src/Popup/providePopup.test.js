@@ -1,9 +1,9 @@
 import React, { Component, cloneElement } from 'react'
-import Popup from '../Popup'
-import providePopup from '../providePopup'
-import Button from '../../Button/Button'
-import { ApplyTheme } from '../../theme'
-import { mount } from '../../utils/test-utils'
+import Popup from './Popup'
+import providePopup from './providePopup'
+import Button from '../Button/Button'
+import { ApplyTheme } from '../theme'
+import { mount } from '../utils/test-utils'
 
 const withTheme = (element) => {
   const Result = props => <ApplyTheme>{cloneElement(element, props)}</ApplyTheme>
@@ -11,18 +11,19 @@ const withTheme = (element) => {
   return <Result />
 }
 
-@providePopup
-class WithPopup extends Component {
+const WithPopup = providePopup(
+  class extends Component {
 
-  static displayName = 'WithPopup'
+    static displayName = 'WithPopup'
 
-  render() {
-    return (
-      <div className="wrapped">Hi</div>
-    )
+    render() {
+      return (
+        <div className="wrapped">Hi</div>
+      )
+    }
+
   }
-
-}
+)
 
 describe('providePopup()', () => {
   let containerNode

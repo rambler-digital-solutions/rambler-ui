@@ -1,8 +1,8 @@
 import React from 'react'
-import Avatar from '../Avatar'
-import theme from '../../theme/base'
-import { mount, withTheme, getStyles } from '../../utils/test-utils'
-import { normalize as nc } from '../../utils/colors'
+import Avatar from './Avatar'
+import theme from '../theme/base'
+import { mount, withTheme, getStyles } from '../utils/test-utils'
+import { normalize as nc } from '../utils/colors'
 
 const TEST_IMAGE = 'https://api.adorable.io/avatars/face/eyes4/nose5/mouth7/8e8895/'
 

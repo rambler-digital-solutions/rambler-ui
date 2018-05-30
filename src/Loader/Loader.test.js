@@ -1,7 +1,7 @@
 import React from 'react'
-import Loader from '../Loader'
-import Spinner from '../../Spinner'
-import { mount, withTheme, getStyles, getNodeStyles, getWrapperNode } from '../../utils/test-utils'
+import Loader from './Loader'
+import Spinner from '../Spinner'
+import { mount, withTheme, getStyles, getNodeStyles, getWrapperNode } from '../utils/test-utils'
 
 const contentEl = (
   <div className="content">
@@ -50,7 +50,7 @@ describe('<Loader />', () => {
     const wrapper = mount(withTheme(<Loader spinnerClassName="spinner">
       {contentEl}
     </Loader>))
-  
+
     let completeLoading
 
     const loading = new Promise((resolve) => {

@@ -1,10 +1,10 @@
 import React from 'react'
-import Select from '../Select'
-import MenuItem from '../../Menu/MenuItem'
-import theme from '../../theme/base'
-import {normalize as nc} from '../../utils/colors'
-import EllipsisIcon from '../../icons/forms/EllipsisIcon'
-import { mount, withTheme, getStyles, getNodeStyles, getWrapperNode } from '../../utils/test-utils'
+import Select from './Select'
+import MenuItem from '../Menu/MenuItem'
+import theme from '../theme/base'
+import {normalize as nc} from '../utils/colors'
+import EllipsisIcon from '../icons/forms/EllipsisIcon'
+import { mount, withTheme, getStyles, getNodeStyles, getWrapperNode } from '../utils/test-utils'
 
 describe('<Select />', () => {
 

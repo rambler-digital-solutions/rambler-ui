@@ -1,9 +1,9 @@
-import Button from '../Button'
 import React from 'react'
-import theme from '../../theme/base'
-import { normalize as nc } from '../../utils/colors'
-import { mount, getStyles, getWrapperNode, applyTheme } from '../../utils/test-utils'
-import ChevronRightIcon from '../../icons/forms/ChevronRightIcon'
+import Button from './Button'
+import theme from '../theme/base'
+import { normalize as nc } from '../utils/colors'
+import { mount, getStyles, getWrapperNode, applyTheme } from '../utils/test-utils'
+import ChevronRightIcon from '../icons/forms/ChevronRightIcon'
 
 describe('<Button />', () => {
   const defaultProps = {

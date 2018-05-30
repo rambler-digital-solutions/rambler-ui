@@ -1,20 +1,21 @@
 import React, { Component } from 'react'
-import Notification from '../Notification'
-import provideNotification from '../provideNotification'
-import { withTheme, mount } from '../../utils/test-utils'
+import Notification from './Notification'
+import provideNotification from './provideNotification'
+import { withTheme, mount } from '../utils/test-utils'
 
-@provideNotification
-class WithNotification extends Component {
+const WithNotification = provideNotification(
+  class extends Component {
 
-  static displayName = 'WithNotification'
+    static displayName = 'WithNotification'
 
-  render() {
-    return (
-      <div className="wrapped">Hi</div>
-    )
+    render() {
+      return (
+        <div className="wrapped">Hi</div>
+      )
+    }
+
   }
-
-}
+)
 
 describe('provideNotification()', () => {
   let containerNode

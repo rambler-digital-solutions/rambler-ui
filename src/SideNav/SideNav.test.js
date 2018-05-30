@@ -1,7 +1,7 @@
-import { SideNav, SideNavItem } from '../../SideNav'
-import BookIcon from '../../icons/forms/BookIcon'
-import { ApplyTheme } from '../../theme'
-import { mount, getStyles, getWrapperNode } from '../../utils/test-utils'
+import { SideNav, SideNavItem } from '../SideNav'
+import BookIcon from '../icons/forms/BookIcon'
+import { ApplyTheme } from '../theme'
+import { mount, getStyles, getWrapperNode } from '../utils/test-utils'
 
 import React from 'react'
 

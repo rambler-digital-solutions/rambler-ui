@@ -1,10 +1,10 @@
 import React from 'react'
-import Popup from '../Popup'
-import Button from '../../Button/Button'
-import { POPUP_ZINDEX } from '../../constants/z-indexes'
-import { withTheme, mount, getNodeStyles } from '../../utils/test-utils'
-import theme from '../../theme/base'
-import { normalize as nc } from '../../utils/colors'
+import Popup from './Popup'
+import Button from '../Button/Button'
+import { POPUP_ZINDEX } from '../constants/z-indexes'
+import { withTheme, mount, getNodeStyles } from '../utils/test-utils'
+import theme from '../theme/base'
+import { normalize as nc } from '../utils/colors'
 
 describe('<Popup />', () => {
   let containerNode

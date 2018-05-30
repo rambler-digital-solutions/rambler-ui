@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import Menu from '../Menu'
-import MenuItem from '../MenuItem'
-import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
-import theme from '../../theme/base'
+import Menu from './Menu'
+import MenuItem from './MenuItem'
+import { mount, withTheme, getStyles, getWrapperNode } from '../utils/test-utils'
+import theme from '../theme/base'
 
 describe('<Menu />', () => {
 
