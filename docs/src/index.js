@@ -1,23 +1,32 @@
 import React from 'react'
 import {render} from 'react-dom'
 import {HashRouter, Switch, Route, Redirect} from 'react-router-dom'
+import pages from 'docs/src/utils/doc-pages'
 import {ThemeProvider} from 'docs/src/utils/theming'
 import App from 'docs/src/components/App'
-import DocPage from 'docs/src/components/DocPage'
-import ComponentPage from 'docs/src/components/ComponentPage'
+import Page from 'docs/src/components/Page'
 import SideNav from 'docs/src/components/SideNav'
-import docPages from './docPages'
+
+const flattenRoutes = (routes, acc = []) =>
+  routes.reduce((acc, route) => ([
+    ...acc,
+    <Route
+      exact
+      key={route.pathname}
+      path={route.pathname}
+      render={() => <Page {...route} />}
+    />,
+    ...!!route.children && flattenRoutes(route.children)
+  ]), acc)
 
 const root = (
   <ThemeProvider>
     <HashRouter>
       <App>
-        <SideNav pages={docPages} />
+        <SideNav pages={pages} />
         <Switch>
           <Redirect exact from='/' to="components" />
-          <Route exact path='/components' component={ComponentPage} />
-          <Route path='/components/:component' component={ComponentPage} />
-          <Route path='*' component={DocPage} />
+          {flattenRoutes(pages)}
         </Switch>
       </App>
     </HashRouter>

@@ -1,6 +1,15 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, Fragment} from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'docs/src/utils/theming'
+import 'highlight.js/styles/default.css'
+import PreCode from 'docs/src/components/PreCode'
+import InlineCode from 'docs/src/components/InlineCode'
+
+const mdComponents = {
+  h1: () => null,
+  pre: PreCode,
+  inlineCode: InlineCode
+}
 
 @injectSheet(theme => ({
   root: {
@@ -20,6 +29,13 @@ import injectSheet from 'docs/src/utils/theming'
       fontWeight: 300,
       lineHeight: '52px'
     }
+  },
+  source: {
+    marginLeft: 10,
+    fontSize: 14,
+    fontWeight: 400,
+    lineHeight: '23px',
+    verticalAlign: 'top'
   },
   content: {
     padding: '40px 30px 30px',
@@ -43,25 +59,91 @@ export default class Page extends PureComponent {
 
   static propTypes = {
     /**
-     * Заголовок
+     * Урл страницы
      */
-    title: PropTypes.node,
+    pathname: PropTypes.string,
     /**
-     * Содержимое страницы
+     * Заголовок страницы
      */
-    children: PropTypes.node
+    title: PropTypes.string,
+    /**
+     * Ссылка на исходный код
+     */
+    source: PropTypes.string,
+    /**
+     * Дочерние страницы
+     */
+    children: PropTypes.arrayOf(PropTypes.object),
+    /**
+     * Содержание
+     */
+    Content: PropTypes.func
+  }
+
+  state = {
+    children: []
+  }
+
+  componentDidMount() {
+    const {children} = this.props
+    if (!children || children.length === 0)
+      return
+    this.addChildrenToRender(children)
+  }
+
+  componentWillUnmount() {
+    clearTimeout(this.addTimeout)
+  }
+
+  addChildrenToRender([firstChild, ...rest]) {
+    const {children} = this.state
+    this.setState({
+      children: [...children, firstChild]
+    }, () => {
+      if (rest.length === 0)
+        return
+      this.addTimeout = setTimeout(() => {
+        this.addChildrenToRender(rest)
+      }, 33)
+    })
+  }
+
+  renderContent() {
+    const {children, Content, classes} = this.props
+    if (!children || children.length === 0)
+      return <Content components={mdComponents} />
+    const {children: childrenToRender} = this.state
+    return childrenToRender.map(child =>
+      <Fragment key={child.pathname}>
+        <h2>
+          {child.title}
+          {child.source &&
+            <a className={classes.source} href={child.source} target="_blank">
+              &#x3C;source /&#x3E;
+            </a>
+          }
+        </h2>
+        <child.Content components={mdComponents} />
+      </Fragment>
+    )
   }
 
   render() {
-    const {classes, title, children} = this.props
-
+    const {title, source, classes} = this.props
     return (
       <div className={classes.root}>
         <header className={classes.header}>
-          <h1>{title}</h1>
+          <h1>
+            {title}
+            {source &&
+              <a className={classes.source} href={source} target="_blank">
+                &#x3C;source /&#x3E;
+              </a>
+            }
+          </h1>
         </header>
         <div className={classes.content}>
-          {children}
+          {this.renderContent()}
         </div>
       </div>
     )

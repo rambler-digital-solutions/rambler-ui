@@ -58,15 +58,7 @@ export default class PropTypesTable extends PureComponent {
     /**
      * Код для отображения
      */
-    code: PropTypes.string,
-    /**
-     * Заголовок
-     */
-    header: PropTypes.string
-  }
-
-  static defaultProps = {
-    header: 'Свойства'
+    code: PropTypes.string
   }
 
   getDeprecatedInfo(type) {
@@ -122,10 +114,6 @@ export default class PropTypesTable extends PureComponent {
 
     const parsed = parseDoctrine(description)
 
-    // two new lines result in a newline in the table. all other new lines
-    // must be eliminated to prevent markdown mayhem.
-    const jsDocText = parsed.description // TODO: fix it .replace(/\n\n/g, '<br>').replace(/\n/g, ' ')
-
     if (parsed.tags.some(tag => tag.title === 'ignore')) return null
     let signature
 
@@ -171,13 +159,13 @@ export default class PropTypesTable extends PureComponent {
 
     return (
       <Fragment>
-        {deprecated} {jsDocText} {signature}
+        {deprecated} {parsed.description} {signature}
       </Fragment>
     )
   }
 
   render() {
-    const {header, code, classes} = this.props
+    const {code, classes} = this.props
     const componentInfo = parse(code)
     let requiredProps = 0
 
@@ -187,6 +175,7 @@ export default class PropTypesTable extends PureComponent {
         const prop = componentInfo.props[key]
         const propType = this.renderPropTypes(prop.type)
         const description = this.renderDescription(prop.required, prop.description, prop.type)
+        let propName = key
 
         if (description === null)
           return
@@ -197,17 +186,17 @@ export default class PropTypesTable extends PureComponent {
           defaultValue = prop.defaultValue.value.replace(/\n/g, '')
 
         if (prop.required) {
-          key = <span style={{color: '#31a148'}}>{key} *</span>
+          propName = <span style={{color: '#31a148'}}>{propName} *</span>
           requiredProps += 1
         }
 
         if (prop.type.name === 'custom')
           if (this.getDeprecatedInfo(prop.type))
-            key = <Fragment>~~{key}~~</Fragment>
+            propName = <Fragment>~~{propName}~~</Fragment>
 
         return (
           <tr key={key}>
-            <td>{key}</td>
+            <td>{propName}</td>
             <td>{propType}</td>
             <td>{defaultValue}</td>
             <td>{description}</td>
@@ -217,7 +206,6 @@ export default class PropTypesTable extends PureComponent {
 
     return (
       <Fragment>
-        <h3>{header}</h3>
         <div className={classes.table}>
           <table>
             <thead>

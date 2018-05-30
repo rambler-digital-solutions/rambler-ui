@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'docs/src/utils/theming'
-import loadStyleSheet from 'docs/src/utils/loadStyleSheet'
+import loadStyleSheet from 'docs/src/utils/load-style-sheet'
 
 loadStyleSheet('https://static.rambler.ru/fonts/Roboto/Roboto.css')
 loadStyleSheet('https://static.rambler.ru/fonts/CorsicaRamblerLX/CorsicaRamblerLX.css')

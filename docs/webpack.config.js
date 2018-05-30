@@ -3,6 +3,7 @@ const webpack = require('webpack')
 const path = require('path')
 const highlight = require('remark-highlight.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const appConfig = require('./config')
 
 const {NODE_ENV} = process.env
 
@@ -21,10 +22,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        options: {
-          cacheDirectory: true
-        }
+        loader: 'babel-loader'
       },
       {
         test: /\.md$/,
@@ -76,7 +74,8 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(NODE_ENV)
+        NODE_ENV: JSON.stringify(NODE_ENV),
+        APP_CONFIG: JSON.stringify(appConfig)
       }
     }),
     new HtmlWebpackPlugin({

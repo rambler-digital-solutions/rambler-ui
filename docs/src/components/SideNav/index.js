@@ -29,14 +29,16 @@ import ArrowIcon from './ArrowIcon'
   opened: {
     left: 0,
     '& $toggle span': {
-      '&:nth-child(1)': {
-        transform: 'translate(-50%, -1px) rotate(45deg)'
-      },
-      '&:nth-child(2)': {
-        transform: 'translate(-50%, -1px) scaleX(0)'
-      },
-      '&:nth-child(3)': {
-        transform: 'translate(-50%, -1px) rotate(-45deg)'
+      '@media screen and (max-width: 767px)': {
+        '&:nth-child(1)': {
+          transform: 'translate(-50%, -1px) rotate(45deg)'
+        },
+        '&:nth-child(2)': {
+          transform: 'translate(-50%, -1px) scaleX(0)'
+        },
+        '&:nth-child(3)': {
+          transform: 'translate(-50%, -1px) rotate(-45deg)'
+        }
       }
     }
   },
@@ -156,8 +158,10 @@ export default class SideNav extends PureComponent {
 
   componentDidUpdate (prevProps) {
     const {location} = this.props
-    if (location !== prevProps.location)
-      this.closeNav()
+    if (location === prevProps.location)
+      return
+    this.closeNav()
+    document.documentElement.scrollTop = 0
   }
 
   toggleNav = () => {

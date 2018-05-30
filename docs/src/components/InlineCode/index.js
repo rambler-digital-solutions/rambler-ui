@@ -5,10 +5,10 @@ import injectSheet from 'docs/src/utils/theming'
 @injectSheet(() => ({
   root: {
     display: 'inline',
-    padding: '.2em .5em',
+    padding: '.2em .3em',
     backgroundColor: 'rgba(238, 242, 244, .5)',
     fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
-    fontSize: 13,
+    fontSize: '92%',
     lineHeight: '18px'
   }
 }))

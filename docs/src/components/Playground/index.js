@@ -30,23 +30,7 @@ const modules = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    fontFamily: 'Roboto, sans-serif',
-    '@media screen and (min-width: 768px)': {
-      justifyContent: 'space-between'
-    },
-    '&, & h4': {
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: '20px'
-    },
-    '& h4': {
-      display: 'none',
-      margin: '15px 20px',
-      color: theme.colors.cloudGray,
-      '@media screen and (min-width: 768px)': {
-        display: 'block'
-      }
-    }
+    fontFamily: 'Roboto, sans-serif'
   },
   tabs: {
     display: 'flex',
@@ -76,12 +60,12 @@ const modules = {
   },
   content: {
     borderTop: '1px solid',
-    borderTopColor: lighten(theme.colors.cloudGray, 0.7)
+    borderTopColor: lighten(theme.colors.cloudGray, 0.7),
+    padding: '14px 25px 14px 20px'
   },
   viewer: {
     composes: '$content',
     margin: 0,
-    padding: '14px 25px 14px 20px',
     fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
     fontSize: 13,
     lineHeight: '18px',
@@ -93,7 +77,6 @@ const modules = {
   },
   editor: {
     composes: '$content',
-    padding: '14px 25px 14px 20px',
     fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
     fontSize: 13,
     lineHeight: '18px',
@@ -112,7 +95,6 @@ const modules = {
   },
   preview: {
     composes: '$content',
-    padding: '14px 25px 14px 20px',
     overflow: 'auto'
   },
   error: {
@@ -139,17 +121,12 @@ export default class Playground extends PureComponent {
     /**
      * Показывать превью
      */
-    showPreview: PropTypes.bool,
-    /**
-     * Заголовок
-     */
-    title: PropTypes.string
+    showPreview: PropTypes.bool
   }
 
   static defaultProps = {
     canEdit: true,
-    showPreview: true,
-    title: 'Пример'
+    showPreview: true
   }
 
   state = {
@@ -253,12 +230,11 @@ export default class Playground extends PureComponent {
 
   render() {
     const {mode} = this.state
-    const {title, classes, showPreview, canEdit} = this.props
+    const {classes, showPreview, canEdit} = this.props
 
     return (
       <div className={classes.root}>
         <div className={classes.header}>
-          <h4>{title}</h4>
           <div className={classes.tabs}>
             {showPreview &&
               <span
