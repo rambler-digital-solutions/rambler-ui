@@ -1,11 +1,11 @@
 /* eslint-env node */
 const cp = require('child_process')
 
-const {NODE_ENV = 'development'} = process.env
+const {NODE_ENV = 'development', CI_COMMIT_REF_NAME} = process.env
 
 const base = {
   repo: 'git@gitlab.rambler.ru:rambler-ui/rambler-ui',
-  branch: process.env.CI_COMMIT_REF_NAME || cp.execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
+  branch: CI_COMMIT_REF_NAME || cp.execSync('git rev-parse --abbrev-ref HEAD').toString().trim()
 }
 
 let env
