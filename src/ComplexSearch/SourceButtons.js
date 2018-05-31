@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tooltip from '../Tooltip'
 import { injectSheet } from '../theme'
-import GlobalSourceIcon from './GlobalSourceIcon'
-import ServiceSourceIcon from './ServiceSourceIcon'
+import GlobalSourceIcon from './icons/GlobalSourceIcon'
+import ServiceSourceIcon from './icons/ServiceSourceIcon'
 
 @injectSheet(theme => ({
   root: {

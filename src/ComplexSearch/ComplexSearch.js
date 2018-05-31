@@ -4,12 +4,14 @@ import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import deepmerge from 'deepmerge'
 import ClearIcon from '../icons/forms/ClearIcon'
-import MediaSearchIcon from './MediaSearchIcon'
+import MediaSearchIcon from './icons/MediaSearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import SourceButtons from './SourceButtons'
 import provideSearch from './provideSearch'
 import provideSearchDropdown from './provideSearchDropdown'
 
+@provideSearch
+@provideSearchDropdown
 @injectSheet(theme => {
   const css = {
     active: {},
@@ -532,4 +534,4 @@ class ComplexSearch extends React.Component {
   }
 }
 
-export default provideSearch(provideSearchDropdown(ComplexSearch))
+export default ComplexSearch

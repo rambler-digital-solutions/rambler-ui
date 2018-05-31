@@ -4,11 +4,13 @@ import classnames from 'classnames'
 import deepmerge from 'deepmerge'
 import { injectSheet } from '../theme'
 import ClearIcon from '../icons/forms/ClearIcon'
-import ServiceSearchIcon from './ServiceSearchIcon'
+import ServiceSearchIcon from './icons/ServiceSearchIcon'
 import { isolateMixin } from '../utils/mixins'
 import provideSearch from './provideSearch'
 import provideSearchDropdown from './provideSearchDropdown'
 
+@provideSearch
+@provideSearchDropdown
 @injectSheet(theme => {
   const css = {
     small: {},
@@ -333,4 +335,4 @@ class ServiceSearch extends React.Component {
   }
 }
 
-export default provideSearch(provideSearchDropdown(ServiceSearch))
+export default ServiceSearch

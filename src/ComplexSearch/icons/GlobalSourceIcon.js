@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import SvgIcon from '../icons/SvgIcon'
+import SvgIcon from '../../icons/SvgIcon'
 
 export default class GlobalSearchIcon extends PureComponent {
 

@@ -3,11 +3,12 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import deepmerge from 'deepmerge'
-import SearchIcon from '../icons/forms/SearchIcon'
+import SearchIcon from './icons/SearchIcon'
 import SourceButtons from './SourceButtons'
 import { isolateMixin } from '../utils/mixins'
 import provideSearch from './provideSearch'
 
+@provideSearch
 @injectSheet(theme => {
   const css = {
     active: {},
@@ -348,4 +349,4 @@ class SimpleSearch extends React.Component {
   }
 }
 
-export default provideSearch(SimpleSearch)
+export default SimpleSearch
