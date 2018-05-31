@@ -1,8 +1,6 @@
 /* eslint-env node */
 
-const path = require('path')
-
-module.exports = function (config) {
+module.exports = config =>
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
@@ -17,36 +15,32 @@ module.exports = function (config) {
     },
 
     webpack: {
+      mode: 'development',
       devtool: 'inline-source-map',
       module: {
-        loaders: [
+        rules: [
           {
             test: /\.js$/,
-            loader: 'babel',
-            exclude: /node_modules/
-          }, {
-            test: /\.json$/,
-            loader: 'json',
-            include: /node_modules/
+            exclude: /node_modules/,
+            loader: 'babel-loader'
           }
         ]
       },
-      externals: {
-        'react/addons': true,
-        'react/lib/ExecutionEnvironment': true,
-        'react/lib/ReactContext': true
-      },
+      externals: [
+        'react/addons',
+        'react/lib/ExecutionEnvironment',
+        'react/lib/ReactContext'
+      ],
       resolve: {
-        root: [__dirname + '/src', __dirname + '/node_modules'],
-        extensions: ['', '.js', '.json']
+        modules: ['src', 'node_modules']
       },
       resolveLoader: {
-        root: path.join(__dirname, 'node_modules')
+        modules: ['node_modules']
       }
     },
 
-    webpackServer: {
-      noInfo: true
+    webpackMiddleware: {
+      stats: 'errors-only'
     },
 
     plugins: [
@@ -85,4 +79,3 @@ module.exports = function (config) {
       }
     }
   })
-}

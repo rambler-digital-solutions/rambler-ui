@@ -1,7 +1,7 @@
 import React from 'react'
 import classnames from 'classnames'
 import originalInjectSheet, {createTheming} from 'react-jss'
-import {ApplyTheme, injectSheet, withTheme, createJss, createSheetsRegistry} from './index'
+import {ApplyTheme, injectSheet, withTheme, createJss, createSheetsRegistry} from './'
 import {mount, getNodeStyles} from '../utils/test-utils'
 import {normalize as nc} from '../utils/colors'
 
