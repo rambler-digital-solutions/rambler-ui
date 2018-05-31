@@ -1,7 +1,7 @@
 import config from 'docs/src/config'
 import meta from /* preval */ './doc-meta'
 
-const context = require.context('docs/pages/', true, /\.md/)
+const context = require.context('docs/src/pages/', true, /\.md/)
 
 export const cache = context.keys().reduce((cache, key) => {
   const module = context(key)

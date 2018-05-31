@@ -1,7 +1,7 @@
 /* eslint-env node */
 const path = require('path')
 
-const rootDir = path.resolve(__dirname, '../../pages')
+const rootDir = path.resolve(__dirname, '../pages')
 
 function readMeta(path = '') {
   let meta = null

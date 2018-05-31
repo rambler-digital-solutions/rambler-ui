@@ -13,6 +13,7 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
     width: '100%',
     overflowX: 'auto',
     '& table': {
+      width: '100%',
       fontFamily: fontFamily.Roboto,
       borderSpacing: 0,
       fontSize: 14,

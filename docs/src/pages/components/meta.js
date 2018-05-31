@@ -1,8 +1,7 @@
 /* eslint-env node */
 const fs = require('fs')
-const path = require('path')
 
-const items = fs.readdirSync(path.resolve(__dirname, '../../pages/components'))
+const items = fs.readdirSync(__dirname)
 
 module.exports = {
   title: 'Компоненты',
