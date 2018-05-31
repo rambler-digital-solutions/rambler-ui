@@ -4,7 +4,7 @@ import {parse} from 'react-docgen'
 import {parse as parseDoctrine} from 'doctrine'
 import recast from 'recast'
 import {lighten} from 'rambler-ui/utils/colors'
-import injectSheet from 'docs/src/utils/theming'
+import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 
 @injectSheet(theme => ({
   table: {
@@ -13,7 +13,7 @@ import injectSheet from 'docs/src/utils/theming'
     width: '100%',
     overflowX: 'auto',
     '& table': {
-      fontFamily: 'Roboto, sans-serif',
+      fontFamily: fontFamily.Roboto,
       borderSpacing: 0,
       fontSize: 14,
       lineHeight: '20px'
@@ -38,7 +38,7 @@ import injectSheet from 'docs/src/utils/theming'
       fontWeight: 600
     },
     '& td + td': {
-      fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
+      fontFamily: fontFamily.Menlo,
       fontSize: 13
     },
     '& td:last-child': {

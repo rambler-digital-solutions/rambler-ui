@@ -1,13 +1,13 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import injectSheet from 'docs/src/utils/theming'
+import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 
 @injectSheet(() => ({
   root: {
     padding: '14px 25px 14px 20px',
     overflow: 'auto',
     backgroundColor: 'rgba(238, 242, 244, .5)',
-    fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
+    fontFamily: fontFamily.Menlo,
     fontSize: 13,
     lineHeight: '18px',
     '& code': {

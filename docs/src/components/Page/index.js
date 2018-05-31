@@ -1,6 +1,6 @@
 import React, {PureComponent, Fragment} from 'react'
 import PropTypes from 'prop-types'
-import injectSheet from 'docs/src/utils/theming'
+import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import 'highlight.js/styles/default.css'
 import PreCode from 'docs/src/components/PreCode'
 import InlineCode from 'docs/src/components/InlineCode'
@@ -24,17 +24,23 @@ const mdComponents = {
       padding: '71px 200px 48px 100px'
     },
     '& h1': {
-      fontFamily: 'Roboto, sans-serif',
+      fontFamily: fontFamily.Roboto,
       fontSize: 40,
       fontWeight: 300,
-      lineHeight: '52px'
+      lineHeight: '52px',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    },
+    '& $source': {
+      marginTop: 8
     }
   },
   source: {
-    marginLeft: 10,
+    display: 'inline-block',
     fontSize: 14,
     fontWeight: 400,
     lineHeight: '23px',
+    whiteSpace: 'nowrap',
     verticalAlign: 'top'
   },
   content: {
@@ -108,39 +114,42 @@ export default class Page extends PureComponent {
     })
   }
 
+  renderTitle({title/* , source */}) {
+    // const {classes} = this.props
+    return title
+    // TODO: add source link
+    // return (
+    //   <Fragment>
+    //     {title}
+    //     {' '}
+    //     {source &&
+    //       <a className={classes.source} href={source} target="_blank">
+    //         &#x3C;source /&#x3E;
+    //       </a>
+    //     }
+    //   </Fragment>
+    // )
+  }
+
   renderContent() {
-    const {children, Content, classes} = this.props
+    const {children, Content} = this.props
     if (!children || children.length === 0)
       return <Content components={mdComponents} />
     const {children: childrenToRender} = this.state
     return childrenToRender.map(child =>
       <Fragment key={child.pathname}>
-        <h2>
-          {child.title}
-          {child.source &&
-            <a className={classes.source} href={child.source} target="_blank">
-              &#x3C;source /&#x3E;
-            </a>
-          }
-        </h2>
+        <h2>{this.renderTitle(child)}</h2>
         <child.Content components={mdComponents} />
       </Fragment>
     )
   }
 
   render() {
-    const {title, source, classes} = this.props
+    const {classes, ...rest} = this.props
     return (
       <div className={classes.root}>
         <header className={classes.header}>
-          <h1>
-            {title}
-            {source &&
-              <a className={classes.source} href={source} target="_blank">
-                &#x3C;source /&#x3E;
-              </a>
-            }
-          </h1>
+          <h1>{this.renderTitle(rest)}</h1>
         </header>
         <div className={classes.content}>
           {this.renderContent()}

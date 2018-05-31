@@ -11,7 +11,7 @@ import 'codemirror/mode/javascript/javascript'
 import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/default.css'
 import {lighten} from 'rambler-ui/utils/colors'
-import injectSheet from 'docs/src/utils/theming'
+import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 
 const modules = {
   'react': React,
@@ -26,31 +26,34 @@ const modules = {
     marginTop: 20,
     marginBottom: 30
   },
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    fontFamily: 'Roboto, sans-serif'
-  },
   tabs: {
+    position: 'relative',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginLeft: 10,
-    marginRight: 10,
+    marginBottom: -1,
+    fontFamily: fontFamily.Roboto,
+    overflowX: 'auto',
     '@media screen and (min-width: 768px)': {
-      marginLeft: 20,
-      marginRight: 20
+      justifyContent: 'flex-end'
     }
   },
   tabItem: {
     borderBottom: '2px solid transparent',
-    padding: '15px 5px 14px',
-    marginBottom: -1,
+    padding: '15px 5px',
+    marginLeft: 10,
     color: theme.colors.cloudGray,
     cursor: 'pointer',
-    '& + &': {
-      marginLeft: 10
+    '&:last-child': {
+      marginRight: 10
+    },
+    '@media screen and (min-width: 768px)': {
+      '&:first-child': {
+        marginLeft: 20
+      },
+      '&:last-child': {
+        marginRight: 20
+      }
     }
   },
   activeTabItem: {
@@ -66,7 +69,7 @@ const modules = {
   viewer: {
     composes: '$content',
     margin: 0,
-    fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
+    fontFamily: fontFamily.Menlo,
     fontSize: 13,
     lineHeight: '18px',
     '& code': {
@@ -77,7 +80,7 @@ const modules = {
   },
   editor: {
     composes: '$content',
-    fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
+    fontFamily: fontFamily.Menlo,
     fontSize: 13,
     lineHeight: '18px',
     '& .CodeMirror': {
@@ -234,28 +237,26 @@ export default class Playground extends PureComponent {
 
     return (
       <div className={classes.root}>
-        <div className={classes.header}>
-          <div className={classes.tabs}>
-            {showPreview &&
-              <span
-                className={classnames(classes.tabItem, mode === 'preview' && classes.activeTabItem)}
-                onClick={() => this.setMode('preview')}>
-                Превью
-              </span>
-            }
+        <div className={classes.tabs}>
+          {showPreview &&
             <span
-              className={classnames(classes.tabItem, mode === 'read' && classes.activeTabItem)}
-              onClick={() => this.setMode('read')}>
-              Код
+              className={classnames(classes.tabItem, mode === 'preview' && classes.activeTabItem)}
+              onClick={() => this.setMode('preview')}>
+              Превью
             </span>
-            {canEdit &&
-              <span
-                className={classnames(classes.tabItem, mode === 'write' && classes.activeTabItem)}
-                onClick={() => this.setMode('write')}>
-                Редактировать
-              </span>
-            }
-          </div>
+          }
+          <span
+            className={classnames(classes.tabItem, mode === 'read' && classes.activeTabItem)}
+            onClick={() => this.setMode('read')}>
+            Код
+          </span>
+          {canEdit &&
+            <span
+              className={classnames(classes.tabItem, mode === 'write' && classes.activeTabItem)}
+              onClick={() => this.setMode('write')}>
+              Редактировать
+            </span>
+          }
         </div>
         {this.renderCode()}
         {this.renderPreview()}

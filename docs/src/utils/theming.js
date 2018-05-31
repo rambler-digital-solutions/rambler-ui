@@ -1,6 +1,12 @@
 import React from 'react'
 import injectSheet, {createTheming} from 'react-jss'
 
+export const fontFamily = {
+  Roboto: 'Roboto, sans-serif',
+  CorsicaRamblerLX: 'CorsicaRamblerLX, sans-serif',
+  Menlo: 'Menlo, Monaco, Courier New, Courier, monospace'
+}
+
 export const theme = {
   colors: {
     blue: '#315efb',
