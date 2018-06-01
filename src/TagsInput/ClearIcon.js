@@ -6,6 +6,7 @@ export default class ClearIcon extends PureComponent {
 
   static displayName = 'ClearIcon'
 
+  /* eslint-disable max-len */
   render() {
     return (
       <SvgIcon { ...this.props } viewBox="0 0 15 15">
