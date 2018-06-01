@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {NavLink, withRouter} from 'react-router-dom'
-import {ApplyTheme} from 'rambler-ui/theme'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
@@ -293,33 +292,31 @@ export default class SideNav extends PureComponent {
 
     return (
       <div className={classes.version}>
-        <ApplyTheme>
-          <Dropdown
-            className={classes.dropdown}
-            anchorPointY="top"
-            contentPointY="top"
-            anchorPointX="left"
-            contentPointX="left"
-            isOpened={showVersions}
-            anchor={
-              <button onClick={this.showVersions}>
-                Версия {currentVersion}
-                <ArrowIcon color="currentColor" />
-              </button>
-            }
-            onClose={this.hideVersions}>
-            <Menu
-              size="small"
-              value={this.version}
-              onChange={this.changeVersion}>
-              {versions.map(v => (
-                <MenuItem key={v.path} value={v.path}>
-                  {v.title || v.path}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Dropdown>
-        </ApplyTheme>
+        <Dropdown
+          className={classes.dropdown}
+          anchorPointY="top"
+          contentPointY="top"
+          anchorPointX="left"
+          contentPointX="left"
+          isOpened={showVersions}
+          anchor={
+            <button onClick={this.showVersions}>
+              Версия {currentVersion}
+              <ArrowIcon color="currentColor" />
+            </button>
+          }
+          onClose={this.hideVersions}>
+          <Menu
+            size="small"
+            value={this.version}
+            onChange={this.changeVersion}>
+            {versions.map(v => (
+              <MenuItem key={v.path} value={v.path}>
+                {v.title || v.path}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Dropdown>
       </div>
     )
   }

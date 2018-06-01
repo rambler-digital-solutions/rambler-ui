@@ -1,9 +1,11 @@
 import React, {PureComponent, Fragment} from 'react'
 import PropTypes from 'prop-types'
+import IconButton from 'rambler-ui/IconButton'
 import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import 'highlight.js/styles/default.css'
 import PreCode from 'docs/src/components/PreCode'
 import InlineCode from 'docs/src/components/InlineCode'
+import GithubIcon from './GithubIcon'
 
 const mdComponents = {
   h1: () => null,
@@ -30,18 +32,16 @@ const mdComponents = {
       lineHeight: '52px',
       overflow: 'hidden',
       textOverflow: 'ellipsis'
-    },
-    '& $source': {
-      marginTop: 8
     }
   },
   source: {
-    display: 'inline-block',
-    fontSize: 14,
-    fontWeight: 400,
-    lineHeight: '23px',
-    whiteSpace: 'nowrap',
-    verticalAlign: 'top'
+    position: 'absolute',
+    top: 30,
+    right: 40,
+    '& svg': {
+      width: 20,
+      height: 20
+    }
   },
   content: {
     padding: '40px 30px 30px',
@@ -114,23 +114,6 @@ export default class Page extends PureComponent {
     })
   }
 
-  renderTitle({title/* , source */}) {
-    // const {classes} = this.props
-    return title
-    // TODO: add source link
-    // return (
-    //   <Fragment>
-    //     {title}
-    //     {' '}
-    //     {source &&
-    //       <a className={classes.source} href={source} target="_blank">
-    //         &#x3C;source /&#x3E;
-    //       </a>
-    //     }
-    //   </Fragment>
-    // )
-  }
-
   renderContent() {
     const {children, Content} = this.props
     if (!children || children.length === 0)
@@ -138,18 +121,29 @@ export default class Page extends PureComponent {
     const {children: childrenToRender} = this.state
     return childrenToRender.map(child =>
       <Fragment key={child.pathname}>
-        <h2>{this.renderTitle(child)}</h2>
+        <h2>{child.title}</h2>
         <child.Content components={mdComponents} />
       </Fragment>
     )
   }
 
   render() {
-    const {classes, ...rest} = this.props
+    const {classes, title, source} = this.props
     return (
       <div className={classes.root}>
         <header className={classes.header}>
-          <h1>{this.renderTitle(rest)}</h1>
+          <h1>
+            {title}
+            {source &&
+              <IconButton
+                className={classes.source}
+                size="small"
+                href={source}
+                target="_blank">
+                <GithubIcon />
+              </IconButton>
+            }
+          </h1>
         </header>
         <div className={classes.content}>
           {this.renderContent()}
