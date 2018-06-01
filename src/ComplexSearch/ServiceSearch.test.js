@@ -1,7 +1,7 @@
 import React from 'react'
-import ServiceSearch from '../ServiceSearch'
-import theme from '../../theme/base'
-import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
+import ServiceSearch from './ServiceSearch'
+import theme from '../theme/base'
+import { mount, withTheme, getStyles, getWrapperNode } from '../utils/test-utils'
 
 const DATA_ATTR = 'data-cerber-head'
 const SEARCH_DATA_ATTR = 'main::search'
@@ -17,7 +17,7 @@ const getSearchWrapper = (props = {}) => {
 
   return mount(
     withTheme(
-      <ServiceSearch 
+      <ServiceSearch
         {...resultProps}
       />
     )
@@ -58,7 +58,7 @@ describe('<ServiceSearch />', () => {
   it('should call onPressEnter when press enter on input', () => {
     spyOn(handlersProps, 'onPressEnter')
     spyOn(handlersProps, 'onSearch')
-    
+
     const wrapper = getSearchWrapper(handlersProps)
     const input = wrapper.find('input').first()
     getWrapperNode(input).value = 'value'
@@ -72,5 +72,5 @@ describe('<ServiceSearch />', () => {
     const wrapper = getSearchWrapper()
     expect(wrapper.find('button').length).toEqual(0)
   })
-  
+
 })

@@ -3,6 +3,7 @@ import SvgIcon from 'rambler-ui/icons/SvgIcon'
 
 export default class Logo extends PureComponent {
 
+  /* eslint-disable max-len */
   render() {
     return (
       <SvgIcon { ...this.props } viewBox="0 0 133 41" style={{width: 133, height: 41}}>

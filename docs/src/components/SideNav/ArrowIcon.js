@@ -3,6 +3,7 @@ import SvgIcon from 'rambler-ui/icons/SvgIcon'
 
 export default class ArrowIcon extends PureComponent {
 
+  /* eslint-disable max-len */
   render() {
     return (
       <SvgIcon { ...this.props } viewBox="0 0 20 20">

@@ -1,9 +1,9 @@
 import React from 'react'
-import SimpleSearch from '../SimpleSearch'
-import SourceButtons from '../SourceButtons'
-import ServiceSourceIcon from '../icons/ServiceSourceIcon'
-import theme from '../../theme/base'
-import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
+import SimpleSearch from './SimpleSearch'
+import SourceButtons from './SourceButtons'
+import ServiceSourceIcon from './icons/ServiceSourceIcon'
+import theme from '../theme/base'
+import { mount, withTheme, getStyles, getWrapperNode } from '../utils/test-utils'
 
 const DATA_ATTR = 'data-cerber-head'
 const SEARCH_DATA_ATTR = 'main::search'
@@ -19,7 +19,7 @@ const getSearchWrapper = (props = {}) => {
 
   return mount(
     withTheme(
-      <SimpleSearch 
+      <SimpleSearch
         {...resultProps}
       />
     )
@@ -61,7 +61,7 @@ describe('<SimpleSearch />', () => {
   it('should call onSubmit when click on search button with input value', () => {
     spyOn(handlersProps, 'onSubmit')
     spyOn(handlersProps, 'onSearch')
-    
+
     const wrapper = getSearchWrapper(handlersProps)
     const input = wrapper.find('input').first()
     getWrapperNode(input).value = 'value'
@@ -117,5 +117,5 @@ describe('<SimpleSearch />', () => {
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {globalSearch: 'service'})
   })
-  
+
 })
