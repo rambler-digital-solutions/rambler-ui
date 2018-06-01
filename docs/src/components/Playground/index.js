@@ -98,7 +98,8 @@ const modules = {
   },
   preview: {
     composes: '$content',
-    overflow: 'auto'
+    overflow: 'auto',
+    fontFamily: fontFamily.Roboto
   },
   error: {
     composes: '$viewer',

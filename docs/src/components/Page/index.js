@@ -36,8 +36,12 @@ const mdComponents = {
   },
   source: {
     position: 'absolute',
-    top: 30,
-    right: 40,
+    top: 15,
+    right: 15,
+    '@media screen and (min-width: 768px)': {
+      top: 30,
+      right: 40
+    },
     '& svg': {
       width: 20,
       height: 20
