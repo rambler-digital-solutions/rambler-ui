@@ -1,7 +1,7 @@
 import React from 'react'
 import SimpleSearch from '../SimpleSearch'
 import SourceButtons from '../SourceButtons'
-import ServiceSourceIcon from '../ServiceSourceIcon'
+import ServiceSourceIcon from '../icons/ServiceSourceIcon'
 import theme from '../../theme/base'
 import { mount, withTheme, getStyles, getWrapperNode } from '../../utils/test-utils'
 
