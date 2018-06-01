@@ -10,8 +10,8 @@ const appConfig = require('../config')
 
 const currentVersion = require(path.resolve(__dirname, '../../package.json')).version
 
-const outDir = path.resolve(__dirname, '../build')
-const tempDir = path.resolve(__dirname, '../build/temp')
+const outDir = path.resolve(process.cwd(), argv.output || 'docs/build')
+const tempDir = path.join(outDir, 'temp')
 
 const exec = command =>
   cp.execSync(command).toString().trim()

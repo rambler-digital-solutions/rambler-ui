@@ -3,19 +3,18 @@ const webpack = require('webpack')
 const path = require('path')
 const highlight = require('remark-highlight.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const argv = require('minimist')(process.argv.slice(2))
 const appConfig = require('./config')
 
 const {NODE_ENV} = process.env
-
-// TODO: support cli args
 
 module.exports = {
   mode: NODE_ENV,
   entry: path.join(__dirname, 'src/index'),
   output: {
     filename: '[name].[hash].js',
-    path: path.join(__dirname, 'build'),
-    publicPath: '/'
+    publicPath: '/',
+    path: path.resolve(process.cwd(), argv.output || 'docs/build')
   },
   module: {
     rules: [
@@ -90,8 +89,10 @@ module.exports = {
   ...(NODE_ENV === 'development' && {
     devServer: {
       inline: true,
-      open: true,
-      port: 8086,
+      port: argv.port || 8086,
+      host: argv.host || '0.0.0.0',
+      open: !argv.silent,
+      disableHostCheck: !!argv.disableHostCheck,
       stats: {
         colors: true
       }
