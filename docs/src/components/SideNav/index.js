@@ -2,8 +2,12 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {NavLink, withRouter} from 'react-router-dom'
+import {ApplyTheme} from 'rambler-ui/theme'
+import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
-import injectSheet from 'docs/src/utils/theming'
+import {Menu, MenuItem} from 'rambler-ui/Menu'
+import config from 'docs/src/config'
+import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import Logo from './Logo'
 import ArrowIcon from './ArrowIcon'
 
@@ -139,7 +143,36 @@ import ArrowIcon from './ArrowIcon'
     display: 'inline-block',
     verticalAlign: 'middle',
     marginTop: -2,
-    marginLeft: 5
+    marginLeft: 3
+  },
+  version: {
+    position: 'relative',
+    marginTop: 25,
+    '& button': {
+      border: 0,
+      margin: 0,
+      padding: 0,
+      backgroundColor: 'transparent',
+      color: theme.colors.cloudGray,
+      fontFamily: fontFamily.CorsicaRamblerLX,
+      fontSize: 14,
+      lineHeight: '20px',
+      cursor: 'pointer',
+      outline: 0,
+      '& svg': {
+        marginTop: -2,
+        marginLeft: 3,
+        verticalAlign: 'middle'
+      }
+    }
+  },
+  dropdown: {
+    padding: '0 !important',
+    marginTop: -7.5,
+    marginLeft: -13,
+    minWidth: 150,
+    maxHeight: 160,
+    overflowY: 'auto'
   }
 }))
 export default class SideNav extends PureComponent {
@@ -153,7 +186,21 @@ export default class SideNav extends PureComponent {
 
   state = {
     navOpened: false,
-    navScrolled: false
+    navScrolled: false,
+    versions: [],
+    showVersions: false
+  }
+
+  componentDidMount() {
+    const req = new XMLHttpRequest()
+    req.open('GET', `${config.pathPrefix}/versions.json`, true)
+    req.onreadystatechange = () => {
+      if (req.readyState === 4 && req.status === 200)
+        this.setState({
+          versions: JSON.parse(req.responseText)
+        })
+    }
+    req.send(null)
   }
 
   componentDidUpdate (prevProps) {
@@ -177,11 +224,27 @@ export default class SideNav extends PureComponent {
   }
 
   scrollMenu = event => {
-    const navScrolled = event.target.scrollTop !== 0
+    const navScrolled = event.currentTarget.scrollTop !== 0
     if (navScrolled === this.state.navScrolled)
       return
     this.setState({
       navScrolled
+    })
+  }
+
+  changeVersion = version => {
+    window.location = `${config.pathPrefix}/${version}/`
+  }
+
+  showVersions = () => {
+    this.setState({
+      showVersions: true
+    })
+  }
+
+  hideVersions = () => {
+    this.setState({
+      showVersions: false
     })
   }
 
@@ -210,6 +273,57 @@ export default class SideNav extends PureComponent {
     )
   }
 
+  renderVersion() {
+    const {classes} = this.props
+    const {versions, showVersions} = this.state
+
+    const currentVersion = versions.reduce(
+      (acc, v) => {
+        const currentPath =
+          window.location.pathname.replace(config.pathPrefix, '').replace(/^\//, '').split('/').join('/')
+        if (currentPath === v.path)
+          return v.title ? v.title.replace(/[^0-9.]/g, '') : v.path
+        return acc
+      },
+      null
+    )
+
+    if (!currentVersion)
+      return null
+
+    return (
+      <div className={classes.version}>
+        <ApplyTheme>
+          <Dropdown
+            className={classes.dropdown}
+            anchorPointY="top"
+            contentPointY="top"
+            anchorPointX="left"
+            contentPointX="left"
+            isOpened={showVersions}
+            anchor={
+              <button onClick={this.showVersions}>
+                Версия {currentVersion}
+                <ArrowIcon color="currentColor" />
+              </button>
+            }
+            onClose={this.hideVersions}>
+            <Menu
+              size="small"
+              value={this.version}
+              onChange={this.changeVersion}>
+              {versions.map(v => (
+                <MenuItem key={v.path} value={v.path}>
+                  {v.title || v.path}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Dropdown>
+        </ApplyTheme>
+      </div>
+    )
+  }
+
   render() {
     const {navOpened, navScrolled} = this.state
     const {classes, pages} = this.props
@@ -230,6 +344,7 @@ export default class SideNav extends PureComponent {
           </div>
           <div className={classes.scroll} onScroll={this.scrollMenu}>
             {this.renderList(pages)}
+            {this.renderVersion()}
           </div>
         </div>
       </OnClickOutside>
