@@ -375,27 +375,46 @@ export function createTheme(config) {
     },
     search: {
       fontSize: 14,
-      height: 40,
       maxWidth: 765,
 
-      input: {
-        color: colors.dark,
-        default: {
-          borderColor: colors.primary,
-          icon: colors.controls.grey.fieldIcon
+      sizes: {
+        small: {
+          height: 40
         },
-        hover: {
-          borderColor: colors.primaryDark
+        medium: {
+          height: 40
         }
       },
+      division: {
+        color: colors.controls.grey.background
+      },
       clear: {
+        color: colors.dark,
+
+        hover: {
+          color: colors.primary
+        }
+      },
+      serviceIcon: {
         color: colors.controls.grey.outline,
         hover: {
           color: colors.primary
         }
       },
-      division: {
-        color: colors.controls.grey.background
+      input: {
+        color: colors.dark,
+        default: {
+          borderColor: colors.primary,
+          icon: colors.controls.grey.outline
+        },
+        hover: {
+          borderColor: colors.primaryDark,
+          icon: colors.primary
+        },
+        placeholder: {
+          fontSize: 14,
+          color: colors.controls.grey.outline
+        }
       },
       button: {
         color: colors.light,
@@ -416,13 +435,80 @@ export function createTheme(config) {
           text: fade(colors.light, 0.2),
           icon: fade(colors.light, 0.2)
         }
+      }
+    },
+    simpleSearch: {
+      fontSize: 13,
+      maxWidth: 765,
+
+      sizes: {
+        small: {
+          height: 35
+        },
+        medium: {
+          height: 35
+        }
       },
-      bottomLinks: {
-        fontSize: 12
+    
+      button: {
+        color: colors.primary,
+        active: {
+          color: colors.primaryDark
+        }
+      },
+      input: {
+        color: colors.dark,
+        default: {
+          borderColor: colors.primary,
+          icon: colors.controls.grey.fieldIcon
+        },
+        hover: {
+          borderColor: colors.primary
+        },
+        placeholder: {
+          fontSize: 13,
+          color: colors.controls.grey.outline
+        }
+      }
+    },
+    serviceSearch: {
+      fontSize: 13,
+      maxWidth: 765,
+
+      sizes: {
+        small: {
+          height: 35
+        },
+
+        medium: {
+          height: 45
+        }
+      },
+      clear: {
+        color: colors.dark,
+
+        hover: {
+          color: colors.dark
+        }
+      },
+      input: {
+        color: colors.dark,
+        default: {
+          borderColor: lighten(colors.controls.grey.outline, 0.3),
+          icon: colors.controls.grey.outline
+        },
+        hover: {
+          borderColor: colors.primary
+        },
+        placeholder: {
+          fontSize: 13,
+          color: colors.controls.grey.outline
+        }
       }
     },
     suggestItem: {
       fontSize: 14,
+      height: 40,
 
       removeButton: {
         fontSize: 13,

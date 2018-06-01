@@ -9,7 +9,7 @@ import { COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT } from '../constants/context'
 @injectSheet(theme => ({
   isHighlighted: {},
   root: {
-    height: theme.search.height,
+    height: theme.suggestItem.height,
     padding: '0 15px',
     cursor: 'pointer',
     fontSize: theme.suggestItem.fontSize,
