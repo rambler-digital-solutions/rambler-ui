@@ -277,7 +277,10 @@ export default class SideNav extends PureComponent {
     const {classes} = this.props
     const {versions, showVersions} = this.state
 
-    const currentVersion = versions.reduce(
+    if (versions.length === 0)
+      return null
+
+    let currentVersion = versions.reduce(
       (acc, v) => {
         const currentPath =
           window.location.pathname.replace(config.pathPrefix, '').replace(/^\//, '').split('/').join('/')
@@ -289,35 +292,37 @@ export default class SideNav extends PureComponent {
     )
 
     if (!currentVersion)
-      return null
+      currentVersion = versions[0].title.replace(/[^0-9.]/g, '')
 
     return (
       <div className={classes.version}>
-        <Dropdown
-          className={classes.dropdown}
-          anchorPointY="top"
-          contentPointY="top"
-          anchorPointX="left"
-          contentPointX="left"
-          isOpened={showVersions}
-          anchor={
-            <button onClick={this.showVersions}>
-              Версия {currentVersion}
-              <ArrowIcon color="currentColor" />
-            </button>
-          }
-          onClose={this.hideVersions}>
-          <Menu
-            size="small"
-            value={this.version}
-            onChange={this.changeVersion}>
-            {versions.map(v => (
-              <MenuItem key={v.path} value={v.path}>
-                {v.title || v.path}
-              </MenuItem>
-            ))}
-          </Menu>
-        </Dropdown>
+        <ApplyTheme>
+          <Dropdown
+            className={classes.dropdown}
+            anchorPointY="top"
+            contentPointY="top"
+            anchorPointX="left"
+            contentPointX="left"
+            isOpened={showVersions}
+            anchor={
+              <button onClick={this.showVersions}>
+                Версия {currentVersion}
+                <ArrowIcon color="currentColor" />
+              </button>
+            }
+            onClose={this.hideVersions}>
+            <Menu
+              size="small"
+              value={this.version}
+              onChange={this.changeVersion}>
+              {versions.map(v => (
+                <MenuItem key={v.path} value={v.path}>
+                  {v.title || v.path}
+                </MenuItem>
+              ))}
+            </Menu>
+          </Dropdown>
+        </ApplyTheme>
       </div>
     )
   }
@@ -327,27 +332,25 @@ export default class SideNav extends PureComponent {
     const {classes, pages} = this.props
 
     return (
-      <ApplyTheme>
-        <OnClickOutside handler={this.closeNav}>
-          <div className={classnames(classes.root, navOpened && classes.opened)}>
-            <button
-              type="button"
-              className={classes.toggle}
-              onClick={this.toggleNav}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-            <div className={classnames(classes.logo, navScrolled && classes.shadow)}>
-              <Logo />
-            </div>
-            <div className={classes.scroll} onScroll={this.scrollMenu}>
-              {this.renderList(pages)}
-              {this.renderVersion()}
-            </div>
+      <OnClickOutside handler={this.closeNav}>
+        <div className={classnames(classes.root, navOpened && classes.opened)}>
+          <button
+            type="button"
+            className={classes.toggle}
+            onClick={this.toggleNav}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+          <div className={classnames(classes.logo, navScrolled && classes.shadow)}>
+            <Logo />
           </div>
-        </OnClickOutside>
-      </ApplyTheme>
+          <div className={classes.scroll} onScroll={this.scrollMenu}>
+            {this.renderList(pages)}
+            {this.renderVersion()}
+          </div>
+        </div>
+      </OnClickOutside>
     )
   }
 

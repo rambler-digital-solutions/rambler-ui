@@ -135,12 +135,12 @@ export default class Page extends PureComponent {
   render() {
     const {classes, title, source} = this.props
     return (
-      <ApplyTheme>
-        <div className={classes.root}>
-          <header className={classes.header}>
-            <h1>
-              {title}
-              {source &&
+      <div className={classes.root}>
+        <header className={classes.header}>
+          <h1>
+            {title}
+            {source &&
+              <ApplyTheme>
                 <IconButton
                   className={classes.source}
                   size="small"
@@ -148,14 +148,14 @@ export default class Page extends PureComponent {
                   target="_blank">
                   <GithubIcon />
                 </IconButton>
-              }
-            </h1>
-          </header>
-          <div className={classes.content}>
-            {this.renderContent()}
-          </div>
+              </ApplyTheme>
+            }
+          </h1>
+        </header>
+        <div className={classes.content}>
+          {this.renderContent()}
         </div>
-      </ApplyTheme>
+      </div>
     )
   }
 
