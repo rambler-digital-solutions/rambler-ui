@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import {parse} from 'react-docgen'
 import {parse as parseDoctrine} from 'doctrine'
 import recast from 'recast'
+import remark from 'remark'
+import html from 'remark-html'
 import {lighten} from 'rambler-ui/utils/colors'
 import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 
@@ -46,6 +48,14 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
       color: theme.colors.cloudGray,
       fontFamily: 'inherit',
       fontSize: 'inherit'
+    },
+    '& code': {
+      display: 'inline',
+      padding: '.2em .3em',
+      backgroundColor: 'rgba(238, 242, 244, .5)',
+      fontFamily: fontFamily.Menlo,
+      fontSize: '92%',
+      lineHeight: '18px'
     }
   },
   required: {
@@ -62,6 +72,21 @@ export default class PropTypesTable extends PureComponent {
     code: PropTypes.string
   }
 
+  state = {
+    propTypes: '',
+    requiredProps: 0
+  }
+
+  componentDidMount() {
+    this.generateTable(this.props.code)
+  }
+
+  componentDidUpdate(prevProps) {
+    const {code} = this.props
+    if (code !== prevProps.code)
+      this.generateTable(code)
+  }
+
   getDeprecatedInfo(type) {
     const deprecatedPropType = 'deprecated(PropTypes.'
 
@@ -76,47 +101,50 @@ export default class PropTypesTable extends PureComponent {
     return false
   }
 
-  renderPropTypes(type) {
-    if (type.name === 'func')
+  generatePropType(type) {
+    switch (type.name) {
+    case 'func':
       return 'function'
 
-    if (type.name === 'custom') {
+    /* eslint-disable no-case-declarations */
+    case 'custom':
       const deprecatedInfo = this.getDeprecatedInfo(type)
-      if (deprecatedInfo === false)
-        return type.raw
-      return this.renderPropTypes({name: deprecatedInfo.propTypes})
+
+      if (deprecatedInfo !== false)
+        return this.generatePropType({
+          name: deprecatedInfo.propTypes
+        })
+
+      return type.raw
+
+    case 'enum':
+      const values = type.value.map(v => v.value).join('<br>&nbsp;')
+      return `enum:<br>&nbsp;${values}<br>`
+    /* eslint-enable no-case-declarations */
+
+    default:
+      return type.name
     }
-
-    if (type.name === 'enum')
-      return (
-        <Fragment>
-          enum:
-          {type.value.map(v => <div key={v.value}>&nbsp;{v.value}</div>)}
-        </Fragment>
-      )
-
-    return type.name
   }
 
-  renderDescription (required, description, type) {
-    let deprecated
+  generateDescription(required, description, type) {
+    let deprecated = ''
 
     if (type.name === 'custom') {
       const deprecatedInfo = this.getDeprecatedInfo(type)
 
       if (deprecatedInfo)
-        deprecated = (
-          <Fragment>
-            *Deprecated*. {deprecatedInfo.explanation}
-            <br /><br />
-          </Fragment>
-        )
+        deprecated = `*Deprecated*. ${deprecatedInfo.explanation}<br><br>`
     }
 
     const parsed = parseDoctrine(description)
 
+    // two new lines result in a newline in the table. all other new lines
+    // must be eliminated to prevent markdown mayhem.
+    const jsDocText = parsed.description.replace(/\n\n/g, '<br>').replace(/\n/g, ' ')
+
     if (parsed.tags.some(tag => tag.title === 'ignore')) return null
-    let signature
+    let signature = ''
 
     if (type.name === 'func' && parsed.tags.length > 0) {
       // Remove new lines from tag descriptions to avoid markdown errors.
@@ -139,47 +167,34 @@ export default class PropTypesTable extends PureComponent {
         parsedReturns = {type: {name: 'void'}}
       }
 
-      signature = (
-        <Fragment>
-          <br /><br />
-          **Signature:**
-          <div>
-            `function({
-              parsedArgs.map(tag => `${tag.name}: ${tag.type.name}`).join(', ')
-            }) => {parsedReturns.type.name}`
-          </div>
-          {parsedArgs.map(tag => <div>*{tag.name}:* {tag.description}</div>)}
-          {parsedReturns.description &&
-            <div>
-              *returns* ({parsedReturns.type.name}): {parsedReturns.description}
-            </div>
-          }
-        </Fragment>
-      )
+      signature += '<br><br>**Signature:**<br>`function('
+      signature += parsedArgs.map(tag => `${tag.name}: ${tag.type.name}`).join(', ')
+      signature += `) => ${parsedReturns.type.name}` + '`<br>'
+      signature += parsedArgs.map(tag => `*${tag.name}:* ${tag.description}`).join('<br>')
+      if (parsedReturns.description)
+        signature += `<br> *returns* (${parsedReturns.type.name}): ${parsedReturns.description}`
     }
 
-    return (
-      <Fragment>
-        {deprecated} {parsed.description} {signature}
-      </Fragment>
-    )
+    return `${deprecated} ${jsDocText}${signature}`
   }
 
-  render() {
-    const {code, classes} = this.props
+  generateTable(code) {
     const componentInfo = parse(code)
     let requiredProps = 0
 
+    const header = `
+| Название | Тип | Значение по умолчанию | Описание |
+|:---------|:----|:----------------------|:---------|`
+
     const propsTable = Object
       .keys(componentInfo.props)
-      .map(key => {
+      .reduce((content, key) => {
         const prop = componentInfo.props[key]
-        const propType = this.renderPropTypes(prop.type)
-        const description = this.renderDescription(prop.required, prop.description, prop.type)
-        let propName = key
+        const propType = this.generatePropType(prop.type)
+        const description = this.generateDescription(prop.required, prop.description, prop.type)
 
         if (description === null)
-          return
+          return content
 
         let defaultValue = ''
 
@@ -187,41 +202,40 @@ export default class PropTypesTable extends PureComponent {
           defaultValue = prop.defaultValue.value.replace(/\n/g, '')
 
         if (prop.required) {
-          propName = <span style={{color: '#31a148'}}>{propName} *</span>
+          key = `<span style="color: #31a148">${key} *</span>`
           requiredProps += 1
         }
 
         if (prop.type.name === 'custom')
           if (this.getDeprecatedInfo(prop.type))
-            propName = <Fragment>~~{propName}~~</Fragment>
+            key = `~~${key}~~`
 
-        return (
-          <tr key={key}>
-            <td>{propName}</td>
-            <td>{propType}</td>
-            <td>{defaultValue}</td>
-            <td>{description}</td>
-          </tr>
-        )
+        return `${content}
+| ${key} | ${propType} | ${defaultValue} | ${description} |`
+      }, header)
+
+    remark()
+      .use(html)
+      .process(propsTable, (e, text) => {
+        if (e)
+          throw e
+        this.setState({
+          requiredProps,
+          propsTable: String(text)
+        })
       })
+  }
+
+  render() {
+    const {propsTable, requiredProps} = this.state
+    const {classes} = this.props
 
     return (
       <Fragment>
-        <div className={classes.table}>
-          <table>
-            <thead>
-              <tr>
-                <th>Название</th>
-                <th>Тип</th>
-                <th>Значение по-умолчанию</th>
-                <th>Описание</th>
-              </tr>
-            </thead>
-            <tbody>
-              {propsTable}
-            </tbody>
-          </table>
-        </div>
+        <div
+          className={classes.table}
+          dangerouslySetInnerHTML={{__html: propsTable}}
+        />
         {requiredProps > 0 &&
           <div className={classes.required}>
             * Обязательный параметр
