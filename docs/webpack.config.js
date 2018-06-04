@@ -12,7 +12,7 @@ module.exports = {
   mode: NODE_ENV,
   entry: path.join(__dirname, 'src/index'),
   output: {
-    filename: '[name].[hash].js',
+    filename: 'index.js?[hash]',
     path: path.resolve(process.cwd(), argv.output || 'docs/build')
   },
   module: {
