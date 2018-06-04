@@ -233,7 +233,7 @@ export default class SideNav extends PureComponent {
   }
 
   changeVersion = version => {
-    window.location = `${config.pathPrefix}/${version}/`
+    window.location = `${config.pathPrefix}/${version}${version ? '/' : ''}`
   }
 
   showVersions = () => {
