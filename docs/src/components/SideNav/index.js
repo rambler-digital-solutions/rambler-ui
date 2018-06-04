@@ -21,7 +21,7 @@ import ArrowIcon from './ArrowIcon'
     flexDirection: 'column',
     justifyContent: 'space-between',
     width: 230,
-    height: '100vh',
+    height: '100%',
     backgroundColor: theme.colors.light,
     transitionDuration: 200,
     transitionProperty: 'left',
@@ -208,7 +208,7 @@ export default class SideNav extends PureComponent {
     if (location === prevProps.location)
       return
     this.closeNav()
-    document.documentElement.scrollTop = 0
+    window.scrollTo(0, 0)
   }
 
   toggleNav = () => {
