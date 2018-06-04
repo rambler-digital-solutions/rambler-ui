@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {NavLink, withRouter} from 'react-router-dom'
+import {ApplyTheme} from 'rambler-ui/theme'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
@@ -326,25 +327,27 @@ export default class SideNav extends PureComponent {
     const {classes, pages} = this.props
 
     return (
-      <OnClickOutside handler={this.closeNav}>
-        <div className={classnames(classes.root, navOpened && classes.opened)}>
-          <button
-            type="button"
-            className={classes.toggle}
-            onClick={this.toggleNav}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-          <div className={classnames(classes.logo, navScrolled && classes.shadow)}>
-            <Logo />
+      <ApplyTheme>
+        <OnClickOutside handler={this.closeNav}>
+          <div className={classnames(classes.root, navOpened && classes.opened)}>
+            <button
+              type="button"
+              className={classes.toggle}
+              onClick={this.toggleNav}>
+              <span></span>
+              <span></span>
+              <span></span>
+            </button>
+            <div className={classnames(classes.logo, navScrolled && classes.shadow)}>
+              <Logo />
+            </div>
+            <div className={classes.scroll} onScroll={this.scrollMenu}>
+              {this.renderList(pages)}
+              {this.renderVersion()}
+            </div>
           </div>
-          <div className={classes.scroll} onScroll={this.scrollMenu}>
-            {this.renderList(pages)}
-            {this.renderVersion()}
-          </div>
-        </div>
-      </OnClickOutside>
+        </OnClickOutside>
+      </ApplyTheme>
     )
   }
 

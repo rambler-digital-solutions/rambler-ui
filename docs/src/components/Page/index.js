@@ -1,5 +1,6 @@
 import React, {PureComponent, Fragment} from 'react'
 import PropTypes from 'prop-types'
+import {ApplyTheme} from 'rambler-ui/theme'
 import IconButton from 'rambler-ui/IconButton'
 import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import 'highlight.js/styles/default.css'
@@ -134,25 +135,27 @@ export default class Page extends PureComponent {
   render() {
     const {classes, title, source} = this.props
     return (
-      <div className={classes.root}>
-        <header className={classes.header}>
-          <h1>
-            {title}
-            {source &&
-              <IconButton
-                className={classes.source}
-                size="small"
-                href={source}
-                target="_blank">
-                <GithubIcon />
-              </IconButton>
-            }
-          </h1>
-        </header>
-        <div className={classes.content}>
-          {this.renderContent()}
+      <ApplyTheme>
+        <div className={classes.root}>
+          <header className={classes.header}>
+            <h1>
+              {title}
+              {source &&
+                <IconButton
+                  className={classes.source}
+                  size="small"
+                  href={source}
+                  target="_blank">
+                  <GithubIcon />
+                </IconButton>
+              }
+            </h1>
+          </header>
+          <div className={classes.content}>
+            {this.renderContent()}
+          </div>
         </div>
-      </div>
+      </ApplyTheme>
     )
   }
 
