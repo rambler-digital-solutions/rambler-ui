@@ -8,7 +8,7 @@ import Dropdown from '../Dropdown'
 import OnClickOutside from '../OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE, ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import { isolateMixin, placeholderMixin } from '../utils/mixins'
 import { ios, android } from '../utils/browser'
 import ClearIconSmall from './ClearIconSmall'
 
@@ -47,7 +47,15 @@ const multipleSelectFix = <optgroup disabled hidden />
         color: theme.field.colors.disabled.arrow + '!important',
         pointerEvents: 'none'
       }
-    }
+    },
+    ...placeholderMixin('&$isReadonly:not($lightPlaceholder):not($isDisabled) $input input', {
+      opacity: 1,
+      color: theme.field.colors.default.text
+    }),
+    ...placeholderMixin('&:not($isFocused):not($lightPlaceholder):not($isDisabled) $input input', {
+      opacity: 1,
+      color: theme.field.colors.default.text
+    })
   },
   dropdownContainer: {
     '&&': {
@@ -228,7 +236,8 @@ const multipleSelectFix = <optgroup disabled hidden />
   isMultipleDropdown: {},
   withSearch: {},
   withLeftIcon: {},
-  withRightIcon: {}
+  withRightIcon: {},
+  lightPlaceholder: {}
 }), {name: 'Select'})
 export default class Select extends PureComponent {
 
@@ -291,6 +300,10 @@ export default class Select extends PureComponent {
      * Плэйсхолдер
      */
     placeholder: PropTypes.string,
+    /**
+     * Светлый плейсхолдер, как в компоненте `<Input />`
+     */
+    lightPlaceholderColor: PropTypes.bool,
     /**
      * Доступность элемента
      */
@@ -619,6 +632,7 @@ export default class Select extends PureComponent {
       native,
       clearIcon,
       inputMode,
+      lightPlaceholderColor,
       /* eslint-enable no-unused-vars */
       ...props
     } = this.props
@@ -777,7 +791,8 @@ export default class Select extends PureComponent {
       disabled,
       size,
       icon,
-      classes
+      classes,
+      lightPlaceholderColor
     } = this.props
 
     const focusedInput = inputFocused || isOpened
@@ -796,6 +811,7 @@ export default class Select extends PureComponent {
       disabled && classes.isDisabled,
       isOpened && classes.isOpened,
       focusedInput && classes.isFocused,
+      lightPlaceholderColor && classes.lightPlaceholder,
       multiple && !onSearch && classes.isMultipleWithoutSearch
     )
 
@@ -909,7 +925,8 @@ export default class Select extends PureComponent {
       className,
       classes,
       rootStyle,
-      rootClassName
+      rootClassName,
+      lightPlaceholderColor
     } = this.props
 
     const {
@@ -948,7 +965,8 @@ export default class Select extends PureComponent {
       disabled && classes.isDisabled,
       inputFocused && classes.isFocused,
       multiple && classes.isMultipleWithoutSearch,
-      multiple && classes.withCustom
+      multiple && classes.withCustom,
+      lightPlaceholderColor && classes.lightPlaceholder
     )
 
     return (
