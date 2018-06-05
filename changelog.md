@@ -1,6 +1,10 @@
 # Changelog
 
-## v-3.22.0 - 2018-06-1
+## v-3.23.0 - 2018-06-05
+### Added
+* Добавлено свойство `lightPlaceholderColor` в компонент `<Select />` для отображения серого `placeholder`
+
+## v-3.22.0 - 2018-06-01
 ### Added
 * Добавлены варианты поискового поля `<ServiceSearch />` и `<SimpleSearch />`
 * Добавлен селектор поиска по сервису/интернету `sourceType` в компонент `<ComplexSearch />`
