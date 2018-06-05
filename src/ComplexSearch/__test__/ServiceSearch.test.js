@@ -66,11 +66,5 @@ describe('<ServiceSearch />', () => {
     expect(handlersProps.onSearch).toHaveBeenCalled()
     input.simulate('keydown', {key: 'Enter'})
     expect(handlersProps.onPressEnter).toHaveBeenCalled()
-  })
-
-  it('should not render button', () => {
-    const wrapper = getSearchWrapper()
-    expect(wrapper.find('button').length).toEqual(0)
-  })
-  
+  })  
 })

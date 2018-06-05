@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import deepmerge from 'deepmerge'
@@ -84,12 +84,25 @@ import provideSearchDropdown from './provideSearchDropdown'
         opacity: 1
       }
     },
-    searchIcon: {
-      color: theme.serviceSearch.input.default.icon,
+    inputLeftIcon: {
+      marginLeft:  12
+    },
+    searchButton: {
+      extend: isolateMixin,
+      background: 'none',
+      outline: 'none',
+      border: 'none',
+      cursor: 'pointer',
       position: 'absolute',
+      padding: 0,
+      width: 15,
       right: 15,
       top: '50%',
       transform: 'translateY(-50%)'
+    },
+    searchIcon: {
+      color: theme.serviceSearch.input.default.icon,
+      outline: 'none'
     },
     сlearIcon: {
       position: 'absolute',
@@ -209,7 +222,11 @@ class ServiceSearch extends React.Component {
     /**
      * Размер поискового блока
      */
-    size: PropTypes.oneOf(['small', 'medium'])
+    size: PropTypes.oneOf(['small', 'medium']),
+    /**
+    * Иконка инпута слева
+     */
+    inputLeftIcon: PropTypes.node
   };
 
   static defaultProps = {
@@ -246,6 +263,18 @@ class ServiceSearch extends React.Component {
     this.setState({sourceType: type})
   }
 
+  renderInputIcon() {
+    const {inputLeftIcon, theme, classes} = this.props
+    if (!inputLeftIcon)
+      return
+    const {size, className, color} = inputLeftIcon.props
+    return cloneElement(inputLeftIcon, {
+      className: classnames(classes.inputLeftIcon, className),
+      size: size || 15,
+      color: color || theme.search.input.default.icon
+    })
+  }
+
   renderInputNode() {
     const {
       placeholder,
@@ -275,6 +304,30 @@ class ServiceSearch extends React.Component {
     )
   }
 
+  renderButton() {
+    const {
+      classes,
+      searchButtonClassName,
+      searchButtonProps,
+      onSubmit
+    } = this.props
+
+    return (
+      <button
+        className={classnames(classes.searchButton, searchButtonClassName)}
+        onClick={onSubmit}
+        {...searchButtonProps}
+      >
+        <ServiceSearchIcon
+          size={15}
+          className={classes.searchIcon}
+          tabIndex={-1}
+          color="currentColor"
+        />
+      </button>
+    )
+  }
+
   renderInput = () => {
     const {
       inputWrapperClassName,
@@ -288,12 +341,9 @@ class ServiceSearch extends React.Component {
         inputWrapperClassName, 
         isDropdownOpened && classes.active
       )}>
+        {this.renderInputIcon()}
         {this.renderInputNode()}
-        {!this.isClearVisible && <ServiceSearchIcon
-          size={15}
-          className={classes.searchIcon}
-          color="currentColor"
-        />}
+        {!this.isClearVisible && this.renderButton()}
         {this.isClearVisible && <ClearIcon
           className={classes.сlearIcon}
           size={20}
