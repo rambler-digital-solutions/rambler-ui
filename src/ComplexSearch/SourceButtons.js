@@ -19,6 +19,7 @@ import ServiceSourceIcon from './icons/ServiceSourceIcon'
     cursor: 'pointer',
     marginRight: 10,
     height: 20,
+    width: 20,
     display: 'inline-flex',
 
     '&:last-child': {
@@ -90,7 +91,7 @@ export default class SourceButtons extends React.Component {
             onClick={() => onSourceIconClick('global')}
             color="currentColor"
             {...sourceButtonsProps('global')}
-            size="20"
+            size={20}
           />
         </Tooltip>
         <Tooltip 
@@ -103,7 +104,7 @@ export default class SourceButtons extends React.Component {
             <ServiceSourceIcon
               onClick={() => onSourceIconClick('service')}
               color="currentColor"
-              size="20"
+              size={20}
               {...sourceButtonsProps('service')}
             />
           </div>

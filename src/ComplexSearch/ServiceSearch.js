@@ -290,13 +290,13 @@ class ServiceSearch extends React.Component {
       )}>
         {this.renderInputNode()}
         {!this.isClearVisible && <ServiceSearchIcon
-          size="15"
+          size={15}
           className={classes.searchIcon}
           color="currentColor"
         />}
         {this.isClearVisible && <ClearIcon
           className={classes.сlearIcon}
-          size="20"
+          size={20}
           color="currentColor"
           onClick={this.props.clearForm}
         ></ClearIcon>}
