@@ -8,7 +8,7 @@ import Dropdown from '../Dropdown'
 import OnClickOutside from '../OnClickOutside'
 import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE, ENTER } from '../constants/keys'
 import { injectSheet } from '../theme'
-import { isolateMixin, placeholderMixin } from '../utils/mixins'
+import { isolateMixin } from '../utils/mixins'
 import { ios, android } from '../utils/browser'
 import ClearIconSmall from './ClearIconSmall'
 
@@ -47,15 +47,7 @@ const multipleSelectFix = <optgroup disabled hidden />
         color: theme.field.colors.disabled.arrow + '!important',
         pointerEvents: 'none'
       }
-    },
-    ...placeholderMixin('&$isReadonly:not($isDisabled) $input input', {
-      opacity: 1,
-      color: theme.field.colors.default.text
-    }),
-    ...placeholderMixin('&:not($isFocused):not($isDisabled) $input input', {
-      opacity: 1,
-      color: theme.field.colors.default.text
-    })
+    }
   },
   dropdownContainer: {
     '&&': {
