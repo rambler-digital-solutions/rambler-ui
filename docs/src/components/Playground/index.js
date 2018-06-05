@@ -23,8 +23,8 @@ const modules = {
   root: {
     border: '1px solid',
     borderColor: lighten(theme.colors.cloudGray, 0.7),
-    marginTop: 20,
-    marginBottom: 30
+    marginTop: 25,
+    marginBottom: 40
   },
   tabs: {
     position: 'relative',
@@ -40,9 +40,10 @@ const modules = {
   },
   tabItem: {
     borderBottom: '2px solid transparent',
-    padding: '15px 5px',
+    padding: '15px 5px 13px',
     marginLeft: 10,
     color: theme.colors.cloudGray,
+    lineHeight: '20px',
     cursor: 'pointer',
     '&:last-child': {
       marginRight: 10

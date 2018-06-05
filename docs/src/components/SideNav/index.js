@@ -17,14 +17,11 @@ import ArrowIcon from './ArrowIcon'
     position: 'fixed',
     top: 0,
     left: -230,
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'space-between',
     width: 230,
     height: '100%',
     backgroundColor: theme.colors.light,
     transitionDuration: 200,
-    transitionProperty: 'left',
+    transitionProperty: 'left, box-shadow',
     zIndex: 1000,
     '@media screen and (min-width: 768px)': {
       left: 0
@@ -32,6 +29,10 @@ import ArrowIcon from './ArrowIcon'
   },
   opened: {
     left: 0,
+    boxShadow: '0 5px 15px 0 rgba(52, 59, 76, 0.16)',
+    '@media screen and (min-width: 768px)': {
+      boxShadow: 'none'
+    },
     '& $toggle span': {
       '@media screen and (max-width: 767px)': {
         '&:nth-child(1)': {
@@ -81,9 +82,15 @@ import ArrowIcon from './ArrowIcon'
       }
     }
   },
+  scroll: {
+    padding: '22px 15px 30px 25px',
+    height: '100%',
+    overflowY: 'auto'
+  },
   logo: {
     position: 'relative',
-    padding: '22px 27px',
+    marginLeft: 2,
+    marginBottom: 27,
     '& svg': {
       display: 'block !important'
     }
@@ -98,11 +105,6 @@ import ArrowIcon from './ArrowIcon'
       height: 20,
       backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.1))'
     }
-  },
-  scroll: {
-    flex: 1,
-    padding: '10px 15px 25px 25px',
-    overflowY: 'auto'
   },
   list: {
     '& $list': {
@@ -149,6 +151,7 @@ import ArrowIcon from './ArrowIcon'
     position: 'relative',
     marginTop: 25,
     '& button': {
+      display: 'block',
       border: 0,
       margin: 0,
       padding: 0,
@@ -186,7 +189,6 @@ export default class SideNav extends PureComponent {
 
   state = {
     navOpened: false,
-    navScrolled: false,
     versions: [],
     showVersions: false
   }
@@ -220,15 +222,6 @@ export default class SideNav extends PureComponent {
   closeNav = () => {
     this.setState({
       navOpened: false
-    })
-  }
-
-  scrollMenu = event => {
-    const navScrolled = event.currentTarget.scrollTop !== 0
-    if (navScrolled === this.state.navScrolled)
-      return
-    this.setState({
-      navScrolled
     })
   }
 
@@ -328,7 +321,7 @@ export default class SideNav extends PureComponent {
   }
 
   render() {
-    const {navOpened, navScrolled} = this.state
+    const {navOpened} = this.state
     const {classes, pages} = this.props
 
     return (
@@ -342,10 +335,8 @@ export default class SideNav extends PureComponent {
             <span></span>
             <span></span>
           </button>
-          <div className={classnames(classes.logo, navScrolled && classes.shadow)}>
-            <Logo />
-          </div>
-          <div className={classes.scroll} onScroll={this.scrollMenu}>
+          <div className={classes.scroll}>
+            <Logo className={classes.logo} />
             {this.renderList(pages)}
             {this.renderVersion()}
           </div>

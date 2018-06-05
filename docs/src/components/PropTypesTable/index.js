@@ -13,6 +13,8 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
     border: '1px solid',
     borderColor: lighten(theme.colors.cloudGray, 0.7),
     width: '100%',
+    marginTop: 25,
+    marginBottom: 40,
     overflowX: 'auto',
     '& table': {
       width: '100%',

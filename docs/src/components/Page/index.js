@@ -21,24 +21,25 @@ const mdComponents = {
     }
   },
   header: {
-    padding: '111px 30px 48px',
+    padding: '95px 30px 45px',
     backgroundColor: theme.colors.argentumLight,
     '@media screen and (min-width: 768px)': {
-      padding: '71px 200px 48px 100px'
+      padding: '65px 200px 35px 100px'
     },
     '& h1': {
+      margin: 0,
       fontFamily: fontFamily.Roboto,
       fontSize: 40,
       fontWeight: 300,
-      lineHeight: '52px',
+      lineHeight: '50px',
       overflow: 'hidden',
       textOverflow: 'ellipsis'
     }
   },
   source: {
     position: 'absolute',
-    top: 15,
-    right: 15,
+    top: 30,
+    right: 30,
     '@media screen and (min-width: 768px)': {
       top: 30,
       right: 40
@@ -49,18 +50,25 @@ const mdComponents = {
     }
   },
   content: {
-    padding: '40px 30px 30px',
+    marginTop: 40,
+    marginBottom: 40,
+    paddingLeft: 30,
+    paddingRight: 30,
     '@media screen and (min-width: 768px)': {
-      padding: '28px 100px 62px',
+      paddingLeft: 100,
+      paddingRight: 100,
       maxWidth: 870
     },
     '& h2': {
-      fontSize: 35,
-      fontWeight: 500,
-      lineHeight: '35px'
+      marginBottom: 25,
+      fontSize: 35
     },
     '& h3': {
-      fontSize: 25,
+      marginBottom: 10,
+      fontSize: 25
+    },
+    '& h2, & h3': {
+      marginTop: 40,
       fontWeight: 500,
       lineHeight: '35px'
     }
@@ -139,18 +147,18 @@ export default class Page extends PureComponent {
         <header className={classes.header}>
           <h1>
             {title}
-            {source &&
-              <ApplyTheme>
-                <IconButton
-                  className={classes.source}
-                  size="small"
-                  href={source}
-                  target="_blank">
-                  <GithubIcon />
-                </IconButton>
-              </ApplyTheme>
-            }
           </h1>
+          {source &&
+            <ApplyTheme>
+              <IconButton
+                className={classes.source}
+                size="small"
+                href={source}
+                target="_blank">
+                <GithubIcon />
+              </IconButton>
+            </ApplyTheme>
+          }
         </header>
         <div className={classes.content}>
           {this.renderContent()}
