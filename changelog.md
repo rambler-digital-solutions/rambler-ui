@@ -1,5 +1,12 @@
 # Changelog
 
+## v-3.24.0 - 2018-06-06
+### Added
+* Добавлена иконка `inputLeftIcon` для поля ввода компонента `<ServiceSearch />`
+
+### Fixed
+* Поправлен размер иконок в компонентах `<ComplexSearch />`, `<ServiceSearch />` и `<SimpleSearch />`
+
 ## v-3.23.0 - 2018-06-05
 ### Added
 * Добавлено свойство `lightPlaceholderColor` в компонент `<Select />` для отображения серого `placeholder`
