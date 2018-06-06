@@ -1,7 +1,6 @@
 import React, { cloneElement } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import deepmerge from 'deepmerge'
 import { injectSheet } from '../theme'
 import ClearIcon from './icons/ClearIcon'
 import ServiceSearchIcon from './icons/ServiceSearchIcon'
@@ -11,78 +10,60 @@ import provideSearchDropdown from './provideSearchDropdown'
 
 @provideSearch
 @provideSearchDropdown
-@injectSheet(theme => {
-  const css = {
-    small: {},
-    medium: {},
-    active: {},
-    root: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      fontSize: theme.serviceSearch.fontSize,
-      width: '100%',
-      maxWidth: theme.serviceSearch.maxWidth,
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    inputRow: {
-      height: '100%',
-      position: 'relative',
-      width: '100%',
-      display: 'flex'
-    },
-    inputWrapper: {
-      borderStyle: 'solid',
-      display: 'flex',
-      alignItems: 'center',
-      position: 'relative',
-      paddingRight: 30,
-      borderRadius: 1,
-      width: '100%',
-      boxSizing: 'border-box',
-      borderColor: theme.serviceSearch.input.default.borderColor,
-      borderWidth: 1,
+@injectSheet(theme => ({
+  small: {},
+  medium: {},
+  active: {},
+  root: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    fontSize: theme.serviceSearch.fontSize,
+    width: '100%',
+    maxWidth: theme.serviceSearch.maxWidth,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  inputRow: {
+    height: '100%',
+    position: 'relative',
+    width: '100%',
+    display: 'flex'
+  },
+  inputWrapper: {
+    borderStyle: 'solid',
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    paddingRight: 30,
+    borderRadius: 1,
+    width: '100%',
+    boxSizing: 'border-box',
+    borderColor: theme.serviceSearch.input.default.borderColor,
+    borderWidth: 1,
 
-      '&$active': {
-        borderColor: theme.serviceSearch.input.hover.borderColor
-      }
-    },
-    input: {
-      extend: isolateMixin,
-      padding: '10px 14px',
-      border: 'none',
-      boxSizing: 'border-box',
-      display: 'block',
-      borderRadius: 0,
-      width: '100%',
-      fontWeight: 400,
-      fontSize: theme.serviceSearch.fontSize,
-      lineHeight: '25px',
-      appearance: 'none',
-      color: theme.serviceSearch.input.color,
-      height: '100%',
-      outline: 0,
-      boxShadow: 'none',
+    '&$active': {
+      borderColor: theme.serviceSearch.input.hover.borderColor
+    }
+  },
+  input: {
+    extend: isolateMixin,
+    padding: '10px 14px',
+    border: 'none',
+    boxSizing: 'border-box',
+    display: 'block',
+    borderRadius: 0,
+    width: '100%',
+    fontWeight: 400,
+    fontSize: theme.serviceSearch.fontSize,
+    lineHeight: '25px',
+    appearance: 'none',
+    color: theme.serviceSearch.input.color,
+    height: '100%',
+    outline: 0,
+    boxShadow: 'none',
 
-      '&::-ms-reveal, &::-ms-clear': {
-        display: 'none'
-      },
-
-      '&::-webkit-input-placeholder': {
-        fontSize: theme.serviceSearch.input.placeholder.fontSize,
-        color: theme.serviceSearch.input.placeholder.color,
-        opacity: 1
-      },
-      '&::-moz-placeholder': {
-        fontSize: theme.serviceSearch.input.placeholder.fontSize,
-        color: theme.serviceSearch.input.placeholder.color,
-        opacity: 1
-      },
-      '&:-ms-input-placeholder': {
-        fontSize: theme.serviceSearch.input.placeholder.fontSize,
-        color: theme.serviceSearch.input.placeholder.color,
-        opacity: 1
-      }
+    '&::-ms-reveal, &::-ms-clear': {
+      display: 'none'
     },
     inputLeftIcon: {
       marginLeft:  12
@@ -113,28 +94,53 @@ import provideSearchDropdown from './provideSearchDropdown'
       cursor: 'pointer',
       color:  theme.serviceSearch.clear.color
     },
-    serviceIcons: {
-      display: 'flex',
-      position: 'absolute',
-      alignItems: 'center',
-      right: 15
+    '&::-webkit-input-placeholder': {
+      fontSize: theme.serviceSearch.input.placeholder.fontSize,
+      color: theme.serviceSearch.input.placeholder.color,
+      opacity: 1
+    },
+    '&::-moz-placeholder': {
+      fontSize: theme.serviceSearch.input.placeholder.fontSize,
+      color: theme.serviceSearch.input.placeholder.color,
+      opacity: 1
+    },
+    '&:-ms-input-placeholder': {
+      fontSize: theme.serviceSearch.input.placeholder.fontSize,
+      color: theme.serviceSearch.input.placeholder.color,
+      opacity: 1
     }
-  }
-
-  return deepmerge(css, ['small', 'medium'].reduce((result, size) => {
-    const styles = theme.serviceSearch.sizes[size]
-
-    return {
-      ...result,
-      [`size-${size}`]: {
-        '& $inputWrapper': {
-          height: styles.height
-        }
+  },
+  searchIcon: {
+    color: theme.serviceSearch.input.default.icon,
+    position: 'absolute',
+    right: 15,
+    top: '50%',
+    transform: 'translateY(-50%)'
+  },
+  сlearIcon: {
+    position: 'absolute',
+    right: 15,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    cursor: 'pointer',
+    color:  theme.serviceSearch.clear.color
+  },
+  serviceIcons: {
+    display: 'flex',
+    position: 'absolute',
+    alignItems: 'center',
+    right: 15
+  },
+  ...['small', 'medium'].reduce((result, size) => ({
+    ...result,
+    [`size-${size}`]: {
+      '& $inputWrapper': {
+        height: theme.serviceSearch.sizes[size].height
       }
     }
-  }, {}))
-}, {name: 'ServiceSearch'})
-class ServiceSearch extends React.Component {
+  }), {})
+}), {name: 'ServiceSearch'})
+export default class ServiceSearch extends React.Component {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента Search
@@ -259,7 +265,7 @@ class ServiceSearch extends React.Component {
   get isClearVisible() {
     return Boolean(this.props.value)
   }
-  
+
   onSourceIconClick = (type) => {
     this.setState({sourceType: type})
   }
@@ -338,8 +344,8 @@ class ServiceSearch extends React.Component {
 
     return (
       <div className={classnames(
-        classes.inputWrapper, 
-        inputWrapperClassName, 
+        classes.inputWrapper,
+        inputWrapperClassName,
         isDropdownOpened && classes.active
       )}>
         {this.renderInputIcon()}
@@ -385,5 +391,3 @@ class ServiceSearch extends React.Component {
     )
   }
 }
-
-export default ServiceSearch
