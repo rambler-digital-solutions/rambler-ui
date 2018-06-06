@@ -65,35 +65,6 @@ import provideSearchDropdown from './provideSearchDropdown'
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
     },
-    inputLeftIcon: {
-      marginLeft:  12
-    },
-    searchButton: {
-      extend: isolateMixin,
-      background: 'none',
-      outline: 'none',
-      border: 'none',
-      cursor: 'pointer',
-      position: 'absolute',
-      padding: 0,
-      width: 15,
-      height: 15,
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)'
-    },
-    searchIcon: {
-      color: theme.serviceSearch.input.default.icon,
-      outline: 'none'
-    },
-    clearIcon: {
-      position: 'absolute',
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)',
-      cursor: 'pointer',
-      color:  theme.serviceSearch.clear.color
-    },
     '&::-webkit-input-placeholder': {
       fontSize: theme.serviceSearch.input.placeholder.fontSize,
       color: theme.serviceSearch.input.placeholder.color,
@@ -110,12 +81,26 @@ import provideSearchDropdown from './provideSearchDropdown'
       opacity: 1
     }
   },
-  searchIcon: {
-    color: theme.serviceSearch.input.default.icon,
+  inputLeftIcon: {
+    marginLeft:  12
+  },
+  searchButton: {
+    extend: isolateMixin,
+    background: 'none',
+    outline: 'none',
+    border: 'none',
+    cursor: 'pointer',
     position: 'absolute',
+    padding: 0,
+    width: 15,
+    height: 15,
     right: 15,
     top: '50%',
     transform: 'translateY(-50%)'
+  },
+  searchIcon: {
+    color: theme.serviceSearch.input.default.icon,
+    outline: 'none'
   },
   clearIcon: {
     position: 'absolute',
