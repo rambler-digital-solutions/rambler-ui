@@ -196,6 +196,7 @@ export default class SelectExample extends Component {
             <h3>С поиском</h3>
             <Select
               placeholder="Type something..."
+              lightPlaceholderColor={true}
               value={this.state.value1}
               onChange={this.setValue('value1')}
               onSearch={this.filterData}>

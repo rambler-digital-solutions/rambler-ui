@@ -117,5 +117,4 @@ describe('<SimpleSearch />', () => {
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {globalSearch: 'service'})
   })
-
 })
