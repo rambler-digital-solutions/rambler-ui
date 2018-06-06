@@ -86,7 +86,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       color: theme.serviceSearch.input.default.icon,
       outline: 'none'
     },
-    сlearIcon: {
+    clearIcon: {
       position: 'absolute',
       right: 15,
       top: '50%',
@@ -117,7 +117,7 @@ import provideSearchDropdown from './provideSearchDropdown'
     top: '50%',
     transform: 'translateY(-50%)'
   },
-  сlearIcon: {
+  clearIcon: {
     position: 'absolute',
     right: 15,
     top: '50%',
@@ -352,7 +352,7 @@ export default class ServiceSearch extends React.Component {
         {this.renderInputNode()}
         {!this.isClearVisible && this.renderButton()}
         {this.isClearVisible && <ClearIcon
-          className={classes.сlearIcon}
+          className={classes.clearIcon}
           size={20}
           color="currentColor"
           onClick={this.props.clearForm}
