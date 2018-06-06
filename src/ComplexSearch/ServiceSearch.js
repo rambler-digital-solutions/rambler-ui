@@ -96,6 +96,7 @@ import provideSearchDropdown from './provideSearchDropdown'
       position: 'absolute',
       padding: 0,
       width: 15,
+      height: 15,
       right: 15,
       top: '50%',
       transform: 'translateY(-50%)'
