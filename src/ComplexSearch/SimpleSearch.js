@@ -219,6 +219,9 @@ export default class SimpleSearch extends React.Component {
     this.props.onSearch(e, {globalSearch: this.state.sourceType})
   }
 
+  onSubmit = () => {
+    this.props.onSubmit(this.props.sourceType ? {globalSearch: this.state.sourceType} : null)
+  }
 
   renderInputNode() {
     const {
@@ -299,7 +302,7 @@ export default class SimpleSearch extends React.Component {
     return (
       <button
         className={classnames(classes.searchButton, searchButtonClassName)}
-        onClick={this.props.onSubmit}
+        onClick={this.onSubmit}
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}

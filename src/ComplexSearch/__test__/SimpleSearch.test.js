@@ -117,4 +117,27 @@ describe('<SimpleSearch />', () => {
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {globalSearch: 'service'})
   })
+
+  it('should pass sourceType to onSubmit', () => {
+    spyOn(handlersProps, 'onSubmit')
+
+    const wrapper = getSearchWrapper({
+      sourceType: true,
+      ...handlersProps
+    })
+
+    const button = wrapper.find('button').first()
+    const input = wrapper.find('input').first()
+    getWrapperNode(input).value = 'value'
+    input.simulate('change')
+    button.simulate('click')
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value', {globalSearch: 'global'})
+
+    const sourceButtons = wrapper.find(SourceButtons)
+    sourceButtons.find(ServiceSourceIcon).simulate('click')
+    getWrapperNode(input).value = 'value2'
+    input.simulate('change')
+    button.simulate('click')
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value2', {globalSearch: 'service'})
+  })
 })

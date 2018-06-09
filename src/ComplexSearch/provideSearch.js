@@ -37,8 +37,11 @@ export default function provideSearch(Search) {
         })
     }
 
-    onSubmit = () => {
-      this.props.onSubmit(this.state.value)
+    onSubmit = (options) => {
+      const args = [this.state.value]
+      if (options) 
+        args.push(options)
+      this.props.onSubmit(...args)
     }
   
     onSearch = (e, options = {}) => {

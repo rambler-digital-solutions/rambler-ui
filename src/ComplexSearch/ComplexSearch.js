@@ -354,6 +354,10 @@ export default class ComplexSearch extends React.Component {
     this.props.onSearch(e, {globalSearch: this.state.sourceType})
   }
 
+  onSubmit = () => {
+    this.props.onSubmit(this.props.sourceType ? {globalSearch: this.state.sourceType} : null)
+  }
+
   onSourceIconClick = (type) => {
     this.setState({sourceType: type})
   }
@@ -453,8 +457,7 @@ export default class ComplexSearch extends React.Component {
       searchButton,
       searchButtonStyle,
       searchButtonClassName,
-      searchButtonProps,
-      onSubmit
+      searchButtonProps
     } = this.props
 
     if (!searchButton)
@@ -467,7 +470,7 @@ export default class ComplexSearch extends React.Component {
     return (
       <button
         className={classnames(classes.searchButton, searchButtonClassName)}
-        onClick={onSubmit}
+        onClick={this.onSubmit}
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}
