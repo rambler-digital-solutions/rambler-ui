@@ -94,11 +94,13 @@ describe('<ComplexSearch />', () => {
     expect(wrapper.find(Dropdown).prop('isOpened')).toEqual(true)
   })
 
-  it('should call onSubmit when click on search button with input value', () => {
+  it('should call onSubmit when click on search button with input', () => {
     spyOn(handlersProps, 'onSubmit')
     spyOn(handlersProps, 'onSearch')
 
     const wrapper = getSearchWrapper(handlersProps)
+    const sourceButtons = wrapper.find(SourceButtons)
+    expect(sourceButtons.length).toBe(0)
 
     const input = wrapper.find('input').first()
     getWrapperNode(input).value = 'value'
@@ -107,7 +109,7 @@ describe('<ComplexSearch />', () => {
 
     const button = wrapper.find('button').first()
     button.simulate('click')
-    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value')
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value', {sourceType: 'global'})
   })
 
   it('button should be in wrapper borders', () => {

@@ -355,7 +355,7 @@ export default class ComplexSearch extends React.Component {
   }
 
   onSubmit = () => {
-    this.props.onSubmit(this.props.sourceType ? {sourceType: this.state.sourceType} : null)
+    this.props.onSubmit({sourceType: this.state.sourceType})
   }
 
   onSourceIconClick = (type) => {
