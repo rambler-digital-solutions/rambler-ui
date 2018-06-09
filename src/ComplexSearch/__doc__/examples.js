@@ -60,7 +60,7 @@ export default class SearchExample extends Component {
       return false
     }
 
-    if (options.globalSearch === 'service')
+    if (options.sourceType === 'service')
       this.setState({
         mediaSearchItems: mediaInputResults.service,
         query

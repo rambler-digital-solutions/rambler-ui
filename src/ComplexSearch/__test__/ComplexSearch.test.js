@@ -159,10 +159,10 @@ describe('<ComplexSearch />', () => {
     const input = wrapper.find('input').first()
     getWrapperNode(input).value = 'value'
     input.simulate('change')
-    expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {globalSearch: 'global'})
+    expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {sourceType: 'global'})
     sourceButtons.find(ServiceSourceIcon).simulate('click')
     getWrapperNode(input).value = 'value2'
     input.simulate('change')
-    expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {globalSearch: 'service'})
+    expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {sourceType: 'service'})
   })
 })

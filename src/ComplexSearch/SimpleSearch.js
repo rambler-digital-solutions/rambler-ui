@@ -216,11 +216,11 @@ export default class SimpleSearch extends React.Component {
   }
 
   onSearch = (e) => {
-    this.props.onSearch(e, {globalSearch: this.state.sourceType})
+    this.props.onSearch(e, {sourceType: this.state.sourceType})
   }
 
   onSubmit = () => {
-    this.props.onSubmit(this.props.sourceType ? {globalSearch: this.state.sourceType} : null)
+    this.props.onSubmit(this.props.sourceType ? {sourceType: this.state.sourceType} : null)
   }
 
   renderInputNode() {
