@@ -146,7 +146,8 @@ export default class SimpleSearch extends React.Component {
      */
     placeholder: PropTypes.string,
     /**
-     * Коллбек на изменение поискового запроса, принимает первым аргументом значение поискового запроса
+     * Коллбек на изменение поискового запроса `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onSearch: PropTypes.func,
     /**
@@ -158,11 +159,13 @@ export default class SimpleSearch extends React.Component {
      */
     onBlur: PropTypes.func,
     /**
-     * Коллбек на нажатие на кнопку поиска, принимает первым аргументом значение поискового запроса
+     * Коллбек на нажатие на кнопку поиска `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onSubmit: PropTypes.func,
     /**
-     * Коллбек на нажатие на Enter, принимает первым аргументом значение поискового запроса
+     * Коллбек на нажатие на Enter `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onPressEnter: PropTypes.func,
     /**
@@ -207,22 +210,6 @@ export default class SimpleSearch extends React.Component {
     onPressEnter() {}
   };
 
-  state = {
-    sourceType: 'global'
-  }
-
-  onSourceIconClick = (type) => {
-    this.setState({sourceType: type})
-  }
-
-  onSearch = (e) => {
-    this.props.onSearch(e, {sourceType: this.state.sourceType})
-  }
-
-  onSubmit = () => {
-    this.props.onSubmit({sourceType: this.state.sourceType})
-  }
-
   renderInputNode() {
     const {
       placeholder,
@@ -232,13 +219,14 @@ export default class SimpleSearch extends React.Component {
       onFocusInput,
       onBlurInput,
       setNode,
-      value
+      value,
+      onSearch
     } = this.props
 
     return (
       <input
         type="text"
-        onChange={this.onSearch}
+        onChange={onSearch}
         onKeyDown={onKeyDown}
         onFocus={onFocusInput}
         onBlur={onBlurInput}
@@ -274,17 +262,19 @@ export default class SimpleSearch extends React.Component {
     const {
       classes,
       sourceType,
+      searchOptions,
       showSearchButton,
       sourceButtonsProps,
-      serviceTooltipLabel
+      serviceTooltipLabel,
+      changeSourceType
     } = this.props
     return (
       <div className={classes.serviceIcons}>
         {sourceType && <SourceButtons
-          onSourceIconClick={this.onSourceIconClick}
+          onSourceIconClick={changeSourceType}
           sourceButtonsProps={sourceButtonsProps}
           serviceTooltipLabel={serviceTooltipLabel}
-          activeType={this.state.sourceType}
+          activeType={searchOptions.sourceType}
         />}
         {showSearchButton && this.renderButton()}
       </div>
@@ -296,13 +286,14 @@ export default class SimpleSearch extends React.Component {
       classes,
       searchButtonStyle,
       searchButtonProps,
-      searchButtonClassName
+      searchButtonClassName,
+      onSubmit
     } = this.props
 
     return (
       <button
         className={classnames(classes.searchButton, searchButtonClassName)}
-        onClick={this.onSubmit}
+        onClick={onSubmit}
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}

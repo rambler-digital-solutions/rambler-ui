@@ -160,7 +160,8 @@ export default class ServiceSearch extends React.Component {
      */
     placeholder: PropTypes.string,
     /**
-     * Коллбек на изменение поискового запроса, принимает первым аргументом значение поискового запроса
+     * Коллбек на изменение поискового запроса `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onSearch: PropTypes.func,
     /**
@@ -188,11 +189,13 @@ export default class ServiceSearch extends React.Component {
      */
     onHoverItem: PropTypes.func,
     /**
-     * Коллбек на нажатие на кнопку поиска, принимает первым аргументом значение поискового запроса
+     * Коллбек на нажатие на кнопку поиска `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onSubmit: PropTypes.func,
     /**
-     * Коллбек на нажатие на Enter, принимает первым аргументом значение поискового запроса
+     * Коллбек на нажатие на Enter `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onPressEnter: PropTypes.func,
     /**
@@ -239,20 +242,12 @@ export default class ServiceSearch extends React.Component {
     onPressEnter() {}
   };
 
-  state = {
-    sourceType: 'global'
-  }
-
   /**
    * Показывать ли крестик очищения input
    * @return {Boolean}
    */
   get isClearVisible() {
     return Boolean(this.props.value)
-  }
-
-  onSourceIconClick = (type) => {
-    this.setState({sourceType: type})
   }
 
   renderInputIcon() {
