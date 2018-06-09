@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import SvgIcon from '../../icons/SvgIcon'
 
-export default class GlobalSearchIcon extends PureComponent {
+export default class GlobalSourceIcon extends PureComponent {
 
-  static displayName = 'GlobalSearchIcon'
+  static displayName = 'GlobalSourceIcon'
 
   render() {
     return (

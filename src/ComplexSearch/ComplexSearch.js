@@ -244,7 +244,8 @@ export default class ComplexSearch extends React.Component {
      */
     placeholder: PropTypes.string,
     /**
-     * Коллбек на изменение поискового запроса, принимает первым аргументом значение поискового запроса
+     * Коллбек на изменение поискового запроса `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onSearch: PropTypes.func,
     /**
@@ -272,11 +273,13 @@ export default class ComplexSearch extends React.Component {
      */
     onHoverItem: PropTypes.func,
     /**
-     * Коллбек на нажатие на кнопку поиска, принимает первым аргументом значение поискового запроса
+     * Коллбек на нажатие на кнопку поиска `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onSubmit: PropTypes.func,
     /**
-     * Коллбек на нажатие на Enter, принимает первым аргументом значение поискового запроса
+     * Коллбек на нажатие на Enter `function (value: string, options: object) {}`,
+     * принимает первым аргументом значение поискового запроса
      */
     onPressEnter: PropTypes.func,
     /**
@@ -338,24 +341,12 @@ export default class ComplexSearch extends React.Component {
     onPressEnter() {}
   };
 
-  state = {
-    sourceType: 'global'
-  }
-
   /**
    * Показывать ли крестик очищения input
    * @return {Boolean}
    */
   get isClearVisible() {
     return Boolean(this.props.value)
-  }
-
-  onSearch = (e) => {
-    this.props.onSearch(e, {globalSearch: this.state.sourceType})
-  }
-
-  onSourceIconClick = (type) => {
-    this.setState({sourceType: type})
   }
 
   renderInputIcon() {
@@ -379,13 +370,14 @@ export default class ComplexSearch extends React.Component {
       onKeyDown,
       onFocus,
       onBlur,
-      value
+      value,
+      onSearch
     } = this.props
 
     return (
       <input
         type="text"
-        onChange={this.onSearch}
+        onChange={onSearch}
         onKeyDown={onKeyDown}
         onFocus={onFocus}
         onBlur={onBlur}
@@ -426,8 +418,10 @@ export default class ComplexSearch extends React.Component {
     const {
       classes,
       sourceType,
+      searchOptions,
       sourceButtonsProps,
-      serviceTooltipLabel
+      serviceTooltipLabel,
+      changeSourceType
     } = this.props
     return (
       <div className={classes.serviceIcons}>
@@ -439,9 +433,9 @@ export default class ComplexSearch extends React.Component {
         ></ClearIcon>}
         {sourceType && <SourceButtons
           serviceTooltipLabel={serviceTooltipLabel}
-          onSourceIconClick={this.onSourceIconClick}
+          onSourceIconClick={changeSourceType}
           sourceButtonsProps={sourceButtonsProps}
-          activeType={this.state.sourceType}
+          activeType={searchOptions.sourceType}
         />}
       </div>
     )

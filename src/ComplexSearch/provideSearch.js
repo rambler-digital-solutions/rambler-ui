@@ -27,7 +27,8 @@ export default function provideSearch(Search) {
     };
 
     state = {
-      value: this.props.value
+      value: this.props.value,
+      sourceType: 'global'
     }
 
     componentWillReceiveProps(nextProps) {
@@ -38,46 +39,56 @@ export default function provideSearch(Search) {
     }
 
     onSubmit = () => {
-      this.props.onSubmit(this.state.value)
+      const {value, sourceType} = this.state
+      this.props.onSubmit(value, {sourceType})
     }
-  
-    onSearch = (e, options = {}) => {
+
+    onSearch = e => {
       const value = e.target.value
+      const {sourceType} = this.state
       this.setState({value})
-      this.props.onSearch(value, options)
+      this.props.onSearch(value, {sourceType})
+    }
+
+    changeSourceType = sourceType => {
+      this.setState({sourceType})
     }
 
     clearForm = () => {
       const value = ''
+      const {sourceType} = this.state
       this.setState({value})
       this.inputNode.focus()
-      this.props.onSearch(value)
+      this.props.onSearch(value, {sourceType})
     }
-  
+
     onKeyDown = (e) => {
       if (!this.inputNode) // на всякий случай проверяем не пришло ли событие после анмаунта компонента
         return
+      const {value, sourceType} = this.state
 
       switch (e.key) {
       case 'Enter':
         e.preventDefault()
-        this.props.onPressEnter(this.state.value)
+        this.props.onPressEnter(value, {sourceType})
         break
       }
     }
-  
+
     setNode = name => node => {
       this[`${name}Node`] = node
     }
 
     render() {
       const {
-        value
+        value,
+        sourceType
       } = this.state
 
       return <Search
         {...this.props}
         value={value}
+        searchOptions={{sourceType}}
         clearForm={this.clearForm}
         setNode={this.setNode}
         onSubmit={this.onSubmit}
@@ -85,6 +96,7 @@ export default function provideSearch(Search) {
         onFocus={this.props.onFocus}
         onKeyDown={this.onKeyDown}
         onSearch={this.onSearch}
+        changeSourceType={this.changeSourceType}
         setHighlightedId={this.setHighlightedId}
       />
     }
