@@ -58,21 +58,6 @@ describe('<SimpleSearch />', () => {
     })
   })
 
-  it('should call onSubmit when click on search button with input value', () => {
-    spyOn(handlersProps, 'onSubmit')
-    spyOn(handlersProps, 'onSearch')
-    
-    const wrapper = getSearchWrapper(handlersProps)
-    const input = wrapper.find('input').first()
-    getWrapperNode(input).value = 'value'
-    input.simulate('change')
-    expect(handlersProps.onSearch).toHaveBeenCalled()
-
-    const button = wrapper.find('button').first()
-    button.simulate('click')
-    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value')
-  })
-
   it('button should be in wrapper borders', () => {
     const wrapper = getSearchWrapper()
     const wrapperDiv = getWrapperNode(wrapper)
@@ -111,10 +96,52 @@ describe('<SimpleSearch />', () => {
     const input = wrapper.find('input').first()
     getWrapperNode(input).value = 'value'
     input.simulate('change')
-    expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {globalSearch: 'global'})
+    expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {sourceType: 'global'})
     sourceButtons.find(ServiceSourceIcon).simulate('click')
     getWrapperNode(input).value = 'value2'
     input.simulate('change')
-    expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {globalSearch: 'service'})
+    expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {sourceType: 'service'})
+  })
+
+
+  it('should call onSubmit when click on search button with input value with global', () => {
+    spyOn(handlersProps, 'onSubmit')
+    spyOn(handlersProps, 'onSearch')
+
+    
+    const wrapper = getSearchWrapper(handlersProps)
+    const input = wrapper.find('input').first()
+    const sourceButtons = wrapper.find(SourceButtons)
+    expect(sourceButtons.length).toBe(0)
+    getWrapperNode(input).value = 'value'
+    input.simulate('change')
+    expect(handlersProps.onSearch).toHaveBeenCalled()
+
+    const button = wrapper.find('button').first()
+    button.simulate('click')
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value', {sourceType: 'global'})
+  })
+
+  it('should pass sourceType to onSubmit', () => {
+    spyOn(handlersProps, 'onSubmit')
+
+    const wrapper = getSearchWrapper({
+      sourceType: true,
+      ...handlersProps
+    })
+
+    const button = wrapper.find('button').first()
+    const input = wrapper.find('input').first()
+    getWrapperNode(input).value = 'value'
+    input.simulate('change')
+    button.simulate('click')
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value', {sourceType: 'global'})
+
+    const sourceButtons = wrapper.find(SourceButtons)
+    sourceButtons.find(ServiceSourceIcon).simulate('click')
+    getWrapperNode(input).value = 'value2'
+    input.simulate('change')
+    button.simulate('click')
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value2', {sourceType: 'service'})
   })
 })

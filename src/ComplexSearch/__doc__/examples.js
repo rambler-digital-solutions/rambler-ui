@@ -54,13 +54,13 @@ export default class SearchExample extends Component {
     serviceValue: ''
   }
 
-  fetchQuery = (query, options) => {
+  fetchQuery = (query, options = {}) => {
     if (!query) {
       this.setState({mediaSearchItems: []})
       return false
     }
 
-    if (options.globalSearch === 'service')
+    if (options.sourceType === 'service')
       this.setState({
         mediaSearchItems: mediaInputResults.service,
         query
