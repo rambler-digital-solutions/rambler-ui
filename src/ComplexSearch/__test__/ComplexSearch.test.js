@@ -46,7 +46,8 @@ const getSearchWrapper = (props = {}) => {
 describe('<ComplexSearch />', () => {
   const handlersProps = {
     onSubmit: () => {},
-    onSearch: () => {}
+    onSearch: () => {},
+    onPressEnter: () => {}
   }
 
   it('should apply default styles', () => {
@@ -167,4 +168,26 @@ describe('<ComplexSearch />', () => {
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {sourceType: 'service'})
   })
+
+  it('should call onPressEnter when press enter on input', () => {
+    spyOn(handlersProps, 'onPressEnter')
+    spyOn(handlersProps, 'onSearch')
+    
+    const wrapper = getSearchWrapper({ 
+      sourceType: true,
+      ...handlersProps
+    })
+    const input = wrapper.find('input').first()
+    const sourceButtons = wrapper.find(SourceButtons)
+    getWrapperNode(input).value = 'value'
+    input.simulate('change')
+    expect(handlersProps.onSearch).toHaveBeenCalled()
+    input.simulate('keydown', {key: 'Enter'})
+    expect(handlersProps.onPressEnter).toHaveBeenCalledWith('value', {sourceType: 'global'})
+    sourceButtons.find(ServiceSourceIcon).simulate('click')
+    getWrapperNode(input).value = 'value2'
+    input.simulate('change')
+    input.simulate('keydown', {key: 'Enter'})
+    expect(handlersProps.onPressEnter).toHaveBeenCalledWith('value2', {sourceType: 'service'})
+  })  
 })
