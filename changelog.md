@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.25.0 - 2018-06-09
+### Added
+* Добавлен проброс `sourceType` в коллбеки `onSubmit`, `onSearch` и `onPressEnter` в компонентах `<ComplexSearch />`, `<ServiceSearch />` и `<SimpleSearch />`
+
 ## v-3.24.0 - 2018-06-06
 ### Added
 * Добавлена иконка `inputLeftIcon` для поля ввода компонента `<ServiceSearch />`
