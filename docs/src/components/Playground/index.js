@@ -114,7 +114,8 @@ const modules = {
   },
   preview: {
     composes: '$content',
-    fontFamily: fontFamily.Roboto
+    fontFamily: fontFamily.Roboto,
+    lineHeight: '20px'
   },
   error: {
     composes: '$viewer',
