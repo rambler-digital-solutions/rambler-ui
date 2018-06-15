@@ -71,7 +71,7 @@ describe('<SimpleSearch />', () => {
 
     const button = wrapper.find('button').first()
     button.simulate('click')
-    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value')
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value', {sourceType: 'global'})
   })
 
   it('button should be in wrapper borders', () => {
