@@ -15,11 +15,6 @@ const mdComponents = {
 }
 
 @injectSheet(theme => ({
-  root: {
-    '@media screen and (min-width: 768px)': {
-      marginLeft: 230
-    }
-  },
   header: {
     padding: '95px 30px 45px',
     backgroundColor: theme.colors.argentumLight,
@@ -143,7 +138,7 @@ export default class Page extends PureComponent {
   render() {
     const {classes, title, source} = this.props
     return (
-      <div className={classes.root}>
+      <div>
         <header className={classes.header}>
           <h1>
             {title}

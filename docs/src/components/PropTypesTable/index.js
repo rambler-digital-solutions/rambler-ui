@@ -9,22 +9,40 @@ import {lighten} from 'rambler-ui/utils/colors'
 import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 
 @injectSheet(theme => ({
-  table: {
-    border: '1px solid',
-    borderColor: lighten(theme.colors.cloudGray, 0.7),
-    width: '100%',
-    marginTop: 25,
-    marginBottom: 40,
+  scrollArea: {
+    margin: '25px -30px 40px',
+    lineHeight: 0,
     overflowX: 'auto',
+    overflowY: 'hidden',
+    '@media screen and (min-width: 768px)': {
+      marginLeft: 0,
+      marginRight: 0,
+      width: '100%'
+    }
+  },
+  table: {
+    display: 'inline-block',
+    paddingLeft: 30,
+    paddingRight: 30,
+    '@media screen and (min-width: 768px)': {
+      paddingLeft: 0,
+      paddingRight: 0,
+      width: '100%'
+    },
     '& table': {
-      width: '100%',
+      border: '1px solid',
+      borderColor: lighten(theme.colors.cloudGray, 0.7),
       fontFamily: fontFamily.Roboto,
       borderSpacing: 0,
       fontSize: 14,
       lineHeight: '20px'
     },
+    '& td': {
+      borderTop: '1px solid',
+      borderTopColor: lighten(theme.colors.cloudGray, 0.7)
+    },
     '& td, & th': {
-      padding: '15px 20px 15px 0px',
+      padding: '14px 20px 14px 0px',
       verticalAlign: 'top',
       fontSize: 14,
       minWidth: '20%',
@@ -234,10 +252,12 @@ export default class PropTypesTable extends PureComponent {
 
     return (
       <Fragment>
-        <div
-          className={classes.table}
-          dangerouslySetInnerHTML={{__html: propsTable}}
-        />
+        <div className={classes.scrollArea}>
+          <div
+            className={classes.table}
+            dangerouslySetInnerHTML={{__html: propsTable}}
+          />
+        </div>
         {requiredProps > 0 &&
           <div className={classes.required}>
             * Обязательный параметр

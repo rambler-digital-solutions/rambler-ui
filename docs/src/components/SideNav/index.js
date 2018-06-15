@@ -6,25 +6,29 @@ import {ApplyTheme} from 'rambler-ui/theme'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
+import {throttle} from 'rambler-ui/utils/raf'
 import config from 'docs/src/config'
 import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import Logo from './Logo'
 import ArrowIcon from './ArrowIcon'
 
+const wideScreen = window.innerWidth >= 768
+
 @withRouter
 @injectSheet(theme => ({
   root: {
-    position: 'fixed',
     top: 0,
     left: -230,
     width: 230,
-    height: '100%',
+    minHeight: '100%',
+    height: wideScreen ? null : '100%',
     backgroundColor: theme.colors.light,
     transitionDuration: 200,
     transitionProperty: 'left, box-shadow',
     zIndex: 1000,
-    '@media screen and (min-width: 768px)': {
-      left: 0
+    '& + div': {
+      transitionDuration: 200,
+      transitionProperty: 'margin-left'
     }
   },
   opened: {
@@ -32,6 +36,11 @@ import ArrowIcon from './ArrowIcon'
     boxShadow: '0 5px 15px 0 rgba(52, 59, 76, 0.16)',
     '@media screen and (min-width: 768px)': {
       boxShadow: 'none'
+    },
+    '& + div': {
+      '@media screen and (min-width: 768px)': {
+        marginLeft: 230
+      }
     },
     '& $toggle span': {
       '@media screen and (max-width: 767px)': {
@@ -59,9 +68,6 @@ import ArrowIcon from './ArrowIcon'
     backgroundColor: theme.colors.blue,
     outline: 0,
     cursor: 'pointer',
-    '@media screen and (min-width: 768px)': {
-      cursor: 'default'
-    },
     '& span': {
       position: 'absolute',
       top: '50%',
@@ -121,24 +127,29 @@ import ArrowIcon from './ArrowIcon'
     fontSize: 15,
     fontWeight: 500,
     lineHeight: '25px',
+    cursor: 'pointer',
     '&, &:visited': {
       color: theme.colors.black
     },
-    '&:hover $linkIcon': {
-      fill: theme.colors.alternativeBlue + '!important'
+    '&:active': {
+      color: theme.colors.alternativeBlue
+    },
+    '&:hover, &:active': {
+      '& $linkIcon': {
+        fill: theme.colors.alternativeBlue + '!important'
+      }
     }
   },
   activeLink: {
+    composes: '$link',
     '&, &:visited': {
       color: theme.colors.alternativeBlue
     }
   },
   openedLink: {
+    composes: '$link',
     '& + $list': {
       display: 'block'
-    },
-    '& $linkIcon': {
-      fill: theme.colors.alternativeBlue + '!important'
     }
   },
   linkIcon: {
@@ -187,8 +198,14 @@ export default class SideNav extends PureComponent {
     pages: PropTypes.arrayOf(PropTypes.object)
   }
 
+  pageY = wideScreen ? window.pageYOffset : 0
+  position = wideScreen ? 'absolute' : 'fixed'
+
   state = {
-    navOpened: false,
+    navOpened: wideScreen,
+    top: this.pageY,
+    position: this.position,
+    activeSubtree: this.props.location.pathname,
     versions: [],
     showVersions: false
   }
@@ -203,14 +220,26 @@ export default class SideNav extends PureComponent {
         })
     }
     req.send(null)
+    if (wideScreen)
+      window.addEventListener('scroll', this.updatePosition)
   }
 
   componentDidUpdate (prevProps) {
     const {location} = this.props
     if (location === prevProps.location)
       return
-    this.closeNav()
+    this.setState({
+      activeSubtree: location.pathname,
+      ...(!wideScreen && {
+        navOpened: false
+      })
+    })
     window.scrollTo(0, 0)
+  }
+
+  componentWillUnmount() {
+    if (wideScreen)
+      window.removeEventListener('scroll', this.updatePosition)
   }
 
   toggleNav = () => {
@@ -219,7 +248,9 @@ export default class SideNav extends PureComponent {
     })
   }
 
-  closeNav = () => {
+  closeNavOnClickOutside = () => {
+    if (wideScreen)
+      return
     this.setState({
       navOpened: false
     })
@@ -241,27 +272,92 @@ export default class SideNav extends PureComponent {
     })
   }
 
-  renderList(pages) {
+  activeSubtree(pathname) {
+    const {activeSubtree} = this.state
+    if (!activeSubtree)
+      return false
+    return activeSubtree.indexOf(pathname) === 0
+  }
+
+  toggleSubtree = event => {
+    const pathname = event.currentTarget.getAttribute('data-href')
+    this.setState({
+      activeSubtree: this.activeSubtree(pathname) ? null : pathname
+    })
+  }
+
+  updatePosition = throttle(() => {
+    const {pageYOffset, innerHeight} = window
+    const {offsetHeight, offsetTop} = this.rootNode
+    let position
+    let top
+    if (
+      (this.pageY > pageYOffset && pageYOffset <= (offsetTop || pageYOffset)) ||
+      innerHeight === offsetHeight
+    ) {
+      position = 'fixed'
+      top = 0
+    } else if (
+      this.pageY < pageYOffset &&
+      pageYOffset + innerHeight >= offsetTop + offsetHeight
+    ) {
+      position = 'fixed'
+      top = innerHeight - offsetHeight
+    } else {
+      position = 'absolute'
+      top = pageYOffset + offsetTop
+    }
+    this.pageY = pageYOffset
+    if (position === this.position)
+      return
+    this.position = position
+    this.setState({
+      top,
+      position
+    })
+  })
+
+  setRoot = el => {
+    this.rootNode = el
+  }
+
+  renderLink(page) {
     const {classes} = this.props
 
-    const list = pages.map(page => (
-      <div className={classes.item} key={page.pathname}>
+    if (!page.children)
+      return (
         <NavLink
           to={page.pathname}
           className={classes.link}
-          activeClassName={page.children ? classes.openedLink : classes.activeLink}>
+          activeClassName={classes.activeLink}>
           {page.title}
-          {page.children &&
-            <ArrowIcon size={20} className={classes.linkIcon} />
-          }
         </NavLink>
-        {page.children && this.renderList(page.children)}
-      </div>
-    ))
+      )
+
+    return (
+      <span
+        className={this.activeSubtree(page.pathname) ? classes.openedLink : classes.link}
+        data-href={page.pathname}
+        onClick={this.toggleSubtree}>
+        {page.title}
+        {page.children &&
+          <ArrowIcon size={20} className={classes.linkIcon} />
+        }
+      </span>
+    )
+  }
+
+  renderList(pages) {
+    const {classes} = this.props
 
     return (
       <div className={classes.list}>
-        {list}
+        {pages.map(page => (
+          <div className={classes.item} key={page.pathname}>
+            {this.renderLink(page)}
+            {page.children && this.renderList(page.children)}
+          </div>
+        ))}
       </div>
     )
   }
@@ -321,12 +417,15 @@ export default class SideNav extends PureComponent {
   }
 
   render() {
-    const {navOpened} = this.state
     const {classes, pages} = this.props
+    const {navOpened, top, position} = this.state
 
     return (
-      <OnClickOutside handler={this.closeNav}>
-        <div className={classnames(classes.root, navOpened && classes.opened)}>
+      <OnClickOutside handler={this.closeNavOnClickOutside}>
+        <div
+          ref={this.setRoot}
+          style={{top, position}}
+          className={classnames(classes.root, navOpened && classes.opened)}>
           <button
             type="button"
             className={classes.toggle}

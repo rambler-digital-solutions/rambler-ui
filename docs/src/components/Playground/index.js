@@ -20,28 +20,44 @@ const modules = {
 }
 
 @injectSheet(theme => ({
-  root: {
-    border: '1px solid',
-    borderColor: lighten(theme.colors.cloudGray, 0.7),
-    marginTop: 25,
-    marginBottom: 40
+  scrollArea: {
+    margin: '25px -30px 40px',
+    lineHeight: 0,
+    overflowX: 'auto',
+    overflowY: 'hidden',
+    '@media screen and (min-width: 768px)': {
+      marginLeft: 0,
+      marginRight: 0,
+      width: '100%'
+    }
+  },
+  table: {
+    display: 'inline-block',
+    paddingLeft: 30,
+    paddingRight: 30,
+    '@media screen and (min-width: 768px)': {
+      paddingLeft: 0,
+      paddingRight: 0,
+      width: '100%'
+    }
   },
   tabs: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: -1,
+    justifyContent: 'flex-start',
+    border: '1px solid',
+    borderColor: lighten(theme.colors.cloudGray, 0.7),
     fontFamily: fontFamily.Roboto,
-    overflowX: 'auto',
     '@media screen and (min-width: 768px)': {
       justifyContent: 'flex-end'
     }
   },
   tabItem: {
     borderBottom: '2px solid transparent',
-    padding: '15px 5px 13px',
-    marginLeft: 10,
+    padding: '14px 0 13px',
+    marginLeft: 20,
+    marginBottom: -1,
     color: theme.colors.cloudGray,
     lineHeight: '20px',
     cursor: 'pointer',
@@ -49,11 +65,9 @@ const modules = {
       marginRight: 10
     },
     '@media screen and (min-width: 768px)': {
-      '&:first-child': {
-        marginLeft: 20
-      },
+      marginLeft: 30,
       '&:last-child': {
-        marginRight: 20
+        marginRight: 30
       }
     }
   },
@@ -63,9 +77,10 @@ const modules = {
     cursor: 'default'
   },
   content: {
-    borderTop: '1px solid',
-    borderTopColor: lighten(theme.colors.cloudGray, 0.7),
-    padding: '14px 25px 14px 20px'
+    border: '1px solid',
+    borderColor: lighten(theme.colors.cloudGray, 0.7),
+    borderTopWidth: 0,
+    padding: '14px 20px'
   },
   viewer: {
     composes: '$content',
@@ -99,13 +114,11 @@ const modules = {
   },
   preview: {
     composes: '$content',
-    overflow: 'auto',
     fontFamily: fontFamily.Roboto
   },
   error: {
     composes: '$viewer',
-    color: theme.colors.red,
-    overflow: 'auto'
+    color: theme.colors.red
   }
 }))
 export default class Playground extends PureComponent {
@@ -177,9 +190,10 @@ export default class Playground extends PureComponent {
   }
 
   renderPreview() {
+    const {mode} = this.state
     const {showPreview, classes} = this.props
 
-    if (!showPreview)
+    if (!showPreview || mode !== 'preview')
       return null
 
     const {code} = this.state
@@ -238,30 +252,32 @@ export default class Playground extends PureComponent {
     const {classes, showPreview, canEdit} = this.props
 
     return (
-      <div className={classes.root}>
-        <div className={classes.tabs}>
-          {showPreview &&
+      <div className={classes.scrollArea}>
+        <div className={classes.table}>
+          <div className={classes.tabs}>
+            {showPreview &&
+              <span
+                className={classnames(classes.tabItem, mode === 'preview' && classes.activeTabItem)}
+                onClick={() => this.setMode('preview')}>
+                Превью
+              </span>
+            }
             <span
-              className={classnames(classes.tabItem, mode === 'preview' && classes.activeTabItem)}
-              onClick={() => this.setMode('preview')}>
-              Превью
+              className={classnames(classes.tabItem, mode === 'read' && classes.activeTabItem)}
+              onClick={() => this.setMode('read')}>
+              Код
             </span>
-          }
-          <span
-            className={classnames(classes.tabItem, mode === 'read' && classes.activeTabItem)}
-            onClick={() => this.setMode('read')}>
-            Код
-          </span>
-          {canEdit &&
-            <span
-              className={classnames(classes.tabItem, mode === 'write' && classes.activeTabItem)}
-              onClick={() => this.setMode('write')}>
-              Редактировать
-            </span>
-          }
+            {canEdit &&
+              <span
+                className={classnames(classes.tabItem, mode === 'write' && classes.activeTabItem)}
+                onClick={() => this.setMode('write')}>
+                Редактировать
+              </span>
+            }
+          </div>
+          {this.renderCode()}
+          {this.renderPreview()}
         </div>
-        {this.renderCode()}
-        {this.renderPreview()}
       </div>
     )
   }
