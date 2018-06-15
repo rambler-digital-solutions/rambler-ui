@@ -12,7 +12,7 @@ loadStyleSheet('https://static.rambler.ru/fonts/CorsicaRamblerLX/CorsicaRamblerL
       boxSizing: 'border-box'
     },
     'html, body': {
-      height: '100%',
+      minHeight: '100%',
       backgroundColor: theme.colors.light
     },
     body: {

@@ -289,6 +289,8 @@ export default class SideNav extends PureComponent {
   updatePosition = throttle(() => {
     const {pageYOffset, innerHeight} = window
     const {offsetHeight, offsetTop} = this.rootNode
+    if (offsetHeight >= document.body.clientHeight)
+      return
     let position
     let top
     if (
