@@ -12,7 +12,8 @@
     "transform-decorators-legacy",
     "transform-object-rest-spread",
     "transform-class-properties",
-    "transform-export-extensions"
+    "transform-export-extensions",
+    "preval"
   ],
   "env": {
     "production": {
