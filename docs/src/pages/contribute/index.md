@@ -24,17 +24,21 @@ npm run dev -- --port 8080 --host 127.0.0.1
 
 ## Структура библиотеки
 
-Каждый компонент, тесты и документация к нему располагаются изолированно в соответствующей папке:
+Каждый компонент, тесты и документация к нему располагаются соответственно следующей структуре:
 
 ```sh
+docs/
+  src/
+    pages/
+      components/
+        Button/     # документация
+          index.md
+          example.js
 src/
   Button/
-    index.js    # импорты
-    Button.js   # код компонента
-    __doc__/    # документация
-      index.js
-    __test__/   # тесты
-      Button.test.js
+    index.js        # импорты
+    Button.js       # код компонента
+    Button.test.js  # тесты
 ```
 
 ### Стили
@@ -113,36 +117,27 @@ export function createTheme(config) {
 
 ### Документация
 
-Чтобы добавить компонент в документацию, нужно создать файл `__doc__/index.js` внутри папки с компонентом, который может экспортировать следующeе:
+Чтобы добавить компонент в документацию, нужно добавить папку с названием компонента в документацию `docs/src/pages/components`. Для документации используется формат [`mdx`](https://github.com/mdx-js/mdx), который позволяет использовать `React`-компоненты внутри Markdown.
 
-```js
-// src/Button/__doc__/index.js
-import React from 'react'
-import example from '!!raw-loader!./example.js'
-import button from '!!raw-loader!../Button.js'
+```md
+<!-- docs/src/pages/components/Button/index.md -->
+import example from '!!raw-loader!./example'
+import button from '!!raw-loader!rambler-ui/Button/Button'
 
-// Компоненты предоставляемые песочницей
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-// Название компонента, `String`
-export const title = 'Button'
+# Button
 
-// Описание компонента, `String`, опционально
-export const description = 'Супер-кнопка'
+## Пример
+<Playground code={example} />
 
-// Компонент с документацией и примерами
-export default () => (
-  <div>
-    <Playground code={example} title="Пример"></Playground>
-    <PropTypesTable code={button}></PropTypesTable>
-  </div>
-)
+## Свойства компонента `<Button />`
+<PropTypesTable code={button} />
+```
 
-// Скрыть дочерние компоненты, если в данный момент не выбран текущий компонент, `Boolean`, опционально, по-умолчанию `false`
-export const hideChildrenIfNotCurrent = true
-
-// src/Button/__doc__/example.js
+```js
+// docs/src/pages/components/Button/example.js
 import React from 'react'
 import Button from 'rambler-ui/Button'
 import { ApplyTheme } from 'rambler-ui/theme'
