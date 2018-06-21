@@ -49,7 +49,7 @@ build_site:
     <<: *cache
     policy: pull
   tags:
-    - deployer
+    - builder
   except:
     - /^gh-pages$/
     - tags
@@ -67,7 +67,7 @@ build_version_site:
     <<: *cache
     policy: pull
   tags:
-    - deployer
+    - builder
   except:
     - /^gh-pages$/
   only:
