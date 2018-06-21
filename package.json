@@ -10,6 +10,7 @@
     "build": "NODE_ENV=production VERSION=$npm_package_version babel src --out-dir build --ignore **/*.test.js",
     "postbuild": "cp package.json .npmignore README.md build",
     "dev": "NODE_ENV=development webpack-dev-server -d --hot --config docs/webpack.config.js",
+    "prepages": "rm -rf docs/build",
     "pages": "NODE_ENV=production webpack -p --progress --config docs/webpack.config.js && node docs/scripts/publish-site.js",
     "eslint": "eslint '**/*.js'",
     "size": "size-limit",
