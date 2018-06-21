@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.25.1 - 2018-06-21
+### Changed
+* Обновлен сайт
+
 ## v-3.25.0 - 2018-06-09
 ### Added
 * Добавлен проброс `sourceType` в коллбеки `onSubmit`, `onSearch` и `onPressEnter` в компонентах `<ComplexSearch />`, `<ServiceSearch />` и `<SimpleSearch />`
