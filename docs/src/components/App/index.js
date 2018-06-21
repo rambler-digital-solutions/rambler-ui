@@ -25,7 +25,8 @@ loadStyleSheet('https://static.rambler.ru/fonts/CorsicaRamblerLX/CorsicaRamblerL
       lineHeight: '23px',
       color: theme.colors.black,
       WebkitFontSmoothing: 'antialiased',
-      MozOsxFontSmoothing: 'grayscale'
+      MozOsxFontSmoothing: 'grayscale',
+      WebkitTextSizeAdjust: '100%'
     },
     a: {
       textDecoration: 'none',

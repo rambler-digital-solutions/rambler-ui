@@ -90,6 +90,7 @@ const modules = {
     lineHeight: '18px',
     '& code': {
       padding: 0,
+      overflow: 'hidden',
       backgroundColor: 'transparent',
       fontFamily: 'inherit'
     }
