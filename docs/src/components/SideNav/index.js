@@ -12,7 +12,7 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import Logo from './Logo'
 import ArrowIcon from './ArrowIcon'
 
-const wideScreen = window.innerWidth >= 768
+const initOnDesktop = window.innerWidth >= 768
 
 @withRouter
 @injectSheet(theme => ({
@@ -21,7 +21,6 @@ const wideScreen = window.innerWidth >= 768
     left: -230,
     width: 230,
     minHeight: '100%',
-    height: wideScreen ? null : '100%',
     backgroundColor: theme.colors.light,
     transitionDuration: 200,
     transitionProperty: 'left, box-shadow',
@@ -198,11 +197,12 @@ export default class SideNav extends PureComponent {
     pages: PropTypes.arrayOf(PropTypes.object)
   }
 
-  pageY = wideScreen ? window.pageYOffset : 0
-  position = wideScreen ? 'absolute' : 'fixed'
+  pageY = initOnDesktop ? window.pageYOffset : 0
+  position = initOnDesktop ? 'absolute' : 'fixed'
 
   state = {
-    navOpened: wideScreen,
+    desktop: initOnDesktop,
+    navOpened: initOnDesktop,
     top: this.pageY,
     position: this.position,
     activeSubtree: this.props.location.pathname,
@@ -220,26 +220,36 @@ export default class SideNav extends PureComponent {
         })
     }
     req.send(null)
-    if (wideScreen)
-      window.addEventListener('scroll', this.updatePosition)
+    window.addEventListener('scroll', this.updatePosition)
+    window.addEventListener('resize', this.updateViewport)
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate (prevProps, prevState) {
+    const {desktop} = this.state
     const {location} = this.props
-    if (location === prevProps.location)
-      return
-    this.setState({
-      activeSubtree: location.pathname,
-      ...(!wideScreen && {
-        navOpened: false
+    if (location !== prevProps.location) {
+      this.setState({
+        activeSubtree: location.pathname,
+        ...(!desktop && {
+          navOpened: false
+        })
       })
-    })
-    window.scrollTo(0, 0)
+      window.scrollTo(0, 0)
+    }
+    if (desktop !== prevState.desktop) {
+      this.pageY = desktop ? window.pageYOffset : 0
+      this.position = desktop ? 'absolute' : 'fixed'
+      this.setState({
+        navOpened: desktop,
+        pageY: this.pageY,
+        position: this.position
+      })
+    }
   }
 
   componentWillUnmount() {
-    if (wideScreen)
-      window.removeEventListener('scroll', this.updatePosition)
+    window.removeEventListener('scroll', this.updatePosition)
+    window.removeEventListener('resize', this.updateViewport)
   }
 
   toggleNav = () => {
@@ -249,7 +259,8 @@ export default class SideNav extends PureComponent {
   }
 
   closeNavOnClickOutside = () => {
-    if (wideScreen)
+    const {desktop} = this.state
+    if (desktop)
       return
     this.setState({
       navOpened: false
@@ -287,6 +298,9 @@ export default class SideNav extends PureComponent {
   }
 
   updatePosition = throttle(() => {
+    const {desktop} = this.state
+    if (!desktop)
+      return
     const {pageYOffset, innerHeight} = window
     const {offsetHeight, offsetTop} = this.rootNode
     if (offsetHeight >= document.body.clientHeight)
@@ -316,6 +330,15 @@ export default class SideNav extends PureComponent {
     this.setState({
       top,
       position
+    })
+  })
+
+  updateViewport = throttle(() => {
+    const desktop = window.innerWidth >= 768
+    if (desktop === this.state.desktop)
+      return
+    this.setState({
+      desktop
     })
   })
 
@@ -420,13 +443,17 @@ export default class SideNav extends PureComponent {
 
   render() {
     const {classes, pages} = this.props
-    const {navOpened, top, position} = this.state
+    const {navOpened, top, position, desktop} = this.state
 
     return (
       <OnClickOutside handler={this.closeNavOnClickOutside}>
         <div
           ref={this.setRoot}
-          style={{top, position}}
+          style={{
+            top,
+            position,
+            height: desktop ? null : '100%'
+          }}
           className={classnames(classes.root, navOpened && classes.opened)}>
           <button
             type="button"
