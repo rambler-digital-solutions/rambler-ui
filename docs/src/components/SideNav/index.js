@@ -227,24 +227,27 @@ export default class SideNav extends PureComponent {
   componentDidUpdate (prevProps, prevState) {
     const {desktop} = this.state
     const {location} = this.props
-    if (location !== prevProps.location) {
-      this.setState({
-        activeSubtree: location.pathname,
-        ...(!desktop && {
-          navOpened: false
-        })
-      })
-      window.scrollTo(0, 0)
-    }
-    if (desktop !== prevState.desktop) {
-      this.pageY = desktop ? window.pageYOffset : 0
-      this.position = desktop ? 'absolute' : 'fixed'
+    this.pageY = desktop ? window.pageYOffset : 0
+    this.position = desktop ? 'absolute' : 'fixed'
+    if (desktop !== prevState.desktop)
       this.setState({
         navOpened: desktop,
-        pageY: this.pageY,
+        top: this.pageY,
         position: this.position
       })
-    }
+    if (location === prevProps.location)
+      return
+    this.setState({
+      activeSubtree: location.pathname,
+      ...(!desktop && {
+        navOpened: false
+      }),
+      ...(desktop && {
+        top: 0,
+        position: this.position
+      })
+    })
+    window.scrollTo(0, 0)
   }
 
   componentWillUnmount() {
