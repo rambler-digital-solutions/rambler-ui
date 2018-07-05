@@ -89,7 +89,7 @@
     "react-highlight.js": "^1.0.7",
     "react-router-dom": "^4.2.2",
     "react-test-renderer": "^16.0.0",
-    "recast": "^0.14.7",
+    "recast": "^0.13.2",
     "remark": "^9.0.0",
     "remark-highlight.js": "^5.0.0",
     "remark-html": "^7.0.0",
