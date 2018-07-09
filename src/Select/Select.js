@@ -518,7 +518,9 @@ export default class Select extends PureComponent {
   open = () => {
     if (this.props.disabled || this.state.isOpened) return
     this.setState({isOpened: true})
-    this.input.focus()
+    setTimeout(() => {
+      this.input.focus()
+    }, 0)
   }
 
   close = () => {
@@ -526,7 +528,15 @@ export default class Select extends PureComponent {
     this.setState({isOpened: false})
   }
 
-  openOnArrow(event) {
+  openOnArrowClick = () => {
+    const {isOpened} = this.state
+    if (isOpened)
+      this.close()
+    else
+      this.open()
+  }
+
+  openOnArrowKey(event) {
     event.preventDefault()
 
     if (!this.state.isOpened)
@@ -587,7 +597,7 @@ export default class Select extends PureComponent {
         isOpened: false
       })
     else if (code === UP || code === DOWN)
-      this.openOnArrow(event)
+      this.openOnArrowKey(event)
     else if (inputMode && code === ENTER)
       this.changeValue(this.state.searchText)
     else if (!multiple && !customElementRenderer && (code === DELETE || code === BACKSPACE))
@@ -738,7 +748,7 @@ export default class Select extends PureComponent {
       : this.showArrow && createElement(this.Arrow, {
         role: 'button',
         onMouseDown: this.preventBlurInput,
-        onClick: isOpened ? this.close : this.open
+        onClick: this.openOnArrowClick
       })
 
     return (
