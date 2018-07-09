@@ -63,7 +63,7 @@ const activeBorder = borderColor => ({
     ...placeholderMixin('&', {
       color: theme.field.colors.default.placeholder,
       opacity: 1,
-      transition: `all ${Math.round(theme.field.animationDuration * 0.7)}ms linear`
+      transition: `opacity ${Math.round(theme.field.animationDuration * 0.7)}ms linear`
     }),
     ...placeholderMixin('&:disabled', {
       color: theme.field.colors.disabled.placeholder,
