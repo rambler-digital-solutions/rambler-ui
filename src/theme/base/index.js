@@ -403,6 +403,7 @@ export function createTheme(config) {
       },
       input: {
         color: colors.dark,
+        backgroundColor: colors.light,
         default: {
           borderColor: colors.primary,
           icon: colors.controls.grey.outline
@@ -449,7 +450,7 @@ export function createTheme(config) {
           height: 35
         }
       },
-    
+
       button: {
         color: colors.primary,
         active: {
