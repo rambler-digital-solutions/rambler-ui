@@ -35,6 +35,7 @@ import provideSearch from './provideSearch'
     borderRadius: '1px',
     width: '100%',
     boxSizing: 'border-box',
+    backgroundColor: theme.search.input.backgroundColor,
 
     '&$active': {
       borderColor: theme.simpleSearch.input.hover.borderColor

@@ -38,6 +38,7 @@ import provideSearchDropdown from './provideSearchDropdown'
     borderRadius: '1px 0 0 1px',
     width: '100%',
     boxSizing: 'border-box',
+    backgroundColor: theme.search.input.backgroundColor,
 
     '&$active': {
       borderColor: theme.search.input.hover.borderColor
