@@ -242,11 +242,13 @@ export default class Checkbox extends Component {
   };
 
   componentDidMount() {
-    this.input.indeterminate = this.props.indeterminate
+    if (this.input)
+      this.input.indeterminate = this.props.indeterminate
   }
 
   componentDidUpdate() {
-    this.input.indeterminate = this.props.indeterminate
+    if (this.input)
+      this.input.indeterminate = this.props.indeterminate
   }
 
   render() {
