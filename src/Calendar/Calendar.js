@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../utils/mixins'
-import { MONTHS, DAYS, MIN_YEAR, MAX_YEAR } from './CalendarDirectory'
+import { MONTHS, DAYS } from './CalendarDirectory'
 
 const datePropTypes = [
   PropTypes.instanceOf(Date),
@@ -101,6 +101,14 @@ const datePropTypes = [
       borderWidth: '0 0 1px 1px',
       transform: 'rotate(45deg)',
       transformOrigin: 'left bottom'
+    },
+    '&$isDisable': {
+      color: theme.calendar.colors.disabled.text,
+      cursor: 'default'
+    },
+    '&$isDisable:hover': {
+      color: theme.calendar.colors.disabled.text,
+      cursor: 'default'
     }
   },
   prev: {
@@ -213,28 +221,28 @@ export default class Calendar extends Component {
      */
     style: PropTypes.object,
     /**
-     * Тип стиля календаря
+     * Тип календаря
      */
     type: PropTypes.oneOf(['service', 'media']),
     /**
-     * Устанавливает отображаемый месяц при инициализации.
+     * Отображаемый месяц при инициализации.
      * Принимает числовое значение месяца, начиная с 0
      */
     initMonth: PropTypes.number,
     /**
-     * Устанавливает отображаемый месяц при инициализации.
+     * Отображаемый год при инициализации.
      */
     initYear: PropTypes.number,
     /**
-     * Устанавливает минимальный год для отображения
+     * Минимальный год для отображения
      */
     minYear: PropTypes.number,
     /**
-     * Устанавливает максимальный год для отображения
+     * Максимальный год для отображения
      */
     maxYear: PropTypes.number,
     /**
-     * Устанавливает текущую дату.
+     * Текущая дата.
      * Принимает объект Date, строку или число в формате YYYYMMDD
      */
     today: PropTypes.oneOfType(datePropTypes),
@@ -253,7 +261,7 @@ export default class Calendar extends Component {
      */
     range: PropTypes.bool,
     /**
-     * Скрывает возможность переключения
+     * Скрывает переключатель месяцев
      */
     hiddenSwitchable: PropTypes.bool,
     /**
@@ -272,15 +280,15 @@ export default class Calendar extends Component {
     onChange: PropTypes.func,
     /**
      * Функция валидации. Срабатывает перед onChange.
-     * Должна возвращать true/false после валидации.
+     * Должна возвращать true/false
      */
     onValidate: PropTypes.func
   }
 
   static defaultProps = {
     type: 'service',
-    minYear: MIN_YEAR,
-    maxYear: MAX_YEAR,
+    minYear: 1900,
+    maxYear: 2200,
     range: false,
     hiddenSwitchable: false,
     hiddenYear: false,
@@ -405,29 +413,33 @@ export default class Calendar extends Component {
   }
 
   onPrev = () => {
-    if (!this.state.animate) {
-      let {showMonth, showYear} = this.state
+    const {minYear} = this.props
+    let {showMonth, showYear} = this.state
 
-      if (--showMonth < 0) {
-        showMonth = 11
-        showYear--
-      }
+    if (this.state.animate || (Number.isInteger(minYear) && minYear === showYear && showMonth === 0))
+      return
 
-      this.updateShowMonth(showMonth, showYear)
+    if (--showMonth < 0) {
+      showMonth = 11
+      showYear--
     }
+
+    this.updateShowMonth(showMonth, showYear)
   }
 
   onNext = () => {
-    if (!this.state.animate) {
-      let {showMonth, showYear} = this.state
+    const {maxYear} = this.props
+    let {showMonth, showYear} = this.state
 
-      if (++showMonth > 11) {
-        showMonth = 0
-        showYear++
-      }
+    if (this.state.animate || (Number.isInteger(maxYear) && maxYear === showYear && showMonth === 11))
+      return
 
-      this.updateShowMonth(showMonth, showYear)
+    if (++showMonth > 11) {
+      showMonth = 0
+      showYear++
     }
+
+    this.updateShowMonth(showMonth, showYear)
   }
 
   updateShowMonth(showMonth, showYear) {
@@ -497,6 +509,8 @@ export default class Calendar extends Component {
       className,
       style,
       type,
+      minYear,
+      maxYear,
       range,
       today,
       hiddenSwitchable,
@@ -527,6 +541,14 @@ export default class Calendar extends Component {
     if (!hiddenYear)
       monthLabel += ', ' + showYear
 
+    const classNamePrev = classnames(classes.prev, {
+      [classes.isDisable]: Number.isInteger(minYear) && minYear === showYear && showMonth === 0
+    })
+
+    const classNameNext = classnames(classes.next, {
+      [classes.isDisable]: Number.isInteger(maxYear) && maxYear === showYear && showMonth === 11
+    })
+
     const styleDays = {
       height: (theme.calendar.size * (Math.ceil(dates.indexOf(last) / 7) - Math.floor(dates.indexOf(first) / 7))) + 'px'
     }
@@ -546,7 +568,7 @@ export default class Calendar extends Component {
         <div className={classes.headline}>
           {!hiddenSwitchable && (
             <div
-              className={classes.prev}
+              className={classNamePrev}
               onClick={this.onPrev}
             />
           )}
@@ -558,7 +580,7 @@ export default class Calendar extends Component {
 
           {!hiddenSwitchable && (
             <div
-              className={classes.next}
+              className={classNameNext}
               onClick={this.onNext}
             />
           )}
