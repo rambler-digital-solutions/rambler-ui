@@ -25,6 +25,9 @@ export default {
       placeholder: '#a4a9b8',
       fieldIcon: '#B0B4C2',
       disabledText: '#afb5c9'
+    },
+    blue: {
+      default: '#d9f3ff'
     }
   }
 }
