@@ -66,8 +66,8 @@ const datePropTypes = [
   arrow: {
     composes: '$item',
     position: 'relative',
-    width: theme.calendar.arrows.size,
-    height: theme.calendar.arrows.size,
+    width: theme.calendar.arrow.size,
+    height: theme.calendar.arrow.size,
     color: theme.calendar.service.colors.default,
     cursor: 'pointer',
     overflow: 'hidden',

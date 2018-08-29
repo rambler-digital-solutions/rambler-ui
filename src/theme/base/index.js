@@ -1090,6 +1090,9 @@ export function createTheme(config) {
           text: colors.primaryDark
         }
       },
+      arrow: {
+        size: 15
+      },
       month: {
         size: 15,
         fontWeight: 500,
