@@ -18,9 +18,8 @@ class CalendarExample extends Component {
   )
 
   onValidateRange = (dates) => {
-    const [dateFrom, dateTo] = dates.map(this.numberToDate)
-
-    if (dateFrom && dateTo) {
+    if (dates[0] && dates[1]) {
+      const [dateFrom, dateTo] = dates.map(this.numberToDate)
       const selected = 1 + Math.abs(dateFrom.getTime() - dateTo.getTime()) / 86400000
 
       if (selected > 60) {
