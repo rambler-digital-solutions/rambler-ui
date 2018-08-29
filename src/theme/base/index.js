@@ -1040,9 +1040,11 @@ export function createTheme(config) {
     calendar: {
       size: 35,
       animationDuration: 200,
-      fontFamily: {
-        service: fontFamilies.CorsicaRamblerLX,
-        media: fontFamilies.Roboto
+      service: {
+        fontFamily: fontFamilies.CorsicaRamblerLX
+      },
+      media: {
+        fontFamily: fontFamilies.Roboto
       },
       colors: {
         default: {
@@ -1054,7 +1056,7 @@ export function createTheme(config) {
         },
         selected: {
           text: colors.dark,
-          background: colors.controls.blue.default
+          background: colors.blueLight
         },
         active: {
           text: colors.light,
@@ -1083,7 +1085,7 @@ export function createTheme(config) {
       arrows: {
         size: 15,
         service: {
-          default: colors.controls.blue.arrow,
+          default: colors.arrowBlueDark,
           hover: colors.primary
         },
         media: {

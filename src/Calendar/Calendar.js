@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../utils/mixins'
-import { MONTHS, DAYS } from './CalendarDirectory'
 
 const datePropTypes = [
   PropTypes.instanceOf(Date),
@@ -16,17 +15,9 @@ const datePropTypes = [
     display: 'inline-block',
     width: 275,
     padding: 15,
+    fontFamily: theme.calendar.service.fontFamily,
     backgroundColor: theme.calendar.colors.default.background,
-    boxSizing: 'border-box',
-    '&': {
-      fontFamily: theme.calendar.fontFamily.service
-    },
-    '&$isMedia': {
-      fontFamily: theme.calendar.fontFamily.media
-    },
-    '&$withSelected': {
-      userSelect: 'none'
-    }
+    boxSizing: 'border-box'
   },
   headline: {
     display: 'flex',
@@ -59,7 +50,7 @@ const datePropTypes = [
       border: 'none !important',
       outline: 'none !important'
     },
-    '$withSelected &': {
+    '$isSelectable &': {
       transitionDuration: theme.calendar.animationDuration,
       transitionProperty: 'color, background-color'
     }
@@ -80,15 +71,6 @@ const datePropTypes = [
     color: theme.calendar.arrows.service.default,
     cursor: 'pointer',
     overflow: 'hidden',
-    '&:hover': {
-      color: theme.calendar.arrows.service.hover
-    },
-    '$isMedia &': {
-      color: theme.calendar.arrows.media.default
-    },
-    '$isMedia &:hover': {
-      color: theme.calendar.arrows.media.hover
-    },
     '&:before': {
       boxSizing: 'border-box',
       position: 'absolute',
@@ -102,13 +84,14 @@ const datePropTypes = [
       transform: 'rotate(45deg)',
       transformOrigin: 'left bottom'
     },
-    '&$isDisable': {
-      color: theme.calendar.colors.disabled.text,
-      cursor: 'default'
+    '&:hover': {
+      color: theme.calendar.arrows.service.hover
     },
-    '&$isDisable:hover': {
-      color: theme.calendar.colors.disabled.text,
-      cursor: 'default'
+    '$isMedia &': {
+      color: theme.calendar.arrows.media.default
+    },
+    '$isMedia &:hover': {
+      color: theme.calendar.arrows.media.hover
     }
   },
   prev: {
@@ -127,12 +110,7 @@ const datePropTypes = [
     composes: '$day',
     height: theme.calendar.weekDay.size,
     fontSize: theme.calendar.weekDay.fontSize,
-    '&': {
-      color: theme.calendar.colors.weekDay.text
-    },
-    '&$isWeekend': {
-      color: theme.calendar.colors.weekend.text
-    }
+    color: theme.calendar.colors.weekDay.text
   },
 
   days: {
@@ -154,59 +132,61 @@ const datePropTypes = [
     composes: '$day',
     height: theme.calendar.date.size,
     fontSize: theme.calendar.date.fontSize,
-    '&': {
-      color: theme.calendar.colors.default.text,
-      backgroundColor: theme.calendar.colors.default.background
-    },
-    '$withSelected &': {
+    color: theme.calendar.colors.default.text,
+    backgroundColor: theme.calendar.colors.default.background,
+    '$isSelectable &': {
       cursor: 'pointer'
     },
-    '$withSelected &:hover': {
+    '$isSelectable &:hover': {
       color: theme.calendar.colors.hover.text
-    },
-    '&$isWeekend': {
-      color: theme.calendar.colors.weekend.text,
-      '$withSelected &:hover': {
-        color: theme.calendar.colors.hover.text
-      }
-    },
-    '&$isToday': {
-      fontWeight: 500,
-      color: theme.calendar.colors.today.text,
-      '$withSelected &:hover': {
-        color: theme.calendar.colors.todayHover.text
-      }
-    },
-    '&$isSelected': {
-      color: theme.calendar.colors.selected.text,
-      backgroundColor: theme.calendar.colors.selected.background,
-      '$withSelected &:hover': {
-        color: theme.calendar.colors.hover.text
-      }
-    },
-    '&$isActive': {
-      color: theme.calendar.colors.active.text,
-      backgroundColor: theme.calendar.colors.active.background,
-      '$withSelected &:hover': {
-        color: theme.calendar.colors.activeHover.text,
-        backgroundColor: theme.calendar.colors.activeHover.background
-      }
-    },
-    '&$isDisable': {
-      color: theme.calendar.colors.disabled.text,
-      '$withSelected &:hover': {
-        color: theme.calendar.colors.hover.text
-      }
     }
   },
 
-  withSelected: {},
-  isWeekend: {},
-  isToday: {},
-  isSelected: {},
-  isActive: {},
-  isDisable: {},
-  isMedia: {},
+  isMedia: {
+    fontFamily: theme.calendar.media.fontFamily
+  },
+  isSelectable: {
+    userSelect: 'none'
+  },
+  isWeekend: {
+    color: theme.calendar.colors.weekend.text
+  },
+  isToday: {
+    fontWeight: 500,
+    color: theme.calendar.colors.today.text,
+    '$isSelectable &:hover': {
+      color: theme.calendar.colors.todayHover.text
+    },
+    '$isSelectable &$isUnavailable:hover': {
+      color: theme.calendar.colors.disabled.text
+    }
+  },
+  isSelected: {
+    backgroundColor: theme.calendar.colors.selected.background
+  },
+  isActive: {
+    color: theme.calendar.colors.active.text,
+    backgroundColor: theme.calendar.colors.active.background,
+    '$isSelectable &:hover': {
+      color: theme.calendar.colors.active.text,
+      backgroundColor: theme.calendar.colors.activeHover.background
+    },
+    '$isSelectable &$isUnavailable:hover': {
+      color: theme.calendar.colors.disabled.text,
+      backgroundColor: theme.calendar.colors.activeHover.background
+    }
+  },
+  isUnavailable: {
+    color: theme.calendar.colors.disabled.text
+  },
+  isDisableArrow: {
+    color: theme.calendar.colors.disabled.text,
+    cursor: 'default',
+    '&:hover': {
+      color: theme.calendar.colors.disabled.text,
+      cursor: 'default'
+    }
+  },
   isAnimate: {}
 }), {name: 'Calendar'})
 export default class Calendar extends Component {
@@ -404,9 +384,9 @@ export default class Calendar extends Component {
       return null
     if (!date || date < 0 || date > 31)
       return null
-    if ([4, 6, 9, 11].includes(month) && date > 30)
+    if ([3, 5, 8, 10].includes(month) && date > 30)
       return null
-    if (month === 2 && (date > 29 || (year % 4 !== 0 && date > 28)))
+    if (month === 1 && (date > 29 || (year % 4 !== 0 && date > 28)))
       return null
 
     return {year, date, month, number: this.toNumber(year, month, date)}
@@ -532,21 +512,21 @@ export default class Calendar extends Component {
 
     const classNameRoot = classnames(className, classes.root, {
       [classes.isAnimate]: animate,
-      [classes.withSelected]: typeof onChange === 'function',
+      [classes.isSelectable]: typeof onChange === 'function',
       [classes.isMedia]: type === 'media'
     })
 
-    let monthLabel = MONTHS[showMonth]
+    let monthLabel = theme.i18n.months[showMonth]
 
     if (!hiddenYear)
       monthLabel += ', ' + showYear
 
     const classNamePrev = classnames(classes.prev, {
-      [classes.isDisable]: Number.isInteger(minYear) && minYear === showYear && showMonth === 0
+      [classes.isDisableArrow]: Number.isInteger(minYear) && minYear === showYear && showMonth === 0
     })
 
     const classNameNext = classnames(classes.next, {
-      [classes.isDisable]: Number.isInteger(maxYear) && maxYear === showYear && showMonth === 11
+      [classes.isDisableArrow]: Number.isInteger(maxYear) && maxYear === showYear && showMonth === 11
     })
 
     const styleDays = {
@@ -558,7 +538,6 @@ export default class Calendar extends Component {
     }
 
     const dateToday = this.parseDate(today)
-
     const value = [].concat(this.props.value || this.state.value)
     const dateFrom = this.parseDate(value[0])
     const dateTo = this.parseDate(value[1])
@@ -567,27 +546,19 @@ export default class Calendar extends Component {
       <div className={classNameRoot} style={style}>
         <div className={classes.headline}>
           {!hiddenSwitchable && (
-            <div
-              className={classNamePrev}
-              onClick={this.onPrev}
+            <div className={classNamePrev} onClick={this.onPrev}
             />
           )}
 
-          <div
-            className={classes.month}
-            children={monthLabel}
-          />
+          <div className={classes.month} children={monthLabel} />
 
           {!hiddenSwitchable && (
-            <div
-              className={classNameNext}
-              onClick={this.onNext}
-            />
+            <div className={classNameNext} onClick={this.onNext} />
           )}
         </div>
 
         <div className={classes.week}>
-          {DAYS.map((el, index) => {
+          {theme.i18n.days.map((el, index) => {
             const classNameDay = classnames(classes.weekDay, {
               [classes.isWeekend]: showWeekend && (index === 5 || index === 6)
             })
@@ -604,28 +575,20 @@ export default class Calendar extends Component {
 
         <div className={classes.days} style={styleDays} onMouseOut={this.onMouseOut}>
           <div className={classes.daysWrap} style={styleDaysWrap}>
-            {dates.map((el, index) => {
-              let cls = null
-
-              if ((dateFrom && el === dateFrom.number) || (range && dateTo && el === dateTo.number))
-                cls = classes.isActive
-              else if (range && dateFrom && dateTo && el > dateFrom.number && el < dateTo.number)
-                cls = classes.isSelected
-              else if (showWeekend && ((index + 1) % 7 === 6 || (index + 1) % 7 === 0))
-                cls = classes.isWeekend
-
-              return (
-                <div
-                  key={el}
-                  className={classnames(classes.dateDay, cls, {
-                    [classes.isToday]: dateToday && el === dateToday.number,
-                    [classes.isDisable]: el < first || el > last
-                  })}
-                  children={el % 100}
-                  onClick={() => this.onClick(el)}
-                />
-              )
-            })}
+            {dates.map((el, index) => (
+              <div
+                key={el}
+                className={classnames(classes.dateDay, {
+                  [classes.isActive]: (dateFrom && el === dateFrom.number) || (range && dateTo && el === dateTo.number),
+                  [classes.isSelected]: range && dateFrom && dateTo && el > dateFrom.number && el < dateTo.number,
+                  [classes.isToday]: dateToday && el === dateToday.number,
+                  [classes.isWeekend]: showWeekend && ((index + 1) % 7 === 6 || (index + 1) % 7 === 0),
+                  [classes.isUnavailable]: el < first || el > last
+                })}
+                children={el % 100}
+                onClick={() => this.onClick(el)}
+              />
+            ))}
           </div>
         </div>
       </div>

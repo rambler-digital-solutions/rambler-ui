@@ -9,6 +9,8 @@ export default {
   light: '#fff',
   fullDark: '#000',
   blueDark: '#343b4c',
+  blueLight: '#d9f3ff',
+  arrowBlueDark: '#6674a6',
   snackbarBlueDark: '#3d4454',
   purpleDeep: '#3e217d',
   controls: {
@@ -25,9 +27,6 @@ export default {
       placeholder: '#a4a9b8',
       fieldIcon: '#B0B4C2',
       disabledText: '#afb5c9'
-    },
-    blue: {
-      default: '#d9f3ff'
     }
   }
 }

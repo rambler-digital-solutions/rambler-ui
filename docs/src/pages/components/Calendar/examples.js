@@ -80,6 +80,7 @@ class CalendarExample extends Component {
         <div>
           <Calendar
             value={[dateFrom, dateTo]}
+            today={today}
             range
             onValidate={this.onValidateRange}
             onChange={this.onChangeRange}
