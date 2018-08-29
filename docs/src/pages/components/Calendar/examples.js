@@ -8,53 +8,47 @@ class CalendarExample extends Component {
     today: new Date(),
     dateFrom: null,
     dateTo: null,
-    message: 'Выбрано дней: 0'
+    selected: 0
   }
 
-  numberToDate = (number) => new Date(
+  numberToDate = number => new Date(
     Math.floor(number / 10000),
     Math.floor((number % 10000) / 100),
     number % 100
   )
 
-  onValidateRange = ([dateFrom, dateTo]) => {
+  onValidateRange = (dates) => {
+    const [dateFrom, dateTo] = dates.map(this.numberToDate)
+
     if (dateFrom && dateTo) {
-      const range = 1 + Math.abs(this.numberToDate(dateFrom).getTime() - this.numberToDate(dateTo).getTime()) / (1000 * 3600 * 24)
+      const selected = 1 + Math.abs(dateFrom.getTime() - dateTo.getTime()) / 86400000
 
-      if (range > 60) {
-        this.setState({
-          message: 'Вы пытались выбрать дней: ' + range
-        })
+      if (selected > 60) {
+        this.setState({selected})
 
-        this.props.openSnackbar(
-          <Snackbar positionY='top' type='danger'>
-            Вы не можете выбрать больше 60-ти дней
-          </Snackbar>
-        )
+        this.props.openSnackbar(<Snackbar positionY='top' type='danger'>
+          Вы не можете выбрать больше 60-ти дней
+        </Snackbar>)
 
         return false
       }
 
-      this.setState({
-        message: 'Выбрано дней: ' + range
-      })
+      this.setState({selected})
     } else {
-      this.setState({
-        message: 'Выбрано дней: 0'
-      })
+      this.setState({selected: 0})
     }
 
     return true
   }
 
-  onChangeRange = ([dateFrom, dateTo = null]) => {
+  onChangeRange = ([dateFrom, dateTo]) => {
     this.setState({
       dateFrom,
       dateTo
     })
   }
 
-  onChangeNotRange = (dateFrom) => {
+  onChangeNotRange = dateFrom => {
     this.setState({
       dateFrom,
       dateTo: null
@@ -66,14 +60,11 @@ class CalendarExample extends Component {
       today,
       dateFrom,
       dateTo,
-      message
+      selected
     } = this.state
 
-    const initMonthWithWeekends = dateFrom
-      ? Math.floor((dateFrom % 10000) / 100) : 0
-
-    const initYearWithWeekends = dateFrom
-      ? Math.floor(dateFrom / 10000) : 2012
+    const initMonth = Math.floor((dateFrom % 10000) / 100) || 0
+    const initYear = Math.floor(dateFrom / 10000) || 2012
 
     return (
       <div style={{display: 'flex', flexWrap: 'wrap'}}>
@@ -85,19 +76,21 @@ class CalendarExample extends Component {
             onValidate={this.onValidateRange}
             onChange={this.onChangeRange}
           />
-          <div style={{marginLeft: 20, marginBottom: 20}}><b>{message}</b></div>
+          <div style={{marginLeft: 20, marginBottom: 20}}>
+            Дней в периоде: <b>{selected}</b>
+          </div>
         </div>
 
         <Calendar
           type='media'
-          today={today}
           value={dateFrom}
+          today={today}
           onChange={this.onChangeNotRange}
         />
 
         <Calendar
-          initMonth={initMonthWithWeekends}
-          initYear={initYearWithWeekends}
+          initMonth={initMonth}
+          initYear={initYear}
           hiddenSwitchable
           hiddenYear
           showWeekend

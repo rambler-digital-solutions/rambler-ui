@@ -205,6 +205,16 @@ export default class Calendar extends Component {
      */
     type: PropTypes.oneOf(['service', 'media']),
     /**
+    *  Выбранная дата или период.
+    *  Принимает объект Date, строку или число в формате YYYYMMDD
+    *  или, в случае с выбором периода, массив
+    *  Возвращ
+    */
+    value: PropTypes.oneOfType([
+      PropTypes.arrayOf(PropTypes.oneOfType(datePropTypes)),
+      ...datePropTypes
+    ]),
+    /**
      * Отображаемый месяц при инициализации.
      * Принимает числовое значение месяца, начиная с 0
      */
@@ -226,16 +236,6 @@ export default class Calendar extends Component {
      * Принимает объект Date, строку или число в формате YYYYMMDD
      */
     today: PropTypes.oneOfType(datePropTypes),
-    /**
-    *  Выбранная дата или период.
-    *  Принимает объект Date, строку или число в формате YYYYMMDD
-    *  или, в случае с выбором периода, массив
-    *  Возвращ
-    */
-    value: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.oneOfType(datePropTypes)),
-      ...datePropTypes
-    ]),
     /**
      * Возможность выбора периода
      */
@@ -445,7 +445,7 @@ export default class Calendar extends Component {
     })
   }
 
-  onClick = (day) => {
+  onClick = day => {
     const {range} = this.props
     const value = [].concat(this.props.value)
 
