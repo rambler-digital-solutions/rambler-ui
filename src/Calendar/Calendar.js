@@ -68,7 +68,7 @@ const datePropTypes = [
     position: 'relative',
     width: theme.calendar.arrows.size,
     height: theme.calendar.arrows.size,
-    color: theme.calendar.arrows.service.default,
+    color: theme.calendar.service.colors.default,
     cursor: 'pointer',
     overflow: 'hidden',
     '&:before': {
@@ -85,13 +85,13 @@ const datePropTypes = [
       transformOrigin: 'left bottom'
     },
     '&:hover': {
-      color: theme.calendar.arrows.service.hover
+      color: theme.calendar.service.colors.hover
     },
     '$isMedia &': {
-      color: theme.calendar.arrows.media.default
+      color: theme.calendar.media.colors.default
     },
     '$isMedia &:hover': {
-      color: theme.calendar.arrows.media.hover
+      color: theme.calendar.media.colors.hover
     }
   },
   prev: {
@@ -203,7 +203,7 @@ export default class Calendar extends Component {
     /**
      * Тип календаря
      */
-    type: PropTypes.oneOf(['service', 'media']),
+    variation: PropTypes.oneOf(['service', 'media']),
     /**
     *  Выбранная дата или период.
     *  Принимает объект Date, строку или число в формате YYYYMMDD
@@ -266,7 +266,7 @@ export default class Calendar extends Component {
   }
 
   static defaultProps = {
-    type: 'service',
+    variation: 'service',
     minYear: 1900,
     maxYear: 2200,
     range: false,
@@ -488,7 +488,7 @@ export default class Calendar extends Component {
     const {
       className,
       style,
-      type,
+      variation,
       minYear,
       maxYear,
       range,
@@ -513,7 +513,7 @@ export default class Calendar extends Component {
     const classNameRoot = classnames(className, classes.root, {
       [classes.isAnimate]: animate,
       [classes.isSelectable]: typeof onChange === 'function',
-      [classes.isMedia]: type === 'media'
+      [classes.isMedia]: variation === 'media'
     })
 
     let monthLabel = theme.i18n.months[showMonth]

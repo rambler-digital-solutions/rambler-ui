@@ -1041,10 +1041,18 @@ export function createTheme(config) {
       size: 35,
       animationDuration: 200,
       service: {
-        fontFamily: fontFamilies.CorsicaRamblerLX
+        fontFamily: fontFamilies.CorsicaRamblerLXб,
+        colors: {
+          default: colors.arrowBlueDark,
+          hover: colors.primary
+        }
       },
       media: {
-        fontFamily: fontFamilies.Roboto
+        fontFamily: fontFamilies.Roboto,
+        colors: {
+          default: colors.primary,
+          hover: colors.primaryDark
+        }
       },
       colors: {
         default: {
@@ -1080,17 +1088,6 @@ export function createTheme(config) {
         },
         todayHover: {
           text: colors.primaryDark
-        }
-      },
-      arrows: {
-        size: 15,
-        service: {
-          default: colors.arrowBlueDark,
-          hover: colors.primary
-        },
-        media: {
-          default: colors.primary,
-          hover: colors.primaryDark
         }
       },
       month: {
