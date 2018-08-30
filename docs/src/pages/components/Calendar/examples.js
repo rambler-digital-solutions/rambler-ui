@@ -58,7 +58,7 @@ export default class CalendarExample extends Component {
             initDate={dateFrom || new Date(2018, 0)}
             showMonthSwitch={false}
             showYear={false}
-            highlightWeekend
+            highlightWeekend={true}
           />
         </div>
       </ApplyTheme>
