@@ -1057,7 +1057,8 @@ export function createTheme(config) {
       colors: {
         default: {
           text: colors.dark,
-          background: colors.light
+          background: colors.light,
+          weekDay: colors.controls.grey.outline
         },
         hover: {
           text: colors.primary
@@ -1079,9 +1080,6 @@ export function createTheme(config) {
         },
         weekend: {
           text: colors.danger
-        },
-        weekDay: {
-          text: colors.controls.grey.outline
         },
         today: {
           text: colors.primary

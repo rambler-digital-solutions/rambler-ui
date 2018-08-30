@@ -4,12 +4,6 @@ import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../utils/mixins'
 
-const datePropTypes = [
-  PropTypes.instanceOf(Date),
-  PropTypes.string,
-  PropTypes.number
-]
-
 @injectSheet((theme) => ({
   root: {
     display: 'inline-block',
@@ -87,6 +81,9 @@ const datePropTypes = [
     '&:hover': {
       color: theme.calendar.service.colors.hover
     },
+    '&:focus': {
+      color: theme.calendar.service.colors.hover
+    },
     '$isMedia &': {
       color: theme.calendar.media.colors.default
     },
@@ -110,7 +107,7 @@ const datePropTypes = [
     composes: '$day',
     height: theme.calendar.weekDay.size,
     fontSize: theme.calendar.weekDay.fontSize,
-    color: theme.calendar.colors.weekDay.text
+    color: theme.calendar.colors.default.weekDay
   },
 
   days: {
@@ -138,6 +135,9 @@ const datePropTypes = [
       cursor: 'pointer'
     },
     '$isSelectable &:hover': {
+      color: theme.calendar.colors.hover.text
+    },
+    '$isSelectable &:focus': {
       color: theme.calendar.colors.hover.text
     }
   },
@@ -206,23 +206,27 @@ export default class Calendar extends Component {
     variation: PropTypes.oneOf(['service', 'media']),
     /**
     *  Выбранная дата или период.
-    *  Принимает объект Date, строку или число в формате YYYYMMDD
+    *  Принимает объект Date
     *  или, в случае с выбором периода, массив
-    *  Возвращ
     */
     value: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.oneOfType(datePropTypes)),
-      ...datePropTypes
+      PropTypes.arrayOf(PropTypes.instanceOf(Date)),
+      PropTypes.instanceOf(Date)
     ]),
     /**
      * Отображаемый месяц при инициализации.
-     * Принимает числовое значение месяца, начиная с 0
+     * Принимает объект Date
      */
-    initMonth: PropTypes.number,
+    initDate: PropTypes.instanceOf(Date),
     /**
-     * Отображаемый год при инициализации.
+     * Текущая дата.
+     * Принимает объект Date
      */
-    initYear: PropTypes.number,
+    today: PropTypes.instanceOf(Date),
+    /**
+     * Возможность выбора периода
+     */
+    range: PropTypes.bool,
     /**
      * Минимальный год для отображения
      */
@@ -232,209 +236,75 @@ export default class Calendar extends Component {
      */
     maxYear: PropTypes.number,
     /**
-     * Текущая дата.
-     * Принимает объект Date, строку или число в формате YYYYMMDD
+     * Отображает год
      */
-    today: PropTypes.oneOfType(datePropTypes),
+    showYear: PropTypes.bool,
     /**
-     * Возможность выбора периода
+     * Отображает переключатель месяцев
      */
-    range: PropTypes.bool,
-    /**
-     * Скрывает переключатель месяцев
-     */
-    hiddenSwitchable: PropTypes.bool,
-    /**
-     * Скрывает год
-     */
-    hiddenYear: PropTypes.bool,
+    showMonthSwitch: PropTypes.bool,
     /**
      * Устанавливает подстветку выходных дней (сб и вс)
      */
-    showWeekend: PropTypes.bool,
+    highlightWeekend: PropTypes.bool,
     /**
      * Коллбек, вызывающийся при изменении состояния.
      * Возвращает число в формате YYYYMMDD
      * или массив, в случае с выбором периода
      */
-    onChange: PropTypes.func,
-    /**
-     * Функция валидации. Срабатывает перед onChange.
-     * Должна возвращать true/false
-     */
-    onValidate: PropTypes.func
+    onChange: PropTypes.func
   }
 
   static defaultProps = {
     variation: 'service',
+    range: false,
     minYear: 1900,
     maxYear: 2200,
-    range: false,
-    hiddenSwitchable: false,
-    hiddenYear: false,
-    showWeekend: false
+    showYear: true,
+    showMonthSwitch: true,
+    highlightWeekend: false
   }
 
   constructor(props) {
     super(props)
-    this.state = this.setDisplay(props)
+    this.state = this.getState(props)
   }
 
   componentDidUpdate(prevProps) {
-    const {initMonth, initYear} = this.props
-
-    if (prevProps.initMonth !== initMonth || prevProps.initYear !== initYear)
-      this.resetDisplay()
+    if (prevProps.initDate !== this.props.initDate)
+      this.resetState()
   }
 
-  setDisplay(props) {
-    const {
-      initMonth,
-      initYear,
-      minYear,
-      maxYear
-    } = props
-
-    let showMonth = Number(initMonth)
-    let showYear = Number(initYear)
-    let today = this.parseDate(props.today) || this.parseDate(new Date())
-
-    if (!Number.isInteger(showMonth))
-      showMonth = today.month
-
-    if (!Number.isInteger(showYear) || showYear < minYear || showYear > maxYear)
-      showYear = today.year
-
-    return {
-      ...this.getDates(showMonth, showYear),
-      showMonth,
-      showYear
-    }
+  resetState() {
+    this.setState(
+      this.getState(this.props)
+    )
   }
 
-  resetDisplay() {
-    this.setState({
-      ...this.setDisplay(this.props)
+  getState(props) {
+    const number = this.dateToNumber(props.initDate)
+      || this.dateToNumber(props.today)
+      || this.dateToNumber(new Date())
+
+    return this.calculateDates({
+      displayMonth: Math.floor((number % 10000) / 100),
+      displayYear: Math.floor(number / 10000)
     })
   }
 
-  getDates = (showMonth, showYear) => {
-    const dates = []
-
-    const months = this.props.hiddenSwitchable
-      ? [showMonth - 1, showMonth, showMonth + 1]
-      : [showMonth - 2, showMonth - 1, showMonth, showMonth + 1, showMonth + 2]
-
-    let first
-    let last
-
-    months.map((m, index) => {
-      let month = m
-      let year = showYear
-
-      if (m < 0) {
-        month = m + 12
-        year--
-      } else if (m > 11) {
-        month = m - 12
-        year++
-      }
-
-      let numFrom = 1
-      let numTo = new Date(year, month + 1, 0).getDate()
-
-      if (index === 0)
-        numFrom = numTo - (new Date(year, month + 1, 1).getDay() || 7) + 2
-      else if (index === months.length - 1)
-        numTo = 8 - (new Date(year, month, 1).getDay() || 7)
-
-      if (month === showMonth) {
-        first = this.toNumber(year, month, 1)
-        last = this.toNumber(year, month, numTo)
-      }
-
-      let i
-
-      for (i = numFrom; i <= numTo; i++)
-        dates.push(
-          this.toNumber(year, month, i)
-        )
-    })
-
-    return {dates, first, last}
-  }
-
-  toNumber = (year, month, date) =>
-    year * 10000 + month * 100 + date
-
-  dateToNumber = date =>
-    this.toNumber(date.getFullYear(), date.getMonth(), date.getDate())
-
-  parseDate = value => {
-    let num = value instanceof Date ? this.dateToNumber(value) : Number(value)
-    if (!num) return null
-
-    const year = Math.floor(num / 10000)
-    const month = Math.floor((num % 10000) / 100)
-    const date = num % 100
-
-    if (!year || year < this.props.minYear || year > this.props.maxYear)
-      return null
-    if (!month || month < 1 || month > 12)
-      return null
-    if (!date || date < 0 || date > 31)
-      return null
-    if ([3, 5, 8, 10].includes(month) && date > 30)
-      return null
-    if (month === 1 && (date > 29 || (year % 4 !== 0 && date > 28)))
-      return null
-
-    return {year, date, month, number: this.toNumber(year, month, date)}
-  }
-
-  onPrev = () => {
-    const {minYear} = this.props
-    let {showMonth, showYear} = this.state
-
-    if (this.state.animate || (Number.isInteger(minYear) && minYear === showYear && showMonth === 0))
-      return
-
-    if (--showMonth < 0) {
-      showMonth = 11
-      showYear--
-    }
-
-    this.updateShowMonth(showMonth, showYear)
-  }
-
-  onNext = () => {
-    const {maxYear} = this.props
-    let {showMonth, showYear} = this.state
-
-    if (this.state.animate || (Number.isInteger(maxYear) && maxYear === showYear && showMonth === 11))
-      return
-
-    if (++showMonth > 11) {
-      showMonth = 0
-      showYear++
-    }
-
-    this.updateShowMonth(showMonth, showYear)
-  }
-
-  updateShowMonth(showMonth, showYear) {
+  switchMonth({displayMonth, displayYear}) {
     const {
       dates,
       first,
       last
-    } = this.getDates(showMonth, showYear)
+    } = this.calculateDates({displayMonth, displayYear})
 
     this.setState({
+      animate: true,
+      displayMonth,
+      displayYear,
       first,
-      last,
-      showMonth,
-      showYear,
-      animate: true
+      last
     }, () => {
       setTimeout(() => {
         this.setState({
@@ -445,40 +315,135 @@ export default class Calendar extends Component {
     })
   }
 
-  onClick = day => {
-    const {range} = this.props
-    const value = [].concat(this.props.value)
+  calculateDates = ({displayMonth, displayYear}) => {
+    const dates = []
 
-    const dateFrom = this.parseDate(value[0])
-    const dateTo = this.parseDate(value[1])
+    const months = this.props.showMonthSwitch
+      ? [displayMonth - 2, displayMonth - 1, displayMonth, displayMonth + 1, displayMonth + 2]
+      : [displayMonth - 1, displayMonth, displayMonth + 1]
 
-    if (dateFrom && dateFrom.number === day && range && !dateTo)
+    let first
+    let last
+
+    months.map((m, index) => {
+      let month = m
+      let year = displayYear
+
+      if (m < 0) {
+        month = m + 12
+        year--
+      } else if (m > 11) {
+        month = m - 12
+        year++
+      }
+
+      let dateFrom = 1
+      let dateTo = new Date(year, month + 1, 0).getDate()
+
+      if (index === 0)
+        dateFrom = dateTo - (new Date(year, month + 1, 1).getDay() || 7) + 2
+      else if (index === months.length - 1)
+        dateTo = 8 - (new Date(year, month, 1).getDay() || 7)
+
+      if (month === displayMonth) {
+        first = this.toNumber(year, month, 1)
+        last = this.toNumber(year, month, dateTo)
+      }
+
+      let i
+
+      for (i = dateFrom; i <= dateTo; i++)
+        dates.push(
+          this.toNumber(year, month, i)
+        )
+    })
+
+    return {
+      displayMonth,
+      displayYear,
+      dates,
+      first,
+      last
+    }
+  }
+
+  toNumber = (year, month, date) =>
+    year * 10000 + month * 100 + date
+
+  dateToNumber = date => {
+    if (date instanceof Date)
+      return this.toNumber(date.getFullYear(), date.getMonth(), date.getDate())
+
+    return null
+  }
+
+  numberToDate = number => new Date(
+    Math.floor(number / 10000),
+    Math.floor((number % 10000) / 100),
+    number % 100
+  )
+
+  onPrev = () => {
+    const {minYear} = this.props
+    let {displayMonth, displayYear} = this.state
+
+    if (this.state.animate || (Number.isInteger(minYear) && minYear === displayYear && displayMonth === 0))
       return
 
-    if (range && dateFrom && !dateTo)
-      if (day < dateFrom.number)
+    if (--displayMonth < 0) {
+      displayMonth = 11
+      displayYear--
+    }
+
+    this.switchMonth({displayMonth, displayYear})
+  }
+
+  onNext = () => {
+    const {maxYear} = this.props
+    let {displayMonth, displayYear} = this.state
+
+    if (this.state.animate || (Number.isInteger(maxYear) && maxYear === displayYear && displayMonth === 11))
+      return
+
+    if (++displayMonth > 11) {
+      displayMonth = 0
+      displayYear++
+    }
+
+    this.switchMonth({displayMonth, displayYear})
+  }
+
+  onClick = day => {
+    const {range, value} = this.props
+
+    const [numberFrom, numberTo] = [].concat(value)
+      .map(this.dateToNumber)
+
+    if (numberFrom && numberFrom === day && range && !numberTo)
+      return
+
+    if (range && numberFrom && !numberTo)
+      if (day < numberFrom)
         this.onSetNewDates([
           day,
-          dateFrom.number
+          numberFrom
         ])
       else
         this.onSetNewDates([
-          dateFrom.number,
+          numberFrom,
           day
         ])
     else
       this.onSetNewDates([day])
   }
 
-  onSetNewDates([dateFrom, dateTo = null]) {
-    const {range, onChange, onValidate} = this.props
+  onSetNewDates([numberFrom, numberTo = null]) {
+    const {range, onChange} = this.props
 
-    const value = range
-      ? [dateFrom, dateTo]
-      : dateFrom
+    const dateFrom = numberFrom && this.numberToDate(numberFrom)
+    const dateTo = numberTo && this.numberToDate(numberTo)
 
-    if (typeof onValidate === 'function' && onValidate(value) === false)
-      return
+    const value = range ? [dateFrom, dateTo] : dateFrom
 
     if (typeof onChange === 'function')
       onChange(value)
@@ -489,13 +454,14 @@ export default class Calendar extends Component {
       className,
       style,
       variation,
+      value,
+      today,
+      range,
       minYear,
       maxYear,
-      range,
-      today,
-      hiddenSwitchable,
-      showWeekend,
-      hiddenYear,
+      showYear,
+      showMonthSwitch,
+      highlightWeekend,
       onChange,
       classes,
       theme
@@ -503,92 +469,109 @@ export default class Calendar extends Component {
 
     const {
       animate,
+      displayMonth,
+      displayYear,
       dates,
       last,
-      first,
-      showMonth,
-      showYear
+      first
     } = this.state
 
-    const classNameRoot = classnames(className, classes.root, {
-      [classes.isAnimate]: animate,
-      [classes.isSelectable]: typeof onChange === 'function',
-      [classes.isMedia]: variation === 'media'
-    })
+    const weeksVisible = Math.floor(dates.indexOf(first) / 7)
+    const weeksAfterVisible = Math.ceil(dates.indexOf(last) / 7)
+    const weeksBeforeVisible = weeksAfterVisible - weeksVisible
 
-    let monthLabel = theme.i18n.months[showMonth]
+    const numberToday = this.dateToNumber(today)
 
-    if (!hiddenYear)
-      monthLabel += ', ' + showYear
-
-    const classNamePrev = classnames(classes.prev, {
-      [classes.isDisableArrow]: Number.isInteger(minYear) && minYear === showYear && showMonth === 0
-    })
-
-    const classNameNext = classnames(classes.next, {
-      [classes.isDisableArrow]: Number.isInteger(maxYear) && maxYear === showYear && showMonth === 11
-    })
-
-    const styleDays = {
-      height: (theme.calendar.size * (Math.ceil(dates.indexOf(last) / 7) - Math.floor(dates.indexOf(first) / 7))) + 'px'
-    }
-
-    const styleDaysWrap = {
-      transform: `translateY(${-1 * theme.calendar.size * Math.floor(dates.indexOf(first) / 7)}px)`
-    }
-
-    const dateToday = this.parseDate(today)
-    const value = [].concat(this.props.value || this.state.value)
-    const dateFrom = this.parseDate(value[0])
-    const dateTo = this.parseDate(value[1])
+    const [numberFrom, numberTo] = [].concat(value)
+      .map(this.dateToNumber)
 
     return (
-      <div className={classNameRoot} style={style}>
+      <div
+        className={classnames(className, classes.root, {
+          [classes.isAnimate]: animate,
+          [classes.isSelectable]: typeof onChange === 'function',
+          [classes.isMedia]: variation === 'media'
+        })}
+        style={style}
+      >
         <div className={classes.headline}>
-          {!hiddenSwitchable && (
-            <div className={classNamePrev} onClick={this.onPrev}
+          {showMonthSwitch && (
+            <button
+              className={classnames(classes.prev, {
+                [classes.isDisableArrow]: Number.isInteger(minYear) && minYear === displayYear && displayMonth === 0
+              })}
+              type='button'
+              tabIndex={-1}
+              onClick={this.onPrev}
             />
           )}
 
-          <div className={classes.month} children={monthLabel} />
+          <div
+            className={classes.month}
+            children={theme.i18n.months[displayMonth] + (showYear ? ', ' + displayYear : '')}
+          />
 
-          {!hiddenSwitchable && (
-            <div className={classNameNext} onClick={this.onNext} />
+          {showMonthSwitch && (
+            <button
+              className={classnames(classes.next, {
+                [classes.isDisableArrow]: Number.isInteger(maxYear) && maxYear === displayYear && displayMonth === 11
+              })}
+              type='button'
+              tabIndex={-1}
+              onClick={this.onNext}
+            />
           )}
         </div>
 
         <div className={classes.week}>
-          {theme.i18n.days.map((el, index) => {
-            const classNameDay = classnames(classes.weekDay, {
-              [classes.isWeekend]: showWeekend && (index === 5 || index === 6)
-            })
-
-            return (
-              <div
-                key={index}
-                className={classNameDay}
-                children={el}
-              />
-            )
-          })}
+          {theme.i18n.days.map((el, index) => (
+            <div
+              key={index}
+              className={classnames(classes.weekDay, {
+                [classes.isWeekend]: highlightWeekend && (index === 5 || index === 6)
+              })}
+              children={el}
+            />
+          ))}
         </div>
 
-        <div className={classes.days} style={styleDays} onMouseOut={this.onMouseOut}>
-          <div className={classes.daysWrap} style={styleDaysWrap}>
-            {dates.map((el, index) => (
-              <div
-                key={el}
-                className={classnames(classes.dateDay, {
-                  [classes.isActive]: (dateFrom && el === dateFrom.number) || (range && dateTo && el === dateTo.number),
-                  [classes.isSelected]: range && dateFrom && dateTo && el > dateFrom.number && el < dateTo.number,
-                  [classes.isToday]: dateToday && el === dateToday.number,
-                  [classes.isWeekend]: showWeekend && ((index + 1) % 7 === 6 || (index + 1) % 7 === 0),
-                  [classes.isUnavailable]: el < first || el > last
-                })}
-                children={el % 100}
-                onClick={() => this.onClick(el)}
-              />
-            ))}
+        <div
+          className={classes.days}
+          style={{height: theme.calendar.size * weeksBeforeVisible}}
+        >
+          <div
+            className={classes.daysWrap}
+            style={{transform: `translateY(${-1 * theme.calendar.size * weeksVisible}px)`}}
+          >
+            {dates.map((number, index) => {
+              const classNameDateday = classnames(classes.dateDay, {
+                [classes.isActive]: number === numberFrom || (range && number === numberTo),
+                [classes.isSelected]: range && numberFrom && numberTo && number > numberFrom && number < numberTo,
+                [classes.isToday]: number === numberToday,
+                [classes.isWeekend]: highlightWeekend && ((index + 1) % 7 === 6 || (index + 1) % 7 === 0),
+                [classes.isUnavailable]: number < first || number > last
+              })
+
+              if (index >= weeksBeforeVisible * 7 && index < weeksAfterVisible * 7)
+                return (
+                  <button
+                    key={number}
+                    className={classNameDateday}
+                    type='button'
+                    tabIndex={0}
+                    onClick={() => this.onClick(number)}
+                    children={number % 100}
+                  />
+                )
+
+              return (
+                <span
+                  key={number}
+                  className={classNameDateday}
+                  children={number % 100}
+                />
+              )
+            })}
           </div>
         </div>
       </div>
