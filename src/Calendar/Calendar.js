@@ -205,9 +205,8 @@ export default class Calendar extends Component {
      */
     variation: PropTypes.oneOf(['service', 'media']),
     /**
-    *  Выбранная дата или период.
-    *  Принимает объект Date
-    *  или, в случае с выбором периода, массив
+    *  Выбранная дата или период. Принимает объект Date
+    *  или массив, в случае с выбором периода
     */
     value: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.instanceOf(Date)),
@@ -219,8 +218,7 @@ export default class Calendar extends Component {
      */
     initDate: PropTypes.instanceOf(Date),
     /**
-     * Текущая дата.
-     * Принимает объект Date
+     * Текущая дата. Принимает объект Date
      */
     today: PropTypes.instanceOf(Date),
     /**
@@ -249,8 +247,7 @@ export default class Calendar extends Component {
     highlightWeekend: PropTypes.bool,
     /**
      * Коллбек, вызывающийся при изменении состояния.
-     * Возвращает число в формате YYYYMMDD
-     * или массив, в случае с выбором периода
+     * Возвращает объект Date или массив, в случае с выбором периода
      */
     onChange: PropTypes.func
   }
