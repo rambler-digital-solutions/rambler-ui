@@ -145,6 +145,8 @@ import { isolateMixin } from '../utils/mixins'
   isMedia: {
     fontFamily: theme.calendar.media.fontFamily
   },
+  isAnimate: {},
+
   isSelectable: {
     userSelect: 'none'
   },
@@ -194,8 +196,7 @@ import { isolateMixin } from '../utils/mixins'
       color: theme.calendar.colors.disabled.text,
       cursor: 'default'
     }
-  },
-  isAnimate: {}
+  }
 }), {name: 'Calendar'})
 export default class Calendar extends Component {
 

@@ -41,7 +41,7 @@ export default class CalendarExample extends Component {
           />
 
           <Calendar
-            type='media'
+            variation='media'
             value={dateFrom}
             today={today}
             onChange={this.onChangeNotRange}

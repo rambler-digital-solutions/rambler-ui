@@ -1041,7 +1041,7 @@ export function createTheme(config) {
       size: 35,
       animationDuration: 200,
       service: {
-        fontFamily: fontFamilies.CorsicaRamblerLXб,
+        fontFamily: fontFamilies.CorsicaRamblerLX,
         colors: {
           default: colors.arrowBlueDark,
           hover: colors.primary
