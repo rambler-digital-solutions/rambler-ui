@@ -6,8 +6,7 @@ export default class CalendarExample extends Component {
   state = {
     today: new Date(),
     dateFrom: null,
-    dateTo: null,
-    selected: 0
+    dateTo: null
   }
 
   onChangeRange = ([dateFrom, dateTo]) => {
@@ -28,24 +27,18 @@ export default class CalendarExample extends Component {
     const {
       today,
       dateFrom,
-      dateTo,
-      selected
+      dateTo
     } = this.state
 
     return (
       <ApplyTheme>
-        <div style={{display: 'flex', flexWrap: 'wrap'}}>
-          <div>
-            <Calendar
-              value={[dateFrom, dateTo]}
-              today={today}
-              range
-              onChange={this.onChangeRange}
-            />
-            <div style={{marginLeft: 20, marginBottom: 20}}>
-              Дней в периоде: <b>{selected}</b>
-            </div>
-          </div>
+        <div>
+          <Calendar
+            value={[dateFrom, dateTo]}
+            today={today}
+            range
+            onChange={this.onChangeRange}
+          />
 
           <Calendar
             type='media'

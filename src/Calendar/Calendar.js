@@ -174,6 +174,14 @@ import { isolateMixin } from '../utils/mixins'
     '$isSelectable &$isUnavailable:hover': {
       color: theme.calendar.colors.disabled.text,
       backgroundColor: theme.calendar.colors.activeHover.background
+    },
+    '$isSelectable &:focus': {
+      color: theme.calendar.colors.active.text,
+      backgroundColor: theme.calendar.colors.activeHover.background
+    },
+    '$isSelectable &$isUnavailable:focus': {
+      color: theme.calendar.colors.disabled.text,
+      backgroundColor: theme.calendar.colors.activeHover.background
     }
   },
   isUnavailable: {
