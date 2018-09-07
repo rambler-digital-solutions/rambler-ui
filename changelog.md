@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.26.0 - 2018-09-07
+### Added
+* Добавлена иконка `<RamblerStarLifeIcon />`
+
 ## v-3.25.3 - 2018-07-10
 ### Fixed
 * Поправлен цвет фона компонентов `<ComplexSearch />`, `<ServiceSearch />` и `<SimpleSearch />`
