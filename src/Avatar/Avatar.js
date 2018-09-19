@@ -149,7 +149,7 @@ export default class Avatar extends PureComponent {
 
     const profileSize = Math.round(calcProfileSize(size))
     const profileSizePx = profileSize + 'px'
-    const children = profileType && (
+    const children = ProfileIcon && (
       <div
         className={classes.profile}
         style={{
