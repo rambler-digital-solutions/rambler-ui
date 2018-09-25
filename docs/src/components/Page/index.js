@@ -45,10 +45,7 @@ const mdComponents = {
     }
   },
   content: {
-    marginTop: 40,
-    marginBottom: 40,
-    paddingLeft: 30,
-    paddingRight: 30,
+    padding: '40px 30px',
     '@media screen and (min-width: 768px)': {
       paddingLeft: 100,
       paddingRight: 100,
