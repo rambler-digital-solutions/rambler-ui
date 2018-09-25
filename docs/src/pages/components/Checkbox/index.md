@@ -4,7 +4,7 @@ import code from '!!raw-loader!rambler-ui/Checkbox/Checkbox'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Checkbox
+export const title = 'Checkbox'
 
 ### Пример
 <Playground code={examplesCode} />

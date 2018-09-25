@@ -5,7 +5,7 @@ import code from '!!raw-loader!rambler-ui/Button/Button'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Button
+export const title = 'Button'
 
 ### Пример
 <Playground code={examplesCode} />

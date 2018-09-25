@@ -4,7 +4,7 @@ import code from '!!raw-loader!rambler-ui/FieldGroup/FieldGroup'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# FieldGroup
+export const title = 'FieldGroup'
 
 ### Пример
 <Playground code={examplesBaseCode} />

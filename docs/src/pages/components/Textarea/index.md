@@ -4,7 +4,7 @@ import code from '!!raw-loader!rambler-ui/Textarea/Textarea'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Textarea
+export const title = 'Textarea'
 
 ### Пример
 <Playground code={examplesCode} />

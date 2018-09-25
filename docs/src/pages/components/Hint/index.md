@@ -4,7 +4,7 @@ import code from '!!raw-loader!rambler-ui/Hint/Hint'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Hint
+export const title = 'Hint'
 
 ### Пример
 <Playground code={examplesCode} />

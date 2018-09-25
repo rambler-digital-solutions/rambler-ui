@@ -1,4 +1,4 @@
-# Установка
+export const title = 'Установка'
 
 ```sh
 npm install --save rambler-ui

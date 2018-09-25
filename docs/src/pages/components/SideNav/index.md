@@ -7,7 +7,7 @@ import codeSideNavItem from '!!raw-loader!rambler-ui/SideNav/SideNavItem'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# SideNav
+export const title = 'SideNav'
 
 ### Пример
 <Playground code={examplesCode} />

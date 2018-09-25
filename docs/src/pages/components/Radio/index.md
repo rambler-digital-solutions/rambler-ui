@@ -5,7 +5,7 @@ import codeRadioButtonGroup from '!!raw-loader!rambler-ui/Radio/RadioButtonGroup
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Radio
+export const title = 'Radio'
 
 ### Пример
 <Playground code={examplesCode} />

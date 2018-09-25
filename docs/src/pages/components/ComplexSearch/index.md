@@ -7,7 +7,7 @@ import codeItem from '!!raw-loader!rambler-ui/ComplexSearch/SuggestItem'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# ComplexSearch
+export const title = 'ComplexSearch'
 
 ### Пример
 <Playground code={examplesCode} />

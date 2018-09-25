@@ -6,7 +6,7 @@ import svgIconCode from '!!raw-loader!rambler-ui/icons/SvgIcon/SvgIcon'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Icons
+export const title = 'Icons'
 
 ### Иконки форм
 <Playground code={examplesFormsCode} />

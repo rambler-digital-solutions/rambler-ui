@@ -5,7 +5,7 @@ import listCode from '!!raw-loader!rambler-ui/Typography/List'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Typography
+export const title = 'Typography'
 
 ### Пример
 <Playground code={examplesCode} />

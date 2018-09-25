@@ -5,7 +5,7 @@ import code from '!!raw-loader!rambler-ui/Snackbar/Snackbar'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Snackbar
+export const title = 'Snackbar'
 
 ### Пример
 <Playground code={examplesCode} />

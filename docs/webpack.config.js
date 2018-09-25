@@ -34,8 +34,7 @@ module.exports = {
                 highlight
               ]
             }
-          },
-          'meta-loader'
+          }
         ]
       },
       {
@@ -62,12 +61,6 @@ module.exports = {
     alias: {
       'rambler-ui': path.resolve(__dirname, '../src')
     }
-  },
-  resolveLoader: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, './')
-    ]
   },
   plugins: [
     new webpack.DefinePlugin({

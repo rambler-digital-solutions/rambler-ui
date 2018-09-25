@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {ApplyTheme} from 'rambler-ui/theme'
 import IconButton from 'rambler-ui/IconButton'
@@ -85,58 +85,13 @@ export default class Page extends PureComponent {
      */
     source: PropTypes.string,
     /**
-     * Дочерние страницы
-     */
-    children: PropTypes.arrayOf(PropTypes.object),
-    /**
      * Содержание
      */
     Content: PropTypes.func
   }
 
-  state = {
-    children: []
-  }
-
-  componentDidMount() {
-    const {children} = this.props
-    if (!children || children.length === 0)
-      return
-    this.addChildrenToRender(children)
-  }
-
-  componentWillUnmount() {
-    clearTimeout(this.addTimeout)
-  }
-
-  addChildrenToRender([firstChild, ...rest]) {
-    const {children} = this.state
-    this.setState({
-      children: [...children, firstChild]
-    }, () => {
-      if (rest.length === 0)
-        return
-      this.addTimeout = setTimeout(() => {
-        this.addChildrenToRender(rest)
-      }, 33)
-    })
-  }
-
-  renderContent() {
-    const {children, Content} = this.props
-    if (!children || children.length === 0)
-      return <Content components={mdComponents} />
-    const {children: childrenToRender} = this.state
-    return childrenToRender.map(child =>
-      <Fragment key={child.pathname}>
-        <h2>{child.title}</h2>
-        <child.Content components={mdComponents} />
-      </Fragment>
-    )
-  }
-
   render() {
-    const {classes, title, source} = this.props
+    const {classes, title, source, Content} = this.props
     return (
       <div>
         <header className={classes.header}>
@@ -156,7 +111,7 @@ export default class Page extends PureComponent {
           }
         </header>
         <div className={classes.content}>
-          {this.renderContent()}
+          <Content components={mdComponents} />
         </div>
       </div>
     )

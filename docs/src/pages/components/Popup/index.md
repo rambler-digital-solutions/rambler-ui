@@ -5,7 +5,7 @@ import code from '!!raw-loader!rambler-ui/Popup/Popup'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Popup
+export const title = 'Popup'
 
 ### Пример
 <Playground code={examplesCode} />

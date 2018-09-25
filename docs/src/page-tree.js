@@ -1,5 +1,5 @@
 import config from 'docs/src/config'
-import meta from /* preval */ './doc-meta'
+import index from /* preval */ './page-index'
 
 const context = require.context('docs/src/pages/', true, /\.md/)
 
@@ -15,8 +15,8 @@ export const cache = context.keys().reduce((cache, key) => {
   return cache
 }, {})
 
-export function extendPageInfo (meta) {
-  return meta.map(item => {
+export function extendPageInfo (index) {
+  return index.map(item => {
     const page = cache[item.pathname] || item
     if (item.children)
       page.children = extendPageInfo(item.children)
@@ -35,4 +35,4 @@ export function createSourceUrl(pathname) {
   return `${config.repoLink}tree/${config.branch}/src/${filename}`
 }
 
-export default extendPageInfo(meta)
+export default extendPageInfo(index)

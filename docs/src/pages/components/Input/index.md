@@ -6,7 +6,7 @@ import codeInputStatus from '!!raw-loader!rambler-ui/InputStatus/InputStatus'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Input
+export const title = 'Input'
 
 ### Пример
 <Playground code={examplesBaseCode} />

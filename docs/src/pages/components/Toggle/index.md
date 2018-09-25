@@ -5,7 +5,7 @@ import codeToggleOption from '!!raw-loader!rambler-ui/Toggle/ToggleOption'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# Toggle
+export const title = 'Toggle'
 
 ### Пример
 <Playground code={examplesCode} />

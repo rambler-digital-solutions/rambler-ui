@@ -5,7 +5,7 @@ import codeItem from '!!raw-loader!rambler-ui/TagsInput/TagsInputItem'
 import Playground from 'docs/src/components/Playground'
 import PropTypesTable from 'docs/src/components/PropTypesTable'
 
-# TagsInput
+export const title = 'TagsInput'
 
 ### Пример
 <Playground code={examplesBaseCode} title="" />
