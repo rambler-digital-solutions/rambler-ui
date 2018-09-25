@@ -4,19 +4,19 @@ import { ApplyTheme } from 'rambler-ui/theme'
 
 export default class CalendarExample extends Component {
   state = {
-    today: new Date(),
+    today: new Date(2018, 5, 15),
     dateFrom: null,
     dateTo: null
   }
 
-  onChangeRange = ([dateFrom, dateTo]) => {
+  onChangeRange = (event, [dateFrom, dateTo]) => {
     this.setState({
       dateFrom,
       dateTo
     })
   }
 
-  onChangeNotRange = dateFrom => {
+  onChangeNotRange = (event, dateFrom) => {
     this.setState({
       dateFrom,
       dateTo: null

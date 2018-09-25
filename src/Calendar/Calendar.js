@@ -4,13 +4,13 @@ import classnames from 'classnames'
 import { injectSheet } from '../theme'
 import { isolateMixin } from '../utils/mixins'
 
-@injectSheet((theme) => ({
+@injectSheet(({ calendar }) => ({
   root: {
     display: 'inline-block',
     width: 275,
     padding: 15,
-    fontFamily: theme.calendar.service.fontFamily,
-    backgroundColor: theme.calendar.colors.default.background,
+    fontFamily: calendar.service.fontFamily,
+    backgroundColor: calendar.colors.default.background,
     boxSizing: 'border-box'
   },
   headline: {
@@ -24,10 +24,10 @@ import { isolateMixin } from '../utils/mixins'
   month: {
     position: 'relative',
     top: 1,
-    lineHeight: theme.calendar.month.size + 'px',
-    fontSize: theme.calendar.month.fontSize,
-    fontWeight: theme.calendar.month.fontWeight,
-    color: theme.calendar.colors.default.text
+    lineHeight: calendar.month.size + 'px',
+    fontSize: calendar.month.fontSize,
+    fontWeight: calendar.month.fontWeight,
+    color: calendar.colors.default.text
   },
 
   item: {
@@ -45,7 +45,7 @@ import { isolateMixin } from '../utils/mixins'
       outline: 'none !important'
     },
     '$isSelectable &': {
-      transitionDuration: theme.calendar.animationDuration,
+      transitionDuration: calendar.animationDuration,
       transitionProperty: 'color, background-color'
     }
   },
@@ -54,15 +54,15 @@ import { isolateMixin } from '../utils/mixins'
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    width: theme.calendar.size
+    width: calendar.size
   },
 
   arrow: {
     composes: '$item',
     position: 'relative',
-    width: theme.calendar.arrow.size,
-    height: theme.calendar.arrow.size,
-    color: theme.calendar.service.colors.default,
+    width: calendar.arrow.size,
+    height: calendar.arrow.size,
+    color: calendar.service.colors.default,
     cursor: 'pointer',
     overflow: 'hidden',
     '&:before': {
@@ -79,16 +79,16 @@ import { isolateMixin } from '../utils/mixins'
       transformOrigin: 'left bottom'
     },
     '&:hover': {
-      color: theme.calendar.service.colors.hover
+      color: calendar.service.colors.hover
     },
     '&:focus': {
-      color: theme.calendar.service.colors.hover
+      color: calendar.service.colors.hover
     },
     '$isMedia &': {
-      color: theme.calendar.media.colors.default
+      color: calendar.media.colors.default
     },
     '$isMedia &:hover': {
-      color: theme.calendar.media.colors.hover
+      color: calendar.media.colors.hover
     }
   },
   prev: {
@@ -105,15 +105,15 @@ import { isolateMixin } from '../utils/mixins'
   },
   weekDay: {
     composes: '$day',
-    height: theme.calendar.weekDay.size,
-    fontSize: theme.calendar.weekDay.fontSize,
-    color: theme.calendar.colors.default.weekDay
+    height: calendar.weekDay.size,
+    fontSize: calendar.weekDay.fontSize,
+    color: calendar.colors.default.weekDay
   },
 
   days: {
     overflow: 'hidden',
     '$isAnimate &': {
-      transitionDuration: theme.calendar.animationDuration,
+      transitionDuration: calendar.animationDuration,
       transitionProperty: 'height'
     }
   },
@@ -121,29 +121,29 @@ import { isolateMixin } from '../utils/mixins'
     display: 'flex',
     flexWrap: 'wrap',
     '$isAnimate &': {
-      transitionDuration: theme.calendar.animationDuration,
+      transitionDuration: calendar.animationDuration,
       transitionProperty: 'transform'
     }
   },
   dateDay: {
     composes: '$day',
-    height: theme.calendar.date.size,
-    fontSize: theme.calendar.date.fontSize,
-    color: theme.calendar.colors.default.text,
-    backgroundColor: theme.calendar.colors.default.background,
+    height: calendar.date.size,
+    fontSize: calendar.date.fontSize,
+    color: calendar.colors.default.text,
+    backgroundColor: calendar.colors.default.background,
     '$isSelectable &': {
       cursor: 'pointer'
     },
     '$isSelectable &:hover': {
-      color: theme.calendar.colors.hover.text
+      color: calendar.colors.hover.text
     },
     '$isSelectable &:focus': {
-      color: theme.calendar.colors.hover.text
+      color: calendar.colors.hover.text
     }
   },
 
   isMedia: {
-    fontFamily: theme.calendar.media.fontFamily
+    fontFamily: calendar.media.fontFamily
   },
   isAnimate: {},
 
@@ -151,49 +151,55 @@ import { isolateMixin } from '../utils/mixins'
     userSelect: 'none'
   },
   isWeekend: {
-    color: theme.calendar.colors.weekend.text
+    color: calendar.colors.weekend.text
   },
   isToday: {
     fontWeight: 500,
-    color: theme.calendar.colors.today.text,
+    color: calendar.colors.today.text,
     '$isSelectable &:hover': {
-      color: theme.calendar.colors.todayHover.text
+      color: calendar.colors.todayHover.text
     },
     '$isSelectable &$isUnavailable:hover': {
-      color: theme.calendar.colors.disabled.text
+      color: calendar.colors.disabled.text
+    },
+    '$isSelectable &:focus': {
+      color: calendar.colors.todayHover.text
+    },
+    '$isSelectable &$isUnavailable:focus': {
+      color: calendar.colors.disabled.text
     }
   },
   isSelected: {
-    backgroundColor: theme.calendar.colors.selected.background
+    backgroundColor: calendar.colors.selected.background
   },
   isActive: {
-    color: theme.calendar.colors.active.text,
-    backgroundColor: theme.calendar.colors.active.background,
+    color: calendar.colors.active.text,
+    backgroundColor: calendar.colors.active.background,
     '$isSelectable &:hover': {
-      color: theme.calendar.colors.active.text,
-      backgroundColor: theme.calendar.colors.activeHover.background
+      color: calendar.colors.active.text,
+      backgroundColor: calendar.colors.activeHover.background
     },
     '$isSelectable &$isUnavailable:hover': {
-      color: theme.calendar.colors.disabled.text,
-      backgroundColor: theme.calendar.colors.activeHover.background
+      color: calendar.colors.disabled.text,
+      backgroundColor: calendar.colors.activeHover.background
     },
     '$isSelectable &:focus': {
-      color: theme.calendar.colors.active.text,
-      backgroundColor: theme.calendar.colors.activeHover.background
+      color: calendar.colors.active.text,
+      backgroundColor: calendar.colors.activeHover.background
     },
     '$isSelectable &$isUnavailable:focus': {
-      color: theme.calendar.colors.disabled.text,
-      backgroundColor: theme.calendar.colors.activeHover.background
+      color: calendar.colors.disabled.text,
+      backgroundColor: calendar.colors.activeHover.background
     }
   },
   isUnavailable: {
-    color: theme.calendar.colors.disabled.text
+    color: calendar.colors.disabled.text
   },
   isDisableArrow: {
-    color: theme.calendar.colors.disabled.text,
+    color: calendar.colors.disabled.text,
     cursor: 'default',
     '&:hover': {
-      color: theme.calendar.colors.disabled.text,
+      color: calendar.colors.disabled.text,
       cursor: 'default'
     }
   }
@@ -419,7 +425,7 @@ export default class Calendar extends Component {
     this.switchMonth({displayMonth, displayYear})
   }
 
-  onClick = day => {
+  onClick = (event, day) => {
     const {range, value} = this.props
 
     const [numberFrom, numberTo] = [].concat(value)
@@ -430,20 +436,20 @@ export default class Calendar extends Component {
 
     if (range && numberFrom && !numberTo)
       if (day < numberFrom)
-        this.onSetNewDates([
+        this.onSetNewDates(event, [
           day,
           numberFrom
         ])
       else
-        this.onSetNewDates([
+        this.onSetNewDates(event, [
           numberFrom,
           day
         ])
     else
-      this.onSetNewDates([day])
+      this.onSetNewDates(event, [day])
   }
 
-  onSetNewDates([numberFrom, numberTo = null]) {
+  onSetNewDates(event, [numberFrom, numberTo = null]) {
     const {range, onChange} = this.props
 
     const dateFrom = numberFrom && this.numberToDate(numberFrom)
@@ -452,7 +458,7 @@ export default class Calendar extends Component {
     const value = range ? [dateFrom, dateTo] : dateFrom
 
     if (typeof onChange === 'function')
-      onChange(value)
+      onChange(event, value)
   }
 
   render() {
@@ -565,7 +571,7 @@ export default class Calendar extends Component {
                     className={classNameDateday}
                     type='button'
                     tabIndex={0}
-                    onClick={() => this.onClick(number)}
+                    onClick={event => this.onClick(event, number)}
                     children={number % 100}
                   />
                 )
