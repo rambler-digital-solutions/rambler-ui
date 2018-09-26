@@ -68,7 +68,7 @@ try {
 }
 
 const latestTitle = `latest (${currentVersion})`
-let latest = versions.find(v => v.path === '')
+let [latest] = versions.filter(v => v.path === '')
 if (!latest) {
   versions.unshift({path: ''})
   latest = versions[0]
@@ -78,7 +78,7 @@ if (latest.title !== latestTitle) {
   latest.title = latestTitle
   versions = versions
     .reduce((acc, version) => {
-      const exists = acc.find(v => v.path === version.path)
+      const [exists] = acc.filter(v => v.path === version.path)
       if (exists) return acc
       return acc.concat(version)
     }, [])
