@@ -1,6 +1,6 @@
 import React from 'react'
-import { render } from 'react-dom'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {render} from 'react-dom'
+import {ApplyTheme} from 'rambler-ui/theme'
 import App from '../common/App'
 
 const app = (

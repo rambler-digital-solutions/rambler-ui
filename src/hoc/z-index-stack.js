@@ -9,27 +9,28 @@ import getDisplayName from '../utils/get-display-name'
  * 3. Сохраняем новый zIndex в context
  */
 export default function zIndexStack(initialZIndex) {
-  return Target => class extends PureComponent {
-    static displayName = `zIndexStack(${getDisplayName(Target)})`
+  return Target =>
+    class extends PureComponent {
+      static displayName = `zIndexStack(${getDisplayName(Target)})`
 
-    static contextTypes = {
-      ruiZIndex: PropTypes.number
-    }
+      static contextTypes = {
+        ruiZIndex: PropTypes.number
+      }
 
-    static childContextTypes = {
-      ruiZIndex: PropTypes.number
-    }
+      static childContextTypes = {
+        ruiZIndex: PropTypes.number
+      }
 
-    zIndex = (this.context.ruiZIndex || 0) + initialZIndex
+      zIndex = (this.context.ruiZIndex || 0) + initialZIndex
 
-    getChildContext() {
-      return {
-        ruiZIndex: this.zIndex
+      getChildContext() {
+        return {
+          ruiZIndex: this.zIndex
+        }
+      }
+
+      render() {
+        return <Target {...this.props} zIndex={this.zIndex} />
       }
     }
-
-    render() {
-      return <Target {...this.props} zIndex={this.zIndex} />
-    }
-  }
 }

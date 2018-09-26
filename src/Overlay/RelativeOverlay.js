@@ -1,8 +1,11 @@
-import React, { PureComponent, cloneElement } from 'react'
+import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
-import { findOverflowedParent, getBoundingClientRect as originalGetBoundingClientRect } from '../utils/DOM'
-import { injectSheet } from '../theme'
-import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
+import {
+  findOverflowedParent,
+  getBoundingClientRect as originalGetBoundingClientRect
+} from '../utils/DOM'
+import {injectSheet} from '../theme'
+import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
 import classnames from 'classnames'
 import EventEmitter from 'events'
 
@@ -25,7 +28,6 @@ const noop = () => {}
  * @return {Object}
  */
 function getPositionOptions(params) {
-
   const {
     anchorRect,
     parentRect,
@@ -39,12 +41,16 @@ function getPositionOptions(params) {
     windowSize
   } = params
 
-  let {
-    contentPointX,
-    contentPointY
-  } = params
+  let {contentPointX, contentPointY} = params
 
-  let left, right, top, bottom, translateX = '0%', translateY = '0%', overflowX = 0, overflowY = 0
+  let left,
+    right,
+    top,
+    bottom,
+    translateX = '0%',
+    translateY = '0%',
+    overflowX = 0,
+    overflowY = 0
   let newAnchorPointX, newAnchorPointY
 
   if (contentPointX === 'left') {
@@ -55,7 +61,11 @@ function getPositionOptions(params) {
     } else if (anchorPointX === 'center') {
       left = '50%'
       if (autoPositionX)
-        overflowX = anchorRect.left + anchorRect.width / 2 + contentWidth - parentRect.right
+        overflowX =
+          anchorRect.left +
+          anchorRect.width / 2 +
+          contentWidth -
+          parentRect.right
     } else if (anchorPointX === 'right') {
       left = '100%'
       if (autoPositionX)
@@ -70,8 +80,14 @@ function getPositionOptions(params) {
     } else if (anchorPointX === 'center') {
       left = '50%'
       if (autoPositionX) {
-        const overflowXLeft = parentRect.left - (anchorRect.left + anchorRect.width / 2 - contentWidth / 2)
-        const overflowXRight = (anchorRect.left + anchorRect.width / 2 + contentWidth / 2) - parentRect.right
+        const overflowXLeft =
+          parentRect.left -
+          (anchorRect.left + anchorRect.width / 2 - contentWidth / 2)
+        const overflowXRight =
+          anchorRect.left +
+          anchorRect.width / 2 +
+          contentWidth / 2 -
+          parentRect.right
         overflowX = Math.max(overflowXRight, overflowXLeft)
         newAnchorPointX = overflowXLeft > overflowXRight ? 'left' : 'right'
       }
@@ -88,7 +104,9 @@ function getPositionOptions(params) {
     } else if (anchorPointX === 'center') {
       right = '50%'
       if (autoPositionX)
-        overflowX = parentRect.left - (anchorRect.left - contentWidth + anchorRect.width / 2)
+        overflowX =
+          parentRect.left -
+          (anchorRect.left - contentWidth + anchorRect.width / 2)
     } else if (anchorPointX === 'right') {
       right = '0%'
       if (autoPositionX)
@@ -107,9 +125,17 @@ function getPositionOptions(params) {
     } else if (anchorPointY === 'center') {
       top = '50%'
       if (autoPositionY) {
-        overflowY = anchorRect.top + anchorRect.height / 2 + contentHeight - parentRect.bottom
+        overflowY =
+          anchorRect.top +
+          anchorRect.height / 2 +
+          contentHeight -
+          parentRect.bottom
         if (overflowY < 0)
-          overflowY = anchorRect.top + anchorRect.height / 2 + contentHeight - windowSize.height
+          overflowY =
+            anchorRect.top +
+            anchorRect.height / 2 +
+            contentHeight -
+            windowSize.height
       }
     } else if (anchorPointY === 'bottom') {
       top = '100%'
@@ -125,14 +151,19 @@ function getPositionOptions(params) {
       top = '0%'
       if (autoPositionY) {
         overflowY = parentRect.top - (anchorRect.top - contentHeight / 2)
-        if (overflowY < 0)
-          overflowY = anchorRect.top - contentHeight / 2
+        if (overflowY < 0) overflowY = anchorRect.top - contentHeight / 2
       }
     } else if (anchorPointY === 'center') {
       top = '50%'
       if (autoPositionX) {
-        const overflowXTop = parentRect.top - (anchorRect.top + anchorRect.height / 2 - contentHeight / 2)
-        const overflowXBottom = (anchorRect.top + anchorRect.height / 2 + contentHeight / 2) - parentRect.bottom
+        const overflowXTop =
+          parentRect.top -
+          (anchorRect.top + anchorRect.height / 2 - contentHeight / 2)
+        const overflowXBottom =
+          anchorRect.top +
+          anchorRect.height / 2 +
+          contentHeight / 2 -
+          parentRect.bottom
         overflowY = Math.max(overflowXTop, overflowXBottom)
         newAnchorPointY = overflowXTop > overflowXBottom ? 'top' : 'right'
       }
@@ -149,13 +180,14 @@ function getPositionOptions(params) {
       bottom = '100%'
       if (autoPositionY) {
         overflowY = parentRect.top - (anchorRect.top - contentHeight)
-        if (overflowY < 0)
-          overflowY = contentHeight - anchorRect.top
+        if (overflowY < 0) overflowY = contentHeight - anchorRect.top
       }
     } else if (anchorPointY === 'center') {
       bottom = '50%'
       if (autoPositionY) {
-        overflowY = parentRect.top - (anchorRect.top + anchorRect.height / 2 - contentHeight)
+        overflowY =
+          parentRect.top -
+          (anchorRect.top + anchorRect.height / 2 - contentHeight)
         if (overflowY < 0)
           overflowY = contentHeight - (anchorRect.top + anchorRect.height / 2)
       }
@@ -163,8 +195,7 @@ function getPositionOptions(params) {
       bottom = '0%'
       if (autoPositionY) {
         overflowY = parentRect.top - (anchorRect.bottom - contentHeight)
-        if (overflowY < 0)
-          overflowY = contentHeight - anchorRect.bottom
+        if (overflowY < 0) overflowY = contentHeight - anchorRect.bottom
       }
     }
   }
@@ -217,7 +248,6 @@ function getPositionOptions(params) {
   }
 }
 
-
 function getContentProps(params) {
   const {
     left,
@@ -246,22 +276,23 @@ function getContentProps(params) {
   }
 }
 
-
 /**
  * Оверлей, который оборачивает внутри children, и позиционируется относительно children рядом с ними
  */
-@injectSheet(() => ({
-  container: {
-    position: 'relative',
-    display: 'inline-block'
-  },
-  content: {
-    position: 'absolute',
-    zIndex: 1
-  }
-}), {name: 'RelativeOverlay'})
+@injectSheet(
+  () => ({
+    container: {
+      position: 'relative',
+      display: 'inline-block'
+    },
+    content: {
+      position: 'absolute',
+      zIndex: 1
+    }
+  }),
+  {name: 'RelativeOverlay'}
+)
 export default class RelativeOverlay extends PureComponent {
-
   static propTypes = {
     /**
      * Класс контейнера
@@ -338,7 +369,7 @@ export default class RelativeOverlay extends PureComponent {
      * Нужна исключительно внутри iframe
      */
     getElementRect: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     getWindowSize() {
@@ -348,7 +379,7 @@ export default class RelativeOverlay extends PureComponent {
       }
     },
     getElementRect: originalGetBoundingClientRect
-  };
+  }
 
   constructor(props) {
     super(props)
@@ -388,19 +419,22 @@ export default class RelativeOverlay extends PureComponent {
   }
 
   componentWillReceiveProps({
-    isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY
+    isOpened,
+    anchorPointX,
+    anchorPointY,
+    contentPointX,
+    contentPointY
   }) {
     if (isOpened !== undefined && isOpened !== this.props.isOpened)
-      if (isOpened)
-        this.show()
-      else
-        this.hide()
-
-    else if (isOpened &&
+      if (isOpened) this.show()
+      else this.hide()
+    else if (
+      isOpened &&
       (this.props.anchorPointX !== anchorPointX ||
         this.props.anchorPointY !== anchorPointY ||
         this.props.contentPointX !== contentPointX ||
-        this.props.contentPointY !== contentPointY))
+        this.props.contentPointY !== contentPointY)
+    )
       this.show()
   }
 
@@ -411,8 +445,7 @@ export default class RelativeOverlay extends PureComponent {
   }
 
   componentDidMount() {
-    if (this.props.isOpened)
-      this.show()
+    if (this.props.isOpened) this.show()
   }
 
   /**
@@ -420,30 +453,29 @@ export default class RelativeOverlay extends PureComponent {
    */
   onContentBecomeVisible = () => {
     this.events.emit('contentVisible')
-  };
+  }
 
   /**
    * Вызывается когда контент стал невидимым
    */
   onContentBecomeInvisible = () => {
     this.events.emit('contentInvisible')
-  };
+  }
 
-  onContentMount = (element) => {
+  onContentMount = element => {
     this.contentElement = element
     this.updateContentPosition()
-  };
+  }
 
-  onContainerMount = (element) => {
+  onContainerMount = element => {
     this.containerElement = element
-  };
+  }
 
   /**
    * Вычислить позицию
    */
   updateContentPosition() {
-    if (!this.state.isContentInDom || !this.contentElement)
-      return
+    if (!this.state.isContentInDom || !this.contentElement) return
     // Вычисляем новый contentPoint, если нужно, в зависимости от ширины и высоты contentElement
     const {
       anchorPointX,
@@ -487,37 +519,34 @@ export default class RelativeOverlay extends PureComponent {
     })
 
     const whenPositioned = new Promise((resolve, reject) => {
-      const handler = (result) => {
-        if (transactionIndex === this.transactionIndex)
-          resolve(result)
+      const handler = result => {
+        if (transactionIndex === this.transactionIndex) resolve(result)
         if (transactionIndex <= this.transactionIndex)
           this.events.removeListener('newContentPosition', handler)
-        if (transactionIndex < this.transactionIndex)
-          reject()
+        if (transactionIndex < this.transactionIndex) reject()
       }
       this.events.on('newContentPosition', handler)
       this.updateContentPosition()
     })
 
-    whenPositioned.then(({
-      style, pointX, pointY, anchorPointX, anchorPointY
-    }) => {
-      this.setState({
-        anchorPointX,
-        anchorPointY,
-        contentStyle: style,
-        contentPointX: pointX,
-        contentPointY: pointY,
-        anchorWidth: this.containerElement.offsetWidth,
-        anchorHeight: this.containerElement.offsetHeight,
-        isContentVisible: true
-      })
-    })
+    whenPositioned.then(
+      ({style, pointX, pointY, anchorPointX, anchorPointY}) => {
+        this.setState({
+          anchorPointX,
+          anchorPointY,
+          contentStyle: style,
+          contentPointX: pointX,
+          contentPointY: pointY,
+          anchorWidth: this.containerElement.offsetWidth,
+          anchorHeight: this.containerElement.offsetHeight,
+          isContentVisible: true
+        })
+      }
+    )
 
-    const whenVisible = new Promise((resolve) => {
+    const whenVisible = new Promise(resolve => {
       const handler = () => {
-        if (transactionIndex === this.transactionIndex)
-          resolve()
+        if (transactionIndex === this.transactionIndex) resolve()
         if (transactionIndex <= this.transactionIndex)
           this.events.removeListener('contentVisible', handler)
         // if (transactionIndex < this.transactionIndex)
@@ -526,23 +555,23 @@ export default class RelativeOverlay extends PureComponent {
       this.events.on('contentVisible', handler)
     })
 
-    return Promise.all([whenPositioned, whenVisible]).then(() => {
-      if (this.props.onContentOpen)
-        this.props.onContentOpen()
-    }).catch(noop)
+    return Promise.all([whenPositioned, whenVisible])
+      .then(() => {
+        if (this.props.onContentOpen) this.props.onContentOpen()
+      })
+      .catch(noop)
   }
 
   /**
    * Скрыть оверлей
    */
   hide = () => {
-    if (!this.contentElement)
-      return
+    if (!this.contentElement) return
     const transactionIndex = ++this.transactionIndex
     this.setState({
       isContentVisible: false
     })
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const handler = () => {
         if (transactionIndex === this.transactionIndex)
           this.setState({isContentInDom: false}, resolve)
@@ -553,19 +582,12 @@ export default class RelativeOverlay extends PureComponent {
       }
       this.events.on('contentInvisible', handler)
     }).then(() => {
-      if (this.props.onContentClose)
-        this.props.onContentClose()
+      if (this.props.onContentClose) this.props.onContentClose()
     })
-  };
+  }
 
   render() {
-    const {
-      className,
-      style,
-      anchor,
-      content,
-      classes
-    } = this.props
+    const {className, style, anchor, content, classes} = this.props
     const {
       isContentVisible,
       isContentInDom,
@@ -581,23 +603,21 @@ export default class RelativeOverlay extends PureComponent {
     if (isContentInDom)
       contentElement = (
         <div
-          className={ classes.content }
-          style={ contentStyle }
-          ref={ this.onContentMount} >
-          {
-            cloneElement(content, {
-              anchorPointX,
-              anchorPointY,
-              anchorWidth,
-              anchorHeight,
-              isVisible: isContentVisible,
-              pointX: contentPointX,
-              pointY: contentPointY,
-              onBecomeVisible: this.onContentBecomeVisible,
-              onBecomeInvisible: this.onContentBecomeInvisible,
-              hide: this.hide
-            })
-          }
+          className={classes.content}
+          style={contentStyle}
+          ref={this.onContentMount}>
+          {cloneElement(content, {
+            anchorPointX,
+            anchorPointY,
+            anchorWidth,
+            anchorHeight,
+            isVisible: isContentVisible,
+            pointX: contentPointX,
+            pointY: contentPointY,
+            onBecomeVisible: this.onContentBecomeVisible,
+            onBecomeInvisible: this.onContentBecomeInvisible,
+            hide: this.hide
+          })}
         </div>
       )
     return (
@@ -610,5 +630,4 @@ export default class RelativeOverlay extends PureComponent {
       </div>
     )
   }
-
 }

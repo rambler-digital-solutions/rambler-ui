@@ -1,7 +1,7 @@
 import React from 'react'
 import ServiceSearch from './ServiceSearch'
 import theme from '../theme/base'
-import { mount, withTheme, getStyles, getWrapperNode } from '../utils/test-utils'
+import {mount, withTheme, getStyles, getWrapperNode} from '../utils/test-utils'
 
 const DATA_ATTR = 'data-cerber-head'
 const SEARCH_DATA_ATTR = 'main::search'
@@ -15,13 +15,7 @@ const getSearchWrapper = (props = {}) => {
 
   const resultProps = {...defaultProps, ...props}
 
-  return mount(
-    withTheme(
-      <ServiceSearch
-        {...resultProps}
-      />
-    )
-  )
+  return mount(withTheme(<ServiceSearch {...resultProps} />))
 }
 
 describe('<ServiceSearch />', () => {
@@ -38,7 +32,9 @@ describe('<ServiceSearch />', () => {
     expect(selectStyles.width).toEqual(`${theme.serviceSearch.maxWidth}px`)
     const input = search.find('input')
     const inputStyles = getStyles(input)
-    expect(inputStyles['font-size']).toEqual(`${theme.serviceSearch.fontSize}px`)
+    expect(inputStyles['font-size']).toEqual(
+      `${theme.serviceSearch.fontSize}px`
+    )
   })
 
   it('should change size with props', () => {
@@ -51,7 +47,9 @@ describe('<ServiceSearch />', () => {
       const sizeProp = search.prop('size')
       const input = search.find('input').closest('div')
       const inputStyles = getStyles(input)
-      expect(inputStyles.height).toEqual(`${theme.serviceSearch.sizes[sizeProp].height}px`)
+      expect(inputStyles.height).toEqual(
+        `${theme.serviceSearch.sizes[sizeProp].height}px`
+      )
     })
   })
 

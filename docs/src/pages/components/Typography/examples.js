@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {ApplyTheme} from 'rambler-ui/theme'
 import {
   H1,
   H2,
@@ -14,7 +14,6 @@ import {
   PhotoSource,
   List
 } from 'rambler-ui/Typography'
-
 
 export default class TypographyExample extends Component {
   render() {
@@ -32,23 +31,33 @@ export default class TypographyExample extends Component {
           </Quote>
           <Epigraph>Epigraph Epigraph Epigraph</Epigraph>
           <Description>Description Description Description</Description>
-          <GalleryDescription>GalleryDescription GalleryDescription GalleryDescription</GalleryDescription>
+          <GalleryDescription>
+            GalleryDescription GalleryDescription GalleryDescription
+          </GalleryDescription>
 
           <Source>Source Source Source</Source>
-          <br/>
+          <br />
           <Timestamp>Timestamp Timestamp Timestamp</Timestamp>
-          <br/>
+          <br />
           <PhotoSource>PhotoSource PhotoSource PhotoSource</PhotoSource>
-          
+
           <List>
             <li>Unordered list</li>
             <li>Unordered list</li>
-            <li>Unordered<br/>list</li>
+            <li>
+              Unordered
+              <br />
+              list
+            </li>
           </List>
           <List numbered={true}>
             <li>Ordered list</li>
             <li>Ordered list</li>
-            <li>Ordered<br/>list</li>
+            <li>
+              Ordered
+              <br />
+              list
+            </li>
           </List>
         </div>
       </ApplyTheme>

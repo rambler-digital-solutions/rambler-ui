@@ -25,14 +25,10 @@ export const theme = {
 const theming = createTheming('UI_DOCS_THEME')
 const {ThemeProvider: Provider, withTheme} = theming
 
-export {
-  withTheme
-}
+export {withTheme}
 
 export const ThemeProvider = ({children}) => (
-  <Provider theme={theme}>
-    {children}
-  </Provider>
+  <Provider theme={theme}>{children}</Provider>
 )
 
 export default styles => injectSheet(styles, {theming})

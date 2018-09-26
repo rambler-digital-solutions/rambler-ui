@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {
   unmountComponentAtNode,
@@ -33,9 +33,7 @@ import {
  * - onClose() - коллбек, который нужно вызвать в `Target` после закрытия, например после окончания всех анимаций
  */
 export default function renderToLayer(Target) {
-
   return class RenderToLayer extends Component {
-
     static propTypes = {
       /**
        * Контролирует видимость
@@ -57,30 +55,26 @@ export default function renderToLayer(Target) {
        * Коллбек вызывающийся при монтировании/размонтировании контейнера
        */
       containerRef: PropTypes.func
-    };
+    }
 
     static defaultProps = {
       isOpened: false,
       onOpen: () => {},
       onClose: () => {},
       containerRef: () => {}
-    };
+    }
 
     componentDidMount() {
       if (this.props.isOpened) this.mountPortal()
     }
 
     componentDidUpdate(prevProps) {
-      const { isOpened } = this.props
+      const {isOpened} = this.props
 
       if (isOpened !== prevProps.isOpened)
-        if (isOpened)
-          this.mountPortal()
-        else
-          this.unmountPortal()
-
-      else if (isOpened)
-        this.renderPortal()
+        if (isOpened) this.mountPortal()
+        else this.unmountPortal()
+      else if (isOpened) this.renderPortal()
     }
 
     componentWillUnmount() {
@@ -97,7 +91,7 @@ export default function renderToLayer(Target) {
 
     mountPortal() {
       if (!this.node)
-        new Promise((resolve) => {
+        new Promise(resolve => {
           this.node = document.createElement('div')
           this.node.style.position = 'absolute'
           this.node.style.zIndex = this.props.zIndex
@@ -113,16 +107,12 @@ export default function renderToLayer(Target) {
 
     renderPortal() {
       if (this.node)
-        renderSubtreeIntoContainer(
-          this,
-          this.renderContent(),
-          this.node
-        )
+        renderSubtreeIntoContainer(this, this.renderContent(), this.node)
     }
 
     unmountPortal(force) {
       if (this.node)
-        new Promise((resolve) => {
+        new Promise(resolve => {
           if (force) resolve()
           this.resolveClosing = resolve
           this.renderPortal()
@@ -138,18 +128,12 @@ export default function renderToLayer(Target) {
 
     renderContent() {
       return (
-        <Target
-          {...this.props}
-          onOpen={this.onOpen}
-          onClose={this.onClose} />
+        <Target {...this.props} onOpen={this.onOpen} onClose={this.onClose} />
       )
     }
 
     render() {
       return null
     }
-
   }
-
 }
-

@@ -3,8 +3,6 @@ import Button from 'rambler-ui/Button'
 
 export default () => (
   <div>
-    <Button buttonType="button">
-      Кнопка
-    </Button>
+    <Button buttonType="button">Кнопка</Button>
   </div>
 )

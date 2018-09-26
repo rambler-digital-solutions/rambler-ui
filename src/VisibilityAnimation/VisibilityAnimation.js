@@ -1,4 +1,4 @@
-import { Component, cloneElement } from 'react'
+import {Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
@@ -29,7 +29,6 @@ import classnames from 'classnames'
  *  }
  */
 export default class VisibilityAnimation extends Component {
-
   static propTypes = {
     /**
      * Контролирует видимость
@@ -63,7 +62,7 @@ export default class VisibilityAnimation extends Component {
      * Коллбек вызывающийся после скрытия
      */
     onInvisible: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     isVisible: false,
@@ -71,7 +70,7 @@ export default class VisibilityAnimation extends Component {
     onVisible: () => {},
     onWillInvisible: () => {},
     onInvisible: () => {}
-  };
+  }
 
   status = null
 
@@ -80,18 +79,15 @@ export default class VisibilityAnimation extends Component {
   }
 
   componentDidMount() {
-    if (this.props.isVisible)
-      this.delayTimeout = setTimeout(this.show, 60)
+    if (this.props.isVisible) this.delayTimeout = setTimeout(this.show, 60)
   }
 
-  componentWillReceiveProps({ isVisible }) {
+  componentWillReceiveProps({isVisible}) {
     if (isVisible !== this.props.isVisible) {
       clearTimeout(this.delayTimeout)
 
-      if (isVisible)
-        this.delayTimeout = setTimeout(this.show, 60)
-      else
-        this.hide()
+      if (isVisible) this.delayTimeout = setTimeout(this.show, 60)
+      else this.hide()
     }
   }
 
@@ -133,13 +129,9 @@ export default class VisibilityAnimation extends Component {
   }
 
   render() {
-    const { isVisible } = this.state
+    const {isVisible} = this.state
 
-    const {
-      children,
-      className,
-      activeClassName
-    } = this.props
+    const {children, className, activeClassName} = this.props
 
     const childProps = children.props || {}
 
@@ -151,5 +143,4 @@ export default class VisibilityAnimation extends Component {
       )
     })
   }
-
 }

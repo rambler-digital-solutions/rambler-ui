@@ -7,10 +7,8 @@
  * @returns {number} A number in the range [min, max]
  */
 function clamp(value, min, max) {
-  if (value < min)
-    return min
-  if (value > max)
-    return max
+  if (value < min) return min
+  if (value > max) return max
   return value
 }
 
@@ -46,8 +44,7 @@ function convertHexToRGB(color) {
  * @returns {{type: string, values: number[]}} A MUI color object
  */
 function decomposeColor(color) {
-  if (color.charAt(0) === '#')
-    return decomposeColor(convertHexToRGB(color))
+  if (color.charAt(0) === '#') return decomposeColor(convertHexToRGB(color))
 
   color = color.replace(/\s/g, '')
   const marker = color.indexOf('(')
@@ -75,11 +72,13 @@ function getLuminance(color) {
   color = decomposeColor(color)
 
   if (color.type.indexOf('rgb') > -1) {
-    const rgb = color.values.map((val) => {
+    const rgb = color.values.map(val => {
       val /= 255 // normalized
       return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4)
     })
-    return Number((0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]).toFixed(3)) // Truncate at 3 digits
+    return Number(
+      (0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2]).toFixed(3)
+    ) // Truncate at 3 digits
   } else if (color.type.indexOf('hsl') > -1) {
     return color.values[2] / 100
   }
@@ -98,20 +97,16 @@ function convertColorToString(color) {
 
   // Only convert the first 3 values to int (i.e. not alpha)
   if (type.indexOf('rgb') > -1)
-    for (let i = 0; i < 3; i++)
-      values[i] = parseInt(values[i])
+    for (let i = 0; i < 3; i++) values[i] = parseInt(values[i])
 
   let colorString
 
   if (type.indexOf('hsl') > -1)
     colorString = `${color.type}(${values[0]}, ${values[1]}%, ${values[2]}%`
-  else
-    colorString = `${color.type}(${values[0]}, ${values[1]}, ${values[2]}`
+  else colorString = `${color.type}(${values[0]}, ${values[1]}, ${values[2]}`
 
-  if (values.length === 4)
-    colorString += `, ${color.values[3].toFixed(2)})`
-  else
-    colorString += ')'
+  if (values.length === 4) colorString += `, ${color.values[3].toFixed(2)})`
+  else colorString += ')'
 
   return colorString
 }
@@ -136,11 +131,9 @@ export function darken(color, coefficient) {
   color = decomposeColor(color)
   coefficient = clamp(coefficient, 0, 1)
 
-  if (color.type.indexOf('hsl') > -1)
-    color.values[2] *= 1 - coefficient
+  if (color.type.indexOf('hsl') > -1) color.values[2] *= 1 - coefficient
   else if (color.type.indexOf('rgb') > -1)
-    for (let i = 0; i < 3; i++)
-      color.values[i] *= 1 - coefficient
+    for (let i = 0; i < 3; i++) color.values[i] *= 1 - coefficient
 
   return convertColorToString(color)
 }
@@ -174,9 +167,9 @@ export function lighten(color, coefficient) {
  * @returns {string} A CSS color string. Hex input values are returned as rgb
  */
 export function emphasize(color, coefficient = 0.15) {
-  return getLuminance(color) > 0.5 ?
-    darken(color, coefficient) :
-    lighten(color, coefficient)
+  return getLuminance(color) > 0.5
+    ? darken(color, coefficient)
+    : lighten(color, coefficient)
 }
 
 /**
@@ -191,8 +184,7 @@ export function fade(color, value) {
   color = decomposeColor(color)
   value = clamp(value, 0, 1)
 
-  if (color.type === 'rgb' || color.type === 'hsl')
-    color.type += 'a'
+  if (color.type === 'rgb' || color.type === 'hsl') color.type += 'a'
   color.values[3] = value
 
   return convertColorToString(color)
@@ -216,10 +208,10 @@ export function mix(color, mixinColor, coefficient = 1) {
   const w = 2 * coefficient - 1
   const a = colorAlpha - mixinColorAlpha
 
-  const w1 = (((w * a === -1) ? w : (w + a) / (1 + w * a)) + 1) / 2.0
+  const w1 = ((w * a === -1 ? w : (w + a) / (1 + w * a)) + 1) / 2.0
   const w2 = 1 - w1
 
-  for(let i = 0; i < 3; i++)
+  for (let i = 0; i < 3; i++)
     color.values[i] = w1 * color.values[i] + w2 * mixinColor.values[i]
   color[3] = colorAlpha * coefficient + mixinColorAlpha * (1 - coefficient)
 

@@ -108,7 +108,8 @@ const initOnDesktop = window.innerWidth >= 768
       content: '""',
       width: '100%',
       height: 20,
-      backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.1))'
+      backgroundImage:
+        'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.1))'
     }
   },
   list: {
@@ -189,7 +190,6 @@ const initOnDesktop = window.innerWidth >= 768
   }
 }))
 export default class SideNav extends PureComponent {
-
   static propTypes = {
     /**
      * Список страниц для вывода
@@ -224,7 +224,7 @@ export default class SideNav extends PureComponent {
     window.addEventListener('resize', this.updateViewport)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const {desktop} = this.state
     const {location} = this.props
     this.pageY = desktop ? window.pageYOffset : 0
@@ -235,8 +235,7 @@ export default class SideNav extends PureComponent {
         top: this.pageY,
         position: this.position
       })
-    if (location === prevProps.location)
-      return
+    if (location === prevProps.location) return
     this.setState({
       activeSubtree: location.pathname,
       ...(!desktop && {
@@ -263,8 +262,7 @@ export default class SideNav extends PureComponent {
 
   closeNavOnClickOutside = () => {
     const {desktop} = this.state
-    if (desktop)
-      return
+    if (desktop) return
     this.setState({
       navOpened: false
     })
@@ -288,8 +286,7 @@ export default class SideNav extends PureComponent {
 
   activeSubtree(pathname) {
     const {activeSubtree} = this.state
-    if (!activeSubtree)
-      return false
+    if (!activeSubtree) return false
     return activeSubtree.indexOf(pathname) === 0
   }
 
@@ -302,12 +299,10 @@ export default class SideNav extends PureComponent {
 
   updatePosition = throttle(() => {
     const {desktop} = this.state
-    if (!desktop)
-      return
+    if (!desktop) return
     const {pageYOffset, innerHeight} = window
     const {offsetHeight, offsetTop} = this.rootNode
-    if (offsetHeight >= document.body.clientHeight)
-      return
+    if (offsetHeight >= document.body.clientHeight) return
     let position
     let top
     if (
@@ -327,8 +322,7 @@ export default class SideNav extends PureComponent {
       top = pageYOffset + offsetTop
     }
     this.pageY = pageYOffset
-    if (position === this.position)
-      return
+    if (position === this.position) return
     this.position = position
     this.setState({
       top,
@@ -338,8 +332,7 @@ export default class SideNav extends PureComponent {
 
   updateViewport = throttle(() => {
     const desktop = window.innerWidth >= 768
-    if (desktop === this.state.desktop)
-      return
+    if (desktop === this.state.desktop) return
     this.setState({
       desktop
     })
@@ -364,13 +357,13 @@ export default class SideNav extends PureComponent {
 
     return (
       <span
-        className={this.activeSubtree(page.pathname) ? classes.openedLink : classes.link}
+        className={
+          this.activeSubtree(page.pathname) ? classes.openedLink : classes.link
+        }
         data-href={page.pathname}
         onClick={this.toggleSubtree}>
         {page.title}
-        {page.children &&
-          <ArrowIcon size={20} className={classes.linkIcon} />
-        }
+        {page.children && <ArrowIcon size={20} className={classes.linkIcon} />}
       </span>
     )
   }
@@ -394,19 +387,18 @@ export default class SideNav extends PureComponent {
     const {classes} = this.props
     const {versions, showVersions} = this.state
 
-    if (versions.length === 0)
-      return null
+    if (versions.length === 0) return null
 
-    let currentVersion = versions.reduce(
-      (acc, v) => {
-        const currentPath =
-          window.location.pathname.replace(config.pathPrefix, '').replace(/^\//, '').split('/').join('/')
-        if (currentPath === v.path)
-          return v.title ? v.title.replace(/[^0-9.]/g, '') : v.path
-        return acc
-      },
-      null
-    )
+    let currentVersion = versions.reduce((acc, v) => {
+      const currentPath = window.location.pathname
+        .replace(config.pathPrefix, '')
+        .replace(/^\//, '')
+        .split('/')
+        .join('/')
+      if (currentPath === v.path)
+        return v.title ? v.title.replace(/[^0-9.]/g, '') : v.path
+      return acc
+    }, null)
 
     if (!currentVersion)
       currentVersion = versions[0].title.replace(/[^0-9.]/g, '')
@@ -462,9 +454,9 @@ export default class SideNav extends PureComponent {
             type="button"
             className={classes.toggle}
             onClick={this.toggleNav}>
-            <span></span>
-            <span></span>
-            <span></span>
+            <span />
+            <span />
+            <span />
           </button>
           <div className={classes.scroll}>
             <Logo className={classes.logo} />
@@ -475,5 +467,4 @@ export default class SideNav extends PureComponent {
       </OnClickOutside>
     )
   }
-
 }

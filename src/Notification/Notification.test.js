@@ -1,22 +1,28 @@
 import React from 'react'
 import Notification from './Notification'
 import FaceIcon from '../icons/forms/FaceIcon'
-import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
-import { withTheme, mount, getNodeStyles } from '../utils/test-utils'
+import {SNACKBAR_ZINDEX} from '../constants/z-indexes'
+import {withTheme, mount, getNodeStyles} from '../utils/test-utils'
 import theme from '../theme/base'
-import { normalize as nc } from '../utils/colors'
+import {normalize as nc} from '../utils/colors'
 
 describe('<Notification />', () => {
   let containerNode
 
-  const mountWrapper = props => mount(withTheme(<Notification
-    className="notification"
-    title="Hi"
-    body="Foo"
-    containerRef={(ref) => {
-      containerNode = ref
-    }}
-    {...props} />))
+  const mountWrapper = props =>
+    mount(
+      withTheme(
+        <Notification
+          className="notification"
+          title="Hi"
+          body="Foo"
+          containerRef={ref => {
+            containerNode = ref
+          }}
+          {...props}
+        />
+      )
+    )
 
   beforeEach(() => {
     containerNode = undefined
@@ -37,15 +43,15 @@ describe('<Notification />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should open/close notification when change props.isOpened', async (done) => {
+  it('should open/close notification when change props.isOpened', async done => {
     let onClose
 
-    const whenClose = new Promise((resolve) => {
+    const whenClose = new Promise(resolve => {
       onClose = resolve
     })
 
     const wrapper = mountWrapper({
-      containerRef: (ref) => {
+      containerRef: ref => {
         containerNode = ref
         if (!ref) onClose()
       }
@@ -89,8 +95,12 @@ describe('<Notification />', () => {
     expect(notificationStyles.right).toEqual('15px')
     expect(notificationStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(notificationStyles['font-size']).toEqual('13px')
-    expect(nc(notificationStyles['background-color'])).toEqual(nc(theme.notification.colors.background))
-    expect(nc(notificationStyles.color)).toEqual(nc(theme.notification.colors.text))
+    expect(nc(notificationStyles['background-color'])).toEqual(
+      nc(theme.notification.colors.background)
+    )
+    expect(nc(notificationStyles.color)).toEqual(
+      nc(theme.notification.colors.text)
+    )
     expect(notificationStyles.width).toEqual('335px')
     expect(notificationStyles['padding-top']).toEqual('20px')
     expect(notificationStyles['padding-left']).toEqual('20px')
@@ -150,9 +160,7 @@ describe('<Notification />', () => {
   it('should append icon', () => {
     mountWrapper({
       isOpened: true,
-      icon: (
-        <FaceIcon className="icon" />
-      )
+      icon: <FaceIcon className="icon" />
     })
 
     const iconNode = containerNode.querySelector('.icon')
@@ -163,16 +171,16 @@ describe('<Notification />', () => {
     expect(iconContainerStyles.width).toEqual('39px')
     expect(iconContainerStyles.height).toEqual('39px')
     expect(iconContainerStyles['text-align']).toEqual('center')
-    expect(nc(iconContainerStyles['background-color'])).toEqual(nc(theme.notification.colors.iconBackground))
+    expect(nc(iconContainerStyles['background-color'])).toEqual(
+      nc(theme.notification.colors.iconBackground)
+    )
     expect(iconContainerStyles['margin-right']).toEqual('10px')
   })
 
   it('should append title', () => {
     mountWrapper({
       isOpened: true,
-      title: (
-        <span className="title">Hi</span>
-      )
+      title: <span className="title">Hi</span>
     })
 
     const titleNode = containerNode.querySelector('.title')
@@ -183,9 +191,7 @@ describe('<Notification />', () => {
   it('should append body', () => {
     mountWrapper({
       isOpened: true,
-      body: (
-        <span className="body">Foo bar</span>
-      )
+      body: <span className="body">Foo bar</span>
     })
 
     const bodyNode = containerNode.querySelector('.body')
@@ -219,7 +225,9 @@ describe('<Notification />', () => {
 
     expect(buttonNode.textContent).toEqual('Ok')
     expect(buttonStyles.height).toEqual('20px')
-    expect(nc(buttonStyles.color)).toEqual(nc(theme.notification.actionButton.colors.default))
+    expect(nc(buttonStyles.color)).toEqual(
+      nc(theme.notification.actionButton.colors.default)
+    )
     expect(buttonStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')
     expect(buttonStyles['padding-top']).toEqual('0px')
     expect(buttonStyles['padding-left']).toEqual('0px')
@@ -228,14 +236,14 @@ describe('<Notification />', () => {
     expect(buttonStyles['font-size']).toEqual('13px')
   })
 
-  it('should call props.onAction() when click on action button', async (done) => {
+  it('should call props.onAction() when click on action button', async done => {
     const props = {
       isOpened: true,
       showClose: false,
       actionButton: 'Ok'
     }
 
-    const whenAction = new Promise((resolve) => {
+    const whenAction = new Promise(resolve => {
       props.onAction = resolve
     })
 
@@ -248,13 +256,13 @@ describe('<Notification />', () => {
     done()
   })
 
-  it('should call props.onRequestClose() when click on close button', async (done) => {
+  it('should call props.onRequestClose() when click on close button', async done => {
     const props = {
       isOpened: true,
       showClose: true
     }
 
-    const whenRequestClose = new Promise((resolve) => {
+    const whenRequestClose = new Promise(resolve => {
       props.onRequestClose = resolve
     })
 
@@ -266,5 +274,4 @@ describe('<Notification />', () => {
     expect(props.onRequestClose).toHaveBeenCalledTimes(1)
     done()
   })
-
 })

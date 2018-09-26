@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import VisibilityAnimation from './VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
-import { mount, getWrapperNode } from '../utils/test-utils'
+import {mount, getWrapperNode} from '../utils/test-utils'
 
 class Animated extends Component {
-
   render() {
     return (
       <VisibilityAnimation
@@ -14,27 +13,23 @@ class Animated extends Component {
         animationDuration={200}
         onVisible={this.props.onOpen}
         onInvisible={this.props.onClose}>
-        <div className="content">
-          Hello world
-        </div>
+        <div className="content">Hello world</div>
       </VisibilityAnimation>
     )
   }
-
 }
 
 const AnimatedAtNode = renderToLayer(Animated)
 
 describe('<VisibilityAnimation />', () => {
-
-  it('should apply class names', async (done) => {
+  it('should apply class names', async done => {
     const props = {}
 
-    const whenOpen = new Promise((resolve) => {
+    const whenOpen = new Promise(resolve => {
       props.onOpen = resolve
     })
 
-    const whenClose = new Promise((resolve) => {
+    const whenClose = new Promise(resolve => {
       props.onClose = resolve
     })
 
@@ -66,23 +61,26 @@ describe('<VisibilityAnimation />', () => {
     done()
   })
 
-  it('should apply class names with @renderToLayer', async (done) => {
+  it('should apply class names with @renderToLayer', async done => {
     const props = {}
     let containerNode
 
-    const whenOpen = new Promise((resolve) => {
+    const whenOpen = new Promise(resolve => {
       props.onOpen = resolve
     })
 
-    const whenClose = new Promise((resolve) => {
+    const whenClose = new Promise(resolve => {
       props.onClose = resolve
     })
 
-    const wrapper = mount(<AnimatedAtNode
-      {...props}
-      containerRef={(ref) => {
-        containerNode = ref
-      }}/>)
+    const wrapper = mount(
+      <AnimatedAtNode
+        {...props}
+        containerRef={ref => {
+          containerNode = ref
+        }}
+      />
+    )
 
     expect(containerNode).toBeUndefined()
 
@@ -108,5 +106,4 @@ describe('<VisibilityAnimation />', () => {
     expect(containerNode).toBeUndefined()
     done()
   })
-
 })

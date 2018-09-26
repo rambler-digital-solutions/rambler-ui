@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from './Typography'
 
-const Epigraph = (props) => (
+const Epigraph = props => (
   <Typography tagName="div" {...props} type="epigraph" />
 )
 

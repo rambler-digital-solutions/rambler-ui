@@ -24,7 +24,7 @@ export default function provideSearch(Search) {
       onHoverItem() {},
       onSubmit() {},
       onPressEnter() {}
-    };
+    }
 
     state = {
       value: this.props.value,
@@ -62,8 +62,9 @@ export default function provideSearch(Search) {
       this.props.onSearch(value, {sourceType})
     }
 
-    onKeyDown = (e) => {
-      if (!this.inputNode) // на всякий случай проверяем не пришло ли событие после анмаунта компонента
+    onKeyDown = e => {
+      if (!this.inputNode)
+        // на всякий случай проверяем не пришло ли событие после анмаунта компонента
         return
       const {value, sourceType} = this.state
 
@@ -80,25 +81,24 @@ export default function provideSearch(Search) {
     }
 
     render() {
-      const {
-        value,
-        sourceType
-      } = this.state
+      const {value, sourceType} = this.state
 
-      return <Search
-        {...this.props}
-        value={value}
-        searchOptions={{sourceType}}
-        clearForm={this.clearForm}
-        setNode={this.setNode}
-        onSubmit={this.onSubmit}
-        onBlur={this.props.onBlur}
-        onFocus={this.props.onFocus}
-        onKeyDown={this.onKeyDown}
-        onSearch={this.onSearch}
-        changeSourceType={this.changeSourceType}
-        setHighlightedId={this.setHighlightedId}
-      />
+      return (
+        <Search
+          {...this.props}
+          value={value}
+          searchOptions={{sourceType}}
+          clearForm={this.clearForm}
+          setNode={this.setNode}
+          onSubmit={this.onSubmit}
+          onBlur={this.props.onBlur}
+          onFocus={this.props.onFocus}
+          onKeyDown={this.onKeyDown}
+          onSearch={this.onSearch}
+          changeSourceType={this.changeSourceType}
+          setHighlightedId={this.setHighlightedId}
+        />
+      )
     }
   }
 }

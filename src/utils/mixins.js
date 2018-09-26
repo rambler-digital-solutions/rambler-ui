@@ -58,16 +58,21 @@ export const isolateMixin = {
 
 // https://github.com/cssinjs/jss/issues/446
 // Пока используем как временное решение
-const responsiveFactory = (rule) => {
-  const replaceResponsiveKeys = (options) => {
+const responsiveFactory = rule => {
+  const replaceResponsiveKeys = options => {
     const result = {}
-    Object.keys(options).forEach((key) => {
+    Object.keys(options).forEach(key => {
       const value = options[key]
-      if (/[$&]/.test(key) && !(key === 'composes' && (Array.isArray(value) || typeof value === 'string'))) {
+      if (
+        /[$&]/.test(key) &&
+        !(
+          key === 'composes' &&
+          (Array.isArray(value) || typeof value === 'string')
+        )
+      ) {
         result[key] = replaceResponsiveKeys(options[key])
       } else {
-        if (!result[rule])
-          result[rule] = {}
+        if (!result[rule]) result[rule] = {}
         result[rule][key] = value
       }
     })
@@ -82,24 +87,30 @@ export const ifMobile = responsiveFactory('@media (max-device-width: 767px)')
 
 export const ifDesktopSize = responsiveFactory('@media (min-width: 768px)')
 
-const pseudoSelectors = ['::-webkit-input-placeholder', '::-moz-placeholder', ':-moz-placeholder', ':-ms-input-placeholder', '::placeholder']
-export const placeholderMixin = (selector, style) => (
-  pseudoSelectors.reduce((result, pseudo) => ({
-    ...result,
-    [`${selector}${pseudo}`]: style
-  }), {})
-)
+const pseudoSelectors = [
+  '::-webkit-input-placeholder',
+  '::-moz-placeholder',
+  ':-moz-placeholder',
+  ':-ms-input-placeholder',
+  '::placeholder'
+]
+export const placeholderMixin = (selector, style) =>
+  pseudoSelectors.reduce(
+    (result, pseudo) => ({
+      ...result,
+      [`${selector}${pseudo}`]: style
+    }),
+    {}
+  )
 
 export const fontSmoothingMixin = {
   '-webkit-font-smoothing': 'antialiased',
   '-moz-osx-font-smoothing': 'grayscale'
 }
 
-export const beautyScroll = (selector) => ({
-  [selector + selector]: {
-  },
-  [`${selector} > *`]: {
-  },
+export const beautyScroll = selector => ({
+  [selector + selector]: {},
+  [`${selector} > *`]: {},
   [`${selector}::-webkit-scrollbar`]: {
     width: 4,
     backgroundColor: 'transparent'
@@ -123,6 +134,10 @@ export const beautyScroll = (selector) => ({
  * @param {string} selector CSS-selector
  * @param {string} declaration CSS-declaration
  */
-export const focusSourceMixin = (sourceType = 'other', selector, declaration) => ({
+export const focusSourceMixin = (
+  sourceType = 'other',
+  selector,
+  declaration
+) => ({
   [`html[data-focus-source="${sourceType}"] ${selector}`]: declaration
 })

@@ -6,15 +6,14 @@ import windowEvents from '../hoc/window-events'
 
 @windowEvents('touchstart', 'click')
 export default class OnClickOutside extends Component {
-
   static propTypes = {
     /**
      * Функция обработчик
      */
     handler: PropTypes.func.isRequired
-  };
+  }
 
-  onClick = throttle((e) => {
+  onClick = throttle(e => {
     let outsideClick = true
     let el = e.target
     let insideBody = false
@@ -23,12 +22,10 @@ export default class OnClickOutside extends Component {
         outsideClick = false
         break
       }
-      if (el === document.body)
-        insideBody = true
+      if (el === document.body) insideBody = true
       el = el.parentNode
     }
-    if (!outsideClick || !insideBody)
-      return
+    if (!outsideClick || !insideBody) return
     this.props.handler(e)
   })
 
@@ -46,5 +43,4 @@ export default class OnClickOutside extends Component {
   render() {
     return this.props.children
   }
-
 }

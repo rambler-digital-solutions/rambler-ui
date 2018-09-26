@@ -30,9 +30,7 @@ module.exports = {
           {
             loader: '@mdx-js/loader',
             options: {
-              mdPlugins: [
-                highlight
-              ]
+              mdPlugins: [highlight]
             }
           },
           'meta-loader'
@@ -40,10 +38,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          'style-loader',
-          'css-loader'
-        ]
+        use: ['style-loader', 'css-loader']
       },
       {
         test: /\.html$/,
@@ -55,19 +50,13 @@ module.exports = {
     ]
   },
   resolve: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, '../')
-    ],
+    modules: ['node_modules', path.resolve(__dirname, '../')],
     alias: {
       'rambler-ui': path.resolve(__dirname, '../src')
     }
   },
   resolveLoader: {
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, './')
-    ]
+    modules: ['node_modules', path.resolve(__dirname, './')]
   },
   plugins: [
     new webpack.DefinePlugin({

@@ -1,48 +1,50 @@
-import React, { PureComponent, cloneElement, isValidElement } from 'react'
+import React, {PureComponent, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import * as profileIcons from '../icons/profiles'
-import { injectSheet } from '../theme'
-import { isolateMixin, middleMixin } from '../utils/mixins'
+import {injectSheet} from '../theme'
+import {isolateMixin, middleMixin} from '../utils/mixins'
 
 function calcProfileSize(size) {
   return Math.min(Math.max(14, 0.45 * size), 32)
 }
 
-@injectSheet(() => ({
-  avatar: {
-    extend: isolateMixin,
-    position: 'relative',
-    display: 'inline-block',
-    verticalAlign: 'middle',
-    backgroundSize: 'cover',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, .15)'
-  },
-  circle: {
-    borderRadius: '50%',
-    '& $profile': {
-      transform: 'translate(10%, 10%)'
+@injectSheet(
+  () => ({
+    avatar: {
+      extend: isolateMixin,
+      position: 'relative',
+      display: 'inline-block',
+      verticalAlign: 'middle',
+      backgroundSize: 'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundPosition: 'center',
+      boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, .15)'
+    },
+    circle: {
+      borderRadius: '50%',
+      '& $profile': {
+        transform: 'translate(10%, 10%)'
+      }
+    },
+    rounded: {
+      borderRadius: '7%'
+    },
+    profile: {
+      extend: middleMixin,
+      position: 'absolute',
+      right: 0,
+      bottom: 0,
+      transform: 'translate(25%, 25%)',
+      boxShadow: 'inset 0 0 0 1px white',
+      borderRadius: '100%',
+      fontSize: 0,
+      textAlign: 'center'
     }
-  },
-  rounded: {
-    borderRadius: '7%'
-  },
-  profile: {
-    extend: middleMixin,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    transform: 'translate(25%, 25%)',
-    boxShadow: 'inset 0 0 0 1px white',
-    borderRadius: '100%',
-    fontSize: 0,
-    textAlign: 'center'
-  }
-}), {name: 'Avatar'})
+  }),
+  {name: 'Avatar'}
+)
 export default class Avatar extends PureComponent {
-
   static propTypes = {
     /**
      * CSS-класс аватарки
@@ -104,18 +106,11 @@ export default class Avatar extends PureComponent {
   }
 
   getContainer() {
-    const {
-      href,
-      container
-    } = this.props
+    const {href, container} = this.props
 
-    if (isValidElement(container))
-      return container
+    if (isValidElement(container)) return container
 
-    if (href)
-      return (
-        <a href={href} />
-      )
+    if (href) return <a href={href} />
 
     return <div />
   }
@@ -144,7 +139,8 @@ export default class Avatar extends PureComponent {
       backgroundImage: `url(${src})`
     })
 
-    const ProfileIcon = profileType &&
+    const ProfileIcon =
+      profileType &&
       profileIcons[`${profileType.replace(/^\w/, m => m.toUpperCase())}Icon`]
 
     const profileSize = Math.round(calcProfileSize(size))
@@ -153,7 +149,8 @@ export default class Avatar extends PureComponent {
       <div
         className={classes.profile}
         style={{
-          backgroundColor: iconBackgroundColor || theme.avatar.colors.iconBackground,
+          backgroundColor:
+            iconBackgroundColor || theme.avatar.colors.iconBackground,
           width: profileSizePx,
           height: profileSizePx
         }}>
@@ -171,5 +168,4 @@ export default class Avatar extends PureComponent {
       children
     )
   }
-
 }

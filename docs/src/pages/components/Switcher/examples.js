@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Switcher from 'rambler-ui/Switcher'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {ApplyTheme} from 'rambler-ui/theme'
 
 export default class SwitcherExample extends Component {
   state = {
@@ -18,9 +18,7 @@ export default class SwitcherExample extends Component {
       <ApplyTheme>
         <div>
           <div>
-            <Switcher
-              checked={this.state.checked}
-              onCheck={this.onCheck}>
+            <Switcher checked={this.state.checked} onCheck={this.onCheck}>
               Получать уведомления по почте
             </Switcher>
           </div>
@@ -34,7 +32,8 @@ export default class SwitcherExample extends Component {
           </div>
           <div style={{marginTop: 20, maxWidth: 200}}>
             <Switcher disabled checked={this.state.checked}>
-              На протяжении многих веков правители семи народов вели непрерывные войны.
+              На протяжении многих веков правители семи народов вели непрерывные
+              войны.
             </Switcher>
           </div>
         </div>

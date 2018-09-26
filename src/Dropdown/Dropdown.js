@@ -1,43 +1,45 @@
-import React, { PureComponent } from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { FixedOverlay, RelativeOverlay } from '../Overlay'
+import {FixedOverlay, RelativeOverlay} from '../Overlay'
 import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../OnClickOutside'
-import { POINTS_Y } from '../constants/overlay'
-import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import {POINTS_Y} from '../constants/overlay'
+import {injectSheet} from '../theme'
+import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(theme => ({
-  dropdown: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    borderRadius: theme.dropdown.borderRadius,
-    boxSizing: 'border-box',
-    opacity: '0.01',
-    pointerEvents: 'none',
-    position: 'relative',
-    transitionDuration: `${theme.dropdown.animationDuration}ms`,
-    transitionProperty: 'opacity, top',
-    background: '#fff',
-    boxShadow: theme.dropdown.boxShadow
-  },
-  isVisible: {
-    '&$dropdown': {
-      opacity: '1',
-      pointerEvents: 'auto',
-      top: '0px'
+@injectSheet(
+  theme => ({
+    dropdown: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      borderRadius: theme.dropdown.borderRadius,
+      boxSizing: 'border-box',
+      opacity: '0.01',
+      pointerEvents: 'none',
+      position: 'relative',
+      transitionDuration: `${theme.dropdown.animationDuration}ms`,
+      transitionProperty: 'opacity, top',
+      background: '#fff',
+      boxShadow: theme.dropdown.boxShadow
+    },
+    isVisible: {
+      '&$dropdown': {
+        opacity: '1',
+        pointerEvents: 'auto',
+        top: '0px'
+      }
+    },
+    'pointY-bottom': {
+      '&:not($isVisible)': {top: -10}
+    },
+    'pointY-top': {
+      '&:not($isVisible)': {top: 10}
     }
-  },
-  'pointY-bottom': {
-    '&:not($isVisible)': { top: -10 }
-  },
-  'pointY-top': {
-    '&:not($isVisible)': { top: 10 }
-  }
-}), {name: 'Dropdown'})
+  }),
+  {name: 'Dropdown'}
+)
 class DropdownContainer extends PureComponent {
-
   static propTypes = {
     isVisible: PropTypes.bool.isRequired,
     onBecomeVisible: PropTypes.func,
@@ -48,25 +50,28 @@ class DropdownContainer extends PureComponent {
     closeOnClickOutside: PropTypes.bool,
     pointY: PropTypes.oneOf(POINTS_Y),
     padding: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
-  };
+  }
 
   static defaultProps = {
     padding: '20px',
     closeOnClickOutside: true
-  };
+  }
 
-  state = {};
+  state = {}
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.isVisible !== nextProps.isVisible && nextProps.isVisible && !this.state.pointY)
+    if (
+      this.props.isVisible !== nextProps.isVisible &&
+      nextProps.isVisible &&
+      !this.state.pointY
+    )
       this.setState({
         pointY: nextProps.pointY
       })
   }
 
   onClickOutside = () => {
-    if (this.props.isVisible)
-      this.props.hide()
+    if (this.props.isVisible) this.props.hide()
   }
 
   render() {
@@ -84,12 +89,10 @@ class DropdownContainer extends PureComponent {
       onBecomeVisible,
       onBecomeInvisible
     } = this.props
-    const { pointY } = this.state
+    const {pointY} = this.state
     let resultStyle = {}
-    if (anchorWidth && anchorFullWidth)
-      resultStyle.width = anchorWidth + 'px'
-    if (padding)
-      resultStyle.padding = padding
+    if (anchorWidth && anchorFullWidth) resultStyle.width = anchorWidth + 'px'
+    if (padding) resultStyle.padding = padding
     resultStyle = {
       ...resultStyle,
       ...style
@@ -102,28 +105,27 @@ class DropdownContainer extends PureComponent {
         onVisible={onBecomeVisible}
         onInvisible={onBecomeInvisible}>
         <div
-          className={classnames(className, classes.dropdown, classes['pointY-' + pointY])}
+          className={classnames(
+            className,
+            classes.dropdown,
+            classes['pointY-' + pointY]
+          )}
           style={resultStyle}>
-          { children }
+          {children}
         </div>
       </VisibilityAnimation>
     )
-    if (!closeOnClickOutside)
-      return content
+    if (!closeOnClickOutside) return content
     return (
-      <OnClickOutside handler={this.onClickOutside}>
-        { content }
-      </OnClickOutside>
+      <OnClickOutside handler={this.onClickOutside}>{content}</OnClickOutside>
     )
   }
-
 }
 
 /**
  * Компонент Dropdown
  */
 export default class Dropdown extends PureComponent {
-
   static propTypes = {
     /**
      * Элемент, к которому привязывается Dropdown
@@ -143,7 +145,7 @@ export default class Dropdown extends PureComponent {
     style: PropTypes.object,
     /**
      * CSS класс контейнера оверлея
-    */
+     */
     overlayClassName: PropTypes.string,
     /**
      * Стили для контейнера оверлея
@@ -199,7 +201,7 @@ export default class Dropdown extends PureComponent {
      * Если паддинг не нужен, нужно передать false
      */
     padding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
-  };
+  }
 
   static defaultProps = {
     closeOnClickOutside: true,
@@ -209,7 +211,7 @@ export default class Dropdown extends PureComponent {
     anchorPointY: 'bottom',
     autoPositionY: true,
     appendToBody: false
-  };
+  }
 
   constructor(props) {
     super(props)
@@ -254,7 +256,9 @@ export default class Dropdown extends PureComponent {
       isOpened,
       onContentOpen: onOpen,
       onContentClose: onClose,
-      content: <DropdownContainer { ...dropdownProps }>{ children }</DropdownContainer>
+      content: (
+        <DropdownContainer {...dropdownProps}>{children}</DropdownContainer>
+      )
     }
     if (appendToBody) {
       overlayProps.containerNodeClassName = overlayClassName
@@ -263,7 +267,6 @@ export default class Dropdown extends PureComponent {
       overlayProps.className = overlayClassName
       overlayProps.style = overlayStyle
     }
-    return <this.Overlay { ...overlayProps } />
+    return <this.Overlay {...overlayProps} />
   }
-
 }

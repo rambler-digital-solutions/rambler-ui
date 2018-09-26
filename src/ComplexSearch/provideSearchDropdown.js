@@ -3,9 +3,7 @@ import PropTypes from 'prop-types'
 import EventEmitter from 'events'
 import SuggestDropdown from './SuggestDropdown'
 import OnClickOutside from '../OnClickOutside'
-import {
-  COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT
-} from '../constants/context'
+import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
 
 export default function provideSearchDropdown(Search) {
   return class extends Component {
@@ -31,7 +29,7 @@ export default function provideSearchDropdown(Search) {
       onHoverItem() {},
       onSubmit() {},
       onPressEnter() {}
-    };
+    }
 
     static childContextTypes = {
       [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
@@ -60,7 +58,7 @@ export default function provideSearchDropdown(Search) {
          */
         events: PropTypes.instanceOf(EventEmitter)
       })
-    };
+    }
 
     constructor(props) {
       super(props)
@@ -69,21 +67,21 @@ export default function provideSearchDropdown(Search) {
         isDropdownOpened: false
       }
 
-      this.events = new EventEmitter
+      this.events = new EventEmitter()
       this.events.setMaxListeners(0)
 
       /**
-      * Упорядоченный массив с зарегестрированными компонентами SuggestItem
-      * @type {Array}
-      */
+       * Упорядоченный массив с зарегестрированными компонентами SuggestItem
+       * @type {Array}
+       */
       this.sortedSuggestItems = []
       /**
-      * Объект с сохраненными suggestItems
-      */
+       * Объект с сохраненными suggestItems
+       */
       this.suggestItems = {}
       /**
-      * Текущий подсвеченный элемент
-      */
+       * Текущий подсвеченный элемент
+       */
       this.highlightedSuggestItemId = null
     }
 
@@ -105,25 +103,23 @@ export default function provideSearchDropdown(Search) {
     }
 
     registerSuggestItem = (id, component) => {
-      if (component)
-        this.suggestItems[id] = component
-      else
-        delete this.suggestItems[id]
+      if (component) this.suggestItems[id] = component
+      else delete this.suggestItems[id]
     }
-  
-    onRemoveSuggestItemClick = (value) => {
+
+    onRemoveSuggestItemClick = value => {
       this.props.onRemoveItem(value)
     }
-  
-    onSuggestItemClick = (value) => {
+
+    onSuggestItemClick = value => {
       this.props.onClickItem(value)
     }
-  
-    onSuggestItemHover = (value) => {
+
+    onSuggestItemHover = value => {
       this.props.onHoverItem(value)
     }
 
-    setHighlightedId = (id) => {
+    setHighlightedId = id => {
       this.highlightedSuggestItemId = id
       this.events.emit('highlight', this.highlightedSuggestItemId)
     }
@@ -132,10 +128,12 @@ export default function provideSearchDropdown(Search) {
       if (!this.suggestNode) {
         this.sortedSuggestItems = []
       } else {
-        const items = this.suggestNode.querySelectorAll('[data-suggest-item-id]')
-        this.sortedSuggestItems = Array.prototype.slice.call(items).map((node) =>
-          node.getAttribute('data-suggest-item-id')
+        const items = this.suggestNode.querySelectorAll(
+          '[data-suggest-item-id]'
         )
+        this.sortedSuggestItems = Array.prototype.slice
+          .call(items)
+          .map(node => node.getAttribute('data-suggest-item-id'))
       }
     }
 
@@ -158,33 +156,40 @@ export default function provideSearchDropdown(Search) {
       this.openDropdown()
     }
 
-    clearForm = (e) => {
+    clearForm = e => {
       this.setHighlightedId(null)
       this.closeDropdown()
       this.props.clearForm(e)
     }
 
-    onKeyDown = (e) => {
-      if (!this.inputNode) // на всякий случай проверяем не пришло ли событие после анмаунта компонента
+    onKeyDown = e => {
+      if (!this.inputNode)
+        // на всякий случай проверяем не пришло ли событие после анмаунта компонента
         return
       this.initializeSortedSuggestItems()
-      const index = this.highlightedSuggestItemId ? this.sortedSuggestItems.indexOf(this.highlightedSuggestItemId) : null
+      const index = this.highlightedSuggestItemId
+        ? this.sortedSuggestItems.indexOf(this.highlightedSuggestItemId)
+        : null
       const len = this.sortedSuggestItems.length
       let nextId
       switch (e.key) {
       case 'ArrowDown':
         if (len > 0) {
           e.preventDefault()
-          nextId = this.sortedSuggestItems[index + 1 >= len || index === null ? 0 : index + 1]
+          nextId = this.sortedSuggestItems[
+            index + 1 >= len || index === null ? 0 : index + 1
+          ]
           this.setHighlightedId(nextId)
           this.props.onSelectItem(this.suggestItems[nextId].props.value)
         }
         break
-  
+
       case 'ArrowUp':
         if (len > 0) {
           e.preventDefault()
-          nextId = this.sortedSuggestItems[index - 1 < 0 || index === null ? len - 1 : index - 1]
+          nextId = this.sortedSuggestItems[
+            index - 1 < 0 || index === null ? len - 1 : index - 1
+          ]
           this.setHighlightedId(nextId)
           this.props.onSelectItem(this.suggestItems[nextId].props.value)
         }
@@ -197,33 +202,39 @@ export default function provideSearchDropdown(Search) {
 
       this.props.onKeyDown(e)
     }
-    
+
     setNode = name => node => {
       this[`${name}Node`] = node
       this.props.setNode && this.props.setNode(name)(node)
     }
 
     isNodeNotInComponent(node) {
-      if (!this.props.appendToBody)
-        return !this.rootNode.contains(node)
-      return (!this.suggestNode || this.suggestNode !== node && !this.suggestNode.contains(node)) &&
-      (this.rootNode !== node && !this.rootNode.contains(node))
+      if (!this.props.appendToBody) return !this.rootNode.contains(node)
+      return (
+        (!this.suggestNode ||
+          (this.suggestNode !== node && !this.suggestNode.contains(node))) &&
+        (this.rootNode !== node && !this.rootNode.contains(node))
+      )
     }
 
-    onClickOutside = (e) => {
+    onClickOutside = e => {
       if (this.rootNode && e.target && this.isNodeNotInComponent(e.target))
         this.closeDropdown()
     }
-    
-    onBlur = (e) => {
+
+    onBlur = e => {
       // // на всякий случай проверяем, находится у нас еще компонент в DOM, т.к. React может прислать blur после анмаунта компонента
-      if (this.rootNode && e.relatedTarget && this.isNodeNotInComponent(e.relatedTarget))       
+      if (
+        this.rootNode &&
+        e.relatedTarget &&
+        this.isNodeNotInComponent(e.relatedTarget)
+      )
         this.closeDropdown()
-      
+
       this.props.onBlur()
     }
 
-    renderDropdown = (anchor) => {
+    renderDropdown = anchor => {
       const {
         children,
         appendToBody,
@@ -231,7 +242,7 @@ export default function provideSearchDropdown(Search) {
         dropdownStyle,
         dropdownClassName
       } = this.props
-  
+
       return (
         <SuggestDropdown
           isOpened={this.state.isDropdownOpened && Children.count(children) > 0}
@@ -239,34 +250,31 @@ export default function provideSearchDropdown(Search) {
           className={dropdownClassName}
           appendToBody={appendToBody}
           autoPositionY={autoPositionY}
-          style={dropdownStyle}
-        >
-          <div ref={this.setNode('suggest')}>
-            {children}
-          </div>
+          style={dropdownStyle}>
+          <div ref={this.setNode('suggest')}>{children}</div>
         </SuggestDropdown>
       )
     }
 
     render() {
-      const {
-        isDropdownOpened
-      } = this.state
+      const {isDropdownOpened} = this.state
 
-      return <OnClickOutside handler={this.onClickOutside}>
-        <Search
-          {...this.props}
-          isDropdownOpened={isDropdownOpened}
-          renderDropdown={this.renderDropdown}
-          clearForm={this.clearForm}
-          setNode={this.setNode}
-          onBlur={this.onBlur}
-          onFocus={this.onFocus}
-          onKeyDown={this.onKeyDown}
-          onSearch={this.props.onSearch}
-          setHighlightedId={this.setHighlightedId}
-        />
-      </OnClickOutside>
+      return (
+        <OnClickOutside handler={this.onClickOutside}>
+          <Search
+            {...this.props}
+            isDropdownOpened={isDropdownOpened}
+            renderDropdown={this.renderDropdown}
+            clearForm={this.clearForm}
+            setNode={this.setNode}
+            onBlur={this.onBlur}
+            onFocus={this.onFocus}
+            onKeyDown={this.onKeyDown}
+            onSearch={this.props.onSearch}
+            setHighlightedId={this.setHighlightedId}
+          />
+        </OnClickOutside>
+      )
     }
   }
 }

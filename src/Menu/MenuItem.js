@@ -1,63 +1,70 @@
-import React, { PureComponent } from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { ENTER } from '../constants/keys'
-import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import {ENTER} from '../constants/keys'
+import {injectSheet} from '../theme'
+import {isolateMixin} from '../utils/mixins'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
-import { MENU_ITEM_CONTEXT } from '../constants/context'
+import {MENU_ITEM_CONTEXT} from '../constants/context'
 
-@injectSheet(theme => ({
-  root: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    boxSizing: 'border-box',
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    paddingLeft: theme.menu.padding,
-    paddingRight: theme.menu.padding,
-    outline: 0,
-    fontSize: theme.menu.fontSize,
-    lineHeight: theme.menu.lineHeight + 'px'
-  },
-  ...['medium', 'small'].reduce((result, size) => ({
-    ...result,
-    [size]: {
-      minHeight: theme.menu.sizes[size].height,
-      paddingTop: (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2,
-      paddingBottom: (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2
-    }
-  }), {}),
-  isEnabled: {
-    color: theme.menu.colors.default.text,
-    backgroundColor: theme.menu.colors.default.background,
-    cursor: 'pointer',
-    '&:hover': {
-      color: theme.menu.colors.hover.text,
-      backgroundColor: theme.menu.colors.hover.background
+@injectSheet(
+  theme => ({
+    root: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      boxSizing: 'border-box',
+      display: 'flex',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      paddingLeft: theme.menu.padding,
+      paddingRight: theme.menu.padding,
+      outline: 0,
+      fontSize: theme.menu.fontSize,
+      lineHeight: theme.menu.lineHeight + 'px'
     },
-    '&:focus': {
-      color: theme.menu.colors.focus.text,
-      background: theme.menu.colors.focus.background
+    ...['medium', 'small'].reduce(
+      (result, size) => ({
+        ...result,
+        [size]: {
+          minHeight: theme.menu.sizes[size].height,
+          paddingTop:
+            (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2,
+          paddingBottom:
+            (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2
+        }
+      }),
+      {}
+    ),
+    isEnabled: {
+      color: theme.menu.colors.default.text,
+      backgroundColor: theme.menu.colors.default.background,
+      cursor: 'pointer',
+      '&:hover': {
+        color: theme.menu.colors.hover.text,
+        backgroundColor: theme.menu.colors.hover.background
+      },
+      '&:focus': {
+        color: theme.menu.colors.focus.text,
+        background: theme.menu.colors.focus.background
+      },
+      '&:active': {
+        color: theme.menu.colors.active.text,
+        background: theme.menu.colors.active.background
+      }
     },
-    '&:active': {
-      color: theme.menu.colors.active.text,
-      background: theme.menu.colors.active.background
+    isSelected: {
+      color: theme.menu.colors.selected.text
+    },
+    isDisabled: {
+      color: theme.menu.colors.disabled.text,
+      background: theme.menu.colors.disabled.background,
+      cursor: 'not-allowed'
     }
-  },
-  isSelected: {
-    color: theme.menu.colors.selected.text
-  },
-  isDisabled: {
-    color: theme.menu.colors.disabled.text,
-    background: theme.menu.colors.disabled.background,
-    cursor: 'not-allowed'
-  }
-}), {name: 'MenuItem'})
+  }),
+  {name: 'MenuItem'}
+)
 class MenuItem extends PureComponent {
-
   static propTypes = {
     /**
      * Дополнительный CSS-класс
@@ -116,13 +123,11 @@ class MenuItem extends PureComponent {
   componentDidMount() {
     this.ctx.events.on('onPropsChange', this.handlePropsChange)
     this.ctx.events.emit('onItemMount', this.id, this)
-    if (this.ctx.isItemFocused(this.id))
-      this.item.focus()
+    if (this.ctx.isItemFocused(this.id)) this.item.focus()
   }
 
   componentDidUpdate() {
-    if (this.ctx.isItemFocused(this.id))
-      this.item.focus()
+    if (this.ctx.isItemFocused(this.id)) this.item.focus()
   }
 
   componentWillUnmount() {
@@ -149,7 +154,7 @@ class MenuItem extends PureComponent {
     this.ctx.events.emit('onItemSelect', this.props.value)
   }
 
-  handlePressKey = (event) => {
+  handlePressKey = event => {
     if (event.keyCode === ENTER) {
       event.stopPropagation()
       this.item.focus()
@@ -157,7 +162,7 @@ class MenuItem extends PureComponent {
     }
   }
 
-  saveRef = (ref) => {
+  saveRef = ref => {
     this.item = ref
   }
 
@@ -192,8 +197,7 @@ class MenuItem extends PureComponent {
         onFocus={this.disabled ? null : this.handleFocus}
         onClick={this.disabled ? null : this.handleSelect}
         onKeyDown={this.disabled ? null : this.handlePressKey}
-        data-menu-item-id={this.id}
-      >
+        data-menu-item-id={this.id}>
         {children}
       </div>
     )

@@ -2,40 +2,43 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tooltip from '../Tooltip'
-import { injectSheet } from '../theme'
+import {injectSheet} from '../theme'
 import GlobalSourceIcon from './icons/GlobalSourceIcon'
 import ServiceSourceIcon from './icons/ServiceSourceIcon'
 
-@injectSheet(theme => ({
-  root: {
-    display: 'flex',
-    alignItems: 'center'
-  },
-  active: {},
-  icon: {
-    opacity: 0.5,
-    transition: 'opacity 0.2s, color 0.2s',
-    color: theme.search.input.default.icon,
-    cursor: 'pointer',
-    marginRight: 10,
-    height: 20,
-    width: 20,
-    display: 'inline-flex',
-
-    '&:last-child': {
-      marginRight: 0
+@injectSheet(
+  theme => ({
+    root: {
+      display: 'flex',
+      alignItems: 'center'
     },
+    active: {},
+    icon: {
+      opacity: 0.5,
+      transition: 'opacity 0.2s, color 0.2s',
+      color: theme.search.input.default.icon,
+      cursor: 'pointer',
+      marginRight: 10,
+      height: 20,
+      width: 20,
+      display: 'inline-flex',
 
-    '&:hover': {
-      opacity: 1,
-      color: theme.search.input.hover.icon
-    },
-      
-    '&$active': {
-      opacity: 1
+      '&:last-child': {
+        marginRight: 0
+      },
+
+      '&:hover': {
+        opacity: 1,
+        color: theme.search.input.hover.icon
+      },
+
+      '&$active': {
+        opacity: 1
+      }
     }
-  }
-}), {name: 'SourceButtons'})
+  }),
+  {name: 'SourceButtons'}
+)
 export default class SourceButtons extends React.Component {
   static propTypes = {
     /**
@@ -62,31 +65,30 @@ export default class SourceButtons extends React.Component {
      * 	Тип активной иконки
      */
     activeType: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     className: '',
     sourceButtonsProps: () => ({}),
     serviceTooltipLabel: ''
-  };
+  }
 
   render() {
     const {
-      classes, 
+      classes,
       sourceButtonsProps,
       serviceTooltipLabel,
-      className, 
-      activeType, 
+      className,
+      activeType,
       onSourceIconClick
     } = this.props
     return (
       <div className={classnames(classes.root, className)}>
-        <Tooltip 
+        <Tooltip
           content="Искать в интернете"
           className={classnames(classes.icon, {
             [classes.active]: activeType === 'global'
-          })}
-        >
+          })}>
           <GlobalSourceIcon
             onClick={() => onSourceIconClick('global')}
             color="currentColor"
@@ -94,12 +96,11 @@ export default class SourceButtons extends React.Component {
             size={20}
           />
         </Tooltip>
-        <Tooltip 
+        <Tooltip
           content={serviceTooltipLabel}
           className={classnames(classes.icon, {
             [classes.active]: activeType === 'service'
-          })}
-        >
+          })}>
           <div>
             <ServiceSourceIcon
               onClick={() => onSourceIconClick('service')}

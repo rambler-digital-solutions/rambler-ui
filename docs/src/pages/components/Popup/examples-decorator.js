@@ -1,10 +1,9 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Button from 'rambler-ui/Button'
-import { Popup, providePopup } from 'rambler-ui/Popup'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {Popup, providePopup} from 'rambler-ui/Popup'
+import {ApplyTheme} from 'rambler-ui/theme'
 
 class WithPopup extends Component {
-
   state = {
     latestEvent: 'none'
   }
@@ -18,8 +17,7 @@ class WithPopup extends Component {
           <Button type="primary" size="small" onClick={resolve}>
             Ок
           </Button>
-        }
-      >
+        }>
         При удалении почты произошла ошибка
       </Popup>
     ))
@@ -30,15 +28,18 @@ class WithPopup extends Component {
       })
     })
 
-    this.alertPopup.closed.then(() => {
-      this.setState({
-        latestEvent: 'alert closed'
-      })
-    }, () => {
-      this.setState({
-        latestEvent: 'alert closed'
-      })
-    })
+    this.alertPopup.closed.then(
+      () => {
+        this.setState({
+          latestEvent: 'alert closed'
+        })
+      },
+      () => {
+        this.setState({
+          latestEvent: 'alert closed'
+        })
+      }
+    )
   }
 
   openConfirm = () => {
@@ -55,8 +56,7 @@ class WithPopup extends Component {
           <Button type="flat" size="small" onClick={reject}>
             Нет
           </Button>
-        }
-      >
+        }>
         Вы готовы удалить почту
       </Popup>
     ))
@@ -67,33 +67,38 @@ class WithPopup extends Component {
       })
     })
 
-    this.confirmPopup.closed.then(() => {
-      this.setState({
-        latestEvent: 'confirm closed with resolve'
-      })
-    }, () => {
-      this.setState({
-        latestEvent: 'confirm closed with reject'
-      })
-    })
+    this.confirmPopup.closed.then(
+      () => {
+        this.setState({
+          latestEvent: 'confirm closed with resolve'
+        })
+      },
+      () => {
+        this.setState({
+          latestEvent: 'confirm closed with reject'
+        })
+      }
+    )
   }
 
   render() {
     return (
       <div>
-        <div style={{ marginBottom: 20 }}>
-          <Button onClick={this.openAlert}>
-            Алерт
-          </Button>
-          <Button type="outline" style={{ marginLeft: 20 }} onClick={this.openConfirm}>
+        <div style={{marginBottom: 20}}>
+          <Button onClick={this.openAlert}>Алерт</Button>
+          <Button
+            type="outline"
+            style={{marginLeft: 20}}
+            onClick={this.openConfirm}>
             Подтверждение
           </Button>
         </div>
-        <div>this.state.latestEvent: <b>{this.state.latestEvent}</b></div>
+        <div>
+          this.state.latestEvent: <b>{this.state.latestEvent}</b>
+        </div>
       </div>
     )
   }
-
 }
 
 const WithProvidedPopup = providePopup(WithPopup)

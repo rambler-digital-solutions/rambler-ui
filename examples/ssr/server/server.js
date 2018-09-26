@@ -3,8 +3,8 @@ import Koa from 'koa'
 import path from 'path'
 import serve from 'koa-static'
 import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { ApplyTheme, createSheetsRegistry } from 'rambler-ui/theme'
+import {renderToString} from 'react-dom/server'
+import {ApplyTheme, createSheetsRegistry} from 'rambler-ui/theme'
 import App from '../common/App'
 
 const app = new Koa()
