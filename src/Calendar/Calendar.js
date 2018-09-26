@@ -488,9 +488,9 @@ export default class Calendar extends Component {
       first
     } = this.state
 
-    const weeksVisible = Math.floor(dates.indexOf(first) / 7)
+    const weeksBeforeVisible = Math.floor(dates.indexOf(first) / 7)
     const weeksAfterVisible = Math.ceil(dates.indexOf(last) / 7)
-    const weeksBeforeVisible = weeksAfterVisible - weeksVisible
+    const weeksVisible = weeksAfterVisible - weeksBeforeVisible
 
     const numberToday = this.dateToNumber(today)
 
@@ -549,11 +549,11 @@ export default class Calendar extends Component {
 
         <div
           className={classes.days}
-          style={{height: theme.calendar.size * weeksBeforeVisible}}
+          style={{height: theme.calendar.size * weeksVisible}}
         >
           <div
             className={classes.daysWrap}
-            style={{transform: `translateY(${-1 * theme.calendar.size * weeksVisible}px)`}}
+            style={{transform: `translateY(${-1 * theme.calendar.size * weeksBeforeVisible}px)`}}
           >
             {dates.map((number, index) => {
               const classNameDateday = classnames(classes.dateDay, {
