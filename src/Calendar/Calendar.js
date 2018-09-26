@@ -1,211 +1,213 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import {injectSheet} from '../theme'
+import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(({ calendar }) => ({
-  root: {
-    display: 'inline-block',
-    width: 275,
-    padding: 15,
-    fontFamily: calendar.service.fontFamily,
-    backgroundColor: calendar.colors.default.background,
-    boxSizing: 'border-box'
-  },
-  headline: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: 15,
-    padding: '0 10px',
-    boxSizing: 'border-box'
-  },
-  month: {
-    position: 'relative',
-    top: 1,
-    lineHeight: calendar.month.size + 'px',
-    fontSize: calendar.month.fontSize,
-    fontWeight: calendar.month.fontWeight,
-    color: calendar.colors.default.text
-  },
-
-  item: {
-    extend: isolateMixin,
-    display: 'inline-block',
-    flex: 'none',
-    border: 0,
-    outline: 'none !important',
-    background: 'none',
-    whiteSpace: 'nowrap',
-    textAlign: 'center',
-    boxSizing: 'border-box',
-    'button&::-moz-focus-inner': {
-      border: 'none !important',
-      outline: 'none !important'
+@injectSheet(
+  ({calendar}) => ({
+    root: {
+      display: 'inline-block',
+      width: 275,
+      padding: 15,
+      fontFamily: calendar.service.fontFamily,
+      backgroundColor: calendar.colors.default.background,
+      boxSizing: 'border-box'
     },
-    '$isSelectable &': {
-      transitionDuration: calendar.animationDuration,
-      transitionProperty: 'color, background-color'
-    }
-  },
-  day: {
-    composes: '$item',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: calendar.size
-  },
+    headline: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      height: 15,
+      padding: '0 10px',
+      boxSizing: 'border-box'
+    },
+    month: {
+      position: 'relative',
+      top: 1,
+      lineHeight: calendar.month.size + 'px',
+      fontSize: calendar.month.fontSize,
+      fontWeight: calendar.month.fontWeight,
+      color: calendar.colors.default.text
+    },
 
-  arrow: {
-    composes: '$item',
-    position: 'relative',
-    width: calendar.arrow.size,
-    height: calendar.arrow.size,
-    color: calendar.service.colors.default,
-    cursor: 'pointer',
-    overflow: 'hidden',
-    '&:before': {
+    item: {
+      extend: isolateMixin,
+      display: 'inline-block',
+      flex: 'none',
+      border: 0,
+      outline: 'none !important',
+      background: 'none',
+      whiteSpace: 'nowrap',
+      textAlign: 'center',
       boxSizing: 'border-box',
-      position: 'absolute',
-      top: -1,
-      left: 3,
-      content: '""',
-      width: 9,
-      height: 9,
-      border: 'solid',
-      borderWidth: '0 0 1px 1px',
-      transform: 'rotate(45deg)',
-      transformOrigin: 'left bottom'
+      'button&::-moz-focus-inner': {
+        border: 'none !important',
+        outline: 'none !important'
+      },
+      '$isSelectable &': {
+        transitionDuration: calendar.animationDuration,
+        transitionProperty: 'color, background-color'
+      }
     },
-    '&:hover': {
-      color: calendar.service.colors.hover
+    day: {
+      composes: '$item',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: calendar.size
     },
-    '&:focus': {
-      color: calendar.service.colors.hover
-    },
-    '$isMedia &': {
-      color: calendar.media.colors.default
-    },
-    '$isMedia &:hover': {
-      color: calendar.media.colors.hover
-    }
-  },
-  prev: {
-    composes: '$arrow'
-  },
-  next: {
-    composes: '$arrow',
-    transform: 'scaleX(-1)'
-  },
 
-  week: {
-    display: 'flex',
-    margin: '20px 0 11px'
-  },
-  weekDay: {
-    composes: '$day',
-    height: calendar.weekDay.size,
-    fontSize: calendar.weekDay.fontSize,
-    color: calendar.colors.default.weekDay
-  },
-
-  days: {
-    overflow: 'hidden',
-    '$isAnimate &': {
-      transitionDuration: calendar.animationDuration,
-      transitionProperty: 'height'
-    }
-  },
-  daysWrap: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    '$isAnimate &': {
-      transitionDuration: calendar.animationDuration,
-      transitionProperty: 'transform'
-    }
-  },
-  dateDay: {
-    composes: '$day',
-    height: calendar.date.size,
-    fontSize: calendar.date.fontSize,
-    color: calendar.colors.default.text,
-    backgroundColor: calendar.colors.default.background,
-    '$isSelectable &': {
-      cursor: 'pointer'
+    arrow: {
+      composes: '$item',
+      position: 'relative',
+      width: calendar.arrow.size,
+      height: calendar.arrow.size,
+      color: calendar.service.colors.default,
+      cursor: 'pointer',
+      overflow: 'hidden',
+      '&:before': {
+        boxSizing: 'border-box',
+        position: 'absolute',
+        top: -1,
+        left: 3,
+        content: '""',
+        width: 9,
+        height: 9,
+        border: 'solid',
+        borderWidth: '0 0 1px 1px',
+        transform: 'rotate(45deg)',
+        transformOrigin: 'left bottom'
+      },
+      '&:hover': {
+        color: calendar.service.colors.hover
+      },
+      '&:focus': {
+        color: calendar.service.colors.hover
+      },
+      '$isMedia &': {
+        color: calendar.media.colors.default
+      },
+      '$isMedia &:hover': {
+        color: calendar.media.colors.hover
+      }
     },
-    '$isSelectable &:hover': {
-      color: calendar.colors.hover.text
+    prev: {
+      composes: '$arrow'
     },
-    '$isSelectable &:focus': {
-      color: calendar.colors.hover.text
-    }
-  },
-
-  isMedia: {
-    fontFamily: calendar.media.fontFamily
-  },
-  isAnimate: {},
-
-  isSelectable: {
-    userSelect: 'none'
-  },
-  isWeekend: {
-    color: calendar.colors.weekend.text
-  },
-  isToday: {
-    fontWeight: 500,
-    color: calendar.colors.today.text,
-    '$isSelectable &:hover': {
-      color: calendar.colors.todayHover.text
+    next: {
+      composes: '$arrow',
+      transform: 'scaleX(-1)'
     },
-    '$isSelectable &$isUnavailable:hover': {
+
+    week: {
+      display: 'flex',
+      margin: '20px 0 11px'
+    },
+    weekDay: {
+      composes: '$day',
+      height: calendar.weekDay.size,
+      fontSize: calendar.weekDay.fontSize,
+      color: calendar.colors.default.weekDay
+    },
+
+    days: {
+      overflow: 'hidden',
+      '$isAnimate &': {
+        transitionDuration: calendar.animationDuration,
+        transitionProperty: 'height'
+      }
+    },
+    daysWrap: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      '$isAnimate &': {
+        transitionDuration: calendar.animationDuration,
+        transitionProperty: 'transform'
+      }
+    },
+    dateDay: {
+      composes: '$day',
+      height: calendar.date.size,
+      fontSize: calendar.date.fontSize,
+      color: calendar.colors.default.text,
+      backgroundColor: calendar.colors.default.background,
+      '$isSelectable &': {
+        cursor: 'pointer'
+      },
+      '$isSelectable &:hover': {
+        color: calendar.colors.hover.text
+      },
+      '$isSelectable &:focus': {
+        color: calendar.colors.hover.text
+      }
+    },
+
+    isMedia: {
+      fontFamily: calendar.media.fontFamily
+    },
+    isAnimate: {},
+
+    isSelectable: {
+      userSelect: 'none'
+    },
+    isWeekend: {
+      color: calendar.colors.weekend.text
+    },
+    isToday: {
+      fontWeight: 500,
+      color: calendar.colors.today.text,
+      '$isSelectable &:hover': {
+        color: calendar.colors.todayHover.text
+      },
+      '$isSelectable &$isUnavailable:hover': {
+        color: calendar.colors.disabled.text
+      },
+      '$isSelectable &:focus': {
+        color: calendar.colors.todayHover.text
+      },
+      '$isSelectable &$isUnavailable:focus': {
+        color: calendar.colors.disabled.text
+      }
+    },
+    isSelected: {
+      backgroundColor: calendar.colors.selected.background
+    },
+    isActive: {
+      color: calendar.colors.active.text,
+      backgroundColor: calendar.colors.active.background,
+      '$isSelectable &:hover': {
+        color: calendar.colors.active.text,
+        backgroundColor: calendar.colors.activeHover.background
+      },
+      '$isSelectable &$isUnavailable:hover': {
+        color: calendar.colors.disabled.text,
+        backgroundColor: calendar.colors.activeHover.background
+      },
+      '$isSelectable &:focus': {
+        color: calendar.colors.active.text,
+        backgroundColor: calendar.colors.activeHover.background
+      },
+      '$isSelectable &$isUnavailable:focus': {
+        color: calendar.colors.disabled.text,
+        backgroundColor: calendar.colors.activeHover.background
+      }
+    },
+    isUnavailable: {
       color: calendar.colors.disabled.text
     },
-    '$isSelectable &:focus': {
-      color: calendar.colors.todayHover.text
-    },
-    '$isSelectable &$isUnavailable:focus': {
-      color: calendar.colors.disabled.text
-    }
-  },
-  isSelected: {
-    backgroundColor: calendar.colors.selected.background
-  },
-  isActive: {
-    color: calendar.colors.active.text,
-    backgroundColor: calendar.colors.active.background,
-    '$isSelectable &:hover': {
-      color: calendar.colors.active.text,
-      backgroundColor: calendar.colors.activeHover.background
-    },
-    '$isSelectable &$isUnavailable:hover': {
+    isDisableArrow: {
       color: calendar.colors.disabled.text,
-      backgroundColor: calendar.colors.activeHover.background
-    },
-    '$isSelectable &:focus': {
-      color: calendar.colors.active.text,
-      backgroundColor: calendar.colors.activeHover.background
-    },
-    '$isSelectable &$isUnavailable:focus': {
-      color: calendar.colors.disabled.text,
-      backgroundColor: calendar.colors.activeHover.background
+      cursor: 'default',
+      '&:hover': {
+        color: calendar.colors.disabled.text,
+        cursor: 'default'
+      }
     }
-  },
-  isUnavailable: {
-    color: calendar.colors.disabled.text
-  },
-  isDisableArrow: {
-    color: calendar.colors.disabled.text,
-    cursor: 'default',
-    '&:hover': {
-      color: calendar.colors.disabled.text,
-      cursor: 'default'
-    }
-  }
-}), {name: 'Calendar'})
+  }),
+  {name: 'Calendar'}
+)
 export default class Calendar extends Component {
-
   static propTypes = {
     /**
      * CSS-класс контейнера
@@ -220,9 +222,9 @@ export default class Calendar extends Component {
      */
     variation: PropTypes.oneOf(['service', 'media']),
     /**
-    *  Выбранная дата или период. Принимает объект Date
-    *  или массив, в случае с выбором периода
-    */
+     *  Выбранная дата или период. Принимает объект Date
+     *  или массив, в случае с выбором периода
+     */
     value: PropTypes.oneOfType([
       PropTypes.arrayOf(PropTypes.instanceOf(Date)),
       PropTypes.instanceOf(Date)
@@ -283,20 +285,18 @@ export default class Calendar extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.initDate !== this.props.initDate)
-      this.resetState()
+    if (prevProps.initDate !== this.props.initDate) this.resetState()
   }
 
   resetState() {
-    this.setState(
-      this.getState(this.props)
-    )
+    this.setState(this.getState(this.props))
   }
 
   getState(props) {
-    const number = this.dateToNumber(props.initDate)
-      || this.dateToNumber(props.today)
-      || this.dateToNumber(new Date())
+    const number =
+      this.dateToNumber(props.initDate) ||
+      this.dateToNumber(props.today) ||
+      this.dateToNumber(new Date())
 
     return this.calculateDates({
       displayMonth: Math.floor((number % 10000) / 100),
@@ -305,33 +305,41 @@ export default class Calendar extends Component {
   }
 
   switchMonth({displayMonth, displayYear}) {
-    const {
-      dates,
-      first,
-      last
-    } = this.calculateDates({displayMonth, displayYear})
-
-    this.setState({
-      animate: true,
+    const {dates, first, last} = this.calculateDates({
       displayMonth,
-      displayYear,
-      first,
-      last
-    }, () => {
-      setTimeout(() => {
-        this.setState({
-          dates,
-          animate: false
-        })
-      }, 210)
+      displayYear
     })
+
+    this.setState(
+      {
+        animate: true,
+        displayMonth,
+        displayYear,
+        first,
+        last
+      },
+      () => {
+        setTimeout(() => {
+          this.setState({
+            dates,
+            animate: false
+          })
+        }, 210)
+      }
+    )
   }
 
   calculateDates = ({displayMonth, displayYear}) => {
     const dates = []
 
     const months = this.props.showMonthSwitch
-      ? [displayMonth - 2, displayMonth - 1, displayMonth, displayMonth + 1, displayMonth + 2]
+      ? [
+        displayMonth - 2,
+        displayMonth - 1,
+        displayMonth,
+        displayMonth + 1,
+        displayMonth + 2
+      ]
       : [displayMonth - 1, displayMonth, displayMonth + 1]
 
     let first
@@ -365,9 +373,7 @@ export default class Calendar extends Component {
       let i
 
       for (i = dateFrom; i <= dateTo; i++)
-        dates.push(
-          this.toNumber(year, month, i)
-        )
+        dates.push(this.toNumber(year, month, i))
     })
 
     return {
@@ -379,8 +385,7 @@ export default class Calendar extends Component {
     }
   }
 
-  toNumber = (year, month, date) =>
-    year * 10000 + month * 100 + date
+  toNumber = (year, month, date) => year * 10000 + month * 100 + date
 
   dateToNumber = date => {
     if (date instanceof Date)
@@ -389,17 +394,23 @@ export default class Calendar extends Component {
     return null
   }
 
-  numberToDate = number => new Date(
-    Math.floor(number / 10000),
-    Math.floor((number % 10000) / 100),
-    number % 100
-  )
+  numberToDate = number =>
+    new Date(
+      Math.floor(number / 10000),
+      Math.floor((number % 10000) / 100),
+      number % 100
+    )
 
   onPrev = () => {
     const {minYear} = this.props
     let {displayMonth, displayYear} = this.state
 
-    if (this.state.animate || (Number.isInteger(minYear) && minYear === displayYear && displayMonth === 0))
+    if (
+      this.state.animate ||
+      (Number.isInteger(minYear) &&
+        minYear === displayYear &&
+        displayMonth === 0)
+    )
       return
 
     if (--displayMonth < 0) {
@@ -414,7 +425,12 @@ export default class Calendar extends Component {
     const {maxYear} = this.props
     let {displayMonth, displayYear} = this.state
 
-    if (this.state.animate || (Number.isInteger(maxYear) && maxYear === displayYear && displayMonth === 11))
+    if (
+      this.state.animate ||
+      (Number.isInteger(maxYear) &&
+        maxYear === displayYear &&
+        displayMonth === 11)
+    )
       return
 
     if (++displayMonth > 11) {
@@ -428,25 +444,14 @@ export default class Calendar extends Component {
   onClick = (event, day) => {
     const {range, value} = this.props
 
-    const [numberFrom, numberTo] = [].concat(value)
-      .map(this.dateToNumber)
+    const [numberFrom, numberTo] = [].concat(value).map(this.dateToNumber)
 
-    if (numberFrom && numberFrom === day && range && !numberTo)
-      return
+    if (numberFrom && numberFrom === day && range && !numberTo) return
 
     if (range && numberFrom && !numberTo)
-      if (day < numberFrom)
-        this.onSetNewDates(event, [
-          day,
-          numberFrom
-        ])
-      else
-        this.onSetNewDates(event, [
-          numberFrom,
-          day
-        ])
-    else
-      this.onSetNewDates(event, [day])
+      if (day < numberFrom) this.onSetNewDates(event, [day, numberFrom])
+      else this.onSetNewDates(event, [numberFrom, day])
+    else this.onSetNewDates(event, [day])
   }
 
   onSetNewDates(event, [numberFrom, numberTo = null]) {
@@ -457,8 +462,7 @@ export default class Calendar extends Component {
 
     const value = range ? [dateFrom, dateTo] : dateFrom
 
-    if (typeof onChange === 'function')
-      onChange(event, value)
+    if (typeof onChange === 'function') onChange(event, value)
   }
 
   render() {
@@ -479,14 +483,7 @@ export default class Calendar extends Component {
       theme
     } = this.props
 
-    const {
-      animate,
-      displayMonth,
-      displayYear,
-      dates,
-      last,
-      first
-    } = this.state
+    const {animate, displayMonth, displayYear, dates, last, first} = this.state
 
     const weeksVisible = Math.floor(dates.indexOf(first) / 7)
     const weeksAfterVisible = Math.ceil(dates.indexOf(last) / 7)
@@ -494,8 +491,7 @@ export default class Calendar extends Component {
 
     const numberToday = this.dateToNumber(today)
 
-    const [numberFrom, numberTo] = [].concat(value)
-      .map(this.dateToNumber)
+    const [numberFrom, numberTo] = [].concat(value).map(this.dateToNumber)
 
     return (
       <div
@@ -504,15 +500,17 @@ export default class Calendar extends Component {
           [classes.isSelectable]: typeof onChange === 'function',
           [classes.isMedia]: variation === 'media'
         })}
-        style={style}
-      >
+        style={style}>
         <div className={classes.headline}>
           {showMonthSwitch && (
             <button
               className={classnames(classes.prev, {
-                [classes.isDisableArrow]: Number.isInteger(minYear) && minYear === displayYear && displayMonth === 0
+                [classes.isDisableArrow]:
+                  Number.isInteger(minYear) &&
+                  minYear === displayYear &&
+                  displayMonth === 0
               })}
-              type='button'
+              type="button"
               tabIndex={-1}
               onClick={this.onPrev}
             />
@@ -520,15 +518,21 @@ export default class Calendar extends Component {
 
           <div
             className={classes.month}
-            children={theme.i18n.months[displayMonth] + (showYear ? ', ' + displayYear : '')}
+            children={
+              theme.i18n.months[displayMonth] +
+              (showYear ? ', ' + displayYear : '')
+            }
           />
 
           {showMonthSwitch && (
             <button
               className={classnames(classes.next, {
-                [classes.isDisableArrow]: Number.isInteger(maxYear) && maxYear === displayYear && displayMonth === 11
+                [classes.isDisableArrow]:
+                  Number.isInteger(maxYear) &&
+                  maxYear === displayYear &&
+                  displayMonth === 11
               })}
-              type='button'
+              type="button"
               tabIndex={-1}
               onClick={this.onNext}
             />
@@ -540,7 +544,8 @@ export default class Calendar extends Component {
             <div
               key={index}
               className={classnames(classes.weekDay, {
-                [classes.isWeekend]: highlightWeekend && (index === 5 || index === 6)
+                [classes.isWeekend]:
+                  highlightWeekend && (index === 5 || index === 6)
               })}
               children={el}
             />
@@ -549,27 +554,40 @@ export default class Calendar extends Component {
 
         <div
           className={classes.days}
-          style={{height: theme.calendar.size * weeksBeforeVisible}}
-        >
+          style={{height: theme.calendar.size * weeksBeforeVisible}}>
           <div
             className={classes.daysWrap}
-            style={{transform: `translateY(${-1 * theme.calendar.size * weeksVisible}px)`}}
-          >
+            style={{
+              transform: `translateY(${-1 *
+                theme.calendar.size *
+                weeksVisible}px)`
+            }}>
             {dates.map((number, index) => {
               const classNameDateday = classnames(classes.dateDay, {
-                [classes.isActive]: number === numberFrom || (range && number === numberTo),
-                [classes.isSelected]: range && numberFrom && numberTo && number > numberFrom && number < numberTo,
+                [classes.isActive]:
+                  number === numberFrom || (range && number === numberTo),
+                [classes.isSelected]:
+                  range &&
+                  numberFrom &&
+                  numberTo &&
+                  number > numberFrom &&
+                  number < numberTo,
                 [classes.isToday]: number === numberToday,
-                [classes.isWeekend]: highlightWeekend && ((index + 1) % 7 === 6 || (index + 1) % 7 === 0),
+                [classes.isWeekend]:
+                  highlightWeekend &&
+                  ((index + 1) % 7 === 6 || (index + 1) % 7 === 0),
                 [classes.isUnavailable]: number < first || number > last
               })
 
-              if (index >= weeksBeforeVisible * 7 && index < weeksAfterVisible * 7)
+              if (
+                index >= weeksBeforeVisible * 7 &&
+                index < weeksAfterVisible * 7
+              )
                 return (
                   <button
                     key={number}
                     className={classNameDateday}
-                    type='button'
+                    type="button"
                     tabIndex={0}
                     onClick={event => this.onClick(event, number)}
                     children={number % 100}

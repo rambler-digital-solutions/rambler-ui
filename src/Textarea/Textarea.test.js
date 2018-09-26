@@ -1,6 +1,6 @@
 import React from 'react'
 import Textarea from './Textarea'
-import { withTheme, mount, getStyles, getWrapperNode } from '../utils/test-utils'
+import {withTheme, mount, getStyles, getWrapperNode} from '../utils/test-utils'
 import theme from '../theme/base'
 
 describe('<Textarea />', () => {
@@ -11,15 +11,25 @@ describe('<Textarea />', () => {
   }
 
   it('should apply styles', () => {
-    const wrapper = mount(withTheme(<Textarea {...defaultProps} style={{height: '85px'}}/>))
+    const wrapper = mount(
+      withTheme(<Textarea {...defaultProps} style={{height: '85px'}} />)
+    )
 
     const textareaStyles = getStyles(wrapper.find('.textarea'))
 
     expect(textareaStyles.height).toEqual('85px')
-    expect(textareaStyles['padding-top']).toEqual(theme.input.sizes.medium.padding + 'px')
-    expect(textareaStyles['padding-right']).toEqual(theme.input.sizes.medium.padding + 'px')
-    expect(textareaStyles['padding-bottom']).toEqual(theme.input.sizes.medium.padding + 'px')
-    expect(textareaStyles['padding-left']).toEqual(theme.input.sizes.medium.padding + 'px')
+    expect(textareaStyles['padding-top']).toEqual(
+      theme.input.sizes.medium.padding + 'px'
+    )
+    expect(textareaStyles['padding-right']).toEqual(
+      theme.input.sizes.medium.padding + 'px'
+    )
+    expect(textareaStyles['padding-bottom']).toEqual(
+      theme.input.sizes.medium.padding + 'px'
+    )
+    expect(textareaStyles['padding-left']).toEqual(
+      theme.input.sizes.medium.padding + 'px'
+    )
   })
 
   it('should append value, disabled, name, placeholder', () => {
@@ -30,7 +40,9 @@ describe('<Textarea />', () => {
       disabled: true
     }
 
-    const wrapper = mount(withTheme(<Textarea {...defaultProps} {...fixture} />))
+    const wrapper = mount(
+      withTheme(<Textarea {...defaultProps} {...fixture} />)
+    )
 
     const textarea = getWrapperNode(wrapper.find('.textarea'))
 
@@ -58,7 +70,7 @@ describe('<Textarea />', () => {
 
     const textarea = wrapper.find('.textarea')
 
-    textarea.simulate('change', { target: { value: 'value' } })
+    textarea.simulate('change', {target: {value: 'value'}})
     expect(event.type).toEqual('change')
     expect(value).toEqual('value')
   })

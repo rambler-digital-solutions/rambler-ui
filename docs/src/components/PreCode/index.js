@@ -16,7 +16,6 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
   }
 }))
 export default class PreCode extends PureComponent {
-
   static propTypes = {
     /**
      * Код
@@ -27,11 +26,6 @@ export default class PreCode extends PureComponent {
   render() {
     const {classes, children} = this.props
 
-    return (
-      <pre className={classes.root}>
-        {children}
-      </pre>
-    )
+    return <pre className={classes.root}>{children}</pre>
   }
-
 }

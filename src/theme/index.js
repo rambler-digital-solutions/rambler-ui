@@ -5,7 +5,11 @@ import {
   create as originalCreateJss,
   createGenerateClassName as originalCreateGenerateClassName
 } from 'jss'
-import originalInjectSheet, {createTheming, JssProvider, SheetsRegistry} from 'react-jss'
+import originalInjectSheet, {
+  createTheming,
+  JssProvider,
+  SheetsRegistry
+} from 'react-jss'
 import preset from 'jss-preset-default'
 import base from './base'
 import uuid from '../utils/uuid'
@@ -21,14 +25,13 @@ const ruiPrefix = 'rui-'
 const theming = createTheming(RAMBLER_UI_THEME)
 const {ThemeProvider, withTheme} = theming
 
-export {
-  withTheme
-}
+export {withTheme}
 
-export const createJss = (options = {}) => originalCreateJss({
-  ...preset(options),
-  ...options
-})
+export const createJss = (options = {}) =>
+  originalCreateJss({
+    ...preset(options),
+    ...options
+  })
 
 export const createSheetsRegistry = () => new SheetsRegistry()
 
@@ -38,9 +41,10 @@ export const globalJss = createJss()
 export const createGenerateClassName = (themeId = 0) => {
   const generateClassName = originalCreateGenerateClassName()
   return (rule, sheet) => {
-    const displayNamePrefix = sheet ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX] : ''
-    if (!displayNamePrefix)
-      return generateClassName(rule, sheet)
+    const displayNamePrefix = sheet
+      ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX]
+      : ''
+    if (!displayNamePrefix) return generateClassName(rule, sheet)
     const jssId = sheet ? sheet.options.jss.id : globalJss.id
     const jssCounter = jssId === globalJss.id ? '' : `-${jssId}`
     const themeCounter = themeId === 0 ? '' : `-${themeId}`
@@ -70,18 +74,22 @@ export class ApplyTheme extends PureComponent {
 
   mapProps({theme = base, ...props}, context) {
     let resultTheme, currTheme, currParentTheme
-    const sheetsRegistry = props.sheetsRegistry || context[RAMBLER_UI_SHEETS_REGISTRY] || globalSheetsRegistry
+    const sheetsRegistry =
+      props.sheetsRegistry ||
+      context[RAMBLER_UI_SHEETS_REGISTRY] ||
+      globalSheetsRegistry
     const jss = props.jss || context[RAMBLER_UI_JSS] || globalJss
     if (sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null)
       sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0
     const themeId = sheetsRegistry[RAMBLER_UI_THEME_COUNTER]++
-    const generateClassName = props.generateClassName || createGenerateClassName(themeId)
+    const generateClassName =
+      props.generateClassName || createGenerateClassName(themeId)
 
     return {
       jss,
       sheetsRegistry,
       generateClassName,
-      getResultTheme: (parentTheme) => {
+      getResultTheme: parentTheme => {
         if (currTheme !== theme || currParentTheme !== parentTheme) {
           resultTheme = parentTheme ? deepmerge(parentTheme, theme) : theme
           currParentTheme = parentTheme
@@ -109,17 +117,18 @@ export class ApplyTheme extends PureComponent {
       generateClassName
     } = this.computedProps
     return (
-      <JssProvider jss={jss} registry={sheetsRegistry} generateClassName={generateClassName}>
-        <ThemeProvider theme={getResultTheme}>
-          {children}
-        </ThemeProvider>
+      <JssProvider
+        jss={jss}
+        registry={sheetsRegistry}
+        generateClassName={generateClassName}>
+        <ThemeProvider theme={getResultTheme}>{children}</ThemeProvider>
       </JssProvider>
     )
   }
 }
 
-export const injectSheet = (styles, options = {}) =>
-  Component => originalInjectSheet(styles, {
+export const injectSheet = (styles, options = {}) => Component =>
+  originalInjectSheet(styles, {
     theming,
     [RAMBLER_UI_CLASS_NAME_PREFIX]: `${options.name || uuid()}-`
   })(Component)

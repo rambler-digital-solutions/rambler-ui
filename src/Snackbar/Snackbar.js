@@ -1,4 +1,4 @@
-import React, { PureComponent, cloneElement } from 'react'
+import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import ClearIcon from '../icons/forms/ClearIcon'
@@ -6,144 +6,143 @@ import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
-import { SNACKBAR_ZINDEX } from '../constants/z-indexes'
-import { injectSheet } from '../theme'
-import { isolateMixin, middleMixin, ifDesktop } from '../utils/mixins'
+import {SNACKBAR_ZINDEX} from '../constants/z-indexes'
+import {injectSheet} from '../theme'
+import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
 
 @zIndexStack(SNACKBAR_ZINDEX)
 @renderToLayer
-@injectSheet(theme => ({
-  snackbar: {
-    extend: [
-      isolateMixin,
-      middleMixin
-    ],
-    fontFamily: theme.fontFamily,
-    position: 'fixed',
-    boxSizing: 'border-box',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    padding: theme.snackbar.sizes.medium.padding,
-    width: '100%',
-    lineHeight: 1.15,
-    color: theme.snackbar.colors.text,
-    fontSize: theme.snackbar.fontSize,
-    opacity: 0,
-    transitionDuration: theme.snackbar.animationDuration,
-    transitionProperty: 'top, bottom, opacity',
-    ...ifDesktop({
-      width: 'auto',
-      minWidth: 350,
-      maxWidth: 750,
-      borderRadius: theme.snackbar.borderRadius
-    })
-  },
-  top: {
-    top: -10,
-    ...ifDesktop({
-      top: 0
-    }),
-    '&$isVisible': {
-      top: 0,
+@injectSheet(
+  theme => ({
+    snackbar: {
+      extend: [isolateMixin, middleMixin],
+      fontFamily: theme.fontFamily,
+      position: 'fixed',
+      boxSizing: 'border-box',
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+      padding: theme.snackbar.sizes.medium.padding,
+      width: '100%',
+      lineHeight: 1.15,
+      color: theme.snackbar.colors.text,
+      fontSize: theme.snackbar.fontSize,
+      opacity: 0,
+      transitionDuration: theme.snackbar.animationDuration,
+      transitionProperty: 'top, bottom, opacity',
       ...ifDesktop({
-        top: 10
+        width: 'auto',
+        minWidth: 350,
+        maxWidth: 750,
+        borderRadius: theme.snackbar.borderRadius
       })
-    }
-  },
-  bottom: {
-    bottom: -10,
-    ...ifDesktop({
-      bottom: 0
-    }),
-    '&$isVisible': {
-      bottom: 0,
+    },
+    top: {
+      top: -10,
       ...ifDesktop({
-        bottom: 10
+        top: 0
+      }),
+      '&$isVisible': {
+        top: 0,
+        ...ifDesktop({
+          top: 10
+        })
+      }
+    },
+    bottom: {
+      bottom: -10,
+      ...ifDesktop({
+        bottom: 0
+      }),
+      '&$isVisible': {
+        bottom: 0,
+        ...ifDesktop({
+          bottom: 10
+        })
+      }
+    },
+    isVisible: {
+      opacity: 1
+    },
+    left: {
+      left: 0,
+      ...ifDesktop({
+        left: 10
       })
-    }
-  },
-  isVisible: {
-    opacity: 1
-  },
-  left: {
-    left: 0,
-    ...ifDesktop({
-      left: 10
-    })
-  },
-  center: {
-    left: '50%',
-    transform: 'translateX(-50%)'
-  },
-  right: {
-    right: 0,
-    ...ifDesktop({
-      right: 10
-    })
-  },
-  main: {
-    backgroundColor: theme.snackbar.colors.background.main
-  },
-  primary: {
-    backgroundColor: theme.snackbar.colors.background.primary
-  },
-  success: {
-    backgroundColor: theme.snackbar.colors.background.success
-  },
-  danger: {
-    backgroundColor: theme.snackbar.colors.background.danger
-  },
-  icon: {
-    extend: middleMixin,
-    marginRight: 15
-  },
-  content: {
-    flexGrow: 1,
-    textAlign: 'left'
-  },
-  button: {
-    boxSizing: 'border-box',
-    outline: 'none',
-    border: 0,
-    borderRadius: theme.snackbar.borderRadius,
-    height: 20,
-    lineHeight: 20 + 'px',
-    marginLeft: 15,
-    padding: '0 10px',
-    backgroundColor: 'transparent',
-    color: theme.snackbar.colors.actionButton,
-    fontSize: theme.snackbar.fontSize,
-    textAlign: 'center',
-    textTransform: 'uppercase',
-    letterSpacing: 1,
-    cursor: 'pointer',
-    transitionDuration: '.2s',
-    transitionProperty: 'background-color, border',
-    '&:hover:not(:active)': {
-      backgroundColor: 'rgba(0, 0, 0, 0.05)'
     },
-    '&:focus:not(:active)': {
-      border: '1px solid'
+    center: {
+      left: '50%',
+      transform: 'translateX(-50%)'
     },
-    '&:active': {
-      backgroundColor: 'rgba(0, 0, 0, 0.1)'
+    right: {
+      right: 0,
+      ...ifDesktop({
+        right: 10
+      })
+    },
+    main: {
+      backgroundColor: theme.snackbar.colors.background.main
+    },
+    primary: {
+      backgroundColor: theme.snackbar.colors.background.primary
+    },
+    success: {
+      backgroundColor: theme.snackbar.colors.background.success
+    },
+    danger: {
+      backgroundColor: theme.snackbar.colors.background.danger
+    },
+    icon: {
+      extend: middleMixin,
+      marginRight: 15
+    },
+    content: {
+      flexGrow: 1,
+      textAlign: 'left'
+    },
+    button: {
+      boxSizing: 'border-box',
+      outline: 'none',
+      border: 0,
+      borderRadius: theme.snackbar.borderRadius,
+      height: 20,
+      lineHeight: 20 + 'px',
+      marginLeft: 15,
+      padding: '0 10px',
+      backgroundColor: 'transparent',
+      color: theme.snackbar.colors.actionButton,
+      fontSize: theme.snackbar.fontSize,
+      textAlign: 'center',
+      textTransform: 'uppercase',
+      letterSpacing: 1,
+      cursor: 'pointer',
+      transitionDuration: '.2s',
+      transitionProperty: 'background-color, border',
+      '&:hover:not(:active)': {
+        backgroundColor: 'rgba(0, 0, 0, 0.05)'
+      },
+      '&:focus:not(:active)': {
+        border: '1px solid'
+      },
+      '&:active': {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)'
+      }
+    },
+    close: {
+      composes: '$button',
+      extend: middleMixin,
+      borderRadius: '50%',
+      width: 20,
+      padding: 0,
+      lineHeight: 0
+    },
+    small: {
+      padding: theme.snackbar.sizes.small.padding
     }
-  },
-  close: {
-    composes: '$button',
-    extend: middleMixin,
-    borderRadius: '50%',
-    width: 20,
-    padding: 0,
-    lineHeight: 0
-  },
-  small: {
-    padding: theme.snackbar.sizes.small.padding
-  }
-}), {name: 'Snackbar'})
+  }),
+  {name: 'Snackbar'}
+)
 export default class Snackbar extends PureComponent {
-
   static propTypes = {
     /**
      * Css-класс
@@ -205,7 +204,7 @@ export default class Snackbar extends PureComponent {
      * Высота снэкбара
      */
     size: PropTypes.oneOf(['small', 'medium'])
-  };
+  }
 
   static defaultProps = {
     type: 'main',
@@ -218,7 +217,7 @@ export default class Snackbar extends PureComponent {
     onAction: () => {},
     onRequestClose: () => {},
     size: 'medium'
-  };
+  }
 
   componentWillUnmount() {
     this.onWillInvisible()
@@ -236,8 +235,7 @@ export default class Snackbar extends PureComponent {
   }
 
   onClickOutside = () => {
-    if (this.state.isVisible)
-      this.props.onRequestClose()
+    if (this.state.isVisible) this.props.onRequestClose()
   }
 
   render() {
@@ -271,37 +269,44 @@ export default class Snackbar extends PureComponent {
         onInvisible={onClose}>
         <div
           style={style}
-          className={classnames(classes.snackbar, classes[positionX], classes[positionY], classes[type], size === 'small' && classes.small, className)}>
-          {icon &&
+          className={classnames(
+            classes.snackbar,
+            classes[positionX],
+            classes[positionY],
+            classes[type],
+            size === 'small' && classes.small,
+            className
+          )}>
+          {icon && (
             <div className={classes.icon}>
-              {cloneElement(icon, {color: icon.props.color || theme.snackbar.colors.text})}
+              {cloneElement(icon, {
+                color: icon.props.color || theme.snackbar.colors.text
+              })}
             </div>
-          }
-          <div className={classes.content}>
-            {children}
-          </div>
-          {actionButton &&
+          )}
+          <div className={classes.content}>{children}</div>
+          {actionButton && (
             <button type="button" className={classes.button} onClick={onAction}>
               {actionButton}
             </button>
-          }
-          {showClose &&
-            <button type="button" className={classes.close} onClick={onRequestClose}>
+          )}
+          {showClose && (
+            <button
+              type="button"
+              className={classes.close}
+              onClick={onRequestClose}>
               <ClearIcon size={10} color={theme.snackbar.colors.text} />
             </button>
-          }
+          )}
         </div>
       </VisibilityAnimation>
     )
 
     if (closeOnClickOutside)
       return (
-        <OnClickOutside handler={this.onClickOutside}>
-          {content}
-        </OnClickOutside>
+        <OnClickOutside handler={this.onClickOutside}>{content}</OnClickOutside>
       )
 
     return content
   }
-
 }

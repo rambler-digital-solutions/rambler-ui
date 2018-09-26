@@ -2,73 +2,76 @@
  * Компонент FormGroup
  */
 
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { injectSheet } from '../theme'
-import { ifDesktopSize, isolateMixin } from '../utils/mixins'
+import {injectSheet} from '../theme'
+import {ifDesktopSize, isolateMixin} from '../utils/mixins'
 
-@injectSheet(theme => ({
-  root: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    fontSize: theme.formGroup.fontSize
-  },
-  normal: {
-    marginBottom: 15
-  },
-  inline: {
-    marginBottom: 15
-  },
-  label: {
-    width: '100%',
-    display: 'inline-block',
-    marginBottom: 10
-  },
-  inner: {
-    position: 'relative'
-  },
-  ...ifDesktopSize({
+@injectSheet(
+  theme => ({
+    root: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      fontSize: theme.formGroup.fontSize
+    },
     normal: {
-      '& $label': {
-        width: '100%'
-      },
-      marginBottom: 30
+      marginBottom: 15
     },
     inline: {
-      marginBottom: 30,
-      display: 'flex',
-      alignItems: 'flex-start',
-      '& $label': {
-        marginLeft: 0,
-        marginBottom: 0,
-        maxWidth: 172,
-        lineHeight: 1
-      },
-      '& $inner': {
-        flex: 1,
-        width: 'auto'
-      }
+      marginBottom: 15
     },
-    label: {},
-    inner: {
-      display: 'inline-block',
-      verticalAlign: 'top',
+    label: {
       width: '100%',
-      marginLeft: 0
+      display: 'inline-block',
+      marginBottom: 10
     },
-    small: {
-      '&$inline $label': {
-        paddingTop: 12
-      }
+    inner: {
+      position: 'relative'
     },
-    medium: {
-      '&$inline $label': {
-        paddingTop: 15
+    ...ifDesktopSize({
+      normal: {
+        '& $label': {
+          width: '100%'
+        },
+        marginBottom: 30
+      },
+      inline: {
+        marginBottom: 30,
+        display: 'flex',
+        alignItems: 'flex-start',
+        '& $label': {
+          marginLeft: 0,
+          marginBottom: 0,
+          maxWidth: 172,
+          lineHeight: 1
+        },
+        '& $inner': {
+          flex: 1,
+          width: 'auto'
+        }
+      },
+      label: {},
+      inner: {
+        display: 'inline-block',
+        verticalAlign: 'top',
+        width: '100%',
+        marginLeft: 0
+      },
+      small: {
+        '&$inline $label': {
+          paddingTop: 12
+        }
+      },
+      medium: {
+        '&$inline $label': {
+          paddingTop: 15
+        }
       }
-    }
-  })
-}), {name: 'FormGroup'})
+    })
+  }),
+  {name: 'FormGroup'}
+)
 export default class FormGroup extends Component {
   static propTypes = {
     /**
@@ -85,8 +88,8 @@ export default class FormGroup extends Component {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
-    * Имя класса - className для FormGroup
-    */
+     * Имя класса - className для FormGroup
+     */
     className: PropTypes.string,
     /**
      * Значение для htmlFor in label
@@ -100,11 +103,11 @@ export default class FormGroup extends Component {
      * Style - объект со стилями
      */
     style: PropTypes.object
-  };
+  }
 
   static defaultProps = {
     size: 'medium'
-  };
+  }
 
   render() {
     const {
@@ -119,7 +122,12 @@ export default class FormGroup extends Component {
     } = this.props
 
     const rootClass = inline === true ? 'inline' : 'normal'
-    const rootClassName = classnames(classes[size], classes[rootClass], classes.root, className)
+    const rootClassName = classnames(
+      classes[size],
+      classes[rootClass],
+      classes.root,
+      className
+    )
     const labelClassName = classes.label
     const innerClassName = classes.inner
 
@@ -130,9 +138,7 @@ export default class FormGroup extends Component {
             {label}
           </label>
         )}
-        <div className={innerClassName}>
-          {children}
-        </div>
+        <div className={innerClassName}>{children}</div>
       </section>
     )
   }

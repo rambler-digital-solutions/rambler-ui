@@ -84,7 +84,6 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
   }
 }))
 export default class PropTypesTable extends PureComponent {
-
   static propTypes = {
     /**
      * Код для отображения
@@ -103,8 +102,7 @@ export default class PropTypesTable extends PureComponent {
 
   componentDidUpdate(prevProps) {
     const {code} = this.props
-    if (code !== prevProps.code)
-      this.generateTable(code)
+    if (code !== prevProps.code) this.generateTable(code)
   }
 
   getDeprecatedInfo(type) {
@@ -114,8 +112,12 @@ export default class PropTypesTable extends PureComponent {
 
     if (indexStart !== -1)
       return {
-        propTypes: type.raw.substring(indexStart + deprecatedPropType.length, type.raw.indexOf(',')),
-        explanation: recast.parse(type.raw).program.body[0].expression.arguments[1].value
+        propTypes: type.raw.substring(
+          indexStart + deprecatedPropType.length,
+          type.raw.indexOf(',')
+        ),
+        explanation: recast.parse(type.raw).program.body[0].expression
+          .arguments[1].value
       }
 
     return false
@@ -126,7 +128,7 @@ export default class PropTypesTable extends PureComponent {
     case 'func':
       return 'function'
 
-    /* eslint-disable no-case-declarations */
+      /* eslint-disable no-case-declarations */
     case 'custom':
       const deprecatedInfo = this.getDeprecatedInfo(type)
 
@@ -140,7 +142,7 @@ export default class PropTypesTable extends PureComponent {
     case 'enum':
       const values = type.value.map(v => v.value).join('<br>&nbsp;')
       return `enum:<br>&nbsp;${values}<br>`
-    /* eslint-enable no-case-declarations */
+      /* eslint-enable no-case-declarations */
 
     default:
       return type.name
@@ -161,14 +163,16 @@ export default class PropTypesTable extends PureComponent {
 
     // two new lines result in a newline in the table. all other new lines
     // must be eliminated to prevent markdown mayhem.
-    const jsDocText = parsed.description.replace(/\n\n/g, '<br>').replace(/\n/g, ' ')
+    const jsDocText = parsed.description
+      .replace(/\n\n/g, '<br>')
+      .replace(/\n/g, ' ')
 
     if (parsed.tags.some(tag => tag.title === 'ignore')) return null
     let signature = ''
 
     if (type.name === 'func' && parsed.tags.length > 0) {
       // Remove new lines from tag descriptions to avoid markdown errors.
-      parsed.tags.forEach((tag) => {
+      parsed.tags.forEach(tag => {
         if (tag.description)
           tag.description = tag.description.replace(/\n/g, ' ')
       })
@@ -188,11 +192,17 @@ export default class PropTypesTable extends PureComponent {
       }
 
       signature += '<br><br>**Signature:**<br>`function('
-      signature += parsedArgs.map(tag => `${tag.name}: ${tag.type.name}`).join(', ')
+      signature += parsedArgs
+        .map(tag => `${tag.name}: ${tag.type.name}`)
+        .join(', ')
       signature += `) => ${parsedReturns.type.name}` + '`<br>'
-      signature += parsedArgs.map(tag => `*${tag.name}:* ${tag.description}`).join('<br>')
+      signature += parsedArgs
+        .map(tag => `*${tag.name}:* ${tag.description}`)
+        .join('<br>')
       if (parsedReturns.description)
-        signature += `<br> *returns* (${parsedReturns.type.name}): ${parsedReturns.description}`
+        signature += `<br> *returns* (${parsedReturns.type.name}): ${
+          parsedReturns.description
+        }`
     }
 
     return `${deprecated} ${jsDocText}${signature}`
@@ -206,15 +216,17 @@ export default class PropTypesTable extends PureComponent {
 | Название | Тип | Значение по умолчанию | Описание |
 |:---------|:----|:----------------------|:---------|`
 
-    const propsTable = Object
-      .keys(componentInfo.props)
-      .reduce((content, key) => {
+    const propsTable = Object.keys(componentInfo.props).reduce(
+      (content, key) => {
         const prop = componentInfo.props[key]
         const propType = this.generatePropType(prop.type)
-        const description = this.generateDescription(prop.required, prop.description, prop.type)
+        const description = this.generateDescription(
+          prop.required,
+          prop.description,
+          prop.type
+        )
 
-        if (description === null)
-          return content
+        if (description === null) return content
 
         let defaultValue = ''
 
@@ -227,18 +239,18 @@ export default class PropTypesTable extends PureComponent {
         }
 
         if (prop.type.name === 'custom')
-          if (this.getDeprecatedInfo(prop.type))
-            key = `~~${key}~~`
+          if (this.getDeprecatedInfo(prop.type)) key = `~~${key}~~`
 
         return `${content}
 | ${key} | ${propType} | ${defaultValue} | ${description} |`
-      }, header)
+      },
+      header
+    )
 
     remark()
       .use(html)
       .process(propsTable, (e, text) => {
-        if (e)
-          throw e
+        if (e) throw e
         this.setState({
           requiredProps,
           propsTable: String(text)
@@ -258,13 +270,10 @@ export default class PropTypesTable extends PureComponent {
             dangerouslySetInnerHTML={{__html: propsTable}}
           />
         </div>
-        {requiredProps > 0 &&
-          <div className={classes.required}>
-            * Обязательный параметр
-          </div>
-        }
+        {requiredProps > 0 && (
+          <div className={classes.required}>* Обязательный параметр</div>
+        )}
       </Fragment>
     )
   }
-
 }

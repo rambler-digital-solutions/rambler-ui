@@ -1,15 +1,23 @@
-import React, { PureComponent, createElement, cloneElement } from 'react'
+import React, {PureComponent, createElement, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Menu from '../Menu/Menu'
 import Input from '../Input'
-import { TagsInput, TagsInputItem } from '../TagsInput'
+import {TagsInput, TagsInputItem} from '../TagsInput'
 import Dropdown from '../Dropdown'
 import OnClickOutside from '../OnClickOutside'
-import { TAB, UP, DOWN, ESCAPE, BACKSPACE, DELETE, ENTER } from '../constants/keys'
-import { injectSheet } from '../theme'
-import { isolateMixin, placeholderMixin } from '../utils/mixins'
-import { ios, android } from '../utils/browser'
+import {
+  TAB,
+  UP,
+  DOWN,
+  ESCAPE,
+  BACKSPACE,
+  DELETE,
+  ENTER
+} from '../constants/keys'
+import {injectSheet} from '../theme'
+import {isolateMixin, placeholderMixin} from '../utils/mixins'
+import {ios, android} from '../utils/browser'
 import ClearIconSmall from './ClearIconSmall'
 
 const isNativeSelectAllowed = ios || android
@@ -29,218 +37,239 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
-@injectSheet(theme => ({
-  root: {
-    extend: isolateMixin,
-    position: 'relative',
-    '&:hover, &$isFocused': {
-      '& $arrow': {
-        color: theme.field.colors.focus.arrow
-      }
-    },
-    '&$isDisabled': {
-      cursor: 'not-allowed',
-      '& $input': {
-        pointerEvents: 'none'
-      },
-      '& $arrow': {
-        color: theme.field.colors.disabled.arrow + '!important',
-        pointerEvents: 'none'
-      }
-    },
-    ...placeholderMixin('&$isReadonly:not($lightPlaceholder):not($isDisabled) $input input', {
-      opacity: 1,
-      color: theme.field.colors.default.text
-    }),
-    ...placeholderMixin('&:not($isFocused):not($lightPlaceholder):not($isDisabled) $input input', {
-      opacity: 1,
-      color: theme.field.colors.default.text
-    })
-  },
-  dropdownContainer: {
-    '&&': {
-      display: 'block'
-    },
-    '$isMultipleWithoutSearch &': {
-      extend: absolutePosition,
-      bottom: null
-    }
-  },
-  icon: {
-    '$isMultipleWithoutSearch &': {
-      top: 'auto',
-      bottom: 'auto',
-      margin: 0,
-      transform: 'translateY(-50%)'
-    }
-  },
-  arrow: {
-    cursor: 'pointer',
-    textAlign: 'center',
-    lineHeight: 0,
-    color: theme.field.colors.default.arrow,
-    '&:empty': {
-      '&:after': {
-        height: 8,
-        width: 8,
-        position: 'absolute',
-        borderStyle: 'solid',
-        borderWidth: '0 0 1px 1px',
-        content: '""',
-        pointerEvents: 'none',
-        transform: 'rotate(-45deg) translateY(50%)'
-      }
-    },
-    '& svg': {
-      extend: absolutePosition,
-      margin: 'auto',
-      maxWidth: '100%',
-      maxHeight: '100%'
-    }
-  },
-  input: {
-    '$withCustom &': absolutePosition
-  },
-  field: {
-    '$isReadonly &': {
-      cursor: 'pointer',
-      userSelect: 'none'
-    },
-    '$withSearch &': {
-      cursor: 'text'
-    },
-    '$withCustom &&': {
-      extend: absolutePosition,
-      height: '100%'
-    }
-  },
-  withCustom: {
-    position: 'relative'
-  },
-  custom: {
-    position: 'relative',
-    pointerEvents: 'none'
-  },
-  options: {
-    composes: '$custom'
-  },
-  dropdown: {
-    '&&': {
-      boxShadow: 'none',
-      border: `1px solid ${theme.field.colors.default.outline}`,
-      borderBottom: 0,
-      '&$isMultipleDropdown': {
-        transitionProperty: 'opacity',
-        top: '0 !important'
-      }
-    }
-  },
-  selected: {
-    borderBottom: `1px solid ${theme.field.colors.default.outline}`,
-    cursor: 'default'
-  },
-  menu: {
-    borderBottom: `1px solid ${theme.field.colors.default.outline}`,
-    '$medium &': {
-      maxHeight: theme.menu.sizes.medium.height * 4 + 2
-    },
-    '$small &': {
-      maxHeight: theme.menu.sizes.small.height * 4 + 2
-    }
-  },
-  clear: {
-    flex: 'none',
-    alignSelf: 'center',
-    color: theme.field.icon.colors.default,
-    fill: 'currentColor',
-    marginTop: 1,
-    marginLeft: 1,
-    cursor: 'pointer',
-    pointerEvents: 'auto',
-    '&:hover , &:active': {
-      color: theme.field.icon.colors.active
-    }
-  },
-  ...['medium', 'small'].reduce((result, size) => ({
-    ...result,
-    [size]: {
-      '&$isMultipleWithoutSearch': {
-        height: theme.field.sizes[size].height
-      },
-      '&$isMultipleWithoutSearch $icon': {
-        top: theme.field.sizes[size].height / 2
-      },
-      '& $withCustom': {
-        minHeight: theme.field.sizes[size].height
-      },
-      '& $arrow': {
-        '&:before': {
-          display: 'block',
-          content: '" "',
-          position: 'absolute',
-          top: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].icon) / 2),
-          bottom: -Math.floor((theme.field.sizes[size].height - theme.field.sizes[size].icon) / 2),
-          left: -10,
-          right: -10
-        },
-        '&:empty:after': {
-          top: size === 'small' ? -2 : -1,
-          left:  size === 'small' ? 1 : 1
+@injectSheet(
+  theme => ({
+    root: {
+      extend: isolateMixin,
+      position: 'relative',
+      '&:hover, &$isFocused': {
+        '& $arrow': {
+          color: theme.field.colors.focus.arrow
         }
       },
-      '&$isOpened $arrow:empty:after': {
-        transform: 'rotate(45deg) translateY(-50%) scaleY(-1)',
-        top: size === 'small' ? 9 : 9,
-        left:  size === 'small' ? 1 : 1
+      '&$isDisabled': {
+        cursor: 'not-allowed',
+        '& $input': {
+          pointerEvents: 'none'
+        },
+        '& $arrow': {
+          color: theme.field.colors.disabled.arrow + '!important',
+          pointerEvents: 'none'
+        }
       },
-      '& $custom': {
-        paddingRight: theme.input.sizes[size].padding + 1,
-        paddingLeft: theme.input.sizes[size].padding + 1
+      ...placeholderMixin(
+        '&$isReadonly:not($lightPlaceholder):not($isDisabled) $input input',
+        {
+          opacity: 1,
+          color: theme.field.colors.default.text
+        }
+      ),
+      ...placeholderMixin(
+        '&:not($isFocused):not($lightPlaceholder):not($isDisabled) $input input',
+        {
+          opacity: 1,
+          color: theme.field.colors.default.text
+        }
+      )
+    },
+    dropdownContainer: {
+      '&&': {
+        display: 'block'
       },
-      '&$withLeftIcon $custom': {
-        paddingLeft: theme.field.sizes[size].withIconPadding + 1
-      },
-      '&$withRightIcon $custom': {
-        paddingRight: theme.field.sizes[size].withIconPadding + 1
-      },
-      '& $options': {
-        paddingTop: (theme.field.sizes[size].height - theme.tagsInput.height) / 2,
-        paddingBottom:  (theme.field.sizes[size].height - theme.tagsInput.height) / 2
-      },
-      '& $selected': {
-        padding: `${(theme.field.sizes[size].height - theme.tagsInput.height) / 2 - 1}px ${theme.input.sizes[size].padding - 1}px`
+      '$isMultipleWithoutSearch &': {
+        extend: absolutePosition,
+        bottom: null
       }
-    }
-  }), {}),
-  isNative: {
-    '& $icon': {
+    },
+    icon: {
+      '$isMultipleWithoutSearch &': {
+        top: 'auto',
+        bottom: 'auto',
+        margin: 0,
+        transform: 'translateY(-50%)'
+      }
+    },
+    arrow: {
+      cursor: 'pointer',
+      textAlign: 'center',
+      lineHeight: 0,
+      color: theme.field.colors.default.arrow,
+      '&:empty': {
+        '&:after': {
+          height: 8,
+          width: 8,
+          position: 'absolute',
+          borderStyle: 'solid',
+          borderWidth: '0 0 1px 1px',
+          content: '""',
+          pointerEvents: 'none',
+          transform: 'rotate(-45deg) translateY(50%)'
+        }
+      },
+      '& svg': {
+        extend: absolutePosition,
+        margin: 'auto',
+        maxWidth: '100%',
+        maxHeight: '100%'
+      }
+    },
+    input: {
+      '$withCustom &': absolutePosition
+    },
+    field: {
+      '$isReadonly &': {
+        cursor: 'pointer',
+        userSelect: 'none'
+      },
+      '$withSearch &': {
+        cursor: 'text'
+      },
+      '$withCustom &&': {
+        extend: absolutePosition,
+        height: '100%'
+      }
+    },
+    withCustom: {
+      position: 'relative'
+    },
+    custom: {
+      position: 'relative',
       pointerEvents: 'none'
-    }
-  },
-  nativeSelect: {
-    extend: [
-      isolateMixin,
-      absolutePosition
-    ],
-    width: '100%',
-    height: '100%',
-    opacity: 0,
-    overflow: 'hidden',
-    outline: 0
-  },
-  isFocused: {},
-  isOpened: {},
-  isReadonly: {},
-  isDisabled: {},
-  isMultipleWithoutSearch: {},
-  isMultipleDropdown: {},
-  withSearch: {},
-  withLeftIcon: {},
-  withRightIcon: {},
-  lightPlaceholder: {}
-}), {name: 'Select'})
+    },
+    options: {
+      composes: '$custom'
+    },
+    dropdown: {
+      '&&': {
+        boxShadow: 'none',
+        border: `1px solid ${theme.field.colors.default.outline}`,
+        borderBottom: 0,
+        '&$isMultipleDropdown': {
+          transitionProperty: 'opacity',
+          top: '0 !important'
+        }
+      }
+    },
+    selected: {
+      borderBottom: `1px solid ${theme.field.colors.default.outline}`,
+      cursor: 'default'
+    },
+    menu: {
+      borderBottom: `1px solid ${theme.field.colors.default.outline}`,
+      '$medium &': {
+        maxHeight: theme.menu.sizes.medium.height * 4 + 2
+      },
+      '$small &': {
+        maxHeight: theme.menu.sizes.small.height * 4 + 2
+      }
+    },
+    clear: {
+      flex: 'none',
+      alignSelf: 'center',
+      color: theme.field.icon.colors.default,
+      fill: 'currentColor',
+      marginTop: 1,
+      marginLeft: 1,
+      cursor: 'pointer',
+      pointerEvents: 'auto',
+      '&:hover , &:active': {
+        color: theme.field.icon.colors.active
+      }
+    },
+    ...['medium', 'small'].reduce(
+      (result, size) => ({
+        ...result,
+        [size]: {
+          '&$isMultipleWithoutSearch': {
+            height: theme.field.sizes[size].height
+          },
+          '&$isMultipleWithoutSearch $icon': {
+            top: theme.field.sizes[size].height / 2
+          },
+          '& $withCustom': {
+            minHeight: theme.field.sizes[size].height
+          },
+          '& $arrow': {
+            '&:before': {
+              display: 'block',
+              content: '" "',
+              position: 'absolute',
+              top: -Math.floor(
+                (theme.field.sizes[size].height -
+                  theme.field.sizes[size].icon) /
+                  2
+              ),
+              bottom: -Math.floor(
+                (theme.field.sizes[size].height -
+                  theme.field.sizes[size].icon) /
+                  2
+              ),
+              left: -10,
+              right: -10
+            },
+            '&:empty:after': {
+              top: size === 'small' ? -2 : -1,
+              left: size === 'small' ? 1 : 1
+            }
+          },
+          '&$isOpened $arrow:empty:after': {
+            transform: 'rotate(45deg) translateY(-50%) scaleY(-1)',
+            top: size === 'small' ? 9 : 9,
+            left: size === 'small' ? 1 : 1
+          },
+          '& $custom': {
+            paddingRight: theme.input.sizes[size].padding + 1,
+            paddingLeft: theme.input.sizes[size].padding + 1
+          },
+          '&$withLeftIcon $custom': {
+            paddingLeft: theme.field.sizes[size].withIconPadding + 1
+          },
+          '&$withRightIcon $custom': {
+            paddingRight: theme.field.sizes[size].withIconPadding + 1
+          },
+          '& $options': {
+            paddingTop:
+              (theme.field.sizes[size].height - theme.tagsInput.height) / 2,
+            paddingBottom:
+              (theme.field.sizes[size].height - theme.tagsInput.height) / 2
+          },
+          '& $selected': {
+            padding: `${(theme.field.sizes[size].height -
+              theme.tagsInput.height) /
+              2 -
+              1}px ${theme.input.sizes[size].padding - 1}px`
+          }
+        }
+      }),
+      {}
+    ),
+    isNative: {
+      '& $icon': {
+        pointerEvents: 'none'
+      }
+    },
+    nativeSelect: {
+      extend: [isolateMixin, absolutePosition],
+      width: '100%',
+      height: '100%',
+      opacity: 0,
+      overflow: 'hidden',
+      outline: 0
+    },
+    isFocused: {},
+    isOpened: {},
+    isReadonly: {},
+    isDisabled: {},
+    isMultipleWithoutSearch: {},
+    isMultipleDropdown: {},
+    withSearch: {},
+    withLeftIcon: {},
+    withRightIcon: {},
+    lightPlaceholder: {}
+  }),
+  {name: 'Select'}
+)
 export default class Select extends PureComponent {
-
   static propTypes = {
     /**
      * Дополнительный CSS-класс поля
@@ -329,15 +358,9 @@ export default class Select extends PureComponent {
      */
     variation: PropTypes.oneOf(['regular', 'awesome', 'promo']),
     /**
-    * Статусы валидации
-    */
-    status: PropTypes.oneOf([
-      'error',
-      'warning',
-      'success',
-      'filled',
-      null
-    ]),
+     * Статусы валидации
+     */
+    status: PropTypes.oneOf(['error', 'warning', 'success', 'filled', null]),
     /**
      * Вставлять ли dropdown внутри body
      */
@@ -418,7 +441,9 @@ export default class Select extends PureComponent {
   get initialValue() {
     const {multiple, value} = this.props
     return multiple
-      ? Array.isArray(value) ? value : emptyArr
+      ? Array.isArray(value)
+        ? value
+        : emptyArr
       : value || undefined
   }
 
@@ -432,7 +457,7 @@ export default class Select extends PureComponent {
     return !multiple && clearIcon && !this.isValueEmpty(this.state.value)
   }
 
-  componentWillReceiveProps({ value }) {
+  componentWillReceiveProps({value}) {
     this.setValue(value)
   }
 
@@ -447,7 +472,10 @@ export default class Select extends PureComponent {
     if (multiple) {
       const currValue = Array.isArray(oldValue) ? oldValue : emptyArr
       const nextValue = Array.isArray(value) ? value : emptyArr
-      if (nextValue.length === currValue.length && nextValue.every((item, index) => valuesEquality(item, currValue[index])))
+      if (
+        nextValue.length === currValue.length &&
+        nextValue.every((item, index) => valuesEquality(item, currValue[index]))
+      )
         return
     } else if (valuesEquality(value, oldValue)) {
       return
@@ -462,8 +490,7 @@ export default class Select extends PureComponent {
     this.setState({
       searchText
     })
-    if (this.props.onSearch)
-      this.props.onSearch(searchText)
+    if (this.props.onSearch) this.props.onSearch(searchText)
   }
 
   requestItems = event => {
@@ -475,34 +502,28 @@ export default class Select extends PureComponent {
 
   changeValue = value => {
     const {multiple, inputMode, onChange} = this.props
-    if (!multiple)
-      this.setState({isOpened: false})
-    if (inputMode)
-      this.setSearchText(value || '')
+    if (!multiple) this.setState({isOpened: false})
+    if (inputMode) this.setSearchText(value || '')
     this.setValue(value)
     onChange(value)
-    if (!inputMode && !multiple)
-      this.input.focus()
+    if (!inputMode && !multiple) this.input.focus()
   }
 
   focusInput = event => {
     this.setState({
       inputFocused: true
     })
-    if (!this.state.isOpened)
-      this.props.onFocus(event)
+    if (!this.state.isOpened) this.props.onFocus(event)
   }
 
   blurInput = event => {
-    if (!this.state.inputFocused)
-      return
+    if (!this.state.inputFocused) return
     const {inputMode, onBlur} = this.props
     this.setState({
       isOpened: false,
       inputFocused: false
     })
-    if (inputMode)
-      this.changeValue(this.state.searchText)
+    if (inputMode) this.changeValue(this.state.searchText)
     onBlur(event)
   }
 
@@ -530,10 +551,8 @@ export default class Select extends PureComponent {
 
   openOnArrowClick = () => {
     const {isOpened} = this.state
-    if (isOpened)
-      this.close()
-    else
-      this.open()
+    if (isOpened) this.close()
+    else this.open()
   }
 
   openOnArrowKey(event) {
@@ -563,8 +582,7 @@ export default class Select extends PureComponent {
   }
 
   closeOnEsc = event => {
-    if (!this.state.isOpened)
-      return
+    if (!this.state.isOpened) return
     event.stopPropagation()
     this.setState({
       isOpened: false
@@ -578,8 +596,7 @@ export default class Select extends PureComponent {
 
   closeOnClickOutside = event => {
     const {isOpened, inputFocused} = this.state
-    if (!isOpened || inputFocused)
-      return
+    if (!isOpened || inputFocused) return
     this.setState({
       isOpened: false,
       inputFocused: false
@@ -590,17 +607,19 @@ export default class Select extends PureComponent {
   keyDown = event => {
     const code = event.keyCode
     const {inputMode, multiple, customElementRenderer} = this.props
-    if (code === ESCAPE)
-      this.closeOnEsc(event)
+    if (code === ESCAPE) this.closeOnEsc(event)
     else if (code === TAB)
       this.setState({
         isOpened: false
       })
-    else if (code === UP || code === DOWN)
-      this.openOnArrowKey(event)
+    else if (code === UP || code === DOWN) this.openOnArrowKey(event)
     else if (inputMode && code === ENTER)
       this.changeValue(this.state.searchText)
-    else if (!multiple && !customElementRenderer && (code === DELETE || code === BACKSPACE))
+    else if (
+      !multiple &&
+      !customElementRenderer &&
+      (code === DELETE || code === BACKSPACE)
+    )
       this.clearValueOnBackspace(event)
   }
 
@@ -661,8 +680,7 @@ export default class Select extends PureComponent {
       <div
         style={arrowStyle}
         className={classnames(className, classes.arrow, arrowClassName)}
-        {...otherProps}
-      >
+        {...otherProps}>
         {arrowIcon}
       </div>
     )
@@ -679,7 +697,9 @@ export default class Select extends PureComponent {
   )
 
   renderSelectedItems() {
-    const selected = Array.isArray(this.props.value) ? this.props.value : emptyArr
+    const selected = Array.isArray(this.props.value)
+      ? this.props.value
+      : emptyArr
     return selected.map(item => {
       const text = this.props.inputValueRenderer(item)
       return (
@@ -691,12 +711,7 @@ export default class Select extends PureComponent {
   }
 
   renderInput() {
-    const {
-      value,
-      searchText,
-      isOpened,
-      inputFocused
-    } = this.state
+    const {value, searchText, isOpened, inputFocused} = this.state
 
     const {
       className,
@@ -726,30 +741,35 @@ export default class Select extends PureComponent {
 
     let resultPlaceholder = ''
     if (customElementRenderer) {
-      if (this.isValueEmpty(value) || (isOpened && !!onSearch)) resultPlaceholder = placeholder
+      if (this.isValueEmpty(value) || (isOpened && !!onSearch))
+        resultPlaceholder = placeholder
     } else if (multiple) {
       const withValue = Array.isArray(value) && value.length > 0
       if ((isOpened && onSearch) || !withValue) resultPlaceholder = placeholder
     } else {
       const inputValue = inputValueRenderer(value)
-      resultPlaceholder = (this.isValueEmpty(inputValue) || (inputMode && searchText === ''))
-        ? placeholder
-        : (onSearch && !inputMode && focusedInput && searchText === '' ? inputValue : '')
+      resultPlaceholder =
+        this.isValueEmpty(inputValue) || (inputMode && searchText === '')
+          ? placeholder
+          : onSearch && !inputMode && focusedInput && searchText === ''
+            ? inputValue
+            : ''
     }
 
-    const canBeModified = (inputMode || !!onSearch) && (
-      (!customElementRenderer && !multiple) ||
-      (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
-      (multiple && (isOpened || !Array.isArray(value) || value.length === 0))
-    )
+    const canBeModified =
+      (inputMode || !!onSearch) &&
+      ((!customElementRenderer && !multiple) ||
+        (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
+        (multiple && (isOpened || !Array.isArray(value) || value.length === 0)))
 
     const rightIcon = this.showClearIcon
       ? createElement(this.Clear)
-      : this.showArrow && createElement(this.Arrow, {
-        role: 'button',
-        onMouseDown: this.preventBlurInput,
-        onClick: this.openOnArrowClick
-      })
+      : this.showArrow &&
+        createElement(this.Arrow, {
+          role: 'button',
+          onMouseDown: this.preventBlurInput,
+          onClick: this.openOnArrowClick
+        })
 
     return (
       <Input
@@ -776,11 +796,7 @@ export default class Select extends PureComponent {
   }
 
   renderSelect() {
-    const {
-      value,
-      inputFocused,
-      isOpened
-    } = this.state
+    const {value, inputFocused, isOpened} = this.state
 
     const {
       dropdownStyle,
@@ -806,7 +822,8 @@ export default class Select extends PureComponent {
     } = this.props
 
     const focusedInput = inputFocused || isOpened
-    const multipleWithValue = multiple && Array.isArray(value) && value.length > 0
+    const multipleWithValue =
+      multiple && Array.isArray(value) && value.length > 0
     const options = multipleWithValue ? this.renderSelectedItems() : null
     const canBeModified = !!onSearch || inputMode
 
@@ -837,14 +854,12 @@ export default class Select extends PureComponent {
         customElement = cloneElement(customElementRenderer(value), {
           className: classes.custom
         })
-
     } else if (multipleWithValue && (!isOpened || !onSearch)) {
       customElement = (
         <TagsInput
           className={classes.options}
           onChange={this.changeValue}
-          isExpanded={!isOpened || onSearch ? false : true}
-        >
+          isExpanded={!isOpened || onSearch ? false : true}>
           {options}
         </TagsInput>
       )
@@ -852,15 +867,20 @@ export default class Select extends PureComponent {
 
     const dropdownAnchor = (
       <div
-        className={classnames(containerClassName, (multiple || customElementRenderer) && classes.withCustom)}
-        style={containerStyle}
-      >
+        className={classnames(
+          containerClassName,
+          (multiple || customElementRenderer) && classes.withCustom
+        )}
+        style={containerStyle}>
         {this.renderInput()}
         {customElement}
       </div>
     )
 
-    const resultIsOpened = isOpened && (children.length > 0 || (multiple && Array.isArray(value) && value.length > 0))
+    const resultIsOpened =
+      isOpened &&
+      (children.length > 0 ||
+        (multiple && Array.isArray(value) && value.length > 0))
 
     return (
       <OnClickOutside handler={this.closeOnClickOutside}>
@@ -879,35 +899,35 @@ export default class Select extends PureComponent {
             contentPointY="top"
             closeOnClickOutside={false}
             cachePositionOptions={false}
-            onClose={this.handleDropdownClose}
-          >
-            {multipleWithValue && onSearch &&
-              <TagsInput
-                className={classes.selected}
-                onChange={this.changeValue}
-                isExpanded={true}
-                onMouseDown={this.preventBlurInput}
-                size={size}
-              >
-                {options}
-              </TagsInput>
-            }
-            {children.length > 0 &&
+            onClose={this.handleDropdownClose}>
+            {multipleWithValue &&
+              onSearch && (
+                <TagsInput
+                  className={classes.selected}
+                  onChange={this.changeValue}
+                  isExpanded={true}
+                  onMouseDown={this.preventBlurInput}
+                  size={size}>
+                  {options}
+                </TagsInput>
+              )}
+            {children.length > 0 && (
               <Menu
                 style={menuStyle}
                 className={classnames(menuClassName, classes.menu)}
                 autoFocus={resultIsOpened && !inputFocused}
-                value={multiple ? Array.isArray(value) ? value : emptyArr : value}
+                value={
+                  multiple ? (Array.isArray(value) ? value : emptyArr) : value
+                }
                 valuesEquality={valuesEquality}
                 onChange={this.changeValue}
                 onMouseDown={this.preventBlurInput}
                 onEscKeyDown={this.closeOnEsc}
                 multiple={multiple}
-                size={size}
-              >
+                size={size}>
                 {children}
               </Menu>
-            }
+            )}
           </Dropdown>
         </div>
       </OnClickOutside>
@@ -916,7 +936,10 @@ export default class Select extends PureComponent {
 
   handleNativeSelectChange = ({target}) => {
     const nextValue = this.props.multiple
-      ? Array.prototype.map.call(target.selectedOptions, item => this.values[item.value])
+      ? Array.prototype.map.call(
+        target.selectedOptions,
+        item => this.values[item.value]
+      )
       : this.values[target.value]
     this.setValue(nextValue)
     this.props.onChange(nextValue)
@@ -939,10 +962,7 @@ export default class Select extends PureComponent {
       lightPlaceholderColor
     } = this.props
 
-    const {
-      value,
-      inputFocused
-    } = this.state
+    const {value, inputFocused} = this.state
 
     let resultValue = multiple ? [] : ''
     this.values = []
@@ -953,17 +973,29 @@ export default class Select extends PureComponent {
         throw new Error('Child component should be instance of <MenuItem />')
       if (typeof children !== 'string')
         throw new Error('Children of <MenuItem /> should be a string')
-      options[index] = <option key={children} value={index}>{children}</option>
+      options[index] = (
+        <option key={children} value={index}>
+          {children}
+        </option>
+      )
       this.values[index] = item.props.value
       if (multiple) {
-        if (value.some(selectedItem => valuesEquality(selectedItem, item.props.value)))
+        if (
+          value.some(selectedItem =>
+            valuesEquality(selectedItem, item.props.value)
+          )
+        )
           resultValue.push(index)
       } else if (valuesEquality(value, item.props.value)) {
         resultValue = index
       }
     })
 
-    const selectedOptions = multiple && Array.isArray(value) && value.length > 0 && this.renderSelectedItems()
+    const selectedOptions =
+      multiple &&
+      Array.isArray(value) &&
+      value.length > 0 &&
+      this.renderSelectedItems()
 
     const resultClassName = classnames(
       rootClassName,
@@ -995,11 +1027,11 @@ export default class Select extends PureComponent {
           placeholder={selectedOptions ? null : placeholder}
           isFocused={inputFocused}
         />
-        {selectedOptions &&
+        {selectedOptions && (
           <TagsInput className={classes.options} size={size}>
             {selectedOptions}
           </TagsInput>
-        }
+        )}
         <select
           {...this.getInputProps()}
           className={classes.nativeSelect}
@@ -1007,12 +1039,14 @@ export default class Select extends PureComponent {
           value={resultValue}
           onChange={this.handleNativeSelectChange}
           onBlur={this.blurInput}
-          onFocus={this.focusInput}
-        >
-          {placeholder
-            ? <option disabled value="">{placeholder}</option>
-            : multiple && multipleSelectFix
-          }
+          onFocus={this.focusInput}>
+          {placeholder ? (
+            <option disabled value="">
+              {placeholder}
+            </option>
+          ) : (
+            multiple && multipleSelectFix
+          )}
           {options}
         </select>
       </div>

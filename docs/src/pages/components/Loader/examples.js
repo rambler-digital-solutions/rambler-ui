@@ -1,17 +1,16 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import Loader from 'rambler-ui/Loader'
 import Button from 'rambler-ui/Button'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {ApplyTheme} from 'rambler-ui/theme'
 
 export default class LoaderExample extends Component {
-
   state = {
     loading: false,
     buttonLoading: false
   }
 
   load = () => {
-    const loading = new Promise((resolve) => {
+    const loading = new Promise(resolve => {
       setTimeout(() => {
         this.setState({
           buttonLoading: false
@@ -30,10 +29,9 @@ export default class LoaderExample extends Component {
   render() {
     return (
       <div>
-
         <ApplyTheme>
           <div>
-            <div style={{ height: 200, position: 'relative' }}>
+            <div style={{height: 200, position: 'relative'}}>
               <Loader loading={this.state.loading}>
                 Hello world
                 <Button
@@ -51,9 +49,7 @@ export default class LoaderExample extends Component {
             </div>
           </div>
         </ApplyTheme>
-
       </div>
     )
   }
-
 }

@@ -11,18 +11,16 @@ const styles = {
 export default () => (
   <ApplyTheme>
     <div>
-      {
-        Object.keys(icons).map(iconName => {
-          const Icon = icons[iconName]
-          return (
-            <div key={iconName} style={styles}>
-              <Tooltip content={`<${iconName} />`}>
-                <Icon />
-              </Tooltip>
-            </div>
-          )
-        })
-      }
+      {Object.keys(icons).map(iconName => {
+        const Icon = icons[iconName]
+        return (
+          <div key={iconName} style={styles}>
+            <Tooltip content={`<${iconName} />`}>
+              <Icon />
+            </Tooltip>
+          </div>
+        )
+      })}
     </div>
   </ApplyTheme>
 )

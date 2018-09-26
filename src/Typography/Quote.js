@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from './Typography'
 
-const Quote = (props) => (
+const Quote = props => (
   <Typography tagName="blockquote" {...props} type="quote" />
 )
 

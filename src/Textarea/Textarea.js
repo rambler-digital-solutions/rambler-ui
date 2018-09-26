@@ -1,12 +1,11 @@
 /**
  * Компонент Textarea
  */
-import React, { PureComponent } from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import Input from '../Input'
 
 export default class Textarea extends PureComponent {
-
   static propTypes = {
     /**
      *  Значение поля
@@ -27,12 +26,7 @@ export default class Textarea extends PureComponent {
     /**
      * Задает нижнюю границу определенного цвета, например, для обозначения статуса валидации
      */
-    status: PropTypes.oneOf([
-      'error',
-      'warning',
-      'success',
-      null
-    ]),
+    status: PropTypes.oneOf(['error', 'warning', 'success', null]),
     /**
      * Разновидность textarea
      */
@@ -73,18 +67,21 @@ export default class Textarea extends PureComponent {
      * Обработчик нажания клавиши
      */
     onKeyDown: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     variation: 'awesome'
-  };
+  }
 
   render() {
-    const {
-      textareaStyle,
-      textareaClassName,
-      ...other
-    } = this.props
-    return <Input inputStyle={textareaStyle} inputClassName={textareaClassName} tag="textarea" {...other} />
+    const {textareaStyle, textareaClassName, ...other} = this.props
+    return (
+      <Input
+        inputStyle={textareaStyle}
+        inputClassName={textareaClassName}
+        tag="textarea"
+        {...other}
+      />
+    )
   }
 }

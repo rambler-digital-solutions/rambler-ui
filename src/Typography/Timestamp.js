@@ -1,7 +1,7 @@
 import React from 'react'
 import Typography from './Typography'
 
-const Timestamp = (props) => (
+const Timestamp = props => (
   <Typography tagName="time" {...props} type="timestamp" />
 )
 

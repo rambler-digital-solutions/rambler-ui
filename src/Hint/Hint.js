@@ -1,59 +1,61 @@
-import React, { PureComponent, cloneElement } from 'react'
+import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import QuestionIcon from '../icons/forms/QuestionIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
-import { FixedOverlay } from '../Overlay'
-import { POINTS_X } from '../constants/overlay'
-import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import {FixedOverlay} from '../Overlay'
+import {POINTS_X} from '../constants/overlay'
+import {injectSheet} from '../theme'
+import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(theme => ({
-  hint: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    position: 'relative',
-    top: -14,
-    color: theme.hint.colors.text,
-    borderRadius: theme.hint.borderRadius,
-    boxSizing: 'border-box',
-    boxShadow: theme.hint.boxShadow,
-    paddingTop: 15,
-    paddingBottom: 20,
-    width: 275,
-    backgroundColor: theme.hint.colors.background,
-    fontSize: theme.hint.fontSize,
-    lineHeight: 1.31,
-    opacity: 0.01,
-    transitionDuration: `${theme.hint.animationDuration}ms`,
-    transitionProperty: 'opacity'
-  },
-  isVisible: {
-    opacity: 1
-  },
-  icon: {
-    position: 'absolute',
-    top: 14
-  },
-  left: {
-    left: -15,
-    paddingLeft: 47,
-    paddingRight: 24,
-    '& $icon': {
-      left: 15
+@injectSheet(
+  theme => ({
+    hint: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      position: 'relative',
+      top: -14,
+      color: theme.hint.colors.text,
+      borderRadius: theme.hint.borderRadius,
+      boxSizing: 'border-box',
+      boxShadow: theme.hint.boxShadow,
+      paddingTop: 15,
+      paddingBottom: 20,
+      width: 275,
+      backgroundColor: theme.hint.colors.background,
+      fontSize: theme.hint.fontSize,
+      lineHeight: 1.31,
+      opacity: 0.01,
+      transitionDuration: `${theme.hint.animationDuration}ms`,
+      transitionProperty: 'opacity'
+    },
+    isVisible: {
+      opacity: 1
+    },
+    icon: {
+      position: 'absolute',
+      top: 14
+    },
+    left: {
+      left: -15,
+      paddingLeft: 47,
+      paddingRight: 24,
+      '& $icon': {
+        left: 15
+      }
+    },
+    right: {
+      left: 15,
+      paddingLeft: 24,
+      paddingRight: 47,
+      '& $icon': {
+        right: 15
+      }
     }
-  },
-  right: {
-    left: 15,
-    paddingLeft: 24,
-    paddingRight: 47,
-    '& $icon': {
-      right: 15
-    }
-  }
-}), {name: 'HintContent'})
+  }),
+  {name: 'HintContent'}
+)
 class HintContent extends PureComponent {
-
   static propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
@@ -110,13 +112,15 @@ class HintContent extends PureComponent {
   }
 }
 
-@injectSheet(() => ({
-  icon: {
-    display: 'inline-block'
-  }
-}), {name: 'Hint'})
+@injectSheet(
+  () => ({
+    icon: {
+      display: 'inline-block'
+    }
+  }),
+  {name: 'Hint'}
+)
 export default class Hint extends PureComponent {
-
   static propTypes = {
     /**
      * Класс якоря
@@ -154,15 +158,13 @@ export default class Hint extends PureComponent {
      * Скрывать при скролле страницы
      */
     closeOnScroll: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     positionX: 'right',
     closeOnScroll: true,
-    icon: (
-      <QuestionIcon size={16} />
-    )
-  };
+    icon: <QuestionIcon size={16} />
+  }
 
   constructor(props) {
     super(props)
@@ -172,17 +174,14 @@ export default class Hint extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({ isOpened }) {
+  componentWillReceiveProps({isOpened}) {
     if (isOpened !== undefined && isOpened !== this.props.isOpened)
-      if (isOpened)
-        this.show()
-      else
-        this.hide()
+      if (isOpened) this.show()
+      else this.hide()
   }
 
   show = () => {
-    if (this.state.isOpened)
-      clearTimeout(this.hideTimeout)
+    if (this.state.isOpened) clearTimeout(this.hideTimeout)
     else
       this.setState({
         isOpened: true
@@ -190,8 +189,7 @@ export default class Hint extends PureComponent {
   }
 
   hide = () => {
-    if (!this.state.isOpened)
-      return
+    if (!this.state.isOpened) return
     clearTimeout(this.hideTimeout)
     this.hideTimeout = setTimeout(() => {
       this.setState({
@@ -246,8 +244,8 @@ export default class Hint extends PureComponent {
         contentPointY="top"
         cachePositionOptions={false}
         closeOnScroll={closeOnScroll}
-        onContentClose={this.hide} />
+        onContentClose={this.hide}
+      />
     )
   }
-
 }

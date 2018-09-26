@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import Calendar from 'rambler-ui/Calendar'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {ApplyTheme} from 'rambler-ui/theme'
 
 export default class CalendarExample extends Component {
   state = {
@@ -24,11 +24,7 @@ export default class CalendarExample extends Component {
   }
 
   render() {
-    const {
-      today,
-      dateFrom,
-      dateTo
-    } = this.state
+    const {today, dateFrom, dateTo} = this.state
 
     return (
       <ApplyTheme>
@@ -41,7 +37,7 @@ export default class CalendarExample extends Component {
           />
 
           <Calendar
-            variation='media'
+            variation="media"
             value={dateFrom}
             today={today}
             onChange={this.onChangeNotRange}

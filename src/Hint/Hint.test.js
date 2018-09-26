@@ -1,16 +1,18 @@
 import React from 'react'
 import Hint from './Hint'
-import { withTheme, mount, getStyles, getNodeStyles } from '../utils/test-utils'
+import {withTheme, mount, getStyles, getNodeStyles} from '../utils/test-utils'
 import theme from '../theme/base'
-import { normalize as nc } from '../utils/colors'
+import {normalize as nc} from '../utils/colors'
 
 describe('<Hint />', () => {
-  const mountWrapper = props => mount(withTheme(<Hint
-    className="anchor"
-    contentClassName="content"
-    {...props}>
-        Hello world
-  </Hint>))
+  const mountWrapper = props =>
+    mount(
+      withTheme(
+        <Hint className="anchor" contentClassName="content" {...props}>
+          Hello world
+        </Hint>
+      )
+    )
 
   it('should open hint content when change props.isOpened', () => {
     const wrapper = mountWrapper()
@@ -47,7 +49,9 @@ describe('<Hint />', () => {
     expect(contentStyles.width).toEqual('275px')
     expect(contentStyles['padding-top']).toEqual('15px')
     expect(contentStyles['padding-bottom']).toEqual('20px')
-    expect(nc(contentStyles['background-color'])).toEqual(nc(theme.hint.colors.background))
+    expect(nc(contentStyles['background-color'])).toEqual(
+      nc(theme.hint.colors.background)
+    )
     expect(contentStyles['font-size']).toEqual(theme.hint.fontSize + 'px')
   })
 })

@@ -1,17 +1,27 @@
 import React from 'react'
-import { ApplyTheme } from '../theme'
-import { mount, getStyles, getWrapperNode } from '../utils/test-utils'
+import {ApplyTheme} from '../theme'
+import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 import theme from '../theme/base'
-import { normalize as nc } from '../utils/colors'
+import {normalize as nc} from '../utils/colors'
 
-import Typography, { H1, H2, H3, Text, Quote, Epigraph, Description, GalleryDescription, Source, Timestamp, PhotoSource, List } from './'
+import Typography, {
+  H1,
+  H2,
+  H3,
+  Text,
+  Quote,
+  Epigraph,
+  Description,
+  GalleryDescription,
+  Source,
+  Timestamp,
+  PhotoSource,
+  List
+} from './'
 
-const applyTheme = children => (
-  <ApplyTheme>{ children }</ApplyTheme>
-)
+const applyTheme = children => <ApplyTheme>{children}</ApplyTheme>
 
 describe('Typography', () => {
-
   it('default props', () => {
     const wrapper = mount(applyTheme(<Typography />))
     const element = getWrapperNode(wrapper)
@@ -49,18 +59,23 @@ describe('Typography', () => {
   })
 })
 
-const isFontStyleEqual = (elementComputedStyle, {fontSize, fontWeight = 'normal', lineHeight, fontFamily}) => {
+const isFontStyleEqual = (
+  elementComputedStyle,
+  {fontSize, fontWeight = 'normal', lineHeight, fontFamily}
+) => {
   if (fontSize + 'px' !== elementComputedStyle['font-size']) return false
   if (fontWeight + '' !== elementComputedStyle['font-weight']) return false
-  if (lineHeight && lineHeight + 'px' !== elementComputedStyle['line-height']) return false
+  if (lineHeight && lineHeight + 'px' !== elementComputedStyle['line-height'])
+    return false
   if (fontFamily !== elementComputedStyle['font-family']) return false
   return true
 }
 
 const isVerticalMarginsEqual = (elementComputedStyle, top, bottom) => {
   if (top + 'px' !== elementComputedStyle['margin-top']) return false
-  const bottomMargin = (bottom || bottom === 0) ? bottom : top
-  if (bottomMargin + 'px' !== elementComputedStyle['margin-bottom']) return false
+  const bottomMargin = bottom || bottom === 0 ? bottom : top
+  if (bottomMargin + 'px' !== elementComputedStyle['margin-bottom'])
+    return false
   return true
 }
 
@@ -77,7 +92,6 @@ const customProps = {
   tagName: 'section',
   'data-test': 'test'
 }
-
 
 describe('H1', () => {
   it('default props', () => {
@@ -102,7 +116,6 @@ describe('H1', () => {
   })
 })
 
-
 describe('H2', () => {
   it('default props', () => {
     const wrapper = mount(applyTheme(<H2 />))
@@ -125,7 +138,6 @@ describe('H2', () => {
     expect(isVerticalMarginsEqual(styles, 20)).toEqual(true)
   })
 })
-
 
 describe('H3', () => {
   it('default props', () => {
@@ -150,7 +162,6 @@ describe('H3', () => {
   })
 })
 
-
 describe('Text', () => {
   it('default props', () => {
     const wrapper = mount(applyTheme(<Text />))
@@ -174,7 +185,6 @@ describe('Text', () => {
   })
 })
 
-
 describe('Quote', () => {
   it('default props', () => {
     const wrapper = mount(applyTheme(<Quote />))
@@ -191,19 +201,23 @@ describe('Quote', () => {
   })
 
   it('styles', () => {
-    const wrapper = mount(applyTheme(
-      <Quote>
-        <p id="first" />
-        <p id="second" />
-      </Quote>
-    ))
+    const wrapper = mount(
+      applyTheme(
+        <Quote>
+          <p id="first" />
+          <p id="second" />
+        </Quote>
+      )
+    )
     const styles = getStyles(wrapper)
     expect(isFontStyleEqual(styles, theme.typography.quote)).toEqual(true)
     expect(isVerticalMarginsEqual(styles, 30)).toEqual(true)
     expect(styles['padding-left']).toEqual('37px')
     expect(styles['border-left-width']).toEqual('3px')
     expect(styles['border-left-style']).toEqual('solid')
-    expect(styles['border-left-color']).toEqual(nc(theme.typography.quote.borderColor))
+    expect(styles['border-left-color']).toEqual(
+      nc(theme.typography.quote.borderColor)
+    )
     expect(styles['font-style']).toEqual('italic')
 
     const firstChildStyles = getStyles(wrapper.find('#first'))
@@ -213,7 +227,6 @@ describe('Quote', () => {
     expect(isVerticalMarginsEqual(secondChildStyles, 20, 0)).toEqual(true)
   })
 })
-
 
 describe('Epigraph', () => {
   it('default props', () => {
@@ -239,7 +252,6 @@ describe('Epigraph', () => {
   })
 })
 
-
 describe('Description', () => {
   it('default props', () => {
     const wrapper = mount(applyTheme(<Description />))
@@ -263,7 +275,6 @@ describe('Description', () => {
   })
 })
 
-
 describe('GalleryDescription', () => {
   it('default props', () => {
     const wrapper = mount(applyTheme(<GalleryDescription />))
@@ -282,11 +293,12 @@ describe('GalleryDescription', () => {
   it('styles', () => {
     const wrapper = mount(applyTheme(<GalleryDescription />))
     const styles = getStyles(wrapper)
-    expect(isFontStyleEqual(styles, theme.typography.galleryDescription)).toEqual(true)
+    expect(
+      isFontStyleEqual(styles, theme.typography.galleryDescription)
+    ).toEqual(true)
     expect(isVerticalMarginsEqual(styles, 0)).toEqual(true)
   })
 })
-
 
 describe('Source', () => {
   it('default props', () => {
@@ -312,7 +324,6 @@ describe('Source', () => {
   })
 })
 
-
 describe('Timestamp', () => {
   it('default props', () => {
     const wrapper = mount(applyTheme(<Timestamp />))
@@ -335,7 +346,6 @@ describe('Timestamp', () => {
     expect(isVerticalMarginsEqual(styles, 0)).toEqual(true)
   })
 })
-
 
 describe('PhotoSource', () => {
   it('default props', () => {
@@ -360,7 +370,6 @@ describe('PhotoSource', () => {
   })
 })
 
-
 describe('List', () => {
   it('default props', () => {
     const wrapper = mount(applyTheme(<List />))
@@ -377,12 +386,14 @@ describe('List', () => {
   })
 
   it('styles', () => {
-    const wrapper = mount(applyTheme(
-      <List>
-        <li id="first" />
-        <li id="second" />
-      </List>
-    ))
+    const wrapper = mount(
+      applyTheme(
+        <List>
+          <li id="first" />
+          <li id="second" />
+        </List>
+      )
+    )
     const styles = getStyles(wrapper)
     expect(isFontStyleEqual(styles, theme.typography.text)).toEqual(true)
     expect(isVerticalMarginsEqual(styles, 30)).toEqual(true)

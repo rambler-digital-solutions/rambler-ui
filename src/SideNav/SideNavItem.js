@@ -1,58 +1,57 @@
 /**
  * Элемент компонента боковой навигации
  */
-import React, { Component, cloneElement, isValidElement } from 'react'
+import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { injectSheet } from '../theme'
-import { isolateMixin, middleMixin } from '../utils/mixins'
+import {injectSheet} from '../theme'
+import {isolateMixin, middleMixin} from '../utils/mixins'
 
-@injectSheet(theme => ({
-  sideNavItem: {
-    extend: [
-      isolateMixin,
-      middleMixin
-    ],
-    fontFamily: theme.fontFamily,
-    display: 'block',
-    textAlign: 'left',
-    userSelect: 'none',
-    whiteSpace: 'nowrap',
-    cursor: 'pointer',
-    position: 'relative',
-    textDecoration: 'none',
-    fontSize: theme.sideNav.fontSize,
-    height: theme.sideNav.height,
-    marginTop: theme.sideNav.betweenMargin,
-    marginBottom: theme.sideNav.betweenMargin,
-    color: theme.sideNav.colors.default.text,
-    '&:first-child': {
-      marginTop: 0
+@injectSheet(
+  theme => ({
+    sideNavItem: {
+      extend: [isolateMixin, middleMixin],
+      fontFamily: theme.fontFamily,
+      display: 'block',
+      textAlign: 'left',
+      userSelect: 'none',
+      whiteSpace: 'nowrap',
+      cursor: 'pointer',
+      position: 'relative',
+      textDecoration: 'none',
+      fontSize: theme.sideNav.fontSize,
+      height: theme.sideNav.height,
+      marginTop: theme.sideNav.betweenMargin,
+      marginBottom: theme.sideNav.betweenMargin,
+      color: theme.sideNav.colors.default.text,
+      '&:first-child': {
+        marginTop: 0
+      },
+      '&:last-child': {
+        marginBottom: 0
+      },
+      'a&:visited': {
+        color: theme.sideNav.colors.default.text
+      },
+      '&$isSelected, &:hover, a&:hover': {
+        color: theme.sideNav.colors.selected.text
+      }
     },
-    '&:last-child': {
-      marginBottom: 0
+    icon: {
+      display: 'inline-block'
     },
-    'a&:visited': {
-      color: theme.sideNav.colors.default.text
+    isSelected: {
+      cursor: 'default'
     },
-    '&$isSelected, &:hover, a&:hover': {
-      color: theme.sideNav.colors.selected.text
+    medium: {
+      '& $icon': {
+        marginRight: 10
+      }
     }
-  },
-  icon: {
-    display: 'inline-block'
-  },
-  isSelected: {
-    cursor: 'default'
-  },
-  medium: {
-    '& $icon': {
-      marginRight: 10
-    }
-  }
-}), {name: 'SideNavItem'})
+  }),
+  {name: 'SideNavItem'}
+)
 class SideNavItem extends Component {
-
   static propTypes = {
     /**
      * Css-класс компонента
@@ -100,17 +99,13 @@ class SideNavItem extends Component {
     onPress: PropTypes.func
   }
 
-  onClick = (event) => {
-    const { value, onClick, onPress } = this.props
+  onClick = event => {
+    const {value, onClick, onPress} = this.props
 
-    if (onPress)
-      onPress(event, value)
+    if (onPress) onPress(event, value)
 
-
-    if (onClick)
-      onClick(event)
-
-  };
+    if (onClick) onClick(event)
+  }
 
   renderIcon(icon) {
     if (icon) {
@@ -149,27 +144,28 @@ class SideNavItem extends Component {
       className
     )
 
-    const resultContainer = isValidElement(container) ?
-      container :
-      href ? <a href={href} /> : <div />
+    const resultContainer = isValidElement(container) ? (
+      container
+    ) : href ? (
+      <a href={href} />
+    ) : (
+      <div />
+    )
 
     const resultProps = {
       ...other,
       className: resultClassName,
       onClick: this.onClick,
-      ...container && typeof container.type !== 'string' && {
-        activeClassName: classes.isSelected
-      }
+      ...(container &&
+        typeof container.type !== 'string' && {
+          activeClassName: classes.isSelected
+        })
     }
 
-    const resultChildren = [
-      this.renderIcon(icon),
-      mediumSize && children
-    ]
+    const resultChildren = [this.renderIcon(icon), mediumSize && children]
 
     return cloneElement(resultContainer, resultProps, ...resultChildren)
   }
-
 }
 
 SideNavItem.displayName = 'ruiSideNavItem'

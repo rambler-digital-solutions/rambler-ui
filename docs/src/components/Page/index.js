@@ -70,7 +70,6 @@ const mdComponents = {
   }
 }))
 export default class Page extends PureComponent {
-
   static propTypes = {
     /**
      * Урл страницы
@@ -100,8 +99,7 @@ export default class Page extends PureComponent {
 
   componentDidMount() {
     const {children} = this.props
-    if (!children || children.length === 0)
-      return
+    if (!children || children.length === 0) return
     this.addChildrenToRender(children)
   }
 
@@ -111,15 +109,17 @@ export default class Page extends PureComponent {
 
   addChildrenToRender([firstChild, ...rest]) {
     const {children} = this.state
-    this.setState({
-      children: [...children, firstChild]
-    }, () => {
-      if (rest.length === 0)
-        return
-      this.addTimeout = setTimeout(() => {
-        this.addChildrenToRender(rest)
-      }, 33)
-    })
+    this.setState(
+      {
+        children: [...children, firstChild]
+      },
+      () => {
+        if (rest.length === 0) return
+        this.addTimeout = setTimeout(() => {
+          this.addChildrenToRender(rest)
+        }, 33)
+      }
+    )
   }
 
   renderContent() {
@@ -127,12 +127,12 @@ export default class Page extends PureComponent {
     if (!children || children.length === 0)
       return <Content components={mdComponents} />
     const {children: childrenToRender} = this.state
-    return childrenToRender.map(child =>
+    return childrenToRender.map(child => (
       <Fragment key={child.pathname}>
         <h2>{child.title}</h2>
         <child.Content components={mdComponents} />
       </Fragment>
-    )
+    ))
   }
 
   render() {
@@ -140,10 +140,8 @@ export default class Page extends PureComponent {
     return (
       <div>
         <header className={classes.header}>
-          <h1>
-            {title}
-          </h1>
-          {source &&
+          <h1>{title}</h1>
+          {source && (
             <ApplyTheme>
               <IconButton
                 className={classes.source}
@@ -153,13 +151,10 @@ export default class Page extends PureComponent {
                 <GithubIcon />
               </IconButton>
             </ApplyTheme>
-          }
+          )}
         </header>
-        <div className={classes.content}>
-          {this.renderContent()}
-        </div>
+        <div className={classes.content}>{this.renderContent()}</div>
       </div>
     )
   }
-
 }

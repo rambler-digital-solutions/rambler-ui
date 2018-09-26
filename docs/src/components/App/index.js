@@ -4,7 +4,9 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import loadStyleSheet from 'docs/src/utils/load-style-sheet'
 
 loadStyleSheet('https://static.rambler.ru/fonts/Roboto/Roboto.css')
-loadStyleSheet('https://static.rambler.ru/fonts/CorsicaRamblerLX/CorsicaRamblerLX.css')
+loadStyleSheet(
+  'https://static.rambler.ru/fonts/CorsicaRamblerLX/CorsicaRamblerLX.css'
+)
 
 @injectSheet(theme => ({
   '@global': {
@@ -37,7 +39,6 @@ loadStyleSheet('https://static.rambler.ru/fonts/CorsicaRamblerLX/CorsicaRamblerL
   }
 }))
 export default class App extends Component {
-
   static propTypes = {
     /**
      * Содержимое приложения
@@ -45,8 +46,7 @@ export default class App extends Component {
     children: PropTypes.node
   }
 
-  render () {
+  render() {
     return this.props.children
   }
-
 }

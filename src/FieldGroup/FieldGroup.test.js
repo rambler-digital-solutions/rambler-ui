@@ -5,10 +5,9 @@ import Select from '../Select/Select'
 import MenuItem from '../Menu/MenuItem'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
-import { mount, withTheme, getStyles } from '../utils/test-utils'
+import {mount, withTheme, getStyles} from '../utils/test-utils'
 
 describe('<FieldGroup />', () => {
-
   const defaultProps = {
     type: 'text',
     onChange: () => {},
@@ -37,17 +36,30 @@ describe('<FieldGroup />', () => {
     const selectStyles = getStyles(select)
 
     expect(nc(selectStyles['border-top-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(selectStyles['border-left-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(selectStyles['border-right-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(selectStyles['border-bottom-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
+    expect(nc(selectStyles['border-left-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
+    expect(nc(selectStyles['border-right-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
+    expect(nc(selectStyles['border-bottom-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
 
-    const input = wrapper.find(Input).last().find('input')
+    const input = wrapper
+      .find(Input)
+      .last()
+      .find('input')
     const inputStyles = getStyles(input)
 
     expect(nc(inputStyles['border-top-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
     expect(nc(inputStyles['border-left-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(inputStyles['border-right-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(inputStyles['border-bottom-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
+    expect(nc(inputStyles['border-right-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
+    expect(nc(inputStyles['border-bottom-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
   })
 
   it('should apply styles and append className', () => {
@@ -76,7 +88,10 @@ describe('<FieldGroup />', () => {
 
     expect(selectStyles.width).toEqual(`${(width + 1) / 2}px`)
 
-    const input = wrapper.find(Input).last().find('input')
+    const input = wrapper
+      .find(Input)
+      .last()
+      .find('input')
     const inputStyles = getStyles(input)
 
     expect(inputStyles.width).toEqual(`${(width + 1) / 2}px`)
@@ -134,17 +149,29 @@ describe('<FieldGroup />', () => {
     const selectStyles = getStyles(select)
 
     expect(nc(selectStyles['border-top-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(selectStyles['border-left-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(selectStyles['border-right-color'])).toEqual(nc(theme.field.colors.default.outline))
-    expect(nc(selectStyles['border-bottom-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
+    expect(nc(selectStyles['border-left-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
+    expect(nc(selectStyles['border-right-color'])).toEqual(
+      nc(theme.field.colors.default.outline)
+    )
+    expect(nc(selectStyles['border-bottom-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
 
-    const input = wrapper.find(Input).last().find('input')
+    const input = wrapper
+      .find(Input)
+      .last()
+      .find('input')
     const inputStyles = getStyles(input)
 
     expect(nc(inputStyles['border-top-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
     expect(nc(inputStyles['border-left-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(inputStyles['border-right-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
-    expect(nc(inputStyles['border-bottom-color'])).toEqual(nc('rgba(0, 0, 0, 0)'))
+    expect(nc(inputStyles['border-right-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
+    expect(nc(inputStyles['border-bottom-color'])).toEqual(
+      nc('rgba(0, 0, 0, 0)')
+    )
   })
-
 })

@@ -1,21 +1,26 @@
 import React from 'react'
 import Popup from './Popup'
 import Button from '../Button/Button'
-import { POPUP_ZINDEX } from '../constants/z-indexes'
-import { withTheme, mount, getNodeStyles } from '../utils/test-utils'
+import {POPUP_ZINDEX} from '../constants/z-indexes'
+import {withTheme, mount, getNodeStyles} from '../utils/test-utils'
 import theme from '../theme/base'
-import { normalize as nc } from '../utils/colors'
+import {normalize as nc} from '../utils/colors'
 
 describe('<Popup />', () => {
   let containerNode
 
-  const mountWrapper = props => mount(withTheme(<Popup
-    className="popup"
-    containerRef={(ref) => {
-      containerNode = ref
-    }}
-    {...props}
-  />))
+  const mountWrapper = props =>
+    mount(
+      withTheme(
+        <Popup
+          className="popup"
+          containerRef={ref => {
+            containerNode = ref
+          }}
+          {...props}
+        />
+      )
+    )
 
   beforeEach(() => {
     containerNode = undefined
@@ -36,10 +41,10 @@ describe('<Popup />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should open/close popup when change props.isOpened', async (done) => {
+  it('should open/close popup when change props.isOpened', async done => {
     const props = {}
 
-    const whenClose = new Promise((resolve) => {
+    const whenClose = new Promise(resolve => {
       props.onClose = resolve
     })
 
@@ -84,7 +89,9 @@ describe('<Popup />', () => {
     expect(popupStyles['font-family']).toEqual('Roboto, sans-serif')
     expect(popupStyles['font-size']).toEqual(theme.popup.text.fontSize + 'px')
     expect(popupStyles['text-align']).toEqual('left')
-    expect(nc(popupStyles['background-color'])).toEqual(nc(theme.popup.colors.background))
+    expect(nc(popupStyles['background-color'])).toEqual(
+      nc(theme.popup.colors.background)
+    )
     expect(popupStyles.width).toEqual('350px')
     expect(popupStyles['min-width']).toEqual('350px')
     expect(popupStyles['padding-top']).toEqual('25px')
@@ -104,17 +111,15 @@ describe('<Popup />', () => {
     expect(backdropStyles['padding-bottom']).toEqual('20px')
     expect(backdropStyles['overflow-y']).toEqual('auto')
     expect(backdropStyles['overflow-x']).toEqual('hidden')
-    expect(nc(backdropStyles['background-color'])).toEqual(nc(theme.popup.colors.backdrop.default))
+    expect(nc(backdropStyles['background-color'])).toEqual(
+      nc(theme.popup.colors.backdrop.default)
+    )
   })
 
   it('should apply custom width', () => {
     mountWrapper({
       isOpened: true,
-      children: (
-        <div style={{ width: 400 }}>
-          Hi
-        </div>
-      )
+      children: <div style={{width: 400}}>Hi</div>
     })
 
     const popupNode = containerNode.querySelector('.popup')
@@ -145,11 +150,7 @@ describe('<Popup />', () => {
       titleClassName: 'test-title',
       backdropClassName: 'test-backdrop',
       buttonsContainerClassName: 'test-buttons',
-      okButton: (
-        <Button className="ok-button">
-          Ok
-        </Button>
-      )
+      okButton: <Button className="ok-button">Ok</Button>
     })
 
     expect(containerNode.querySelector('.popup')).not.toBeUndefined()
@@ -179,11 +180,7 @@ describe('<Popup />', () => {
       },
       title: 'Foo',
       isOpened: true,
-      okButton: (
-        <Button className="ok-button">
-          Ok
-        </Button>
-      )
+      okButton: <Button className="ok-button">Ok</Button>
     })
 
     const popupNode = containerNode.querySelector('.popup')
@@ -194,7 +191,9 @@ describe('<Popup />', () => {
     const backdropNode = popupNode.parentElement
     const backdropStyles = getNodeStyles(backdropNode)
 
-    expect(nc(backdropStyles['background-color'])).toEqual(backdropBackgroundColor)
+    expect(nc(backdropStyles['background-color'])).toEqual(
+      backdropBackgroundColor
+    )
 
     const titleNode = popupNode.querySelector('header')
     const titleStyles = getNodeStyles(titleNode)
@@ -216,7 +215,9 @@ describe('<Popup />', () => {
     const backdropNode = containerNode.querySelector('.popup').parentElement
     const backdropStyles = getNodeStyles(backdropNode)
 
-    expect(nc(backdropStyles['background-color'])).toEqual(nc(theme.popup.colors.backdrop.blue))
+    expect(nc(backdropStyles['background-color'])).toEqual(
+      nc(theme.popup.colors.backdrop.blue)
+    )
   })
 
   it('should append title', () => {
@@ -241,9 +242,7 @@ describe('<Popup />', () => {
     const title = 'Hi'
 
     mountWrapper({
-      children: (
-        <p>{title}</p>
-      ),
+      children: <p>{title}</p>,
       isOpened: true
     })
 
@@ -272,16 +271,8 @@ describe('<Popup />', () => {
   it('should append action buttons', () => {
     mountWrapper({
       isOpened: true,
-      okButton: (
-        <Button className="ok-button">
-          Ok
-        </Button>
-      ),
-      cancelButton: (
-        <Button className="cancel-button">
-          Cancel
-        </Button>
-      )
+      okButton: <Button className="ok-button">Ok</Button>,
+      cancelButton: <Button className="cancel-button">Cancel</Button>
     })
 
     const popupNode = containerNode.querySelector('.popup')
@@ -292,10 +283,10 @@ describe('<Popup />', () => {
     expect(cancelButtonNode.textContent).toEqual('Cancel')
   })
 
-  it('should call props.onOpen() when popup opens', async (done) => {
+  it('should call props.onOpen() when popup opens', async done => {
     const props = {}
 
-    const whenOpen = new Promise((resolve) => {
+    const whenOpen = new Promise(resolve => {
       props.onOpen = resolve
     })
 
@@ -312,13 +303,13 @@ describe('<Popup />', () => {
     done()
   })
 
-  it('should call props.onRequestClose() when click on close button', async (done) => {
+  it('should call props.onRequestClose() when click on close button', async done => {
     const props = {
       isOpened: true,
       showClose: true
     }
 
-    const whenRequestClose = new Promise((resolve) => {
+    const whenRequestClose = new Promise(resolve => {
       props.onRequestClose = resolve
     })
 
@@ -331,12 +322,12 @@ describe('<Popup />', () => {
     done()
   })
 
-  it('should call props.onClose() when popup closes', async (done) => {
+  it('should call props.onClose() when popup closes', async done => {
     const props = {
       isOpened: true
     }
 
-    const whenClose = new Promise((resolve) => {
+    const whenClose = new Promise(resolve => {
       props.onClose = resolve
     })
 
@@ -352,5 +343,4 @@ describe('<Popup />', () => {
     expect(props.onClose).toHaveBeenCalledTimes(1)
     done()
   })
-
 })

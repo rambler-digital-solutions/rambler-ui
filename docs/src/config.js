@@ -4,8 +4,7 @@ const targets = config.targets
 
 if (targets) {
   const targetConfig = targets[location.hostname]
-  if (targetConfig)
-    config = {...config, ...targetConfig}
+  if (targetConfig) config = {...config, ...targetConfig}
   delete config.targets
 }
 

@@ -1,165 +1,175 @@
-import React, { PureComponent, cloneElement } from 'react'
+import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import OnClickOutside from '../OnClickOutside'
 import VisibilityAnimation from '../VisibilityAnimation'
-import { FixedOverlay } from '../Overlay'
-import { injectSheet } from '../theme'
-import { POINTS_Y } from '../constants/overlay'
-import { isolateMixin, fontSmoothingMixin } from '../utils/mixins'
+import {FixedOverlay} from '../Overlay'
+import {injectSheet} from '../theme'
+import {POINTS_Y} from '../constants/overlay'
+import {isolateMixin, fontSmoothingMixin} from '../utils/mixins'
 
 const containerNodeStyle = {'pointer-events': 'none'}
 
-@injectSheet(theme => ({
-  content: {
-    extend: [
-      isolateMixin,
-      fontSmoothingMixin
-    ],
-    display: 'inline-block',
-    fontFamily: theme.fontFamily,
-    opacity: '0.01',
-    position: 'relative',
-    transitionDuration: `${theme.tooltip.animationDuration}ms`,
-    transitionProperty: 'opacity, top, left',
-    pointerEvents: 'none'
-  },
-  arrow: {
-    content: '""',
-    position: 'absolute',
-    borderStyle: 'solid',
-    borderColor: 'transparent'
-  },
-  body: {
-    fontSize: theme.tooltip.fontSize,
-    color: theme.tooltip.colors.default.text,
-    padding: '8px 12px',
-    boxSizing: 'border-box',
-    lineHeight: 1.4,
-    borderRadius: theme.tooltip.borderRadius,
-    maxWidth: 320
-  },
-  isVisible: {
-    opacity: '1 !important',
-    '&$ytop$yabottom': {
-      top: '6px !important'
+@injectSheet(
+  theme => ({
+    content: {
+      extend: [isolateMixin, fontSmoothingMixin],
+      display: 'inline-block',
+      fontFamily: theme.fontFamily,
+      opacity: '0.01',
+      position: 'relative',
+      transitionDuration: `${theme.tooltip.animationDuration}ms`,
+      transitionProperty: 'opacity, top, left',
+      pointerEvents: 'none'
     },
-    '&$ybottom$yatop': {
-      top: '-6px !important'
+    arrow: {
+      content: '""',
+      position: 'absolute',
+      borderStyle: 'solid',
+      borderColor: 'transparent'
     },
-    '&$xleft$xaright': {
-      left: '6px !important'
+    body: {
+      fontSize: theme.tooltip.fontSize,
+      color: theme.tooltip.colors.default.text,
+      padding: '8px 12px',
+      boxSizing: 'border-box',
+      lineHeight: 1.4,
+      borderRadius: theme.tooltip.borderRadius,
+      maxWidth: 320
     },
-    '&$xright$xaleft': {
-      left: '-6px !important'
-    }
-  },
-  ytop: {
-    '&$yabottom': {
-      '& $arrow': {
-        bottom: '100%',
-        left: '50%',
-        borderWidth: 5,
-        transform: 'translate(-5px, 3px)'
+    isVisible: {
+      opacity: '1 !important',
+      '&$ytop$yabottom': {
+        top: '6px !important'
       },
-      '&$xleft': {
-        top: 13,
-        left: -13
+      '&$ybottom$yatop': {
+        top: '-6px !important'
       },
-      '&$xright': {
-        top: 13,
-        right: -13
+      '&$xleft$xaright': {
+        left: '6px !important'
       },
-      '&$xcenter': {
-        top: 13
+      '&$xright$xaleft': {
+        left: '-6px !important'
       }
-    }
-  },
-  ybottom: {
-    '&$yatop': {
-      '& $arrow': {
-        top: '100%',
-        left: '50%',
-        borderWidth: 5,
-        transform: 'translate(-5px, -3px)'
-      },
-      '&$xleft': {
-        top: -13,
-        left: -13
-      },
-      '&$xright': {
-        top: -13,
-        right: -13
-      },
-      '&$xcenter': {
-        top: -13
+    },
+    ytop: {
+      '&$yabottom': {
+        '& $arrow': {
+          bottom: '100%',
+          left: '50%',
+          borderWidth: 5,
+          transform: 'translate(-5px, 3px)'
+        },
+        '&$xleft': {
+          top: 13,
+          left: -13
+        },
+        '&$xright': {
+          top: 13,
+          right: -13
+        },
+        '&$xcenter': {
+          top: 13
+        }
       }
-    }
-  },
-  xleft: {
-    '&$xaright': {
-      '& $arrow': {
-        bottom: '50%',
-        left: '0',
-        borderWidth: 5,
-        transform: 'translate(-7px, 5px)'
-      },
-      '&$ytop': {
-        top: -3,
-        left: 13
-      },
-      '&$ybottom': {
-        bottom: -3,
-        left: 13
-      },
-      '&$ycenter': {
-        left: 13
+    },
+    ybottom: {
+      '&$yatop': {
+        '& $arrow': {
+          top: '100%',
+          left: '50%',
+          borderWidth: 5,
+          transform: 'translate(-5px, -3px)'
+        },
+        '&$xleft': {
+          top: -13,
+          left: -13
+        },
+        '&$xright': {
+          top: -13,
+          right: -13
+        },
+        '&$xcenter': {
+          top: -13
+        }
       }
-    }
-  },
-  xright: {
-    '&$xaleft': {
-      '& $arrow': {
-        top: '50%',
-        left: '100%',
-        borderWidth: 5,
-        transform: 'translate(-3px, -5px)'
-      },
-      '&$ytop': {
-        top: -3,
-        left: -13
-      },
-      '&$ybottom': {
-        bottom: -3,
-        left: -13
-      },
-      '&$ycenter': {
-        left: -13
+    },
+    xleft: {
+      '&$xaright': {
+        '& $arrow': {
+          bottom: '50%',
+          left: '0',
+          borderWidth: 5,
+          transform: 'translate(-7px, 5px)'
+        },
+        '&$ytop': {
+          top: -3,
+          left: 13
+        },
+        '&$ybottom': {
+          bottom: -3,
+          left: 13
+        },
+        '&$ycenter': {
+          left: 13
+        }
       }
-    }
-  },
-  xcenter: {},
-  ycenter: {},
-  // anchor
-  xacenter: {},
-  yacenter: {},
-  xaleft: {},
-  xaright: {},
-  yatop: {},
-  yabottom: {},
-  ...['default', 'error', 'warning', 'success'].reduce((styles, type) => ({
-    ...styles,
-    [type]: {
-      '& $body': {background: theme.tooltip.colors[type].background},
-      '&$ytop$yabottom $arrow': {borderBottomColor: theme.tooltip.colors[type].background},
-      '&$ybottom$yatop $arrow': {borderTopColor: theme.tooltip.colors[type].background},
-      '&$xleft$xaright $arrow': {borderRightColor: theme.tooltip.colors[type].background},
-      '&$xright$xaleft $arrow': {borderLeftColor: theme.tooltip.colors[type].background}
-    }
-  }), {})
-}), {name: 'TooltipContent'})
+    },
+    xright: {
+      '&$xaleft': {
+        '& $arrow': {
+          top: '50%',
+          left: '100%',
+          borderWidth: 5,
+          transform: 'translate(-3px, -5px)'
+        },
+        '&$ytop': {
+          top: -3,
+          left: -13
+        },
+        '&$ybottom': {
+          bottom: -3,
+          left: -13
+        },
+        '&$ycenter': {
+          left: -13
+        }
+      }
+    },
+    xcenter: {},
+    ycenter: {},
+    // anchor
+    xacenter: {},
+    yacenter: {},
+    xaleft: {},
+    xaright: {},
+    yatop: {},
+    yabottom: {},
+    ...['default', 'error', 'warning', 'success'].reduce(
+      (styles, type) => ({
+        ...styles,
+        [type]: {
+          '& $body': {background: theme.tooltip.colors[type].background},
+          '&$ytop$yabottom $arrow': {
+            borderBottomColor: theme.tooltip.colors[type].background
+          },
+          '&$ybottom$yatop $arrow': {
+            borderTopColor: theme.tooltip.colors[type].background
+          },
+          '&$xleft$xaright $arrow': {
+            borderRightColor: theme.tooltip.colors[type].background
+          },
+          '&$xright$xaleft $arrow': {
+            borderLeftColor: theme.tooltip.colors[type].background
+          }
+        }
+      }),
+      {}
+    )
+  }),
+  {name: 'TooltipContent'}
+)
 class TooltipContent extends PureComponent {
-
   static propTypes = {
     style: PropTypes.object,
     bodyClassName: PropTypes.string,
@@ -169,7 +179,7 @@ class TooltipContent extends PureComponent {
     onBecomeInvisible: PropTypes.func,
     pointY: PropTypes.oneOf(POINTS_Y),
     children: PropTypes.node
-  };
+  }
 
   render() {
     const {
@@ -204,26 +214,26 @@ class TooltipContent extends PureComponent {
 
     if (anchorWidth)
       if (anchorPointX === 'left' && pointX === 'left') {
-        arrowStyle.left = (anchorWidth / 2 + 13) + 'px'
+        arrowStyle.left = anchorWidth / 2 + 13 + 'px'
         arrowStyle.right = 'auto'
       } else if (anchorPointX === 'right' && pointX === 'right') {
         arrowStyle.left = 'auto'
-        arrowStyle.right = (anchorWidth / 2 + 3) + 'px'
+        arrowStyle.right = anchorWidth / 2 + 3 + 'px'
       }
 
     if (anchorHeight)
       if (anchorPointY === 'top' && pointY === 'top') {
         if (anchorPointX === 'left')
-          arrowStyle.top = (anchorHeight / 2 + 3) + 'px'
+          arrowStyle.top = anchorHeight / 2 + 3 + 'px'
         if (anchorPointX === 'right')
-          arrowStyle.top = (anchorHeight / 2 - 7) + 'px'
+          arrowStyle.top = anchorHeight / 2 - 7 + 'px'
         arrowStyle.bottom = 'auto'
       } else if (anchorPointY === 'bottom' && pointY === 'bottom') {
         arrowStyle.top = 'auto'
         if (anchorPointX === 'left')
-          arrowStyle.bottom = (anchorHeight / 2 - 7) + 'px'
+          arrowStyle.bottom = anchorHeight / 2 - 7 + 'px'
         if (anchorPointX === 'right')
-          arrowStyle.bottom = (anchorHeight / 2 + 3) + 'px'
+          arrowStyle.bottom = anchorHeight / 2 + 3 + 'px'
       }
 
     return (
@@ -234,29 +244,29 @@ class TooltipContent extends PureComponent {
           animationDuration={theme.tooltip.animationDuration}
           onVisible={onBecomeVisible}
           onInvisible={onBecomeInvisible}>
-          <div
-            style={{padding: '3px'}}
-            className={resultClassName}>
-            <div className={classes.arrow} style={ arrowStyle } />
-            <div style={ style } className={ classnames(bodyClassName, classes.body) }>
-              { children }
+          <div style={{padding: '3px'}} className={resultClassName}>
+            <div className={classes.arrow} style={arrowStyle} />
+            <div
+              style={style}
+              className={classnames(bodyClassName, classes.body)}>
+              {children}
             </div>
           </div>
         </VisibilityAnimation>
       </OnClickOutside>
     )
   }
-
 }
 
-
-@injectSheet(() => ({
-  anchor: {
-    display: 'inline-block'
-  }
-}), {name: 'Tooltip'})
+@injectSheet(
+  () => ({
+    anchor: {
+      display: 'inline-block'
+    }
+  }),
+  {name: 'Tooltip'}
+)
 export default class Tooltip extends PureComponent {
-
   static propTypes = {
     /**
      * Контент тултипа
@@ -312,7 +322,7 @@ export default class Tooltip extends PureComponent {
      * Скрывать при скролле страницы
      */
     closeOnScroll: PropTypes.bool
-  };
+  }
 
   static defaultProps = {
     position: 'top',
@@ -320,33 +330,33 @@ export default class Tooltip extends PureComponent {
     closeOnScroll: true,
     autoPosition: true,
     status: 'default'
-  };
+  }
 
   state = {
     isOpened: false
-  };
+  }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpened !== undefined && nextProps.isOpened !== this.props.isOpened)
-      if (nextProps.isOpened)
-        this.show()
-      else
-        this.hide()
+    if (
+      nextProps.isOpened !== undefined &&
+      nextProps.isOpened !== this.props.isOpened
+    )
+      if (nextProps.isOpened) this.show()
+      else this.hide()
   }
 
   componentWillMount() {
-    if (this.props.isOpened)
-      this.show()
+    if (this.props.isOpened) this.show()
   }
 
-  onMouseEnter = (event) => {
+  onMouseEnter = event => {
     event.stopPropagation()
     this.show()
-  };
+  }
 
   onMouseLeave = () => {
     this.hide()
-  };
+  }
 
   clearDelayTimeout() {
     if (this.delayTimeout) {
@@ -356,43 +366,41 @@ export default class Tooltip extends PureComponent {
   }
 
   show() {
-    if (this.state.isOpened)
-      return
+    if (this.state.isOpened) return
     this.clearDelayTimeout()
-    this.setState({ isOpened: true })
+    this.setState({isOpened: true})
   }
 
   hide() {
-    if (!this.state.isOpened)
-      return
+    if (!this.state.isOpened) return
     this.clearDelayTimeout()
-    if (!this.props.delay)
-      this.setState({ isOpened: false })
+    if (!this.props.delay) this.setState({isOpened: false})
     else
       this.delayTimeout = setTimeout(() => {
-        this.setState({ isOpened: false })
+        this.setState({isOpened: false})
       }, this.props.delay)
   }
 
   onContentClose = () => {
-    if (!this.state.isOpened)
-      return
+    if (!this.state.isOpened) return
     this.clearDelayTimeout()
-    this.setState({ isOpened: false })
-  };
+    this.setState({isOpened: false})
+  }
 
   onClickOutside = () => {
-    if (!this.props.closeOnClickOutside)
-      return
+    if (!this.props.closeOnClickOutside) return
     this.clearDelayTimeout()
-    this.setState({ isOpened: false })
-  };
+    this.setState({isOpened: false})
+  }
 
   renderAnchor() {
-    const { className, style, children, classes } = this.props
-    const anchor = <span style={ style } className={classnames(className, classes.anchor)}>{ children }</span>
-    if (this.props.isOpened !== undefined)
-      return anchor
+    const {className, style, children, classes} = this.props
+    const anchor = (
+      <span style={style} className={classnames(className, classes.anchor)}>
+        {children}
+      </span>
+    )
+    if (this.props.isOpened !== undefined) return anchor
     return cloneElement(anchor, {
       onMouseEnter: this.onMouseEnter,
       onTouchStart: this.onMouseEnter,
@@ -401,27 +409,58 @@ export default class Tooltip extends PureComponent {
   }
 
   render() {
-    if (!this.props.content)
-      return this.renderAnchor()
+    if (!this.props.content) return this.renderAnchor()
     const {
-      contentClassName, contentStyle, content, position, closeOnScroll, status
+      contentClassName,
+      contentStyle,
+      content,
+      position,
+      closeOnScroll,
+      status
     } = this.props
     return (
       <FixedOverlay
         isOpened={this.state.isOpened}
         anchor={this.renderAnchor()}
-        content={<TooltipContent
-          onClickOutside={this.onClickOutside}
-          bodyClassName={contentClassName}
-          status={status}
-          style={ contentStyle }>{ content }
-        </TooltipContent>}
+        content={
+          <TooltipContent
+            onClickOutside={this.onClickOutside}
+            bodyClassName={contentClassName}
+            status={status}
+            style={contentStyle}>
+            {content}
+          </TooltipContent>
+        }
         autoPositionY={this.props.autoPosition}
         autoPositionX={this.props.autoPosition}
-        anchorPointY={position === 'top' ? 'top' : position === 'bottom' ? 'bottom' : 'center'}
-        contentPointY={position === 'top' ? 'bottom' : position === 'bottom' ? 'top' : 'center'}
-        anchorPointX={position === 'left' ? 'left' : position === 'right' ? 'right' : 'center'}
-        contentPointX={position === 'left' ? 'right' : position === 'right' ? 'left' : 'center'}
+        anchorPointY={
+          position === 'top'
+            ? 'top'
+            : position === 'bottom'
+              ? 'bottom'
+              : 'center'
+        }
+        contentPointY={
+          position === 'top'
+            ? 'bottom'
+            : position === 'bottom'
+              ? 'top'
+              : 'center'
+        }
+        anchorPointX={
+          position === 'left'
+            ? 'left'
+            : position === 'right'
+              ? 'right'
+              : 'center'
+        }
+        contentPointX={
+          position === 'left'
+            ? 'right'
+            : position === 'right'
+              ? 'left'
+              : 'center'
+        }
         cachePositionOptions={false}
         closeOnScroll={this.props.isOpened === undefined && closeOnScroll}
         onContentClose={this.onContentClose}
@@ -429,5 +468,4 @@ export default class Tooltip extends PureComponent {
       />
     )
   }
-
 }

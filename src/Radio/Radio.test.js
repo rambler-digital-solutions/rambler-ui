@@ -1,12 +1,10 @@
 import React from 'react'
-import { RadioButton, RadioButtonGroup} from '../Radio'
-import { ApplyTheme } from '../theme'
-import { mount, getStyles, getWrapperNode } from '../utils/test-utils'
+import {RadioButton, RadioButtonGroup} from '../Radio'
+import {ApplyTheme} from '../theme'
+import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 import theme from '../theme/base'
 
-const applyTheme = children => (
-  <ApplyTheme>{ children }</ApplyTheme>
-)
+const applyTheme = children => <ApplyTheme>{children}</ApplyTheme>
 
 describe('Проверка callback RadioButton на вызов', () => {
   const defaultProps = {
@@ -26,14 +24,13 @@ describe('Проверка callback RadioButton на вызов', () => {
   })
 
   it('Проверяем произошел ли вызов функции', () => {
-    const wrapper = mount(applyTheme(<RadioButtonGroup
-      name='group'
-      className='my-radio-button-group'>
-      <RadioButton
-        {...defaultProps}>
-            radio
-      </RadioButton>
-    </RadioButtonGroup>))
+    const wrapper = mount(
+      applyTheme(
+        <RadioButtonGroup name="group" className="my-radio-button-group">
+          <RadioButton {...defaultProps}>radio</RadioButton>
+        </RadioButtonGroup>
+      )
+    )
 
     const input = wrapper.find('input')
     input.simulate('click')
@@ -59,21 +56,28 @@ describe('Проверка callback RadioButton на event.type', () => {
 
   let event
   beforeEach(() => {
-    spyOn(defaultProps, 'onClick').and.callFake((e) => { event = e })
-    spyOn(defaultProps, 'onBlur').and.callFake((e) => { event = e })
-    spyOn(defaultProps, 'onChange').and.callFake((e) => { event = e })
-    spyOn(defaultProps, 'onFocus').and.callFake((e) => { event = e })
+    spyOn(defaultProps, 'onClick').and.callFake(e => {
+      event = e
+    })
+    spyOn(defaultProps, 'onBlur').and.callFake(e => {
+      event = e
+    })
+    spyOn(defaultProps, 'onChange').and.callFake(e => {
+      event = e
+    })
+    spyOn(defaultProps, 'onFocus').and.callFake(e => {
+      event = e
+    })
   })
 
   it('Проверяем тип события', () => {
-    const wrapper = mount(applyTheme(<RadioButtonGroup
-      name='group'
-      className='my-radio-button-group'>
-      <RadioButton
-        {...defaultProps}>
-            radio
-      </RadioButton>
-    </RadioButtonGroup>))
+    const wrapper = mount(
+      applyTheme(
+        <RadioButtonGroup name="group" className="my-radio-button-group">
+          <RadioButton {...defaultProps}>radio</RadioButton>
+        </RadioButtonGroup>
+      )
+    )
     const input = wrapper.find('input')
     input.simulate('click')
     expect(event.type).toEqual('click')
@@ -96,36 +100,28 @@ describe('Проверка RadioButton.props disabled && value', () => {
   }
 
   it('Проверяем value и disabled', () => {
-    const wrapper = mount(applyTheme(<RadioButtonGroup
-      name='group'
-      className='my-radio-button-group'>
-      <RadioButton
-        key='1'
-        value='1'
-        {...defaultProps}>
+    const wrapper = mount(
+      applyTheme(
+        <RadioButtonGroup name="group" className="my-radio-button-group">
+          <RadioButton key="1" value="1" {...defaultProps}>
             1
-      </RadioButton>
-      <RadioButton
-        key='2'
-        value='2'
-        {...defaultProps}>
+          </RadioButton>
+          <RadioButton key="2" value="2" {...defaultProps}>
             2
-      </RadioButton>
-      <RadioButton
-        key='3'
-        value='3'
-        disabled={true}
-        {...defaultProps}>
+          </RadioButton>
+          <RadioButton key="3" value="3" disabled={true} {...defaultProps}>
             3
-      </RadioButton>
-    </RadioButtonGroup>))
+          </RadioButton>
+        </RadioButtonGroup>
+      )
+    )
 
     const arr = [...getWrapperNode(wrapper).querySelectorAll('input')]
     expect(arr[0].disabled).toEqual(false)
     expect(arr[1].disabled).toEqual(false)
     expect(arr[2].disabled).toEqual(true)
     let i = 1
-    arr.forEach((node) => {
+    arr.forEach(node => {
       expect(node.value).toEqual(`${i++}`)
     })
   })
@@ -145,19 +141,22 @@ describe('Проверка callback = onChange на RadioButtonGroup', () => {
 
   let event, newValue
   beforeEach(() => {
-    spyOn(defaultPropsGroup, 'onChange').and.callFake((e, value) => { event = e; newValue = value })
+    spyOn(defaultPropsGroup, 'onChange').and.callFake((e, value) => {
+      event = e
+      newValue = value
+    })
   })
 
   it('Проверяем callback onChange', () => {
-    const wrapper = mount(applyTheme(<RadioButtonGroup
-      {...defaultPropsGroup}
-    >
-      <RadioButton
-        value='1'
-        {...defaultProps}>
+    const wrapper = mount(
+      applyTheme(
+        <RadioButtonGroup {...defaultPropsGroup}>
+          <RadioButton value="1" {...defaultProps}>
             1
-      </RadioButton>
-    </RadioButtonGroup>))
+          </RadioButton>
+        </RadioButtonGroup>
+      )
+    )
     const input = wrapper.find('input')
     input.simulate('change')
     expect(event.type).toEqual('change')
@@ -171,14 +170,15 @@ describe('<RadioButton /> styles', () => {
       className: 'my-radio-button',
       value: 1
     }
-    const wrapper = mount(applyTheme(<RadioButtonGroup style={{width: '700px'}}>
-      <RadioButton
-        name='group'
-        radioClassName='my-class'
-        {...defaultProps}>
-          radio
-      </RadioButton>
-    </RadioButtonGroup>))
+    const wrapper = mount(
+      applyTheme(
+        <RadioButtonGroup style={{width: '700px'}}>
+          <RadioButton name="group" radioClassName="my-class" {...defaultProps}>
+            radio
+          </RadioButton>
+        </RadioButtonGroup>
+      )
+    )
     const styles = getStyles(wrapper.find('.my-class'))
     expect(styles['border-bottom-left-radius']).toEqual('50%')
     expect(styles['border-bottom-right-radius']).toEqual('50%')
@@ -195,5 +195,4 @@ describe('<RadioButton /> styles', () => {
     const styles = getStyles(wrapper)
     expect(styles.display).toEqual('block')
   })
-
 })

@@ -1,12 +1,10 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function provideNotification(Target) {
-
   @provideRenderToLayer
   class ProvideNotification extends Component {
-
-    openNotification = (element) => {
+    openNotification = element => {
       const notification = {}
 
       const close = () => {
@@ -21,7 +19,7 @@ export default function provideNotification(Target) {
       return notification
     }
 
-    closeNotification = (notification) => {
+    closeNotification = notification => {
       notification.close()
     }
 
@@ -36,12 +34,11 @@ export default function provideNotification(Target) {
         <Target
           {...props}
           openNotification={this.openNotification}
-          closeNotification={this.closeNotification} />
+          closeNotification={this.closeNotification}
+        />
       )
     }
-
   }
 
   return ProvideNotification
-
 }

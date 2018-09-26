@@ -1,43 +1,45 @@
-import React, { PureComponent } from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Spinner from '../Spinner'
-import { injectSheet } from '../theme'
+import {injectSheet} from '../theme'
 
-@injectSheet(theme => ({
-  loader: {
-    position: 'relative',
-    width: '100%',
-    minHeight: '100%'
-  },
-  overlay: {
-    position: 'absolute',
-    background: theme.loader.color,
-    transitionProperty: 'opacity',
-    pointerEvents: 'none',
-    transitionDuration: theme.loader.animationDuration,
-    opacity: 0,
-    zIndex: -1,
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0
-  },
-  isLoading: {
-    '&$overlay': {
-      opacity: 0.7,
-      zIndex: 'initial'
+@injectSheet(
+  theme => ({
+    loader: {
+      position: 'relative',
+      width: '100%',
+      minHeight: '100%'
     },
-    '&$loader': {
-      pointerEvents: 'none'
+    overlay: {
+      position: 'absolute',
+      background: theme.loader.color,
+      transitionProperty: 'opacity',
+      pointerEvents: 'none',
+      transitionDuration: theme.loader.animationDuration,
+      opacity: 0,
+      zIndex: -1,
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0
+    },
+    isLoading: {
+      '&$overlay': {
+        opacity: 0.7,
+        zIndex: 'initial'
+      },
+      '&$loader': {
+        pointerEvents: 'none'
+      }
+    },
+    blur: {
+      filter: 'blur(1px)'
     }
-  },
-  blur: {
-    filter: 'blur(1px)'
-  }
-}), {name: 'Loader'})
+  }),
+  {name: 'Loader'}
+)
 export default class Loader extends PureComponent {
-
   static propTypes = {
     /**
      * CSS-класс
@@ -66,10 +68,7 @@ export default class Loader extends PureComponent {
     /**
      * Состояние загрузки, либо Boolean, либо Promise
      */
-    loading: PropTypes.oneOfType([
-      PropTypes.bool,
-      PropTypes.object
-    ]),
+    loading: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]),
     /**
      * Контент
      */
@@ -98,7 +97,7 @@ export default class Loader extends PureComponent {
     this.updateLoading(this.props.loading)
   }
 
-  componentWillReceiveProps({ loading }) {
+  componentWillReceiveProps({loading}) {
     this.updateLoading(loading)
   }
 
@@ -121,7 +120,7 @@ export default class Loader extends PureComponent {
   }
 
   render() {
-    const { loading } = this.state
+    const {loading} = this.state
 
     const {
       className,
@@ -139,21 +138,33 @@ export default class Loader extends PureComponent {
     return (
       <div
         style={style}
-        className={classnames(classes.loader, className, loading && classnames(loadingClassName, classes.isLoading))}>
-        {!(loading && hideContent) && (
-          blurContent ? (
+        className={classnames(
+          classes.loader,
+          className,
+          loading && classnames(loadingClassName, classes.isLoading)
+        )}>
+        {!(loading && hideContent) &&
+          (blurContent ? (
             <div className={classnames(loading && blurContent && classes.blur)}>
               {children}
             </div>
-          ) :
+          ) : (
             children
+          ))}
+        <div
+          className={classnames(
+            classes.overlay,
+            overlayClassName,
+            loading && classes.isLoading
+          )}
+        />
+        {loading && (
+          <Spinner
+            className={classnames(classes.spinner, spinnerClassName)}
+            color={spinnerColor}
+          />
         )}
-        <div className={classnames(classes.overlay, overlayClassName, loading && classes.isLoading)} />
-        {loading &&
-          <Spinner className={classnames(classes.spinner, spinnerClassName)} color={spinnerColor} />
-        }
       </div>
     )
   }
-
 }

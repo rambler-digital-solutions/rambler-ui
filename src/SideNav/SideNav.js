@@ -1,28 +1,30 @@
 /**
  * Компонент боковой навигации
  */
-import React, { Component, Children, cloneElement } from 'react'
+import React, {Component, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import {injectSheet} from '../theme'
+import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(theme => ({
-  sideNav: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    display: 'inline-block',
-    '&, & *': {
-      transitionDuration: '.2s',
-      transitionProperty: 'background, opacity, border, box-shadow'
+@injectSheet(
+  theme => ({
+    sideNav: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      display: 'inline-block',
+      '&, & *': {
+        transitionDuration: '.2s',
+        transitionProperty: 'background, opacity, border, box-shadow'
+      }
+    },
+    block: {
+      display: 'block'
     }
-  },
-  block: {
-    display: 'block'
-  }
-}), {name: 'SideNav'})
+  }),
+  {name: 'SideNav'}
+)
 export default class SideNav extends Component {
-
   static propTypes = {
     /**
      * Класс контейнера
@@ -72,23 +74,21 @@ export default class SideNav extends Component {
     this.value = props.value
   }
 
-  componentWillReceiveProps({ value }) {
+  componentWillReceiveProps({value}) {
     this.setValue(value)
   }
 
   setValue(value) {
     if (value !== this.value) {
       this.value = value
-      this.setState({ value })
+      this.setState({value})
     }
   }
 
   onValueChange = (event, value) => {
     this.setValue(value)
 
-    if (this.props.onChange)
-      this.props.onChange(event, value)
-
+    if (this.props.onChange) this.props.onChange(event, value)
   }
 
   render() {
@@ -102,10 +102,9 @@ export default class SideNav extends Component {
       ...other
     } = this.props
 
-    const resultChildren = Children.map(children, (child) => {
+    const resultChildren = Children.map(children, child => {
       if (!child.type || child.type.displayName !== 'ruiSideNavItem')
         throw new Error('Child component should be instance of <SideNavItem />')
-
 
       const hasValue = 'value' in child.props
       const isSelected = hasValue && child.props.value === this.state.value
@@ -113,9 +112,9 @@ export default class SideNav extends Component {
       return cloneElement(child, {
         size,
         isSelected,
-        ...hasValue && {
+        ...(hasValue && {
           onPress: this.onValueChange
-        }
+        })
       })
     })
 
@@ -133,5 +132,4 @@ export default class SideNav extends Component {
       </div>
     )
   }
-
 }

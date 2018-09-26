@@ -1,77 +1,81 @@
 /**
  * Опция компонента таба
  */
-import React, { Component, cloneElement, isValidElement } from 'react'
+import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
+import {injectSheet} from '../theme'
+import {isolateMixin} from '../utils/mixins'
 
 const setThemeForSelector = colors => ({
   borderColor: colors.border,
   color: colors.text
 })
 
-@injectSheet((theme) => {
-  const {sizes, bottom, colors} = theme.tabs
-  return {
-    tab: {
-      extend: isolateMixin,
-      display: 'inline-block',
-      userSelect: 'none',
-      whiteSpace: 'nowrap',
-      cursor: 'pointer',
-      outline: 'none !important',
-      borderStyle: 'solid',
-      borderWidth: `0 0 ${theme.tabs.borderWidth}px`,
-      background: 'none',
-      fontWeight: 500,
-      transitionDuration: theme.tabs.animationDuration,
-      transitionProperty: 'color, border-color',
-      '&::-moz-focus-inner': {
-        border: 'none !important',
-        outline: 'none !important'
+@injectSheet(
+  theme => {
+    const {sizes, bottom, colors} = theme.tabs
+    return {
+      tab: {
+        extend: isolateMixin,
+        display: 'inline-block',
+        userSelect: 'none',
+        whiteSpace: 'nowrap',
+        cursor: 'pointer',
+        outline: 'none !important',
+        borderStyle: 'solid',
+        borderWidth: `0 0 ${theme.tabs.borderWidth}px`,
+        background: 'none',
+        fontWeight: 500,
+        transitionDuration: theme.tabs.animationDuration,
+        transitionProperty: 'color, border-color',
+        '&::-moz-focus-inner': {
+          border: 'none !important',
+          outline: 'none !important'
+        },
+        '&&': setThemeForSelector(colors.default),
+        '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
+        '&$isEnabled:hover, &$isEnabled:focus': setThemeForSelector(
+          colors.hover
+        ),
+        '&$isEnabled:active': setThemeForSelector(colors.active),
+        '&$isDisabled': setThemeForSelector(colors.disabled),
+        '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
       },
-      '&&': setThemeForSelector(colors.default),
-      '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
-      '&$isEnabled:hover, &$isEnabled:focus': setThemeForSelector(colors.hover),
-      '&$isEnabled:active': setThemeForSelector(colors.active),
-      '&$isDisabled': setThemeForSelector(colors.disabled),
-      '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
-    },
-    tabBottom: {
-      borderWidth: `${theme.tabs.borderWidth}px 0 0`
-    },
-    'size-small': {
-      extend: sizes.small,
-      lineHeight: 1.36,
-      letterSpacing: 1.3,
-      textTransform: 'uppercase'
-    },
-    'size-medium': {
-      extend: sizes.medium,
-      lineHeight: 1.43
-    },
-    'size-small-bottom': {
-      extend: bottom.sizes.small,
-      lineHeight: 1.36,
-      letterSpacing: 1.3,
-      textTransform: 'uppercase'
-    },
-    'size-medium-bottom': {
-      extend: bottom.sizes.medium,
-      lineHeight: 1.43
-    },
-    isDisabled: {
-      cursor: 'not-allowed',
-      pointerEvents: 'none'
-    },
-    isEnabled: {},
-    isSelected: {}
-  }
-}, {name: 'TabsItem'})
+      tabBottom: {
+        borderWidth: `${theme.tabs.borderWidth}px 0 0`
+      },
+      'size-small': {
+        extend: sizes.small,
+        lineHeight: 1.36,
+        letterSpacing: 1.3,
+        textTransform: 'uppercase'
+      },
+      'size-medium': {
+        extend: sizes.medium,
+        lineHeight: 1.43
+      },
+      'size-small-bottom': {
+        extend: bottom.sizes.small,
+        lineHeight: 1.36,
+        letterSpacing: 1.3,
+        textTransform: 'uppercase'
+      },
+      'size-medium-bottom': {
+        extend: bottom.sizes.medium,
+        lineHeight: 1.43
+      },
+      isDisabled: {
+        cursor: 'not-allowed',
+        pointerEvents: 'none'
+      },
+      isEnabled: {},
+      isSelected: {}
+    }
+  },
+  {name: 'TabsItem'}
+)
 class TabsItem extends Component {
-
   static propTypes = {
     /**
      * Значение, соответствующее этому табу
@@ -109,19 +113,19 @@ class TabsItem extends Component {
      * Колбек нажатия на элемент (автоматически проставляется компонентом `<Tabs/>`)
      */
     onPress: PropTypes.func
-  };
+  }
 
   static defaultProps = {
     size: 'small',
     isSelected: false,
     disabled: false
-  };
+  }
 
-  handleClick = (event) => {
+  handleClick = event => {
     const {props} = this
     if (!props.onPress) return
     props.onPress(event, props.value)
-  };
+  }
 
   render() {
     const {
@@ -165,10 +169,10 @@ class TabsItem extends Component {
         elemProps.activeClassName = classes.isSelected
       isLink = true
     } else if (href) {
-      element = <a href={ href } />
+      element = <a href={href} />
       isLink = true
     } else {
-      element = <button type="button" disabled={ disabled } />
+      element = <button type="button" disabled={disabled} />
     }
 
     if (isLink) {

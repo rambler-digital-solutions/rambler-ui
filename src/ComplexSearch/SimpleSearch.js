@@ -1,125 +1,131 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { injectSheet } from '../theme'
+import {injectSheet} from '../theme'
 import SearchIcon from './icons/SearchIcon'
 import SourceButtons from './SourceButtons'
-import { isolateMixin } from '../utils/mixins'
+import {isolateMixin} from '../utils/mixins'
 import provideSearch from './provideSearch'
 
 @provideSearch
-@injectSheet(theme => ({
-  active: {},
-  withoutButton: {},
-  root: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    fontSize: 13,
-    width: '100%',
-    maxWidth: theme.simpleSearch.maxWidth,
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  inputRow: {
-    position: 'relative',
-    width: '100%',
-    display: 'flex'
-  },
-  inputWrapper: {
-    borderColor: theme.simpleSearch.input.default.borderColor,
-    borderWidth: 2,
-    borderStyle: 'solid',
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    borderRadius: '1px',
-    width: '100%',
-    boxSizing: 'border-box',
-    backgroundColor: theme.search.input.backgroundColor,
-
-    '&$active': {
-      borderColor: theme.simpleSearch.input.hover.borderColor
-    }
-  },
-  bottomWrapper: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '15px 0',
-    fontSize: 12
-  },
-  input: {
-    extend: isolateMixin,
-    padding: '10px 12px',
-    border: 'none',
-    boxSizing: 'border-box',
-    display: 'block',
-    borderRadius: 0,
-    width: '100%',
-    fontWeight: 400,
-    fontSize: 13,
-    lineHeight: '25px',
-    appearance: 'none',
-    color: theme.simpleSearch.input.color,
-    height: '100%',
-    outline: 0,
-    boxShadow: 'none',
-
-    '&::-ms-reveal, &::-ms-clear': {
-      display: 'none'
+@injectSheet(
+  theme => ({
+    active: {},
+    withoutButton: {},
+    root: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      fontSize: 13,
+      width: '100%',
+      maxWidth: theme.simpleSearch.maxWidth,
+      display: 'flex',
+      flexDirection: 'column'
     },
-
-    '&::-webkit-input-placeholder': {
-      fontSize: theme.simpleSearch.input.placeholder.fontSize,
-      color: theme.simpleSearch.input.placeholder.color,
-      opacity: 1
+    inputRow: {
+      position: 'relative',
+      width: '100%',
+      display: 'flex'
     },
-    '&::-moz-placeholder': {
-      fontSize: theme.simpleSearch.input.placeholder.fontSize,
-      color: theme.simpleSearch.input.placeholder.color,
-      opacity: 1
-    },
-    '&:-ms-input-placeholder': {
-      fontSize: theme.simpleSearch.input.placeholder.fontSize,
-      color: theme.simpleSearch.input.placeholder.color,
-      opacity: 1
-    }
-  },
-  searchButton: {
-    extend: isolateMixin,
-    display: 'inline-flex',
-    background: 'none',
-    borderRadius: '0 1px 1px 0',
-    textAlign: 'center',
-    paddingLeft: 13,
-    border: 'none',
-    flexShrink: 0,
-    cursor: 'pointer',
-    boxSizing: 'border-box',
-    color: theme.simpleSearch.button.color,
-    outline: 'none',
+    inputWrapper: {
+      borderColor: theme.simpleSearch.input.default.borderColor,
+      borderWidth: 2,
+      borderStyle: 'solid',
+      display: 'flex',
+      alignItems: 'center',
+      position: 'relative',
+      borderRadius: '1px',
+      width: '100%',
+      boxSizing: 'border-box',
+      backgroundColor: theme.search.input.backgroundColor,
 
-    '&:active': {
-      color: theme.search.button.active.color
-    }
-  },
-  serviceIcons: {
-    display: 'flex',
-    flexShrink: 0,
-    padding: '0 13px',
-    alignItems: 'center'
-  },
-  overlay: {
-    width: '100%'
-  },
-  ...['small', 'medium'].reduce((result, size) => ({
-    ...result,
-    [`size-${size}`]: {
-      '& $inputWrapper': {
-        height: theme.simpleSearch.sizes[size].height
+      '&$active': {
+        borderColor: theme.simpleSearch.input.hover.borderColor
       }
-    }
-  }), {})
-}), {name: 'SimpleSearch'})
+    },
+    bottomWrapper: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      padding: '15px 0',
+      fontSize: 12
+    },
+    input: {
+      extend: isolateMixin,
+      padding: '10px 12px',
+      border: 'none',
+      boxSizing: 'border-box',
+      display: 'block',
+      borderRadius: 0,
+      width: '100%',
+      fontWeight: 400,
+      fontSize: 13,
+      lineHeight: '25px',
+      appearance: 'none',
+      color: theme.simpleSearch.input.color,
+      height: '100%',
+      outline: 0,
+      boxShadow: 'none',
+
+      '&::-ms-reveal, &::-ms-clear': {
+        display: 'none'
+      },
+
+      '&::-webkit-input-placeholder': {
+        fontSize: theme.simpleSearch.input.placeholder.fontSize,
+        color: theme.simpleSearch.input.placeholder.color,
+        opacity: 1
+      },
+      '&::-moz-placeholder': {
+        fontSize: theme.simpleSearch.input.placeholder.fontSize,
+        color: theme.simpleSearch.input.placeholder.color,
+        opacity: 1
+      },
+      '&:-ms-input-placeholder': {
+        fontSize: theme.simpleSearch.input.placeholder.fontSize,
+        color: theme.simpleSearch.input.placeholder.color,
+        opacity: 1
+      }
+    },
+    searchButton: {
+      extend: isolateMixin,
+      display: 'inline-flex',
+      background: 'none',
+      borderRadius: '0 1px 1px 0',
+      textAlign: 'center',
+      paddingLeft: 13,
+      border: 'none',
+      flexShrink: 0,
+      cursor: 'pointer',
+      boxSizing: 'border-box',
+      color: theme.simpleSearch.button.color,
+      outline: 'none',
+
+      '&:active': {
+        color: theme.search.button.active.color
+      }
+    },
+    serviceIcons: {
+      display: 'flex',
+      flexShrink: 0,
+      padding: '0 13px',
+      alignItems: 'center'
+    },
+    overlay: {
+      width: '100%'
+    },
+    ...['small', 'medium'].reduce(
+      (result, size) => ({
+        ...result,
+        [`size-${size}`]: {
+          '& $inputWrapper': {
+            height: theme.simpleSearch.sizes[size].height
+          }
+        }
+      }),
+      {}
+    )
+  }),
+  {name: 'SimpleSearch'}
+)
 export default class SimpleSearch extends React.Component {
   static propTypes = {
     /**
@@ -193,7 +199,7 @@ export default class SimpleSearch extends React.Component {
      * 	Текст тултипа поиска по сервису
      */
     serviceTooltipLabel: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     value: '',
@@ -209,7 +215,7 @@ export default class SimpleSearch extends React.Component {
     onBlur() {},
     onSubmit() {},
     onPressEnter() {}
-  };
+  }
 
   renderInputNode() {
     const {
@@ -241,18 +247,10 @@ export default class SimpleSearch extends React.Component {
   }
 
   renderInput() {
-    const {
-      inputWrapperClassName,
-      classes
-    } = this.props
+    const {inputWrapperClassName, classes} = this.props
 
     return (
-      <div
-        className={classnames(
-          classes.inputWrapper,
-          inputWrapperClassName,
-        )}
-      >
+      <div className={classnames(classes.inputWrapper, inputWrapperClassName)}>
         {this.renderInputNode()}
         {this.renderServiceIcons()}
       </div>
@@ -271,12 +269,14 @@ export default class SimpleSearch extends React.Component {
     } = this.props
     return (
       <div className={classes.serviceIcons}>
-        {sourceType && <SourceButtons
-          onSourceIconClick={changeSourceType}
-          sourceButtonsProps={sourceButtonsProps}
-          serviceTooltipLabel={serviceTooltipLabel}
-          activeType={searchOptions.sourceType}
-        />}
+        {sourceType && (
+          <SourceButtons
+            onSourceIconClick={changeSourceType}
+            sourceButtonsProps={sourceButtonsProps}
+            serviceTooltipLabel={serviceTooltipLabel}
+            activeType={searchOptions.sourceType}
+          />
+        )}
         {showSearchButton && this.renderButton()}
       </div>
     )
@@ -298,8 +298,7 @@ export default class SimpleSearch extends React.Component {
         size="small"
         style={searchButtonStyle}
         tabIndex={-1}
-        {...searchButtonProps}
-      >
+        {...searchButtonProps}>
         <SearchIcon
           size={15}
           className={this.props.classes.searchIcon}
@@ -310,13 +309,7 @@ export default class SimpleSearch extends React.Component {
   }
 
   render() {
-    const {
-      classes,
-      style,
-      className,
-      size,
-      showSearchButton
-    } = this.props
+    const {classes, style, className, size, showSearchButton} = this.props
 
     return (
       <div
@@ -326,11 +319,8 @@ export default class SimpleSearch extends React.Component {
           className,
           classes[`size-${size}`]
         )}
-        style={style}
-      >
-        <div className={classes.inputRow}>
-          {this.renderInput()}
-        </div>
+        style={style}>
+        <div className={classes.inputRow}>{this.renderInput()}</div>
       </div>
     )
   }

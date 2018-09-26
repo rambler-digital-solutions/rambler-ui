@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
 export default class SvgIcon extends Component {
-
   static propTypes = {
     /**
      * Дополнительный класс для иконки
@@ -20,10 +19,7 @@ export default class SvgIcon extends Component {
      * Элементы, которые отрисуются внутри svg-элемента,
      * ожидается `ReactElement` или функция возвращающая его и получающая размер как аргумент `size => ReactElement`
      */
-    children: PropTypes.oneOfType([
-      PropTypes.node,
-      PropTypes.func
-    ]),
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     /**
      * Размер иконки. Может быть строкой или значением в пикселях
      */
@@ -36,14 +32,14 @@ export default class SvgIcon extends Component {
      * Атрибут viewBox svg-элемента
      */
     viewBox: PropTypes.string
-  };
+  }
 
   static defaultProps = {
     viewBox: '0 0 20 20',
     size: 'medium',
     style: {},
     color: 'black'
-  };
+  }
 
   sizeMap = {
     small: 15,
@@ -52,14 +48,7 @@ export default class SvgIcon extends Component {
   }
 
   render() {
-    const {
-      children,
-      color,
-      size,
-      style,
-      viewBox,
-      ...other
-    } = this.props
+    const {children, color, size, style, viewBox, ...other} = this.props
     const resultSize = this.sizeMap[size] || size
     const resultStyle = {
       width: resultSize,
@@ -70,15 +59,13 @@ export default class SvgIcon extends Component {
       ...style
     }
 
-    const resultChildren = typeof children === 'function' ?
-      children(resultSize) :
-      children
+    const resultChildren =
+      typeof children === 'function' ? children(resultSize) : children
 
     return (
-      <svg { ...other } viewBox={ viewBox } style={ resultStyle }>
-        { resultChildren }
+      <svg {...other} viewBox={viewBox} style={resultStyle}>
+        {resultChildren}
       </svg>
     )
   }
-
 }

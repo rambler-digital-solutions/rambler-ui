@@ -5,8 +5,8 @@ import SuggestItem from './SuggestItem'
 import SourceButtons from './SourceButtons'
 import ServiceSourceIcon from './icons/ServiceSourceIcon'
 import theme from '../theme/base'
-import { mount, withTheme, getStyles, getWrapperNode } from '../utils/test-utils'
-import { normalize as nc } from '../utils/colors'
+import {mount, withTheme, getStyles, getWrapperNode} from '../utils/test-utils'
+import {normalize as nc} from '../utils/colors'
 
 const SEARCH_BUTTON_WIDTH = 125
 const DATA_ATTR = 'data-cerber-head'
@@ -26,15 +26,9 @@ const getSearchWrapper = (props = {}) => {
   return mount(
     withTheme(
       <ComplexSearch {...resultProps}>
-        <SuggestItem value="1">
-            1
-        </SuggestItem>
-        <SuggestItem value="2">
-            2
-        </SuggestItem>
-        <SuggestItem value="3">
-            3
-        </SuggestItem>
+        <SuggestItem value="1">1</SuggestItem>
+        <SuggestItem value="2">2</SuggestItem>
+        <SuggestItem value="3">3</SuggestItem>
       </ComplexSearch>
     )
   )
@@ -58,7 +52,6 @@ describe('<ComplexSearch />', () => {
     expect(inputStyles['font-size']).toEqual(`${theme.search.fontSize}px`)
   })
 
-
   it('should change size with props', () => {
     ['small', 'medium'].forEach(size => {
       const wrapper = getSearchWrapper({
@@ -69,7 +62,9 @@ describe('<ComplexSearch />', () => {
       const sizeProp = search.prop('size')
       const input = search.find('input').closest('div')
       const inputStyles = getStyles(input)
-      expect(inputStyles.height).toEqual(`${theme.search.sizes[sizeProp].height}px`)
+      expect(inputStyles.height).toEqual(
+        `${theme.search.sizes[sizeProp].height}px`
+      )
     })
   })
 
@@ -107,7 +102,9 @@ describe('<ComplexSearch />', () => {
 
     const button = wrapper.find('button').first()
     button.simulate('click')
-    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value', {sourceType: 'global'})
+    expect(handlersProps.onSubmit).toHaveBeenCalledWith('value', {
+      sourceType: 'global'
+    })
   })
 
   it('button should be in wrapper borders', () => {
@@ -121,7 +118,7 @@ describe('<ComplexSearch />', () => {
     expect(buttonRect.right).toBeLessThanOrEqual(wrapperRect.right)
   })
 
-  it ('button font styles should be from theme', () => {
+  it('button font styles should be from theme', () => {
     const wrapper = getSearchWrapper()
 
     const themeButtonStyles = theme.search.button
@@ -129,22 +126,34 @@ describe('<ComplexSearch />', () => {
     const button = search.find('button')
     const buttonStyles = getStyles(button)
 
-    expect(buttonStyles['font-weight']).toEqual(themeButtonStyles.fontWeight.toString())
+    expect(buttonStyles['font-weight']).toEqual(
+      themeButtonStyles.fontWeight.toString()
+    )
     expect(buttonStyles['font-size']).toEqual(`${themeButtonStyles.fontSize}px`)
     expect(buttonStyles.color).toEqual(nc(themeButtonStyles.color))
-    expect(parseFloat(buttonStyles['letter-spacing']).toFixed(1)).toEqual(themeButtonStyles.letterSpacing.toString())
-    expect(buttonStyles['background-color']).toEqual(nc(themeButtonStyles.default.background))
-    expect(buttonStyles['text-transform']).toEqual(themeButtonStyles.textTransform)
+    expect(parseFloat(buttonStyles['letter-spacing']).toFixed(1)).toEqual(
+      themeButtonStyles.letterSpacing.toString()
+    )
+    expect(buttonStyles['background-color']).toEqual(
+      nc(themeButtonStyles.default.background)
+    )
+    expect(buttonStyles['text-transform']).toEqual(
+      themeButtonStyles.textTransform
+    )
   })
 
-  it ('should apply data-attributes to button, searchinput', () => {
+  it('should apply data-attributes to button, searchinput', () => {
     const wrapper = getSearchWrapper()
 
     const search = wrapper.find(ComplexSearch)
     const input = search.find('input').first()
-    expect(getWrapperNode(input).getAttribute(DATA_ATTR)).toEqual(SEARCH_DATA_ATTR)
+    expect(getWrapperNode(input).getAttribute(DATA_ATTR)).toEqual(
+      SEARCH_DATA_ATTR
+    )
     const button = search.find('button')
-    expect(getWrapperNode(button).getAttribute(DATA_ATTR)).toEqual(BUTTON_DATA_ATTR)
+    expect(getWrapperNode(button).getAttribute(DATA_ATTR)).toEqual(
+      BUTTON_DATA_ATTR
+    )
   })
 
   it('should change sourceType when source buttons enabled', () => {
@@ -159,18 +168,22 @@ describe('<ComplexSearch />', () => {
     const input = wrapper.find('input').first()
     getWrapperNode(input).value = 'value'
     input.simulate('change')
-    expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {sourceType: 'global'})
+    expect(handlersProps.onSearch).toHaveBeenCalledWith('value', {
+      sourceType: 'global'
+    })
     sourceButtons.find(ServiceSourceIcon).simulate('click')
     getWrapperNode(input).value = 'value2'
     input.simulate('change')
-    expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {sourceType: 'service'})
+    expect(handlersProps.onSearch).toHaveBeenCalledWith('value2', {
+      sourceType: 'service'
+    })
   })
 
   it('should call onPressEnter when press enter on input', () => {
     spyOn(handlersProps, 'onPressEnter')
     spyOn(handlersProps, 'onSearch')
-    
-    const wrapper = getSearchWrapper({ 
+
+    const wrapper = getSearchWrapper({
       sourceType: true,
       ...handlersProps
     })
@@ -180,11 +193,15 @@ describe('<ComplexSearch />', () => {
     input.simulate('change')
     expect(handlersProps.onSearch).toHaveBeenCalled()
     input.simulate('keydown', {key: 'Enter'})
-    expect(handlersProps.onPressEnter).toHaveBeenCalledWith('value', {sourceType: 'global'})
+    expect(handlersProps.onPressEnter).toHaveBeenCalledWith('value', {
+      sourceType: 'global'
+    })
     sourceButtons.find(ServiceSourceIcon).simulate('click')
     getWrapperNode(input).value = 'value2'
     input.simulate('change')
     input.simulate('keydown', {key: 'Enter'})
-    expect(handlersProps.onPressEnter).toHaveBeenCalledWith('value2', {sourceType: 'service'})
-  })  
+    expect(handlersProps.onPressEnter).toHaveBeenCalledWith('value2', {
+      sourceType: 'service'
+    })
+  })
 })

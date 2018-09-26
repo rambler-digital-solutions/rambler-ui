@@ -1,28 +1,30 @@
 /**
  * Компонент radioButtonGroup
  */
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'events'
 import uuid from '../utils/uuid'
-import { injectSheet } from '../theme'
-import { isolateMixin } from '../utils/mixins'
-import { RADIO_INPUT_CONTEXT } from '../constants/context'
+import {injectSheet} from '../theme'
+import {isolateMixin} from '../utils/mixins'
+import {RADIO_INPUT_CONTEXT} from '../constants/context'
 
-@injectSheet(theme => ({
-  radioButtonGroup: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily
-  }
-}), {name: 'RadioButtonGroup'})
+@injectSheet(
+  theme => ({
+    radioButtonGroup: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily
+    }
+  }),
+  {name: 'RadioButtonGroup'}
+)
 export default class RadioButtonGroup extends Component {
-
   static propTypes = {
     /**
-    * Имя, которое будет применяться ко всей группе radio.
-    * Генерируется автоматически, если не указано
-    */
+     * Имя, которое будет применяться ко всей группе radio.
+     * Генерируется автоматически, если не указано
+     */
     name: PropTypes.string,
     /**
      * Дочерние узлы - radio
@@ -33,8 +35,8 @@ export default class RadioButtonGroup extends Component {
      */
     className: PropTypes.string,
     /**
-    * Добавление стандартных стилей для группы
-    */
+     * Добавление стандартных стилей для группы
+     */
     style: PropTypes.object,
     /**
      * Обязательный колбэк, который вызывается при нажатии на input и меняет state root-компонента.
@@ -44,7 +46,7 @@ export default class RadioButtonGroup extends Component {
      * Значение, выбранного в данный момент radio
      */
     value: PropTypes.any
-  };
+  }
 
   static childContextTypes = {
     [RADIO_INPUT_CONTEXT]: PropTypes.shape({
@@ -63,21 +65,21 @@ export default class RadioButtonGroup extends Component {
        */
       events: PropTypes.instanceOf(EventEmitter)
     })
-  };
+  }
 
   static defaultProps = {
     name: null,
     onChange: () => {}
-  };
+  }
 
   getRadioInputName = () => {
-    this.resultRadioInputName = this.resultRadioInputName || this.props.name || `RadioGroup-${uuid()}`
+    this.resultRadioInputName =
+      this.resultRadioInputName || this.props.name || `RadioGroup-${uuid()}`
     return this.resultRadioInputName
   }
 
   getChildContext() {
-    if (!this.radioInputEvents)
-      this.createRadioInputEvents()
+    if (!this.radioInputEvents) this.createRadioInputEvents()
     return {
       [RADIO_INPUT_CONTEXT]: {
         events: this.radioInputEvents,
@@ -100,8 +102,7 @@ export default class RadioButtonGroup extends Component {
   }
 
   componentWillUnmount() {
-    if (this.radioInputEvents)
-      this.radioInputEvents.removeAllListeners()
+    if (this.radioInputEvents) this.radioInputEvents.removeAllListeners()
   }
 
   createRadioInputEvents() {
@@ -111,8 +112,7 @@ export default class RadioButtonGroup extends Component {
   }
 
   onNewValue = (event, value) => {
-    if (this.props.onChange)
-      this.props.onChange(event, value)
+    if (this.props.onChange) this.props.onChange(event, value)
   }
 
   render() {
@@ -134,7 +134,5 @@ export default class RadioButtonGroup extends Component {
         {children}
       </div>
     )
-
   }
-
 }

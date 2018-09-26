@@ -14,7 +14,7 @@ import {lighten} from 'rambler-ui/utils/colors'
 import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 
 const modules = {
-  'react': React,
+  react: React,
   'react-dom': ReactDOM,
   'rambler-ui': RamblerUI
 }
@@ -124,7 +124,6 @@ const modules = {
   }
 }))
 export default class Playground extends PureComponent {
-
   static propTypes = {
     /**
      * Дополнительный класс
@@ -170,12 +169,11 @@ export default class Playground extends PureComponent {
     const {mode, code} = this.state
     const {classes} = this.props
 
-    if (mode === 'preview')
-      return null
+    if (mode === 'preview') return null
 
     if (mode === 'read')
       return (
-        <Highlight className={classes.viewer} language='javascript'>
+        <Highlight className={classes.viewer} language="javascript">
           {code}
         </Highlight>
       )
@@ -195,17 +193,13 @@ export default class Playground extends PureComponent {
     const {mode} = this.state
     const {showPreview, classes} = this.props
 
-    if (!showPreview || mode !== 'preview')
-      return null
+    if (!showPreview || mode !== 'preview') return null
 
     const {code} = this.state
 
     try {
       const compiledCode = transform(code, {
-        presets: [
-          'es2015',
-          'react'
-        ],
+        presets: ['es2015', 'react'],
         plugins: [
           'transform-decorators-legacy',
           'transform-object-rest-spread',
@@ -213,19 +207,24 @@ export default class Playground extends PureComponent {
         ]
       }).code
 
-      const executeModule = new Function('module', 'exports', 'require', compiledCode)
+      const executeModule = new Function(
+        'module',
+        'exports',
+        'require',
+        compiledCode
+      )
 
       const module = {
         exports: {}
       }
 
-      const deepRequire = function (moduleName, module = modules) {
-        const [name, ...path] = Array.isArray(moduleName) ? moduleName : moduleName.split('/')
+      const deepRequire = function(moduleName, module = modules) {
+        const [name, ...path] = Array.isArray(moduleName)
+          ? moduleName
+          : moduleName.split('/')
         const child = module[name]
-        if (path && path.length > 0)
-          return deepRequire(path, child)
-        if (child)
-          return child
+        if (path && path.length > 0) return deepRequire(path, child)
+        if (child) return child
         throw new Error(`Module "${moduleName}" is not defined`)
       }
 
@@ -241,11 +240,7 @@ export default class Playground extends PureComponent {
         </div>
       )
     } catch (e) {
-      return (
-        <pre className={classes.error}>
-          {e.toString()}
-        </pre>
-      )
+      return <pre className={classes.error}>{e.toString()}</pre>
     }
   }
 
@@ -257,25 +252,34 @@ export default class Playground extends PureComponent {
       <div className={classes.scrollArea}>
         <div className={classes.table}>
           <div className={classes.tabs}>
-            {showPreview &&
+            {showPreview && (
               <span
-                className={classnames(classes.tabItem, mode === 'preview' && classes.activeTabItem)}
+                className={classnames(
+                  classes.tabItem,
+                  mode === 'preview' && classes.activeTabItem
+                )}
                 onClick={() => this.setMode('preview')}>
                 Превью
               </span>
-            }
+            )}
             <span
-              className={classnames(classes.tabItem, mode === 'read' && classes.activeTabItem)}
+              className={classnames(
+                classes.tabItem,
+                mode === 'read' && classes.activeTabItem
+              )}
               onClick={() => this.setMode('read')}>
               Код
             </span>
-            {canEdit &&
+            {canEdit && (
               <span
-                className={classnames(classes.tabItem, mode === 'write' && classes.activeTabItem)}
+                className={classnames(
+                  classes.tabItem,
+                  mode === 'write' && classes.activeTabItem
+                )}
                 onClick={() => this.setMode('write')}>
                 Редактировать
               </span>
-            }
+            )}
           </div>
           {this.renderCode()}
           {this.renderPreview()}
@@ -283,5 +287,4 @@ export default class Playground extends PureComponent {
       </div>
     )
   }
-
 }
