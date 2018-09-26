@@ -9,5 +9,5 @@ import PropTypesTable from 'docs/src/components/PropTypesTable'
 ### Пример
 <Playground code={examplesCode} />
 
-### Свойства `<Checkbox />`
+### Свойства `<Calendar />`
 <PropTypesTable code={code} />
