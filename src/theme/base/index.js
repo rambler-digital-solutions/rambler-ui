@@ -1036,6 +1036,74 @@ export function createTheme(config) {
           }
         }
       }
+    },
+    calendar: {
+      size: 35,
+      animationDuration: 200,
+      service: {
+        fontFamily: fontFamilies.CorsicaRamblerLX,
+        colors: {
+          default: colors.arrowBlueDark,
+          hover: colors.primary
+        }
+      },
+      media: {
+        fontFamily: fontFamilies.Roboto,
+        colors: {
+          default: colors.primary,
+          hover: colors.primaryDark
+        }
+      },
+      colors: {
+        default: {
+          text: colors.dark,
+          background: colors.light,
+          weekDay: colors.controls.grey.outline
+        },
+        hover: {
+          text: colors.primary
+        },
+        selected: {
+          text: colors.dark,
+          background: colors.blueLight
+        },
+        active: {
+          text: colors.light,
+          background: colors.primary
+        },
+        activeHover: {
+          text: colors.light,
+          background: colors.primaryDark
+        },
+        disabled: {
+          text: colors.controls.grey.disabledText
+        },
+        weekend: {
+          text: colors.danger
+        },
+        today: {
+          text: colors.primary
+        },
+        todayHover: {
+          text: colors.primaryDark
+        }
+      },
+      arrow: {
+        size: 15
+      },
+      month: {
+        size: 15,
+        fontWeight: 500,
+        fontSize: 13
+      },
+      weekDay: {
+        size: 15,
+        fontSize: 11
+      },
+      date: {
+        size: 35,
+        fontSize: 13
+      }
     }
   }, config)
 }
