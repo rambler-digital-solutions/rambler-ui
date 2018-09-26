@@ -261,7 +261,7 @@ export default class Calendar extends Component {
      */
     highlightWeekend: PropTypes.bool,
     /**
-     * Коллбек, вызывающийся при изменении состояния.
+     * Функция, вызывающая при изменении значения `function (event: object, newValue: Date | Date[]) {}`.
      * Возвращает объект Date или массив, в случае с выбором периода
      */
     onChange: PropTypes.func
