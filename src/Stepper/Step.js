@@ -1,68 +1,71 @@
 /**
  * Компонент Step
  */
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TickIcon from '../icons/forms/TickIcon'
-import { isolateMixin, ifDesktopSize, middleMixin } from '../utils/mixins'
-import { injectSheet } from '../theme'
+import {isolateMixin, ifDesktopSize, middleMixin} from '../utils/mixins'
+import {injectSheet} from '../theme'
 
 const defaultIcon = <TickIcon size={10} color="currentColor" />
 
-@injectSheet(theme => ({
-  step: {
-    extend: isolateMixin,
-    fontFamily: theme.stepper.fontFamily,
-    fontSize: theme.stepper.fontSize,
-    display: 'flex',
-    alignItems: 'center',
-    padding: '10px 0',
-    backgroundColor: theme.stepper.colors.default.background,
-    color: theme.stepper.colors.default.color,
-    textAlign: 'center',
-    zIndex: 1,
-    ...ifDesktopSize({
-      padding: '0 10px',
-      marginTop: 0
-    })
-  },
-  text: {
-    cursor: 'pointer'
-  },
-  badge: {
-    extend: middleMixin,
-    display: 'inline-block',
-    borderRadius: '50%',
-    width: '18px',
-    height: '18px',
-    marginRight: '10px',
-    userSelect: 'none',
-    fontSize: theme.stepper.badge.fontSize,
-    backgroundColor: theme.stepper.colors.default.badge.background,
-    color: theme.stepper.colors.default.badge.color
-  },
-  active: {
-    color: theme.stepper.colors.active.color,
-    '& $badge': {
-      backgroundColor: theme.stepper.colors.active.badge.background,
-      color: theme.stepper.colors.active.badge.color
+@injectSheet(
+  theme => ({
+    step: {
+      extend: isolateMixin,
+      fontFamily: theme.stepper.fontFamily,
+      fontSize: theme.stepper.fontSize,
+      display: 'flex',
+      alignItems: 'center',
+      padding: '10px 0',
+      backgroundColor: theme.stepper.colors.default.background,
+      color: theme.stepper.colors.default.color,
+      textAlign: 'center',
+      zIndex: 1,
+      ...ifDesktopSize({
+        padding: '0 10px',
+        marginTop: 0
+      })
     },
-    '& $text': {
-      cursor: 'default'
-    }
-  },
-  disabled: {
-    color: theme.stepper.colors.disabled.color,
-    '& $badge': {
-      backgroundColor: theme.stepper.colors.disabled.badge.background,
-      color: theme.stepper.colors.disabled.badge.color
+    text: {
+      cursor: 'pointer'
     },
-    '& $text': {
-      cursor: 'default'
+    badge: {
+      extend: middleMixin,
+      display: 'inline-block',
+      borderRadius: '50%',
+      width: '18px',
+      height: '18px',
+      marginRight: '10px',
+      userSelect: 'none',
+      fontSize: theme.stepper.badge.fontSize,
+      backgroundColor: theme.stepper.colors.default.badge.background,
+      color: theme.stepper.colors.default.badge.color
+    },
+    active: {
+      color: theme.stepper.colors.active.color,
+      '& $badge': {
+        backgroundColor: theme.stepper.colors.active.badge.background,
+        color: theme.stepper.colors.active.badge.color
+      },
+      '& $text': {
+        cursor: 'default'
+      }
+    },
+    disabled: {
+      color: theme.stepper.colors.disabled.color,
+      '& $badge': {
+        backgroundColor: theme.stepper.colors.disabled.badge.background,
+        color: theme.stepper.colors.disabled.badge.color
+      },
+      '& $text': {
+        cursor: 'default'
+      }
     }
-  }
-}), {name: 'Step'})
+  }),
+  {name: 'Step'}
+)
 class Step extends Component {
   static propTypes = {
     /**
@@ -117,8 +120,7 @@ class Step extends Component {
 
   onClick = e => {
     const {disabled, active, value} = this.props
-    if (disabled || active)
-      return
+    if (disabled || active) return
     this.props.onClick(e, value)
   }
 
@@ -139,18 +141,18 @@ class Step extends Component {
       onClick, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
-    const resultClassName = classnames(
-      className,
-      classes.step,
-      {
-        [classes.active]: active,
-        [classes.disabled]: disabled
-      }
-    )
+    const resultClassName = classnames(className, classes.step, {
+      [classes.active]: active,
+      [classes.disabled]: disabled
+    })
     return (
-      <div {...other} className={resultClassName} style={style} onClick={this.onClick}>
+      <div
+        {...other}
+        className={resultClassName}
+        style={style}
+        onClick={this.onClick}>
         <span className={classnames(classes.badge, badgeClassName)}>
-          {icon ? icon : (completed ? defaultIcon : value + 1)}
+          {icon ? icon : completed ? defaultIcon : value + 1}
         </span>
         <span className={classnames(classes.text, textClassName)}>
           {children}

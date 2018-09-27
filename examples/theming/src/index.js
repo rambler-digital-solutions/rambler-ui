@@ -1,7 +1,7 @@
 import React from 'react'
-import { render } from 'react-dom'
-import { ApplyTheme } from 'rambler-ui/theme'
-import { createTheme } from 'rambler-ui/theme/base'
+import {render} from 'react-dom'
+import {ApplyTheme} from 'rambler-ui/theme'
+import {createTheme} from 'rambler-ui/theme/base'
 import colors from 'rambler-ui/theme/base/colors'
 import App from './App'
 

@@ -15,11 +15,10 @@ export const cache = context.keys().reduce((cache, key) => {
   return cache
 }, {})
 
-export function extendPageInfo (index) {
+export function extendPageInfo(index) {
   return index.map(item => {
     const page = cache[item.pathname] || item
-    if (item.children)
-      page.children = extendPageInfo(item.children)
+    if (item.children) page.children = extendPageInfo(item.children)
     return page
   })
 }
@@ -30,8 +29,7 @@ export function createSourceUrl(pathname) {
   if (prefix !== 'components')
     return `${config.repoLink}tree/${config.branch}/docs${pathname}/index.md`
   const filename = path.pop()
-  if (filename == null || prefix === filename)
-    return
+  if (filename == null || prefix === filename) return
   return `${config.repoLink}tree/${config.branch}/src/${filename}`
 }
 

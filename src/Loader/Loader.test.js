@@ -1,20 +1,19 @@
 import React from 'react'
 import Loader from './Loader'
 import Spinner from '../Spinner'
-import { mount, withTheme, getStyles, getNodeStyles, getWrapperNode } from '../utils/test-utils'
+import {
+  mount,
+  withTheme,
+  getStyles,
+  getNodeStyles,
+  getWrapperNode
+} from '../utils/test-utils'
 
-const contentEl = (
-  <div className="content">
-    Hello world
-  </div>
-)
+const contentEl = <div className="content">Hello world</div>
 
 describe('<Loader />', () => {
-
   it('should apply default props', () => {
-    const wrapper = mount(withTheme(<Loader>
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(withTheme(<Loader>{contentEl}</Loader>))
 
     const loader = wrapper.find(Loader)
     const loaderStyles = getStyles(loader)
@@ -27,9 +26,7 @@ describe('<Loader />', () => {
   })
 
   it('should show spinner when set loading = true', () => {
-    const wrapper = mount(withTheme(<Loader>
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(withTheme(<Loader>{contentEl}</Loader>))
 
     expect(wrapper.find(Spinner).exists()).toBe(false)
 
@@ -46,14 +43,14 @@ describe('<Loader />', () => {
     expect(wrapper.find(Spinner).exists()).toBe(false)
   })
 
-  it('should show spinner when set loading = Promise', async (done) => {
-    const wrapper = mount(withTheme(<Loader spinnerClassName="spinner">
-      {contentEl}
-    </Loader>))
+  it('should show spinner when set loading = Promise', async done => {
+    const wrapper = mount(
+      withTheme(<Loader spinnerClassName="spinner">{contentEl}</Loader>)
+    )
 
     let completeLoading
 
-    const loading = new Promise((resolve) => {
+    const loading = new Promise(resolve => {
       completeLoading = () => {
         resolve()
       }
@@ -77,9 +74,13 @@ describe('<Loader />', () => {
   })
 
   it('should append className and loadingClassName', () => {
-    const wrapper = mount(withTheme(<Loader className="normal" loadingClassName="loading">
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(
+      withTheme(
+        <Loader className="normal" loadingClassName="loading">
+          {contentEl}
+        </Loader>
+      )
+    )
 
     const node = getWrapperNode(wrapper)
 
@@ -102,9 +103,9 @@ describe('<Loader />', () => {
   })
 
   it('should append styles', () => {
-    const wrapper = mount(withTheme(<Loader style={{ height: 500 }}>
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(
+      withTheme(<Loader style={{height: 500}}>{contentEl}</Loader>)
+    )
 
     const loaderStyles = getStyles(wrapper)
 
@@ -114,9 +115,13 @@ describe('<Loader />', () => {
   it('should append spinnerClassName and spinnerColor', () => {
     const color = 'rgb(0, 0, 0)'
 
-    const wrapper = mount(withTheme(<Loader loading={true} spinnerClassName="spinner" spinnerColor={color}>
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(
+      withTheme(
+        <Loader loading={true} spinnerClassName="spinner" spinnerColor={color}>
+          {contentEl}
+        </Loader>
+      )
+    )
 
     const spinner = wrapper.find(Spinner)
     const spinnerNode = getWrapperNode(spinner)
@@ -129,9 +134,13 @@ describe('<Loader />', () => {
   })
 
   it('should blur content when loading = true', () => {
-    const wrapper = mount(withTheme(<Loader loading={true} blurContent={true}>
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(
+      withTheme(
+        <Loader loading={true} blurContent={true}>
+          {contentEl}
+        </Loader>
+      )
+    )
 
     const loader = wrapper.find(Loader)
     const content = loader.children().first()
@@ -140,9 +149,13 @@ describe('<Loader />', () => {
   })
 
   it('should show overlay when loading = true', () => {
-    const wrapper = mount(withTheme(<Loader loading={true} overlayClassName="overlay">
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(
+      withTheme(
+        <Loader loading={true} overlayClassName="overlay">
+          {contentEl}
+        </Loader>
+      )
+    )
 
     const overlay = getWrapperNode(wrapper).children[1]
 
@@ -150,9 +163,9 @@ describe('<Loader />', () => {
   })
 
   it('should hide content when loading = true', () => {
-    const wrapper = mount(withTheme(<Loader hideContent={true}>
-      {contentEl}
-    </Loader>))
+    const wrapper = mount(
+      withTheme(<Loader hideContent={true}>{contentEl}</Loader>)
+    )
 
     expect(wrapper.find('.content').exists()).toBe(true)
 
@@ -168,5 +181,4 @@ describe('<Loader />', () => {
 
     expect(wrapper.find('.content').exists()).toBe(true)
   })
-
 })

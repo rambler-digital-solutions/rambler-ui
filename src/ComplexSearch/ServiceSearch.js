@@ -1,131 +1,137 @@
-import React, { cloneElement } from 'react'
+import React, {cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { injectSheet } from '../theme'
+import {injectSheet} from '../theme'
 import ClearIcon from './icons/ClearIcon'
 import ServiceSearchIcon from './icons/ServiceSearchIcon'
-import { isolateMixin } from '../utils/mixins'
+import {isolateMixin} from '../utils/mixins'
 import provideSearch from './provideSearch'
 import provideSearchDropdown from './provideSearchDropdown'
 
 @provideSearch
 @provideSearchDropdown
-@injectSheet(theme => ({
-  small: {},
-  medium: {},
-  active: {},
-  root: {
-    extend: isolateMixin,
-    fontFamily: theme.fontFamily,
-    fontSize: theme.serviceSearch.fontSize,
-    width: '100%',
-    maxWidth: theme.serviceSearch.maxWidth,
-    display: 'flex',
-    flexDirection: 'column'
-  },
-  inputRow: {
-    height: '100%',
-    position: 'relative',
-    width: '100%',
-    display: 'flex'
-  },
-  inputWrapper: {
-    borderStyle: 'solid',
-    display: 'flex',
-    alignItems: 'center',
-    position: 'relative',
-    paddingRight: 30,
-    borderRadius: 1,
-    width: '100%',
-    boxSizing: 'border-box',
-    borderColor: theme.serviceSearch.input.default.borderColor,
-    borderWidth: 1,
-    backgroundColor: theme.search.input.backgroundColor,
+@injectSheet(
+  theme => ({
+    small: {},
+    medium: {},
+    active: {},
+    root: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      fontSize: theme.serviceSearch.fontSize,
+      width: '100%',
+      maxWidth: theme.serviceSearch.maxWidth,
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    inputRow: {
+      height: '100%',
+      position: 'relative',
+      width: '100%',
+      display: 'flex'
+    },
+    inputWrapper: {
+      borderStyle: 'solid',
+      display: 'flex',
+      alignItems: 'center',
+      position: 'relative',
+      paddingRight: 30,
+      borderRadius: 1,
+      width: '100%',
+      boxSizing: 'border-box',
+      borderColor: theme.serviceSearch.input.default.borderColor,
+      borderWidth: 1,
+      backgroundColor: theme.search.input.backgroundColor,
 
-    '&$active': {
-      borderColor: theme.serviceSearch.input.hover.borderColor
-    }
-  },
-  input: {
-    extend: isolateMixin,
-    padding: '10px 14px',
-    border: 'none',
-    boxSizing: 'border-box',
-    display: 'block',
-    borderRadius: 0,
-    width: '100%',
-    fontWeight: 400,
-    fontSize: theme.serviceSearch.fontSize,
-    lineHeight: '25px',
-    appearance: 'none',
-    color: theme.serviceSearch.input.color,
-    height: '100%',
-    outline: 0,
-    boxShadow: 'none',
-
-    '&::-ms-reveal, &::-ms-clear': {
-      display: 'none'
-    },
-    '&::-webkit-input-placeholder': {
-      fontSize: theme.serviceSearch.input.placeholder.fontSize,
-      color: theme.serviceSearch.input.placeholder.color,
-      opacity: 1
-    },
-    '&::-moz-placeholder': {
-      fontSize: theme.serviceSearch.input.placeholder.fontSize,
-      color: theme.serviceSearch.input.placeholder.color,
-      opacity: 1
-    },
-    '&:-ms-input-placeholder': {
-      fontSize: theme.serviceSearch.input.placeholder.fontSize,
-      color: theme.serviceSearch.input.placeholder.color,
-      opacity: 1
-    }
-  },
-  inputLeftIcon: {
-    marginLeft:  12
-  },
-  searchButton: {
-    extend: isolateMixin,
-    background: 'none',
-    outline: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    position: 'absolute',
-    padding: 0,
-    width: 15,
-    height: 15,
-    right: 15,
-    top: '50%',
-    transform: 'translateY(-50%)'
-  },
-  searchIcon: {
-    color: theme.serviceSearch.input.default.icon,
-    outline: 'none'
-  },
-  clearIcon: {
-    position: 'absolute',
-    right: 15,
-    top: '50%',
-    transform: 'translateY(-50%)',
-    cursor: 'pointer',
-    color:  theme.serviceSearch.clear.color
-  },
-  serviceIcons: {
-    display: 'flex',
-    position: 'absolute',
-    alignItems: 'center',
-    right: 15
-  },
-  ...['small', 'medium'].reduce((result, size) => ({
-    ...result,
-    [`size-${size}`]: {
-      '& $inputWrapper': {
-        height: theme.serviceSearch.sizes[size].height
+      '&$active': {
+        borderColor: theme.serviceSearch.input.hover.borderColor
       }
-    }
-  }), {})
-}), {name: 'ServiceSearch'})
+    },
+    input: {
+      extend: isolateMixin,
+      padding: '10px 14px',
+      border: 'none',
+      boxSizing: 'border-box',
+      display: 'block',
+      borderRadius: 0,
+      width: '100%',
+      fontWeight: 400,
+      fontSize: theme.serviceSearch.fontSize,
+      lineHeight: '25px',
+      appearance: 'none',
+      color: theme.serviceSearch.input.color,
+      height: '100%',
+      outline: 0,
+      boxShadow: 'none',
+
+      '&::-ms-reveal, &::-ms-clear': {
+        display: 'none'
+      },
+      '&::-webkit-input-placeholder': {
+        fontSize: theme.serviceSearch.input.placeholder.fontSize,
+        color: theme.serviceSearch.input.placeholder.color,
+        opacity: 1
+      },
+      '&::-moz-placeholder': {
+        fontSize: theme.serviceSearch.input.placeholder.fontSize,
+        color: theme.serviceSearch.input.placeholder.color,
+        opacity: 1
+      },
+      '&:-ms-input-placeholder': {
+        fontSize: theme.serviceSearch.input.placeholder.fontSize,
+        color: theme.serviceSearch.input.placeholder.color,
+        opacity: 1
+      }
+    },
+    inputLeftIcon: {
+      marginLeft: 12
+    },
+    searchButton: {
+      extend: isolateMixin,
+      background: 'none',
+      outline: 'none',
+      border: 'none',
+      cursor: 'pointer',
+      position: 'absolute',
+      padding: 0,
+      width: 15,
+      height: 15,
+      right: 15,
+      top: '50%',
+      transform: 'translateY(-50%)'
+    },
+    searchIcon: {
+      color: theme.serviceSearch.input.default.icon,
+      outline: 'none'
+    },
+    clearIcon: {
+      position: 'absolute',
+      right: 15,
+      top: '50%',
+      transform: 'translateY(-50%)',
+      cursor: 'pointer',
+      color: theme.serviceSearch.clear.color
+    },
+    serviceIcons: {
+      display: 'flex',
+      position: 'absolute',
+      alignItems: 'center',
+      right: 15
+    },
+    ...['small', 'medium'].reduce(
+      (result, size) => ({
+        ...result,
+        [`size-${size}`]: {
+          '& $inputWrapper': {
+            height: theme.serviceSearch.sizes[size].height
+          }
+        }
+      }),
+      {}
+    )
+  }),
+  {name: 'ServiceSearch'}
+)
 export default class ServiceSearch extends React.Component {
   static propTypes = {
     /**
@@ -182,8 +188,8 @@ export default class ServiceSearch extends React.Component {
      */
     onClickItem: PropTypes.func,
     /**
-    * Коллбек на удаление SuggestItem, первым аргументом получает props.value соответствующего SuggestItem
-    */
+     * Коллбек на удаление SuggestItem, первым аргументом получает props.value соответствующего SuggestItem
+     */
     onRemoveItem: PropTypes.func,
     /**
      * Колбек ховера по SuggestItem, первым аргументом получает props.value соответствующего SuggestItem
@@ -220,10 +226,10 @@ export default class ServiceSearch extends React.Component {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
-    * Иконка инпута слева
+     * Иконка инпута слева
      */
     inputLeftIcon: PropTypes.node
-  };
+  }
 
   static defaultProps = {
     value: '',
@@ -241,7 +247,7 @@ export default class ServiceSearch extends React.Component {
     onHoverItem() {},
     onSubmit() {},
     onPressEnter() {}
-  };
+  }
 
   /**
    * Показывать ли крестик очищения input
@@ -253,8 +259,7 @@ export default class ServiceSearch extends React.Component {
 
   renderInputIcon() {
     const {inputLeftIcon, theme, classes} = this.props
-    if (!inputLeftIcon)
-      return
+    if (!inputLeftIcon) return
     const {size, className, color} = inputLeftIcon.props
     return cloneElement(inputLeftIcon, {
       className: classnames(classes.inputLeftIcon, className),
@@ -304,8 +309,7 @@ export default class ServiceSearch extends React.Component {
       <button
         className={classnames(classes.searchButton, searchButtonClassName)}
         onClick={onSubmit}
-        {...searchButtonProps}
-      >
+        {...searchButtonProps}>
         <ServiceSearchIcon
           size={15}
           className={classes.searchIcon}
@@ -317,27 +321,26 @@ export default class ServiceSearch extends React.Component {
   }
 
   renderInput = () => {
-    const {
-      inputWrapperClassName,
-      classes,
-      isDropdownOpened
-    } = this.props
+    const {inputWrapperClassName, classes, isDropdownOpened} = this.props
 
     return (
-      <div className={classnames(
-        classes.inputWrapper,
-        inputWrapperClassName,
-        isDropdownOpened && classes.active
-      )}>
+      <div
+        className={classnames(
+          classes.inputWrapper,
+          inputWrapperClassName,
+          isDropdownOpened && classes.active
+        )}>
         {this.renderInputIcon()}
         {this.renderInputNode()}
         {!this.isClearVisible && this.renderButton()}
-        {this.isClearVisible && <ClearIcon
-          className={classes.clearIcon}
-          size={20}
-          color="currentColor"
-          onClick={this.props.clearForm}
-        ></ClearIcon>}
+        {this.isClearVisible && (
+          <ClearIcon
+            className={classes.clearIcon}
+            size={20}
+            color="currentColor"
+            onClick={this.props.clearForm}
+          />
+        )}
       </div>
     )
   }
@@ -347,27 +350,14 @@ export default class ServiceSearch extends React.Component {
   }
 
   render() {
-    const {
-      classes,
-      style,
-      className,
-      size,
-      setNode
-    } = this.props
+    const {classes, style, className, size, setNode} = this.props
 
     return (
       <div
-        className={classnames(
-          classes.root,
-          className,
-          classes[`size-${size}`]
-        )}
+        className={classnames(classes.root, className, classes[`size-${size}`])}
         style={style}
-        ref={setNode('root')}
-      >
-        <div className={classes.inputRow}>
-          {this.renderDropdown()}
-        </div>
+        ref={setNode('root')}>
+        <div className={classes.inputRow}>{this.renderDropdown()}</div>
       </div>
     )
   }

@@ -2,27 +2,28 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'events'
-import { injectSheet } from '../theme'
+import {injectSheet} from '../theme'
 import Dropdown from '../Dropdown'
-import { 
-  COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT 
-} from '../constants/context'
+import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
 
-@injectSheet(() => ({
-  dropdown: {
-    transition: 'none',
-    animation: 'none',
-    width: '100%'
-  },
-  overlay: {
-    width: '100%'
-  },
-  suggest: {
-    width: '100%',
-    background: 'white',
-    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
-  }
-}), {name: 'SuggestDropdown'})
+@injectSheet(
+  () => ({
+    dropdown: {
+      transition: 'none',
+      animation: 'none',
+      width: '100%'
+    },
+    overlay: {
+      width: '100%'
+    },
+    suggest: {
+      width: '100%',
+      background: 'white',
+      boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
+    }
+  }),
+  {name: 'SuggestDropdown'}
+)
 export default class SuggestDropdown extends React.Component {
   static propTypes = {
     /**
@@ -91,7 +92,6 @@ export default class SuggestDropdown extends React.Component {
     })
   }
 
-
   render() {
     const {
       children,
@@ -118,11 +118,8 @@ export default class SuggestDropdown extends React.Component {
         contentPointY="top"
         overlayClassName={classes.overlay}
         cachePositionOptions={false}
-        closeOnClickOutside={false}
-      >
-        <div className={classes.suggest}>
-          {children}
-        </div>
+        closeOnClickOutside={false}>
+        <div className={classes.suggest}>{children}</div>
       </Dropdown>
     )
   }

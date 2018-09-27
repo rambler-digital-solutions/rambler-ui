@@ -3,15 +3,18 @@ import {
   unmountComponentAtNode,
   findDOMNode
 } from 'react-dom'
-import React, { Children, PureComponent, Component, cloneElement } from 'react'
+import React, {Children, PureComponent, Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import EventEmitter from 'events'
 import debounce from 'lodash.debounce'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
-import { DROPDOWN_ZINDEX } from '../constants/z-indexes'
-import { POINTS_X, POINTS_Y, MAPPING_POINTS } from '../constants/overlay'
-import { getBoundingClientRect as originalGetBoundingClientRect, createMutationObserver } from '../utils/DOM'
+import {DROPDOWN_ZINDEX} from '../constants/z-indexes'
+import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
+import {
+  getBoundingClientRect as originalGetBoundingClientRect,
+  createMutationObserver
+} from '../utils/DOM'
 
 const noop = () => {}
 
@@ -22,13 +25,12 @@ const noop = () => {}
 // 5. После события скролла, обновляем позицию div (left/top)
 
 class ContentElementWrapper extends Component {
-
   static propTypes = {
     /**
      * Свойства контента
      */
     contentProps: PropTypes.object
-  };
+  }
 
   get isVisible() {
     return this.contentProps.isVisible
@@ -48,8 +50,7 @@ class ContentElementWrapper extends Component {
         changed = true
         break
       }
-    if (!changed)
-      return
+    if (!changed) return
     this.contentProps = {
       ...this.contentProps,
       ...newContentProps
@@ -60,10 +61,9 @@ class ContentElementWrapper extends Component {
   }
 
   render() {
-    const { content, ...props } = this.state.contentProps
+    const {content, ...props} = this.state.contentProps
     return cloneElement(content, props)
   }
-
 }
 
 /**
@@ -71,14 +71,16 @@ class ContentElementWrapper extends Component {
  * @return {Number}
  */
 const originalGetYScroll = getElementRect =>
-  document.documentElement.offsetTop - getElementRect(document.documentElement).top
+  document.documentElement.offsetTop -
+  getElementRect(document.documentElement).top
 
 /**
  * Получить scrollX
  * @return {Number}
  */
 const originalGetXScroll = getElementRect =>
-  document.documentElement.offsetLeft - getElementRect(document.documentElement).left
+  document.documentElement.offsetLeft -
+  getElementRect(document.documentElement).left
 
 /**
  * Получить опции позиции контента
@@ -96,7 +98,6 @@ const originalGetXScroll = getElementRect =>
  * @return {Object}
  */
 function getPositionOptions(params) {
-
   const {
     anchorRect,
     contentHeight,
@@ -106,33 +107,24 @@ function getPositionOptions(params) {
     noRecalculate,
     windowSize
   } = params
-  let {
-    contentPointX,
-    contentPointY,
-    anchorPointX,
-    anchorPointY
-  } = params
+  let {contentPointX, contentPointY, anchorPointX, anchorPointY} = params
 
-  let left, top, overflowX = 0, overflowY = 0
+  let left,
+    top,
+    overflowX = 0,
+    overflowY = 0
   let newAnchorPointX, newAnchorPointY
 
   if (contentPointX === 'left') {
-
-    if (anchorPointX === 'left')
-      left = anchorRect.left
+    if (anchorPointX === 'left') left = anchorRect.left
     else if (anchorPointX === 'center')
       left = anchorRect.left + anchorRect.width / 2
-    else if (anchorPointX === 'right')
-      left = anchorRect.left + anchorRect.width
-    if (autoPositionX)
-      overflowX = left + contentWidth - windowSize.width
-
+    else if (anchorPointX === 'right') left = anchorRect.left + anchorRect.width
+    if (autoPositionX) overflowX = left + contentWidth - windowSize.width
   } else if (contentPointX === 'center') {
-
     if (anchorPointX === 'left') {
       left = anchorRect.left - contentWidth / 2
-      if (autoPositionX)
-        overflowX = -left
+      if (autoPositionX) overflowX = -left
     } else if (anchorPointX === 'center') {
       left = anchorRect.left + anchorRect.width / 2 - contentWidth / 2
       if (autoPositionX) {
@@ -143,40 +135,26 @@ function getPositionOptions(params) {
       }
     } else if (anchorPointX === 'right') {
       left = anchorRect.right - contentWidth / 2
-      if (autoPositionX)
-        overflowX = left + contentWidth / 2 - windowSize.width
+      if (autoPositionX) overflowX = left + contentWidth / 2 - windowSize.width
     }
-
   } else if (contentPointX === 'right') {
-
-    if (anchorPointX === 'left')
-      left = anchorRect.left - contentWidth
+    if (anchorPointX === 'left') left = anchorRect.left - contentWidth
     else if (anchorPointX === 'center')
       left = anchorRect.left + anchorRect.width / 2 - contentWidth
-    else if (anchorPointX === 'right')
-      left = anchorRect.right - contentWidth
-    if (autoPositionX)
-      overflowX = -left
-
+    else if (anchorPointX === 'right') left = anchorRect.right - contentWidth
+    if (autoPositionX) overflowX = -left
   }
 
   if (contentPointY === 'top') {
-
-    if (anchorPointY === 'top')
-      top = anchorRect.top
+    if (anchorPointY === 'top') top = anchorRect.top
     else if (anchorPointY === 'center')
       top = anchorRect.top + anchorRect.height / 2
-    else if (anchorPointY === 'bottom')
-      top = anchorRect.bottom
-    if (autoPositionY)
-      overflowY = top + contentHeight - windowSize.height
-
+    else if (anchorPointY === 'bottom') top = anchorRect.bottom
+    if (autoPositionY) overflowY = top + contentHeight - windowSize.height
   } else if (contentPointY === 'center') {
-
     if (anchorPointY === 'top') {
       top = anchorRect.top - contentHeight / 2
-      if (autoPositionY)
-        overflowY = -top
+      if (autoPositionY) overflowY = -top
     } else if (anchorPointY === 'center') {
       top = anchorRect.top - contentHeight / 2 + anchorRect.height / 2
       if (autoPositionY) {
@@ -187,21 +165,14 @@ function getPositionOptions(params) {
       }
     } else if (anchorPointY === 'bottom') {
       top = anchorRect.bottom - contentHeight / 2
-      if (autoPositionY)
-        overflowY = top + contentHeight - windowSize.height
+      if (autoPositionY) overflowY = top + contentHeight - windowSize.height
     }
-
   } else if (contentPointY === 'bottom') {
-
-    if (anchorPointY === 'top')
-      top = anchorRect.top - contentHeight
+    if (anchorPointY === 'top') top = anchorRect.top - contentHeight
     else if (anchorPointY === 'center')
       top = anchorRect.top - contentHeight + anchorRect.height / 2
-    else if (anchorPointY === 'bottom')
-      top = anchorRect.bottom - contentHeight
-    if (autoPositionY)
-      overflowY = -top
-
+    else if (anchorPointY === 'bottom') top = anchorRect.bottom - contentHeight
+    if (autoPositionY) overflowY = -top
   }
 
   if (!noRecalculate) {
@@ -258,11 +229,10 @@ function getPositionOptions(params) {
 function wrapChildren(children) {
   let shouldWrap = Children.count(children) > 1
   if (!shouldWrap)
-    Children.forEach(children, (child) => {
+    Children.forEach(children, child => {
       shouldWrap = typeof child === 'string'
     })
-  if (shouldWrap)
-    return <span>{children}</span>
+  if (shouldWrap) return <span>{children}</span>
   return children
 }
 
@@ -275,7 +245,6 @@ function wrapChildren(children) {
 @zIndexStack(DROPDOWN_ZINDEX)
 @windowEvents('scroll', 'resize')
 export default class FixedOverlay extends PureComponent {
-
   static propTypes = {
     /**
      * Флаг управления показом оверлея
@@ -374,7 +343,7 @@ export default class FixedOverlay extends PureComponent {
      * Дополнительные стили для DOM-ноды контейнера
      */
     containerNodeStyle: PropTypes.object
-  };
+  }
 
   static defaultProps = {
     getWindowSize() {
@@ -388,7 +357,7 @@ export default class FixedOverlay extends PureComponent {
     getXScroll: originalGetXScroll,
     cachePositionOptions: false,
     closeOnScroll: false
-  };
+  }
 
   constructor(props) {
     super(props)
@@ -408,20 +377,24 @@ export default class FixedOverlay extends PureComponent {
   }
 
   componentWillReceiveProps({
-    isOpened, anchorPointX, anchorPointY, contentPointX, contentPointY, content
+    isOpened,
+    anchorPointX,
+    anchorPointY,
+    contentPointX,
+    contentPointY,
+    content
   }) {
     if (isOpened !== undefined && isOpened !== this.props.isOpened)
-      if (isOpened)
-        this.show()
-      else
-        this.hide()
-
-    else if (isOpened &&
+      if (isOpened) this.show()
+      else this.hide()
+    else if (
+      isOpened &&
       (this.props.anchorPointX !== anchorPointX ||
         this.props.anchorPointY !== anchorPointY ||
         this.props.contentPointX !== contentPointX ||
         this.props.contentPointY !== contentPointY ||
-        this.props.content !== content))
+        this.props.content !== content)
+    )
       this.show()
   }
 
@@ -429,14 +402,18 @@ export default class FixedOverlay extends PureComponent {
     this.anchorNode = findDOMNode(this)
     if (!this.anchorNode)
       throw new Error('Anchor node for FixedOverlay does not found')
-    this.anchorNodeObserver = createMutationObserver(debounce(this.updatePosition))
+    this.anchorNodeObserver = createMutationObserver(
+      debounce(this.updatePosition)
+    )
     this.anchorNodeObserver.observe(this.anchorNode, {
-      subtree: true, childList: true, attributes: true, characterData: true
+      subtree: true,
+      childList: true,
+      attributes: true,
+      characterData: true
     })
     // this.bodyNodeObserver = createMutationObserver(debounce(this.onBodyMutation))
     // this.bodyNodeObserver.observe(document.body, { subtree: true, childList: true })
-    if (this.props.isOpened)
-      this.show()
+    if (this.props.isOpened) this.show()
   }
 
   cleanUp() {
@@ -452,10 +429,8 @@ export default class FixedOverlay extends PureComponent {
   }
 
   onBodyMutation = () => {
-    if (!this.anchorNode)
-      return
-    if (!document.body.contains(this.anchorNode))
-      this.cleanUp()
+    if (!this.anchorNode) return
+    if (!document.body.contains(this.anchorNode)) this.cleanUp()
   }
 
   /**
@@ -463,18 +438,17 @@ export default class FixedOverlay extends PureComponent {
    */
   onContentBecomeVisible = () => {
     this.events.emit('contentVisible')
-  };
+  }
 
   /**
    * Вызывается когда контент стал невидимым
    */
   onContentBecomeInvisible = () => {
     this.events.emit('contentInvisible')
-  };
+  }
 
   updatePosition = () => {
-    if (!this.contentContainerNode || !this.portal || !this.isOpened)
-      return
+    if (!this.contentContainerNode || !this.portal || !this.isOpened) return
     const {
       content,
       anchorPointX,
@@ -497,18 +471,23 @@ export default class FixedOverlay extends PureComponent {
     const anchorRect = getElementRect(this.anchorNode)
     const contentWidth = this.contentNode.offsetWidth
     const contentHeight = this.contentNode.offsetHeight
-    const options = getPositionOptions(Object.assign({
-      anchorRect,
-      anchorPointX,
-      anchorPointY,
-      contentPointX,
-      contentPointY,
-      contentWidth,
-      contentHeight,
-      autoPositionX: !this.cachedOptions && autoPositionX,
-      autoPositionY: !this.cachedOptions && autoPositionY,
-      windowSize: getWindowSize()
-    }, this.cachedOptions))
+    const options = getPositionOptions(
+      Object.assign(
+        {
+          anchorRect,
+          anchorPointX,
+          anchorPointY,
+          contentPointX,
+          contentPointY,
+          contentWidth,
+          contentHeight,
+          autoPositionX: !this.cachedOptions && autoPositionX,
+          autoPositionY: !this.cachedOptions && autoPositionY,
+          windowSize: getWindowSize()
+        },
+        this.cachedOptions
+      )
+    )
 
     if (cachePositionOptions)
       this.cachedOptions = {
@@ -537,30 +516,30 @@ export default class FixedOverlay extends PureComponent {
       top: options.top + this.scrollY + 'px',
       ...containerNodeStyle
     })
-  };
+  }
 
   mountPortal() {
-    if (this.portal)
-      return Promise.resolve(this.portal)
-    return new Promise((resolve) => {
-      const element = <ContentElementWrapper
-        ref={resolve}
-        contentProps={{
-          isVisible: false,
-          onBecomeVisible: this.onContentBecomeVisible,
-          onBecomeInvisible: this.onContentBecomeInvisible,
-          content: this.props.content,
-          hide: this.hide
-        }}
-      />
+    if (this.portal) return Promise.resolve(this.portal)
+    return new Promise(resolve => {
+      const element = (
+        <ContentElementWrapper
+          ref={resolve}
+          contentProps={{
+            isVisible: false,
+            onBecomeVisible: this.onContentBecomeVisible,
+            onBecomeInvisible: this.onContentBecomeInvisible,
+            content: this.props.content,
+            hide: this.hide
+          }}
+        />
+      )
       renderSubtreeIntoContainer(this, element, this.getContentContainerNode())
+    }).then(portal => {
+      this.portal = portal
+      this.contentNode = findDOMNode(portal)
+      this.subscribeListeners()
+      return portal
     })
-      .then((portal) => {
-        this.portal = portal
-        this.contentNode = findDOMNode(portal)
-        this.subscribeListeners()
-        return portal
-      })
   }
 
   unmountPortal() {
@@ -577,23 +556,19 @@ export default class FixedOverlay extends PureComponent {
   }
 
   onScroll = () => {
-    if (this.props.closeOnScroll)
-      this.hide(true)
-    else
-      this.updatePosition()
-  };
+    if (this.props.closeOnScroll) this.hide(true)
+    else this.updatePosition()
+  }
 
   subscribeListeners() {
-    if (this.subscribedWinListeners)
-      return
+    if (this.subscribedWinListeners) return
     this.props.windowEvents.on('resize', this.onScroll)
     this.props.windowEvents.on('scroll', this.onScroll)
     this.subscribedWinListeners = true
   }
 
   unsubscribeListeners() {
-    if (!this.subscribedWinListeners)
-      return
+    if (!this.subscribedWinListeners) return
     this.props.windowEvents.removeListener('resize', this.onScroll)
     this.props.windowEvents.removeListener('scroll', this.onScroll)
     this.subscribedWinListeners = false
@@ -603,54 +578,56 @@ export default class FixedOverlay extends PureComponent {
    * Показать оверлей
    */
   show() {
-    if (this.portal && !this.isOpened)
-      return Promise.resolve()
+    if (this.portal && !this.isOpened) return Promise.resolve()
     this.isOpened = true
     const transactionIndex = ++this.transactionIndex
-    return this.mountPortal().then(() => {
-      if (transactionIndex < this.transactionIndex)
-        return Promise.reject()
-      return new Promise((resolve) => {
-        const handler = () => {
-          if (transactionIndex === this.transactionIndex)
-            resolve()
-          if (transactionIndex <= this.transactionIndex)
-            this.events.removeListener('contentVisible', handler)
-          // if (transactionIndex < this.transactionIndex)
-          //   reject()
-        }
-        this.events.removeAllListeners('contentVisible')
-        this.events.on('contentVisible', handler)
-        this.updatePosition()
-      })
-    }).then(() => {
-      if (!this.contentNodeObserver) {
-        this.contentNodeObserver = createMutationObserver(debounce(this.updatePosition))
-        this.contentNodeObserver.observe(this.contentNode, {
-          subtree: true, childList: true, attributes: true, characterData: true
+    return this.mountPortal()
+      .then(() => {
+        if (transactionIndex < this.transactionIndex) return Promise.reject()
+        return new Promise(resolve => {
+          const handler = () => {
+            if (transactionIndex === this.transactionIndex) resolve()
+            if (transactionIndex <= this.transactionIndex)
+              this.events.removeListener('contentVisible', handler)
+            // if (transactionIndex < this.transactionIndex)
+            //   reject()
+          }
+          this.events.removeAllListeners('contentVisible')
+          this.events.on('contentVisible', handler)
+          this.updatePosition()
         })
-      }
-      if (this.props.onContentOpen)
-        this.props.onContentOpen()
-    }).catch(noop)
+      })
+      .then(() => {
+        if (!this.contentNodeObserver) {
+          this.contentNodeObserver = createMutationObserver(
+            debounce(this.updatePosition)
+          )
+          this.contentNodeObserver.observe(this.contentNode, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            characterData: true
+          })
+        }
+        if (this.props.onContentOpen) this.props.onContentOpen()
+      })
+      .catch(noop)
   }
 
   /**
    * Скрыть оверлей
    */
-  hide = (force) => {
+  hide = force => {
     this.isOpened = false
-    if (!this.portal)
-      return Promise.resolve()
-    return new Promise((resolve) => {
+    if (!this.portal) return Promise.resolve()
+    return new Promise(resolve => {
       if (force) {
         resolve()
         return
       }
       const transactionIndex = ++this.transactionIndex
       const handler = () => {
-        if (transactionIndex === this.transactionIndex)
-          resolve()
+        if (transactionIndex === this.transactionIndex) resolve()
         if (transactionIndex <= this.transactionIndex)
           this.events.removeListener('contentInvisible', handler)
         // if (transactionIndex < this.transactionIndex)
@@ -658,14 +635,13 @@ export default class FixedOverlay extends PureComponent {
       }
       this.events.removeAllListeners('contentInvisible')
       this.events.on('contentInvisible', handler)
-      this.portal.updateContentProps({ isVisible: false })
+      this.portal.updateContentProps({isVisible: false})
     }).then(() => {
       this.unmountPortal()
-      if (this.props.onContentClose)
-        this.props.onContentClose()
+      if (this.props.onContentClose) this.props.onContentClose()
       this.cachedOptions = null
     })
-  };
+  }
 
   getContentContainerNode() {
     if (!this.contentContainerNode) {
@@ -695,5 +671,4 @@ export default class FixedOverlay extends PureComponent {
   render() {
     return wrapChildren(this.props.anchor)
   }
-
 }

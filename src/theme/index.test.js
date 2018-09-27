@@ -1,7 +1,13 @@
 import React from 'react'
 import classnames from 'classnames'
 import originalInjectSheet, {createTheming} from 'react-jss'
-import {ApplyTheme, injectSheet, withTheme, createJss, createSheetsRegistry} from './'
+import {
+  ApplyTheme,
+  injectSheet,
+  withTheme,
+  createJss,
+  createSheetsRegistry
+} from './'
 import {mount, getNodeStyles} from '../utils/test-utils'
 import {normalize as nc} from '../utils/colors'
 
@@ -9,31 +15,23 @@ const getTheme = color => ({button: {color}})
 const theming = createTheming('foo')
 const {ThemeProvider} = theming
 
-const Button = injectSheet(
-  ({button}) => ({button}),
-  {name: 'Button'}
-)(
-  function Button ({classes, className}) {
-    return (
-      <button className={classnames(classes.button, className)} />
-    )
+const Button = injectSheet(({button}) => ({button}), {name: 'Button'})(
+  function Button({classes, className}) {
+    return <button className={classnames(classes.button, className)} />
   }
 )
 
 const External = originalInjectSheet(({button}) => ({button}), {theming})(
-  function External ({classes, className}) {
-    return (
-      <button className={classnames(classes.button, className)} />
-    )
+  function External({classes, className}) {
+    return <button className={classnames(classes.button, className)} />
   }
 )
 
 describe('<ApplyTheme />', () => {
-
   it('should pass theme', () => {
     mount(
       <ApplyTheme theme={getTheme('#ffffff')}>
-        <Button className='apply-theme' />
+        <Button className="apply-theme" />
       </ApplyTheme>
     )
 
@@ -45,9 +43,9 @@ describe('<ApplyTheme />', () => {
     mount(
       <ApplyTheme theme={getTheme('#ffffff')}>
         <div>
-          <Button className='apply-nested' />
+          <Button className="apply-nested" />
           <ApplyTheme theme={getTheme('#000000')}>
-            <Button className='apply-nested' />
+            <Button className="apply-nested" />
           </ApplyTheme>
         </div>
       </ApplyTheme>
@@ -64,8 +62,8 @@ describe('<ApplyTheme />', () => {
       <ApplyTheme theme={getTheme('#ffffff')}>
         <ThemeProvider theme={getTheme('#ffffff')}>
           <div>
-            <Button className='class-names' />
-            <External className='class-names' />
+            <Button className="class-names" />
+            <External className="class-names" />
           </div>
         </ThemeProvider>
       </ApplyTheme>
@@ -80,10 +78,10 @@ describe('<ApplyTheme />', () => {
     mount(
       <div>
         <ApplyTheme theme={getTheme('#ffffff')}>
-          <Button className='apply-isolate' />
+          <Button className="apply-isolate" />
         </ApplyTheme>
         <ApplyTheme theme={getTheme('#000000')}>
-          <Button className='apply-isolate' />
+          <Button className="apply-isolate" />
         </ApplyTheme>
       </div>
     )
@@ -116,11 +114,11 @@ describe('<ApplyTheme />', () => {
 
     expect(sheetsRegistry.toString()).toBe(
       `.${classPrefix} {\n` +
-      '  color: #ffffff;\n' +
-      '}\n' +
-      `.${classPrefix}-1 {\n` +
-      '  color: #000000;\n' +
-      '}'
+        '  color: #ffffff;\n' +
+        '}\n' +
+        `.${classPrefix}-1 {\n` +
+        '  color: #000000;\n' +
+        '}'
     )
   })
 
@@ -160,21 +158,15 @@ describe('<ApplyTheme />', () => {
     const classPrefix = sheetsRegistry.registry[0].classes.button.slice(0, -2)
 
     expect(sheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${jss.id} {\n` +
-      '  color: #ffffff;\n' +
-      '}'
+      `.${classPrefix}-${jss.id} {\n` + '  color: #ffffff;\n' + '}'
     )
 
     expect(nestedSheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${nestedJss.id} {\n` +
-      '  color: #000000;\n' +
-      '}'
+      `.${classPrefix}-${nestedJss.id} {\n` + '  color: #000000;\n' + '}'
     )
 
     expect(separateSheetsRegistry.toString()).toBe(
-      `.${classPrefix}-${separateJss.id} {\n` +
-      '  color: #777777;\n' +
-      '}'
+      `.${classPrefix}-${separateJss.id} {\n` + '  color: #777777;\n' + '}'
     )
   })
 
@@ -184,9 +176,7 @@ describe('<ApplyTheme />', () => {
 
     mount(
       <div>
-        <ApplyTheme
-          theme={getTheme('#ffffff')}
-          sheetsRegistry={sheetsRegistry}>
+        <ApplyTheme theme={getTheme('#ffffff')} sheetsRegistry={sheetsRegistry}>
           <div>
             <Button />
           </div>
@@ -202,35 +192,28 @@ describe('<ApplyTheme />', () => {
     const classPrefix = sheetsRegistry.registry[0].classes.button
 
     expect(sheetsRegistry.toString()).toBe(
-      `.${classPrefix} {\n` +
-      '  color: #ffffff;\n' +
-      '}'
+      `.${classPrefix} {\n` + '  color: #ffffff;\n' + '}'
     )
 
     expect(separateSheetsRegistry.toString()).toBe(
-      `.${classPrefix} {\n` +
-      '  color: #777777;\n' +
-      '}'
+      `.${classPrefix} {\n` + '  color: #777777;\n' + '}'
     )
   })
 
   it('should pass theme to props', () => {
-    const Button = withTheme(
-      function Button ({theme, className}) {
-        return (
-          <button className={className} style={{color: theme.button.color}} />
-        )
-      }
-    )
+    const Button = withTheme(function Button({theme, className}) {
+      return (
+        <button className={className} style={{color: theme.button.color}} />
+      )
+    })
 
     mount(
       <ApplyTheme theme={getTheme('#ffffff')}>
-        <Button className='with-theme' />
+        <Button className="with-theme" />
       </ApplyTheme>
     )
 
     const button = document.querySelector('.with-theme')
     expect(getNodeStyles(button).color).toBe(nc('#ffffff'))
   })
-
 })

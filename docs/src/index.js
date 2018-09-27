@@ -9,16 +9,19 @@ import Page from 'docs/src/components/Page'
 import SideNav from 'docs/src/components/SideNav'
 
 const flattenRoutes = (routes, acc = []) =>
-  routes.reduce((acc, route) => ([
-    ...acc,
-    <Route
-      exact
-      key={route.pathname}
-      path={route.pathname}
-      render={() => <Page {...route} />}
-    />,
-    ...!!route.children && flattenRoutes(route.children)
-  ]), acc)
+  routes.reduce(
+    (acc, route) => [
+      ...acc,
+      <Route
+        exact
+        key={route.pathname}
+        path={route.pathname}
+        render={() => <Page {...route} />}
+      />,
+      ...(!!route.children && flattenRoutes(route.children))
+    ],
+    acc
+  )
 
 const root = (
   <ThemeProvider>
@@ -26,7 +29,7 @@ const root = (
       <App>
         <SideNav pages={pages} />
         <Switch>
-          <Redirect exact from='/' to="components" />
+          <Redirect exact from="/" to="components" />
           {flattenRoutes(pages)}
         </Switch>
       </App>
@@ -34,7 +37,4 @@ const root = (
   </ThemeProvider>
 )
 
-render(
-  root,
-  document.getElementById('root')
-)
+render(root, document.getElementById('root'))

@@ -1,6 +1,6 @@
 {
   "name": "rambler-ui",
-  "version": "3.26.1",
+  "version": "3.27.1",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
@@ -12,7 +12,8 @@
     "dev": "NODE_ENV=development webpack-dev-server -d --hot --config docs/webpack.config.js",
     "prepages": "rm -rf docs/build",
     "pages": "NODE_ENV=production webpack -p --progress --config docs/webpack.config.js && node docs/scripts/publish-site.js",
-    "eslint": "eslint '**/*.js'",
+    "lint": "eslint '**/*.js'",
+    "format": "prettier --write '**/*.js' && eslint '**/*.js' --fix",
     "size": "size-limit",
     "precommit": "lint-staged",
     "postversion": "git push --follow-tags"
@@ -81,6 +82,7 @@
     "karma-webpack": "^3.0.0",
     "lint-staged": "^6.1.0",
     "minimist": "^1.2.0",
+    "prettier": "^1.14.3",
     "raw-loader": "^0.5.1",
     "react": "^16.2.0",
     "react-codemirror": "^1.0.0",
@@ -111,6 +113,7 @@
   ],
   "lint-staged": {
     "*.js": [
+      "prettier --write",
       "eslint --fix",
       "git add"
     ]

@@ -13,7 +13,6 @@ import injectSheet, {fontFamily} from 'docs/src/utils/theming'
   }
 }))
 export default class InlineCode extends PureComponent {
-
   static propTypes = {
     /**
      * Код
@@ -24,11 +23,6 @@ export default class InlineCode extends PureComponent {
   render() {
     const {classes, children} = this.props
 
-    return (
-      <code className={classes.root}>
-        {children}
-      </code>
-    )
+    return <code className={classes.root}>{children}</code>
   }
-
 }

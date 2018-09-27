@@ -1,4 +1,4 @@
-import React, { Component, cloneElement } from 'react'
+import React, {Component, cloneElement} from 'react'
 import {
   unmountComponentAtNode,
   unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
@@ -40,9 +40,7 @@ import uuid from '../utils/uuid'
  * - unrenderAtLayer(element) - размонтирует `element`
  */
 export default function provideRenderToLayer(Target) {
-
   return class ProvideRenderToLayer extends Component {
-
     elements = []
 
     componentWillUnmount() {
@@ -65,25 +63,23 @@ export default function provideRenderToLayer(Target) {
       return resultElement
     }
 
-    unrenderAtLayer = (element) => {
+    unrenderAtLayer = element => {
       const elementIndex = this.elements.indexOf(element)
-      if (elementIndex < 0)
-        return Promise.resolve()
-      return new Promise((resolve) => {
-        const { containerRef } = element.props
+      if (elementIndex < 0) return Promise.resolve()
+      return new Promise(resolve => {
+        const {containerRef} = element.props
 
         const closedElement = cloneElement(element, {
           isOpened: false,
-          containerRef: (ref) => {
-            if (containerRef)
-              containerRef(ref)
+          containerRef: ref => {
+            if (containerRef) containerRef(ref)
             resolve(closedElement)
           }
         })
 
         this.elements[elementIndex] = closedElement
         this.renderPortal()
-      }).then((closedElement) => {
+      }).then(closedElement => {
         this.elements = this.elements.filter(el => el !== closedElement)
         this.renderPortal()
       })
@@ -96,15 +92,9 @@ export default function provideRenderToLayer(Target) {
           document.body.appendChild(this.node)
         }
 
-        const listElement = (
-          <div>{this.elements}</div>
-        )
+        const listElement = <div>{this.elements}</div>
 
-        renderSubtreeIntoContainer(
-          this,
-          listElement,
-          this.node
-        )
+        renderSubtreeIntoContainer(this, listElement, this.node)
       } else {
         this.unmountPortal()
       }
@@ -123,10 +113,9 @@ export default function provideRenderToLayer(Target) {
         <Target
           {...this.props}
           renderToLayer={this.renderToLayer}
-          unrenderAtLayer={this.unrenderAtLayer} />
+          unrenderAtLayer={this.unrenderAtLayer}
+        />
       )
     }
-
   }
-
 }

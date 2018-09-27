@@ -1,9 +1,19 @@
 import React, {Component} from 'react'
-import {TagsInput, TagsInputItem}  from 'rambler-ui/TagsInput'
+import {TagsInput, TagsInputItem} from 'rambler-ui/TagsInput'
 import Checkbox from 'rambler-ui/Checkbox'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {ApplyTheme} from 'rambler-ui/theme'
 
-const exampleItems = ['Чехия', 'Мальта', 'Нидерланды', 'Германия', 'Гватемала', 'США', 'Люксембург', 'Канада', 'Австралия']
+const exampleItems = [
+  'Чехия',
+  'Мальта',
+  'Нидерланды',
+  'Германия',
+  'Гватемала',
+  'США',
+  'Люксембург',
+  'Канада',
+  'Австралия'
+]
 
 export default class TagsInputExample extends Component {
   state = {
@@ -12,11 +22,13 @@ export default class TagsInputExample extends Component {
 
   toggleValue = (value, checked) => {
     this.setState({
-      items: checked ? this.state.items.concat(value) : this.state.items.filter(el => el !== value)
+      items: checked
+        ? this.state.items.concat(value)
+        : this.state.items.filter(el => el !== value)
     })
   }
 
-  changeValue = (items) => {
+  changeValue = items => {
     this.setState({items})
   }
 
@@ -30,7 +42,13 @@ export default class TagsInputExample extends Component {
       <ApplyTheme>
         <div>
           {exampleItems.map(item => (
-            <Checkbox checked={this.state.items.indexOf(item) > -1} style={{marginRight: 20}} onCheck={(e, checked) => {this.toggleValue(item, checked)}} key={item}>
+            <Checkbox
+              checked={this.state.items.indexOf(item) > -1}
+              style={{marginRight: 20}}
+              onCheck={(e, checked) => {
+                this.toggleValue(item, checked)
+              }}
+              key={item}>
               {item}
             </Checkbox>
           ))}
@@ -50,23 +68,36 @@ export default class TagsInputExample extends Component {
             </TagsInput>
           </div>
           <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
-            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isExpanded={true}>
+            <TagsInput
+              onChange={this.changeValue}
+              onMoreClick={() => {}}
+              size="small"
+              isExpanded={true}>
               {items}
             </TagsInput>
           </div>
           <div style={{marginTop: 40, maxWidth: 240, border: '1px solid'}}>
-            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" disabled={true}>
+            <TagsInput
+              onChange={this.changeValue}
+              onMoreClick={() => {}}
+              size="small"
+              disabled={true}>
               {items}
             </TagsInput>
           </div>
           <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
-            <TagsInput onChange={this.changeValue} onMoreClick={() => {}} size="small" isExpanded={true} disabled={true}>
+            <TagsInput
+              onChange={this.changeValue}
+              onMoreClick={() => {}}
+              size="small"
+              isExpanded={true}
+              disabled={true}>
               {items}
             </TagsInput>
           </div>
 
           <div style={{marginTop: 40}}>
-            this.state.items: <b>{ this.state.items.join(', ') }</b>
+            this.state.items: <b>{this.state.items.join(', ')}</b>
           </div>
         </div>
       </ApplyTheme>

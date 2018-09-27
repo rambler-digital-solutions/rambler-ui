@@ -10,24 +10,24 @@ let handlers
 function createHandlers() {
   return {
     scroll: {
-      handler: throttleRaf((e) => {
+      handler: throttleRaf(e => {
         events.emit('scroll', e)
       }),
       capture: true
     },
     resize: {
-      handler: throttleRaf((e) => {
+      handler: throttleRaf(e => {
         events.emit('resize', e)
       })
     },
     click: {
-      handler: (e) => {
+      handler: e => {
         events.emit('click', e)
       },
       capture: true
     },
     touchstart: {
-      handler: (e) => {
+      handler: e => {
         events.emit('touchstart', e)
       },
       capture: true
@@ -38,32 +38,38 @@ function createHandlers() {
 export default function windowEvents(...types) {
   return function wrap(OriginalComponent) {
     return class WrappedComponent extends Component {
-
       static displayName = `windowEvents(${getDisplayName(OriginalComponent)})`
 
       componentDidMount() {
         handlers = handlers || createHandlers()
-        types.forEach((type) => {
+        types.forEach(type => {
           if (!handlers[type].listenersCount) {
             handlers[type].listenersCount = 0
-            window.addEventListener(type, handlers[type].handler, handlers[type].capture)
+            window.addEventListener(
+              type,
+              handlers[type].handler,
+              handlers[type].capture
+            )
           }
           handlers[type].listenersCount++
         })
       }
 
       componentWillUnmount() {
-        types.forEach((type) => {
+        types.forEach(type => {
           handlers[type].listenersCount--
           if (!handlers[type].listenersCount)
-            window.removeEventListener(type, handlers[type].handler, handlers[type].capture)
+            window.removeEventListener(
+              type,
+              handlers[type].handler,
+              handlers[type].capture
+            )
         })
       }
 
       render() {
         return <OriginalComponent {...this.props} windowEvents={events} />
       }
-
     }
   }
 }

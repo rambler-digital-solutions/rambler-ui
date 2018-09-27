@@ -67,7 +67,6 @@ const mdComponents = {
   }
 }))
 export default class Page extends PureComponent {
-
   static propTypes = {
     /**
      * Урл страницы
@@ -92,10 +91,8 @@ export default class Page extends PureComponent {
     return (
       <div>
         <header className={classes.header}>
-          <h1>
-            {title}
-          </h1>
-          {source &&
+          <h1>{title}</h1>
+          {source && (
             <ApplyTheme>
               <IconButton
                 className={classes.source}
@@ -105,7 +102,7 @@ export default class Page extends PureComponent {
                 <GithubIcon />
               </IconButton>
             </ApplyTheme>
-          }
+          )}
         </header>
         <div className={classes.content}>
           <Content components={mdComponents} />
@@ -113,5 +110,4 @@ export default class Page extends PureComponent {
       </div>
     )
   }
-
 }

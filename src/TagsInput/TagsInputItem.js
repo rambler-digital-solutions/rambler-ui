@@ -1,56 +1,58 @@
 /**
  * Компонент TagsInputItem
  */
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import { isolateMixin } from '../utils/mixins'
-import { injectSheet } from '../theme'
+import {isolateMixin} from '../utils/mixins'
+import {injectSheet} from '../theme'
 import ClearIcon from './ClearIcon'
 
 const iconStyle = {
   fill: null
 }
 
-@injectSheet((theme) => ({
-  root: {
-    extend: isolateMixin,
-    display: 'inline-flex',
-    fontSize: theme.tagsInput.fontSize,
-    lineHeight: theme.tagsInput.height + 'px',
-    color: theme.tagsInput.colors.default.text,
-    whiteSpace: 'nowrap',
-    pointerEvents: 'none'
-  },
-  text: {
-    flex: '0 1 auto',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis'
-  },
-  icon: {
-    flex: 'none',
-    fontSize: 15,
-    width: '1em',
-    height: '1em',
-    alignSelf: 'center',
-    color: theme.tagsInput.colors.default.icon,
-    fill: 'currentColor',
-    cursor: 'pointer',
-    pointerEvents: 'auto',
-    '&:hover , &:active': {
-      color: theme.tagsInput.colors.hover.icon
+@injectSheet(
+  theme => ({
+    root: {
+      extend: isolateMixin,
+      display: 'inline-flex',
+      fontSize: theme.tagsInput.fontSize,
+      lineHeight: theme.tagsInput.height + 'px',
+      color: theme.tagsInput.colors.default.text,
+      whiteSpace: 'nowrap',
+      pointerEvents: 'none'
+    },
+    text: {
+      flex: '0 1 auto',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis'
+    },
+    icon: {
+      flex: 'none',
+      fontSize: 15,
+      width: '1em',
+      height: '1em',
+      alignSelf: 'center',
+      color: theme.tagsInput.colors.default.icon,
+      fill: 'currentColor',
+      cursor: 'pointer',
+      pointerEvents: 'auto',
+      '&:hover , &:active': {
+        color: theme.tagsInput.colors.hover.icon
+      }
+    },
+    isDisabled: {
+      color: theme.tagsInput.colors.disabled.text,
+      '&& $icon': {
+        color: theme.tagsInput.colors.disabled.icon,
+        cursor: 'not-allowed'
+      }
     }
-  },
-  isDisabled: {
-    color: theme.tagsInput.colors.disabled.text,
-    '&& $icon': {
-      color: theme.tagsInput.colors.disabled.icon,
-      cursor: 'not-allowed'
-    }
-  }
-}), {name: 'TagsInputItem'})
+  }),
+  {name: 'TagsInputItem'}
+)
 class TagsInputItem extends Component {
-
   static propTypes = {
     /**
      * Дополнительный CSS-класс (автоматически проставляется компонентом `<TagsInput/>`)
@@ -82,12 +84,12 @@ class TagsInputItem extends Component {
     disabled: PropTypes.bool
   }
 
-  handleClick = (event) => {
+  handleClick = event => {
     const {value, onClick} = this.props
     onClick(event, value)
   }
 
-  handleMouseDown = (event) => {
+  handleMouseDown = event => {
     event.preventDefault()
   }
 
@@ -107,14 +109,15 @@ class TagsInputItem extends Component {
     return (
       <div
         {...other}
-        className={classnames(className, classes.root, disabled && classes.isDisabled)}
+        className={classnames(
+          className,
+          classes.root,
+          disabled && classes.isDisabled
+        )}
         style={style}
-        ref={nodeRef}
-      >
-        <span className={classes.text}>
-          {children}
-        </span>
-        {onClick &&
+        ref={nodeRef}>
+        <span className={classes.text}>{children}</span>
+        {onClick && (
           <ClearIcon
             className={classes.icon}
             size={null}
@@ -123,7 +126,7 @@ class TagsInputItem extends Component {
             onMouseDown={disabled ? undefined : this.handleMouseDown}
             role={disabled ? undefined : 'button'}
           />
-        }
+        )}
       </div>
     )
   }

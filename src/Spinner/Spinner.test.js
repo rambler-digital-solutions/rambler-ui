@@ -1,9 +1,8 @@
 import React from 'react'
 import Spinner from './Spinner'
-import { mount, withTheme, getStyles } from '../utils/test-utils'
+import {mount, withTheme, getStyles} from '../utils/test-utils'
 
 describe('<Spinner />', () => {
-
   it('should apply default styles', () => {
     const wrapper = mount(withTheme(<Spinner />))
 
@@ -38,7 +37,9 @@ describe('<Spinner />', () => {
   it('should append style', () => {
     const color = 'rgb(255, 255, 255)'
 
-    const wrapper = mount(withTheme(<Spinner style={{ backgroundColor: color }} />))
+    const wrapper = mount(
+      withTheme(<Spinner style={{backgroundColor: color}} />)
+    )
 
     const spinner = wrapper.find(Spinner)
     const spinnerStyles = getStyles(spinner)
@@ -65,5 +66,4 @@ describe('<Spinner />', () => {
 
     expect(dotStyles['background-color']).toEqual(color)
   })
-
 })

@@ -2,12 +2,14 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import StickySidebar from 'sticky-sidebar'
+import debounce from 'lodash.debounce'
 import {NavLink, withRouter} from 'react-router-dom'
 import {ApplyTheme} from 'rambler-ui/theme'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
 import {throttle} from 'rambler-ui/utils/raf'
+import {createMutationObserver} from 'rambler-ui/utils/DOM'
 import config from 'docs/src/config'
 import injectSheet, {fontFamily} from 'docs/src/utils/theming'
 import Logo from './Logo'
@@ -125,7 +127,8 @@ const initOnDesktop = window.innerWidth >= 768
       content: '""',
       width: '100%',
       height: 20,
-      backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.1))'
+      backgroundImage:
+        'linear-gradient(to top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.1))'
     }
   },
   list: {
@@ -206,7 +209,6 @@ const initOnDesktop = window.innerWidth >= 768
   }
 }))
 export default class SideNav extends PureComponent {
-
   static propTypes = {
     /**
      * Список страниц для вывода
@@ -233,21 +235,16 @@ export default class SideNav extends PureComponent {
         })
     }
     req.send(null)
-    if (desktop) {
-      this.bindSidebar()
-      window.addEventListener('load', this.updateSidebarAfterLoad)
-    }
+    if (desktop) this.connectSidebar()
     window.addEventListener('resize', this.updateViewport)
   }
 
-  componentDidUpdate (prevProps, prevState) {
+  componentDidUpdate(prevProps, prevState) {
     const {desktop} = this.state
     const {location} = this.props
     if (desktop !== prevState.desktop)
-      if (desktop)
-        this.bindSidebar()
-      else
-        this.sidebar.destroy()
+      if (desktop) this.connectSidebar()
+      else this.destroySidebar()
     if (location !== prevProps.location) {
       this.setState({
         activeSubtree: location.pathname,
@@ -255,35 +252,44 @@ export default class SideNav extends PureComponent {
           navOpened: false
         })
       })
-      if (desktop)
-        this.sidebar.updateSticky({type: 'resize'})
       window.scrollTo(0, 0)
     }
   }
 
   componentWillUnmount() {
     const {desktop} = this.state
-    if (desktop)
-      this.sidebar.destroy()
+    if (desktop) this.destroySidebar()
     window.removeEventListener('resize', this.updateViewport)
   }
 
-  bindSidebar() {
+  connectSidebar() {
     const {classes} = this.props
     if (this.sidebar) {
       this.sidebar.bindEvents()
-      this.sidebar.updateSticky({type: 'resize'})
-      return
+      this.updateSidebar()
+    } else {
+      this.sidebar = new StickySidebar(`.${classes.root}`, {
+        containerSelector: '#root',
+        innerWrapperSelector: `.${classes.scroll}`
+      })
     }
-    this.sidebar = new StickySidebar(`.${classes.root}`, {
-      containerSelector: '#root',
-      innerWrapperSelector: `.${classes.scroll}`
+    this.bodyObserver = createMutationObserver(debounce(this.updateSidebar))
+    this.bodyObserver.observe(document.getElementById('root'), {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      characterData: true
     })
   }
 
-  updateSidebarAfterLoad = () => {
+  updateSidebar = () => {
     this.sidebar.updateSticky({type: 'resize'})
-    window.removeEventListener('load', this.updateSidebarAfterLoad)
+  }
+
+  destroySidebar() {
+    this.sidebar.destroy()
+    this.bodyObserver.disconnect()
+    this.bodyObserver = null
   }
 
   toggleNav = () => {
@@ -294,8 +300,7 @@ export default class SideNav extends PureComponent {
 
   closeNavOnClickOutside = () => {
     const {desktop} = this.state
-    if (desktop)
-      return
+    if (desktop) return
     this.setState({
       navOpened: false
     })
@@ -319,8 +324,7 @@ export default class SideNav extends PureComponent {
 
   activeSubtree(pathname) {
     const {activeSubtree} = this.state
-    if (!activeSubtree)
-      return false
+    if (!activeSubtree) return false
     return activeSubtree.indexOf(pathname) === 0
   }
 
@@ -333,8 +337,7 @@ export default class SideNav extends PureComponent {
 
   updateViewport = throttle(() => {
     const desktop = window.innerWidth >= 768
-    if (desktop === this.state.desktop)
-      return
+    if (desktop === this.state.desktop) return
     this.setState({
       desktop
     })
@@ -355,13 +358,13 @@ export default class SideNav extends PureComponent {
 
     return (
       <span
-        className={this.activeSubtree(page.pathname) ? classes.openedLink : classes.link}
+        className={
+          this.activeSubtree(page.pathname) ? classes.openedLink : classes.link
+        }
         data-href={page.pathname}
         onClick={this.toggleSubtree}>
         {page.title}
-        {page.children &&
-          <ArrowIcon size={20} className={classes.linkIcon} />
-        }
+        {page.children && <ArrowIcon size={20} className={classes.linkIcon} />}
       </span>
     )
   }
@@ -385,19 +388,18 @@ export default class SideNav extends PureComponent {
     const {classes} = this.props
     const {versions, showVersions} = this.state
 
-    if (versions.length === 0)
-      return null
+    if (versions.length === 0) return null
 
-    let currentVersion = versions.reduce(
-      (acc, v) => {
-        const currentPath =
-          window.location.pathname.replace(config.pathPrefix, '').replace(/^\//, '').split('/').join('/')
-        if (currentPath === v.path)
-          return v.title ? v.title.replace(/[^0-9.]/g, '') : v.path
-        return acc
-      },
-      null
-    )
+    let currentVersion = versions.reduce((acc, v) => {
+      const currentPath = window.location.pathname
+        .replace(config.pathPrefix, '')
+        .replace(/^\//, '')
+        .split('/')
+        .join('/')
+      if (currentPath === v.path)
+        return v.title ? v.title.replace(/[^0-9.]/g, '') : v.path
+      return acc
+    }, null)
 
     if (!currentVersion)
       currentVersion = versions[0].title.replace(/[^0-9.]/g, '')
@@ -441,7 +443,12 @@ export default class SideNav extends PureComponent {
 
     return (
       <OnClickOutside handler={this.closeNavOnClickOutside}>
-        <div className={classnames(classes.root, navOpened && classes.opened, !desktop && classes.mobile)}>
+        <div
+          className={classnames(
+            classes.root,
+            navOpened && classes.opened,
+            !desktop && classes.mobile
+          )}>
           <button
             type="button"
             className={classes.toggle}
@@ -459,5 +466,4 @@ export default class SideNav extends PureComponent {
       </OnClickOutside>
     )
   }
-
 }
