@@ -24,6 +24,11 @@
           ]
         }]
       ]
+    },
+    "test": {
+      "plugins": [
+        "istanbul"
+      ]
     }
   }
 }
