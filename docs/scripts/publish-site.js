@@ -37,7 +37,7 @@ if (headTag && folders.includes(headTag) && !folders.includes('stable'))
 
 console.log('➜ Get previous versions')
 exec(`git clone -b gh-pages ${remoteUrl} ${tempDir}`)
-exec(`rm -rf ${tempDir}/.git`)
+exec(`rm -rf ${tempDir}/{.git,index.html,index*.js}`)
 exec(`find ${tempDir} ! -name '*' ! -type d -exec rm -- {} +`)
 
 console.log('➜ Copy versions to build directory')
