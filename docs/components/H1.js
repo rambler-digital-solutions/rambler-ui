@@ -13,6 +13,10 @@ const styles = {
   }
 }
 
-const H1 = ({classes, children}) => <h1 className={classes.root}>{children}</h1>
+const H1 = ({classes, style, children}) => (
+  <h1 className={classes.root} style={style}>
+    {children}
+  </h1>
+)
 
 export default injectSheet(styles)(H1)

@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import classnames from 'classnames'
 import StickySidebar from 'sticky-sidebar'
 import debounce from 'lodash.debounce'
-import {withRouter} from 'react-router-dom'
+import {withRouter, Link} from 'react-router-dom'
 import {ApplyTheme} from 'rambler-ui/theme'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
@@ -10,21 +10,22 @@ import {Menu, MenuItem} from 'rambler-ui/Menu'
 import {throttle} from 'rambler-ui/utils/raf'
 import {createMutationObserver} from 'rambler-ui/utils/DOM'
 import config from 'docs/config'
-import index from 'docs/pages'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
+import Button from 'docs/components/Button'
 import NavLink from 'docs/components/NavLink'
 import Logo from 'docs/components/icons/Logo'
 import ArrowIcon from 'docs/components/icons/Arrow'
+import ChevronIcon from 'docs/components/icons/Chevron'
 
 const initOnDesktop = window.innerWidth >= 768
 
 const styles = theme => ({
   root: {
-    position: 'relative',
-    float: 'left',
+    position: 'absolute !important',
     top: 0,
-    left: 0,
-    width: 0,
+    bottom: 0,
+    left: -230,
+    width: 230,
     minHeight: '100%',
     backgroundColor: theme.colors.light,
     transitionDuration: 200,
@@ -37,7 +38,6 @@ const styles = theme => ({
   },
   mobile: {
     position: 'fixed !important',
-    float: 'none',
     height: '100%',
     '& $scroll': {
       height: '100%',
@@ -45,7 +45,7 @@ const styles = theme => ({
     }
   },
   opened: {
-    width: 230,
+    left: 0,
     boxShadow: '0 5px 15px 0 rgba(52, 59, 76, 0.16)',
     '@media screen and (min-width: 768px)': {
       boxShadow: 'none'
@@ -67,9 +67,6 @@ const styles = theme => ({
           transform: 'translate(-50%, -1px) rotate(-45deg)'
         }
       }
-    },
-    '& $scroll': {
-      marginLeft: 0
     }
   },
   toggle: {
@@ -105,14 +102,13 @@ const styles = theme => ({
     }
   },
   scroll: {
-    marginLeft: -230,
-    width: 230,
     padding: '22px 15px 30px 25px',
     transitionDuration: 200,
     transitionProperty: 'margin-left'
   },
   logo: {
     position: 'relative',
+    display: 'inline-block',
     marginLeft: 2,
     marginBottom: 27,
     '& svg': {
@@ -177,31 +173,11 @@ const styles = theme => ({
     marginTop: -2,
     marginLeft: 3
   },
-  button: {
-    display: 'inline-block',
-    borderRadius: 25,
-    border: '1px solid rgba(141, 150, 178, 0.4)',
+  buttons: {
     width: 170,
-    height: 40,
-    marginTop: 15,
-    paddingLeft: 24,
-    paddingRight: 24,
-    fontSize: 15,
-    fontWeight: 500,
-    lineHeight: '40px',
-    'a&': {
-      color: theme.colors.black
-    },
-    '&:hover': {
-      borderColor: theme.colors.blue
-    },
-    '&::after': {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      marginLeft: 4,
-      color: theme.colors.blue,
-      lineHeight: 1,
-      content: '"→"'
+    '& a': {
+      marginTop: 15,
+      textAlign: 'left'
     }
   },
   version: {
@@ -386,7 +362,9 @@ class SideNav extends PureComponent {
         data-href={page.path}
         onClick={this.toggleSubtree}>
         {page.title}
-        {page.children && <ArrowIcon size={20} className={classes.linkIcon} />}
+        {page.children && (
+          <ChevronIcon size={20} className={classes.linkIcon} />
+        )}
       </span>
     )
   }
@@ -430,62 +408,75 @@ class SideNav extends PureComponent {
 
     return (
       <div className={classes.version}>
-        <ApplyTheme>
-          <Dropdown
-            className={classes.dropdown}
-            anchorPointY="top"
-            contentPointY="top"
-            anchorPointX="left"
-            contentPointX="left"
-            isOpened={showVersions}
-            anchor={
-              <button onClick={this.showVersions}>
-                Версия {currentVersion}
-                <ArrowIcon color="currentColor" />
-              </button>
-            }
-            onClose={this.hideVersions}>
-            <Menu size="small" value={this.version} onChange={this.changeVersion}>
-              {versions.map(v => (
-                <MenuItem key={v.path} value={v.path}>
-                  {v.title || v.path}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Dropdown>
-        </ApplyTheme>
+        <Dropdown
+          className={classes.dropdown}
+          anchorPointY="top"
+          contentPointY="top"
+          anchorPointX="left"
+          contentPointX="left"
+          isOpened={showVersions}
+          anchor={
+            <button onClick={this.showVersions}>
+              Версия {currentVersion}
+              <ChevronIcon color="currentColor" />
+            </button>
+          }
+          onClose={this.hideVersions}>
+          <Menu size="small" value={this.version} onChange={this.changeVersion}>
+            {versions.map(v => (
+              <MenuItem key={v.path} value={v.path}>
+                {v.title || v.path}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Dropdown>
       </div>
     )
   }
 
   render() {
-    const {classes} = this.props
+    const {classes, index} = this.props
     const {desktop, navOpened} = this.state
 
     return (
       <OnClickOutside handler={this.closeNavOnClickOutside}>
-        <div
-          className={classnames(
-            classes.root,
-            navOpened && classes.opened,
-            !desktop && classes.mobile
-          )}>
-          <div className={classes.scroll}>
-            <Logo className={classes.logo} />
-            <button
-              type="button"
-              className={classes.toggle}
-              onClick={this.toggleNav}>
-              <span />
-              <span />
-              <span />
-            </button>
-            {this.renderList(index)}
-            <a href="#" className={classes.button}>Дизайнеру</a>
-            <a href="#" className={classes.button}>Разработчику</a>
-            {this.renderVersion()}
+        <ApplyTheme>
+          <div
+            className={classnames(
+              classes.root,
+              navOpened && classes.opened,
+              !desktop && classes.mobile
+            )}>
+            <div className={classes.scroll}>
+              <Link to="/" className={classes.logo}>
+                <Logo />
+              </Link>
+              <button
+                type="button"
+                className={classes.toggle}
+                onClick={this.toggleNav}>
+                <span />
+                <span />
+                <span />
+              </button>
+              {this.renderList(index)}
+              <div className={classes.buttons}>
+                <Button type="outline" block href="https://brand.rambler.ru">
+                  Дизайнеру
+                  <ArrowIcon color="#315efb" />
+                </Button>
+                <Button
+                  type="outline"
+                  block
+                  href="https://github.com/rambler-digital-solutions/rambler-ui">
+                  Разработчику
+                  <ArrowIcon color="#315efb" />
+                </Button>
+              </div>
+              {this.renderVersion()}
+            </div>
           </div>
-        </div>
+        </ApplyTheme>
       </OnClickOutside>
     )
   }

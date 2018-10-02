@@ -13,12 +13,13 @@ const styles = theme => ({
     paddingBottom: 20,
     fontFamily: fontFamily.CorsicaRamblerLX,
     '& section': {
-      flex: 1
+      flexGrow: 1
     },
     '@media screen and (min-width: 768px)': {
       flexDirection: 'row',
-      maxWidth: 980,
+      // maxWidth: 980,
       marginLeft: 100,
+      marginRight: 90,
       paddingBottom: 40,
       '& section + section': {
         marginLeft: 10

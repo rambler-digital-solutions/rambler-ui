@@ -23,8 +23,9 @@ const styles = theme => ({
     '@media screen and (min-width: 768px)': {
       flexDirection: 'row',
       alignItems: 'center',
-      maxWidth: 995,
+      // maxWidth: 995,
       marginLeft: 100,
+      marginRight: 40,
       paddingTop: 30,
       paddingBottom: 25
     }
@@ -74,21 +75,23 @@ const Footer = ({classes}) => (
     <footer className={classes.root}>
       <div className={classes.copy}>© Рамблер, {currentYear}</div>
       <div className={classes.links}>
-        <a href="#">Вакансии</a>
-        <a href="#">Контакты</a>
-        <a href="#">О компании</a>
+        <a href="https://rambler-co.ru/jobs">Вакансии</a>
+        <a href="https://rambler-co.ru/contacts">Контакты</a>
+        <a href="https://rambler-co.ru/">О компании</a>
       </div>
       <div className={classes.help}>
         Появились вопросы? <a href="#">Напишите</a> нам!
       </div>
       <div className={classes.buttons}>
-        <IconButton size="small" href="#">
+        <IconButton
+          size="small"
+          href="https://github.com/rambler-digital-solutions/rambler-ui">
           <GithubIcon />
         </IconButton>
-        <IconButton size="small" href="#">
+        <IconButton size="small" href="https://www.facebook.com/ramblerdesign/">
           <FacebookIcon />
         </IconButton>
-        <IconButton size="small" href="#">
+        <IconButton size="small" href="https://medium.com/ramblerdesign">
           <MediumIcon />
         </IconButton>
       </div>

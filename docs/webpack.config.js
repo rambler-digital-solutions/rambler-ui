@@ -4,7 +4,7 @@ const path = require('path')
 const highlight = require('remark-highlight.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const argv = require('minimist')(process.argv.slice(2))
-const exportMeta = require('./export-meta')
+const exportMeta = require('./lib/export-meta')
 
 const {NODE_ENV} = process.env
 
@@ -41,6 +41,13 @@ module.exports = {
         use: ['style-loader', 'css-loader']
       },
       {
+        test: /\.png$/,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]?[hash]'
+        }
+      },
+      {
         test: /\.html$/,
         loader: 'html-loader',
         options: {
@@ -50,6 +57,7 @@ module.exports = {
     ]
   },
   resolve: {
+    extensions: ['.js', '.json', '.md'],
     modules: ['node_modules', path.resolve(__dirname, '../')],
     alias: {
       'rambler-ui': path.resolve(__dirname, '../src')

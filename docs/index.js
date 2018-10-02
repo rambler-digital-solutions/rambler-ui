@@ -2,7 +2,7 @@ import 'babel-polyfill'
 import React from 'react'
 import {render} from 'react-dom'
 import {HashRouter, Switch} from 'react-router-dom'
-import index from 'docs/pages'
+import pageList from 'docs/page-list'
 import {ThemeProvider} from 'docs/utils/theming'
 import App from 'docs/components/App'
 import Route from 'docs/components/Route'
@@ -24,9 +24,12 @@ const root = (
   <ThemeProvider>
     <HashRouter>
       <App>
-        <SideNav />
+        <SideNav index={pageList} />
         <div>
-          <Switch>{flattenRoutes(index)}</Switch>
+          <Switch>
+            {flattenRoutes(pageList)}
+            <Route key="/" path="/" />
+          </Switch>
           <Informer />
           <Footer />
         </div>

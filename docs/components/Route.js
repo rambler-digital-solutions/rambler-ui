@@ -10,18 +10,19 @@ export default class Route extends PureComponent {
     path: PropTypes.string
   }
 
-  Content = null
+  component = null
 
   async componentDidMount() {
-    const {path} = this.props
+    let {path} = this.props
+    if (!/\/$/.test(path)) path += '/'
     const {
-      default: Content
-    } = await import(/* webpackMode: "lazy" */ `docs/pages${path}/index.md`)
-    this.Content = Content
+      default: component
+    } = await import(/* webpackMode: "lazy" */ `docs/pages${path}index`)
+    this.component = component
     this.forceUpdate()
   }
 
   render() {
-    return <DomRoute exact path={this.props.path} component={this.Content} />
+    return <DomRoute exact path={this.props.path} component={this.component} />
   }
 }

@@ -1,4 +1,4 @@
-import env from /* preval */ './env'
+import env from /* preval */ './lib/env'
 
 const targets = env.targets
 let config = env
