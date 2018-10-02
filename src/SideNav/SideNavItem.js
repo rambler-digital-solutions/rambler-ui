@@ -130,6 +130,7 @@ class SideNavItem extends Component {
       classes,
       theme, // eslint-disable-line no-unused-vars
       onPress, // eslint-disable-line no-unused-vars
+      value, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 

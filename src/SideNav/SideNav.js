@@ -99,6 +99,7 @@ export default class SideNav extends Component {
       className,
       classes,
       theme, // eslint-disable-line no-unused-vars
+      value, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 
