@@ -6,7 +6,7 @@ const path = require('path')
 const cp = require('child_process')
 const ghpages = require('gh-pages')
 const argv = require('minimist')(process.argv.slice(2))
-const appConfig = require('../config')
+const env = require('../lib/env')
 
 const currentVersion = require(path.resolve(__dirname, '../../package.json'))
   .version
@@ -100,14 +100,14 @@ if (latest.title !== latestTitle) {
 
 const message = argv.message || 'Update gh-pages'
 
-console.log(`➜ Publish site to \`${appConfig.repo}\``)
+console.log(`➜ Publish site to \`${env.repo}\``)
 ghpages.publish(
   outDir,
   {
     message,
     add: true,
     dotfiles: true,
-    repo: appConfig.repo
+    repo: env.repo
   },
   err => {
     if (err) {
