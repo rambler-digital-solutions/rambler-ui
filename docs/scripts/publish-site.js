@@ -37,20 +37,24 @@ if (headTag && folders.includes(headTag) && !folders.includes('stable'))
 
 console.log('➜ Get previous versions')
 exec(`git clone -b gh-pages ${remoteUrl} ${tempDir}`)
-exec(`rm -rf ${tempDir}/{.git,index.html,index*.js,*.png}`)
+exec(`rm -rf ${tempDir}/.git`)
 exec(`find ${tempDir} ! -name '*' ! -type d -exec rm -- {} +`)
 
 console.log('➜ Copy versions to build directory')
 folders.forEach(folder => {
   if (/^v-?[.x0-9]+$/.test(folder)) folder = folder.replace(/^v-?/, '')
   const resultDir = path.join(tempDir, folder)
+  console.log(`➜ Copy \`${folder}\``)
   exec(`rm -rf ${resultDir}`)
   exec(`mkdir -p ${resultDir}`)
   exec(`rsync -rvpl --exclude temp ${outDir}/* ${resultDir}/`)
-  if (folder === 'stable')
+  if (folder === 'stable') {
+    exec(`rm -rf ${tempDir}/{index.html,*.js,*.css,*.png}`)
     exec(`rsync -rvpl --exclude temp ${outDir}/* ${tempDir}/`)
+  }
 })
 
+exec(`rm -rf ${outDir}/{index.html,*.js,*.css,*.png}`)
 exec(`rsync -rvpl ${tempDir}/* ${outDir}`)
 exec(`rm -rf ${tempDir}`)
 
