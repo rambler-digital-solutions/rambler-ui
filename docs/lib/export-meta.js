@@ -1,5 +1,4 @@
-const isHeading = depth => node =>
-  node.type === 'heading' && node.depth === depth
+const isHeading = depth => node => node.type === 'heading' && depth(node.depth)
 
 const getValue = node =>
   node.children && node.children.map(node => node.value).join(' ')
@@ -7,7 +6,7 @@ const getValue = node =>
 const exportMeta = () => root => {
   const {children} = root
   const meta = {}
-  const index = children.findIndex(isHeading(1))
+  const index = children.findIndex(isHeading(d => d === 1))
   const titleNode = children[index]
   const descNode = children[index + 1]
   if (titleNode) {
@@ -18,7 +17,7 @@ const exportMeta = () => root => {
     }
     delete children[index]
   }
-  const headingNodes = children.filter(isHeading(2))
+  const headingNodes = children.filter(isHeading(d => d === 2 || d === 3))
   if (headingNodes.length > 0) meta.toc = headingNodes.map(getValue)
   children.unshift({
     type: 'import',
