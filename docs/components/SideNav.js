@@ -3,7 +3,6 @@ import classnames from 'classnames'
 import StickySidebar from 'sticky-sidebar'
 import debounce from 'lodash.debounce'
 import {withRouter, Link} from 'react-router-dom'
-import {ApplyTheme} from 'rambler-ui/theme'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
@@ -440,43 +439,41 @@ class SideNav extends PureComponent {
 
     return (
       <OnClickOutside handler={this.closeNavOnClickOutside}>
-        <ApplyTheme>
-          <div
-            className={classnames(
-              classes.root,
-              navOpened && classes.opened,
-              !desktop && classes.mobile
-            )}>
-            <div className={classes.scroll}>
-              <Link to="/" className={classes.logo}>
-                <Logo />
-              </Link>
-              <button
-                type="button"
-                className={classes.toggle}
-                onClick={this.toggleNav}>
-                <span />
-                <span />
-                <span />
-              </button>
-              {this.renderList(index)}
-              <div className={classes.buttons}>
-                <Button type="outline" block href="https://brand.rambler.ru">
-                  Дизайнеру
-                  <ArrowIcon color="#315efb" />
-                </Button>
-                <Button
-                  type="outline"
-                  block
-                  href="https://github.com/rambler-digital-solutions/rambler-ui">
-                  Разработчику
-                  <ArrowIcon color="#315efb" />
-                </Button>
-              </div>
-              {this.renderVersion()}
+        <div
+          className={classnames(
+            classes.root,
+            navOpened && classes.opened,
+            !desktop && classes.mobile
+          )}>
+          <div className={classes.scroll}>
+            <Link to="/" className={classes.logo}>
+              <Logo />
+            </Link>
+            <button
+              type="button"
+              className={classes.toggle}
+              onClick={this.toggleNav}>
+              <span />
+              <span />
+              <span />
+            </button>
+            {this.renderList(index)}
+            <div className={classes.buttons}>
+              <Button type="outline" block href="https://brand.rambler.ru">
+                Дизайнеру
+                <ArrowIcon color="#315efb" />
+              </Button>
+              <Button
+                type="outline"
+                block
+                href="https://github.com/rambler-digital-solutions/rambler-ui">
+                Разработчику
+                <ArrowIcon color="#315efb" />
+              </Button>
             </div>
+            {this.renderVersion()}
           </div>
-        </ApplyTheme>
+        </div>
       </OnClickOutside>
     )
   }

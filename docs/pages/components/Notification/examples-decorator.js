@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import Button from 'rambler-ui/Button'
 import FaceIcon from 'rambler-ui/icons/forms/FaceIcon'
 import {Notification, provideNotification} from 'rambler-ui/Notification'
-import {ApplyTheme} from 'rambler-ui/theme'
 
 class WithNotification extends Component {
   open = () => {
@@ -33,9 +32,5 @@ class WithNotification extends Component {
 const WithProvidedNotification = provideNotification(WithNotification)
 
 export default function NotificationDecoratorExample() {
-  return (
-    <ApplyTheme>
-      <WithProvidedNotification />
-    </ApplyTheme>
-  )
+  return <WithProvidedNotification />
 }

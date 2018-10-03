@@ -1,7 +1,6 @@
 import React, {PureComponent, Fragment} from 'react'
 import {MDXProvider} from '@mdx-js/tag'
 import {withRouter} from 'react-router-dom'
-import {ApplyTheme} from 'rambler-ui/theme'
 import IconButton from 'rambler-ui/IconButton'
 import createSourceUrl from 'docs/utils/create-source-url'
 import injectSheet from 'docs/utils/theming'
@@ -107,34 +106,32 @@ export default meta => Component =>
           return (
             <MDXProvider components={components}>
               <Fragment>
-                <ApplyTheme>
-                  <header className={classes.header}>
-                    {this.sourceUrl && (
-                      <IconButton
-                        className={classes.source}
-                        size="small"
-                        href={this.sourceUrl}
-                        target="_blank">
-                        <GithubIcon />
-                      </IconButton>
-                    )}
-                    <H1>{meta.title}</H1>
-                    {meta.description && <p>{meta.description}</p>}
-                    {meta.toc && (
-                      <div className={classes.toc}>
-                        {meta.toc.map((item, index) => (
-                          <Button
-                            type="outline"
-                            key={item}
-                            data-index={index}
-                            onClick={this.scrollToHeading}>
-                            {item}
-                          </Button>
-                        ))}
-                      </div>
-                    )}
-                  </header>
-                </ApplyTheme>
+                <header className={classes.header}>
+                  {this.sourceUrl && (
+                    <IconButton
+                      className={classes.source}
+                      size="small"
+                      href={this.sourceUrl}
+                      target="_blank">
+                      <GithubIcon />
+                    </IconButton>
+                  )}
+                  <H1>{meta.title}</H1>
+                  {meta.description && <p>{meta.description}</p>}
+                  {meta.toc && (
+                    <div className={classes.toc}>
+                      {meta.toc.map((item, index) => (
+                        <Button
+                          type="outline"
+                          key={item}
+                          data-index={index}
+                          onClick={this.scrollToHeading}>
+                          {item}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+                </header>
                 <div className={classes.content}>
                   <Component {...props} />
                 </div>

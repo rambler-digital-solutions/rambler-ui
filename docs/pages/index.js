@@ -1,5 +1,4 @@
 import React from 'react'
-import {ApplyTheme} from 'rambler-ui/theme'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 import Button from 'docs/components/Button'
 import H1 from 'docs/components/H1'
@@ -188,87 +187,85 @@ const styles = theme => ({
 })
 
 const Main = ({classes}) => (
-  <ApplyTheme>
-    <div className={classes.root}>
-      <div className={classes.intro}>
-        <small>Design System</small>
-        <Logo />
-        <p>
-          Ратио — дизайн-система нового Рамблера, созданная для того, чтобы
-          оптимизировать работу с визуальным языком продуктов, их интерфейсами и
-          создать среду, в которой пользователи смогут эффективнее решать свои
-          задачи.
-        </p>
-        <Button type="primary" href="#">
-          Начать работу <ArrowIcon />
-        </Button>
-      </div>
-      <div className={classes.info}>
-        <section>
-          <img src={BrandIcon} />
-          <div>
-            <H3>Бренд</H3>
-            <p>Миссия, ценности и визуальный язык Рамблера</p>
-          </div>
-        </section>
-        <section>
-          <img src={GuidelinesIcon} />
-          <div>
-            <H3>Гайдлайны</H3>
-            <p>Инструменты и правила решения дизайн-задач </p>
-          </div>
-        </section>
-        <section>
-          <img src={ComponentsIcon} />
-          <div>
-            <H3>Компоненты</H3>
-            <p>NPM-пакет с более чем 30 компонентами и стилями</p>
-          </div>
-        </section>
-        <section>
-          <img src={ProductsIcon} />
-          <div>
-            <H3>Продукты</H3>
-            <p>Более 50 миллионов пользователей со всей России</p>
-          </div>
-        </section>
-      </div>
-      <div className={classes.hiring}>
-        <H1 style={{textOverflow: 'none'}}>Хочешь стать частью команды?</H1>
-        <p>
-          У нашей группы компаний всегда много открытых вакансий! Работа в
-          Рамблере — это возможность создавать продукты для более чем 50
-          миллионов пользователей.
-        </p>
-        <Button type="primary" href="#">
-          Подать резюме <ArrowIcon />
-        </Button>
-      </div>
-      <div className={classes.informer}>
-        <section>
-          <GithubIcon size={80} />
-          <div>
-            <h4>GitHub</h4>
-            <p>Публичный репозиторий Ratio на GitHub</p>
-          </div>
-        </section>
-        <section>
-          <SketchIcon size={80} />
-          <div>
-            <h4>Sketch</h4>
-            <p>Sketch-библиотека, UI-Kit и набор ассетов</p>
-          </div>
-        </section>
-        <section>
-          <PdfIcon style={{height: 80, width: 'auto'}} />
-          <div>
-            <h4>PDF</h4>
-            <p>Описание основ дизайн-системы в удобном формате</p>
-          </div>
-        </section>
-      </div>
+  <div className={classes.root}>
+    <div className={classes.intro}>
+      <small>Design System</small>
+      <Logo />
+      <p>
+        Ратио — дизайн-система нового Рамблера, созданная для того, чтобы
+        оптимизировать работу с визуальным языком продуктов, их интерфейсами и
+        создать среду, в которой пользователи смогут эффективнее решать свои
+        задачи.
+      </p>
+      <Button type="primary" href="#">
+        Начать работу <ArrowIcon />
+      </Button>
     </div>
-  </ApplyTheme>
+    <div className={classes.info}>
+      <section>
+        <img src={BrandIcon} />
+        <div>
+          <H3>Бренд</H3>
+          <p>Миссия, ценности и визуальный язык Рамблера</p>
+        </div>
+      </section>
+      <section>
+        <img src={GuidelinesIcon} />
+        <div>
+          <H3>Гайдлайны</H3>
+          <p>Инструменты и правила решения дизайн-задач </p>
+        </div>
+      </section>
+      <section>
+        <img src={ComponentsIcon} />
+        <div>
+          <H3>Компоненты</H3>
+          <p>NPM-пакет с более чем 30 компонентами и стилями</p>
+        </div>
+      </section>
+      <section>
+        <img src={ProductsIcon} />
+        <div>
+          <H3>Продукты</H3>
+          <p>Более 50 миллионов пользователей со всей России</p>
+        </div>
+      </section>
+    </div>
+    <div className={classes.hiring}>
+      <H1 style={{textOverflow: 'none'}}>Хочешь стать частью команды?</H1>
+      <p>
+        У нашей группы компаний всегда много открытых вакансий! Работа в
+        Рамблере — это возможность создавать продукты для более чем 50 миллионов
+        пользователей.
+      </p>
+      <Button type="primary" href="#">
+        Подать резюме <ArrowIcon />
+      </Button>
+    </div>
+    <div className={classes.informer}>
+      <section>
+        <GithubIcon size={80} />
+        <div>
+          <h4>GitHub</h4>
+          <p>Публичный репозиторий Ratio на GitHub</p>
+        </div>
+      </section>
+      <section>
+        <SketchIcon size={80} />
+        <div>
+          <h4>Sketch</h4>
+          <p>Sketch-библиотека, UI-Kit и набор ассетов</p>
+        </div>
+      </section>
+      <section>
+        <PdfIcon style={{height: 80, width: 'auto'}} />
+        <div>
+          <h4>PDF</h4>
+          <p>Описание основ дизайн-системы в удобном формате</p>
+        </div>
+      </section>
+    </div>
+  </div>
 )
 
 export default injectSheet(styles)(Main)

@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import Button from 'rambler-ui/Button'
 import {Popup, providePopup} from 'rambler-ui/Popup'
-import {ApplyTheme} from 'rambler-ui/theme'
 
 class WithPopup extends Component {
   state = {
@@ -104,9 +103,5 @@ class WithPopup extends Component {
 const WithProvidedPopup = providePopup(WithPopup)
 
 export default function PopupDecoratorExample() {
-  return (
-    <ApplyTheme>
-      <WithProvidedPopup />
-    </ApplyTheme>
-  )
+  return <WithProvidedPopup />
 }

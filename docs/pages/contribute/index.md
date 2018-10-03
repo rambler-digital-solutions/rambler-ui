@@ -118,15 +118,14 @@ export function createTheme(config) {
 
 ### Документация
 
-Чтобы добавить компонент в документацию, нужно добавить папку с названием компонента в документацию `docs/src/pages/components`. Для документации используется формат [`mdx`](https://github.com/mdx-js/mdx), который позволяет использовать `React`-компоненты внутри Markdown.
+Чтобы добавить компонент в документацию, нужно добавить папку с названием компонента в документацию `docs/pages/components`. Для документации используется формат [`mdx`](https://github.com/mdx-js/mdx), который позволяет использовать `React`-компоненты внутри Markdown.
 
 ```md
-<!-- docs/src/pages/components/Button/index.md -->
-import example from '!!raw-loader!./example'
-import button from '!!raw-loader!rambler-ui/Button/Button'
-
+<!-- docs/pages/components/Button/index.md -->
 import Playground from 'docs/components/Playground'
 import PropTypesTable from 'docs/components/PropTypesTable'
+import example from '!!raw-loader!./example'
+import button from '!!raw-loader!rambler-ui/Button/Button'
 
 # Button
 
@@ -138,15 +137,12 @@ import PropTypesTable from 'docs/components/PropTypesTable'
 ```
 
 ```js
-// docs/src/pages/components/Button/example.js
+// docs/pages/components/Button/example.js
 import React from 'react'
 import Button from 'rambler-ui/Button'
-import { ApplyTheme } from 'rambler-ui/theme'
 
 export default () => (
-  <ApplyTheme>
-    <Button>Кнопка</Button>
-  </ApplyTheme>
+  <Button>Кнопка</Button>
 )
 ```
 

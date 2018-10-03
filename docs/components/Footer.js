@@ -1,5 +1,4 @@
 import React from 'react'
-import {ApplyTheme} from 'rambler-ui/theme'
 import IconButton from 'rambler-ui/IconButton'
 import FacebookIcon from 'rambler-ui/icons/profiles/FacebookIcon'
 import GithubIcon from 'docs/components/icons/Github'
@@ -71,32 +70,30 @@ const styles = theme => ({
 })
 
 const Footer = ({classes}) => (
-  <ApplyTheme>
-    <footer className={classes.root}>
-      <div className={classes.copy}>© Рамблер, {currentYear}</div>
-      <div className={classes.links}>
-        <a href="https://rambler-co.ru/jobs">Вакансии</a>
-        <a href="https://rambler-co.ru/contacts">Контакты</a>
-        <a href="https://rambler-co.ru/">О компании</a>
-      </div>
-      <div className={classes.help}>
-        Появились вопросы? <a href="#">Напишите</a> нам!
-      </div>
-      <div className={classes.buttons}>
-        <IconButton
-          size="small"
-          href="https://github.com/rambler-digital-solutions/rambler-ui">
-          <GithubIcon />
-        </IconButton>
-        <IconButton size="small" href="https://www.facebook.com/ramblerdesign/">
-          <FacebookIcon />
-        </IconButton>
-        <IconButton size="small" href="https://medium.com/ramblerdesign">
-          <MediumIcon />
-        </IconButton>
-      </div>
-    </footer>
-  </ApplyTheme>
+  <footer className={classes.root}>
+    <div className={classes.copy}>© Рамблер, {currentYear}</div>
+    <div className={classes.links}>
+      <a href="https://rambler-co.ru/jobs">Вакансии</a>
+      <a href="https://rambler-co.ru/contacts">Контакты</a>
+      <a href="https://rambler-co.ru/">О компании</a>
+    </div>
+    <div className={classes.help}>
+      Появились вопросы? <a href="#">Напишите</a> нам!
+    </div>
+    <div className={classes.buttons}>
+      <IconButton
+        size="small"
+        href="https://github.com/rambler-digital-solutions/rambler-ui">
+        <GithubIcon />
+      </IconButton>
+      <IconButton size="small" href="https://www.facebook.com/ramblerdesign/">
+        <FacebookIcon />
+      </IconButton>
+      <IconButton size="small" href="https://medium.com/ramblerdesign">
+        <MediumIcon />
+      </IconButton>
+    </div>
+  </footer>
 )
 
 export default injectSheet(styles)(Footer)

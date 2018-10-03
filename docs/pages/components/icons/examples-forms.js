@@ -1,6 +1,5 @@
 import React from 'react'
 import Tooltip from 'rambler-ui/Tooltip'
-import {ApplyTheme} from 'rambler-ui/theme'
 import * as icons from 'rambler-ui/icons/forms'
 
 const styles = {
@@ -9,18 +8,16 @@ const styles = {
 }
 
 export default () => (
-  <ApplyTheme>
-    <div>
-      {Object.keys(icons).map(iconName => {
-        const Icon = icons[iconName]
-        return (
-          <div key={iconName} style={styles}>
-            <Tooltip content={`<${iconName} />`}>
-              <Icon />
-            </Tooltip>
-          </div>
-        )
-      })}
-    </div>
-  </ApplyTheme>
+  <div>
+    {Object.keys(icons).map(iconName => {
+      const Icon = icons[iconName]
+      return (
+        <div key={iconName} style={styles}>
+          <Tooltip content={`<${iconName} />`}>
+            <Icon />
+          </Tooltip>
+        </div>
+      )
+    })}
+  </div>
 )
