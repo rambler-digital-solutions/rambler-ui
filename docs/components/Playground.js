@@ -191,10 +191,9 @@ class Playground extends PureComponent {
   }
 
   renderPreview() {
-    const {mode} = this.state
     const {showPreview, classes} = this.props
 
-    if (!showPreview || mode !== 'preview') return null
+    if (!showPreview) return null
 
     const {raw} = this.state
 
@@ -225,7 +224,7 @@ class Playground extends PureComponent {
       }
 
       execute(module, module.exports, deepRequire)
-      
+
       const Component = module.exports.default
 
       if (Component == null)
