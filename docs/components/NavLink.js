@@ -20,9 +20,7 @@ class NavLink extends PureComponent {
   async componentDidMount() {
     const {to} = this.props
     await new Promise(resolve => setTimeout(resolve, 0))
-    queue.add(
-      () => import(/* webpackPrefetch: true */ `docs/pages${to}/index.md`)
-    )
+    queue.add(() => import(/* webpackPrefetch: true */ `docs/pages${to}`))
   }
 
   render() {

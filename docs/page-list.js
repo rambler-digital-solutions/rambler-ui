@@ -7,11 +7,17 @@ export default [
     children: components
   },
   {
-    title: 'Установка',
-    path: '/install'
-  },
-  {
-    title: 'Разработка',
-    path: '/contribute'
+    title: 'Как использовать',
+    path: '/usage',
+    children: [
+      {
+        title: 'Установка',
+        path: '/usage/install'
+      },
+      {
+        title: 'Разработка',
+        path: '/usage/contribute'
+      }
+    ]
   }
 ]
