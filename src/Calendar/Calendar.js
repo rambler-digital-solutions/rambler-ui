@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
-import {isolateMixin} from '../utils/mixins'
+import {isolateMixin, focusSourceMixin} from '../utils/mixins'
+import '../utils/focus-source'
 
 const toNumber = (year, month, date) => year * 10000 + month * 100 + date
 
@@ -96,9 +97,9 @@ const numberToDate = number =>
       '&:hover': {
         color: calendar.service.colors.hover
       },
-      '&:focus': {
+      ...focusSourceMixin('other', '&:focus', {
         color: calendar.service.colors.hover
-      },
+      }),
       '$isMedia &': {
         color: calendar.media.colors.default
       },
@@ -156,9 +157,9 @@ const numberToDate = number =>
       '$isSelectable &:not(:disabled):hover': {
         color: calendar.colors.hover.text
       },
-      '$isSelectable &:not(:disabled):focus': {
+      ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
         color: calendar.colors.hover.text
-      },
+      }),
       '&:disabled': {
         cursor: 'not-allowed'
       }
@@ -178,18 +179,18 @@ const numberToDate = number =>
     isToday: {
       fontWeight: 500,
       color: calendar.colors.today.text,
-      '$isSelectable &:hover': {
+      '$isSelectable &:not(:disabled):hover': {
         color: calendar.colors.todayHover.text
       },
-      '$isSelectable &$isUnavailable:hover': {
-        color: calendar.colors.disabled.text
-      },
-      '$isSelectable &:focus': {
+      ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
         color: calendar.colors.todayHover.text
-      },
-      '$isSelectable &$isUnavailable:focus': {
+      }),
+      ...focusSourceMixin('other', '$isSelectable &$isUnavailable:hover', {
         color: calendar.colors.disabled.text
-      }
+      }),
+      ...focusSourceMixin('other', '$isSelectable &$isUnavailable:focus', {
+        color: calendar.colors.disabled.text
+      })
     },
     isSelected: {
       backgroundColor: calendar.colors.selected.background
@@ -197,22 +198,22 @@ const numberToDate = number =>
     isActive: {
       color: calendar.colors.active.text,
       backgroundColor: calendar.colors.active.background,
-      '$isSelectable &:hover': {
+      '$isSelectable &:not(:disabled):hover': {
         color: calendar.colors.active.text,
         backgroundColor: calendar.colors.activeHover.background
       },
+      ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
+        color: calendar.colors.active.text,
+        backgroundColor: calendar.colors.activeHover.background
+      }),
       '$isSelectable &$isUnavailable:hover': {
         color: calendar.colors.disabled.text,
         backgroundColor: calendar.colors.activeHover.background
       },
-      '$isSelectable &:focus': {
-        color: calendar.colors.active.text,
-        backgroundColor: calendar.colors.activeHover.background
-      },
-      '$isSelectable &$isUnavailable:focus': {
+      ...focusSourceMixin('other', '$isSelectable &$isUnavailable:focus', {
         color: calendar.colors.disabled.text,
         backgroundColor: calendar.colors.activeHover.background
-      }
+      })
     },
     isUnavailable: {
       color: calendar.colors.disabled.text
