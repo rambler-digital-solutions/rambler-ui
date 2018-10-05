@@ -567,7 +567,7 @@ export function createTheme(config) {
         borderRadius: 1,
         icon: {
           colors: {
-            default: colors.controls.grey.fieldIcon,
+            default: colors.controls.grey.outline,
             active: colors.primary
           }
         },
