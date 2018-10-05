@@ -7,6 +7,7 @@ import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import Tooltip from '../Tooltip'
+import ClockIcon from '../icons/forms/ClockIcon'
 import Eye from '../icons/forms/Eye'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
@@ -46,6 +47,9 @@ const activeBorder = borderColor => ({
         paddingBottom: theme.input.sizes.medium.padding
       },
       '&::-ms-reveal, &::-ms-clear': {
+        display: 'none'
+      },
+      '&::-webkit-clear-button, &::-webkit-inner-spin-button': {
         display: 'none'
       },
       '&:enabled:hover': {borderColor: theme.field.colors.hover.outline},
@@ -316,7 +320,8 @@ const activeBorder = borderColor => ({
       pointerEvents: 'none'
     },
     iconRight: {
-      composes: '$icon'
+      composes: '$icon',
+      pointerEvents: 'none'
     },
     isFocused: {},
     filled: {},
@@ -334,13 +339,6 @@ const activeBorder = borderColor => ({
   {name: 'Input'}
 )
 export default class Input extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      type: this.props.type
-    }
-  }
-
   static propTypes = {
     /**
      *  Значение введённое в поле, возвращается в callback onChange.
@@ -364,7 +362,8 @@ export default class Input extends Component {
       'password',
       'tel',
       'text',
-      'url'
+      'url',
+      'time'
     ]),
     /**
      * Размер инпута
@@ -461,7 +460,12 @@ export default class Input extends Component {
   static defaultProps = {
     status: null,
     size: 'medium',
-    variation: 'awesome'
+    variation: 'awesome',
+    onChange: () => {}
+  }
+
+  state = {
+    type: this.props.type
   }
 
   saveRef = ref => {
@@ -474,24 +478,27 @@ export default class Input extends Component {
     this.setState({type: this.input.type})
   }
 
-  onChangeHelper = e => {
-    if (this.props.onChange) this.props.onChange(e, e.target.value)
+  onChange = event => {
+    this.props.onChange(event, event.target.value)
   }
 
-  renderPasswordIcon() {
-    const {type} = this.state
+  renderTypeIcon() {
+    const {type, size, theme, classes, passwordIconTooltip} = this.props
 
-    const {
-      type: trueType,
-      size,
-      theme,
-      classes,
-      passwordIconTooltip
-    } = this.props
+    if (type === 'time')
+      return (
+        <div className={classes.iconRight}>
+          <ClockIcon
+            size={theme.field.sizes[size].eyeIcon}
+            color="currentColor"
+          />
+        </div>
+      )
 
-    if (trueType !== 'password') return null
+    if (type !== 'password') return null
 
-    const Icon = type === 'password' ? ClosedEyeIcon : Eye
+    const {type: currentType} = this.state
+    const Icon = currentType === 'password' ? ClosedEyeIcon : Eye
 
     const icon = (
       <span className={classes.eyeWrapper} onClick={this.inputTypeHelper}>
@@ -506,7 +513,7 @@ export default class Input extends Component {
     if (passwordIconTooltip) {
       const content =
         typeof passwordIconTooltip === 'function'
-          ? passwordIconTooltip(type)
+          ? passwordIconTooltip(currentType)
           : passwordIconTooltip
 
       return (
@@ -562,7 +569,7 @@ export default class Input extends Component {
       ...other
     } = this.props
 
-    const trueType = this.props.type
+    const type = this.props.type
     const resultClassName = classnames(
       className,
       classes.root,
@@ -573,7 +580,7 @@ export default class Input extends Component {
       classes[size],
       iconLeft && classes.withLeftIcon,
       iconRight && classes.withRightIcon,
-      trueType === 'password' && classes.withEye,
+      type === 'password' && classes.withEye,
       groupPosition && classes[`${groupPosition}Position`],
       groupPosition && classes.inGroup
     )
@@ -589,7 +596,7 @@ export default class Input extends Component {
         value !== '' && value != null && classes.filled
       ),
       style: inputStyle,
-      onChange: this.onChangeHelper,
+      onChange: this.onChange,
       tabIndex: 0,
       placeholder,
       ...other
@@ -609,7 +616,7 @@ export default class Input extends Component {
             iconRight,
             classnames(iconRightClassName, classes.iconRight)
           )}
-        {this.renderPasswordIcon()}
+        {this.renderTypeIcon()}
       </div>
     )
   }

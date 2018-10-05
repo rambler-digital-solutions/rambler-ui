@@ -6,12 +6,12 @@
   },
   {
     "name": "The size of the library components",
-    "limit": "82 KB",
+    "limit": "85 KB",
     "path": "test/only-components.js"
   },
   {
     "name": "The size of the library with all icons",
-    "limit": "99 KB",
+    "limit": "100 KB",
     "path": "build/index.js"
   }
 ]

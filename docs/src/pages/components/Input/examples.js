@@ -120,6 +120,15 @@ export default class InputExample extends Component {
                       variation={variation}
                     />
                   </FormGroup>
+                  <FormGroup label="Input time">
+                    <Input
+                      type="time"
+                      value={this.state.value}
+                      onChange={this.onChange}
+                      placeholder="placeholder"
+                      variation={variation}
+                    />
+                  </FormGroup>
                   <FormGroup label="Input password with left and right icon">
                     <Input
                       iconLeft={<RamblerMailIcon />}
