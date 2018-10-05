@@ -4,6 +4,20 @@ import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
+const toNumber = (year, month, date) => year * 10000 + month * 100 + date
+
+const dateToNumber = date =>
+  date instanceof Date
+    ? toNumber(date.getFullYear(), date.getMonth(), date.getDate())
+    : null
+
+const numberToDate = number =>
+  new Date(
+    Math.floor(number / 10000),
+    Math.floor((number % 10000) / 100),
+    number % 100
+  )
+
 @injectSheet(
   ({calendar}) => ({
     root: {
@@ -90,6 +104,10 @@ import {isolateMixin} from '../utils/mixins'
       },
       '$isMedia &:hover': {
         color: calendar.media.colors.hover
+      },
+      '&:disabled': {
+        color: calendar.colors.disabled.text,
+        cursor: 'not-allowed'
       }
     },
     prev: {
@@ -132,14 +150,17 @@ import {isolateMixin} from '../utils/mixins'
       fontSize: calendar.date.fontSize,
       color: calendar.colors.default.text,
       backgroundColor: calendar.colors.default.background,
-      '$isSelectable &': {
+      '$isSelectable &:not(:disabled)': {
         cursor: 'pointer'
       },
-      '$isSelectable &:hover': {
+      '$isSelectable &:not(:disabled):hover': {
         color: calendar.colors.hover.text
       },
-      '$isSelectable &:focus': {
+      '$isSelectable &:not(:disabled):focus': {
         color: calendar.colors.hover.text
+      },
+      '&:disabled': {
+        cursor: 'not-allowed'
       }
     },
 
@@ -195,14 +216,6 @@ import {isolateMixin} from '../utils/mixins'
     },
     isUnavailable: {
       color: calendar.colors.disabled.text
-    },
-    isDisableArrow: {
-      color: calendar.colors.disabled.text,
-      cursor: 'default',
-      '&:hover': {
-        color: calendar.colors.disabled.text,
-        cursor: 'default'
-      }
     }
   }),
   {name: 'Calendar'}
@@ -251,6 +264,14 @@ export default class Calendar extends Component {
      */
     maxYear: PropTypes.number,
     /**
+     * Минимальная дата для выбора
+     */
+    minDate: PropTypes.instanceOf(Date),
+    /**
+     * Максимальная дата для выбора
+     */
+    maxDate: PropTypes.instanceOf(Date),
+    /**
      * Отображает год
      */
     showYear: PropTypes.bool,
@@ -279,10 +300,7 @@ export default class Calendar extends Component {
     highlightWeekend: false
   }
 
-  constructor(props) {
-    super(props)
-    this.state = this.getState(props)
-  }
+  state = this.getState(this.props)
 
   componentDidUpdate(prevProps) {
     if (prevProps.initDate !== this.props.initDate) this.resetState()
@@ -294,9 +312,9 @@ export default class Calendar extends Component {
 
   getState(props) {
     const number =
-      this.dateToNumber(props.initDate) ||
-      this.dateToNumber(props.today) ||
-      this.dateToNumber(new Date())
+      dateToNumber(props.initDate) ||
+      dateToNumber(props.today) ||
+      dateToNumber(new Date())
 
     return this.calculateDates({
       displayMonth: Math.floor((number % 10000) / 100),
@@ -329,7 +347,7 @@ export default class Calendar extends Component {
     )
   }
 
-  calculateDates = ({displayMonth, displayYear}) => {
+  calculateDates({displayMonth, displayYear}) {
     const dates = []
 
     const months = this.props.showMonthSwitch
@@ -366,14 +384,13 @@ export default class Calendar extends Component {
         dateTo = 8 - (new Date(year, month, 1).getDay() || 7)
 
       if (month === displayMonth) {
-        first = this.toNumber(year, month, 1)
-        last = this.toNumber(year, month, dateTo)
+        first = toNumber(year, month, 1)
+        last = toNumber(year, month, dateTo)
       }
 
       let i
 
-      for (i = dateFrom; i <= dateTo; i++)
-        dates.push(this.toNumber(year, month, i))
+      for (i = dateFrom; i <= dateTo; i++) dates.push(toNumber(year, month, i))
     })
 
     return {
@@ -385,21 +402,16 @@ export default class Calendar extends Component {
     }
   }
 
-  toNumber = (year, month, date) => year * 10000 + month * 100 + date
+  setNewDates(event, [numberFrom, numberTo = null]) {
+    const {range, onChange} = this.props
 
-  dateToNumber = date => {
-    if (date instanceof Date)
-      return this.toNumber(date.getFullYear(), date.getMonth(), date.getDate())
+    const dateFrom = numberFrom && numberToDate(numberFrom)
+    const dateTo = numberTo && numberToDate(numberTo)
 
-    return null
+    const value = range ? [dateFrom, dateTo] : dateFrom
+
+    if (typeof onChange === 'function') onChange(event, value)
   }
-
-  numberToDate = number =>
-    new Date(
-      Math.floor(number / 10000),
-      Math.floor((number % 10000) / 100),
-      number % 100
-    )
 
   onPrev = () => {
     const {minYear} = this.props
@@ -444,25 +456,14 @@ export default class Calendar extends Component {
   onClick = (event, day) => {
     const {range, value} = this.props
 
-    const [numberFrom, numberTo] = [].concat(value).map(this.dateToNumber)
+    const [numberFrom, numberTo] = [].concat(value).map(dateToNumber)
 
     if (numberFrom && numberFrom === day && range && !numberTo) return
 
     if (range && numberFrom && !numberTo)
-      if (day < numberFrom) this.onSetNewDates(event, [day, numberFrom])
-      else this.onSetNewDates(event, [numberFrom, day])
-    else this.onSetNewDates(event, [day])
-  }
-
-  onSetNewDates(event, [numberFrom, numberTo = null]) {
-    const {range, onChange} = this.props
-
-    const dateFrom = numberFrom && this.numberToDate(numberFrom)
-    const dateTo = numberTo && this.numberToDate(numberTo)
-
-    const value = range ? [dateFrom, dateTo] : dateFrom
-
-    if (typeof onChange === 'function') onChange(event, value)
+      if (day < numberFrom) this.setNewDates(event, [day, numberFrom])
+      else this.setNewDates(event, [numberFrom, day])
+    else this.setNewDates(event, [day])
   }
 
   render() {
@@ -475,6 +476,8 @@ export default class Calendar extends Component {
       range,
       minYear,
       maxYear,
+      minDate,
+      maxDate,
       showYear,
       showMonthSwitch,
       highlightWeekend,
@@ -489,9 +492,11 @@ export default class Calendar extends Component {
     const weeksAfterVisible = Math.ceil(dates.indexOf(last) / 7)
     const weeksVisible = weeksAfterVisible - weeksBeforeVisible
 
-    const numberToday = this.dateToNumber(today)
+    const numberToday = dateToNumber(today)
+    const minNumberDate = minDate && dateToNumber(minDate)
+    const maxNumberDate = maxDate && dateToNumber(maxDate)
 
-    const [numberFrom, numberTo] = [].concat(value).map(this.dateToNumber)
+    const [numberFrom, numberTo] = [].concat(value).map(dateToNumber)
 
     return (
       <div
@@ -504,15 +509,17 @@ export default class Calendar extends Component {
         <div className={classes.headline}>
           {showMonthSwitch && (
             <button
-              className={classnames(classes.prev, {
-                [classes.isDisableArrow]:
-                  Number.isInteger(minYear) &&
-                  minYear === displayYear &&
-                  displayMonth === 0
-              })}
+              className={classes.prev}
               type="button"
               tabIndex={-1}
               onClick={this.onPrev}
+              disabled={
+                ((Number.isInteger(minYear) &&
+                  minYear === displayYear &&
+                  displayMonth === 0) ||
+                  minNumberDate >= toNumber(displayYear, displayMonth, 1)) &&
+                'disabled'
+              }
             />
           )}
 
@@ -526,15 +533,17 @@ export default class Calendar extends Component {
 
           {showMonthSwitch && (
             <button
-              className={classnames(classes.next, {
-                [classes.isDisableArrow]:
-                  Number.isInteger(maxYear) &&
-                  maxYear === displayYear &&
-                  displayMonth === 11
-              })}
+              className={classes.next}
               type="button"
               tabIndex={-1}
               onClick={this.onNext}
+              disabled={
+                ((Number.isInteger(maxYear) &&
+                  maxYear === displayYear &&
+                  displayMonth === 11) ||
+                  maxNumberDate <= toNumber(displayYear, displayMonth, 31)) &&
+                'disabled'
+              }
             />
           )}
         </div>
@@ -576,7 +585,11 @@ export default class Calendar extends Component {
                 [classes.isWeekend]:
                   highlightWeekend &&
                   ((index + 1) % 7 === 6 || (index + 1) % 7 === 0),
-                [classes.isUnavailable]: number < first || number > last
+                [classes.isUnavailable]:
+                  number < minNumberDate ||
+                  number < first ||
+                  number > last ||
+                  number > maxNumberDate
               })
 
               if (
@@ -589,6 +602,10 @@ export default class Calendar extends Component {
                     className={classNameDateday}
                     type="button"
                     tabIndex={0}
+                    disabled={
+                      (number < minNumberDate || number > maxNumberDate) &&
+                      'disabled'
+                    }
                     onClick={event => this.onClick(event, number)}
                     children={number % 100}
                   />

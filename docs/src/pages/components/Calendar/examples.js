@@ -44,6 +44,14 @@ export default class CalendarExample extends Component {
           />
 
           <Calendar
+            minDate={new Date(2018, 5, 5)}
+            maxDate={new Date(2018, 6, 5)}
+            value={dateFrom}
+            today={today}
+            onChange={this.onChangeNotRange}
+          />
+
+          <Calendar
             initDate={dateFrom || new Date(2018, 0)}
             showMonthSwitch={false}
             showYear={false}
