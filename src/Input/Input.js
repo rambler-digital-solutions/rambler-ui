@@ -8,6 +8,7 @@ import {injectSheet} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import Tooltip from '../Tooltip'
 import ClockIcon from '../icons/forms/ClockIcon'
+import CalendarIcon from '../icons/forms/CalendarIcon'
 import Eye from '../icons/forms/Eye'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
@@ -134,7 +135,12 @@ const activeBorder = borderColor => ({
           },
           '& input$input': {
             height: theme.field.sizes[size].height,
-            lineHeight: 'normal'
+            lineHeight: 'normal',
+            '&[type="date"], &[type="time"]': {
+              ...ifMobile({
+                lineHeight: theme.field.sizes[size].height + 'px'
+              })
+            }
           },
           '& $icon': {
             height: theme.field.sizes[size].icon,
@@ -363,7 +369,8 @@ export default class Input extends Component {
       'tel',
       'text',
       'url',
-      'time'
+      'time',
+      'date'
     ]),
     /**
      * Размер инпута
@@ -486,6 +493,7 @@ export default class Input extends Component {
     const {type, iconRight} = this.props
     if (iconRight) return iconRight
     if (type === 'time') return <ClockIcon />
+    if (type === 'date') return <CalendarIcon />
     return null
   }
 
