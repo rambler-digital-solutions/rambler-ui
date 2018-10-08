@@ -482,18 +482,15 @@ export default class Input extends Component {
     this.props.onChange(event, event.target.value)
   }
 
-  renderTypeIcon() {
-    const {type, size, theme, classes, passwordIconTooltip} = this.props
+  get iconRight() {
+    const {type, iconRight} = this.props
+    if (iconRight) return iconRight
+    if (type === 'time') return <ClockIcon />
+    return null
+  }
 
-    if (type === 'time')
-      return (
-        <div className={classes.iconRight}>
-          <ClockIcon
-            size={theme.field.sizes[size].eyeIcon}
-            color="currentColor"
-          />
-        </div>
-      )
+  renderPasswordIcon() {
+    const {type, size, theme, classes, passwordIconTooltip} = this.props
 
     if (type !== 'password') return null
 
@@ -556,7 +553,7 @@ export default class Input extends Component {
       variation,
       placeholder,
       iconLeft,
-      iconRight,
+      iconRight, // eslint-disable-line no-unused-vars
       status,
       isFocused,
       classes,
@@ -579,7 +576,7 @@ export default class Input extends Component {
       disabled ? classes.isDisabled : classes.isEnabled,
       classes[size],
       iconLeft && classes.withLeftIcon,
-      iconRight && classes.withRightIcon,
+      this.iconRight && classes.withRightIcon,
       type === 'password' && classes.withEye,
       groupPosition && classes[`${groupPosition}Position`],
       groupPosition && classes.inGroup
@@ -611,12 +608,12 @@ export default class Input extends Component {
           )}
         {inputElement}
         <div className={classes.activeBorder} />
-        {iconRight &&
+        {this.iconRight &&
           this.renderIcon(
-            iconRight,
+            this.iconRight,
             classnames(iconRightClassName, classes.iconRight)
           )}
-        {this.renderTypeIcon()}
+        {this.renderPasswordIcon()}
       </div>
     )
   }
