@@ -12,7 +12,7 @@ module.exports = config =>
     ],
 
     preprocessors: {
-      'src/**/*!(.test).js': ['coverage'],
+      'src/**/!(*.test).js': ['coverage'],
       'src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
