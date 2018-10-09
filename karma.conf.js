@@ -3,6 +3,7 @@
 module.exports = config =>
   config.set({
     basePath: '',
+
     frameworks: ['jasmine'],
 
     files: [
@@ -69,12 +70,13 @@ module.exports = config =>
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-    browsers: ['Chrome', 'PhantomJS_custom'],
-    singleRun: false,
+    singleRun: true,
+    autoWatch: false,
+
+    browsers: ['Chrome', 'Phantom'],
 
     customLaunchers: {
-      PhantomJS_custom: {
+      Phantom: {
         base: 'PhantomJS',
         options: {
           viewportSize: {
