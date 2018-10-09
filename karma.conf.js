@@ -4,6 +4,7 @@ module.exports = config =>
   config.set({
     basePath: '',
     frameworks: ['jasmine'],
+
     files: [
       'test/init.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
@@ -11,6 +12,7 @@ module.exports = config =>
     ],
 
     preprocessors: {
+      'src/**/!(*.test).js': ['coverage'],
       'src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
@@ -49,10 +51,12 @@ module.exports = config =>
       'karma-sourcemap-loader',
       'karma-chrome-launcher',
       'karma-phantomjs-launcher',
-      'karma-spec-reporter'
+      'karma-spec-reporter',
+      'karma-coverage'
     ],
 
-    reporters: ['spec'],
+    reporters: ['spec', 'coverage'],
+
     specReporter: {
       maxLogLines: 5,
       suppressErrorSummary: true,
@@ -61,12 +65,14 @@ module.exports = config =>
       suppressSkipped: true,
       showSpecTiming: false
     },
+
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome', 'PhantomJS_custom'],
     singleRun: false,
+
     customLaunchers: {
       PhantomJS_custom: {
         base: 'PhantomJS',
@@ -77,5 +83,9 @@ module.exports = config =>
           }
         }
       }
+    },
+
+    coverageReporter: {
+      type: 'text'
     }
   })
