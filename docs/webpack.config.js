@@ -4,13 +4,12 @@ const path = require('path')
 const highlight = require('remark-highlight.js')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const argv = require('minimist')(process.argv.slice(2))
-const appConfig = require('./config')
 
 const {NODE_ENV} = process.env
 
 module.exports = {
   mode: NODE_ENV,
-  entry: path.join(__dirname, 'src/index'),
+  entry: path.join(__dirname, 'index'),
   output: {
     filename: 'index.js?[hash]',
     path: path.resolve(process.cwd(), argv.output || 'docs/build')
@@ -56,13 +55,12 @@ module.exports = {
     }
   },
   resolveLoader: {
-    modules: ['node_modules', path.resolve(__dirname, './')]
+    modules: ['node_modules', path.resolve(__dirname, './lib')]
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(NODE_ENV),
-        APP_CONFIG: JSON.stringify(appConfig)
+        NODE_ENV: JSON.stringify(NODE_ENV)
       }
     }),
     new HtmlWebpackPlugin({
