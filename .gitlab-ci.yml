@@ -22,6 +22,7 @@ test:
     - npm run test
     - npm run build
     - npm run size
+  coverage: '/All files\D+(\d+\.\d+)/'
 
 build_package:
   stage: build
