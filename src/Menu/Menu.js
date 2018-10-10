@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import {findDOMNode} from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 import {ESCAPE, UP, DOWN, TAB} from '../constants/keys'
 import {injectSheet} from '../theme'
 import {getBoundingClientRect} from '../utils/DOM'
@@ -168,7 +168,6 @@ export default class Menu extends PureComponent {
 
   createEvents() {
     this.events = new EventEmitter()
-    this.events.setMaxListeners(0)
     this.events.on('onItemSelect', this.handleOptionSelect)
     this.events.on('onItemFocus', this.handleOptionFocus)
     this.events.on('onItemMount', this.addItem)

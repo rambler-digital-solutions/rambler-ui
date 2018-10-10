@@ -4,7 +4,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
 import {injectSheet} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
