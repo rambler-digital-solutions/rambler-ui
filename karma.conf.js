@@ -1,4 +1,5 @@
 /* eslint-env node */
+process.env.CHROME_BIN = require('puppeteer').executablePath()
 
 module.exports = config =>
   config.set({
@@ -51,7 +52,7 @@ module.exports = config =>
       'karma-jasmine',
       'karma-sourcemap-loader',
       'karma-chrome-launcher',
-      'karma-phantomjs-launcher',
+      'karma-firefox-launcher',
       'karma-spec-reporter',
       'karma-coverage'
     ],
@@ -73,17 +74,12 @@ module.exports = config =>
     singleRun: true,
     autoWatch: false,
 
-    browsers: ['Chrome', 'Phantom'],
+    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
 
     customLaunchers: {
-      Phantom: {
-        base: 'PhantomJS',
-        options: {
-          viewportSize: {
-            width: 1200,
-            height: 1000
-          }
-        }
+      FirefoxHeadless: {
+        base: 'Firefox',
+        flags: ['-headless']
       }
     },
 
