@@ -1,6 +1,7 @@
 import {SideNav, SideNavItem} from '../SideNav'
 import BookIcon from '../icons/forms/BookIcon'
 import {ApplyTheme} from '../theme'
+import {normalize as nc} from '../utils/colors'
 import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 
 import React from 'react'
@@ -70,8 +71,8 @@ describe('<SideNav />', () => {
     expect(sideNavItemStyles['margin-left']).toEqual('0px')
     expect(sideNavItemStyles['margin-right']).toEqual('0px')
     expect(sideNavItemStyles['margin-bottom']).toEqual('0px')
-    expect(sideNavItemIconStyles.fill).toEqual('#262626')
-    expect(sideNavSelectedIconStyles.fill).toEqual('#315efb')
+    expect(nc(sideNavItemIconStyles.fill)).toEqual(nc('#262626'))
+    expect(nc(sideNavSelectedIconStyles.fill)).toEqual(nc('#315efb'))
     expect(sideNavItem.text()).toEqual('')
   })
 

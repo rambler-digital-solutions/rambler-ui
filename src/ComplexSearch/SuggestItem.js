@@ -1,6 +1,6 @@
 import React from 'react'
 import * as PropTypes from 'prop-types'
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import uuid from '../utils/uuid'
