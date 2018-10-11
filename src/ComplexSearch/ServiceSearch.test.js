@@ -45,9 +45,9 @@ describe('<ServiceSearch />', () => {
 
       const search = wrapper.find(ServiceSearch)
       const sizeProp = search.prop('size')
-      const input = search.find('input').closest('div')
-      const inputStyles = getStyles(input)
-      expect(inputStyles.height).toEqual(
+      const form = search.find('input').closest('form')
+      const formStyles = getStyles(form)
+      expect(formStyles.height).toEqual(
         `${theme.serviceSearch.sizes[sizeProp].height}px`
       )
     })

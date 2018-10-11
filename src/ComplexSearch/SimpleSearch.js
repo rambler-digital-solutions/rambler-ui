@@ -250,10 +250,13 @@ export default class SimpleSearch extends React.Component {
     const {inputWrapperClassName, classes} = this.props
 
     return (
-      <div className={classnames(classes.inputWrapper, inputWrapperClassName)}>
+      <form
+        action="#"
+        method="get"
+        className={classnames(classes.inputWrapper, inputWrapperClassName)}>
         {this.renderInputNode()}
         {this.renderServiceIcons()}
-      </div>
+      </form>
     )
   }
 

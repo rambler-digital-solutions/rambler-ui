@@ -405,7 +405,9 @@ export default class ComplexSearch extends React.Component {
     } = this.props
 
     return (
-      <div
+      <form
+        action="#"
+        method="get"
         className={classnames(
           classes.inputWrapper,
           inputWrapperClassName,
@@ -415,7 +417,7 @@ export default class ComplexSearch extends React.Component {
         {this.renderInputIcon()}
         {this.renderInputNode()}
         {this.renderServiceIcons()}
-      </div>
+      </form>
     )
   }
 

@@ -212,7 +212,6 @@ export default class SearchExample extends Component {
           <br />
           <h4>ServiceSearch</h4>
           <ServiceSearch
-            placeholder="Сервисный инпут"
             value={this.state.serviceValue}
             onSearch={this.fetchServiceQuery.bind(this)}
             onSelectItem={this.onServiceSelectItem}

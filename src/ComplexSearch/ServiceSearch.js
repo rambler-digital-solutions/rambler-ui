@@ -324,7 +324,9 @@ export default class ServiceSearch extends React.Component {
     const {inputWrapperClassName, classes, isDropdownOpened} = this.props
 
     return (
-      <div
+      <form
+        action="#"
+        method="get"
         className={classnames(
           classes.inputWrapper,
           inputWrapperClassName,
@@ -341,7 +343,7 @@ export default class ServiceSearch extends React.Component {
             onClick={this.props.clearForm}
           />
         )}
-      </div>
+      </form>
     )
   }
 
