@@ -1,5 +1,6 @@
 /* eslint-env node */
-process.env.CHROME_BIN = require('puppeteer').executablePath()
+process.env.CHROME_BIN =
+  process.env.CHROME_BIN || require('puppeteer').executablePath()
 
 module.exports = config =>
   config.set({
@@ -73,6 +74,7 @@ module.exports = config =>
     logLevel: config.LOG_INFO,
     singleRun: true,
     autoWatch: false,
+    browserNoActivityTimeout: 60000,
 
     browsers: ['ChromeHeadless', 'FirefoxHeadless'],
 
