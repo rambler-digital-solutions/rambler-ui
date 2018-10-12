@@ -76,12 +76,16 @@ module.exports = config =>
     autoWatch: false,
     browserNoActivityTimeout: 60000,
 
-    browsers: ['ChromeHeadless', 'FirefoxHeadless'],
+    browsers: ['ChromeC', 'FirefoxC'],
 
     customLaunchers: {
-      FirefoxHeadless: {
+      ChromeC: {
+        base: 'ChromeHeadless',
+        flags: ['--window-size=1366,768']
+      },
+      FirefoxC: {
         base: 'Firefox',
-        flags: ['-headless']
+        flags: ['-headless', '-width=1366', '-height=768']
       }
     },
 
