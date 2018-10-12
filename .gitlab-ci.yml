@@ -2,10 +2,11 @@ image: portal-common-docker.art.rambler.ru/builder
 
 stages:
   - setup
+  - test
   - build
   - mirror
 
-test:
+install:
   stage: setup
   cache: &cache
     key: "$CI_COMMIT_REF_NAME:node_modules"
@@ -17,9 +18,21 @@ test:
   except:
     - /^gh-pages$/
   script:
-    - npm install
+    - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install
+
+test:
+  image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox
+  stage: test
+  cache:
+    <<: *cache
+    policy: pull
+  tags:
+    - builder
+  except:
+    - /^gh-pages$/
+  script:
+    - npm run test:ci
     - npm run lint
-    - npm run test
     - npm run build
     - npm run size
   coverage: '/All files\D+(\d+\.\d+)/'
