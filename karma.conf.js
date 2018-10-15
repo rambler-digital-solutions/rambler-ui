@@ -90,6 +90,11 @@ module.exports = config =>
     },
 
     coverageReporter: {
-      type: 'text'
+      type: 'text',
+      check: {
+        global: {
+          branches: 51
+        }
+      }
     }
   })

@@ -35,7 +35,7 @@ test:
     - npm run lint
     - npm run build
     - npm run size
-  coverage: '/All files\D+(\d+\.\d+)/'
+  coverage: '/All files\D+\d+\.\d+\D+(\d+\.\d+)/'
 
 build_package:
   stage: build
