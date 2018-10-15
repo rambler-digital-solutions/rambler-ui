@@ -469,7 +469,9 @@ export default class ComplexSearch extends React.Component {
 
     return (
       <button
+        type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
+        onSubmit={onSubmit}
         onClick={onSubmit}
         size="small"
         style={searchButtonStyle}

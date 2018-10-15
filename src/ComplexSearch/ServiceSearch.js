@@ -307,7 +307,9 @@ export default class ServiceSearch extends React.Component {
 
     return (
       <button
+        type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
+        onSubmit={onSubmit}
         onClick={onSubmit}
         {...searchButtonProps}>
         <ServiceSearchIcon

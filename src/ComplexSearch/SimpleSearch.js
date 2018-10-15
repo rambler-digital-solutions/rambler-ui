@@ -296,7 +296,9 @@ export default class SimpleSearch extends React.Component {
 
     return (
       <button
+        type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
+        onSubmit={onSubmit}
         onClick={onSubmit}
         size="small"
         style={searchButtonStyle}
