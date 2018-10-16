@@ -1,12 +1,15 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import StickySidebar from 'sticky-sidebar'
+import debounce from 'lodash.debounce'
 import {NavLink, withRouter} from 'react-router-dom'
 import {ApplyTheme} from 'rambler-ui/theme'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
 import {throttle} from 'rambler-ui/utils/raf'
+import {createMutationObserver} from 'rambler-ui/utils/DOM'
 import config from 'docs/config'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 import Logo from './Logo'
@@ -17,7 +20,9 @@ const initOnDesktop = window.innerWidth >= 768
 @withRouter
 @injectSheet(theme => ({
   root: {
+    position: 'absolute !important',
     top: 0,
+    bottom: 0,
     left: -230,
     width: 230,
     minHeight: '100%',
@@ -28,6 +33,14 @@ const initOnDesktop = window.innerWidth >= 768
     '& + div': {
       transitionDuration: 200,
       transitionProperty: 'margin-left'
+    }
+  },
+  mobile: {
+    position: 'fixed !important',
+    height: '100%',
+    '& $scroll': {
+      height: '100%',
+      overflowY: 'auto'
     }
   },
   opened: {
@@ -89,11 +102,12 @@ const initOnDesktop = window.innerWidth >= 768
   },
   scroll: {
     padding: '22px 15px 30px 25px',
-    height: '100%',
-    overflowY: 'auto'
+    transitionDuration: 200,
+    transitionProperty: 'margin-left'
   },
   logo: {
     position: 'relative',
+    display: 'inline-block',
     marginLeft: 2,
     marginBottom: 27,
     '& svg': {
@@ -197,20 +211,16 @@ export default class SideNav extends PureComponent {
     pages: PropTypes.arrayOf(PropTypes.object)
   }
 
-  pageY = initOnDesktop ? window.pageYOffset : 0
-  position = initOnDesktop ? 'absolute' : 'fixed'
-
   state = {
     desktop: initOnDesktop,
     navOpened: initOnDesktop,
-    top: this.pageY,
-    position: this.position,
     activeSubtree: this.props.location.pathname,
     versions: [],
     showVersions: false
   }
 
   componentDidMount() {
+    const {desktop} = this.state
     const req = new XMLHttpRequest()
     req.open('GET', `${config.pathPrefix}/versions.json`, true)
     req.onreadystatechange = () => {
@@ -220,38 +230,61 @@ export default class SideNav extends PureComponent {
         })
     }
     req.send(null)
-    window.addEventListener('scroll', this.updatePosition)
+    if (desktop) this.connectSidebar()
     window.addEventListener('resize', this.updateViewport)
   }
 
   componentDidUpdate(prevProps, prevState) {
     const {desktop} = this.state
     const {location} = this.props
-    this.pageY = desktop ? window.pageYOffset : 0
-    this.position = desktop ? 'absolute' : 'fixed'
     if (desktop !== prevState.desktop)
+      if (desktop) this.connectSidebar()
+      else this.destroySidebar()
+    if (location !== prevProps.location) {
       this.setState({
-        navOpened: desktop,
-        top: this.pageY,
-        position: this.position
+        activeSubtree: location.pathname,
+        ...(!desktop && {
+          navOpened: false
+        })
       })
-    if (location === prevProps.location) return
-    this.setState({
-      activeSubtree: location.pathname,
-      ...(!desktop && {
-        navOpened: false
-      }),
-      ...(desktop && {
-        top: 0,
-        position: this.position
-      })
-    })
-    window.scrollTo(0, 0)
+      window.scrollTo(0, 0)
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.updatePosition)
+    const {desktop} = this.state
+    if (desktop) this.destroySidebar()
     window.removeEventListener('resize', this.updateViewport)
+  }
+
+  connectSidebar() {
+    const {classes} = this.props
+    if (this.sidebar) {
+      this.sidebar.bindEvents()
+      this.updateSidebar()
+    } else {
+      this.sidebar = new StickySidebar(`.${classes.root}`, {
+        containerSelector: '#root',
+        innerWrapperSelector: `.${classes.scroll}`
+      })
+    }
+    this.bodyObserver = createMutationObserver(debounce(this.updateSidebar))
+    this.bodyObserver.observe(document.getElementById('root'), {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      characterData: true
+    })
+  }
+
+  updateSidebar = () => {
+    this.sidebar.updateSticky({type: 'resize'})
+  }
+
+  destroySidebar() {
+    this.sidebar.destroy()
+    this.bodyObserver.disconnect()
+    this.bodyObserver = null
   }
 
   toggleNav = () => {
@@ -297,39 +330,6 @@ export default class SideNav extends PureComponent {
     })
   }
 
-  updatePosition = throttle(() => {
-    const {desktop} = this.state
-    if (!desktop) return
-    const {pageYOffset, innerHeight} = window
-    const {offsetHeight, offsetTop} = this.rootNode
-    if (offsetHeight >= document.body.clientHeight) return
-    let position
-    let top
-    if (
-      (this.pageY > pageYOffset && pageYOffset <= (offsetTop || pageYOffset)) ||
-      innerHeight === offsetHeight
-    ) {
-      position = 'fixed'
-      top = 0
-    } else if (
-      this.pageY < pageYOffset &&
-      pageYOffset + innerHeight >= offsetTop + offsetHeight
-    ) {
-      position = 'fixed'
-      top = innerHeight - offsetHeight
-    } else {
-      position = 'absolute'
-      top = pageYOffset + offsetTop
-    }
-    this.pageY = pageYOffset
-    if (position === this.position) return
-    this.position = position
-    this.setState({
-      top,
-      position
-    })
-  })
-
   updateViewport = throttle(() => {
     const desktop = window.innerWidth >= 768
     if (desktop === this.state.desktop) return
@@ -337,10 +337,6 @@ export default class SideNav extends PureComponent {
       desktop
     })
   })
-
-  setRoot = el => {
-    this.rootNode = el
-  }
 
   renderLink(page) {
     const {classes} = this.props
@@ -438,27 +434,25 @@ export default class SideNav extends PureComponent {
 
   render() {
     const {classes, pages} = this.props
-    const {navOpened, top, position, desktop} = this.state
+    const {desktop, navOpened} = this.state
 
     return (
       <OnClickOutside handler={this.closeNavOnClickOutside}>
         <div
-          ref={this.setRoot}
-          style={{
-            top,
-            position,
-            height: desktop ? null : '100%'
-          }}
-          className={classnames(classes.root, navOpened && classes.opened)}>
-          <button
-            type="button"
-            className={classes.toggle}
-            onClick={this.toggleNav}>
-            <span />
-            <span />
-            <span />
-          </button>
+          className={classnames(
+            classes.root,
+            navOpened && classes.opened,
+            !desktop && classes.mobile
+          )}>
           <div className={classes.scroll}>
+            <button
+              type="button"
+              className={classes.toggle}
+              onClick={this.toggleNav}>
+              <span />
+              <span />
+              <span />
+            </button>
             <Logo className={classes.logo} />
             {this.renderList(pages)}
             {this.renderVersion()}

@@ -103,6 +103,7 @@
     "remark-highlight.js": "^5.0.0",
     "remark-html": "^7.0.0",
     "size-limit": "^0.16.1",
+    "sticky-sidebar": "^3.3.1",
     "style-loader": "^0.21.0",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.4",
