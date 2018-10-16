@@ -2,7 +2,7 @@
 
 ## v-3.29.1 - 2018-10-16
 ### Fixed
-* Кнопка `return` заменена на `search` в `<ComplexSearch />`, `<ServiceSearch />` и `<SimpleSearch />` на мобильных устройствах
+* Кнопка `return` заменена на `go` в `<ComplexSearch />`, `<ServiceSearch />` и `<SimpleSearch />` на мобильных устройствах
 * Поправлено позиционирование `<Hint />` по вертикали
 
 ### Chore
