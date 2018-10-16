@@ -19,7 +19,6 @@ install:
     - /^gh-pages$/
   script:
     - PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install
-    - echo "$(npm ls --depth 1)"
 
 test:
   image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox
@@ -32,7 +31,6 @@ test:
   except:
     - /^gh-pages$/
   script:
-    - echo "$(npm ls --depth 1)"
     - npm run test:ci
     - npm run lint
     - npm run build
