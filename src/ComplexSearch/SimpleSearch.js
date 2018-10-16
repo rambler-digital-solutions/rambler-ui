@@ -247,13 +247,17 @@ export default class SimpleSearch extends React.Component {
   }
 
   renderInput() {
-    const {inputWrapperClassName, classes} = this.props
+    const {inputWrapperClassName, classes, onSubmit} = this.props
 
     return (
-      <div className={classnames(classes.inputWrapper, inputWrapperClassName)}>
+      <form
+        action="#"
+        method="get"
+        className={classnames(classes.inputWrapper, inputWrapperClassName)}
+        onSubmit={onSubmit}>
         {this.renderInputNode()}
         {this.renderServiceIcons()}
-      </div>
+      </form>
     )
   }
 
@@ -293,6 +297,7 @@ export default class SimpleSearch extends React.Component {
 
     return (
       <button
+        type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
         onClick={onSubmit}
         size="small"

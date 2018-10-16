@@ -38,7 +38,8 @@ export default function provideSearch(Search) {
         })
     }
 
-    onSubmit = () => {
+    onSubmit = e => {
+      e.preventDefault()
       const {value, sourceType} = this.state
       this.props.onSubmit(value, {sourceType})
     }
