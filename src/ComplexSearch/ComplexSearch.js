@@ -401,7 +401,8 @@ export default class ComplexSearch extends React.Component {
       division,
       inputWrapperClassName,
       classes,
-      isDropdownOpened
+      isDropdownOpened,
+      onSubmit
     } = this.props
 
     return (
@@ -412,7 +413,8 @@ export default class ComplexSearch extends React.Component {
           classes.inputWrapper,
           inputWrapperClassName,
           isDropdownOpened && classes.active
-        )}>
+        )}
+        onSubmit={onSubmit}>
         {division && <div className={classes.division}>{division}</div>}
         {this.renderInputIcon()}
         {this.renderInputNode()}
@@ -471,7 +473,6 @@ export default class ComplexSearch extends React.Component {
       <button
         type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
-        onSubmit={onSubmit}
         onClick={onSubmit}
         size="small"
         style={searchButtonStyle}

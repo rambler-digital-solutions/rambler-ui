@@ -309,7 +309,6 @@ export default class ServiceSearch extends React.Component {
       <button
         type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
-        onSubmit={onSubmit}
         onClick={onSubmit}
         {...searchButtonProps}>
         <ServiceSearchIcon
@@ -323,7 +322,12 @@ export default class ServiceSearch extends React.Component {
   }
 
   renderInput = () => {
-    const {inputWrapperClassName, classes, isDropdownOpened} = this.props
+    const {
+      inputWrapperClassName,
+      classes,
+      isDropdownOpened,
+      onSubmit
+    } = this.props
 
     return (
       <form
@@ -333,7 +337,8 @@ export default class ServiceSearch extends React.Component {
           classes.inputWrapper,
           inputWrapperClassName,
           isDropdownOpened && classes.active
-        )}>
+        )}
+        onSubmit={onSubmit}>
         {this.renderInputIcon()}
         {this.renderInputNode()}
         {!this.isClearVisible && this.renderButton()}
