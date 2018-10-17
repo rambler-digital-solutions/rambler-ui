@@ -32,8 +32,7 @@ import {isolateMixin} from '../utils/mixins'
       opacity: 1
     },
     icon: {
-      position: 'absolute',
-      top: 14
+      position: 'absolute'
     },
     left: {
       left: -15,
@@ -52,10 +51,16 @@ import {isolateMixin} from '../utils/mixins'
       }
     },
     top: {
-      top: -14
+      top: -14,
+      '& $icon': {
+        top: 14
+      }
     },
     bottom: {
-      top: 14
+      top: 19,
+      '& $icon': {
+        bottom: 19
+      }
     }
   }),
   {name: 'HintContent'}
