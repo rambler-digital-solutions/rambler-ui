@@ -337,7 +337,7 @@ const Main = ({classes}) => (
         Рамблере — это возможность создавать продукты для более чем 50 миллионов
         пользователей.
       </p>
-      <Button type="primary" href="https://rambler-co.ru/jobs">
+      <Button type="primary" href="https://rambler-co.ru/jobs" target="_blank">
         Подать резюме <ArrowIcon />
       </Button>
     </div>

@@ -473,14 +473,19 @@ class SideNav extends PureComponent {
             </button>
             {this.renderList(index)}
             <div className={classes.buttons}>
-              <Button type="outlineBlue" block href="https://brand.rambler.ru">
+              <Button
+                type="outlineBlue"
+                block
+                href="https://brand.rambler.ru"
+                target="_blank">
                 Дизайнеру
                 <ArrowIcon color="#315efb" />
               </Button>
               <Button
                 type="outlineBlue"
                 block
-                href="https://github.com/rambler-digital-solutions/rambler-ui">
+                href="https://github.com/rambler-digital-solutions/rambler-ui"
+                target="_blank">
                 Разработчику
                 <ArrowIcon color="#315efb" />
               </Button>
