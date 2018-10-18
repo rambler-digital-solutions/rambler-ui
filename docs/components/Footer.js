@@ -22,11 +22,13 @@ const styles = theme => ({
     '@media screen and (min-width: 768px)': {
       flexDirection: 'row',
       alignItems: 'center',
-      // maxWidth: 995,
-      marginLeft: 100,
-      marginRight: 40,
+      maxWidth: 925,
+      marginLeft: 50,
       paddingTop: 30,
       paddingBottom: 25
+    },
+    '@media screen and (min-width: 1275px)': {
+      marginLeft: 100
     }
   },
   copy: {

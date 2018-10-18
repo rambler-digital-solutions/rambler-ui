@@ -16,7 +16,7 @@ import Logo from 'docs/components/icons/Logo'
 import ArrowIcon from 'docs/components/icons/Arrow'
 import ChevronIcon from 'docs/components/icons/Chevron'
 
-const initOnDesktop = window.innerWidth >= 768
+const showNavigation = window.innerWidth >= 1275
 
 const styles = theme => ({
   root: {
@@ -39,23 +39,25 @@ const styles = theme => ({
     position: 'fixed !important',
     height: '100%',
     '& $scroll': {
+      position: 'static !important',
       height: '100%',
-      overflowY: 'auto'
+      overflowY: 'auto',
+      transform: 'none !important'
     }
   },
   opened: {
     left: 0,
     boxShadow: '0 5px 15px 0 rgba(52, 59, 76, 0.16)',
-    '@media screen and (min-width: 768px)': {
+    '@media screen and (min-width: 1275px)': {
       boxShadow: 'none'
     },
     '& + div': {
-      '@media screen and (min-width: 768px)': {
+      '@media screen and (min-width: 1275px)': {
         marginLeft: 230
       }
     },
     '& $toggle span': {
-      '@media screen and (max-width: 767px)': {
+      '@media screen and (max-width: 1274px)': {
         '&:nth-child(1)': {
           transform: 'translate(-50%, -1px) rotate(45deg)'
         },
@@ -115,7 +117,7 @@ const styles = theme => ({
     }
   },
   shadow: {
-    '&::after': {
+    '&:after': {
       position: 'absolute',
       top: '100%',
       left: 0,
@@ -221,8 +223,8 @@ const styles = theme => ({
 
 class SideNav extends PureComponent {
   state = {
-    desktop: initOnDesktop,
-    navOpened: initOnDesktop,
+    desktop: showNavigation,
+    navOpened: showNavigation,
     activeSubtree: this.props.location.pathname,
     versions: [],
     showVersions: false
@@ -244,11 +246,14 @@ class SideNav extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {desktop} = this.state
+    const {desktop, navOpened} = this.state
     const {location} = this.props
-    if (desktop !== prevState.desktop)
-      if (desktop) this.connectSidebar()
-      else this.destroySidebar()
+    if (desktop !== prevState.desktop || navOpened !== prevState.navOpened)
+      if (desktop && navOpened) {
+        this.connectSidebar()
+      } else if (prevState.desktop && prevState.navOpened) {
+        this.destroySidebar()
+      }
     if (location !== prevProps.location) {
       this.setState({
         activeSubtree: location.pathname,
@@ -261,8 +266,8 @@ class SideNav extends PureComponent {
   }
 
   componentWillUnmount() {
-    const {desktop} = this.state
-    if (desktop) this.destroySidebar()
+    const {desktop, navOpened} = this.state
+    if (desktop && navOpened) this.destroySidebar()
     window.removeEventListener('resize', this.updateViewport)
   }
 
@@ -340,10 +345,12 @@ class SideNav extends PureComponent {
   }
 
   updateViewport = throttle(() => {
-    const desktop = window.innerWidth >= 768
-    if (desktop === this.state.desktop) return
+    const {desktop, navOpened} = this.state
+    const showNavigation = window.innerWidth >= 1275
+    if (desktop === showNavigation) return
     this.setState({
-      desktop
+      desktop: showNavigation,
+      navOpened: showNavigation ? true : navOpened
     })
   })
 
@@ -450,7 +457,7 @@ class SideNav extends PureComponent {
           className={classnames(
             classes.root,
             navOpened && classes.opened,
-            !desktop && classes.mobile
+            (!desktop || !navOpened) && classes.mobile
           )}>
           <div className={classes.scroll}>
             <Link to="/" className={classes.logo} preload={false}>

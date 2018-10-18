@@ -14,7 +14,7 @@ class Link extends PureComponent {
     /**
      * Need chunk preload
      */
-    preload: PropTypes.string
+    preload: PropTypes.bool
   }
 
   static defaultProps = {
@@ -35,12 +35,18 @@ class Link extends PureComponent {
   render() {
     const {
       activeClassName,
+      preload, // eslint-disable-line no-unused-vars
+      match, // eslint-disable-line no-unused-vars
+      location, // eslint-disable-line no-unused-vars
+      history, // eslint-disable-line no-unused-vars
       staticContext, // eslint-disable-line no-unused-vars
       ...props
     } = this.props
-    return activeClassName
-      ? <NavLink activeClassName={activeClassName} {...props} />
-      : <PageLink {...props} />
+    return activeClassName ? (
+      <NavLink activeClassName={activeClassName} {...props} />
+    ) : (
+      <PageLink {...props} />
+    )
   }
 }
 

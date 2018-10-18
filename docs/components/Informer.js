@@ -13,17 +13,19 @@ const styles = theme => ({
     paddingBottom: 20,
     fontFamily: fontFamily.CorsicaRamblerLX,
     '& section': {
-      flexGrow: 1
+      flex: 1
     },
     '@media screen and (min-width: 768px)': {
       flexDirection: 'row',
-      // maxWidth: 980,
-      marginLeft: 100,
-      marginRight: 90,
+      maxWidth: 980,
+      marginLeft: 50,
       paddingBottom: 40,
       '& section + section': {
         marginLeft: 10
       }
+    },
+    '@media screen and (min-width: 1275px)': {
+      marginLeft: 100
     },
     '& h3': {
       marginTop: 40,
@@ -55,12 +57,12 @@ const Informer = ({classes}) => (
   <footer className={classes.root}>
     <section>
       <H3>
-        <a href="https://we.rambler.ru" target="_blank">
+        <a href="https://rambler-co.ru" target="_blank">
           О Рамблере
         </a>
       </H3>
       <p>
-        <a href="https://we.rambler.ru" target="_blank">
+        <a href="https://rambler-co.ru" target="_blank">
           Рамблер это медиа и сервисы с аудиторией в более 50 миллионов
           пользователей по всей России.
         </a>

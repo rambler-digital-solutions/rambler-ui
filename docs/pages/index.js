@@ -26,13 +26,14 @@ const styles = theme => ({
       display: 'flex'
     },
     '& section[disabled]': {
-      '& h3::after, h4::after': {
+      '& h3:after, h4:after': {
         boxSizing: 'border-box',
         border: [1, 'solid', theme.colors.cloudGray],
         borderRadius: 20,
         display: 'inline-block',
         height: 20,
         marginLeft: 10,
+        marginRight: -10,
         paddingLeft: 9,
         paddingRight: 9,
         color: theme.colors.cloudGray,
@@ -48,12 +49,15 @@ const styles = theme => ({
     backgroundColor: theme.colors.argentumLight,
     backgroundImage: `url(${IntroMobile})`,
     backgroundSize: 'cover',
-    backgroundPosition: 'center',
+    backgroundPosition: '-450px 50%',
     backgroundRepeat: 'no-repeat',
     color: theme.colors.black,
     '@media screen and (min-width: 768px)': {
       backgroundImage: `url(${IntroFull})`,
-      padding: '113px 100px 125px'
+      padding: '113px 0 125px 50px'
+    },
+    '@media screen and (min-width: 1275px)': {
+      paddingLeft: 100
     },
     '& small': {
       display: 'block',
@@ -90,15 +94,22 @@ const styles = theme => ({
     }
   },
   info: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-    flexWrap: 'wrap',
-    padding: '60px 40px 75px',
     backgroundColor: theme.colors.light,
-    '@media screen and (min-width: 768px)': {
-      flexDirection: 'row',
-      padding: '45px 145px 45px 50px'
+    '& > div': {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexDirection: 'column',
+      flexWrap: 'wrap',
+      padding: '60px 40px 75px',
+      '@media screen and (min-width: 768px)': {
+        flexDirection: 'row',
+        maxWidth: 870,
+        marginLeft: 5,
+        padding: [45, 0]
+      },
+      '@media screen and (min-width: 1275px)': {
+        marginLeft: 50
+      }
     },
     '&, & a': {
       color: theme.colors.black,
@@ -109,11 +120,11 @@ const styles = theme => ({
       display: 'flex',
       justifyContent: 'space-between',
       flexDirection: 'column',
-      flexGrow: 1,
-      flexBasis: '30%',
+      flex: 1,
       margin: '15px 0',
       '@media screen and (min-width: 768px)': {
         flexDirection: 'row',
+        width: '50%',
         margin: '20px 35px'
       },
       '&[disabled]': {
@@ -156,10 +167,19 @@ const styles = theme => ({
     color: theme.colors.black,
     padding: '250px 30px 65px',
     '@media screen and (min-width: 768px)': {
-      padding: '60px 130px 64px 50%',
+      padding: '60px 0 64px 530px',
       backgroundImage: `url(${HiringFull})`,
       backgroundSize: 'cover',
-      backgroundPosition: '30% 50%'
+      backgroundPosition: '-340px 50%'
+    },
+    '@media screen and (min-width: 1275px)': {
+      paddingLeft: 570,
+      backgroundPosition: '-300px 50%'
+    },
+    '& h1, & p': {
+      '@media screen and (min-width: 768px)': {
+        width: 430
+      }
     },
     '& p': {
       margin: '21px 0 0',
@@ -176,14 +196,21 @@ const styles = theme => ({
     }
   },
   informer: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-    padding: '65px 21px 65px 13px',
     backgroundColor: '#202531',
-    '@media screen and (min-width: 768px)': {
-      flexDirection: 'row',
-      padding: '60px 80px 60px 90px'
+    '& > div': {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexDirection: 'column',
+      padding: '65px 21px 65px 13px',
+      '@media screen and (min-width: 768px)': {
+        flexDirection: 'row',
+        padding: [60, 0],
+        maxWidth: 925,
+        marginLeft: 40
+      },
+      '@media screen and (min-width: 1275px)': {
+        marginLeft: 80
+      }
     },
     '&, & a': {
       color: theme.colors.light,
@@ -191,9 +218,9 @@ const styles = theme => ({
       transitionProperty: 'color'
     },
     '& section': {
-      flexGrow: 1,
       display: 'flex',
       justifyContent: 'space-between',
+      flex: 1,
       '& svg': {
         flexShrink: 0,
         marginRight: 6
@@ -250,56 +277,58 @@ const Main = ({classes}) => (
       </Button>
     </div>
     <div className={classes.info}>
-      <section>
-        <img src={BrandIcon} />
-        <div>
-          <H3>
-            <a href="https://brand.rambler.ru" target="_blank">
-              Бренд
-            </a>
-          </H3>
-          <p>
-            <a href="https://brand.rambler.ru" target="_blank">
-              Миссия, ценности и визуальный язык Рамблера
-            </a>
-          </p>
-        </div>
-      </section>
-      <section disabled>
-        <img src={GuidelinesIcon} />
-        <div>
-          <H3>Гайдлайны</H3>
-          <p>Инструменты и правила решения дизайн-задач </p>
-        </div>
-      </section>
-      <section>
-        <img src={ComponentsIcon} />
-        <div>
-          <H3>
-            <Link to="/components/Avatar">Компоненты</Link>
-          </H3>
-          <p>
-            <Link to="/components/Avatar">
-              NPM-пакет с более чем 30 компонентами и стилями
-            </Link>
-          </p>
-        </div>
-      </section>
-      <section>
-        <img src={ProductsIcon} />
-        <div>
-          <H3>
-            <a href="https://we.rambler.ru/" target="_blank">
-              Продукты
-            </a>
-          </H3>
-          <p>
-            <a href="https://we.rambler.ru/" target="_blank">
-              Более 50 миллионов пользователей со всей России
-            </a>
-          </p>
-        </div>
-      </section>
+      <div>
+        <section>
+          <img src={BrandIcon} />
+          <div>
+            <H3>
+              <a href="https://brand.rambler.ru" target="_blank">
+                Бренд
+              </a>
+            </H3>
+            <p>
+              <a href="https://brand.rambler.ru" target="_blank">
+                Миссия, ценности и визуальный язык Рамблера
+              </a>
+            </p>
+          </div>
+        </section>
+        <section disabled>
+          <img src={GuidelinesIcon} />
+          <div>
+            <H3>Гайдлайны</H3>
+            <p>Инструменты и правила решения дизайн-задач </p>
+          </div>
+        </section>
+        <section>
+          <img src={ComponentsIcon} />
+          <div>
+            <H3>
+              <Link to="/components/Avatar">Компоненты</Link>
+            </H3>
+            <p>
+              <Link to="/components/Avatar">
+                NPM-пакет с более чем 30 компонентами и стилями
+              </Link>
+            </p>
+          </div>
+        </section>
+        <section>
+          <img src={ProductsIcon} />
+          <div>
+            <H3>
+              <a href="https://we.rambler.ru/" target="_blank">
+                Продукты
+              </a>
+            </H3>
+            <p>
+              <a href="https://we.rambler.ru/" target="_blank">
+                Более 50 миллионов пользователей со всей России
+              </a>
+            </p>
+          </div>
+        </section>
+      </div>
     </div>
     <div className={classes.hiring}>
       <H1 style={{textOverflow: 'none'}}>Хочешь стать частью команды?</H1>
@@ -313,39 +342,41 @@ const Main = ({classes}) => (
       </Button>
     </div>
     <div className={classes.informer}>
-      <section>
-        <GithubIcon size={80} />
-        <div>
-          <h4>
-            <a
-              href="https://github.com/rambler-digital-solutions/rambler-ui"
-              target="_blank">
-              GitHub
-            </a>
-          </h4>
-          <p>
-            <a
-              href="https://github.com/rambler-digital-solutions/rambler-ui"
-              target="_blank">
-              Публичный репозиторий Ratio на GitHub
-            </a>
-          </p>
-        </div>
-      </section>
-      <section disabled>
-        <SketchIcon size={80} />
-        <div>
-          <h4>Sketch</h4>
-          <p>Sketch-библиотека, UI-Kit и&nbsp;набор ассетов</p>
-        </div>
-      </section>
-      <section disabled>
-        <PdfIcon style={{height: 80, width: 'auto'}} />
-        <div>
-          <h4>PDF</h4>
-          <p>Описание основ дизайн-системы в&nbsp;удобном формате</p>
-        </div>
-      </section>
+      <div>
+        <section>
+          <GithubIcon size={80} />
+          <div>
+            <h4>
+              <a
+                href="https://github.com/rambler-digital-solutions/rambler-ui"
+                target="_blank">
+                GitHub
+              </a>
+            </h4>
+            <p>
+              <a
+                href="https://github.com/rambler-digital-solutions/rambler-ui"
+                target="_blank">
+                Публичный репозиторий Ratio на GitHub
+              </a>
+            </p>
+          </div>
+        </section>
+        <section disabled>
+          <SketchIcon size={80} />
+          <div>
+            <h4>Sketch</h4>
+            <p>Sketch-библиотека, UI-Kit и&nbsp;набор ассетов</p>
+          </div>
+        </section>
+        <section disabled>
+          <PdfIcon style={{height: 80, width: 'auto'}} />
+          <div>
+            <h4>PDF</h4>
+            <p>Описание основ дизайн-системы в&nbsp;удобном формате</p>
+          </div>
+        </section>
+      </div>
     </div>
   </div>
 )
