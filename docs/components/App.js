@@ -30,6 +30,8 @@ const styles = theme => ({
     },
     a: {
       textDecoration: 'none',
+      transitionDuration: 200,
+      transitionProperty: 'color',
       '&, &:visited': {
         color: theme.colors.blue
       },

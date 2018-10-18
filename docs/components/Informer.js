@@ -29,6 +29,8 @@ const styles = theme => ({
       marginTop: 40,
       '& a': {
         color: theme.colors.black,
+        transitionDuration: 200,
+        transitionProperty: 'color',
         '&:hover': {
           color: theme.colors.blue
         }
@@ -39,6 +41,8 @@ const styles = theme => ({
       marginBottom: 0,
       '& a': {
         color: theme.colors.black,
+        transitionDuration: 200,
+        transitionProperty: 'color',
         '&:hover': {
           color: '#62687f'
         }
@@ -51,10 +55,12 @@ const Informer = ({classes}) => (
   <footer className={classes.root}>
     <section>
       <H3>
-        <a href="#">О Рамблере</a>
+        <a href="https://we.rambler.ru" target="_blank">
+          О Рамблере
+        </a>
       </H3>
       <p>
-        <a href="#">
+        <a href="https://we.rambler.ru" target="_blank">
           Рамблер это медиа и сервисы с аудиторией в более 50 миллионов
           пользователей по всей России.
         </a>
@@ -62,10 +68,12 @@ const Informer = ({classes}) => (
     </section>
     <section>
       <H3>
-        <a href="#">Вакансии</a>
+        <a href="https://rambler-co.ru/jobs" target="_blank">
+          Вакансии
+        </a>
       </H3>
       <p>
-        <a href="#">
+        <a href="https://rambler-co.ru/jobs" target="_blank">
           Работа в Рамблере это амбициозные задачи, большая команда, уютный офис
           и дружелюбная атмосфера.
         </a>
@@ -73,10 +81,12 @@ const Informer = ({classes}) => (
     </section>
     <section>
       <H3>
-        <a href="#">Rambler&Co</a>
+        <a href="https://rambler-co.ru" target="_blank">
+          Rambler&Co
+        </a>
       </H3>
       <p>
-        <a href="#">
+        <a href="https://rambler-co.ru" target="_blank">
           Rambler&Co — это группа компаний, в которую входят такие проекты как
           Afisha, Championat, Lenta, Gazeta, Kassa и многие другие.
         </a>

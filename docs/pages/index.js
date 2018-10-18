@@ -3,6 +3,7 @@ import injectSheet, {fontFamily} from 'docs/utils/theming'
 import Button from 'docs/components/Button'
 import H1 from 'docs/components/H1'
 import H3 from 'docs/components/H3'
+import Link from 'docs/components/Link'
 import Logo from 'docs/components/icons/Logo'
 import ArrowIcon from 'docs/components/icons/Arrow'
 import PdfIcon from 'docs/components/icons/Pdf'
@@ -23,6 +24,23 @@ const styles = theme => ({
     fontFamily: fontFamily.CorsicaRamblerLX,
     '& ~ footer': {
       display: 'flex'
+    },
+    '& section[disabled]': {
+      '& h3::after, h4::after': {
+        boxSizing: 'border-box',
+        border: [1, 'solid', theme.colors.cloudGray],
+        borderRadius: 20,
+        display: 'inline-block',
+        height: 20,
+        marginLeft: 10,
+        paddingLeft: 9,
+        paddingRight: 9,
+        color: theme.colors.cloudGray,
+        fontSize: 10,
+        lineHeight: '18px',
+        verticalAlign: 'middle',
+        content: '"Soon..."'
+      }
     }
   },
   intro: {
@@ -48,7 +66,7 @@ const styles = theme => ({
         lineHeight: '30px'
       }
     },
-    '& svg': {
+    '& > svg': {
       width: '221px !important',
       height: '68px !important',
       '@media screen and (min-width: 768px)': {
@@ -78,10 +96,14 @@ const styles = theme => ({
     flexWrap: 'wrap',
     padding: '60px 40px 75px',
     backgroundColor: theme.colors.light,
-    color: theme.colors.black,
     '@media screen and (min-width: 768px)': {
       flexDirection: 'row',
       padding: '45px 145px 45px 50px'
+    },
+    '&, & a': {
+      color: theme.colors.black,
+      transitionDuration: 200,
+      transitionProperty: 'color'
     },
     '& section': {
       display: 'flex',
@@ -94,16 +116,25 @@ const styles = theme => ({
         flexDirection: 'row',
         margin: '20px 35px'
       },
+      '&[disabled]': {
+        color: theme.colors.cloudGray
+      },
       '& img': {
         flexShrink: 0,
         width: 150,
         height: 110
       },
       '& h3': {
-        marginTop: 0
+        marginTop: 0,
+        '& a:hover': {
+          color: '#3662fb'
+        }
       },
       '& p': {
-        margin: '15px 0 0'
+        margin: '15px 0 0',
+        '& a:hover': {
+          color: '#62687f'
+        }
       },
       '& div': {
         flex: 1,
@@ -150,10 +181,14 @@ const styles = theme => ({
     flexDirection: 'column',
     padding: '65px 21px 65px 13px',
     backgroundColor: '#202531',
-    color: theme.colors.light,
     '@media screen and (min-width: 768px)': {
       flexDirection: 'row',
       padding: '60px 80px 60px 90px'
+    },
+    '&, & a': {
+      color: theme.colors.light,
+      transitionDuration: 200,
+      transitionProperty: 'color'
     },
     '& section': {
       flexGrow: 1,
@@ -162,6 +197,11 @@ const styles = theme => ({
       '& svg': {
         flexShrink: 0,
         marginRight: 6
+      },
+      '&[disabled]': {
+        '&, & p': {
+          color: theme.colors.cloudGray
+        }
       }
     },
     '& section + section': {
@@ -177,11 +217,19 @@ const styles = theme => ({
     '& h4': {
       margin: '4px 0',
       fontSize: 16,
-      fontWeight: 500
+      fontWeight: 500,
+      '& a:hover': {
+        color: '#3662fb'
+      }
     },
     '& p': {
       margin: 0,
-      color: theme.colors.argentumLight
+      '&, & a': {
+        color: theme.colors.argentumLight
+      },
+      '& a:hover': {
+        color: theme.colors.cloudGray
+      }
     }
   }
 })
@@ -205,11 +253,19 @@ const Main = ({classes}) => (
       <section>
         <img src={BrandIcon} />
         <div>
-          <H3>Бренд</H3>
-          <p>Миссия, ценности и визуальный язык Рамблера</p>
+          <H3>
+            <a href="https://brand.rambler.ru" target="_blank">
+              Бренд
+            </a>
+          </H3>
+          <p>
+            <a href="https://brand.rambler.ru" target="_blank">
+              Миссия, ценности и визуальный язык Рамблера
+            </a>
+          </p>
         </div>
       </section>
-      <section>
+      <section disabled>
         <img src={GuidelinesIcon} />
         <div>
           <H3>Гайдлайны</H3>
@@ -219,15 +275,29 @@ const Main = ({classes}) => (
       <section>
         <img src={ComponentsIcon} />
         <div>
-          <H3>Компоненты</H3>
-          <p>NPM-пакет с более чем 30 компонентами и стилями</p>
+          <H3>
+            <Link to="/components/Avatar">Компоненты</Link>
+          </H3>
+          <p>
+            <Link to="/components/Avatar">
+              NPM-пакет с более чем 30 компонентами и стилями
+            </Link>
+          </p>
         </div>
       </section>
       <section>
         <img src={ProductsIcon} />
         <div>
-          <H3>Продукты</H3>
-          <p>Более 50 миллионов пользователей со всей России</p>
+          <H3>
+            <a href="https://we.rambler.ru/" target="_blank">
+              Продукты
+            </a>
+          </H3>
+          <p>
+            <a href="https://we.rambler.ru/" target="_blank">
+              Более 50 миллионов пользователей со всей России
+            </a>
+          </p>
         </div>
       </section>
     </div>
@@ -238,7 +308,7 @@ const Main = ({classes}) => (
         Рамблере — это возможность создавать продукты для более чем 50 миллионов
         пользователей.
       </p>
-      <Button type="primary" href="#">
+      <Button type="primary" href="https://rambler-co.ru/jobs">
         Подать резюме <ArrowIcon />
       </Button>
     </div>
@@ -246,22 +316,34 @@ const Main = ({classes}) => (
       <section>
         <GithubIcon size={80} />
         <div>
-          <h4>GitHub</h4>
-          <p>Публичный репозиторий Ratio на GitHub</p>
+          <h4>
+            <a
+              href="https://github.com/rambler-digital-solutions/rambler-ui"
+              target="_blank">
+              GitHub
+            </a>
+          </h4>
+          <p>
+            <a
+              href="https://github.com/rambler-digital-solutions/rambler-ui"
+              target="_blank">
+              Публичный репозиторий Ratio на GitHub
+            </a>
+          </p>
         </div>
       </section>
-      <section>
+      <section disabled>
         <SketchIcon size={80} />
         <div>
           <h4>Sketch</h4>
-          <p>Sketch-библиотека, UI-Kit и набор ассетов</p>
+          <p>Sketch-библиотека, UI-Kit и&nbsp;набор ассетов</p>
         </div>
       </section>
-      <section>
+      <section disabled>
         <PdfIcon style={{height: 80, width: 'auto'}} />
         <div>
           <h4>PDF</h4>
-          <p>Описание основ дизайн-системы в удобном формате</p>
+          <p>Описание основ дизайн-системы в&nbsp;удобном формате</p>
         </div>
       </section>
     </div>

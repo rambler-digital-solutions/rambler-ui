@@ -2,7 +2,7 @@ import React from 'react'
 import IconButton from 'rambler-ui/IconButton'
 import FacebookIcon from 'rambler-ui/icons/profiles/FacebookIcon'
 import GithubIcon from 'docs/components/icons/Github'
-import MediumIcon from 'docs/components/icons/Medium'
+// import MediumIcon from 'docs/components/icons/Medium'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 
 const currentYear = new Date().getFullYear()
@@ -43,6 +43,8 @@ const styles = theme => ({
     },
     '& a': {
       color: theme.colors.black,
+      transitionDuration: 200,
+      transitionProperty: 'color',
       '&:hover': {
         color: theme.colors.alternativeBlue
       }
@@ -73,25 +75,39 @@ const Footer = ({classes}) => (
   <footer className={classes.root}>
     <div className={classes.copy}>© Рамблер, {currentYear}</div>
     <div className={classes.links}>
-      <a href="https://rambler-co.ru/jobs">Вакансии</a>
-      <a href="https://rambler-co.ru/contacts">Контакты</a>
-      <a href="https://rambler-co.ru/">О компании</a>
+      <a href="https://rambler-co.ru/jobs" target="_blank">
+        Вакансии
+      </a>
+      <a href="https://rambler-co.ru/contacts" target="_blank">
+        Контакты
+      </a>
+      <a href="https://rambler-co.ru/" target="_blank">
+        О компании
+      </a>
     </div>
     <div className={classes.help}>
-      Появились вопросы? <a href="#">Напишите</a> нам!
+      Появились вопросы? <a href="mailto:design-team@rambler.ru">Напишите</a>{' '}
+      нам!
     </div>
     <div className={classes.buttons}>
       <IconButton
         size="small"
-        href="https://github.com/rambler-digital-solutions/rambler-ui">
+        href="https://github.com/rambler-digital-solutions/rambler-ui"
+        target="_blank">
         <GithubIcon />
       </IconButton>
-      <IconButton size="small" href="https://www.facebook.com/ramblerdesign/">
+      <IconButton
+        size="small"
+        href="https://www.facebook.com/ramblerdesign/"
+        target="_blank">
         <FacebookIcon />
       </IconButton>
-      <IconButton size="small" href="https://medium.com/ramblerdesign">
-        <MediumIcon />
-      </IconButton>
+      {/* <IconButton */}
+      {/*   size="small" */}
+      {/*   href="https://medium.com/ramblerdesign" */}
+      {/*   target="_blank"> */}
+      {/*   <MediumIcon /> */}
+      {/* </IconButton> */}
     </div>
   </footer>
 )

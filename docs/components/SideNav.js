@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import classnames from 'classnames'
 import StickySidebar from 'sticky-sidebar'
 import debounce from 'lodash.debounce'
-import {withRouter, Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
@@ -11,7 +11,7 @@ import {createMutationObserver} from 'rambler-ui/utils/DOM'
 import config from 'docs/config'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 import Button from 'docs/components/Button'
-import NavLink from 'docs/components/NavLink'
+import Link from 'docs/components/Link'
 import Logo from 'docs/components/icons/Logo'
 import ArrowIcon from 'docs/components/icons/Arrow'
 import ChevronIcon from 'docs/components/icons/Chevron'
@@ -142,8 +142,13 @@ const styles = theme => ({
     fontWeight: 500,
     lineHeight: '25px',
     cursor: 'pointer',
+    transitionDuration: 200,
+    transitionProperty: 'color',
     '&, &:visited': {
       color: theme.colors.black
+    },
+    '&:hover': {
+      color: '#62687f'
     },
     '&:active': {
       color: theme.colors.alternativeBlue
@@ -170,7 +175,9 @@ const styles = theme => ({
     display: 'inline-block',
     verticalAlign: 'middle',
     marginTop: -2,
-    marginLeft: 3
+    marginLeft: 3,
+    transitionDuration: 200,
+    transitionProperty: 'fill'
   },
   buttons: {
     width: 170,
@@ -345,12 +352,12 @@ class SideNav extends PureComponent {
 
     if (!page.children)
       return (
-        <NavLink
+        <Link
           to={page.path}
           className={classes.link}
           activeClassName={classes.activeLink}>
           {page.title}
-        </NavLink>
+        </Link>
       )
 
     return (
@@ -446,7 +453,7 @@ class SideNav extends PureComponent {
             !desktop && classes.mobile
           )}>
           <div className={classes.scroll}>
-            <Link to="/" className={classes.logo}>
+            <Link to="/" className={classes.logo} preload={false}>
               <Logo />
             </Link>
             <button
@@ -459,12 +466,12 @@ class SideNav extends PureComponent {
             </button>
             {this.renderList(index)}
             <div className={classes.buttons}>
-              <Button type="outline" block href="https://brand.rambler.ru">
+              <Button type="outlineBlue" block href="https://brand.rambler.ru">
                 Дизайнеру
                 <ArrowIcon color="#315efb" />
               </Button>
               <Button
-                type="outline"
+                type="outlineBlue"
                 block
                 href="https://github.com/rambler-digital-solutions/rambler-ui">
                 Разработчику
