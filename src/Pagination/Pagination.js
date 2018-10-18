@@ -19,7 +19,10 @@ const buttonContainer = () => <button type="button" />
       justifyContent: 'center',
       fontFamily: theme.fontFamily,
       userSelect: 'none',
-      color: theme.pagination.colors.default.text
+      color: theme.pagination.colors.default.text,
+      '&:hover $arrow': {
+        opacity: 1
+      }
     },
     item: {
       extend: isolateMixin,
@@ -54,7 +57,8 @@ const buttonContainer = () => <button type="button" />
       },
       '&$isSelected': {
         color: theme.pagination.colors.selected.text,
-        fontWeight: 500
+        fontWeight: 500,
+        backgroundColor: theme.pagination.colors.selected.background
       },
       '&:focus': {
         color: theme.pagination.colors.focus.text
@@ -78,9 +82,10 @@ const buttonContainer = () => <button type="button" />
       cursor: 'pointer',
       overflow: 'hidden',
       paddingLeft: theme.pagination.size,
+      opacity: 0,
       '&&': {
         transitionDuration: theme.tabs.animationDuration,
-        transitionProperty: 'fill',
+        transitionProperty: 'fill, opacity',
         color: theme.pagination.colors.default.arrow
       },
       '&&:focus': {

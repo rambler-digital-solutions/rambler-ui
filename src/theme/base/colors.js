@@ -21,6 +21,7 @@ export default {
       background: '#f5f7f8', // бэкграунд кнопок
       lightBackground: '#eef2f4', // бэкграунд иконки на нотификациях
       activeBackground: 'rgba(141, 150, 178, 0.2)', // бэкграунд при :active состоянии на checkbox
+      pageActiveBackground: 'rgba(49, 94, 251, 0.05);', // бэкграунд при :active состоянии на page
       outline: '#8d96b2', // обводка на outline контролах
       fieldOutline: '#dde0e8', // обводка на outline контролах
       iconBackground: '#f3f4f7',

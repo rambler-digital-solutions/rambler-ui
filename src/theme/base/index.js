@@ -995,7 +995,8 @@ export function createTheme(config) {
             arrow: darken(colors.primary, 0.2)
           },
           selected: {
-            text: colors.primary
+            text: colors.primary,
+            background: colors.controls.grey.pageActiveBackground
           },
           focus: {
             text: lighten(colors.primary, 0.25),
