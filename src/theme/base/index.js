@@ -1005,6 +1005,10 @@ export function createTheme(config) {
           disabled: {
             text: fade(colors.dark, 0.2),
             arrow: fade(colors.dark, 0.1)
+          },
+          label: {
+            default: colors.arrowBlueDark,
+            hover: colors.primary
           }
         }
       },

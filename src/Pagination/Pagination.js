@@ -6,6 +6,9 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
+import {ENTER} from '../constants/keys'
+import Tooltip from '../Tooltip'
+import Input from '../Input'
 
 const inactiveElement = <span />
 const buttonContainer = () => <button type="button" />
@@ -130,7 +133,25 @@ const buttonContainer = () => <button type="button" />
     isDisabled: {
       cursor: 'not-allowed'
     },
-    isSelected: {}
+    isSelected: {},
+    inputWrapper: {
+      paddingLeft: 20
+    },
+    input: {
+      width: 76
+    },
+    label: {
+      fontFamily: theme.fontFamily,
+      fontSize: theme.pagination.fontSize,
+      lineHeight: theme.pagination.size + 'px',
+      cursor: 'pointer',
+      color: theme.pagination.colors.label.default,
+      transitionDuration: theme.tabs.animationDuration,
+      transitionProperty: 'color',
+      '&:hover, &:focus': {
+        color: theme.pagination.colors.label.hover
+      }
+    }
   }),
   {name: 'Pagination'}
 )
@@ -159,24 +180,94 @@ export default class Pagination extends Component {
     /**
      * Функция, вызывающая при изменении значения `function (event: object, newValue: number) {}`
      */
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    /**
+     * Input для ручного ввода страниц
+     */
+    withInput: PropTypes.func,
+    /**
+     * Дополнительный класс инпута
+     */
+    inputClassName: PropTypes.string,
+    /**
+     * Текст кнопки вызова инпута
+     */
+    labelContent: PropTypes.string,
+    /**
+     * Дополнительный класс кнопки вызова инпута
+     */
+    labelClassName: PropTypes.string,
+    /**
+     * Текст тултипа при неверном вводе страницы
+     */
+    tooltipContent: PropTypes.string
   }
 
   static defaultProps = {
-    currentPage: 1
+    currentPage: 1,
+    withInput: false,
+    labelContent: 'На страницу',
+    tooltipContent: 'Такая страница отсутствует'
+  }
+
+  state = {
+    pageValue: '',
+    showInput: false
   }
 
   get pageContainer() {
     return this.props.pageContainer || buttonContainer
   }
 
-  handleChange = event => {
+  get isPageValid() {
+    const {pageValue} = this.state
+    if (pageValue === '') return true
+    const {pagesCount} = this.props
+    const page = +pageValue
+    return Number.isInteger(page) && page <= pagesCount && page > 0
+  }
+
+  handleChange = (event, pageNumber) => {
     const {onChange, currentPage} = this.props
     if (!onChange) return
     event.preventDefault()
-    const pageNumber = +event.currentTarget.textContent
     if (!pageNumber || currentPage === pageNumber) return
     onChange(event, pageNumber)
+  }
+
+  handlePageChange = event => {
+    const pageNumber = +event.currentTarget.textContent
+    this.handleChange(event, pageNumber)
+  }
+
+  handleInputChange = event => {
+    if (!this.isPageValid) return
+    this.handleChange(event, +this.state.pageValue)
+    this.hideInput()
+  }
+
+  onInputChange = (event, value) => {
+    event.preventDefault()
+    this.setState({
+      pageValue: value
+    })
+  }
+
+  handlePressKey = event => {
+    if (event.keyCode === ENTER) this.handleInputChange(event)
+  }
+
+  showInput = () => {
+    this.setState({
+      showInput: true
+    })
+  }
+
+  hideInput = () => {
+    this.setState({
+      showInput: false,
+      pageValue: ''
+    })
   }
 
   renderPages() {
@@ -229,7 +320,7 @@ export default class Pagination extends Component {
             isPage ? classes.page : classes.dots,
             isCurrentPage && classes.isSelected
           ),
-          onClick: onChange ? this.handleChange : undefined
+          onClick: onChange ? this.handlePageChange : undefined
         },
         pageNumber
       )
@@ -241,7 +332,7 @@ export default class Pagination extends Component {
     return cloneElement(
       isDisabled ? inactiveElement : this.pageContainer(pageNumber),
       {
-        onClick: onChange && !isDisabled ? this.handleChange : undefined,
+        onClick: onChange && !isDisabled ? this.handlePageChange : undefined,
         className: classnames(className, isDisabled && classes.isDisabled),
         key
       },
@@ -250,6 +341,7 @@ export default class Pagination extends Component {
   }
 
   render() {
+    const {pageValue, showInput} = this.state
     const {
       className,
       classes,
@@ -258,6 +350,11 @@ export default class Pagination extends Component {
       pageContainer, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
+      withInput,
+      inputClassName,
+      labelClassName,
+      labelContent,
+      tooltipContent,
       ...other
     } = this.props
 
@@ -282,6 +379,32 @@ export default class Pagination extends Component {
         {prevPageArrow}
         {pages}
         {nextPageArrow}
+        {withInput && (
+          <div className={classes.inputWrapper}>
+            {showInput ? (
+              <Tooltip content={tooltipContent} isOpened={!this.isPageValid}>
+                <Input
+                  autoFocus
+                  variation="regular"
+                  type="text"
+                  size="small"
+                  className={classnames(inputClassName, classes.input)}
+                  status={!this.isPageValid ? 'error' : null}
+                  value={pageValue}
+                  onBlur={this.handleInputChange}
+                  onChange={this.onInputChange}
+                  onKeyUp={this.handlePressKey}
+                />
+              </Tooltip>
+            ) : (
+              <span
+                className={classnames(labelClassName, classes.label)}
+                onClick={this.showInput}>
+                {labelContent}
+              </span>
+            )}
+          </div>
+        )}
       </div>
     )
   }
