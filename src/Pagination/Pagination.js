@@ -184,7 +184,7 @@ export default class Pagination extends Component {
     /**
      * Input для ручного ввода страниц
      */
-    withInput: PropTypes.func,
+    withInput: PropTypes.bool,
     /**
      * Дополнительный класс инпута
      */

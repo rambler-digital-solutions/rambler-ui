@@ -22,6 +22,15 @@ export default class PaginationExample extends Component {
             </div>
           ))}
           <div style={{marginTop: 40}}>
+            <h4>withInput</h4>
+            <Pagination
+              withInput
+              pagesCount={9999}
+              currentPage={this.state.page}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div style={{marginTop: 40}}>
             <h4>
               pageContainer:{' '}
               <code>{'(pageNumber) => <a href={`#${pageNumber}`} />'}</code>
