@@ -26,7 +26,10 @@ const styles = theme => ({
     padding: '107px 30px 48px',
     backgroundColor: theme.colors.argentumLight,
     '@media screen and (min-width: 768px)': {
-      padding: '65px 200px 35px 100px'
+      padding: '65px 200px 35px 50px'
+    },
+    '@media screen and (min-width: 1275px)': {
+      paddingLeft: 100
     },
     '& h1 + p': {
       marginTop: 25,
@@ -61,11 +64,17 @@ const styles = theme => ({
     }
   },
   content: {
-    padding: '40px 30px',
+    padding: '40px 0',
+    marginLeft: 30,
+    marginRight: 30,
     '@media screen and (min-width: 768px)': {
-      paddingLeft: 100,
-      paddingRight: 100,
-      maxWidth: 870
+      marginLeft: 50,
+      marginRight: 50,
+      maxWidth: 670
+    },
+    '@media screen and (min-width: 1275px)': {
+      marginLeft: 100,
+      marginRight: 100
     },
     '& ~ footer': {
       display: 'flex'
