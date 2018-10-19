@@ -140,8 +140,11 @@ const buttonContainer = () => <button type="button" />
     input: {
       width: 76
     },
+    inputSmall: {
+      width: 45,
+      marginRight: 10
+    },
     label: {
-      fontFamily: theme.fontFamily,
       fontSize: theme.pagination.fontSize,
       lineHeight: theme.pagination.size + 'px',
       cursor: 'pointer',
@@ -200,19 +203,31 @@ export default class Pagination extends Component {
     /**
      * Текст тултипа при неверном вводе страницы
      */
-    tooltipContent: PropTypes.string
+    tooltipContent: PropTypes.string,
+    /**
+     * Размер блока
+     */
+    size: PropTypes.oneOf(['small', 'medium', 'big'])
   }
 
   static defaultProps = {
     currentPage: 1,
     withInput: false,
     labelContent: 'На страницу',
-    tooltipContent: 'Такая страница отсутствует'
+    tooltipContent: 'Такая страница отсутствует',
+    size: 'big'
   }
 
   state = {
-    pageValue: '',
+    pageValue: this.props.currentPage,
     showInput: false
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.pageValue !== nextProps.currentPage)
+      this.setState({
+        pageValue: nextProps.currentPage
+      })
   }
 
   get pageContainer() {
@@ -265,17 +280,16 @@ export default class Pagination extends Component {
 
   hideInput = () => {
     this.setState({
-      showInput: false,
-      pageValue: ''
+      showInput: false
     })
   }
 
   renderPages() {
-    const {classes, pagesCount, currentPage, onChange} = this.props
+    const {classes, pagesCount, currentPage, onChange, size} = this.props
 
     const dots = '...'
     const edgePages = 3
-    const aroundPages = 2
+    const aroundPages = size === 'medium' ? 1 : 2
 
     const leftPageNum = currentPage - aroundPages
     const rightPageNum = currentPage + aroundPages
@@ -327,6 +341,30 @@ export default class Pagination extends Component {
     })
   }
 
+  renderLitePages() {
+    const {pageValue} = this.state
+    const {classes, pagesCount, inputClassName, tooltipContent} = this.props
+
+    return (
+      <React.Fragment>
+        <Tooltip content={tooltipContent} isOpened={!this.isPageValid}>
+          <Input
+            variation="regular"
+            type="text"
+            size="small"
+            className={classnames(inputClassName, classes.inputSmall)}
+            status={!this.isPageValid ? 'error' : null}
+            value={pageValue}
+            onBlur={this.handleInputChange}
+            onChange={this.onInputChange}
+            onKeyUp={this.handlePressKey}
+          />
+        </Tooltip>
+        <span className={classes.item}>из {pagesCount}</span>
+      </React.Fragment>
+    )
+  }
+
   renderArrow(pageNumber, className, isDisabled, key) {
     const {onChange, classes} = this.props
     return cloneElement(
@@ -340,8 +378,45 @@ export default class Pagination extends Component {
     )
   }
 
-  render() {
+  renderInput() {
     const {pageValue, showInput} = this.state
+    const {
+      classes,
+      inputClassName,
+      labelClassName,
+      labelContent,
+      tooltipContent
+    } = this.props
+
+    return (
+      <div className={classes.inputWrapper}>
+        {showInput ? (
+          <Tooltip content={tooltipContent} isOpened={!this.isPageValid}>
+            <Input
+              autoFocus
+              variation="regular"
+              type="text"
+              size="small"
+              className={classnames(inputClassName, classes.input)}
+              status={!this.isPageValid ? 'error' : null}
+              value={pageValue}
+              onBlur={this.handleInputChange}
+              onChange={this.onInputChange}
+              onKeyUp={this.handlePressKey}
+            />
+          </Tooltip>
+        ) : (
+          <span
+            className={classnames(labelClassName, classes.label)}
+            onClick={this.showInput}>
+            {labelContent}
+          </span>
+        )}
+      </div>
+    )
+  }
+
+  render() {
     const {
       className,
       classes,
@@ -350,17 +425,19 @@ export default class Pagination extends Component {
       pageContainer, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
+      inputClassName, // eslint-disable-line no-unused-vars
+      labelClassName, // eslint-disable-line no-unused-vars
+      labelContent, // eslint-disable-line no-unused-vars
+      tooltipContent, // eslint-disable-line no-unused-vars
       withInput,
-      inputClassName,
-      labelClassName,
-      labelContent,
-      tooltipContent,
+      size,
       ...other
     } = this.props
 
     if (!(pagesCount > 1)) return null
 
-    const pages = this.renderPages()
+    const pages = size === 'small' ? this.renderLitePages() : this.renderPages()
+    const input = size !== 'small' && withInput && this.renderInput()
     const prevPageArrow = this.renderArrow(
       currentPage - 1,
       classes.prevArrow,
@@ -379,32 +456,7 @@ export default class Pagination extends Component {
         {prevPageArrow}
         {pages}
         {nextPageArrow}
-        {withInput && (
-          <div className={classes.inputWrapper}>
-            {showInput ? (
-              <Tooltip content={tooltipContent} isOpened={!this.isPageValid}>
-                <Input
-                  autoFocus
-                  variation="regular"
-                  type="text"
-                  size="small"
-                  className={classnames(inputClassName, classes.input)}
-                  status={!this.isPageValid ? 'error' : null}
-                  value={pageValue}
-                  onBlur={this.handleInputChange}
-                  onChange={this.onInputChange}
-                  onKeyUp={this.handlePressKey}
-                />
-              </Tooltip>
-            ) : (
-              <span
-                className={classnames(labelClassName, classes.label)}
-                onClick={this.showInput}>
-                {labelContent}
-              </span>
-            )}
-          </div>
-        )}
+        {input}
       </div>
     )
   }
