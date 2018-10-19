@@ -1,4 +1,7 @@
 /* eslint-env node */
+const argv = require('minimist')(process.argv.slice(2))
+const {component = '**'} = argv
+
 process.env.CHROME_BIN =
   process.env.CHROME_BIN || require('puppeteer').executablePath()
 
@@ -11,7 +14,7 @@ module.exports = config =>
     files: [
       'test/init.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
-      'src/**/*.test.js'
+      `src/${component.match(',') ? `{${component}}` : component}/*.test.js`
     ],
 
     preprocessors: {
@@ -91,10 +94,12 @@ module.exports = config =>
 
     coverageReporter: {
       type: 'text',
-      check: {
-        global: {
-          branches: 51
+      ...(component === '**' && {
+        check: {
+          global: {
+            branches: 51
+          }
         }
-      }
+      })
     }
   })

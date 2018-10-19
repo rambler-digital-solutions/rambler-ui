@@ -150,11 +150,20 @@ export default () => (
 
 ## Тестирование
 
+Для тестов используется `karma`, `jasmine` и headless `Chrome` и `Firefox` для их запуска:
+
 ```sh
-npm test
+npm test              # запуск тестов в Chrome
+npm run test:firefox  # в Firefox
+npm run test:watch    # в режиме отслеживания изменений
 ```
 
-Для тестов используется `karma`, `jasmine` и `Phantom` для их запуска.
+Для запуска тестов определенного компонента или компонентов:
+
+```sh
+npm test -- --component Avatar
+npm test -- --component Button,Input
+```
 
 ## Сборка
 
