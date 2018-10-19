@@ -126,10 +126,6 @@ const buttonContainer = () => <button type="button" />
       marginLeft: 7,
       transform: 'scaleX(-1)'
     },
-    dots: {
-      composes: '$item',
-      width: theme.pagination.size
-    },
     isDisabled: {
       cursor: 'not-allowed'
     },
@@ -312,31 +308,35 @@ export default class Pagination extends Component {
       )
         pages.push(i)
 
-    // Если пропуск более 1 страницы, заполняем строкой `dots`, иначе номером пропущенной страницы
+    // Если пропуск более 1 страницы, заполняем строкой со среднем значением, иначе номером пропущенной страницы
     pages = pages.reduce((accumulator, pageNumber, index) => {
       const prevPageNumber = index > 0 ? pages[index - 1] : null
       if (!prevPageNumber || prevPageNumber + 1 === pageNumber)
         return accumulator.concat(pageNumber)
       if (prevPageNumber + 2 === pageNumber)
         return accumulator.concat(pageNumber - 1, pageNumber)
-      return accumulator.concat(dots, pageNumber)
+      return accumulator.concat(
+        `${Math.round((prevPageNumber + pageNumber) / 2)}`,
+        pageNumber
+      )
     }, [])
 
-    let dotsCount = 0
     return pages.map(pageNumber => {
-      const isPage = pageNumber !== dots
+      const isPage = Number.isInteger(pageNumber)
       const isCurrentPage = currentPage === pageNumber
       return cloneElement(
         isPage ? this.pageContainer(pageNumber) : inactiveElement,
         {
-          key: isPage ? pageNumber : dotsCount--,
+          key: pageNumber,
           className: classnames(
-            isPage ? classes.page : classes.dots,
+            classes.page,
             isCurrentPage && classes.isSelected
           ),
-          onClick: onChange ? this.handlePageChange : undefined
+          onClick: onChange
+            ? event => this.handleChange(event, +pageNumber)
+            : undefined
         },
-        pageNumber
+        isPage ? pageNumber : dots
       )
     })
   }
