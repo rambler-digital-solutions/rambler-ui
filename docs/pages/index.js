@@ -272,7 +272,7 @@ const Main = ({classes}) => (
         создать среду, в которой пользователи смогут эффективнее решать свои
         задачи.
       </p>
-      <Button type="primary" href="#">
+      <Button type="primary" container={<Link to="/usage/install" />}>
         Начать работу <ArrowIcon />
       </Button>
     </div>
