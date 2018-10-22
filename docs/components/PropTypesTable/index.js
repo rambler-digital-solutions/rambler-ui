@@ -64,6 +64,9 @@ import injectSheet, {fontFamily} from 'docs/utils/theming'
       fontFamily: fontFamily.Menlo,
       fontSize: 13
     },
+    '& td:nth-child(2)': {
+      whiteSpace: 'nowrap'
+    },
     '& td:last-child': {
       color: theme.colors.cloudGray,
       fontFamily: 'inherit',
