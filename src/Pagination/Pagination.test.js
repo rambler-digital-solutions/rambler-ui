@@ -64,15 +64,15 @@ describe('<Pagination />', () => {
     expect(pagination.hasClass('pagination')).toBe(true)
   })
 
-  it('should apply labelContent and labelClassName', () => {
+  it('should apply pageInputLabel and pageInputLabelClassName', () => {
     const wrapper = mount(
       withTheme(
         <Pagination
-          withInput
+          showPageInput
           pagesCount={10}
           currentPage={2}
-          labelClassName="label"
-          labelContent="foo"
+          pageInputLabelClassName="label"
+          pageInputLabel="foo"
         />
       )
     )

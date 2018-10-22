@@ -9,6 +9,7 @@ import {isolateMixin} from '../utils/mixins'
 import {ENTER} from '../constants/keys'
 import Tooltip from '../Tooltip'
 import Input from '../Input'
+import i18n from '../theme/base/i18n'
 
 const inactiveElement = <span />
 const buttonContainer = () => <button type="button" />
@@ -183,35 +184,40 @@ export default class Pagination extends Component {
     /**
      * Input для ручного ввода страниц
      */
-    withInput: PropTypes.bool,
+    showPageInput: PropTypes.bool,
     /**
      * Дополнительный класс инпута
      */
-    inputClassName: PropTypes.string,
+    pageInputClassName: PropTypes.string,
     /**
      * Текст кнопки вызова инпута
      */
-    labelContent: PropTypes.string,
+    pageInputLabel: PropTypes.string,
     /**
      * Дополнительный класс кнопки вызова инпута
      */
-    labelClassName: PropTypes.string,
+    pageInputLabelClassName: PropTypes.string,
     /**
      * Текст тултипа при неверном вводе страницы
      */
-    tooltipContent: PropTypes.string,
+    pageInputTooltip: PropTypes.string,
     /**
-     * Размер блока
+     * Количество страниц в диапазоне
      */
-    size: PropTypes.oneOf(['small', 'medium', 'big'])
+    pagesInRange: PropTypes.number,
+    /**
+     * Тип - выбор или ввод
+     */
+    type: PropTypes.oneOf(['select', 'input'])
   }
 
   static defaultProps = {
     currentPage: 1,
-    withInput: false,
-    labelContent: 'На страницу',
-    tooltipContent: 'Такая страница отсутствует',
-    size: 'big'
+    showPageInput: false,
+    pageInputLabel: i18n.pagination.label,
+    pageInputTooltip: i18n.pagination.tooltip,
+    pagesInRange: 5,
+    type: 'select'
   }
 
   state = {
@@ -281,11 +287,17 @@ export default class Pagination extends Component {
   }
 
   renderPages() {
-    const {classes, pagesCount, currentPage, onChange, size} = this.props
+    const {
+      classes,
+      pagesCount,
+      currentPage,
+      onChange,
+      pagesInRange
+    } = this.props
 
     const dots = '...'
     const edgePages = 3
-    const aroundPages = size === 'medium' ? 1 : 2
+    const aroundPages = Math.floor(pagesInRange / 2)
 
     const leftPageNum = currentPage - aroundPages
     const rightPageNum = currentPage + aroundPages
@@ -343,16 +355,21 @@ export default class Pagination extends Component {
 
   renderLitePages() {
     const {pageValue} = this.state
-    const {classes, pagesCount, inputClassName, tooltipContent} = this.props
+    const {
+      classes,
+      pagesCount,
+      pageInputClassName,
+      pageInputTooltip
+    } = this.props
 
     return (
       <React.Fragment>
-        <Tooltip content={tooltipContent} isOpened={!this.isPageValid}>
+        <Tooltip content={pageInputTooltip} isOpened={!this.isPageValid}>
           <Input
             variation="regular"
             type="text"
             size="small"
-            className={classnames(inputClassName, classes.inputSmall)}
+            className={classnames(pageInputClassName, classes.inputSmall)}
             status={!this.isPageValid ? 'error' : null}
             value={pageValue}
             onBlur={this.handleInputChange}
@@ -382,22 +399,22 @@ export default class Pagination extends Component {
     const {pageValue, showInput} = this.state
     const {
       classes,
-      inputClassName,
-      labelClassName,
-      labelContent,
-      tooltipContent
+      pageInputClassName,
+      pageInputLabelClassName,
+      pageInputLabel,
+      pageInputTooltip
     } = this.props
 
     return (
       <div className={classes.inputWrapper}>
         {showInput ? (
-          <Tooltip content={tooltipContent} isOpened={!this.isPageValid}>
+          <Tooltip content={pageInputTooltip} isOpened={!this.isPageValid}>
             <Input
               autoFocus
               variation="regular"
               type="text"
               size="small"
-              className={classnames(inputClassName, classes.input)}
+              className={classnames(pageInputClassName, classes.input)}
               status={!this.isPageValid ? 'error' : null}
               value={pageValue}
               onBlur={this.handleInputChange}
@@ -407,9 +424,9 @@ export default class Pagination extends Component {
           </Tooltip>
         ) : (
           <span
-            className={classnames(labelClassName, classes.label)}
+            className={classnames(pageInputLabelClassName, classes.label)}
             onClick={this.showInput}>
-            {labelContent}
+            {pageInputLabel}
           </span>
         )}
       </div>
@@ -425,19 +442,19 @@ export default class Pagination extends Component {
       pageContainer, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
-      inputClassName, // eslint-disable-line no-unused-vars
-      labelClassName, // eslint-disable-line no-unused-vars
-      labelContent, // eslint-disable-line no-unused-vars
-      tooltipContent, // eslint-disable-line no-unused-vars
-      withInput,
-      size,
+      pageInputClassName, // eslint-disable-line no-unused-vars
+      pageInputLabelClassName, // eslint-disable-line no-unused-vars
+      pageInputLabel, // eslint-disable-line no-unused-vars
+      pageInputTooltip, // eslint-disable-line no-unused-vars
+      showPageInput,
+      type,
       ...other
     } = this.props
 
     if (!(pagesCount > 1)) return null
 
-    const pages = size === 'small' ? this.renderLitePages() : this.renderPages()
-    const input = size !== 'small' && withInput && this.renderInput()
+    const pages = type === 'input' ? this.renderLitePages() : this.renderPages()
+    const input = type === 'select' && showPageInput && this.renderInput()
     const prevPageArrow = this.renderArrow(
       currentPage - 1,
       classes.prevArrow,

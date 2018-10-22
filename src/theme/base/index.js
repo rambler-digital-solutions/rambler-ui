@@ -996,7 +996,7 @@ export function createTheme(config) {
           },
           selected: {
             text: colors.primary,
-            background: colors.controls.grey.pageActiveBackground
+            background: 'rgba(49, 94, 251, 0.05)'
           },
           focus: {
             text: lighten(colors.primary, 0.25),

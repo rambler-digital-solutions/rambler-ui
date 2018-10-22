@@ -22,22 +22,22 @@ export default class PaginationExample extends Component {
             </div>
           ))}
           <div style={{marginTop: 40}}>
-            {['small', 'medium', 'big'].map((size, index) => (
+            {['select', 'input'].map((type, index) => (
               <div style={{marginTop: 20}} key={index}>
-                <h4 style={{marginBottom: 20}}>size {size}</h4>
+                <h4 style={{marginBottom: 20}}>type {type}</h4>
                 <Pagination
                   pagesCount={9999}
                   currentPage={this.state.page}
                   onChange={this.handleChange}
-                  size={size}
+                  type={type}
                 />
               </div>
             ))}
           </div>
           <div style={{marginTop: 40}}>
-            <h4>withInput</h4>
+            <h4>showPageInput</h4>
             <Pagination
-              withInput
+              showPageInput
               pagesCount={9999}
               currentPage={this.state.page}
               onChange={this.handleChange}
