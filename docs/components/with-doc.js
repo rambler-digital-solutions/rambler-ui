@@ -28,12 +28,6 @@ const styles = theme => ({
     '@media screen and (min-width: 768px)': {
       padding: '65px 200px 35px 100px'
     },
-    '@media screen and (min-width: 1024px)': {
-      paddingLeft: 50
-    },
-    '@media screen and (min-width: 1275px)': {
-      paddingLeft: 100
-    },
     '& h1 + p': {
       marginTop: 25,
       marginBottom: 0,
@@ -74,14 +68,6 @@ const styles = theme => ({
       marginLeft: 100,
       marginRight: 100,
       maxWidth: 670
-    },
-    '@media screen and (min-width: 1024px)': {
-      marginLeft: 50,
-      marginRight: 50
-    },
-    '@media screen and (min-width: 1275px)': {
-      marginLeft: 100,
-      marginRight: 100
     },
     '& ~ footer': {
       display: 'flex'

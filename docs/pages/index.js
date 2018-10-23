@@ -57,13 +57,6 @@ const styles = theme => ({
       backgroundImage: `url(${IntroFull})`,
       backgroundPosition: '-500px 50%'
     },
-    '@media screen and (min-width: 1024px)': {
-      paddingLeft: 50,
-      backgroundPosition: '-450px 50%'
-    },
-    '@media screen and (min-width: 1275px)': {
-      paddingLeft: 100
-    },
     '& small': {
       display: 'block',
       margin: '-11px 0',
@@ -108,17 +101,10 @@ const styles = theme => ({
       padding: '60px 40px 75px',
       '@media screen and (min-width: 768px)': {
         flexDirection: 'row',
+        maxWidth: 870,
         marginLeft: 50,
         marginRight: 50,
         padding: '45px 0'
-      },
-      '@media screen and (min-width: 1024px)': {
-        maxWidth: 870,
-        marginLeft: 5,
-        marginRight: 0
-      },
-      '@media screen and (min-width: 1275px)': {
-        marginLeft: 50
       }
     },
     '&, & a': {
@@ -222,17 +208,10 @@ const styles = theme => ({
       padding: '65px 21px 65px 13px',
       '@media screen and (min-width: 768px)': {
         flexDirection: 'row',
+        maxWidth: 925,
         marginLeft: 80,
         marginRight: 80,
         padding: '60px 0'
-      },
-      '@media screen and (min-width: 1024px)': {
-        maxWidth: 925,
-        marginLeft: 40,
-        marginRight: 0
-      },
-      '@media screen and (min-width: 1275px)': {
-        marginLeft: 80
       }
     },
     '&, & a': {

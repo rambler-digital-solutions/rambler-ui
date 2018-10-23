@@ -20,19 +20,15 @@ const styles = theme => ({
     color: theme.colors.cloudGray,
     lineHeight: '20px',
     '@media screen and (min-width: 768px)': {
+      maxWidth: 925,
       marginLeft: 100,
       marginRight: 100
     },
     '@media screen and (min-width: 1024px)': {
       flexDirection: 'row',
       alignItems: 'center',
-      maxWidth: 925,
-      marginLeft: 50,
       paddingTop: 30,
       paddingBottom: 25
-    },
-    '@media screen and (min-width: 1275px)': {
-      marginLeft: 100
     }
   },
   main: {

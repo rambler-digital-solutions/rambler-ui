@@ -18,6 +18,7 @@ const styles = theme => ({
     },
     '@media screen and (min-width: 768px)': {
       flexDirection: 'row',
+      maxWidth: 980,
       marginLeft: 100,
       marginRight: 100,
       paddingBottom: 40,
@@ -30,16 +31,10 @@ const styles = theme => ({
       }
     },
     '@media screen and (min-width: 1024px)': {
-      maxWidth: 980,
-      marginLeft: 50,
-      marginRight: 0,
       '& section:last-child': {
         flexBasis: 0,
         marginLeft: 10
       }
-    },
-    '@media screen and (min-width: 1275px)': {
-      marginLeft: 100
     },
     '& h3': {
       marginTop: 40,
