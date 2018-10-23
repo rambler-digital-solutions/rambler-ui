@@ -362,24 +362,24 @@ export default class Pagination extends Component {
       pageInputTooltip
     } = this.props
 
-    return (
-      <React.Fragment>
-        <Tooltip content={pageInputTooltip} isOpened={!this.isPageValid}>
-          <Input
-            variation="regular"
-            type="text"
-            size="small"
-            className={classnames(pageInputClassName, classes.inputSmall)}
-            status={!this.isPageValid ? 'error' : null}
-            value={pageValue}
-            onBlur={this.handleInputChange}
-            onChange={this.onInputChange}
-            onKeyUp={this.handlePressKey}
-          />
-        </Tooltip>
-        <span className={classes.item}>из {pagesCount}</span>
-      </React.Fragment>
-    )
+    return [
+      <Tooltip key={0} content={pageInputTooltip} isOpened={!this.isPageValid}>
+        <Input
+          variation="regular"
+          type="text"
+          size="small"
+          className={classnames(pageInputClassName, classes.inputSmall)}
+          status={!this.isPageValid ? 'error' : null}
+          value={pageValue}
+          onBlur={this.handleInputChange}
+          onChange={this.onInputChange}
+          onKeyUp={this.handlePressKey}
+        />
+      </Tooltip>,
+      <span key={1} className={classes.item}>
+        из {pagesCount}
+      </span>
+    ]
   }
 
   renderArrow(pageNumber, className, isDisabled, key) {
@@ -446,6 +446,7 @@ export default class Pagination extends Component {
       pageInputLabelClassName, // eslint-disable-line no-unused-vars
       pageInputLabel, // eslint-disable-line no-unused-vars
       pageInputTooltip, // eslint-disable-line no-unused-vars
+      pagesInRange, // eslint-disable-line no-unused-vars
       showPageInput,
       type,
       ...other
