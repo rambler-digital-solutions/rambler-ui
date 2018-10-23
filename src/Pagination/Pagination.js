@@ -9,7 +9,6 @@ import {isolateMixin} from '../utils/mixins'
 import {ENTER} from '../constants/keys'
 import Tooltip from '../Tooltip'
 import Input from '../Input'
-import i18n from '../theme/base/i18n'
 
 const inactiveElement = <button type="button" tabIndex={-1} disabled />
 const buttonContainer = () => <button type="button" />
@@ -216,8 +215,6 @@ export default class Pagination extends Component {
   static defaultProps = {
     currentPage: 1,
     showPageInput: false,
-    pageInputLabel: i18n.pagination.label,
-    pageInputTooltip: i18n.pagination.tooltip,
     pagesInRange: 5,
     type: 'select'
   }
@@ -361,11 +358,15 @@ export default class Pagination extends Component {
       classes,
       pagesCount,
       pageInputClassName,
-      pageInputTooltip
+      pageInputTooltip,
+      theme
     } = this.props
 
     return [
-      <Tooltip key={0} content={pageInputTooltip} isOpened={!this.isPageValid}>
+      <Tooltip
+        key={0}
+        content={pageInputTooltip || theme.i18n.pagination.tooltip}
+        isOpened={!this.isPageValid}>
         <Input
           variation="regular"
           type="text"
@@ -404,13 +405,16 @@ export default class Pagination extends Component {
       pageInputClassName,
       pageInputLabelClassName,
       pageInputLabel,
-      pageInputTooltip
+      pageInputTooltip,
+      theme
     } = this.props
 
     return (
       <div className={classes.inputWrapper}>
         {showInput ? (
-          <Tooltip content={pageInputTooltip} isOpened={!this.isPageValid}>
+          <Tooltip
+            content={pageInputTooltip || theme.i18n.pagination.tooltip}
+            isOpened={!this.isPageValid}>
             <Input
               autoFocus
               variation="regular"
@@ -428,7 +432,7 @@ export default class Pagination extends Component {
           <span
             className={classnames(pageInputLabelClassName, classes.label)}
             onClick={this.showInput}>
-            {pageInputLabel}
+            {pageInputLabel || theme.i18n.pagination.label}
           </span>
         )}
       </div>
