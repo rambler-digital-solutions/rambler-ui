@@ -20,6 +20,10 @@ const styles = theme => ({
     color: theme.colors.cloudGray,
     lineHeight: '20px',
     '@media screen and (min-width: 768px)': {
+      marginLeft: 100,
+      marginRight: 100
+    },
+    '@media screen and (min-width: 1024px)': {
       flexDirection: 'row',
       alignItems: 'center',
       maxWidth: 925,
@@ -31,8 +35,22 @@ const styles = theme => ({
       marginLeft: 100
     }
   },
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    flex: 1,
+    '@media screen and (min-width: 768px)': {
+      flexDirection: 'row',
+      alignItems: 'center'
+    }
+  },
   copy: {
-    marginRight: 20
+    marginRight: 20,
+    marginBottom: 10,
+    '@media screen and (min-width: 1024px)': {
+      marginBottom: 0
+    }
   },
   links: {
     flex: 1,
@@ -40,7 +58,9 @@ const styles = theme => ({
     marginRight: 20,
     marginBottom: 10,
     '@media screen and (min-width: 768px)': {
-      marginTop: 0,
+      marginTop: 0
+    },
+    '@media screen and (min-width: 1024px)': {
       marginBottom: 0
     },
     '& a': {
@@ -61,7 +81,7 @@ const styles = theme => ({
   buttons: {
     marginTop: 30,
     whiteSpace: 'nowrap',
-    '@media screen and (min-width: 768px)': {
+    '@media screen and (min-width: 1024px)': {
       marginTop: 0
     },
     '& a': {
@@ -75,17 +95,19 @@ const styles = theme => ({
 
 const Footer = ({classes}) => (
   <footer className={classes.root}>
-    <div className={classes.copy}>© Рамблер, {currentYear}</div>
-    <div className={classes.links}>
-      <a href="https://rambler-co.ru/jobs" target="_blank">
-        Вакансии
-      </a>
-      <a href="https://rambler-co.ru/contacts" target="_blank">
-        Контакты
-      </a>
-      <a href="https://rambler-co.ru/" target="_blank">
-        О компании
-      </a>
+    <div className={classes.main}>
+      <div className={classes.copy}>© Рамблер, {currentYear}</div>
+      <div className={classes.links}>
+        <a href="https://rambler-co.ru/jobs" target="_blank">
+          Вакансии
+        </a>
+        <a href="https://rambler-co.ru/contacts" target="_blank">
+          Контакты
+        </a>
+        <a href="https://rambler-co.ru/" target="_blank">
+          О компании
+        </a>
+      </div>
     </div>
     <div className={classes.help}>
       Появились вопросы? <a href="mailto:design-team@rambler.ru">Напишите</a>{' '}

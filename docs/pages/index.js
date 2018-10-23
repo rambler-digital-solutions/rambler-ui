@@ -28,7 +28,7 @@ const styles = theme => ({
     '& section[disabled]': {
       '& h3:after, h4:after': {
         boxSizing: 'border-box',
-        border: [1, 'solid', theme.colors.cloudGray],
+        border: `1px solid ${theme.colors.cloudGray}`,
         borderRadius: 20,
         display: 'inline-block',
         height: 20,
@@ -53,8 +53,13 @@ const styles = theme => ({
     backgroundRepeat: 'no-repeat',
     color: theme.colors.black,
     '@media screen and (min-width: 768px)': {
+      padding: '113px 0 125px 100px',
       backgroundImage: `url(${IntroFull})`,
-      padding: '113px 0 125px 50px'
+      backgroundPosition: '-500px 50%'
+    },
+    '@media screen and (min-width: 1024px)': {
+      paddingLeft: 50,
+      backgroundPosition: '-450px 50%'
     },
     '@media screen and (min-width: 1275px)': {
       paddingLeft: 100
@@ -103,9 +108,14 @@ const styles = theme => ({
       padding: '60px 40px 75px',
       '@media screen and (min-width: 768px)': {
         flexDirection: 'row',
+        marginLeft: 50,
+        marginRight: 50,
+        padding: '45px 0'
+      },
+      '@media screen and (min-width: 1024px)': {
         maxWidth: 870,
         marginLeft: 5,
-        padding: [45, 0]
+        marginRight: 0
       },
       '@media screen and (min-width: 1275px)': {
         marginLeft: 50
@@ -121,11 +131,14 @@ const styles = theme => ({
       justifyContent: 'space-between',
       flexDirection: 'column',
       flex: 1,
-      margin: '15px 0',
+      padding: '15px 0',
       '@media screen and (min-width: 768px)': {
+        flexBasis: '50%',
+        padding: '20px 35px'
+      },
+      '@media screen and (min-width: 1024px)': {
         flexDirection: 'row',
-        width: '50%',
-        margin: '20px 35px'
+        flexBasis: 0
       },
       '&[disabled]': {
         color: theme.colors.cloudGray
@@ -151,7 +164,7 @@ const styles = theme => ({
         flex: 1,
         marginTop: 20,
         marginLeft: 20,
-        '@media screen and (min-width: 768px)': {
+        '@media screen and (min-width: 1024px)': {
           marginTop: 0,
           marginLeft: 30
         }
@@ -167,9 +180,13 @@ const styles = theme => ({
     color: theme.colors.black,
     padding: '250px 30px 65px',
     '@media screen and (min-width: 768px)': {
-      padding: '60px 0 64px 530px',
+      padding: '60px 0 64px 100px',
       backgroundImage: `url(${HiringFull})`,
       backgroundSize: 'cover',
+      backgroundPosition: '300px 50%'
+    },
+    '@media screen and (min-width: 1024px)': {
+      paddingLeft: 530,
       backgroundPosition: '-340px 50%'
     },
     '@media screen and (min-width: 1275px)': {
@@ -201,12 +218,18 @@ const styles = theme => ({
       display: 'flex',
       justifyContent: 'space-between',
       flexDirection: 'column',
+      flexWrap: 'wrap',
       padding: '65px 21px 65px 13px',
       '@media screen and (min-width: 768px)': {
         flexDirection: 'row',
-        padding: [60, 0],
+        marginLeft: 80,
+        marginRight: 80,
+        padding: '60px 0'
+      },
+      '@media screen and (min-width: 1024px)': {
         maxWidth: 925,
-        marginLeft: 40
+        marginLeft: 40,
+        marginRight: 0
       },
       '@media screen and (min-width: 1275px)': {
         marginLeft: 80
@@ -228,6 +251,18 @@ const styles = theme => ({
       '&[disabled]': {
         '&, & p': {
           color: theme.colors.cloudGray
+        }
+      },
+      '&:last-child': {
+        '@media screen and (min-width: 768px)': {
+          flexBasis: '100%',
+          marginTop: 30,
+          marginLeft: 0
+        },
+        '@media screen and (min-width: 1024px)': {
+          flexBasis: 0,
+          marginTop: 0,
+          marginLeft: 20
         }
       }
     },
