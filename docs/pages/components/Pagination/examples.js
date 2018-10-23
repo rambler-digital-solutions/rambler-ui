@@ -4,7 +4,7 @@ import {ApplyTheme} from 'rambler-ui/theme'
 
 export default class PaginationExample extends Component {
   state = {
-    page: 1
+    page: 7
   }
 
   handleChange = (event, page) => {
@@ -21,6 +21,28 @@ export default class PaginationExample extends Component {
               <Pagination pagesCount={15} currentPage={index + 1} />
             </div>
           ))}
+          <div style={{marginTop: 40}}>
+            {['select', 'input'].map((type, index) => (
+              <div style={{marginTop: 20}} key={index}>
+                <h4 style={{marginBottom: 20}}>type {type}</h4>
+                <Pagination
+                  pagesCount={9999}
+                  currentPage={this.state.page}
+                  onChange={this.handleChange}
+                  type={type}
+                />
+              </div>
+            ))}
+          </div>
+          <div style={{marginTop: 40}}>
+            <h4>showPageInput</h4>
+            <Pagination
+              showPageInput
+              pagesCount={9999}
+              currentPage={this.state.page}
+              onChange={this.handleChange}
+            />
+          </div>
           <div style={{marginTop: 40}}>
             <h4>
               pageContainer:{' '}

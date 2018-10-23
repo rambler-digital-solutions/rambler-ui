@@ -6,9 +6,14 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
+import {ENTER} from '../constants/keys'
+import Tooltip from '../Tooltip'
+import Input from '../Input'
 
-const inactiveElement = <span />
+const inactiveElement = <button type="button" tabIndex={-1} disabled />
 const buttonContainer = () => <button type="button" />
+
+const isInt = value => typeof value === 'number' && (value | 0) === value
 
 @injectSheet(
   theme => ({
@@ -19,7 +24,10 @@ const buttonContainer = () => <button type="button" />
       justifyContent: 'center',
       fontFamily: theme.fontFamily,
       userSelect: 'none',
-      color: theme.pagination.colors.default.text
+      color: theme.pagination.colors.default.text,
+      '&:hover $arrow': {
+        opacity: 1
+      }
     },
     item: {
       extend: isolateMixin,
@@ -54,7 +62,8 @@ const buttonContainer = () => <button type="button" />
       },
       '&$isSelected': {
         color: theme.pagination.colors.selected.text,
-        fontWeight: 500
+        fontWeight: 500,
+        backgroundColor: theme.pagination.colors.selected.background
       },
       '&:focus': {
         color: theme.pagination.colors.focus.text
@@ -78,9 +87,10 @@ const buttonContainer = () => <button type="button" />
       cursor: 'pointer',
       overflow: 'hidden',
       paddingLeft: theme.pagination.size,
+      opacity: 0,
       '&&': {
         transitionDuration: theme.tabs.animationDuration,
-        transitionProperty: 'fill',
+        transitionProperty: 'fill, opacity',
         color: theme.pagination.colors.default.arrow
       },
       '&&:focus': {
@@ -118,14 +128,31 @@ const buttonContainer = () => <button type="button" />
       marginLeft: 7,
       transform: 'scaleX(-1)'
     },
-    dots: {
-      composes: '$item',
-      width: theme.pagination.size
-    },
     isDisabled: {
       cursor: 'not-allowed'
     },
-    isSelected: {}
+    isSelected: {},
+    inputWrapper: {
+      paddingLeft: 20
+    },
+    input: {
+      width: 76
+    },
+    inputSmall: {
+      width: 45,
+      marginRight: 10
+    },
+    label: {
+      fontSize: theme.pagination.fontSize,
+      lineHeight: theme.pagination.size + 'px',
+      cursor: 'pointer',
+      color: theme.pagination.colors.label.default,
+      transitionDuration: theme.tabs.animationDuration,
+      transitionProperty: 'color',
+      '&:hover, &:focus': {
+        color: theme.pagination.colors.label.hover
+      }
+    }
   }),
   {name: 'Pagination'}
 )
@@ -154,32 +181,122 @@ export default class Pagination extends Component {
     /**
      * Функция, вызывающая при изменении значения `function (event: object, newValue: number) {}`
      */
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    /**
+     * Input для ручного ввода страниц
+     */
+    showPageInput: PropTypes.bool,
+    /**
+     * Дополнительный класс инпута
+     */
+    pageInputClassName: PropTypes.string,
+    /**
+     * Текст кнопки вызова инпута
+     */
+    pageInputLabel: PropTypes.string,
+    /**
+     * Дополнительный класс кнопки вызова инпута
+     */
+    pageInputLabelClassName: PropTypes.string,
+    /**
+     * Текст тултипа при неверном вводе страницы
+     */
+    pageInputTooltip: PropTypes.string,
+    /**
+     * Количество страниц в диапазоне
+     */
+    pagesInRange: PropTypes.number,
+    /**
+     * Тип - выбор или ввод
+     */
+    type: PropTypes.oneOf(['select', 'input'])
   }
 
   static defaultProps = {
-    currentPage: 1
+    currentPage: 1,
+    showPageInput: false,
+    pagesInRange: 5,
+    type: 'select'
+  }
+
+  state = {
+    pageValue: this.props.currentPage,
+    showInput: false
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.pageValue !== nextProps.currentPage)
+      this.setState({
+        pageValue: nextProps.currentPage
+      })
   }
 
   get pageContainer() {
     return this.props.pageContainer || buttonContainer
   }
 
-  handleChange = event => {
+  get isPageValid() {
+    const {pageValue} = this.state
+    if (pageValue === '') return true
+    const {pagesCount} = this.props
+    const page = +pageValue
+    return isInt(page) && page <= pagesCount && page > 0
+  }
+
+  handleChange = (event, pageNumber) => {
     const {onChange, currentPage} = this.props
     if (!onChange) return
     event.preventDefault()
-    const pageNumber = +event.currentTarget.textContent
     if (!pageNumber || currentPage === pageNumber) return
     onChange(event, pageNumber)
   }
 
+  handlePageChange = event => {
+    const pageNumber = +event.currentTarget.textContent
+    this.handleChange(event, pageNumber)
+  }
+
+  handleInputChange = event => {
+    if (!this.isPageValid) return
+    this.handleChange(event, +this.state.pageValue)
+    this.hideInput()
+  }
+
+  onInputChange = (event, value) => {
+    event.preventDefault()
+    this.setState({
+      pageValue: value
+    })
+  }
+
+  handlePressKey = event => {
+    if (event.keyCode === ENTER) this.handleInputChange(event)
+  }
+
+  showInput = () => {
+    this.setState({
+      showInput: true
+    })
+  }
+
+  hideInput = () => {
+    this.setState({
+      showInput: false
+    })
+  }
+
   renderPages() {
-    const {classes, pagesCount, currentPage, onChange} = this.props
+    const {
+      classes,
+      pagesCount,
+      currentPage,
+      onChange,
+      pagesInRange
+    } = this.props
 
     const dots = '...'
     const edgePages = 3
-    const aroundPages = 2
+    const aroundPages = Math.floor(pagesInRange / 2)
 
     const leftPageNum = currentPage - aroundPages
     const rightPageNum = currentPage + aroundPages
@@ -202,33 +319,70 @@ export default class Pagination extends Component {
       )
         pages.push(i)
 
-    // Если пропуск более 1 страницы, заполняем строкой `dots`, иначе номером пропущенной страницы
+    // Если пропуск более 1 страницы, заполняем строкой со среднем значением, иначе номером пропущенной страницы
     pages = pages.reduce((accumulator, pageNumber, index) => {
       const prevPageNumber = index > 0 ? pages[index - 1] : null
       if (!prevPageNumber || prevPageNumber + 1 === pageNumber)
         return accumulator.concat(pageNumber)
       if (prevPageNumber + 2 === pageNumber)
         return accumulator.concat(pageNumber - 1, pageNumber)
-      return accumulator.concat(dots, pageNumber)
-    }, [])
-
-    let dotsCount = 0
-    return pages.map(pageNumber => {
-      const isPage = pageNumber !== dots
-      const isCurrentPage = currentPage === pageNumber
-      return cloneElement(
-        isPage ? this.pageContainer(pageNumber) : inactiveElement,
-        {
-          key: isPage ? pageNumber : dotsCount--,
-          className: classnames(
-            isPage ? classes.page : classes.dots,
-            isCurrentPage && classes.isSelected
-          ),
-          onClick: onChange ? this.handleChange : undefined
-        },
+      return accumulator.concat(
+        `${Math.round((prevPageNumber + pageNumber) / 2)}`,
         pageNumber
       )
+    }, [])
+
+    return pages.map(pageNumber => {
+      const isPage = isInt(pageNumber)
+      const isCurrentPage = currentPage === pageNumber
+      return cloneElement(
+        this.pageContainer(pageNumber),
+        {
+          key: pageNumber,
+          className: classnames(
+            classes.page,
+            isCurrentPage && classes.isSelected
+          ),
+          onClick: onChange
+            ? event => this.handleChange(event, +pageNumber)
+            : undefined
+        },
+        isPage ? pageNumber : dots
+      )
     })
+  }
+
+  renderLitePages() {
+    const {pageValue} = this.state
+    const {
+      classes,
+      pagesCount,
+      pageInputClassName,
+      pageInputTooltip,
+      theme
+    } = this.props
+
+    return [
+      <Tooltip
+        key={0}
+        content={pageInputTooltip || theme.i18n.pagination.tooltip}
+        isOpened={!this.isPageValid}>
+        <Input
+          variation="regular"
+          type="text"
+          size="small"
+          className={classnames(pageInputClassName, classes.inputSmall)}
+          status={!this.isPageValid ? 'error' : null}
+          value={pageValue}
+          onBlur={this.handleInputChange}
+          onChange={this.onInputChange}
+          onKeyUp={this.handlePressKey}
+        />
+      </Tooltip>,
+      <span key={1} className={classes.item}>
+        из {pagesCount}
+      </span>
+    ]
   }
 
   renderArrow(pageNumber, className, isDisabled, key) {
@@ -236,11 +390,52 @@ export default class Pagination extends Component {
     return cloneElement(
       isDisabled ? inactiveElement : this.pageContainer(pageNumber),
       {
-        onClick: onChange && !isDisabled ? this.handleChange : undefined,
+        onClick: onChange && !isDisabled ? this.handlePageChange : undefined,
         className: classnames(className, isDisabled && classes.isDisabled),
         key
       },
       !isDisabled && onChange ? pageNumber : null
+    )
+  }
+
+  renderInput() {
+    const {pageValue, showInput} = this.state
+    const {
+      classes,
+      pageInputClassName,
+      pageInputLabelClassName,
+      pageInputLabel,
+      pageInputTooltip,
+      theme
+    } = this.props
+
+    return (
+      <div className={classes.inputWrapper}>
+        {showInput ? (
+          <Tooltip
+            content={pageInputTooltip || theme.i18n.pagination.tooltip}
+            isOpened={!this.isPageValid}>
+            <Input
+              autoFocus
+              variation="regular"
+              type="text"
+              size="small"
+              className={classnames(pageInputClassName, classes.input)}
+              status={!this.isPageValid ? 'error' : null}
+              value={pageValue}
+              onBlur={this.handleInputChange}
+              onChange={this.onInputChange}
+              onKeyUp={this.handlePressKey}
+            />
+          </Tooltip>
+        ) : (
+          <span
+            className={classnames(pageInputLabelClassName, classes.label)}
+            onClick={this.showInput}>
+            {pageInputLabel || theme.i18n.pagination.label}
+          </span>
+        )}
+      </div>
     )
   }
 
@@ -253,12 +448,20 @@ export default class Pagination extends Component {
       pageContainer, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
+      pageInputClassName, // eslint-disable-line no-unused-vars
+      pageInputLabelClassName, // eslint-disable-line no-unused-vars
+      pageInputLabel, // eslint-disable-line no-unused-vars
+      pageInputTooltip, // eslint-disable-line no-unused-vars
+      pagesInRange, // eslint-disable-line no-unused-vars
+      showPageInput,
+      type,
       ...other
     } = this.props
 
     if (!(pagesCount > 1)) return null
 
-    const pages = this.renderPages()
+    const pages = type === 'input' ? this.renderLitePages() : this.renderPages()
+    const input = type === 'select' && showPageInput && this.renderInput()
     const prevPageArrow = this.renderArrow(
       currentPage - 1,
       classes.prevArrow,
@@ -277,6 +480,7 @@ export default class Pagination extends Component {
         {prevPageArrow}
         {pages}
         {nextPageArrow}
+        {input}
       </div>
     )
   }

@@ -995,7 +995,8 @@ export function createTheme(config) {
             arrow: darken(colors.primary, 0.2)
           },
           selected: {
-            text: colors.primary
+            text: colors.primary,
+            background: 'rgba(49, 94, 251, 0.05)'
           },
           focus: {
             text: lighten(colors.primary, 0.25),
@@ -1004,6 +1005,10 @@ export function createTheme(config) {
           disabled: {
             text: fade(colors.dark, 0.2),
             arrow: fade(colors.dark, 0.1)
+          },
+          label: {
+            default: colors.arrowBlueDark,
+            hover: colors.primary
           }
         }
       },
