@@ -103,6 +103,7 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
     button: {
       boxSizing: 'border-box',
       outline: 'none',
+      flexShrink: 0,
       border: 0,
       borderRadius: theme.snackbar.borderRadius,
       height: 20,
