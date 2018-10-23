@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import StickySidebar from 'sticky-sidebar'
+import StickySidebar from 'sticky-sidebar/dist/sticky-sidebar'
 import debounce from 'lodash.debounce'
 import {NavLink, withRouter} from 'react-router-dom'
 import {ApplyTheme} from 'rambler-ui/theme'
