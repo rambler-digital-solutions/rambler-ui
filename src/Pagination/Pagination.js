@@ -11,7 +11,7 @@ import Tooltip from '../Tooltip'
 import Input from '../Input'
 import i18n from '../theme/base/i18n'
 
-const inactiveElement = <span />
+const inactiveElement = <button type="button" tabIndex={-1} disabled />
 const buttonContainer = () => <button type="button" />
 
 @injectSheet(
@@ -337,7 +337,7 @@ export default class Pagination extends Component {
       const isPage = Number.isInteger(pageNumber)
       const isCurrentPage = currentPage === pageNumber
       return cloneElement(
-        isPage ? this.pageContainer(pageNumber) : inactiveElement,
+        this.pageContainer(pageNumber),
         {
           key: pageNumber,
           className: classnames(
