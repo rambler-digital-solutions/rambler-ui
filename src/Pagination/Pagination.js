@@ -14,6 +14,8 @@ import i18n from '../theme/base/i18n'
 const inactiveElement = <button type="button" tabIndex={-1} disabled />
 const buttonContainer = () => <button type="button" />
 
+const isInt = value => typeof value === 'number' && (value | 0) === value
+
 @injectSheet(
   theme => ({
     root: {
@@ -241,7 +243,7 @@ export default class Pagination extends Component {
     if (pageValue === '') return true
     const {pagesCount} = this.props
     const page = +pageValue
-    return Number.isInteger(page) && page <= pagesCount && page > 0
+    return isInt(page) && page <= pagesCount && page > 0
   }
 
   handleChange = (event, pageNumber) => {
@@ -334,7 +336,7 @@ export default class Pagination extends Component {
     }, [])
 
     return pages.map(pageNumber => {
-      const isPage = Number.isInteger(pageNumber)
+      const isPage = isInt(pageNumber)
       const isCurrentPage = currentPage === pageNumber
       return cloneElement(
         this.pageContainer(pageNumber),
