@@ -49,7 +49,7 @@ const styles = theme => ({
     backgroundColor: theme.colors.argentumLight,
     backgroundImage: `url(${IntroMobile})`,
     backgroundSize: 'cover',
-    backgroundPosition: '-450px 50%',
+    backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     color: theme.colors.black,
     '@media screen and (min-width: 768px)': {
@@ -160,11 +160,17 @@ const styles = theme => ({
   hiring: {
     backgroundColor: theme.colors.argentumLight,
     backgroundImage: `url(${HiringMobile})`,
-    backgroundSize: '100%',
-    backgroundPosition: 'top',
+    backgroundSize: '350px auto',
+    backgroundPosition: 'right top',
     backgroundRepeat: 'no-repeat',
     color: theme.colors.black,
     padding: '250px 30px 65px',
+    '@media screen and (min-width: 540px)': {
+      backgroundSize: '400px auto'
+    },
+    '@media screen and (min-width: 610px)': {
+      backgroundSize: '450px auto'
+    },
     '@media screen and (min-width: 768px)': {
       padding: '60px 0 64px 100px',
       backgroundImage: `url(${HiringFull})`,
@@ -178,6 +184,9 @@ const styles = theme => ({
     '@media screen and (min-width: 1275px)': {
       paddingLeft: 570,
       backgroundPosition: '-300px 50%'
+    },
+    '& h1': {
+      maxWidth: 430
     },
     '& h1, & p': {
       '@media screen and (min-width: 768px)': {
