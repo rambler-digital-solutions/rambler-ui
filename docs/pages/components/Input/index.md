@@ -1,15 +1,14 @@
-import examplesBaseCode from '!!raw-loader!./examples'
+import Playground from 'docs/components/Playground'
+import PropTypesTable from 'docs/components/PropTypesTable'
+import examples from '!!raw-loader!./examples'
 import code from '!!raw-loader!rambler-ui/Input/Input'
 import codeFormGroup from '!!raw-loader!rambler-ui/FormGroup/FormGroup'
 import codeInputStatus from '!!raw-loader!rambler-ui/InputStatus/InputStatus'
 
-import Playground from 'docs/components/Playground'
-import PropTypesTable from 'docs/components/PropTypesTable'
-
 # Input
 
 ### Пример
-<Playground code={examplesBaseCode} />
+<Playground code={examples} />
 
 ### Свойства `<Input />`
 <PropTypesTable code={code} />

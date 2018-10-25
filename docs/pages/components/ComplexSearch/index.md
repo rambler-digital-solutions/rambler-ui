@@ -1,16 +1,15 @@
-import examplesCode from '!!raw-loader!./examples'
+import Playground from 'docs/components/Playground'
+import PropTypesTable from 'docs/components/PropTypesTable'
+import examples from '!!raw-loader!./examples'
 import codeSearch from '!!raw-loader!rambler-ui/ComplexSearch/ComplexSearch'
 import codeServiceSearch from '!!raw-loader!rambler-ui/ComplexSearch/ServiceSearch'
 import codeSimpleSearch from '!!raw-loader!rambler-ui/ComplexSearch/SimpleSearch'
 import codeItem from '!!raw-loader!rambler-ui/ComplexSearch/SuggestItem'
 
-import Playground from 'docs/components/Playground'
-import PropTypesTable from 'docs/components/PropTypesTable'
-
 # ComplexSearch
 
 ### Пример
-<Playground code={examplesCode} />
+<Playground code={examples} />
 
 ### Свойства `<ComplexSearch />`
 <PropTypesTable code={codeSearch} />

@@ -8,7 +8,7 @@ import html from 'remark-html'
 import {lighten} from 'rambler-ui/utils/colors'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 
-@injectSheet(theme => ({
+const styles = theme => ({
   scrollArea: {
     margin: '25px -30px 40px',
     lineHeight: 0,
@@ -60,12 +60,12 @@ import injectSheet, {fontFamily} from 'docs/utils/theming'
     '& td:first-child': {
       fontWeight: 600
     },
+    '& td:nth-child(2)': {
+      whiteSpace: 'nowrap'
+    },
     '& td + td': {
       fontFamily: fontFamily.Menlo,
       fontSize: 13
-    },
-    '& td:nth-child(2)': {
-      whiteSpace: 'nowrap'
     },
     '& td:last-child': {
       color: theme.colors.cloudGray,
@@ -85,8 +85,9 @@ import injectSheet, {fontFamily} from 'docs/utils/theming'
     marginTop: 20,
     fontSize: 12
   }
-}))
-export default class PropTypesTable extends PureComponent {
+})
+
+class PropTypesTable extends PureComponent {
   static propTypes = {
     /**
      * Код для отображения
@@ -280,3 +281,5 @@ export default class PropTypesTable extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(PropTypesTable)

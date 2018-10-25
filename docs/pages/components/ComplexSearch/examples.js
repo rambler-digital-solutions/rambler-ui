@@ -5,7 +5,6 @@ import {
   SuggestItem
 } from 'rambler-ui/ComplexSearch'
 import React, {Component} from 'react'
-import {ApplyTheme} from 'rambler-ui/theme'
 import SearchIcon from 'rambler-ui/icons/forms/SearchIcon'
 
 const mediaInputResults = {
@@ -164,89 +163,85 @@ export default class SearchExample extends Component {
 
   render() {
     return (
-      <ApplyTheme>
-        <div>
-          <style>
-            {`
+      <div>
+        <style>
+          {`
               .example-topline-search {
                 width: 300px;
               }
             `}
-          </style>
-          <h4>ComplexSearch</h4>
-          <ComplexSearch
-            value={this.state.value}
-            onSearch={this.fetchQuery.bind(this)}
-            onSubmit={this.goToSearch}
-            onSelectItem={this.onSelectItem}
-            onClickItem={this.onItemClick}
-            hint={this.renderHint()}
-            bottomLinks={this.renderBottomLinks()}
-            onPressEnter={this.onPressEnter}
-            placeholder="Напишите 'это...'"
-            searchButton="НАЙТИ"
-            searchButtonStyle={{minWidth: 125}}
-            autoPositionY={false}
-            inputProps={{'data-cerber-head': 'main::search'}}
-            sourceType
-            serviceTooltipLabel="Поиск по новостям"
-            sourceButtonsProps={type => ({
-              'data-cerber-head': `main::${type}`
-            })}
-            searchButtonProps={{'data-cerber-head': 'main::button'}}>
-            {this.state.mediaSearchItems.map(item => (
-              <div key={item[0] + item[2]}>
-                <SuggestItem
-                  value={item[1]}
-                  data-cerber-head={`search::suggest:item-${item[2]}`}>
-                  {this.renderItem(item[1])}
-                </SuggestItem>
-              </div>
-            ))}
-          </ComplexSearch>
-          <br />
-          <ComplexSearch
-            inputLeftIcon={<SearchIcon />}
-            placeholder="Компонент без параметров"
-          />
-          <br />
-          <h4>ServiceSearch</h4>
-          <ServiceSearch
-            value={this.state.serviceValue}
-            onSearch={this.fetchServiceQuery.bind(this)}
-            onSelectItem={this.onServiceSelectItem}
-            onClickItem={this.onItemClick}
-            hint={this.renderHint()}
-            bottomLinks={this.renderBottomLinks()}
-            onPressEnter={this.onServiceEnter}
-            placeholder="Напишите 'это...'"
-            searchButton="Search"
-            searchButtonStyle={{minWidth: 125}}
-            onSubmit={this.goToSearch}
-            inputLeftIcon={<SearchIcon />}>
-            {this.state.serviceSearchItems.map(item => (
-              <div
-                key={item[0] + item[2]}
-                style={{borderTop: '1px solid #eee'}}>
-                <SuggestItem value={item[1]}>
-                  {this.renderItem(item[1])}
-                </SuggestItem>
-              </div>
-            ))}
-          </ServiceSearch>
-          <br />
-          <ServiceSearch size="small" placeholder="Сервисный инпут маленький" />
-          <br />
-          <h4>SimpleSearch (topline search)</h4>
-          <SimpleSearch
-            placeholder="Поиск в топлайне"
-            sourceType
-            serviceTooltipLabel="Поиск по новостям"
-            className="example-topline-search"
-            inputWrapperClassName="example-topline-search-wrapper"
-          />
-        </div>
-      </ApplyTheme>
+        </style>
+        <h4>ComplexSearch</h4>
+        <ComplexSearch
+          value={this.state.value}
+          onSearch={this.fetchQuery.bind(this)}
+          onSubmit={this.goToSearch}
+          onSelectItem={this.onSelectItem}
+          onClickItem={this.onItemClick}
+          hint={this.renderHint()}
+          bottomLinks={this.renderBottomLinks()}
+          onPressEnter={this.onPressEnter}
+          placeholder="Напишите 'это...'"
+          searchButton="НАЙТИ"
+          searchButtonStyle={{minWidth: 125}}
+          autoPositionY={false}
+          inputProps={{'data-cerber-head': 'main::search'}}
+          sourceType
+          serviceTooltipLabel="Поиск по новостям"
+          sourceButtonsProps={type => ({
+            'data-cerber-head': `main::${type}`
+          })}
+          searchButtonProps={{'data-cerber-head': 'main::button'}}>
+          {this.state.mediaSearchItems.map(item => (
+            <div key={item[0] + item[2]}>
+              <SuggestItem
+                value={item[1]}
+                data-cerber-head={`search::suggest:item-${item[2]}`}>
+                {this.renderItem(item[1])}
+              </SuggestItem>
+            </div>
+          ))}
+        </ComplexSearch>
+        <br />
+        <ComplexSearch
+          inputLeftIcon={<SearchIcon />}
+          placeholder="Компонент без параметров"
+        />
+        <br />
+        <h4>ServiceSearch</h4>
+        <ServiceSearch
+          value={this.state.serviceValue}
+          onSearch={this.fetchServiceQuery.bind(this)}
+          onSelectItem={this.onServiceSelectItem}
+          onClickItem={this.onItemClick}
+          hint={this.renderHint()}
+          bottomLinks={this.renderBottomLinks()}
+          onPressEnter={this.onServiceEnter}
+          placeholder="Напишите 'это...'"
+          searchButton="Search"
+          searchButtonStyle={{minWidth: 125}}
+          onSubmit={this.goToSearch}
+          inputLeftIcon={<SearchIcon />}>
+          {this.state.serviceSearchItems.map(item => (
+            <div key={item[0] + item[2]} style={{borderTop: '1px solid #eee'}}>
+              <SuggestItem value={item[1]}>
+                {this.renderItem(item[1])}
+              </SuggestItem>
+            </div>
+          ))}
+        </ServiceSearch>
+        <br />
+        <ServiceSearch size="small" placeholder="Сервисный инпут маленький" />
+        <br />
+        <h4>SimpleSearch (topline search)</h4>
+        <SimpleSearch
+          placeholder="Поиск в топлайне"
+          sourceType
+          serviceTooltipLabel="Поиск по новостям"
+          className="example-topline-search"
+          inputWrapperClassName="example-topline-search-wrapper"
+        />
+      </div>
     )
   }
 }

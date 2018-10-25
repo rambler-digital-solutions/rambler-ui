@@ -1,5 +1,3 @@
-import {Component} from 'react'
-import PropTypes from 'prop-types'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 import loadStyleSheet from 'docs/utils/load-style-sheet'
 
@@ -8,7 +6,7 @@ loadStyleSheet(
   'https://static.rambler.ru/fonts/CorsicaRamblerLX/CorsicaRamblerLX.css'
 )
 
-@injectSheet(theme => ({
+const styles = theme => ({
   '@global': {
     '*': {
       boxSizing: 'border-box'
@@ -32,21 +30,16 @@ loadStyleSheet(
     },
     a: {
       textDecoration: 'none',
+      transitionDuration: 200,
+      transitionProperty: 'color',
       '&, &:visited': {
         color: theme.colors.blue
+      },
+      '&:hover': {
+        color: theme.colors.alternativeBlue
       }
     }
   }
-}))
-export default class App extends Component {
-  static propTypes = {
-    /**
-     * Содержимое приложения
-     */
-    children: PropTypes.node
-  }
+})
 
-  render() {
-    return this.props.children
-  }
-}
+export default injectSheet(styles)(({children}) => children)

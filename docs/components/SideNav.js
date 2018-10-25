@@ -1,10 +1,8 @@
 import React, {PureComponent} from 'react'
-import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import StickySidebar from 'sticky-sidebar/dist/sticky-sidebar'
 import debounce from 'lodash.debounce'
-import {NavLink, withRouter} from 'react-router-dom'
-import {ApplyTheme} from 'rambler-ui/theme'
+import {withRouter} from 'react-router-dom'
 import Dropdown from 'rambler-ui/Dropdown'
 import OnClickOutside from 'rambler-ui/OnClickOutside'
 import {Menu, MenuItem} from 'rambler-ui/Menu'
@@ -12,13 +10,15 @@ import {throttle} from 'rambler-ui/utils/raf'
 import {createMutationObserver} from 'rambler-ui/utils/DOM'
 import config from 'docs/config'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
-import Logo from './Logo'
-import ArrowIcon from './ArrowIcon'
+import Button from 'docs/components/Button'
+import Link from 'docs/components/Link'
+import Logo from 'docs/components/icons/Logo'
+import ArrowIcon from 'docs/components/icons/Arrow'
+import ChevronIcon from 'docs/components/icons/Chevron'
 
-const initOnDesktop = window.innerWidth >= 768
+const showNavigation = window.innerWidth >= 1275
 
-@withRouter
-@injectSheet(theme => ({
+const styles = theme => ({
   root: {
     position: 'absolute !important',
     top: 0,
@@ -28,7 +28,7 @@ const initOnDesktop = window.innerWidth >= 768
     minHeight: '100%',
     backgroundColor: theme.colors.light,
     transitionDuration: 200,
-    transitionProperty: 'left, box-shadow',
+    transitionProperty: 'width, box-shadow',
     zIndex: 1000,
     '& + div': {
       transitionDuration: 200,
@@ -39,23 +39,25 @@ const initOnDesktop = window.innerWidth >= 768
     position: 'fixed !important',
     height: '100%',
     '& $scroll': {
+      position: 'static !important',
       height: '100%',
-      overflowY: 'auto'
+      overflowY: 'auto',
+      transform: 'none !important'
     }
   },
   opened: {
     left: 0,
     boxShadow: '0 5px 15px 0 rgba(52, 59, 76, 0.16)',
-    '@media screen and (min-width: 768px)': {
+    '@media screen and (min-width: 1275px)': {
       boxShadow: 'none'
     },
     '& + div': {
-      '@media screen and (min-width: 768px)': {
+      '@media screen and (min-width: 1275px)': {
         marginLeft: 230
       }
     },
     '& $toggle span': {
-      '@media screen and (max-width: 767px)': {
+      '@media screen and (max-width: 1274px)': {
         '&:nth-child(1)': {
           transform: 'translate(-50%, -1px) rotate(45deg)'
         },
@@ -115,7 +117,7 @@ const initOnDesktop = window.innerWidth >= 768
     }
   },
   shadow: {
-    '&::after': {
+    '&:after': {
       position: 'absolute',
       top: '100%',
       left: 0,
@@ -142,8 +144,13 @@ const initOnDesktop = window.innerWidth >= 768
     fontWeight: 500,
     lineHeight: '25px',
     cursor: 'pointer',
+    transitionDuration: 200,
+    transitionProperty: 'color',
     '&, &:visited': {
       color: theme.colors.black
+    },
+    '&:hover': {
+      color: '#62687f'
     },
     '&:active': {
       color: theme.colors.alternativeBlue
@@ -170,11 +177,21 @@ const initOnDesktop = window.innerWidth >= 768
     display: 'inline-block',
     verticalAlign: 'middle',
     marginTop: -2,
-    marginLeft: 3
+    marginLeft: 3,
+    transitionDuration: 200,
+    transitionProperty: 'fill'
+  },
+  buttons: {
+    width: 170,
+    '& a': {
+      marginTop: 15,
+      textAlign: 'left'
+    }
   },
   version: {
     position: 'relative',
     marginTop: 25,
+    marginLeft: 10,
     '& button': {
       display: 'block',
       border: 0,
@@ -202,18 +219,12 @@ const initOnDesktop = window.innerWidth >= 768
     maxHeight: 160,
     overflowY: 'auto'
   }
-}))
-export default class SideNav extends PureComponent {
-  static propTypes = {
-    /**
-     * Список страниц для вывода
-     */
-    pages: PropTypes.arrayOf(PropTypes.object)
-  }
+})
 
+class SideNav extends PureComponent {
   state = {
-    desktop: initOnDesktop,
-    navOpened: initOnDesktop,
+    desktop: showNavigation,
+    navOpened: showNavigation,
     activeSubtree: this.props.location.pathname,
     versions: [],
     showVersions: false
@@ -235,11 +246,14 @@ export default class SideNav extends PureComponent {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {desktop} = this.state
+    const {desktop, navOpened} = this.state
     const {location} = this.props
-    if (desktop !== prevState.desktop)
-      if (desktop) this.connectSidebar()
-      else this.destroySidebar()
+    if (desktop !== prevState.desktop || navOpened !== prevState.navOpened)
+      if (desktop && navOpened) {
+        this.connectSidebar()
+      } else if (prevState.desktop && prevState.navOpened) {
+        this.destroySidebar()
+      }
     if (location !== prevProps.location) {
       this.setState({
         activeSubtree: location.pathname,
@@ -252,8 +266,8 @@ export default class SideNav extends PureComponent {
   }
 
   componentWillUnmount() {
-    const {desktop} = this.state
-    if (desktop) this.destroySidebar()
+    const {desktop, navOpened} = this.state
+    if (desktop && navOpened) this.destroySidebar()
     window.removeEventListener('resize', this.updateViewport)
   }
 
@@ -317,24 +331,26 @@ export default class SideNav extends PureComponent {
     })
   }
 
-  activeSubtree(pathname) {
+  activeSubtree(path) {
     const {activeSubtree} = this.state
     if (!activeSubtree) return false
-    return activeSubtree.indexOf(pathname) === 0
+    return activeSubtree.indexOf(path) === 0
   }
 
   toggleSubtree = event => {
-    const pathname = event.currentTarget.getAttribute('data-href')
+    const path = event.currentTarget.getAttribute('data-href')
     this.setState({
-      activeSubtree: this.activeSubtree(pathname) ? null : pathname
+      activeSubtree: this.activeSubtree(path) ? null : path
     })
   }
 
   updateViewport = throttle(() => {
-    const desktop = window.innerWidth >= 768
-    if (desktop === this.state.desktop) return
+    const {desktop, navOpened} = this.state
+    const showNavigation = window.innerWidth >= 1275
+    if (desktop === showNavigation) return
     this.setState({
-      desktop
+      desktop: showNavigation,
+      navOpened: showNavigation ? true : navOpened
     })
   })
 
@@ -343,36 +359,40 @@ export default class SideNav extends PureComponent {
 
     if (!page.children)
       return (
-        <NavLink
-          to={page.pathname}
+        <Link
+          to={page.path}
           className={classes.link}
           activeClassName={classes.activeLink}>
           {page.title}
-        </NavLink>
+        </Link>
       )
 
     return (
       <span
         className={
-          this.activeSubtree(page.pathname) ? classes.openedLink : classes.link
+          this.activeSubtree(page.path) ? classes.openedLink : classes.link
         }
-        data-href={page.pathname}
+        data-href={page.path}
         onClick={this.toggleSubtree}>
         {page.title}
-        {page.children && <ArrowIcon size={20} className={classes.linkIcon} />}
+        {page.children && (
+          <ChevronIcon size={20} className={classes.linkIcon} />
+        )}
       </span>
     )
   }
 
-  renderList(pages) {
+  renderList(index) {
     const {classes} = this.props
 
     return (
       <div className={classes.list}>
-        {pages.map(page => (
-          <div className={classes.item} key={page.pathname}>
+        {index.map(page => (
+          <div className={classes.item} key={page.path}>
             {this.renderLink(page)}
-            {page.children && this.renderList(page.children)}
+            {page.children &&
+              this.activeSubtree(page.path) &&
+              this.renderList(page.children)}
           </div>
         ))}
       </div>
@@ -401,39 +421,34 @@ export default class SideNav extends PureComponent {
 
     return (
       <div className={classes.version}>
-        <ApplyTheme>
-          <Dropdown
-            className={classes.dropdown}
-            anchorPointY="top"
-            contentPointY="top"
-            anchorPointX="left"
-            contentPointX="left"
-            isOpened={showVersions}
-            anchor={
-              <button onClick={this.showVersions}>
-                Версия {currentVersion}
-                <ArrowIcon color="currentColor" />
-              </button>
-            }
-            onClose={this.hideVersions}>
-            <Menu
-              size="small"
-              value={this.version}
-              onChange={this.changeVersion}>
-              {versions.map(v => (
-                <MenuItem key={v.path} value={v.path}>
-                  {v.title || v.path}
-                </MenuItem>
-              ))}
-            </Menu>
-          </Dropdown>
-        </ApplyTheme>
+        <Dropdown
+          className={classes.dropdown}
+          anchorPointY="top"
+          contentPointY="top"
+          anchorPointX="left"
+          contentPointX="left"
+          isOpened={showVersions}
+          anchor={
+            <button onClick={this.showVersions}>
+              Версия {currentVersion}
+              <ChevronIcon color="currentColor" />
+            </button>
+          }
+          onClose={this.hideVersions}>
+          <Menu size="small" value={this.version} onChange={this.changeVersion}>
+            {versions.map(v => (
+              <MenuItem key={v.path} value={v.path}>
+                {v.title || v.path}
+              </MenuItem>
+            ))}
+          </Menu>
+        </Dropdown>
       </div>
     )
   }
 
   render() {
-    const {classes, pages} = this.props
+    const {classes, index} = this.props
     const {desktop, navOpened} = this.state
 
     return (
@@ -442,9 +457,12 @@ export default class SideNav extends PureComponent {
           className={classnames(
             classes.root,
             navOpened && classes.opened,
-            !desktop && classes.mobile
+            (!desktop || !navOpened) && classes.mobile
           )}>
           <div className={classes.scroll}>
+            <Link to="/" className={classes.logo} preload={false}>
+              <Logo />
+            </Link>
             <button
               type="button"
               className={classes.toggle}
@@ -453,8 +471,25 @@ export default class SideNav extends PureComponent {
               <span />
               <span />
             </button>
-            <Logo className={classes.logo} />
-            {this.renderList(pages)}
+            {this.renderList(index)}
+            <div className={classes.buttons}>
+              <Button
+                type="outlineBlue"
+                block
+                href="https://brand.rambler.ru"
+                target="_blank">
+                Дизайнеру
+                <ArrowIcon color="#315efb" />
+              </Button>
+              <Button
+                type="outlineBlue"
+                block
+                href="https://github.com/rambler-digital-solutions/rambler-ui"
+                target="_blank">
+                Разработчику
+                <ArrowIcon color="#315efb" />
+              </Button>
+            </div>
             {this.renderVersion()}
           </div>
         </div>
@@ -462,3 +497,5 @@ export default class SideNav extends PureComponent {
     )
   }
 }
+
+export default withRouter(injectSheet(styles)(SideNav))

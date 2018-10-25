@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import Button from 'rambler-ui/Button'
 import {Snackbar, provideSnackbar} from 'rambler-ui/Snackbar'
-import {ApplyTheme} from 'rambler-ui/theme'
 
 class WithSnackbar extends Component {
   openAlert = () => {
@@ -65,9 +64,5 @@ class WithSnackbar extends Component {
 const WithProvidedSnackbar = provideSnackbar(WithSnackbar)
 
 export default function SnackbarDecoratorExample() {
-  return (
-    <ApplyTheme>
-      <WithProvidedSnackbar />
-    </ApplyTheme>
-  )
+  return <WithProvidedSnackbar />
 }

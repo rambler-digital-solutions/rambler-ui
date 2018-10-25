@@ -19,7 +19,7 @@ const modules = {
   'rambler-ui': RamblerUI
 }
 
-@injectSheet(theme => ({
+const styles = theme => ({
   scrollArea: {
     margin: '25px -30px 40px',
     lineHeight: 0,
@@ -122,8 +122,9 @@ const modules = {
     composes: '$viewer',
     color: theme.colors.red
   }
-}))
-export default class Playground extends PureComponent {
+})
+
+class Playground extends PureComponent {
   static propTypes = {
     /**
      * Дополнительный класс
@@ -149,7 +150,7 @@ export default class Playground extends PureComponent {
   }
 
   state = {
-    code: this.props.code,
+    raw: this.props.code,
     mode: this.props.showPreview ? 'preview' : 'read'
   }
 
@@ -159,14 +160,14 @@ export default class Playground extends PureComponent {
     })
   }
 
-  changeCode = debounce(code => {
+  changeCode = debounce(raw => {
     this.setState({
-      code
+      raw
     })
   }, 1e3)
 
   renderCode() {
-    const {mode, code} = this.state
+    const {mode, raw} = this.state
     const {classes} = this.props
 
     if (mode === 'preview') return null
@@ -174,7 +175,7 @@ export default class Playground extends PureComponent {
     if (mode === 'read')
       return (
         <Highlight className={classes.viewer} language="javascript">
-          {code}
+          {raw}
         </Highlight>
       )
 
@@ -183,36 +184,30 @@ export default class Playground extends PureComponent {
         options={{mode: 'javascript', scrollbarStyle: null}}
         autoSave
         className={classes.editor}
-        value={code}
+        value={raw}
         onChange={this.changeCode}
       />
     )
   }
 
   renderPreview() {
-    const {mode} = this.state
     const {showPreview, classes} = this.props
 
-    if (!showPreview || mode !== 'preview') return null
+    if (!showPreview) return null
 
-    const {code} = this.state
+    const {raw} = this.state
 
     try {
-      const compiledCode = transform(code, {
+      const {code} = transform(raw, {
         presets: ['es2015', 'react'],
         plugins: [
           'transform-decorators-legacy',
           'transform-object-rest-spread',
           'transform-class-properties'
         ]
-      }).code
+      })
 
-      const executeModule = new Function(
-        'module',
-        'exports',
-        'require',
-        compiledCode
-      )
+      const execute = new Function('module', 'exports', 'require', code)
 
       const module = {
         exports: {}
@@ -228,7 +223,8 @@ export default class Playground extends PureComponent {
         throw new Error(`Module "${moduleName}" is not defined`)
       }
 
-      executeModule(module, module.exports, deepRequire)
+      execute(module, module.exports, deepRequire)
+
       const Component = module.exports.default
 
       if (Component == null)
@@ -288,3 +284,5 @@ export default class Playground extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles)(Playground)
