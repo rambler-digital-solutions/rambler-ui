@@ -114,6 +114,7 @@ export default meta => Component =>
                       className={classes.source}
                       size="small"
                       href={this.sourceUrl}
+                      rel="noreferrer noopener"
                       target="_blank">
                       <GithubIcon />
                     </IconButton>

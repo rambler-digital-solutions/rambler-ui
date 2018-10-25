@@ -94,13 +94,22 @@ const Footer = ({classes}) => (
     <div className={classes.main}>
       <div className={classes.copy}>© Рамблер, {currentYear}</div>
       <div className={classes.links}>
-        <a href="https://rambler-co.ru/jobs" target="_blank">
+        <a
+          href="https://rambler-co.ru/jobs"
+          target="_blank"
+          rel="noreferrer noopener">
           Вакансии
         </a>
-        <a href="https://rambler-co.ru/contacts" target="_blank">
+        <a
+          href="https://rambler-co.ru/contacts"
+          target="_blank"
+          rel="noreferrer noopener">
           Контакты
         </a>
-        <a href="https://rambler-co.ru/" target="_blank">
+        <a
+          href="https://rambler-co.ru/"
+          target="_blank"
+          rel="noreferrer noopener">
           О компании
         </a>
       </div>
@@ -113,19 +122,21 @@ const Footer = ({classes}) => (
       <IconButton
         size="small"
         href="https://github.com/rambler-digital-solutions/rambler-ui"
-        target="_blank">
+        target="_blank"
+        rel="noreferrer noopener">
         <GithubIcon />
       </IconButton>
       <IconButton
         size="small"
         href="https://www.facebook.com/ramblerdesign/"
-        target="_blank">
+        target="_blank"
+        rel="noreferrer noopener">
         <FacebookIcon />
       </IconButton>
       {/* <IconButton */}
       {/*   size="small" */}
       {/*   href="https://medium.com/ramblerdesign" */}
-      {/*   target="_blank"> */}
+      {/*   target="_blank" rel="noreferrer noopener"> */}
       {/*   <MediumIcon /> */}
       {/* </IconButton> */}
     </div>

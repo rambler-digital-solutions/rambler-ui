@@ -305,12 +305,18 @@ const Main = ({classes}) => (
           <img src={BrandIcon} />
           <div>
             <H3>
-              <a href="https://brand.rambler.ru" target="_blank">
+              <a
+                href="https://brand.rambler.ru"
+                target="_blank"
+                rel="noreferrer noopener">
                 Бренд
               </a>
             </H3>
             <p>
-              <a href="https://brand.rambler.ru" target="_blank">
+              <a
+                href="https://brand.rambler.ru"
+                target="_blank"
+                rel="noreferrer noopener">
                 Миссия, ценности и визуальный язык Рамблера
               </a>
             </p>
@@ -340,12 +346,18 @@ const Main = ({classes}) => (
           <img src={ProductsIcon} />
           <div>
             <H3>
-              <a href="https://we.rambler.ru/" target="_blank">
+              <a
+                href="https://we.rambler.ru/"
+                target="_blank"
+                rel="noreferrer noopener">
                 Продукты
               </a>
             </H3>
             <p>
-              <a href="https://we.rambler.ru/" target="_blank">
+              <a
+                href="https://we.rambler.ru/"
+                target="_blank"
+                rel="noreferrer noopener">
                 Более 50 миллионов пользователей со всей России
               </a>
             </p>
@@ -360,7 +372,11 @@ const Main = ({classes}) => (
         Рамблере — это возможность создавать продукты для более чем 50 миллионов
         пользователей.
       </p>
-      <Button type="primary" href="https://rambler-co.ru/jobs" target="_blank">
+      <Button
+        type="primary"
+        href="https://rambler-co.ru/jobs"
+        target="_blank"
+        rel="noreferrer noopener">
         Подать резюме <ArrowIcon />
       </Button>
     </div>
@@ -372,14 +388,16 @@ const Main = ({classes}) => (
             <h4>
               <a
                 href="https://github.com/rambler-digital-solutions/rambler-ui"
-                target="_blank">
+                target="_blank"
+                rel="noreferrer noopener">
                 GitHub
               </a>
             </h4>
             <p>
               <a
                 href="https://github.com/rambler-digital-solutions/rambler-ui"
-                target="_blank">
+                target="_blank"
+                rel="noreferrer noopener">
                 Публичный репозиторий Ratio на GitHub
               </a>
             </p>

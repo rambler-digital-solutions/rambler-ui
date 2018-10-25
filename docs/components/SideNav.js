@@ -477,6 +477,7 @@ class SideNav extends PureComponent {
                 type="outlineBlue"
                 block
                 href="https://brand.rambler.ru"
+                rel="noreferrer noopener"
                 target="_blank">
                 Дизайнеру
                 <ArrowIcon color="#315efb" />
@@ -485,6 +486,7 @@ class SideNav extends PureComponent {
                 type="outlineBlue"
                 block
                 href="https://github.com/rambler-digital-solutions/rambler-ui"
+                rel="noreferrer noopener"
                 target="_blank">
                 Разработчику
                 <ArrowIcon color="#315efb" />

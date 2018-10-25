@@ -66,12 +66,18 @@ const Informer = ({classes}) => (
   <footer className={classes.root}>
     <section>
       <H3>
-        <a href="https://rambler-co.ru" target="_blank">
+        <a
+          href="https://rambler-co.ru"
+          target="_blank"
+          rel="noreferrer noopener">
           О Рамблере
         </a>
       </H3>
       <p>
-        <a href="https://rambler-co.ru" target="_blank">
+        <a
+          href="https://rambler-co.ru"
+          target="_blank"
+          rel="noreferrer noopener">
           Рамблер это медиа и сервисы с аудиторией в более 50 миллионов
           пользователей по всей России.
         </a>
@@ -79,12 +85,18 @@ const Informer = ({classes}) => (
     </section>
     <section>
       <H3>
-        <a href="https://rambler-co.ru/jobs" target="_blank">
+        <a
+          href="https://rambler-co.ru/jobs"
+          target="_blank"
+          rel="noreferrer noopener">
           Вакансии
         </a>
       </H3>
       <p>
-        <a href="https://rambler-co.ru/jobs" target="_blank">
+        <a
+          href="https://rambler-co.ru/jobs"
+          target="_blank"
+          rel="noreferrer noopener">
           Работа в Рамблере это амбициозные задачи, большая команда, уютный офис
           и дружелюбная атмосфера.
         </a>
@@ -92,12 +104,18 @@ const Informer = ({classes}) => (
     </section>
     <section>
       <H3>
-        <a href="https://rambler-co.ru" target="_blank">
+        <a
+          href="https://rambler-co.ru"
+          target="_blank"
+          rel="noreferrer noopener">
           Rambler&Co
         </a>
       </H3>
       <p>
-        <a href="https://rambler-co.ru" target="_blank">
+        <a
+          href="https://rambler-co.ru"
+          target="_blank"
+          rel="noreferrer noopener">
           Rambler&Co — это группа компаний, в которую входят такие проекты как
           Afisha, Championat, Lenta, Gazeta, Kassa и многие другие.
         </a>
