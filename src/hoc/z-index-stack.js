@@ -13,6 +13,14 @@ export default function zIndexStack(initialZIndex) {
     class extends PureComponent {
       static displayName = `zIndexStack(${getDisplayName(Target)})`
 
+      static propTypes = {
+        zIndex: PropTypes.number
+      }
+
+      static defaultProps = {
+        zIndex: initialZIndex
+      }
+
       static contextTypes = {
         ruiZIndex: PropTypes.number
       }
@@ -21,7 +29,7 @@ export default function zIndexStack(initialZIndex) {
         ruiZIndex: PropTypes.number
       }
 
-      zIndex = (this.context.ruiZIndex || 0) + initialZIndex
+      zIndex = (this.context.ruiZIndex || 0) + this.props.zIndex
 
       getChildContext() {
         return {
