@@ -9,15 +9,6 @@ import ArrowIcon from 'docs/components/icons/Arrow'
 import PdfIcon from 'docs/components/icons/Pdf'
 import SketchIcon from 'docs/components/icons/Sketch'
 import GithubIcon from 'docs/components/icons/FullGithub'
-// TODO: move these to image storage
-import BrandIcon from 'static/brand.png'
-import GuidelinesIcon from 'static/guidelines.png'
-import ComponentsIcon from 'static/components.png'
-import ProductsIcon from 'static/products.png'
-import IntroFull from 'static/intro.png'
-import IntroMobile from 'static/intro-mobile.png'
-import HiringFull from 'static/hiring.png'
-import HiringMobile from 'static/hiring-mobile.png'
 
 const styles = theme => ({
   root: {
@@ -47,14 +38,16 @@ const styles = theme => ({
   intro: {
     padding: '136px 30px 134px',
     backgroundColor: theme.colors.argentumLight,
-    backgroundImage: `url(${IntroMobile})`,
+    backgroundImage:
+      'url(https://store.rambler.ru/rambler-ui/v3.30.2/intro-mobile.png)',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     color: theme.colors.black,
     '@media screen and (min-width: 768px)': {
       padding: '113px 0 125px 100px',
-      backgroundImage: `url(${IntroFull})`,
+      backgroundImage:
+        'url(https://store.rambler.ru/rambler-ui/v3.30.2/intro.png)',
       backgroundPosition: '-500px 50%'
     },
     '& small': {
@@ -159,7 +152,8 @@ const styles = theme => ({
   },
   hiring: {
     backgroundColor: theme.colors.argentumLight,
-    backgroundImage: `url(${HiringMobile})`,
+    backgroundImage:
+      'url(https://store.rambler.ru/rambler-ui/v3.30.2/hiring-mobile.png)',
     backgroundSize: '350px auto',
     backgroundPosition: 'right top',
     backgroundRepeat: 'no-repeat',
@@ -173,7 +167,8 @@ const styles = theme => ({
     },
     '@media screen and (min-width: 768px)': {
       padding: '60px 0 64px 100px',
-      backgroundImage: `url(${HiringFull})`,
+      backgroundImage:
+        'url(https://store.rambler.ru/rambler-ui/v3.30.2/hiring.png)',
       backgroundSize: 'cover',
       backgroundPosition: '300px 50%'
     },
@@ -302,7 +297,7 @@ const Main = ({classes}) => (
     <div className={classes.info}>
       <div>
         <section>
-          <img src={BrandIcon} />
+          <img src="https://store.rambler.ru/rambler-ui/v3.30.2/brand.png" />
           <div>
             <H3>
               <a
@@ -323,14 +318,14 @@ const Main = ({classes}) => (
           </div>
         </section>
         <section disabled>
-          <img src={GuidelinesIcon} />
+          <img src="https://store.rambler.ru/rambler-ui/v3.30.2/guidelines.png" />
           <div>
             <H3>Гайдлайны</H3>
             <p>Инструменты и правила решения дизайн-задач </p>
           </div>
         </section>
         <section>
-          <img src={ComponentsIcon} />
+          <img src="https://store.rambler.ru/rambler-ui/v3.30.2/components.png" />
           <div>
             <H3>
               <Link to="/components/Avatar">Компоненты</Link>
@@ -343,7 +338,7 @@ const Main = ({classes}) => (
           </div>
         </section>
         <section>
-          <img src={ProductsIcon} />
+          <img src="https://store.rambler.ru/rambler-ui/v3.30.2/products.png" />
           <div>
             <H3>
               <a
