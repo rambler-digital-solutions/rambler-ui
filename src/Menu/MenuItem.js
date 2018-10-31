@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import {ENTER} from '../constants/keys'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
 import {MENU_ITEM_CONTEXT} from '../constants/context'
 

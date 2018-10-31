@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import QuestionIcon from '../icons/forms/QuestionIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import {FixedOverlay} from '../Overlay'
-import {POINTS_X} from '../constants/overlay'
+import {POINTS_X, POINTS_Y} from '../constants/overlay'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
@@ -14,7 +14,6 @@ import {isolateMixin} from '../utils/mixins'
       extend: isolateMixin,
       fontFamily: theme.fontFamily,
       position: 'relative',
-      top: -14,
       color: theme.hint.colors.text,
       borderRadius: theme.hint.borderRadius,
       boxSizing: 'border-box',
@@ -33,8 +32,7 @@ import {isolateMixin} from '../utils/mixins'
       opacity: 1
     },
     icon: {
-      position: 'absolute',
-      top: 14
+      position: 'absolute'
     },
     left: {
       left: -15,
@@ -51,6 +49,18 @@ import {isolateMixin} from '../utils/mixins'
       '& $icon': {
         right: 15
       }
+    },
+    top: {
+      top: -14,
+      '& $icon': {
+        top: 14
+      }
+    },
+    bottom: {
+      top: 19,
+      '& $icon': {
+        bottom: 19
+      }
     }
   }),
   {name: 'HintContent'}
@@ -63,6 +73,7 @@ class HintContent extends PureComponent {
     children: PropTypes.node.isRequired,
     isVisible: PropTypes.bool.isRequired,
     pointX: PropTypes.oneOf(POINTS_X),
+    pointY: PropTypes.oneOf(POINTS_Y),
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onBecomeVisible: PropTypes.func,
@@ -77,6 +88,7 @@ class HintContent extends PureComponent {
       icon,
       children,
       pointX,
+      pointY,
       theme,
       classes,
       onMouseEnter,
@@ -100,7 +112,12 @@ class HintContent extends PureComponent {
         onVisible={onBecomeVisible}
         onInvisible={onBecomeInvisible}>
         <div
-          className={classnames(classes.hint, classes[pointX], className)}
+          className={classnames(
+            classes.hint,
+            classes[pointX],
+            classes[pointY],
+            className
+          )}
           style={style}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}>
@@ -238,6 +255,7 @@ export default class Hint extends PureComponent {
           </HintContent>
         }
         autoPositionX={true}
+        autoPositionY={true}
         anchorPointX={pointX}
         contentPointX={pointX}
         anchorPointY="top"

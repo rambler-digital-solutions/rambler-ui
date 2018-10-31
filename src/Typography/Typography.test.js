@@ -61,7 +61,7 @@ describe('Typography', () => {
 
 const isFontStyleEqual = (
   elementComputedStyle,
-  {fontSize, fontWeight = 'normal', lineHeight, fontFamily}
+  {fontSize, fontWeight = '400', lineHeight, fontFamily}
 ) => {
   if (fontSize + 'px' !== elementComputedStyle['font-size']) return false
   if (fontWeight + '' !== elementComputedStyle['font-weight']) return false

@@ -7,7 +7,7 @@ import {
 import {injectSheet} from '../theme'
 import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
 import classnames from 'classnames'
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 
 const noop = () => {}
 

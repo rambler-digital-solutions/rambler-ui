@@ -8,6 +8,7 @@ import {injectSheet} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import Tooltip from '../Tooltip'
 import ClockIcon from '../icons/forms/ClockIcon'
+import CalendarIcon from '../icons/forms/CalendarIcon'
 import Eye from '../icons/forms/Eye'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
@@ -134,7 +135,12 @@ const activeBorder = borderColor => ({
           },
           '& input$input': {
             height: theme.field.sizes[size].height,
-            lineHeight: 'normal'
+            lineHeight: 'normal',
+            '&[type="date"], &[type="time"]': {
+              ...ifMobile({
+                lineHeight: theme.field.sizes[size].height + 'px'
+              })
+            }
           },
           '& $icon': {
             height: theme.field.sizes[size].icon,
@@ -363,7 +369,8 @@ export default class Input extends Component {
       'tel',
       'text',
       'url',
-      'time'
+      'time',
+      'date'
     ]),
     /**
      * Размер инпута
@@ -482,18 +489,16 @@ export default class Input extends Component {
     this.props.onChange(event, event.target.value)
   }
 
-  renderTypeIcon() {
-    const {type, size, theme, classes, passwordIconTooltip} = this.props
+  get iconRight() {
+    const {type, iconRight} = this.props
+    if (iconRight) return iconRight
+    if (type === 'time') return <ClockIcon />
+    if (type === 'date') return <CalendarIcon />
+    return null
+  }
 
-    if (type === 'time')
-      return (
-        <div className={classes.iconRight}>
-          <ClockIcon
-            size={theme.field.sizes[size].eyeIcon}
-            color="currentColor"
-          />
-        </div>
-      )
+  renderPasswordIcon() {
+    const {type, size, theme, classes, passwordIconTooltip} = this.props
 
     if (type !== 'password') return null
 
@@ -556,7 +561,7 @@ export default class Input extends Component {
       variation,
       placeholder,
       iconLeft,
-      iconRight,
+      iconRight, // eslint-disable-line no-unused-vars
       status,
       isFocused,
       classes,
@@ -579,7 +584,7 @@ export default class Input extends Component {
       disabled ? classes.isDisabled : classes.isEnabled,
       classes[size],
       iconLeft && classes.withLeftIcon,
-      iconRight && classes.withRightIcon,
+      this.iconRight && classes.withRightIcon,
       type === 'password' && classes.withEye,
       groupPosition && classes[`${groupPosition}Position`],
       groupPosition && classes.inGroup
@@ -611,12 +616,12 @@ export default class Input extends Component {
           )}
         {inputElement}
         <div className={classes.activeBorder} />
-        {iconRight &&
+        {this.iconRight &&
           this.renderIcon(
-            iconRight,
+            this.iconRight,
             classnames(iconRightClassName, classes.iconRight)
           )}
-        {this.renderTypeIcon()}
+        {this.renderPasswordIcon()}
       </div>
     )
   }

@@ -30,10 +30,12 @@ describe('<Hint />', () => {
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
   })
 
-  it('should apply default styles', () => {
+  it('should apply default styles', async () => {
     const wrapper = mountWrapper({
       isOpened: true
     })
+
+    await new Promise(resolve => setTimeout(resolve, 66))
 
     const anchorStyles = getStyles(wrapper)
 

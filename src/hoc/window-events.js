@@ -1,10 +1,9 @@
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 import React, {Component} from 'react'
 import getDisplayName from '../utils/get-display-name'
 import {throttle as throttleRaf} from '../utils/raf'
 
 const events = new EventEmitter()
-events.setMaxListeners(0)
 let handlers
 
 function createHandlers() {

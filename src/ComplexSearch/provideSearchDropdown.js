@@ -1,6 +1,6 @@
 import React, {Component, Children} from 'react'
 import PropTypes from 'prop-types'
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 import SuggestDropdown from './SuggestDropdown'
 import OnClickOutside from '../OnClickOutside'
 import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
@@ -68,7 +68,6 @@ export default function provideSearchDropdown(Search) {
       }
 
       this.events = new EventEmitter()
-      this.events.setMaxListeners(0)
 
       /**
        * Упорядоченный массив с зарегестрированными компонентами SuggestItem

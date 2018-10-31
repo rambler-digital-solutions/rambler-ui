@@ -1,16 +1,24 @@
 /* eslint-env node */
+const argv = require('minimist')(process.argv.slice(2))
+const {component = '**'} = argv
+
+process.env.CHROME_BIN =
+  process.env.CHROME_BIN || require('puppeteer').executablePath()
 
 module.exports = config =>
   config.set({
     basePath: '',
+
     frameworks: ['jasmine'],
+
     files: [
       'test/init.js',
       'node_modules/babel-polyfill/dist/polyfill.js',
-      'src/**/*.test.js'
+      `src/${component.match(',') ? `{${component}}` : component}/*.test.js`
     ],
 
     preprocessors: {
+      'src/**/!(*.test).js': ['coverage'],
       'src/**/*.test.js': ['webpack', 'sourcemap']
     },
 
@@ -48,11 +56,13 @@ module.exports = config =>
       'karma-jasmine',
       'karma-sourcemap-loader',
       'karma-chrome-launcher',
-      'karma-phantomjs-launcher',
-      'karma-spec-reporter'
+      'karma-firefox-launcher',
+      'karma-spec-reporter',
+      'karma-coverage'
     ],
 
-    reporters: ['spec'],
+    reporters: ['spec', 'coverage'],
+
     specReporter: {
       maxLogLines: 5,
       suppressErrorSummary: true,
@@ -61,21 +71,35 @@ module.exports = config =>
       suppressSkipped: true,
       showSpecTiming: false
     },
+
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: true,
-    browsers: ['Chrome', 'PhantomJS_custom'],
-    singleRun: false,
+    singleRun: true,
+    autoWatch: false,
+    browserNoActivityTimeout: 60000,
+
+    browsers: ['ChromeC', 'FirefoxC'],
+
     customLaunchers: {
-      PhantomJS_custom: {
-        base: 'PhantomJS',
-        options: {
-          viewportSize: {
-            width: 1200,
-            height: 1000
+      ChromeC: {
+        base: 'ChromeHeadless',
+        flags: ['--window-size=1366,768']
+      },
+      FirefoxC: {
+        base: 'Firefox',
+        flags: ['-headless', '-width=1366', '-height=768']
+      }
+    },
+
+    coverageReporter: {
+      type: 'text',
+      ...(component === '**' && {
+        check: {
+          global: {
+            branches: 51
           }
         }
-      }
+      })
     }
   })

@@ -5,7 +5,7 @@ import {
 } from 'react-dom'
 import React, {Children, PureComponent, Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
-import EventEmitter from 'events'
+import EventEmitter from 'eventemitter3'
 import debounce from 'lodash.debounce'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
