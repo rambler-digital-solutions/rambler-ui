@@ -1,7 +1,4 @@
 export default {
-  tagsInput: {
-    more: 'ещё'
-  },
   months: [
     'Январь',
     'Февраль',

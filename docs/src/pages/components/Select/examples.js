@@ -315,9 +315,10 @@ export default class SelectExample extends Component {
           </div>
 
           <div style={{maxWidth: 300, marginBottom: 15}}>
-            <h3>Множественный выбор</h3>
+            <h3>Множественный выбор, multipleType=background</h3>
             <Select
               multiple={true}
+              multipleType="background"
               placeholder="Select..."
               value={this.state.value4}
               onChange={this.setValue('value4')}>
@@ -330,10 +331,10 @@ export default class SelectExample extends Component {
           </div>
 
           <div style={{maxWidth: 300, marginBottom: 15}}>
-            <h3>Множественный выбор c поиском</h3>
+            <h3>Множественный выбор c поиском, size=small</h3>
             <Select
-              size="small"
               multiple={true}
+              size="small"
               placeholder="Type something..."
               value={this.state.value5}
               onChange={this.setValue('value5')}

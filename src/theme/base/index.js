@@ -631,31 +631,71 @@ export function createTheme(config) {
         animationDuration: 200
       },
       tagsInput: {
-        sideMargin: 15,
         height: 25,
         fontSize: 13,
         colors: {
           default: {
-            text: colors.dark,
-            more: colors.controls.grey.outline,
-            icon: lighten(colors.controls.grey.outline, 0.3)
+            more: colors.controls.grey.outline
           },
           hover: {
-            more: colors.primary,
-            icon: colors.primary
+            more: colors.primary
+          },
+          active: {
+            more: colors.primaryDark
           },
           disabled: {
-            text: colors.controls.grey.disabled,
-            more: lighten(colors.controls.grey.outline, 0.75),
-            icon: fade(lighten(colors.controls.grey.outline, 0.75), 0.6)
+            more: colors.controls.grey.disabledText
           }
         },
-        sizes: {
-          medium: {
-            verticalMargin: 5
+        types: {
+          regular: {
+            verticalGap: 0,
+            horizontalGap: 15,
+            colors: {
+              default: {
+                text: colors.controls.grey.outline,
+                icon: colors.controls.grey.outline
+              },
+              hover: {
+                text: colors.primary,
+                icon: colors.primary
+              },
+              active: {
+                text: colors.primaryDark,
+                icon: colors.primaryDark
+              },
+              disabled: {
+                text: colors.controls.grey.disabledText,
+                icon: colors.controls.grey.disabledText
+              }
+            }
           },
-          small: {
-            verticalMargin: 0
+          background: {
+            verticalGap: 10,
+            horizontalGap: 5,
+            iconLeftMargin: 5,
+            iconRightMargin: 10,
+            paddingLeft: 15,
+            paddingRight: 15,
+            borderRadius: 25 / 2,
+            colors: {
+              default: {
+                text: colors.controls.grey.outline,
+                icon: colors.controls.grey.outline,
+                background: colors.controls.grey.background
+              },
+              hover: {
+                text: colors.primary,
+                icon: colors.primary,
+                background: mix(colors.controls.grey.outline, '#ffffff', 0.2)
+              },
+              active: {
+                text: colors.primaryDark,
+                icon: colors.primaryDark,
+                background: mix(colors.controls.grey.outline, '#ffffff', 0.2)
+              },
+              disabled: disabledButtonColors
+            }
           }
         }
       },

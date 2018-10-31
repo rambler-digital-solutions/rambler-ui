@@ -9,39 +9,21 @@ import {isolateMixin} from '../utils/mixins'
 import windowEvents from '../hoc/window-events'
 
 @injectSheet(
-  theme => ({
+  ({fontFamily, tagsInput}) => ({
     root: {
       extend: isolateMixin,
-      fontSize: theme.tagsInput.fontSize,
-      fontFamily: theme.fontFamily,
+      fontSize: tagsInput.fontSize,
+      fontFamily,
       fontWeight: 400,
       userSelect: 'none',
       overflow: 'hidden'
     },
     items: {
       display: 'flex',
-      marginLeft: -theme.tagsInput.sideMargin,
       '$isDisabled &': {
         pointerEvents: 'none'
       }
     },
-    ...['medium', 'small'].reduce(
-      (result, size) => ({
-        ...result,
-        [size]: {
-          '& $items': {
-            minHeight:
-              theme.tagsInput.height +
-              theme.tagsInput.sizes[size].verticalMargin,
-            marginTop: -theme.tagsInput.sizes[size].verticalMargin
-          },
-          '& $item': {
-            marginTop: theme.tagsInput.sizes[size].verticalMargin
-          }
-        }
-      }),
-      {}
-    ),
     isExpanded: {
       '& $items': {
         flexWrap: 'wrap'
@@ -52,31 +34,57 @@ import windowEvents from '../hoc/window-events'
         flex: 'none',
         alignSelf: 'flex-start',
         whiteSpace: 'nowrap',
-        maxWidth: `calc(100% - ${theme.tagsInput.sideMargin}px)`,
-        marginLeft: theme.tagsInput.sideMargin,
-        lineHeight: theme.tagsInput.height + 'px'
+        lineHeight: tagsInput.height + 'px'
       }
     },
     more: {
       composes: '$item',
-      color: theme.tagsInput.colors.default.more,
-      '$isDisabled &&': {
-        color: theme.tagsInput.colors.disabled.more
+      color: tagsInput.colors.default.more,
+      transition: 'color .2s',
+      '$isDisabled &': {
+        color: tagsInput.colors.disabled.more
       }
     },
     isClickable: {
-      cursor: 'pointer',
       pointerEvents: 'auto',
-      '&:hover, &:active': {
-        color: theme.tagsInput.colors.hover.more
+      '$isEnabled &': {
+        cursor: 'pointer',
+        '&:hover': {
+          color: tagsInput.colors.hover.more
+        },
+        '&:active': {
+          color: tagsInput.colors.active.more
+        }
+      },
+      '$isDisabled &': {
+        cursor: 'not-allowed'
       }
     },
+    ...['regular', 'background'].reduce((typesResult, type) => {
+      const {verticalGap, horizontalGap} = tagsInput.types[type]
+      return {
+        ...typesResult,
+        [type]: {
+          '& $items': {
+            marginTop: -verticalGap,
+            marginLeft: -horizontalGap,
+            minHeight: tagsInput.height + verticalGap
+          },
+          '& $item': {
+            marginTop: verticalGap,
+            marginLeft: horizontalGap,
+            maxWidth: `calc(100% - ${horizontalGap}px)`
+          }
+        }
+      }
+    }, {}),
     isHidden: {
       '&&': {
         order: 1,
         visibility: 'hidden'
       }
     },
+    isEnabled: {},
     isDisabled: {}
   }),
   {name: 'TagsInput'}
@@ -92,10 +100,6 @@ export default class TagsInput extends PureComponent {
      * Задизэйблить
      */
     disabled: PropTypes.bool,
-    /**
-     * Размер
-     */
-    size: PropTypes.oneOf(['small', 'medium']),
     /**
      * Класс контейнера
      */
@@ -115,11 +119,15 @@ export default class TagsInput extends PureComponent {
     /**
      * Коллбек вызывающийся при нажатии на кнопку "еще"
      */
-    onMoreClick: PropTypes.func
+    onMoreClick: PropTypes.func,
+    /**
+     * Разновидность тегов
+     */
+    type: PropTypes.oneOf(['regular', 'background'])
   }
 
   static defaultProps = {
-    size: 'medium'
+    type: 'regular'
   }
 
   state = {
@@ -132,7 +140,7 @@ export default class TagsInput extends PureComponent {
 
   componentDidMount() {
     this.props.windowEvents.on('resize', this.handleWindowResize, false)
-    if (!this.props.isExpanded) this.setVisibleItemsCount()
+    if (!this.props.isExpanded) this.updateVisibleItemsCount()
   }
 
   componentWillUpdate(nextProps) {
@@ -141,14 +149,14 @@ export default class TagsInput extends PureComponent {
 
   componentDidUpdate(prevProps, prevState) {
     if (
-      this.shouldVisibleItemsCountReset(
+      this.shouldVisibleItemsCountUpdate(
         this.state,
         prevState,
         this.props,
         prevProps
       )
     )
-      this.setVisibleItemsCount()
+      this.updateVisibleItemsCount()
   }
 
   componentWillUnmount() {
@@ -165,7 +173,7 @@ export default class TagsInput extends PureComponent {
     })
   }
 
-  shouldVisibleItemsCountReset(state, prevState, props, prevProps) {
+  shouldVisibleItemsCountUpdate(state, prevState, props, prevProps) {
     if (props.isExpanded) return false
     if (props.isExpanded !== prevProps.isExpanded) return true
     if (state.containerWidth !== prevState.containerWidth) return true
@@ -182,18 +190,20 @@ export default class TagsInput extends PureComponent {
     return false
   }
 
-  setVisibleItemsCount() {
-    const items = this.items.filter(item => item)
+  updateVisibleItemsCount() {
+    const items = this.items.filter(Boolean)
     const itemsCount = items.length
     if (itemsCount < 1) {
       this.setState({visibleItemsCount: null})
       return
     }
+    const {props} = this
+    const {horizontalGap} = props.theme.tagsInput.types[props.type]
     const containerWidth = Math.ceil(
       this.container.getBoundingClientRect().width
     )
     const moreButtonWidth =
-      Math.ceil(this.moreButton.getBoundingClientRect().width) + 20
+      Math.ceil(this.moreButton.getBoundingClientRect().width) + horizontalGap
     let firstLineItemsCount = 0
     let itemsWidthSum = 0
     const itemsWidths = []
@@ -201,7 +211,7 @@ export default class TagsInput extends PureComponent {
       const itemWidth =
         Math.ceil(
           this.items[firstLineItemsCount].getBoundingClientRect().width
-        ) + 20
+        ) + horizontalGap
       if (itemsWidthSum + itemWidth > containerWidth) break
       itemsWidths.push(itemWidth)
       itemsWidthSum += itemWidth
@@ -234,7 +244,7 @@ export default class TagsInput extends PureComponent {
     this.moreButton = ref
   }
 
-  onItemClick = (event, value) => {
+  onItemRemove = (event, value) => {
     if (this.props.disabled) return
     event.stopPropagation()
     const values = React.Children.toArray(this.props.children).map(
@@ -252,9 +262,9 @@ export default class TagsInput extends PureComponent {
       classes,
       isExpanded,
       onMoreClick,
-      size,
-      theme: {i18n},
+      type,
       onChange,
+      theme, // eslint-disable-line no-unused-vars
       windowEvents, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
@@ -263,29 +273,30 @@ export default class TagsInput extends PureComponent {
     const resultClassName = classnames(
       className,
       classes.root,
-      classes[size],
-      disabled && classes.isDisabled,
+      classes[type],
+      disabled ? classes.isDisabled : classes.isEnabled,
       isExpanded && classes.isExpanded
     )
     const count = React.Children.count(children)
-    const items = React.Children.map(children, (child, index) => {
+    const items = React.Children.map(children, (child, i) => {
       if (!child.type || child.type.displayName !== 'ruiTagsInputItem')
         throw new Error(
           'Child component should be instance of <TagsInputItem />'
         )
+      const isHidden =
+        !isExpanded && visibleItemsCount !== null && visibleItemsCount <= i
       return cloneElement(child, {
         nodeRef: ref => {
-          this.saveItemsRefs(ref, index, count)
+          this.saveItemsRefs(ref, i, count)
         },
         className: classnames(
+          child.props.className,
           classes.item,
-          visibleItemsCount !== null &&
-            visibleItemsCount <= index &&
-            !isExpanded &&
-            classes.isHidden
+          isHidden && classes.isHidden
         ),
         key: child.props.children,
-        onClick: onChange ? this.onItemClick : undefined,
+        onRemove: onChange ? this.onItemRemove : undefined,
+        type,
         disabled
       })
     })
@@ -306,7 +317,7 @@ export default class TagsInput extends PureComponent {
               role={onMoreClick ? 'button' : undefined}
               ref={this.saveMoreButtonRef}
               onClick={onMoreClick}>
-              + {i18n.tagsInput.more} {moreCount}
+              +{moreCount}
             </div>
           )}
         </div>
