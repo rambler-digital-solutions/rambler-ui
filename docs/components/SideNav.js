@@ -405,19 +405,19 @@ class SideNav extends PureComponent {
 
     if (versions.length === 0) return null
 
-    let currentVersion = versions.reduce((acc, v) => {
-      const currentPath = window.location.pathname
-        .replace(config.pathPrefix, '')
-        .replace(/^\//, '')
-        .split('/')
-        .join('/')
-      if (currentPath === v.path)
-        return v.title ? v.title.replace(/[^0-9.]/g, '') : v.path
-      return acc
-    }, null)
+    const currentPath = window.location.pathname
+      .replace(config.pathPrefix, '')
+      .replace(/\//g, '')
 
-    if (!currentVersion)
-      currentVersion = versions[0].title.replace(/[^0-9.]/g, '')
+    let currentVersion = versions.reduce(
+      (acc, v) =>
+        currentPath === v.path
+          ? v.title
+            ? v.title.replace(/[^0-9.]/g, '')
+            : v.path
+          : acc,
+      versions[0].title.replace(/[^0-9.]/g, '')
+    )
 
     return (
       <div className={classes.version}>
@@ -435,7 +435,10 @@ class SideNav extends PureComponent {
             </button>
           }
           onClose={this.hideVersions}>
-          <Menu size="small" value={this.version} onChange={this.changeVersion}>
+          <Menu
+            size="small"
+            value={currentVersion}
+            onChange={this.changeVersion}>
             {versions.map(v => (
               <MenuItem key={v.path} value={v.path}>
                 {v.title || v.path}
