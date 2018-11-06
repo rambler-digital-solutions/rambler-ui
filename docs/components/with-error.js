@@ -16,9 +16,8 @@ function withError(Target) {
     }
 
     render() {
-      if (this.state.hasError) 
-        return <div className="wrapper">Здесь что-то пошло не так…</div>
-      
+      if (this.state.hasError) return <div>Здесь что-то пошло не так…</div>
+
       return <Target {...this.props} />
     }
   }
