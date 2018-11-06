@@ -226,10 +226,12 @@ class Playground extends PureComponent {
 
       execute(module, module.exports, deepRequire)
 
-      const Component = module.exports.default
+      let Component = module.exports.default
 
       if (Component == null)
         throw new Error('There is no export in the example')
+
+      Component = withError(Component)
 
       return (
         <div className={classes.preview}>
@@ -286,4 +288,4 @@ class Playground extends PureComponent {
   }
 }
 
-export default withError(injectSheet(styles)(Playground))
+export default injectSheet(styles)(Playground)

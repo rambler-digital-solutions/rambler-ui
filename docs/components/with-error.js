@@ -1,9 +1,18 @@
 import React, {Component} from 'react'
+import injectSheet from 'docs/utils/theming'
+
+const styles = theme => ({
+  error: {
+    color: theme.colors.red,
+    borderWidth: '0px',
+    whiteSpace: 'pre-wrap'
+  }
+})
 
 function withError(Target) {
   class ErrorBoundary extends Component {
-    constructor(props) {
-      super(props)
+    constructor() {
+      super()
       this.state = {hasError: false}
     }
 
@@ -16,9 +25,17 @@ function withError(Target) {
     }
 
     render() {
-      if (this.state.hasError) return <div>Здесь что-то пошло не так…</div>
+      const {hasError, error, info} = this.state
+      if (hasError)
+        return (
+          <pre className={this.props.classes.error}>
+            {error.toString()}
+            {'\n'}
+            {info.componentStack}
+          </pre>
+        )
 
-      return <Target {...this.props} />
+      return <Target />
     }
   }
 
@@ -26,7 +43,7 @@ function withError(Target) {
     Target.displayName ||
     Target.constructor.name})`
 
-  return ErrorBoundary
+  return injectSheet(styles)(ErrorBoundary)
 }
 
 export default withError
