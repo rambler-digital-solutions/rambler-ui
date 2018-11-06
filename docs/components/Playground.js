@@ -12,6 +12,7 @@ import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/default.css'
 import {lighten} from 'rambler-ui/utils/colors'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
+import withError from 'docs/components/with-error'
 
 const modules = {
   react: React,
@@ -285,4 +286,4 @@ class Playground extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(Playground)
+export default withError(injectSheet(styles)(Playground))
