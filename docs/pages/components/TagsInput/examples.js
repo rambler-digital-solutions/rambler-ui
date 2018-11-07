@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import {TagsInput, TagsInputItem} from 'rambler-ui/TagsInput'
 import Checkbox from 'rambler-ui/Checkbox'
-import {ApplyTheme} from 'rambler-ui/theme'
 
 const exampleItems = [
   'Чехия',
@@ -45,86 +44,83 @@ export default class TagsInputExample extends Component {
     ))
 
     return (
-      <ApplyTheme>
-        <div>
-          {exampleItems.map(item => (
-            <Checkbox
-              checked={this.state.items.indexOf(item) > -1}
-              style={{marginRight: 20}}
-              onCheck={(e, checked) => {
-                this.toggleValue(item, checked)
+      <div>
+        {exampleItems.map(item => (
+          <Checkbox
+            checked={this.state.items.indexOf(item) > -1}
+            style={{marginRight: 20}}
+            onCheck={(e, checked) => {
+              this.toggleValue(item, checked)
+            }}
+            key={item}>
+            {item}
+          </Checkbox>
+        ))}
+        <div style={{display: 'flex', marginLeft: -20}}>
+          {['regular', 'background'].map(type => (
+            <div
+              style={{
+                marginLeft: 20,
+                flex: 'none',
+                width: 'calc(50% - 20px)'
               }}
-              key={item}>
-              {item}
-            </Checkbox>
-          ))}
-          <div style={{display: 'flex', marginLeft: -20}}>
-            {['regular', 'background'].map(type => (
-              <div
-                style={{
-                  marginLeft: 20,
-                  flex: 'none',
-                  width: 'calc(50% - 20px)'
-                }}
-                key={type}>
-                <h3>{`type: ${type}`}</h3>
-                <h4>onChange</h4>
-                <div style={{maxWidth: 300}}>
-                  <TagsInput onChange={this.changeValue} type={type}>
-                    {items}
-                  </TagsInput>
-                </div>
-                <h4>onChange, isExpanded, items with onClick</h4>
-                <div style={{maxWidth: 300}}>
-                  <TagsInput
-                    onChange={this.changeValue}
-                    isExpanded={true}
-                    type={type}>
-                    {clickableItems}
-                  </TagsInput>
-                </div>
-                <h4>onMoreClick</h4>
-                <div style={{maxWidth: 240}}>
-                  <TagsInput type={type} onMoreClick={() => {}}>
-                    {items}
-                  </TagsInput>
-                </div>
-                <h4>isExpanded, items with onClick</h4>
-                <div style={{maxWidth: 240}}>
-                  <TagsInput isExpanded={true} type={type}>
-                    {clickableItems}
-                  </TagsInput>
-                </div>
-                <h4>disabled, onChange, onMoreClick</h4>
-                <div style={{maxWidth: 240}}>
-                  <TagsInput
-                    onChange={this.changeValue}
-                    onMoreClick={() => {}}
-                    disabled={true}
-                    type={type}>
-                    {items}
-                  </TagsInput>
-                </div>
-                <h4>disabled, isExpanded, onChange, items with onClick</h4>
-                <div style={{maxWidth: 240}}>
-                  <TagsInput
-                    onChange={this.changeValue}
-                    isExpanded={true}
-                    disabled={true}
-                    type={type}>
-                    {clickableItems}
-                  </TagsInput>
-                </div>
+              key={type}>
+              <h3>{`type: ${type}`}</h3>
+              <h4>onChange</h4>
+              <div style={{maxWidth: 300}}>
+                <TagsInput onChange={this.changeValue} type={type}>
+                  {items}
+                </TagsInput>
               </div>
-            ))}
-          </div>
-
-          <div style={{marginTop: 40}}>
-            this.state.value:{' '}
-            <strong>{JSON.stringify(this.state.items)}</strong>
-          </div>
+              <h4>onChange, isExpanded, items with onClick</h4>
+              <div style={{maxWidth: 300}}>
+                <TagsInput
+                  onChange={this.changeValue}
+                  isExpanded={true}
+                  type={type}>
+                  {clickableItems}
+                </TagsInput>
+              </div>
+              <h4>onMoreClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput type={type} onMoreClick={() => {}}>
+                  {items}
+                </TagsInput>
+              </div>
+              <h4>isExpanded, items with onClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput isExpanded={true} type={type}>
+                  {clickableItems}
+                </TagsInput>
+              </div>
+              <h4>disabled, onChange, onMoreClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput
+                  onChange={this.changeValue}
+                  onMoreClick={() => {}}
+                  disabled={true}
+                  type={type}>
+                  {items}
+                </TagsInput>
+              </div>
+              <h4>disabled, isExpanded, onChange, items with onClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput
+                  onChange={this.changeValue}
+                  isExpanded={true}
+                  disabled={true}
+                  type={type}>
+                  {clickableItems}
+                </TagsInput>
+              </div>
+            </div>
+          ))}
         </div>
-      </ApplyTheme>
+
+        <div style={{marginTop: 40}}>
+          this.state.value: <strong>{JSON.stringify(this.state.items)}</strong>
+        </div>
+      </div>
     )
   }
 }

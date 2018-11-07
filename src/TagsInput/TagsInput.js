@@ -109,10 +109,6 @@ export default class TagsInput extends PureComponent {
      */
     isExpanded: PropTypes.bool,
     /**
-     * Переопределение стилей контейнера
-     */
-    style: PropTypes.object,
-    /**
      * Коллбек вызывающийся при изменении состояния
      */
     onChange: PropTypes.func,
@@ -257,7 +253,6 @@ export default class TagsInput extends PureComponent {
     const {
       children,
       className,
-      style,
       disabled,
       classes,
       isExpanded,
@@ -304,7 +299,7 @@ export default class TagsInput extends PureComponent {
       visibleItemsCount === null ? 0 : items.length - visibleItemsCount
 
     return (
-      <div className={resultClassName} style={style} {...other}>
+      <div className={resultClassName} {...other}>
         <div ref={this.saveContainerRef} className={classes.items}>
           {items}
           {!isExpanded && (
@@ -316,7 +311,7 @@ export default class TagsInput extends PureComponent {
               )}
               role={onMoreClick ? 'button' : undefined}
               ref={this.saveMoreButtonRef}
-              onClick={onMoreClick}>
+              onClick={disabled ? undefined : onMoreClick}>
               +{moreCount}
             </div>
           )}

@@ -115,10 +115,6 @@ class TagsInputItem extends Component {
      */
     className: PropTypes.string,
     /**
-     * Inline-стили
-     */
-    style: PropTypes.object,
-    /**
      * Значение тега, по-умолчанию считается, что это примитив
      */
     value: PropTypes.any.isRequired,
@@ -127,11 +123,11 @@ class TagsInputItem extends Component {
      */
     children: PropTypes.string.isRequired,
     /**
-     * Коллбек клика на тег, в качестве аргументов принимает объект события и value (автоматически проставляется компонентом `<TagsInput/>`)
+     * Коллбек клика на тег, в качестве аргументов принимает объект события и value
      */
     onClick: PropTypes.func,
     /**
-     * Коллбек клика на иконку удаления, в качестве аргументов принимает объект события и value
+     * Коллбек клика на иконку удаления, в качестве аргументов принимает объект события и value (автоматически проставляется компонентом `<TagsInput/>`)
      */
     onRemove: PropTypes.func,
     /**
@@ -170,7 +166,6 @@ class TagsInputItem extends Component {
   render() {
     const {
       className,
-      style,
       disabled,
       nodeRef,
       children,
@@ -193,7 +188,6 @@ class TagsInputItem extends Component {
           disabled ? classes.isDisabled : classes.isEnabled
         )}
         onClick={disabled ? undefined : this.handleClick}
-        style={style}
         ref={nodeRef}>
         {onRemove && (
           <ClearIcon
