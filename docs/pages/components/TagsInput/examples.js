@@ -37,6 +37,12 @@ export default class TagsInputExample extends Component {
         {item}
       </TagsInputItem>
     ))
+    const clickableItems = this.state.items.map(item => (
+      <TagsInputItem value={item} key={item} onClick={() => {}}>
+        {item}
+      </TagsInputItem>
+    ))
+
     return (
       <div>
         {exampleItems.map(item => (
@@ -50,52 +56,69 @@ export default class TagsInputExample extends Component {
             {item}
           </Checkbox>
         ))}
-        <div style={{marginTop: 40, maxWidth: 300, border: '1px solid'}}>
-          <TagsInput onChange={this.changeValue} onMoreClick={() => {}}>
-            {items}
-          </TagsInput>
-        </div>
-        <div style={{marginTop: 10, maxWidth: 300, border: '1px solid'}}>
-          <TagsInput onChange={this.changeValue} isExpanded={true}>
-            {items}
-          </TagsInput>
-        </div>
-        <div style={{marginTop: 40, maxWidth: 240, border: '1px solid'}}>
-          <TagsInput onChange={this.changeValue} size="small">
-            {items}
-          </TagsInput>
-        </div>
-        <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
-          <TagsInput
-            onChange={this.changeValue}
-            onMoreClick={() => {}}
-            size="small"
-            isExpanded={true}>
-            {items}
-          </TagsInput>
-        </div>
-        <div style={{marginTop: 40, maxWidth: 240, border: '1px solid'}}>
-          <TagsInput
-            onChange={this.changeValue}
-            onMoreClick={() => {}}
-            size="small"
-            disabled={true}>
-            {items}
-          </TagsInput>
-        </div>
-        <div style={{marginTop: 10, maxWidth: 240, border: '1px solid'}}>
-          <TagsInput
-            onChange={this.changeValue}
-            onMoreClick={() => {}}
-            size="small"
-            isExpanded={true}
-            disabled={true}>
-            {items}
-          </TagsInput>
+        <div style={{display: 'flex', marginLeft: -20}}>
+          {['regular', 'background'].map(type => (
+            <div
+              style={{
+                marginLeft: 20,
+                flex: 'none',
+                width: 'calc(50% - 20px)'
+              }}
+              key={type}>
+              <h3>{`type: ${type}`}</h3>
+              <h4>onChange</h4>
+              <div style={{maxWidth: 300}}>
+                <TagsInput onChange={this.changeValue} type={type}>
+                  {items}
+                </TagsInput>
+              </div>
+              <h4>onChange, isExpanded, items with onClick</h4>
+              <div style={{maxWidth: 300}}>
+                <TagsInput
+                  onChange={this.changeValue}
+                  isExpanded={true}
+                  type={type}>
+                  {clickableItems}
+                </TagsInput>
+              </div>
+              <h4>onMoreClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput type={type} onMoreClick={() => {}}>
+                  {items}
+                </TagsInput>
+              </div>
+              <h4>isExpanded, items with onClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput isExpanded={true} type={type}>
+                  {clickableItems}
+                </TagsInput>
+              </div>
+              <h4>disabled, onChange, onMoreClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput
+                  onChange={this.changeValue}
+                  onMoreClick={() => {}}
+                  disabled={true}
+                  type={type}>
+                  {items}
+                </TagsInput>
+              </div>
+              <h4>disabled, isExpanded, onChange, items with onClick</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput
+                  onChange={this.changeValue}
+                  isExpanded={true}
+                  disabled={true}
+                  type={type}>
+                  {clickableItems}
+                </TagsInput>
+              </div>
+            </div>
+          ))}
         </div>
 
         <div style={{marginTop: 40}}>
-          this.state.items: <b>{this.state.items.join(', ')}</b>
+          this.state.value: <strong>{JSON.stringify(this.state.items)}</strong>
         </div>
       </div>
     )

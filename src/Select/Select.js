@@ -136,6 +136,11 @@ const multipleSelectFix = <optgroup disabled hidden />
       position: 'relative',
       pointerEvents: 'none'
     },
+    multipleValueItem: {
+      '&&': {
+        color: theme.field.colors.default.text
+      }
+    },
     options: {
       composes: '$custom'
     },
@@ -300,6 +305,10 @@ export default class Select extends PureComponent {
      */
     multiple: PropTypes.bool,
     /**
+     * Разновидность элементов-значений множественного выбора
+     */
+    multipleType: PropTypes.oneOf(['regular', 'background']),
+    /**
      * Показывать кнопку очистки инпута
      */
     clearIcon: PropTypes.bool,
@@ -417,6 +426,7 @@ export default class Select extends PureComponent {
   static defaultProps = {
     value: null,
     multiple: false,
+    multipleType: 'regular',
     clearIcon: false,
     status: null,
     size: 'medium',
@@ -697,13 +707,15 @@ export default class Select extends PureComponent {
   )
 
   renderSelectedItems() {
-    const selected = Array.isArray(this.props.value)
-      ? this.props.value
-      : emptyArr
+    const {props} = this
+    const selected = Array.isArray(props.value) ? props.value : emptyArr
     return selected.map(item => {
-      const text = this.props.inputValueRenderer(item)
+      const text = props.inputValueRenderer(item)
       return (
-        <TagsInputItem value={item} key={text}>
+        <TagsInputItem
+          value={item}
+          key={text}
+          className={props.classes.multipleValueItem}>
           {text}
         </TagsInputItem>
       )
@@ -814,6 +826,7 @@ export default class Select extends PureComponent {
       children,
       appendToBody,
       multiple,
+      multipleType,
       disabled,
       size,
       icon,
@@ -859,7 +872,8 @@ export default class Select extends PureComponent {
         <TagsInput
           className={classes.options}
           onChange={this.changeValue}
-          isExpanded={!isOpened || onSearch ? false : true}>
+          isExpanded={!isOpened || onSearch ? false : true}
+          type={multipleType}>
           {options}
         </TagsInput>
       )
@@ -907,7 +921,7 @@ export default class Select extends PureComponent {
                   onChange={this.changeValue}
                   isExpanded={true}
                   onMouseDown={this.preventBlurInput}
-                  size={size}>
+                  type={multipleType}>
                   {options}
                 </TagsInput>
               )}
@@ -950,6 +964,7 @@ export default class Select extends PureComponent {
       placeholder,
       disabled,
       multiple,
+      multipleType,
       children,
       size,
       icon,
@@ -1028,7 +1043,10 @@ export default class Select extends PureComponent {
           isFocused={inputFocused}
         />
         {selectedOptions && (
-          <TagsInput className={classes.options} size={size}>
+          <TagsInput
+            className={classes.options}
+            size={size}
+            type={multipleType}>
             {selectedOptions}
           </TagsInput>
         )}
