@@ -97,7 +97,7 @@ module.exports = config =>
       ...(component === '**' && {
         check: {
           global: {
-            branches: 51
+            branches: 54.8
           }
         }
       })
