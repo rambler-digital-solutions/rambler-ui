@@ -12,6 +12,7 @@ import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/default.css'
 import {lighten} from 'rambler-ui/utils/colors'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
+import withError from 'docs/components/with-error'
 
 const modules = {
   react: React,
@@ -225,10 +226,12 @@ class Playground extends PureComponent {
 
       execute(module, module.exports, deepRequire)
 
-      const Component = module.exports.default
+      let Component = module.exports.default
 
       if (Component == null)
         throw new Error('There is no export in the example')
+
+      Component = withError(Component)
 
       return (
         <div className={classes.preview}>
