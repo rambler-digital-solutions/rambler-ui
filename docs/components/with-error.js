@@ -5,7 +5,11 @@ const styles = theme => ({
   error: {
     color: theme.colors.red,
     borderWidth: '0px',
-    whiteSpace: 'pre-wrap'
+    whiteSpace: 'pre-wrap',
+    margin: 0,
+    lineHeight: '18px',
+    fontFamily: 'Menlo, Monaco, Courier New, Courier, monospace',
+    fontSize: '13px'
   }
 })
 
