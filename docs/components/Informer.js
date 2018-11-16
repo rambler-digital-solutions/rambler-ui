@@ -78,7 +78,7 @@ const Informer = ({classes}) => (
           href="https://rambler-co.ru"
           target="_blank"
           rel="noreferrer noopener">
-          Рамблер это медиа и сервисы с аудиторией в более 50 миллионов
+          Рамблер — это медиа и сервисы с аудиторией более 50 миллионов
           пользователей по всей России.
         </a>
       </p>
@@ -97,8 +97,8 @@ const Informer = ({classes}) => (
           href="https://rambler-co.ru/jobs"
           target="_blank"
           rel="noreferrer noopener">
-          Работа в Рамблере это амбициозные задачи, большая команда, уютный офис
-          и дружелюбная атмосфера.
+          В Рамблере вас ждут большая команда, уютный офис, комфортная атмосфера
+          и, конечно, амбициозные задачи.
         </a>
       </p>
     </section>
@@ -116,8 +116,8 @@ const Informer = ({classes}) => (
           href="https://rambler-co.ru"
           target="_blank"
           rel="noreferrer noopener">
-          Rambler&Co — это группа компаний, в которую входят такие проекты как
-          Afisha, Championat, Lenta, Gazeta, Kassa и многие другие.
+          В группу компаний Rambler&Co входят Афиша, Championat.com, Лента.ру,
+          Газета.ру, Касса и другие известные проекты.
         </a>
       </p>
     </section>
