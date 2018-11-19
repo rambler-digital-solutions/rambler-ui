@@ -660,6 +660,7 @@ export default class Select extends PureComponent {
       inputValueRenderer,
       customElementRenderer,
       multiple,
+      multipleType,
       theme,
       arrowClassName,
       arrowStyle,
