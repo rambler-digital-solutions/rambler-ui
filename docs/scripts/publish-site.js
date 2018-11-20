@@ -49,12 +49,12 @@ folders.forEach(folder => {
   exec(`mkdir -p ${resultDir}`)
   exec(`rsync -rvpl --exclude temp ${outDir}/* ${resultDir}/`)
   if (folder === 'stable') {
-    exec(`rm -rf ${tempDir}/{index.html,*.js,*.css,*.png}`)
+    exec(`rm -rf ${tempDir}/{index.html,*.js,*.css,favicon*}`)
     exec(`rsync -rvpl --exclude temp ${outDir}/* ${tempDir}/`)
   }
 })
 
-exec(`rm -rf ${outDir}/{index.html,*.js,*.css,*.png}`)
+exec(`rm -rf ${outDir}/{index.html,*.js,*.css,favicon*}`)
 exec(`rsync -rvpl ${tempDir}/* ${outDir}`)
 exec(`rm -rf ${tempDir}`)
 
