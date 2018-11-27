@@ -9,7 +9,7 @@ import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import Tooltip from '../Tooltip'
 import ClockIcon from '../icons/forms/ClockIcon'
 import CalendarIcon from '../icons/forms/CalendarIcon'
-import Eye from '../icons/forms/Eye'
+import EyeIcon from '../icons/forms/EyeIcon'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
 
 const activeBorder = borderColor => ({
@@ -503,7 +503,7 @@ export default class Input extends Component {
     if (type !== 'password') return null
 
     const {type: currentType} = this.state
-    const Icon = currentType === 'password' ? ClosedEyeIcon : Eye
+    const Icon = currentType === 'password' ? ClosedEyeIcon : EyeIcon
 
     const icon = (
       <span className={classes.eyeWrapper} onClick={this.inputTypeHelper}>
