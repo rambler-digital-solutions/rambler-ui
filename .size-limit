@@ -11,7 +11,7 @@
   },
   {
     "name": "The size of the library with all icons",
-    "limit": "99.5 KB",
+    "limit": "99.6 KB",
     "path": "build/index.js"
   }
 ]
