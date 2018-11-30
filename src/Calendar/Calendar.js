@@ -490,7 +490,7 @@ export default class Calendar extends Component {
     const {animate, displayMonth, displayYear, dates, last, first} = this.state
 
     const weeksBeforeVisible = Math.floor(dates.indexOf(first) / 7)
-    const weeksAfterVisible = Math.ceil(dates.indexOf(last) / 7)
+    const weeksAfterVisible = Math.ceil((dates.indexOf(last) + 1) / 7)
     const weeksVisible = weeksAfterVisible - weeksBeforeVisible
 
     const numberToday = dateToNumber(today)
