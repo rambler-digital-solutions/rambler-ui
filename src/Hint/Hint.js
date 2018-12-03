@@ -237,6 +237,7 @@ export default class Hint extends PureComponent {
       className: classnames(classes.icon, className),
       color: iconProps.color || theme.hint.colors.icon,
       onMouseEnter: this.show,
+      onTouchStart: this.show,
       onMouseLeave: this.hide
     })
 
