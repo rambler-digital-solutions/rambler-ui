@@ -63,6 +63,9 @@ const activeBorder = borderColor => ({
       '&$filled[type="password"]': {
         fontFamily: 'monospace'
       },
+      '&:focus + $activeBorder + $placeholder': {
+        display: 'none'
+      },
       // ...placeholderMixin('$inGroup &', {
       //   color: theme.field.colors.default.text
       // }),
@@ -170,6 +173,16 @@ const activeBorder = borderColor => ({
               left: -10,
               right: -10
             }
+          },
+          '& $placeholder': {
+            fontSize: theme.field.sizes[size].fontSize,
+            pointerEvents: 'none',
+            ...ifMobile({
+              fontSize: theme.field.mobile.sizes[size].fontSize
+            })
+          },
+          '&$withOutline $placeholder': {
+            paddingLeft: theme.input.sizes[size].padding
           },
           '&$withOutline $input': {
             paddingLeft: theme.input.sizes[size].padding,
@@ -328,6 +341,20 @@ const activeBorder = borderColor => ({
     iconRight: {
       composes: '$icon',
       pointerEvents: 'none'
+    },
+    placeholder: {
+      position: 'absolute',
+      top: '2px',
+      left: '1px',
+      height: 'calc(100% - 5px)',
+      display: 'flex',
+      alignItems: 'center',
+      background: '#fff',
+      color: theme.field.colors.default.placeholder,
+      opacity: 1,
+      transition: `opacity ${Math.round(
+        theme.field.animationDuration * 0.7
+      )}ms linear`
     },
     isFocused: {},
     filled: {},
@@ -546,6 +573,17 @@ export default class Input extends Component {
     )
   }
 
+  renderPlaceholder() {
+    const {type, value, placeholder, classes} = this.props
+    if (
+      (type === 'date' || type === 'time') &&
+      (value === '' || value == null) &&
+      placeholder
+    )
+      return <span className={classes.placeholder}>{placeholder}</span>
+    return null
+  }
+
   render() {
     const {
       tag = 'input',
@@ -616,6 +654,7 @@ export default class Input extends Component {
           )}
         {inputElement}
         <div className={classes.activeBorder} />
+        {this.renderPlaceholder()}
         {this.iconRight &&
           this.renderIcon(
             this.iconRight,
