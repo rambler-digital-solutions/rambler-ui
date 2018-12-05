@@ -118,7 +118,7 @@ export default class InputExample extends Component {
                     variation={variation}
                   />
                 </FormGroup>
-                <FormGroup label="Input time">
+                <FormGroup label="Input time (with placeholder)">
                   <Input
                     type="time"
                     value={this.state.value}
@@ -127,12 +127,11 @@ export default class InputExample extends Component {
                     variation={variation}
                   />
                 </FormGroup>
-                <FormGroup label="Input date">
+                <FormGroup label="Input date (without placeholder)">
                   <Input
                     type="date"
                     value={this.state.value}
                     onChange={this.onChange}
-                    placeholder="placeholder"
                     variation={variation}
                   />
                 </FormGroup>
