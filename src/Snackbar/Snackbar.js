@@ -236,7 +236,7 @@ export default class Snackbar extends PureComponent {
   }
 
   onClickOutside = () => {
-    if (this.state.isVisible) this.props.onRequestClose()
+    if (this.props.isOpened) this.props.onRequestClose()
   }
 
   render() {
