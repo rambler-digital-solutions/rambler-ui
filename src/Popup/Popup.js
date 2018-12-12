@@ -9,12 +9,19 @@ import classnames from 'classnames'
 import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../OnClickOutside'
+import FocusManager from '../FocusManager'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import {ESCAPE} from '../constants/keys'
 import {POPUP_ZINDEX} from '../constants/z-indexes'
 import {injectSheet} from '../theme'
-import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
+import {
+  isolateMixin,
+  middleMixin,
+  focusSourceMixin,
+  ifDesktop
+} from '../utils/mixins'
+import '../utils/focus-source'
 
 @zIndexStack(POPUP_ZINDEX)
 @renderToLayer
@@ -64,6 +71,7 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
       fontSize: theme.popup.text.fontSize,
       lineHeight: `${theme.popup.text.lineHeight}px`,
       textAlign: 'left',
+      outline: 'none',
       ...ifDesktop({
         minWidth: 350,
         maxWidth: 'auto'
@@ -91,7 +99,10 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
       cursor: 'pointer',
       '&:hover': {
         color: theme.popup.colors.close.hover
-      }
+      },
+      ...focusSourceMixin('other', '&:focus', {
+        color: theme.popup.colors.close.hover
+      })
     },
     buttons: {
       display: 'flex',
@@ -162,6 +173,10 @@ export default class Popup extends PureComponent {
      */
     isOpened: PropTypes.bool,
     /**
+     * Порядок фокусировки элемента
+     */
+    tabIndex: PropTypes.number,
+    /**
      * Кнопка успешного действия (если она одна, то будет расятнута на все ширину)
      */
     okButton: PropTypes.node,
@@ -201,6 +216,7 @@ export default class Popup extends PureComponent {
     closeOnEsc: true,
     closeOnClickOutside: true,
     backdropColor: 'black',
+    tabIndex: 0,
     onOpen: () => {},
     onRequestClose: () => {},
     onClose: () => {}
@@ -237,35 +253,46 @@ export default class Popup extends PureComponent {
       classes,
       showClose,
       okButton,
+      tabIndex,
       cancelButton,
       onRequestClose,
       closeOnClickOutside
     } = this.props
 
     const content = (
-      <div style={style} className={classnames(classes.popup, className)}>
-        {showClose && (
-          <button className={classes.close} onClick={onRequestClose}>
-            <ClearIcon size={15} color="currentColor" />
-          </button>
+      <FocusManager tabIndex={tabIndex}>
+        {({focusElement}) => (
+          <div
+            style={style}
+            className={classnames(classes.popup, className)}
+            ref={focusElement}>
+            {showClose && (
+              <button className={classes.close} onClick={onRequestClose}>
+                <ClearIcon size={15} color="currentColor" />
+              </button>
+            )}
+            {title && (
+              <header
+                style={titleStyle}
+                className={classnames(classes.title, titleClassName)}>
+                {title}
+              </header>
+            )}
+            {children}
+            {(okButton || cancelButton) && (
+              <footer
+                style={buttonsContainerStyle}
+                className={classnames(
+                  classes.buttons,
+                  buttonsContainerClassName
+                )}>
+                {okButton}
+                {cancelButton}
+              </footer>
+            )}
+          </div>
         )}
-        {title && (
-          <header
-            style={titleStyle}
-            className={classnames(classes.title, titleClassName)}>
-            {title}
-          </header>
-        )}
-        {children}
-        {(okButton || cancelButton) && (
-          <footer
-            style={buttonsContainerStyle}
-            className={classnames(classes.buttons, buttonsContainerClassName)}>
-            {okButton}
-            {cancelButton}
-          </footer>
-        )}
-      </div>
+      </FocusManager>
     )
 
     if (closeOnClickOutside)
