@@ -53,6 +53,9 @@ const activeBorder = borderColor => ({
       '&::-webkit-clear-button, &::-webkit-inner-spin-button': {
         display: 'none'
       },
+      '&::-webkit-date-and-time-value': {
+        margin: 0
+      },
       '&:enabled:hover': {borderColor: theme.field.colors.hover.outline},
       '&:disabled': {
         background: theme.field.colors.disabled.background,
