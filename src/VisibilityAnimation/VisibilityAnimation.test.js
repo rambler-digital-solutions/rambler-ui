@@ -8,12 +8,14 @@ class Animated extends Component {
     return (
       <VisibilityAnimation
         isVisible={this.props.isOpened}
-        className="normal"
-        activeClassName="visible"
         animationDuration={200}
         onVisible={this.props.onOpen}
         onInvisible={this.props.onClose}>
-        <div className="content">Hello world</div>
+        {({isVisible}) => (
+          <div className={`content normal${isVisible ? ' visible' : ''}`}>
+            Hello world
+          </div>
+        )}
       </VisibilityAnimation>
     )
   }

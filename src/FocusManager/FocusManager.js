@@ -21,9 +21,11 @@ export default class FocusManager extends PureComponent {
 
   focusElement = element => {
     const {tabIndex} = this.props
-    if (!element || tabIndex < 0) return
-    element.tabIndex = tabIndex
-    element.focus()
+    if (!element || tabIndex == null || tabIndex < 0) return
+    setTimeout(() => {
+      element.tabIndex = tabIndex
+      element.focus()
+    }, 60)
   }
 
   render() {

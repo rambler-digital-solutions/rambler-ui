@@ -107,23 +107,25 @@ class HintContent extends PureComponent {
     return (
       <VisibilityAnimation
         isVisible={isVisible}
-        activeClassName={classes.isVisible}
         animationDuration={theme.hint.animationDuration}
         onVisible={onBecomeVisible}
         onInvisible={onBecomeInvisible}>
-        <div
-          className={classnames(
-            classes.hint,
-            classes[pointX],
-            classes[pointY],
-            className
-          )}
-          style={style}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}>
-          {anchor}
-          {children}
-        </div>
+        {({isVisible}) => (
+          <div
+            className={classnames(
+              classes.hint,
+              classes[pointX],
+              classes[pointY],
+              isVisible && classes.isVisible,
+              className
+            )}
+            style={style}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}>
+            {anchor}
+            {children}
+          </div>
+        )}
       </VisibilityAnimation>
     )
   }

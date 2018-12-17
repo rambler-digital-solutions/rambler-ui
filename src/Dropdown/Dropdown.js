@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {FixedOverlay, RelativeOverlay} from '../Overlay'
 import VisibilityAnimation from '../VisibilityAnimation'
+import FocusManager from '../FocusManager'
 import OnClickOutside from '../OnClickOutside'
 import {POINTS_Y} from '../constants/overlay'
 import {injectSheet} from '../theme'
@@ -21,6 +22,7 @@ import {isolateMixin} from '../utils/mixins'
       transitionDuration: `${theme.dropdown.animationDuration}ms`,
       transitionProperty: 'opacity, top',
       background: '#fff',
+      outline: 'none',
       boxShadow: theme.dropdown.boxShadow
     },
     isVisible: {
@@ -45,6 +47,7 @@ class DropdownContainer extends PureComponent {
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     hide: PropTypes.func,
+    tabIndex: PropTypes.number,
     anchorWidth: PropTypes.number,
     anchorFullWidth: PropTypes.bool,
     closeOnClickOutside: PropTypes.bool,
@@ -86,6 +89,7 @@ class DropdownContainer extends PureComponent {
       theme,
       classes,
       padding,
+      tabIndex,
       onBecomeVisible,
       onBecomeInvisible
     } = this.props
@@ -100,19 +104,26 @@ class DropdownContainer extends PureComponent {
     const content = (
       <VisibilityAnimation
         isVisible={isVisible}
-        activeClassName={classes.isVisible}
         animationDuration={theme.dropdown.animationDuration}
         onVisible={onBecomeVisible}
         onInvisible={onBecomeInvisible}>
-        <div
-          className={classnames(
-            className,
-            classes.dropdown,
-            classes['pointY-' + pointY]
-          )}
-          style={resultStyle}>
-          {children}
-        </div>
+        {({isVisible}) => (
+          <FocusManager tabIndex={tabIndex}>
+            {({focusElement}) => (
+              <div
+                className={classnames(
+                  className,
+                  classes.dropdown,
+                  classes['pointY-' + pointY],
+                  isVisible && classes.isVisible
+                )}
+                style={resultStyle}
+                ref={focusElement}>
+                {children}
+              </div>
+            )}
+          </FocusManager>
+        )}
       </VisibilityAnimation>
     )
     if (!closeOnClickOutside) return content
@@ -200,7 +211,11 @@ export default class Dropdown extends PureComponent {
      * Паддинги
      * Если паддинг не нужен, нужно передать false
      */
-    padding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool])
+    padding: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    /**
+     * Порядок фокусировки элемента
+     */
+    tabIndex: PropTypes.number
   }
 
   static defaultProps = {
@@ -210,7 +225,8 @@ export default class Dropdown extends PureComponent {
     contentPointY: 'top',
     anchorPointY: 'bottom',
     autoPositionY: true,
-    appendToBody: false
+    appendToBody: false,
+    tabIndex: null
   }
 
   constructor(props) {
@@ -237,14 +253,16 @@ export default class Dropdown extends PureComponent {
       padding,
       overlayClassName,
       overlayStyle,
-      appendToBody
+      appendToBody,
+      tabIndex
     } = this.props
     const dropdownProps = {
       closeOnClickOutside,
       anchorFullWidth,
       className,
       style,
-      padding
+      padding,
+      tabIndex
     }
     const overlayProps = {
       anchor,

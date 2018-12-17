@@ -316,24 +316,26 @@ export default class Popup extends PureComponent {
     return (
       <VisibilityAnimation
         isVisible={isOpened}
-        activeClassName={classes.isVisible}
         animationDuration={theme.popup.animationDuration}
         onWillVisible={this.onWillVisible}
         onVisible={onOpen}
         onWillInvisible={this.onWillInvisible}
         onInvisible={onClose}>
-        <div
-          ref={el => {
-            this.backdrop = el
-          }}
-          style={backdropStyle}
-          className={classnames(
-            classes.backdrop,
-            classes[`backdrop-${backdropColor}`],
-            backdropClassName
-          )}>
-          {this.renderContent()}
-        </div>
+        {({isVisible}) => (
+          <div
+            ref={el => {
+              this.backdrop = el
+            }}
+            style={backdropStyle}
+            className={classnames(
+              classes.backdrop,
+              classes[`backdrop-${backdropColor}`],
+              isVisible && classes.isVisible,
+              backdropClassName
+            )}>
+            {this.renderContent()}
+          </div>
+        )}
       </VisibilityAnimation>
     )
   }
