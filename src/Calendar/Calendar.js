@@ -118,7 +118,10 @@ const numberToDate = number =>
       composes: '$arrow',
       transform: 'scaleX(-1)'
     },
-
+    arrowMock: {
+      width: calendar.arrow.size,
+      height: calendar.arrow.size
+    },
     week: {
       display: 'flex',
       margin: '20px 0 11px'
@@ -224,6 +227,10 @@ const numberToDate = number =>
 export default class Calendar extends Component {
   static propTypes = {
     /**
+     * Кол-во показываемых месяцев
+     */
+    visibleMonths: PropTypes.number,
+    /**
      * CSS-класс контейнера
      */
     className: PropTypes.string,
@@ -277,6 +284,10 @@ export default class Calendar extends Component {
      */
     showYear: PropTypes.bool,
     /**
+     * Фиксированное кол-во недель
+     */
+    fixedWeeks: PropTypes.number,
+    /**
      * Отображает переключатель месяцев
      */
     showMonthSwitch: PropTypes.bool,
@@ -301,6 +312,11 @@ export default class Calendar extends Component {
     highlightWeekend: false
   }
 
+  /**
+   * @prop {Array.<{displayMonth, displayYear, first, last}>}   data
+   * @prop {Array.<number>}                                     dates
+   * @prop {boolean}                                            animate
+   */
   state = this.getState(this.props)
 
   componentDidUpdate(prevProps) {
@@ -312,30 +328,31 @@ export default class Calendar extends Component {
   }
 
   getState(props) {
+    const displayData = []
     const number =
       dateToNumber(props.initDate) ||
       dateToNumber(props.today) ||
       dateToNumber(new Date())
 
-    return this.calculateDates({
-      displayMonth: Math.floor((number % 10000) / 100),
-      displayYear: Math.floor(number / 10000)
-    })
+    const displayMonth = Math.floor((number % 10000) / 100)
+    const displayYear = Math.floor(number / 10000)
+
+    for (let i = props.visibleMonths - 1 || 0; i >= 0; i--)
+      displayData.push({
+        displayMonth: displayMonth - i,
+        displayYear
+      })
+
+    return this.calculateDates(displayData)
   }
 
-  switchMonth({displayMonth, displayYear}) {
-    const {dates, first, last} = this.calculateDates({
-      displayMonth,
-      displayYear
-    })
+  switchMonth(displayData) {
+    const {data, dates} = this.calculateDates(displayData)
 
     this.setState(
       {
         animate: true,
-        displayMonth,
-        displayYear,
-        first,
-        last
+        data
       },
       () => {
         setTimeout(() => {
@@ -348,23 +365,47 @@ export default class Calendar extends Component {
     )
   }
 
-  calculateDates({displayMonth, displayYear}) {
+  calculateDates(displayData) {
+    const {showMonthSwitch, visibleMonths} = this.props
+
+    const showWithAnimation = showMonthSwitch
+    const data = []
+    const allDates = []
+
+    for (let i = 0; i < (visibleMonths || 1); i++) {
+      const displayMonth = displayData[i].displayMonth
+
+      const months = showWithAnimation
+        ? [
+          displayMonth - 2,
+          displayMonth - 1,
+          displayMonth,
+          displayMonth + 1,
+          displayMonth + 2
+        ]
+        : [displayMonth - 1, displayMonth, displayMonth + 1]
+
+      const {meta, dates} = this.getMonthDates({
+        months,
+        displayData: displayData[i]
+      })
+
+      allDates.push(dates)
+      data.push(meta)
+    }
+
+    return {
+      data,
+      dates: allDates
+    }
+  }
+
+  getMonthDates({months, displayData}) {
+    const {displayYear, displayMonth} = displayData
     const dates = []
+    let first, last
 
-    const months = this.props.showMonthSwitch
-      ? [
-        displayMonth - 2,
-        displayMonth - 1,
-        displayMonth,
-        displayMonth + 1,
-        displayMonth + 2
-      ]
-      : [displayMonth - 1, displayMonth, displayMonth + 1]
-
-    let first
-    let last
-
-    months.map((m, index) => {
+    months.forEach((m, index) => {
       let month = m
       let year = displayYear
 
@@ -382,24 +423,25 @@ export default class Calendar extends Component {
       if (index === 0)
         dateFrom = dateTo - (new Date(year, month + 1, 1).getDay() || 7) + 2
       else if (index === months.length - 1)
-        dateTo = 8 - (new Date(year, month, 1).getDay() || 7)
+        dateTo = 8 - (new Date(year, month, 1).getDay() || 7) + 7
 
       if (month === displayMonth) {
         first = toNumber(year, month, 1)
         last = toNumber(year, month, dateTo)
       }
 
-      let i
-
-      for (i = dateFrom; i <= dateTo; i++) dates.push(toNumber(year, month, i))
+      for (let i = dateFrom; i <= dateTo; i++)
+        dates.push(toNumber(year, month, i))
     })
 
     return {
-      displayMonth,
-      displayYear,
-      dates,
-      first,
-      last
+      meta: {
+        displayMonth,
+        displayYear,
+        first,
+        last
+      },
+      dates
     }
   }
 
@@ -416,42 +458,66 @@ export default class Calendar extends Component {
 
   onPrev = () => {
     const {minYear} = this.props
-    let {displayMonth, displayYear} = this.state
+    let {data} = this.state
+
+    const firstCalendar = data[data.length - 1]
 
     if (
       this.state.animate ||
       (Number.isInteger(minYear) &&
-        minYear === displayYear &&
-        displayMonth === 0)
+        minYear === firstCalendar.displayYear &&
+        firstCalendar.displayMonth === 0)
     )
       return
 
-    if (--displayMonth < 0) {
-      displayMonth = 11
-      displayYear--
-    }
+    this.switchMonth(
+      data.map(({displayMonth, displayYear}) => {
+        const prevMonth = displayMonth - 1
 
-    this.switchMonth({displayMonth, displayYear})
+        if (prevMonth < 0)
+          return {
+            displayMonth: 11,
+            displayYear: displayYear - 1
+          }
+
+        return {
+          displayMonth: prevMonth,
+          displayYear
+        }
+      })
+    )
   }
 
   onNext = () => {
     const {maxYear} = this.props
-    let {displayMonth, displayYear} = this.state
+    const {data} = this.state
+
+    const lastCalendar = data[data.length - 1]
 
     if (
       this.state.animate ||
       (Number.isInteger(maxYear) &&
-        maxYear === displayYear &&
-        displayMonth === 11)
+        maxYear === lastCalendar.displayYear &&
+        lastCalendar.displayMonth === 11)
     )
       return
 
-    if (++displayMonth > 11) {
-      displayMonth = 0
-      displayYear++
-    }
+    this.switchMonth(
+      data.map(({displayMonth, displayYear}) => {
+        const nextMonth = displayMonth + 1
 
-    this.switchMonth({displayMonth, displayYear})
+        if (nextMonth > 11)
+          return {
+            displayMonth: 0,
+            displayYear: displayYear + 1
+          }
+
+        return {
+          displayMonth: nextMonth,
+          displayYear
+        }
+      })
+    )
   }
 
   onClick = (event, day) => {
@@ -467,7 +533,7 @@ export default class Calendar extends Component {
     else this.setNewDates(event, [day])
   }
 
-  render() {
+  renderCalendar(params) {
     const {
       className,
       style,
@@ -487,11 +553,21 @@ export default class Calendar extends Component {
       theme
     } = this.props
 
-    const {animate, displayMonth, displayYear, dates, last, first} = this.state
+    const {
+      key,
+      data,
+      dates,
+      showRightMonthSwitch = true,
+      showLeftMonthSwitch = true
+    } = params
+
+    const {animate} = this.state
+
+    const {displayMonth, displayYear, last, first} = data
 
     const weeksBeforeVisible = Math.floor(dates.indexOf(first) / 7)
     const weeksAfterVisible = Math.ceil((dates.indexOf(last) + 1) / 7)
-    const weeksVisible = weeksAfterVisible - weeksBeforeVisible
+    const weeksVisible = 6 // максимальное кол-во недель, для того чтобы календарь не "прыгал"
 
     const numberToday = dateToNumber(today)
     const minNumberDate = minDate && dateToNumber(minDate)
@@ -501,6 +577,7 @@ export default class Calendar extends Component {
 
     return (
       <div
+        key={key}
         className={classnames(className, classes.root, {
           [classes.isAnimate]: animate,
           [classes.isSelectable]: typeof onChange === 'function',
@@ -508,21 +585,24 @@ export default class Calendar extends Component {
         })}
         style={style}>
         <div className={classes.headline}>
-          {showMonthSwitch && (
-            <button
-              className={classes.prev}
-              type="button"
-              tabIndex={-1}
-              onClick={this.onPrev}
-              disabled={
-                ((Number.isInteger(minYear) &&
-                  minYear === displayYear &&
-                  displayMonth === 0) ||
-                  minNumberDate >= toNumber(displayYear, displayMonth, 1)) &&
-                'disabled'
-              }
-            />
-          )}
+          {showMonthSwitch &&
+            showLeftMonthSwitch && (
+              <button
+                className={classes.prev}
+                type="button"
+                tabIndex={-1}
+                onClick={this.onPrev}
+                disabled={
+                  ((Number.isInteger(minYear) &&
+                    minYear === displayYear &&
+                    displayMonth === 0) ||
+                    minNumberDate >= toNumber(displayYear, displayMonth, 1)) &&
+                  'disabled'
+                }
+              />
+            )}
+
+          {!showLeftMonthSwitch && <div className={classes.arrowMock} />}
 
           <div
             className={classes.month}
@@ -532,21 +612,24 @@ export default class Calendar extends Component {
             }
           />
 
-          {showMonthSwitch && (
-            <button
-              className={classes.next}
-              type="button"
-              tabIndex={-1}
-              onClick={this.onNext}
-              disabled={
-                ((Number.isInteger(maxYear) &&
-                  maxYear === displayYear &&
-                  displayMonth === 11) ||
-                  maxNumberDate <= toNumber(displayYear, displayMonth, 31)) &&
-                'disabled'
-              }
-            />
-          )}
+          {!showRightMonthSwitch && <div className={classes.arrowMock} />}
+
+          {showMonthSwitch &&
+            showRightMonthSwitch && (
+              <button
+                className={classes.next}
+                type="button"
+                tabIndex={-1}
+                onClick={this.onNext}
+                disabled={
+                  ((Number.isInteger(maxYear) &&
+                    maxYear === displayYear &&
+                    displayMonth === 11) ||
+                    maxNumberDate <= toNumber(displayYear, displayMonth, 31)) &&
+                  'disabled'
+                }
+              />
+            )}
         </div>
 
         <div className={classes.week}>
@@ -624,5 +707,44 @@ export default class Calendar extends Component {
         </div>
       </div>
     )
+  }
+
+  render() {
+    const {visibleMonths} = this.props
+    const {data, dates} = this.state
+
+    if (visibleMonths && visibleMonths > 1) {
+      const elements = []
+
+      for (let i = 0; i < visibleMonths; i++) {
+        const params = {
+          key: i,
+          data: data[i],
+          dates: dates[i]
+        }
+
+        switch (i) {
+        case 0:
+          params.showRightMonthSwitch = false
+          break
+        case visibleMonths - 1:
+          params.showLeftMonthSwitch = false
+          break
+        default: {
+          params.showRightMonthSwitch = false
+          params.showLeftMonthSwitch = false
+        }
+        }
+
+        elements.push(this.renderCalendar(params))
+      }
+
+      return elements
+    }
+
+    return this.renderCalendar({
+      data: data[0],
+      dates: dates[0]
+    })
   }
 }

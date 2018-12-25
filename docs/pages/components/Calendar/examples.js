@@ -27,6 +27,17 @@ export default class CalendarExample extends Component {
 
     return (
       <div>
+        <div>
+          <Calendar
+            visibleMonths={2}
+            value={[dateFrom, dateTo]}
+            today={today}
+            maxDate={new Date(2018, 5, 15)}
+            range
+            onChange={this.onChangeRange}
+          />
+        </div>
+
         <Calendar
           value={[dateFrom, dateTo]}
           today={today}
