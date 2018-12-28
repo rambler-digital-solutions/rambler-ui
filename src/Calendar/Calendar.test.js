@@ -175,8 +175,8 @@ describe('<Calendar />', () => {
     )
 
     const classes = getClasses(wrapper)
-    const prev = wrapper.find(classes.prev)
-    const next = wrapper.find(classes.next)
+    const prev = wrapper.find(classes.prev).not(classes.arrowMock)
+    const next = wrapper.find(classes.next).not(classes.arrowMock)
     const mock = wrapper.find(classes.arrowMock)
 
     expect(prev.length).toEqual(1)
