@@ -119,8 +119,9 @@ const numberToDate = number =>
       transform: 'scaleX(-1)'
     },
     arrowMock: {
-      width: calendar.arrow.size,
-      height: calendar.arrow.size
+      overflow: 'hidden',
+      width: 0,
+      height: 0
     },
     week: {
       display: 'flex',
@@ -284,10 +285,6 @@ export default class Calendar extends Component {
      */
     showYear: PropTypes.bool,
     /**
-     * Фиксированное кол-во недель
-     */
-    fixedWeeks: PropTypes.number,
-    /**
      * Отображает переключатель месяцев
      */
     showMonthSwitch: PropTypes.bool,
@@ -309,7 +306,8 @@ export default class Calendar extends Component {
     maxYear: 2200,
     showYear: true,
     showMonthSwitch: true,
-    highlightWeekend: false
+    highlightWeekend: false,
+    visibleMonths: 1
   }
 
   /**
@@ -585,24 +583,23 @@ export default class Calendar extends Component {
         })}
         style={style}>
         <div className={classes.headline}>
-          {showMonthSwitch &&
-            showLeftMonthSwitch && (
-              <button
-                className={classes.prev}
-                type="button"
-                tabIndex={-1}
-                onClick={this.onPrev}
-                disabled={
-                  ((Number.isInteger(minYear) &&
-                    minYear === displayYear &&
-                    displayMonth === 0) ||
-                    minNumberDate >= toNumber(displayYear, displayMonth, 1)) &&
-                  'disabled'
-                }
-              />
-            )}
-
-          {!showLeftMonthSwitch && <div className={classes.arrowMock} />}
+          {showMonthSwitch && (
+            <button
+              className={classnames(classes.prev, {
+                [classes.arrowMock]: !showLeftMonthSwitch
+              })}
+              type="button"
+              tabIndex={-1}
+              onClick={this.onPrev}
+              disabled={
+                ((Number.isInteger(minYear) &&
+                  minYear === displayYear &&
+                  displayMonth === 0) ||
+                  minNumberDate >= toNumber(displayYear, displayMonth, 1)) &&
+                'disabled'
+              }
+            />
+          )}
 
           <div
             className={classes.month}
@@ -612,24 +609,23 @@ export default class Calendar extends Component {
             }
           />
 
-          {!showRightMonthSwitch && <div className={classes.arrowMock} />}
-
-          {showMonthSwitch &&
-            showRightMonthSwitch && (
-              <button
-                className={classes.next}
-                type="button"
-                tabIndex={-1}
-                onClick={this.onNext}
-                disabled={
-                  ((Number.isInteger(maxYear) &&
-                    maxYear === displayYear &&
-                    displayMonth === 11) ||
-                    maxNumberDate <= toNumber(displayYear, displayMonth, 31)) &&
-                  'disabled'
-                }
-              />
-            )}
+          {showMonthSwitch && (
+            <button
+              className={classnames(classes.next, {
+                [classes.arrowMock]: !showRightMonthSwitch
+              })}
+              type="button"
+              tabIndex={-1}
+              onClick={this.onNext}
+              disabled={
+                ((Number.isInteger(maxYear) &&
+                  maxYear === displayYear &&
+                  displayMonth === 11) ||
+                  maxNumberDate <= toNumber(displayYear, displayMonth, 31)) &&
+                'disabled'
+              }
+            />
+          )}
         </div>
 
         <div className={classes.week}>
@@ -720,20 +716,9 @@ export default class Calendar extends Component {
         const params = {
           key: i,
           data: data[i],
-          dates: dates[i]
-        }
-
-        switch (i) {
-        case 0:
-          params.showRightMonthSwitch = false
-          break
-        case visibleMonths - 1:
-          params.showLeftMonthSwitch = false
-          break
-        default: {
-          params.showRightMonthSwitch = false
-          params.showLeftMonthSwitch = false
-        }
+          dates: dates[i],
+          showRightMonthSwitch: i === visibleMonths - 1,
+          showLeftMonthSwitch: i === 0
         }
 
         elements.push(this.renderCalendar(params))
