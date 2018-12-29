@@ -119,9 +119,8 @@ const numberToDate = number =>
       transform: 'scaleX(-1)'
     },
     arrowMock: {
-      overflow: 'hidden',
-      width: 0,
-      height: 0
+      visibility: 'hidden',
+      pointerEvents: 'none'
     },
     week: {
       display: 'flex',
