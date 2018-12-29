@@ -141,4 +141,70 @@ describe('<Calendar />', () => {
 
     done()
   })
+
+  it('check visibleMonths', done => {
+    const wrapper = mount(
+      applyTheme(
+        <Calendar
+          visibleMonths={3}
+          value={[date, dateTo]}
+          initDate={date}
+          range
+        />
+      )
+    )
+
+    const classes = getClasses(wrapper)
+    const calendars = wrapper.find(classes.root)
+
+    expect(calendars.length).toEqual(3)
+
+    done()
+  })
+
+  it('check arrow count', done => {
+    const wrapper = mount(
+      applyTheme(
+        <Calendar
+          visibleMonths={3}
+          value={[date, dateTo]}
+          initDate={date}
+          range
+        />
+      )
+    )
+
+    const classes = getClasses(wrapper)
+    const prev = wrapper.find(classes.prev).not(classes.arrowMock)
+    const next = wrapper.find(classes.next).not(classes.arrowMock)
+    const mock = wrapper.find(classes.arrowMock)
+
+    expect(prev.length).toEqual(1)
+    expect(next.length).toEqual(1)
+    expect(mock.length).toEqual(4)
+
+    done()
+  })
+
+  it('check month calculation', done => {
+    const wrapper = mount(
+      applyTheme(
+        <Calendar
+          visibleMonths={3}
+          value={[date, dateTo]}
+          initDate={date}
+          range
+        />
+      )
+    )
+
+    const values = ['Апрель, 2018', 'Май, 2018', 'Июнь, 2018']
+
+    const classes = getClasses(wrapper)
+    const months = wrapper.find(classes.month)
+
+    expect(months.map(month => month.text())).toEqual(values)
+
+    done()
+  })
 })
