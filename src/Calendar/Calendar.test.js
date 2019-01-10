@@ -207,4 +207,53 @@ describe('<Calendar />', () => {
 
     done()
   })
+
+  it('check month calculation with two years', done => {
+    const wrapper = mount(
+      applyTheme(
+        <Calendar visibleMonths={3} initDate={new Date(2018, 0, 15)} range />
+      )
+    )
+
+    const values = ['Ноябрь, 2017', 'Декабрь, 2017', 'Январь, 2018']
+
+    const classes = getClasses(wrapper)
+    const months = wrapper.find(classes.month)
+
+    expect(months.map(month => month.text())).toEqual(values)
+
+    done()
+  })
+
+  it('check month calculation with three years', done => {
+    const wrapper = mount(
+      applyTheme(
+        <Calendar visibleMonths={14} initDate={new Date(2018, 0, 15)} range />
+      )
+    )
+
+    const values = [
+      'Декабрь, 2016',
+      'Январь, 2017',
+      'Февраль, 2017',
+      'Март, 2017',
+      'Апрель, 2017',
+      'Май, 2017',
+      'Июнь, 2017',
+      'Июль, 2017',
+      'Август, 2017',
+      'Сентябрь, 2017',
+      'Октябрь, 2017',
+      'Ноябрь, 2017',
+      'Декабрь, 2017',
+      'Январь, 2018'
+    ]
+
+    const classes = getClasses(wrapper)
+    const months = wrapper.find(classes.month)
+
+    expect(months.map(month => month.text())).toEqual(values)
+
+    done()
+  })
 })
