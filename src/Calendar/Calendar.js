@@ -334,11 +334,20 @@ export default class Calendar extends Component {
     const displayMonth = Math.floor((number % 10000) / 100)
     const displayYear = Math.floor(number / 10000)
 
-    for (let i = props.visibleMonths - 1 || 0; i >= 0; i--)
+    for (let i = props.visibleMonths - 1 || 0; i >= 0; i--) {
+      let month = displayMonth - i
+      let year = displayYear
+
+      if (month < 0) {
+        year = year - Math.ceil(Math.abs(month / 12))
+        month = (12 + (month % 12)) % 12
+      }
+
       displayData.push({
-        displayMonth: displayMonth - i,
-        displayYear
+        displayMonth: month,
+        displayYear: year
       })
+    }
 
     return this.calculateDates(displayData)
   }
