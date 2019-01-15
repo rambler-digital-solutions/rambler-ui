@@ -90,9 +90,11 @@ class SideNavItem extends Component {
      */
     target: PropTypes.string,
     /**
-     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`.
+     * Если используется `<NavLink />` с `activeClassName`,
+     * нужно в `container` передавать фабрику, которая получает `activeClassName` в аргументах
      */
-    container: PropTypes.element,
+    container: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     /**
      * Колбек нажатия на элемент (автоматически проставляется компонентом `<SideNav />`)
      */
@@ -140,13 +142,15 @@ class SideNavItem extends Component {
       classes.sideNavItem,
       {
         [classes.medium]: mediumSize,
-        [classes.isSelected]: isSelected && !container
+        [classes.isSelected]: isSelected
       },
       className
     )
 
     const resultContainer = isValidElement(container) ? (
       container
+    ) : typeof container === 'function' ? (
+      container({activeClassName: classes.isSelected})
     ) : href ? (
       <a href={href} />
     ) : (
@@ -156,11 +160,7 @@ class SideNavItem extends Component {
     const resultProps = {
       ...other,
       className: resultClassName,
-      onClick: this.onClick,
-      ...(container &&
-        typeof container.type !== 'string' && {
-          activeClassName: classes.isSelected
-        })
+      onClick: this.onClick
     }
 
     const resultChildren = [this.renderIcon(icon), mediumSize && children]

@@ -106,9 +106,11 @@ class TabsItem extends Component {
      */
     disabled: PropTypes.bool,
     /**
-     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`.
+     * Если используется `<NavLink />` с `activeClassName`,
+     * нужно в `container` передавать фабрику, которая получает `activeClassName` в аргументах
      */
-    container: PropTypes.element,
+    container: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     /**
      * Колбек нажатия на элемент (автоматически проставляется компонентом `<Tabs/>`)
      */
@@ -165,8 +167,9 @@ class TabsItem extends Component {
     let isLink
     if (container && isValidElement(container)) {
       element = container
-      if (typeof element.type !== 'string')
-        elemProps.activeClassName = classes.isSelected
+      isLink = true
+    } else if (typeof container === 'function') {
+      element = container({activeClassName: classes.isSelected})
       isLink = true
     } else if (href) {
       element = <a href={href} />

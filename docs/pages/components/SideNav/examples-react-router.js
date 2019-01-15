@@ -12,7 +12,11 @@ export default () => (
       <SideNavItem container={<Link to="/email" />} icon={<EmailIcon />}>
         Адреса электронной почты
       </SideNavItem>
-      <SideNavItem container={<Link to="/phone" />} icon={<PhoneIcon />}>
+      <SideNavItem
+        container={({activeClassName}) => (
+          <Link to="/phone" activeClassName={activeClassName} />
+        )}
+        icon={<PhoneIcon />}>
         Телефонные номера
       </SideNavItem>
     </SideNav>

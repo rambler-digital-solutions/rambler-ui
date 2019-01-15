@@ -192,7 +192,12 @@ describe('<SideNav />', () => {
               container={<Button />}>
               Личные данные
             </SideNavItem>
-            <SideNavItem {...defaultPropsSideNavItem} container={<Button />}>
+            <SideNavItem
+              {...defaultPropsSideNavItem}
+              className="sideNavItem"
+              container={({activeClassName}) => (
+                <Button activeClassName={activeClassName} />
+              )}>
               Адреса электронной почты
             </SideNavItem>
           </SideNav>
@@ -200,10 +205,20 @@ describe('<SideNav />', () => {
       )
     )
 
-    const sideNavItemNode = getWrapperNode(wrapper.find('.sideNavItem').first())
+    const sideNavItemFirstNode = getWrapperNode(
+      wrapper.find('.sideNavItem').first()
+    )
 
-    expect(sideNavItemNode.tagName.toLowerCase()).toEqual('button')
-    expect(sideNavItemNode.className).toContain('sideNavItem')
-    expect(sideNavItemNode.className).toContain('isSelected')
+    expect(sideNavItemFirstNode.tagName.toLowerCase()).toEqual('button')
+    expect(sideNavItemFirstNode.className).toContain('sideNavItem')
+    expect(sideNavItemFirstNode.className).not.toContain('isSelected')
+
+    const sideNavItemLastNode = getWrapperNode(
+      wrapper.find('.sideNavItem').last()
+    )
+
+    expect(sideNavItemLastNode.tagName.toLowerCase()).toEqual('button')
+    expect(sideNavItemLastNode.className).toContain('sideNavItem')
+    expect(sideNavItemLastNode.className).toContain('isSelected')
   })
 })

@@ -35,6 +35,14 @@ describe('<Tabs />', () => {
     container: <Container data-own="own" />,
     title: 'Title3'
   }
+  const funcProps = {
+    id: 'funciton',
+    children: 'tab4',
+    container: ({activeClassName}) => (
+      <Container data-own="own" activeClassName={activeClassName} />
+    ),
+    title: 'Title4'
+  }
 
   it('Tabs content, attributes and item custom className', () => {
     const className = 'customClassName'
@@ -44,6 +52,7 @@ describe('<Tabs />', () => {
           <TabsItem {...linkProps} className={className} />
           <TabsItem {...buttonProps} />
           <TabsItem {...containerProps} />
+          <TabsItem {...funcProps} />
         </Tabs>
       )
     )
@@ -54,13 +63,15 @@ describe('<Tabs />', () => {
     const container = getWrapperNode(
       wrapper.find('#' + containerProps.id).first()
     )
+    const func = getWrapperNode(wrapper.find('#' + funcProps.id).first())
 
     expect(tabs.classList.contains(tabsProps.className)).toEqual(true)
     expect(tabs.getAttribute('id')).toEqual(tabsProps.id)
-    expect(tabs.children.length).toEqual(3)
+    expect(tabs.children.length).toEqual(4)
     expect(tabs.children[0]).toEqual(link)
     expect(tabs.children[1]).toEqual(button)
     expect(tabs.children[2]).toEqual(container)
+    expect(tabs.children[3]).toEqual(func)
     expect(link.classList.contains(className)).toBeTruthy()
   })
 
@@ -71,6 +82,7 @@ describe('<Tabs />', () => {
           <TabsItem {...linkProps} className="test" />
           <TabsItem {...buttonProps} size="small" />
           <TabsItem {...containerProps} size="medium" />
+          <TabsItem {...funcProps} />
         </div>
       )
     )
@@ -80,6 +92,7 @@ describe('<Tabs />', () => {
     const container = getWrapperNode(
       wrapper.find('#' + containerProps.id).first()
     )
+    const func = getWrapperNode(wrapper.find('#' + funcProps.id).first())
 
     expect(link.tagName.toUpperCase()).toEqual('A')
     expect(link.classList.contains('test')).toEqual(true)
@@ -97,12 +110,17 @@ describe('<Tabs />', () => {
     expect(container.tagName.toUpperCase()).toEqual('DIV')
     expect(container.getAttribute('title')).toEqual(containerProps.title)
     expect(container.getAttribute('data-own')).toEqual('own')
-    expect(container.getAttribute('data-test').includes('isSelected')).toEqual(
-      true
-    )
+    expect(container.getAttribute('data-test')).toEqual(null)
     expect(container.getAttribute('aria-disabled')).toEqual('false')
     expect(container.className.includes('size-medium')).toEqual(true)
     expect(container.innerHTML).toEqual(containerProps.children)
+
+    expect(func.tagName.toUpperCase()).toEqual('DIV')
+    expect(func.getAttribute('title')).toEqual(funcProps.title)
+    expect(func.getAttribute('data-own')).toEqual('own')
+    expect(func.getAttribute('data-test').includes('isSelected')).toEqual(true)
+    expect(func.getAttribute('aria-disabled')).toEqual('false')
+    expect(func.innerHTML).toEqual(funcProps.children)
   })
 
   it('selected TabsItem attributes', () => {
@@ -112,6 +130,7 @@ describe('<Tabs />', () => {
           <TabsItem {...linkProps} value="first" />
           <TabsItem {...buttonProps} value="first" />
           <TabsItem {...containerProps} value="first" />
+          <TabsItem {...funcProps} value="first" />
           <TabsItem id="notSelected" value="second" />
         </Tabs>
       )
@@ -122,12 +141,14 @@ describe('<Tabs />', () => {
     const container = getWrapperNode(
       wrapper.find('#' + containerProps.id).first()
     )
+    const func = getWrapperNode(wrapper.find('#' + funcProps.id).first())
     const notSelected = getWrapperNode(wrapper.find('#notSelected').first())
 
     expect(link.className.includes('size-small')).toEqual(true)
     expect(link.className.includes('isSelected')).toEqual(true)
     expect(button.className.includes('isSelected')).toEqual(true)
     expect(container.className.includes('isSelected')).toEqual(true)
+    expect(func.className.includes('isSelected')).toEqual(true)
     expect(notSelected.className.includes('isSelected')).toEqual(false)
   })
 
@@ -138,6 +159,7 @@ describe('<Tabs />', () => {
           <TabsItem {...linkProps} />
           <TabsItem {...buttonProps} />
           <TabsItem {...containerProps} />
+          <TabsItem {...funcProps} />
         </Tabs>
       )
     )
@@ -148,6 +170,7 @@ describe('<Tabs />', () => {
     const container = getWrapperNode(
       wrapper.find('#' + containerProps.id).first()
     )
+    const func = getWrapperNode(wrapper.find('#' + funcProps.id).first())
 
     expect(tabs.className.includes('isDisabled')).toEqual(true)
 
@@ -161,7 +184,11 @@ describe('<Tabs />', () => {
 
     expect(container.className.includes('isDisabled')).toEqual(true)
     expect(container.getAttribute('aria-disabled')).toEqual('true')
-    expect(link.getAttribute('tabindex')).toEqual('-1')
+    expect(container.getAttribute('tabindex')).toEqual('-1')
+
+    expect(func.className.includes('isDisabled')).toEqual(true)
+    expect(func.getAttribute('aria-disabled')).toEqual('true')
+    expect(func.getAttribute('tabindex')).toEqual('-1')
   })
 
   it('TabsItem onPress handler', () => {
@@ -196,6 +223,7 @@ describe('<Tabs />', () => {
           <TabsItem {...linkProps} value={linkProps.id} />
           <TabsItem {...buttonProps} value={buttonProps.id} />
           <TabsItem {...containerProps} value={containerProps.id} />
+          <TabsItem {...funcProps} value={funcProps.id} />
         </Tabs>
       )
     )
@@ -204,20 +232,30 @@ describe('<Tabs />', () => {
     const buttonEl = getWrapperNode(button)
     const container = wrapper.find('#' + containerProps.id).first()
     const containerEl = getWrapperNode(container)
+    const func = wrapper.find('#' + funcProps.id).first()
+    const funcEl = getWrapperNode(func)
 
     expect(linkEl.className.includes('isSelected')).toEqual(true)
     expect(buttonEl.className.includes('isSelected')).toEqual(false)
     expect(containerEl.className.includes('isSelected')).toEqual(false)
+    expect(funcEl.className.includes('isSelected')).toEqual(false)
     button.simulate('click')
     expect(event.type).toEqual('click')
     expect(value).toEqual(buttonProps.id)
     expect(linkEl.className.includes('isSelected')).toEqual(false)
     expect(buttonEl.className.includes('isSelected')).toEqual(true)
     expect(containerEl.className.includes('isSelected')).toEqual(false)
+    expect(funcEl.className.includes('isSelected')).toEqual(false)
     container.simulate('click')
     expect(linkEl.className.includes('isSelected')).toEqual(false)
     expect(buttonEl.className.includes('isSelected')).toEqual(false)
     expect(containerEl.className.includes('isSelected')).toEqual(true)
+    expect(funcEl.className.includes('isSelected')).toEqual(false)
+    func.simulate('click')
+    expect(linkEl.className.includes('isSelected')).toEqual(false)
+    expect(buttonEl.className.includes('isSelected')).toEqual(false)
+    expect(containerEl.className.includes('isSelected')).toEqual(false)
+    expect(funcEl.className.includes('isSelected')).toEqual(true)
   })
 
   it('TabsItem styles', () => {
@@ -269,6 +307,7 @@ describe('<Tabs />', () => {
           <TabsItem {...linkProps} value="selected" />
           <TabsItem {...buttonProps} />
           <TabsItem {...containerProps} />
+          <TabsItem {...funcProps} />
         </Tabs>
       )
     )
@@ -277,6 +316,7 @@ describe('<Tabs />', () => {
     const link = getStyles(wrapper.find('#' + linkProps.id).first())
     const button = getStyles(wrapper.find('#' + buttonProps.id).first())
     const container = getStyles(wrapper.find('#' + containerProps.id).first())
+    const func = getStyles(wrapper.find('#' + funcProps.id).first())
 
     expect(tabs['padding-left']).toEqual(theme.tabs.sidePadding + 'px')
     expect(tabs['padding-right']).toEqual(theme.tabs.sidePadding + 'px')
@@ -285,8 +325,10 @@ describe('<Tabs />', () => {
     expect(link['margin-left']).toEqual(0 + 'px')
     expect(button['margin-left']).toEqual(theme.tabs.betweenMargin + 'px')
     expect(container['margin-left']).toEqual(theme.tabs.betweenMargin + 'px')
+    expect(func['margin-left']).toEqual(theme.tabs.betweenMargin + 'px')
     expect(link['margin-right']).toEqual(0 + 'px')
     expect(button['margin-right']).toEqual(0 + 'px')
     expect(container['margin-right']).toEqual(0 + 'px')
+    expect(func['margin-right']).toEqual(0 + 'px')
   })
 })
