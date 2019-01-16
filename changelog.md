@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.33.3 - 2019-01-16
+### Fixed
+* Добавлена проверка ссылок на элементы в компоненте `<RadioButton />`
+
 ## v-3.33.2 - 2019-01-15
 ### Fixed
 * Поправлен проброс `activeClassName` в `container` компонентов `<SideNavItem />` и `<TabsItem />`
