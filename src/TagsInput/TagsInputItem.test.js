@@ -1,5 +1,6 @@
 import React from 'react'
 import {TagsInputItem} from '../TagsInput'
+import PhotoCameraIcon from '../icons/forms/PhotoCameraIcon'
 import {ApplyTheme} from '../theme'
 import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 import theme from '../theme/base'
@@ -155,6 +156,7 @@ describe('TagsInputItem: should apply props', () => {
 
 describe('TagsInputItem: should apply default styles', () => {
   it('regular type', () => {
+    const regularTheme = theme.tagsInput.types.regular
     const wrapper = mount(
       applyTheme(<TagsInputItem children="text" value="" />)
     )
@@ -163,19 +165,18 @@ describe('TagsInputItem: should apply default styles', () => {
 
     expect(itemStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')
     expect(itemStyles['font-size']).toEqual(theme.tagsInput.fontSize + 'px')
-    expect(itemStyles.height).toEqual(theme.tagsInput.height + 'px')
-    expect(textStyles.color).toEqual(
-      nc(theme.tagsInput.types.regular.colors.default.text)
-    )
+    expect(itemStyles.height).toEqual(regularTheme.height + 'px')
+    expect(textStyles.color).toEqual(nc(regularTheme.colors.default.text))
     expect(textStyles['margin-left']).toEqual(
-      (theme.tagsInput.types.regular.paddingLeft || 0) + 'px'
+      (regularTheme.paddingLeft || 0) + 'px'
     )
     expect(textStyles['margin-right']).toEqual(
-      (theme.tagsInput.types.regular.paddingRight || 0) + 'px'
+      (regularTheme.paddingRight || 0) + 'px'
     )
   })
 
   it('background type', () => {
+    const backgroundTheme = theme.tagsInput.types.background
     const wrapper = mount(
       applyTheme(<TagsInputItem children="text" type="background" value="" />)
     )
@@ -186,15 +187,13 @@ describe('TagsInputItem: should apply default styles', () => {
       nc(theme.tagsInput.types.background.colors.default.background)
     )
     expect(itemStyles['font-size']).toEqual(theme.tagsInput.fontSize + 'px')
-    expect(itemStyles.height).toEqual(theme.tagsInput.height + 'px')
-    expect(textStyles.color).toEqual(
-      nc(theme.tagsInput.types.background.colors.default.text)
-    )
+    expect(itemStyles.height).toEqual(backgroundTheme.height + 'px')
+    expect(textStyles.color).toEqual(nc(backgroundTheme.colors.default.text))
     expect(textStyles['margin-left']).toEqual(
-      (theme.tagsInput.types.background.paddingLeft || 0) + 'px'
+      (backgroundTheme.paddingLeft || 0) + 'px'
     )
     expect(textStyles['margin-right']).toEqual(
-      (theme.tagsInput.types.background.paddingRight || 0) + 'px'
+      (backgroundTheme.paddingRight || 0) + 'px'
     )
   })
 
@@ -213,14 +212,14 @@ describe('TagsInputItem: should apply default styles', () => {
       nc(theme.tagsInput.types.regular.colors.default.icon)
     )
     expect(iconStyles['margin-left']).toEqual(
-      (theme.tagsInput.types.regular.iconLeftMargin || 0) + 'px'
+      (theme.tagsInput.types.regular.removeLeftMargin || 0) + 'px'
     )
     expect(iconStyles['margin-right']).toEqual(
-      (theme.tagsInput.types.regular.iconRightMargin || 0) + 'px'
+      (theme.tagsInput.types.regular.removeRightMargin || 0) + 'px'
     )
   })
 
-  it('background type  with remove button', () => {
+  it('background type with remove button', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInputItem
@@ -242,10 +241,82 @@ describe('TagsInputItem: should apply default styles', () => {
       nc(theme.tagsInput.types.background.colors.default.icon)
     )
     expect(iconStyles['margin-left']).toEqual(
-      (theme.tagsInput.types.background.iconLeftMargin || 0) + 'px'
+      (theme.tagsInput.types.background.removeLeftMargin || 0) + 'px'
     )
     expect(iconStyles['margin-right']).toEqual(
-      (theme.tagsInput.types.background.iconRightMargin || 0) + 'px'
+      (theme.tagsInput.types.background.removeRightMargin || 0) + 'px'
+    )
+  })
+
+  it('regular type with icon', () => {
+    const regularTheme = theme.tagsInput.types.regular
+    const wrapper = mount(
+      applyTheme(
+        <TagsInputItem children="text" value="" icon={<PhotoCameraIcon />} />
+      )
+    )
+    const iconStyles = getStyles(wrapper.find('svg'))
+    const textStyles = getStyles(wrapper.find('span'))
+
+    expect(iconStyles['width']).toEqual(regularTheme.iconSize + 'px')
+    expect(iconStyles['height']).toEqual(regularTheme.iconSize + 'px')
+
+    expect(iconStyles.fill).toEqual(nc(regularTheme.colors.default.text))
+
+    expect(iconStyles['margin-left']).toEqual(
+      (regularTheme.iconLeftMargin || 0) + 'px'
+    )
+    expect(textStyles['margin-left']).toEqual(
+      (regularTheme.iconRightMargin || 0) + 'px'
+    )
+    expect(textStyles['margin-right']).toEqual(
+      (regularTheme.paddingRight || 0) + 'px'
+    )
+  })
+
+  it('background type with icon and custom color', () => {
+    const backgroundTheme = theme.tagsInput.types.regular
+    const color = '#FF0000'
+    const wrapper = mount(
+      applyTheme(
+        <TagsInputItem
+          children="text"
+          value=""
+          icon={<PhotoCameraIcon color={color} />}
+        />
+      )
+    )
+    const iconStyles = getStyles(wrapper.find('svg'))
+    const textStyles = getStyles(wrapper.find('span'))
+
+    expect(iconStyles.fill).toEqual(nc(color))
+
+    expect(iconStyles['margin-left']).toEqual(
+      (backgroundTheme.iconLeftMargin || 0) + 'px'
+    )
+    expect(textStyles['margin-left']).toEqual(
+      (backgroundTheme.iconRightMargin || 0) + 'px'
+    )
+    expect(textStyles['margin-right']).toEqual(
+      (backgroundTheme.paddingRight || 0) + 'px'
+    )
+  })
+
+  it('background type disabled with icon and custom color', () => {
+    const color = '#FF0000'
+    const wrapper = mount(
+      applyTheme(
+        <TagsInputItem
+          disabled
+          children="text"
+          value=""
+          icon={<PhotoCameraIcon color={color} />}
+        />
+      )
+    )
+    const iconStyles = getStyles(wrapper.find('svg'))
+    expect(iconStyles.fill).toEqual(
+      nc(theme.tagsInput.types.background.colors.disabled.text)
     )
   })
 

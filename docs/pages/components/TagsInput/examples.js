@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {TagsInput, TagsInputItem} from 'rambler-ui/TagsInput'
+import PhotoCameraIcon from 'rambler-ui/icons/forms/PhotoCameraIcon'
 import Checkbox from 'rambler-ui/Checkbox'
 
 const exampleItems = [
@@ -37,8 +38,22 @@ export default class TagsInputExample extends Component {
         {item}
       </TagsInputItem>
     ))
+    const itemsWithIcons = this.state.items.map(item => (
+      <TagsInputItem value={item} key={item} icon={<PhotoCameraIcon />}>
+        {item}
+      </TagsInputItem>
+    ))
     const clickableItems = this.state.items.map(item => (
       <TagsInputItem value={item} key={item} onClick={() => {}}>
+        {item}
+      </TagsInputItem>
+    ))
+    const clickableItemsWithIcons = this.state.items.map(item => (
+      <TagsInputItem
+        value={item}
+        key={item}
+        onClick={() => {}}
+        icon={<PhotoCameraIcon />}>
         {item}
       </TagsInputItem>
     ))
@@ -72,6 +87,12 @@ export default class TagsInputExample extends Component {
                   {items}
                 </TagsInput>
               </div>
+              <h4>onChange, items with icon</h4>
+              <div style={{maxWidth: 300}}>
+                <TagsInput onChange={this.changeValue} type={type}>
+                  {itemsWithIcons}
+                </TagsInput>
+              </div>
               <h4>onChange, isExpanded, items with onClick</h4>
               <div style={{maxWidth: 300}}>
                 <TagsInput
@@ -79,6 +100,12 @@ export default class TagsInputExample extends Component {
                   isExpanded={true}
                   type={type}>
                   {clickableItems}
+                </TagsInput>
+              </div>
+              <h4>onChange, items with onClick with icon</h4>
+              <div style={{maxWidth: 300}}>
+                <TagsInput onChange={this.changeValue} type={type}>
+                  {clickableItemsWithIcons}
                 </TagsInput>
               </div>
               <h4>onMoreClick</h4>
@@ -92,6 +119,10 @@ export default class TagsInputExample extends Component {
                 <TagsInput isExpanded={true} type={type}>
                   {clickableItems}
                 </TagsInput>
+              </div>
+              <h4>items with onClick and icon</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput type={type}>{clickableItemsWithIcons}</TagsInput>
               </div>
               <h4>disabled, onChange, onMoreClick</h4>
               <div style={{maxWidth: 240}}>
@@ -111,6 +142,15 @@ export default class TagsInputExample extends Component {
                   disabled={true}
                   type={type}>
                   {clickableItems}
+                </TagsInput>
+              </div>
+              <h4>disabled, onChange, items with onClick and icon</h4>
+              <div style={{maxWidth: 240}}>
+                <TagsInput
+                  onChange={this.changeValue}
+                  disabled={true}
+                  type={type}>
+                  {clickableItemsWithIcons}
                 </TagsInput>
               </div>
             </div>
