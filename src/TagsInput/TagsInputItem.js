@@ -1,7 +1,7 @@
 /**
  * Компонент TagsInputItem
  */
-import React, {Component} from 'react'
+import React, {Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {isolateMixin} from '../utils/mixins'
@@ -18,10 +18,13 @@ const iconStyle = {
       extend: isolateMixin,
       display: 'inline-flex',
       fontSize: tagsInput.fontSize,
-      lineHeight: tagsInput.height + 'px',
       whiteSpace: 'nowrap',
       pointerEvents: 'none',
       transition: 'background-color .2s'
+    },
+    icon: {
+      alignSelf: 'center',
+      fill: 'currentColor'
     },
     text: {
       flex: '0 1 auto',
@@ -29,7 +32,7 @@ const iconStyle = {
       textOverflow: 'ellipsis',
       transition: 'color .2s'
     },
-    icon: {
+    remove: {
       order: 1,
       flex: 'none',
       fontSize: 15,
@@ -43,30 +46,38 @@ const iconStyle = {
       pointerEvents: 'auto'
     },
     isEnabled: {
-      '&$isClickable, & $icon': {
+      '&$isClickable, & $remove': {
         cursor: 'pointer'
       }
     },
     isDisabled: {
-      '&$isClickable, & $icon': {
+      '&$isClickable, & $remove': {
         cursor: 'not-allowed'
       }
     },
     ...['regular', 'background'].reduce((result, type) => {
       const typeTheme = tagsInput.types[type]
-      const {colors} = typeTheme
+      const {height, colors} = typeTheme
       return {
         ...result,
         [type]: {
           borderRadius: typeTheme.borderRadius,
-          '& $text': {
-            marginLeft: typeTheme.paddingLeft,
-            '&:only-child': {
-              marginRight: typeTheme.paddingRight
-            }
-          },
+          lineHeight: `${height}px`,
           '& $icon': {
-            margin: [0, typeTheme.iconRightMargin, 0, typeTheme.iconLeftMargin]
+            marginLeft: typeTheme.iconLeftMargin
+          },
+          '& $text': {
+            marginLeft: typeTheme.paddingLeft
+          },
+          '& $text:only-child, & $icon + $text': {
+            marginRight: typeTheme.paddingRight
+          },
+          '& $icon ~ $text': {
+            marginLeft: typeTheme.iconRightMargin
+          },
+          '& $remove': {
+            marginRight: typeTheme.removeRightMargin,
+            marginLeft: typeTheme.removeLeftMargin
           },
           '&$isEnabled': {
             color: colors.default.text,
@@ -74,18 +85,18 @@ const iconStyle = {
             '&$isClickable': {
               '&:hover': {
                 background: colors.hover.background,
-                '& $icon:not(:hover) + $text, & $text:only-child': {
+                '& $remove:not(:hover) + $text, & $text:only-child, & $icon + $text': {
                   color: colors.hover.text
                 }
               },
               '&:active': {
                 background: colors.active.background,
-                '& $icon:not(:active) + $text$text, & $text$text:only-child': {
+                '& $remove:not(:active) + $text$text, & $text$text:only-child, & $icon + $text$text': {
                   color: colors.active.text
                 }
               }
             },
-            '& $icon': {
+            '& $remove': {
               fill: colors.default.icon,
               '&:hover': {
                 fill: colors.hover.icon
@@ -98,7 +109,7 @@ const iconStyle = {
           '&$isDisabled': {
             color: colors.disabled.text,
             background: colors.disabled.background,
-            '& $icon': {
+            '& $remove': {
               fill: colors.disabled.icon
             }
           }
@@ -122,6 +133,10 @@ class TagsInputItem extends Component {
      * Контент тега
      */
     children: PropTypes.string.isRequired,
+    /**
+     * Иконка
+     */
+    icon: PropTypes.node,
     /**
      * Коллбек клика на тег, в качестве аргументов принимает объект события и value
      */
@@ -169,11 +184,12 @@ class TagsInputItem extends Component {
       disabled,
       nodeRef,
       children,
+      icon,
       onClick,
       onRemove,
       classes,
       type,
-      theme, // eslint-disable-line no-unused-vars
+      theme,
       value, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
@@ -189,9 +205,15 @@ class TagsInputItem extends Component {
         )}
         onClick={disabled ? undefined : this.handleClick}
         ref={nodeRef}>
+        {icon &&
+          cloneElement(icon, {
+            className: classnames(classes.icon, icon.props.className),
+            size: theme.tagsInput.types[type].iconSize,
+            color: (!disabled && icon.props.color) || null
+          })}
         {onRemove && (
           <ClearIcon
-            className={classes.icon}
+            className={classes.remove}
             size={null}
             style={iconStyle}
             onClick={disabled ? undefined : this.handleRemoveClick}
