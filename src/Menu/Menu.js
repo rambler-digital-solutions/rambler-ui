@@ -85,7 +85,6 @@ export default class Menu extends PureComponent {
     disabled: false,
     autoFocus: false,
     maxHeight: null,
-    value: null,
     valuesEquality: (a, b) => a === b,
     onChange: () => {},
     onEscKeyDown: () => {},
@@ -124,11 +123,12 @@ export default class Menu extends PureComponent {
 
   constructor(props) {
     super(props)
+    const {value} = props
     this.value = props.multiple
-      ? Array.isArray(props.value)
-        ? props.value
+      ? Array.isArray(value)
+        ? value
         : emptyArr
-      : props.value || null
+      : value
     this.state = {
       value: this.value
     }

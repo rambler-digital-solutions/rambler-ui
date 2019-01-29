@@ -431,7 +431,6 @@ export default class Select extends PureComponent {
   }
 
   static defaultProps = {
-    value: null,
     multiple: false,
     multipleType: 'regular',
     clearIcon: false,
@@ -457,11 +456,7 @@ export default class Select extends PureComponent {
 
   get initialValue() {
     const {multiple, value} = this.props
-    return multiple
-      ? Array.isArray(value)
-        ? value
-        : emptyArr
-      : value || undefined
+    return multiple ? (Array.isArray(value) ? value : emptyArr) : value
   }
 
   get showArrow() {
@@ -589,13 +584,13 @@ export default class Select extends PureComponent {
 
   onClear = () => {
     this.setSearchText('')
-    this.changeValue(null)
+    this.changeValue()
   }
 
   clearValueOnBackspace() {
     const {searchText, inputFocused} = this.state
     if (this.props.onSearch && inputFocused && searchText === '')
-      this.changeValue(null)
+      this.changeValue()
   }
 
   closeOnEsc = event => {
