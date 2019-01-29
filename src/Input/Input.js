@@ -447,7 +447,7 @@ export default class Input extends Component {
     /**
      * Callback onChange возвращает event и event.target.value
      */
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     /**
      * Callback onBlur
      */
@@ -497,8 +497,7 @@ export default class Input extends Component {
   static defaultProps = {
     status: null,
     size: 'medium',
-    variation: 'awesome',
-    onChange: () => {}
+    variation: 'awesome'
   }
 
   state = {
@@ -516,7 +515,8 @@ export default class Input extends Component {
   }
 
   onChange = event => {
-    this.props.onChange(event, event.target.value)
+    const {onChange} = this.props
+    if (onChange) onChange(event, event.target.value)
   }
 
   get iconRight() {
