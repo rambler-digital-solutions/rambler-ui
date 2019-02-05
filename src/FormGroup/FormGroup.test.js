@@ -6,10 +6,20 @@ import FormGroup from './FormGroup'
 
 describe('<FormGroup />', () => {
   const defaultProps = {
-    type: 'text'
+    value: ''
   }
+  const element = withTheme(
+    <FormGroup>
+      <Input className="input" {...defaultProps} />
+    </FormGroup>
+  )
 
   it('should apply default styles', () => {
-    const wrapper = mount(withTheme(<FormGroup />))
+    const wrapper = mount(element)
+
+    const group = wrapper.find(FormGroup)
+    const groupStyles = getStyles(group)
+
+    console.log(groupStyles.padding - top)
   })
 })
