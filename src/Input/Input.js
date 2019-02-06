@@ -616,6 +616,7 @@ export default class Input extends Component {
     } = this.props
 
     const type = this.props.type
+
     const resultClassName = classnames(
       className,
       classes.root,
