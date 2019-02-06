@@ -15,5 +15,5 @@ export default function MailruIcon(props) {
 MailruIcon.displayName = 'MailruIcon'
 
 MailruIcon.defaultProps = {
-  color: '#ffa930'
+  color: '#FFAF00'
 }
