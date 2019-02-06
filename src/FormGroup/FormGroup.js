@@ -128,7 +128,6 @@ export default class FormGroup extends Component {
       classes.root,
       className
     )
-    console.log('rootClassName ', rootClassName)
 
     const labelClassName = classes.label
     const innerClassName = classes.inner
