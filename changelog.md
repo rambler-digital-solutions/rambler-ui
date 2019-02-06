@@ -1,5 +1,12 @@
 # Changelog
 
+## v-3.35.0 - 2019-02-06
+### Added
+* Добавлен тип `node` для свойства `label` в `<FormGroup />`
+
+### Changed
+* Обновлена иконка `<MailruIcon />`
+
 ## v-3.34.0 - 2019-01-31
 ### Changed
 * Свойство `onChange` в `<Textarea />` и `<Input />` сделано не обязательным
