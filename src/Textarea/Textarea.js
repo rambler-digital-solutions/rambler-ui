@@ -50,7 +50,7 @@ export default class Textarea extends PureComponent {
     /**
      * Обработик изменения значения поля, возвращает event и текущее value
      */
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func,
     /**
      * Обработчик потери фокуса
      */

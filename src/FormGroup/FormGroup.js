@@ -82,7 +82,7 @@ export default class FormGroup extends Component {
     /**
      * Указываем label для FormGroup
      */
-    label: PropTypes.string,
+    label: PropTypes.node,
     /**
      * Размер
      */
@@ -128,6 +128,7 @@ export default class FormGroup extends Component {
       classes.root,
       className
     )
+
     const labelClassName = classes.label
     const innerClassName = classes.inner
 

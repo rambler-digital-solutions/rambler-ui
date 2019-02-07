@@ -631,7 +631,6 @@ export function createTheme(config) {
         animationDuration: 200
       },
       tagsInput: {
-        height: 25,
         fontSize: 13,
         colors: {
           default: {
@@ -649,8 +648,11 @@ export function createTheme(config) {
         },
         types: {
           regular: {
+            height: 25,
             verticalGap: 0,
             horizontalGap: 15,
+            iconSize: 15,
+            iconRightMargin: 5,
             colors: {
               default: {
                 text: colors.controls.grey.outline,
@@ -671,10 +673,14 @@ export function createTheme(config) {
             }
           },
           background: {
+            height: 25,
             verticalGap: 10,
             horizontalGap: 5,
-            iconLeftMargin: 5,
-            iconRightMargin: 10,
+            iconSize: 15,
+            iconLeftMargin: 12,
+            iconRightMargin: 5,
+            removeLeftMargin: 5,
+            removeRightMargin: 10,
             paddingLeft: 15,
             paddingRight: 15,
             borderRadius: 25 / 2,

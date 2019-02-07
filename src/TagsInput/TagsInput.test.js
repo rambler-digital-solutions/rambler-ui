@@ -142,6 +142,7 @@ describe('TagsInput: should apply props', () => {
 
 describe('TagsInput: should apply default styles', () => {
   it('regular type', () => {
+    const regularTheme = theme.tagsInput.types.regular
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}}>
@@ -155,22 +156,18 @@ describe('TagsInput: should apply default styles', () => {
 
     const containerStyles = getStyles(container)
     expect(containerStyles['margin-top']).toEqual(
-      -theme.tagsInput.types.regular.verticalGap + 'px'
+      -regularTheme.verticalGap + 'px'
     )
     expect(containerStyles['margin-left']).toEqual(
-      -theme.tagsInput.types.regular.horizontalGap + 'px'
+      -regularTheme.horizontalGap + 'px'
     )
     expect(containerStyles['min-height']).toEqual(
-      theme.tagsInput.types.regular.verticalGap + theme.tagsInput.height + 'px'
+      regularTheme.verticalGap + regularTheme.height + 'px'
     )
 
     const itemStyles = getStyles(firstItem)
-    expect(itemStyles['margin-top']).toEqual(
-      theme.tagsInput.types.regular.verticalGap + 'px'
-    )
-    expect(itemStyles['margin-left']).toEqual(
-      theme.tagsInput.types.regular.horizontalGap + 'px'
-    )
+    expect(itemStyles['margin-top']).toEqual(regularTheme.verticalGap + 'px')
+    expect(itemStyles['margin-left']).toEqual(regularTheme.horizontalGap + 'px')
 
     const moreButton = container.children().last()
     expect(moreButton.not(TagsInputItem)).toBeTruthy()
@@ -254,6 +251,7 @@ describe('TagsInput: should apply default styles', () => {
   })
 
   it('background type', () => {
+    const backgroundTheme = theme.tagsInput.types.background
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}} type="background">
@@ -267,23 +265,19 @@ describe('TagsInput: should apply default styles', () => {
 
     const containerStyles = getStyles(container)
     expect(containerStyles['margin-top']).toEqual(
-      -theme.tagsInput.types.background.verticalGap + 'px'
+      -backgroundTheme.verticalGap + 'px'
     )
     expect(containerStyles['margin-left']).toEqual(
-      -theme.tagsInput.types.background.horizontalGap + 'px'
+      -backgroundTheme.horizontalGap + 'px'
     )
     expect(containerStyles['min-height']).toEqual(
-      theme.tagsInput.types.background.verticalGap +
-        theme.tagsInput.height +
-        'px'
+      backgroundTheme.verticalGap + backgroundTheme.height + 'px'
     )
 
     const itemStyles = getStyles(firstItem)
-    expect(itemStyles['margin-top']).toEqual(
-      theme.tagsInput.types.background.verticalGap + 'px'
-    )
+    expect(itemStyles['margin-top']).toEqual(backgroundTheme.verticalGap + 'px')
     expect(itemStyles['margin-left']).toEqual(
-      theme.tagsInput.types.background.horizontalGap + 'px'
+      backgroundTheme.horizontalGap + 'px'
     )
   })
 

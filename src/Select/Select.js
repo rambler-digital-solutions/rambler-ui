@@ -137,7 +137,7 @@ const multipleSelectFix = <optgroup disabled hidden />
       pointerEvents: 'none'
     },
     multipleValueItem: {
-      '&&': {
+      '$options-regular &': {
         color: theme.field.colors.default.text
       }
     },
@@ -232,18 +232,23 @@ const multipleSelectFix = <optgroup disabled hidden />
           '&$withRightIcon $custom': {
             paddingRight: theme.field.sizes[size].withIconPadding + 1
           },
-          '& $options': {
-            paddingTop:
-              (theme.field.sizes[size].height - theme.tagsInput.height) / 2,
-            paddingBottom:
-              (theme.field.sizes[size].height - theme.tagsInput.height) / 2
-          },
-          '& $selected': {
-            padding: `${(theme.field.sizes[size].height -
-              theme.tagsInput.height) /
-              2 -
-              1}px ${theme.input.sizes[size].padding - 1}px`
-          }
+          ...['regular', 'background'].reduce((result, type) => {
+            const verticalPadding =
+              (theme.field.sizes[size].height -
+                theme.tagsInput.types[type].height) /
+              2
+            return {
+              ...result,
+              [`& $options$options-${type}`]: {
+                paddingTop: verticalPadding,
+                paddingBottom: verticalPadding
+              },
+              [`& $selected$options-${type}`]: {
+                padding: `${verticalPadding - 1}px ${theme.input.sizes[size]
+                  .padding - 1}px`
+              }
+            }
+          }, {})
         }
       }),
       {}
@@ -270,7 +275,9 @@ const multipleSelectFix = <optgroup disabled hidden />
     withSearch: {},
     withLeftIcon: {},
     withRightIcon: {},
-    lightPlaceholder: {}
+    lightPlaceholder: {},
+    ['options-regular']: {},
+    ['options-background']: {}
   }),
   {name: 'Select'}
 )
@@ -424,7 +431,6 @@ export default class Select extends PureComponent {
   }
 
   static defaultProps = {
-    value: null,
     multiple: false,
     multipleType: 'regular',
     clearIcon: false,
@@ -450,11 +456,7 @@ export default class Select extends PureComponent {
 
   get initialValue() {
     const {multiple, value} = this.props
-    return multiple
-      ? Array.isArray(value)
-        ? value
-        : emptyArr
-      : value || undefined
+    return multiple ? (Array.isArray(value) ? value : emptyArr) : value
   }
 
   get showArrow() {
@@ -582,13 +584,13 @@ export default class Select extends PureComponent {
 
   onClear = () => {
     this.setSearchText('')
-    this.changeValue(null)
+    this.changeValue()
   }
 
   clearValueOnBackspace() {
     const {searchText, inputFocused} = this.state
     if (this.props.onSearch && inputFocused && searchText === '')
-      this.changeValue(null)
+      this.changeValue()
   }
 
   closeOnEsc = event => {
@@ -871,7 +873,10 @@ export default class Select extends PureComponent {
     } else if (multipleWithValue && (!isOpened || !onSearch)) {
       customElement = (
         <TagsInput
-          className={classes.options}
+          className={classnames(
+            classes.options,
+            classes[`options-${multipleType}`]
+          )}
           onChange={this.changeValue}
           isExpanded={!isOpened || onSearch ? false : true}
           type={multipleType}>
@@ -918,7 +923,10 @@ export default class Select extends PureComponent {
             {multipleWithValue &&
               onSearch && (
                 <TagsInput
-                  className={classes.selected}
+                  className={classnames(
+                    classes.selected,
+                    classes[`options-${multipleType}`]
+                  )}
                   onChange={this.changeValue}
                   isExpanded={true}
                   onMouseDown={this.preventBlurInput}
@@ -1045,7 +1053,10 @@ export default class Select extends PureComponent {
         />
         {selectedOptions && (
           <TagsInput
-            className={classes.options}
+            className={classnames(
+              classes.options,
+              classes[`options-${multipleType}`]
+            )}
             size={size}
             type={multipleType}>
             {selectedOptions}

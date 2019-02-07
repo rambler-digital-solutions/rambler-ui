@@ -33,8 +33,7 @@ import windowEvents from '../hoc/window-events'
       '&&': {
         flex: 'none',
         alignSelf: 'flex-start',
-        whiteSpace: 'nowrap',
-        lineHeight: tagsInput.height + 'px'
+        whiteSpace: 'nowrap'
       }
     },
     more: {
@@ -61,19 +60,20 @@ import windowEvents from '../hoc/window-events'
       }
     },
     ...['regular', 'background'].reduce((typesResult, type) => {
-      const {verticalGap, horizontalGap} = tagsInput.types[type]
+      const {height, verticalGap, horizontalGap} = tagsInput.types[type]
       return {
         ...typesResult,
         [type]: {
           '& $items': {
             marginTop: -verticalGap,
             marginLeft: -horizontalGap,
-            minHeight: tagsInput.height + verticalGap
+            minHeight: height + verticalGap
           },
           '& $item': {
             marginTop: verticalGap,
             marginLeft: horizontalGap,
-            maxWidth: `calc(100% - ${horizontalGap}px)`
+            maxWidth: `calc(100% - ${horizontalGap}px)`,
+            lineHeight: `${height}px`
           }
         }
       }

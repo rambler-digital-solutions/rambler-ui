@@ -203,11 +203,11 @@ class RadioButton extends Component {
   }
 
   componentDidMount() {
-    this.input.checked = this.isChecked
+    if (this.input) this.input.checked = this.isChecked
   }
 
   componentDidUpdate() {
-    this.input.checked = this.isChecked
+    if (this.input) this.input.checked = this.isChecked
   }
 
   setInputValue(value) {
