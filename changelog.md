@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.35.1 - 2019-02-07
+### Fixed
+* Поправлен `viewbox` в `<MailruIcon />`
+
 ## v-3.35.0 - 2019-02-06
 ### Added
 * Добавлен тип `node` для свойства `label` в `<FormGroup />`
