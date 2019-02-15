@@ -57,7 +57,6 @@ class DropdownContainer extends PureComponent {
 
   static defaultProps = {
     padding: '20px',
-    tabIndex: 0,
     closeOnClickOutside: true
   }
 
