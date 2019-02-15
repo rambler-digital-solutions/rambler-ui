@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, isValidElement, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {ENTER} from '../constants/keys'
@@ -71,17 +71,19 @@ class MenuItem extends PureComponent {
      */
     className: PropTypes.string,
     /**
-     * Inline-стили
-     */
-    style: PropTypes.object,
-    /**
      * Значение опции, по-умолчанию считается, что это примитив
      */
-    value: PropTypes.any.isRequired,
+    value: PropTypes.any,
     /**
      * Контент опции
      */
-    children: PropTypes.node.isRequired
+    children: PropTypes.node.isRequired,
+    /**
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`.
+     * Если используется `<NavLink />` с `activeClassName`,
+     * нужно в `container` передавать фабрику, которая получает `activeClassName` в аргументах
+     */
+    container: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
   }
 
   static contextTypes = {
@@ -138,7 +140,8 @@ class MenuItem extends PureComponent {
   handlePropsChange = () => {
     const {props, ctx} = this
     if (
-      ctx.isValueSelected(props.value) !== this.isSelected ||
+      (props.hasOwnProperty('value') &&
+        ctx.isValueSelected(props.value) !== this.isSelected) ||
       ctx.isItemFocused(this.id) !== this.isFocused ||
       ctx.isMenuDisabled() !== this.disabled ||
       ctx.getMenuSize() !== this.size
@@ -151,7 +154,9 @@ class MenuItem extends PureComponent {
   }
 
   handleSelect = () => {
-    this.ctx.events.emit('onItemSelect', this.props.value)
+    const {props} = this
+    if (props.hasOwnProperty('value'))
+      this.ctx.events.emit('onItemSelect', props.value)
   }
 
   handlePressKey = event => {
@@ -168,38 +173,46 @@ class MenuItem extends PureComponent {
 
   render() {
     const {
+      container,
       className,
-      style,
       value,
       classes,
       children,
       theme, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
-    this.isSelected = this.ctx.isValueSelected(value)
+    this.isSelected =
+      this.props.hasOwnProperty('value') && this.ctx.isValueSelected(value)
     this.isFocused = this.ctx.isItemFocused(this.id)
     this.disabled = this.ctx.isMenuDisabled()
     this.size = this.ctx.getMenuSize()
 
-    return (
-      <div
-        {...other}
-        ref={this.saveRef}
-        style={style}
-        className={classnames(
-          className,
-          classes.root,
-          this.size && classes[this.size],
-          this.disabled ? classes.isDisabled : classes.isEnabled,
-          this.isSelected && classes.isSelected
-        )}
-        tabIndex={this.disabled ? null : 0}
-        onFocus={this.disabled ? null : this.handleFocus}
-        onClick={this.disabled ? null : this.handleSelect}
-        onKeyDown={this.disabled ? null : this.handlePressKey}
-        data-menu-item-id={this.id}>
-        {children}
-      </div>
+    let element
+    if (container && isValidElement(container)) element = container
+    else if (typeof container === 'function')
+      element = container({activeClassName: classes.isSelected})
+
+    const props = {
+      ...other,
+      ref: this.saveRef,
+      className: classnames(
+        className,
+        classes.root,
+        this.size && classes[this.size],
+        this.disabled ? classes.isDisabled : classes.isEnabled,
+        this.isSelected && classes.isSelected
+      ),
+      tabIndex: this.disabled ? null : 0,
+      onFocus: this.disabled ? null : this.handleFocus,
+      onClick: this.disabled ? null : this.handleSelect,
+      onKeyDown: this.disabled ? null : this.handlePressKey,
+      'data-menu-item-id': this.id
+    }
+
+    return element ? (
+      cloneElement(element, props, children)
+    ) : (
+      <div {...props}>{children}</div>
     )
   }
 }

@@ -200,4 +200,28 @@ describe('<Menu />', () => {
       .simulate('click')
     expect(val2str(currValue)).toEqual('')
   })
+
+  it('should apply container prop', () => {
+    const wrapper = mount(
+      withTheme(
+        <Menu>
+          <MenuItem container={<span data-test="test" />}>foo</MenuItem>
+          <MenuItem
+            container={({activeClassName}) => (
+              <a data-test={activeClassName} />
+            )}>
+            baz
+          </MenuItem>
+        </Menu>
+      )
+    )
+
+    const menu = getWrapperNode(wrapper)
+    expect(menu.children[0].textContent).toEqual('foo')
+    expect(menu.children[1].textContent).toEqual('baz')
+    expect(menu.children[0].tagName).toEqual('SPAN')
+    expect(menu.children[1].tagName).toEqual('A')
+    expect(menu.children[0].dataset.test).toEqual('test')
+    expect(menu.children[1].dataset.test.includes('isSelected')).toBeTruthy()
+  })
 })
