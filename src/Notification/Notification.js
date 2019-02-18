@@ -189,44 +189,46 @@ export default class Notification extends PureComponent {
     const content = (
       <VisibilityAnimation
         isVisible={isOpened}
-        activeClassName={classes.isVisible}
         animationDuration={theme.notification.animationDuration}
         onInvisible={onClose}>
-        <div
-          style={style}
-          className={classnames(
-            classes.notification,
-            classes[positionX],
-            className
-          )}>
-          {showClose && (
-            <IconButton
-              type="flat"
-              buttonType="button"
-              size="small"
-              className={classes.close}
-              onClick={onRequestClose}>
-              <ClearIcon color={theme.notification.colors.close} />
-            </IconButton>
-          )}
-          <div className={classes.title}>
-            {icon && <div className={classes.icon}>{icon}</div>}
-            {title}
+        {({isVisible}) => (
+          <div
+            style={style}
+            className={classnames(
+              classes.notification,
+              classes[positionX],
+              isVisible && classes.isVisible,
+              className
+            )}>
+            {showClose && (
+              <IconButton
+                type="flat"
+                buttonType="button"
+                size="small"
+                className={classes.close}
+                onClick={onRequestClose}>
+                <ClearIcon color={theme.notification.colors.close} />
+              </IconButton>
+            )}
+            <div className={classes.title}>
+              {icon && <div className={classes.icon}>{icon}</div>}
+              {title}
+            </div>
+            <div className={classes.body}>{body}</div>
+            {actionButton && (
+              <button
+                type="button"
+                className={classes.actionButton}
+                onClick={onAction}>
+                {actionButton}
+                <ChevronRightIcon
+                  size={9}
+                  color={theme.notification.actionButton.colors.default}
+                />
+              </button>
+            )}
           </div>
-          <div className={classes.body}>{body}</div>
-          {actionButton && (
-            <button
-              type="button"
-              className={classes.actionButton}
-              onClick={onAction}>
-              {actionButton}
-              <ChevronRightIcon
-                size={9}
-                color={theme.notification.actionButton.colors.default}
-              />
-            </button>
-          )}
-        </div>
+        )}
       </VisibilityAnimation>
     )
 

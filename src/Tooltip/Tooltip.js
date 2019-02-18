@@ -201,15 +201,6 @@ class TooltipContent extends PureComponent {
       onBecomeVisible,
       onBecomeInvisible
     } = this.props
-    const resultClassName = classnames(
-      className,
-      classes.content,
-      classes['x' + pointX],
-      classes['y' + pointY],
-      classes['xa' + anchorPointX],
-      classes['ya' + anchorPointY],
-      classes[status]
-    )
     const arrowStyle = {}
 
     if (anchorWidth)
@@ -244,14 +235,27 @@ class TooltipContent extends PureComponent {
           animationDuration={theme.tooltip.animationDuration}
           onVisible={onBecomeVisible}
           onInvisible={onBecomeInvisible}>
-          <div style={{padding: '3px'}} className={resultClassName}>
-            <div className={classes.arrow} style={arrowStyle} />
+          {({isVisible}) => (
             <div
-              style={style}
-              className={classnames(bodyClassName, classes.body)}>
-              {children}
+              style={{padding: '3px'}}
+              className={classnames(
+                className,
+                classes.content,
+                classes['x' + pointX],
+                classes['y' + pointY],
+                classes['xa' + anchorPointX],
+                classes['ya' + anchorPointY],
+                classes[status],
+                isVisible && classes.isVisible
+              )}>
+              <div className={classes.arrow} style={arrowStyle} />
+              <div
+                style={style}
+                className={classnames(bodyClassName, classes.body)}>
+                {children}
+              </div>
             </div>
-          </div>
+          )}
         </VisibilityAnimation>
       </OnClickOutside>
     )

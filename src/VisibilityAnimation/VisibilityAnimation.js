@@ -1,6 +1,5 @@
-import {Component, cloneElement} from 'react'
+import {Component} from 'react'
 import PropTypes from 'prop-types'
-import classnames from 'classnames'
 
 /**
  * Позволяет оборачиваемому элементу реализовать анимации появления/скрытия.
@@ -16,11 +15,14 @@ import classnames from 'classnames'
  *      return (
  *        <VisibilityAnimation
  *          isVisible={this.props.isOpened}
- *          className={css.normal}
- *          activeClassName={css.active}
  *          animationDuration={200}
  *          onVisible={this.props.onOpen}
  *          onInvisible={this.props.onClose}>
+ *          {({isVisible}) => (
+ *            <div className={`${css.normal} ${isVisible && css.active}`}>
+ *              Some content...
+ *            </div>
+ *          )}
  *          {children}
  *         </VisibilityAnimation>
  *       )
@@ -34,14 +36,6 @@ export default class VisibilityAnimation extends Component {
      * Контролирует видимость
      */
     isVisible: PropTypes.bool,
-    /**
-     * Начальный css-класс
-     */
-    className: PropTypes.string,
-    /**
-     * CSS-класс активного состояния
-     */
-    activeClassName: PropTypes.string.isRequired,
     /**
      * Таймаут для анимации в ms
      */
@@ -61,7 +55,11 @@ export default class VisibilityAnimation extends Component {
     /**
      * Коллбек вызывающийся после скрытия
      */
-    onInvisible: PropTypes.func
+    onInvisible: PropTypes.func,
+    /**
+     * Фабрика контента
+     */
+    children: PropTypes.func
   }
 
   static defaultProps = {
@@ -130,17 +128,6 @@ export default class VisibilityAnimation extends Component {
 
   render() {
     const {isVisible} = this.state
-
-    const {children, className, activeClassName} = this.props
-
-    const childProps = children.props || {}
-
-    return cloneElement(children, {
-      className: classnames(
-        childProps.className,
-        className,
-        isVisible && activeClassName
-      )
-    })
+    return this.props.children({isVisible})
   }
 }

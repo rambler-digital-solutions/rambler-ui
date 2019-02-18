@@ -263,43 +263,48 @@ export default class Snackbar extends PureComponent {
     const content = (
       <VisibilityAnimation
         isVisible={isOpened}
-        activeClassName={classes.isVisible}
         animationDuration={theme.snackbar.animationDuration}
         onWillVisible={this.onWillVisible}
         onWillInvisible={this.onWillInvisible}
         onInvisible={onClose}>
-        <div
-          style={style}
-          className={classnames(
-            classes.snackbar,
-            classes[positionX],
-            classes[positionY],
-            classes[type],
-            size === 'small' && classes.small,
-            className
-          )}>
-          {icon && (
-            <div className={classes.icon}>
-              {cloneElement(icon, {
-                color: icon.props.color || theme.snackbar.colors.text
-              })}
-            </div>
-          )}
-          <div className={classes.content}>{children}</div>
-          {actionButton && (
-            <button type="button" className={classes.button} onClick={onAction}>
-              {actionButton}
-            </button>
-          )}
-          {showClose && (
-            <button
-              type="button"
-              className={classes.close}
-              onClick={onRequestClose}>
-              <ClearIcon size={10} color={theme.snackbar.colors.text} />
-            </button>
-          )}
-        </div>
+        {({isVisible}) => (
+          <div
+            style={style}
+            className={classnames(
+              classes.snackbar,
+              classes[positionX],
+              classes[positionY],
+              classes[type],
+              size === 'small' && classes.small,
+              isVisible && classes.isVisible,
+              className
+            )}>
+            {icon && (
+              <div className={classes.icon}>
+                {cloneElement(icon, {
+                  color: icon.props.color || theme.snackbar.colors.text
+                })}
+              </div>
+            )}
+            <div className={classes.content}>{children}</div>
+            {actionButton && (
+              <button
+                type="button"
+                className={classes.button}
+                onClick={onAction}>
+                {actionButton}
+              </button>
+            )}
+            {showClose && (
+              <button
+                type="button"
+                className={classes.close}
+                onClick={onRequestClose}>
+                <ClearIcon size={10} color={theme.snackbar.colors.text} />
+              </button>
+            )}
+          </div>
+        )}
       </VisibilityAnimation>
     )
 
