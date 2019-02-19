@@ -136,7 +136,7 @@ class TagsInputItem extends Component {
     /**
      * Иконка
      */
-    icon: PropTypes.node,
+    icon: PropTypes.element,
     /**
      * Коллбек клика на тег, в качестве аргументов принимает объект события и value
      */

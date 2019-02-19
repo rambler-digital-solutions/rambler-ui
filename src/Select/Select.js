@@ -342,6 +342,12 @@ export default class Select extends PureComponent {
      */
     inputValueRenderer: PropTypes.func,
     /**
+     * Функция рендера иконки при множественном выборе (`multiple=true`).
+     * В качестве аргумента принимает `value`.
+     * Ожидается, что возвращает `Element`. Возвращаемое значение передается через свойство `icon` в `TagsInputItem`
+     */
+    iconElementRenderer: PropTypes.func,
+    /**
      * Плэйсхолдер
      */
     placeholder: PropTypes.string,
@@ -399,7 +405,7 @@ export default class Select extends PureComponent {
     onSearch: PropTypes.func,
     /**
      * Функция рендера кастомного элемента над input, получает `value` в качестве значения.
-     * Должна возвращать `reactElement`.
+     * Должна возвращать `Element`.
      */
     customElementRenderer: PropTypes.func,
     /**
@@ -660,6 +666,7 @@ export default class Select extends PureComponent {
       onBlur,
       onChange,
       inputValueRenderer,
+      iconElementRenderer,
       customElementRenderer,
       multiple,
       multipleType,
@@ -718,7 +725,10 @@ export default class Select extends PureComponent {
         <TagsInputItem
           value={item}
           key={text}
-          className={props.classes.multipleValueItem}>
+          className={props.classes.multipleValueItem}
+          icon={
+            props.iconElementRenderer ? props.iconElementRenderer(item) : null
+          }>
           {text}
         </TagsInputItem>
       )
