@@ -329,14 +329,23 @@ export default class SelectExample extends Component {
         </div>
 
         <div style={{maxWidth: 300, marginBottom: 15}}>
-          <h3>Множественный выбор c поиском, size=small</h3>
+          <h3>
+            Множественный выбор c поиском, size=small и iconElementRenderer
+          </h3>
           <Select
             multiple={true}
             size="small"
             placeholder="Type something..."
             value={this.state.value5}
             onChange={this.setValue('value5')}
-            onSearch={this.filterData}>
+            onSearch={this.filterData}
+            iconElementRenderer={value =>
+              value && (
+                <PhoneIcon
+                  color={value[value.length - 1] % 2 ? 'red' : 'green'}
+                />
+              )
+            }>
             {this.state.data.map(item => (
               <MenuItem value={item} key={item}>
                 {item}
