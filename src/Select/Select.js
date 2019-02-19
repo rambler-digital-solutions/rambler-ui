@@ -130,7 +130,10 @@ const multipleSelectFix = <optgroup disabled hidden />
       }
     },
     withCustom: {
-      position: 'relative'
+      position: 'relative',
+      '$isOpened &': {
+        zIndex: 1
+      }
     },
     custom: {
       position: 'relative',
