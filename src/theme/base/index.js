@@ -293,7 +293,8 @@ export function createTheme(config) {
                 border: fade(colors.controls.grey.outline, 0.7)
               },
               disabled: {
-                border: fade(colors.controls.grey.outline, 0.2),
+                background: fade(colors.controls.grey.outline, 0.2),
+                border: 'transparent',
                 text: fade(colors.controls.grey.outline, 0.5)
               },
               checked: {
