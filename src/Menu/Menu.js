@@ -1,5 +1,4 @@
 import React, {PureComponent} from 'react'
-import {findDOMNode} from 'react-dom'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -110,6 +109,10 @@ export default class Menu extends PureComponent {
        */
       getMenuSize: PropTypes.func,
       /**
+       * Получение MenuItem node ref (args: key)
+       */
+      getItemRef: PropTypes.func,
+      /**
        * Шина событий
        * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
        * onItemSelect - клик по MenuItem (args: value)
@@ -134,6 +137,7 @@ export default class Menu extends PureComponent {
     }
     this.focusIndex = -1
     this.itemsKeys = []
+    this.itemsRefs = {}
     this.registeredItems = {}
   }
 
@@ -146,6 +150,7 @@ export default class Menu extends PureComponent {
         isItemFocused: this.isItemFocused,
         isMenuDisabled: this.isMenuDisabled,
         getMenuSize: this.getMenuSize,
+        getItemRef: this.getItemRef,
         events: this.events
       }
     }
@@ -153,9 +158,13 @@ export default class Menu extends PureComponent {
 
   updateItemsKeys() {
     const nodes = this.menu.querySelectorAll('[data-menu-item-id]')
-    this.itemsKeys = Array.prototype.slice
-      .call(nodes)
-      .map(node => node.getAttribute('data-menu-item-id'))
+    const refs = {}
+    this.itemsKeys = Array.prototype.slice.call(nodes).map(node => {
+      const key = node.getAttribute('data-menu-item-id')
+      refs[key] = node
+      return key
+    })
+    this.itemsRefs = refs
   }
 
   addItem = (key, ref) => {
@@ -220,13 +229,15 @@ export default class Menu extends PureComponent {
 
   getMenuSize = () => this.props.size
 
+  getItemRef = key => this.itemsRefs[key]
+
   scrollToLastSelected() {
     const lastSelectedIndex = this.getLastSelectedIndex()
     if (lastSelectedIndex === -1) return
-    const item = this.registeredItems[this.itemsKeys[lastSelectedIndex]]
+    const item = this.itemsRefs[this.itemsKeys[lastSelectedIndex]]
     if (!item) return
     const menuRect = getBoundingClientRect(this.menu)
-    const itemRect = getBoundingClientRect(findDOMNode(item))
+    const itemRect = getBoundingClientRect(item)
     this.menu.scrollTop += itemRect.top - menuRect.top - menuRect.height / 2
   }
 

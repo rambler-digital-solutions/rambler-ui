@@ -105,6 +105,10 @@ class MenuItem extends PureComponent {
        */
       getMenuSize: PropTypes.func,
       /**
+       * Получение MenuItem node ref (args: key)
+       */
+      getItemRef: PropTypes.func,
+      /**
        * Шина событий
        * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
        * onItemSelect - клик по MenuItem (args: value)
@@ -120,6 +124,10 @@ class MenuItem extends PureComponent {
 
   get ctx() {
     return this.context[MENU_ITEM_CONTEXT]
+  }
+
+  get item() {
+    return this.ctx.getItemRef(this.id)
   }
 
   componentDidMount() {
@@ -167,10 +175,6 @@ class MenuItem extends PureComponent {
     }
   }
 
-  saveRef = ref => {
-    this.item = ref
-  }
-
   render() {
     const {
       container,
@@ -194,7 +198,6 @@ class MenuItem extends PureComponent {
 
     const props = {
       ...other,
-      ref: this.saveRef,
       className: classnames(
         className,
         classes.root,
