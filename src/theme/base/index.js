@@ -276,7 +276,8 @@ export function createTheme(config) {
               checked: {},
               disabled: {
                 tick: fade(colors.controls.grey.outline, 0.5),
-                border: fade(colors.controls.grey.outline, 0.2),
+                background: fade(colors.controls.grey.outline, 0.2),
+                border: 'rgba(0, 0, 0, 0)',
                 text: fade(colors.controls.grey.outline, 0.5)
               }
             }
@@ -293,7 +294,9 @@ export function createTheme(config) {
                 border: fade(colors.controls.grey.outline, 0.7)
               },
               disabled: {
-                border: fade(colors.controls.grey.outline, 0.2),
+                tick: fade(colors.controls.grey.outline, 0.5),
+                background: fade(colors.controls.grey.outline, 0.2),
+                border: 'transparent',
                 text: fade(colors.controls.grey.outline, 0.5)
               },
               checked: {
@@ -302,10 +305,6 @@ export function createTheme(config) {
               },
               checkedHover: {
                 background: darken(colors.primary, 0.2)
-              },
-              checkedDisabled: {
-                background: fade(colors.controls.grey.outline, 0.3),
-                border: 'transparent'
               }
             }
           }

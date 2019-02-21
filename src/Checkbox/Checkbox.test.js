@@ -119,7 +119,7 @@ describe('<Checkbox />', () => {
       nc(theme.checkbox.types.regular.colors.disabled.border)
     )
     expect(nc(checkboxStyles['background-color'])).toEqual(
-      nc(theme.checkbox.types.regular.colors.default.background)
+      nc(theme.checkbox.types.regular.colors.disabled.background)
     )
     expect(checkboxStyles['margin-bottom']).toEqual('20px')
 
