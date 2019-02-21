@@ -277,7 +277,7 @@ export function createTheme(config) {
               disabled: {
                 tick: fade(colors.controls.grey.outline, 0.5),
                 background: fade(colors.controls.grey.outline, 0.2),
-                border: 'transparent',
+                border: 'rgba(0, 0, 0, 0)',
                 text: fade(colors.controls.grey.outline, 0.5)
               }
             }
