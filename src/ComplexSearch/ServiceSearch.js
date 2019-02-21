@@ -300,23 +300,32 @@ export default class ServiceSearch extends React.Component {
   renderButton() {
     const {
       classes,
+      searchButton,
       searchButtonClassName,
       searchButtonProps,
-      onSubmit
+      onSubmit,
+      searchIcon
     } = this.props
 
-    return (
+    let searchIconElement = (
+      <ServiceSearchIcon
+        size={15}
+        className={classes.searchIcon}
+        tabIndex={-1}
+        color="currentColor"
+      />
+    )
+    if (searchIcon) searchIconElement = cloneElement(searchIcon)
+
+    return searchButton ? (
+      searchButton
+    ) : (
       <button
         type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
         onClick={onSubmit}
         {...searchButtonProps}>
-        <ServiceSearchIcon
-          size={15}
-          className={classes.searchIcon}
-          tabIndex={-1}
-          color="currentColor"
-        />
+        {searchIconElement}
       </button>
     )
   }

@@ -218,8 +218,6 @@ export default class SearchExample extends Component {
           bottomLinks={this.renderBottomLinks()}
           onPressEnter={this.onServiceEnter}
           placeholder="Напишите 'это...'"
-          searchButton="Search"
-          searchButtonStyle={{minWidth: 125}}
           onSubmit={this.goToSearch}
           inputLeftIcon={<SearchIcon />}>
           {this.state.serviceSearchItems.map(item => (
