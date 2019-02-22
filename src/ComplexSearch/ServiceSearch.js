@@ -307,25 +307,23 @@ export default class ServiceSearch extends React.Component {
       searchIcon
     } = this.props
 
-    let searchIconElement = (
-      <ServiceSearchIcon
-        size={15}
-        className={classes.searchIcon}
-        tabIndex={-1}
-        color="currentColor"
-      />
-    )
-    if (searchIcon) searchIconElement = cloneElement(searchIcon)
+    // если передали ноду - ее отдаем на рендер
+    if (searchButton) return searchButton
 
-    return searchButton ? (
-      searchButton
-    ) : (
+    return (
       <button
         type="button"
         className={classnames(classes.searchButton, searchButtonClassName)}
         onClick={onSubmit}
         {...searchButtonProps}>
-        {searchIconElement}
+        {searchIcon || (
+          <ServiceSearchIcon
+            size={15}
+            className={classes.searchIcon}
+            tabIndex={-1}
+            color="currentColor"
+          />
+        )}
       </button>
     )
   }
