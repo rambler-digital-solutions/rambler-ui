@@ -300,10 +300,15 @@ export default class ServiceSearch extends React.Component {
   renderButton() {
     const {
       classes,
+      searchButton,
       searchButtonClassName,
       searchButtonProps,
-      onSubmit
+      onSubmit,
+      searchIcon
     } = this.props
+
+    // если передали ноду - ее отдаем на рендер
+    if (searchButton) return searchButton
 
     return (
       <button
@@ -311,12 +316,14 @@ export default class ServiceSearch extends React.Component {
         className={classnames(classes.searchButton, searchButtonClassName)}
         onClick={onSubmit}
         {...searchButtonProps}>
-        <ServiceSearchIcon
-          size={15}
-          className={classes.searchIcon}
-          tabIndex={-1}
-          color="currentColor"
-        />
+        {searchIcon || (
+          <ServiceSearchIcon
+            size={15}
+            className={classes.searchIcon}
+            tabIndex={-1}
+            color="currentColor"
+          />
+        )}
       </button>
     )
   }
