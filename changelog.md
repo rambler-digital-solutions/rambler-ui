@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.37.4 - 2019-02-22
+### Perf
+* В сборку добавлен `babel-plugin-transform-react-remove-prop-types`, который оборачивает PropTypes для последующего удаления при сборке в `production`
+
 ## v-3.37.3 - 2019-02-21
 ### Fixed
 * Поправлены нативные контролы в `<Input />` типа `number`

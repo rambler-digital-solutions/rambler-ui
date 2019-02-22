@@ -1,17 +1,17 @@
 [
   {
     "name": "The initial cost people pay for using one component",
-    "limit": "25.5 KB",
+    "limit": "25.1 KB",
     "path": "test/overhead.js"
   },
   {
     "name": "The size of the library components",
-    "limit": "87.5 KB",
+    "limit": "84.3 KB",
     "path": "test/only-components.js"
   },
   {
     "name": "The size of the library with all icons",
-    "limit": "100.7 KB",
+    "limit": "97.7 KB",
     "path": "build/index.js"
   }
 ]
