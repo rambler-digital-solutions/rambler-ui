@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.37.5 - 2019-02-22
+### Fixed
+* Поправлено значение по-умолчанию свойства `isVisible` в `<Dropdown />`, `<Hint />` и `<Container />`
+
 ## v-3.37.4 - 2019-02-22
 ### Perf
 * В сборку добавлен `babel-plugin-transform-react-remove-prop-types`, который оборачивает PropTypes для последующего удаления при сборке в `production`
