@@ -173,12 +173,16 @@ class TooltipContent extends PureComponent {
   static propTypes = {
     style: PropTypes.object,
     bodyClassName: PropTypes.string,
-    isVisible: PropTypes.bool.isRequired,
+    isVisible: PropTypes.bool,
     onBecomeVisible: PropTypes.func,
     onClickOutside: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     pointY: PropTypes.oneOf(POINTS_Y),
     children: PropTypes.node
+  }
+
+  static defaultProps = {
+    isVisible: false
   }
 
   render() {

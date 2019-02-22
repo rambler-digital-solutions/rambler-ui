@@ -71,13 +71,17 @@ class HintContent extends PureComponent {
     style: PropTypes.object,
     icon: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
-    isVisible: PropTypes.bool.isRequired,
+    isVisible: PropTypes.bool,
     pointX: PropTypes.oneOf(POINTS_X),
     pointY: PropTypes.oneOf(POINTS_Y),
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func
+  }
+
+  static defaultProps = {
+    isVisible: false
   }
 
   render() {

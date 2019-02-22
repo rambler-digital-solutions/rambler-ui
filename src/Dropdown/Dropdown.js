@@ -43,7 +43,7 @@ import {isolateMixin} from '../utils/mixins'
 )
 class DropdownContainer extends PureComponent {
   static propTypes = {
-    isVisible: PropTypes.bool.isRequired,
+    isVisible: PropTypes.bool,
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     hide: PropTypes.func,
@@ -57,6 +57,7 @@ class DropdownContainer extends PureComponent {
 
   static defaultProps = {
     padding: '20px',
+    isVisible: false,
     closeOnClickOutside: true
   }
 
