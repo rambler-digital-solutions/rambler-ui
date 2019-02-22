@@ -23,6 +23,10 @@
           "include": [
             "VERSION"
           ]
+        }],
+        ["transform-react-remove-prop-types", {
+          "mode": "wrap",
+          "removeImport": false
         }]
       ]
     },
