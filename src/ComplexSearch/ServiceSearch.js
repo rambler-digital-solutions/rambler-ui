@@ -151,6 +151,10 @@ export default class ServiceSearch extends React.Component {
      */
     value: PropTypes.string,
     /**
+     * Кнопка поиска
+     */
+    searchButton: PropTypes.node,
+    /**
      * Иконка поиска, по дефолту подставляется иконка с лупой
      */
     searchIcon: PropTypes.node,

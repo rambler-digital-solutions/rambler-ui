@@ -1,6 +1,9 @@
 # Changelog
 
-## v-3.37.5 - 2019-02-22
+## v-3.38.0 - 2019-02-22
+### Added
+* Добавлена возможность передачи собственных `searchIcon` и `searchButton` в компоненте `<ServiceSearch />`
+
 ### Fixed
 * Поправлено значение по-умолчанию свойства `isVisible` в `<Dropdown />`, `<Hint />` и `<Container />`
 
