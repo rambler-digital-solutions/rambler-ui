@@ -483,6 +483,10 @@ export default class Input extends Component {
       PropTypes.func
     ]),
     /**
+     * Метрика для иконки показа пароля
+     */
+    passwordIconCerberId: PropTypes.string,
+    /**
      * Позиция инпута в группе
      */
     groupPosition: PropTypes.oneOf(['start', 'middle', 'end', null]),
@@ -530,7 +534,14 @@ export default class Input extends Component {
   }
 
   renderPasswordIcon() {
-    const {type, size, theme, classes, passwordIconTooltip} = this.props
+    const {
+      type,
+      size,
+      theme,
+      classes,
+      passwordIconTooltip,
+      passwordIconCerberId
+    } = this.props
 
     if (type !== 'password') return null
 
@@ -538,7 +549,10 @@ export default class Input extends Component {
     const Icon = currentType === 'password' ? ClosedEyeIcon : EyeIcon
 
     const icon = (
-      <span className={classes.eyeWrapper} onClick={this.inputTypeHelper}>
+      <span
+        className={classes.eyeWrapper}
+        onClick={this.inputTypeHelper}
+        data-cerber-id={passwordIconCerberId}>
         <Icon
           size={theme.field.sizes[size].eyeIcon}
           className={classes.eyeIcon}
