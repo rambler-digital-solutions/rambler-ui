@@ -137,23 +137,6 @@ import provideSearchDropdown from './provideSearchDropdown'
         boxShadow: 'none'
       }
     },
-    clear: {
-      position: 'absolute',
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)',
-      cursor: 'pointer',
-      opacity: 0.6,
-
-      '&:hover': {
-        opacity: 1,
-        color: theme.search.clear.hover.color
-      },
-
-      '&:active': {
-        opacity: 1
-      }
-    },
 
     serviceIcons: {
       display: 'flex',

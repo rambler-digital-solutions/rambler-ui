@@ -42,12 +42,6 @@ import provideSearch from './provideSearch'
         borderColor: theme.simpleSearch.input.hover.borderColor
       }
     },
-    bottomWrapper: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      padding: '15px 0',
-      fontSize: 12
-    },
     input: {
       extend: isolateMixin,
       padding: '10px 12px',
@@ -108,9 +102,6 @@ import provideSearch from './provideSearch'
       flexShrink: 0,
       padding: '0 13px',
       alignItems: 'center'
-    },
-    overlay: {
-      width: '100%'
     },
     ...['small', 'medium'].reduce(
       (result, size) => ({
