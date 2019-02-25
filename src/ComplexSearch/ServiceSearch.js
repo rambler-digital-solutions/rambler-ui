@@ -112,12 +112,6 @@ import provideSearchDropdown from './provideSearchDropdown'
       cursor: 'pointer',
       color: theme.serviceSearch.clear.color
     },
-    serviceIcons: {
-      display: 'flex',
-      position: 'absolute',
-      alignItems: 'center',
-      right: 15
-    },
     ...['small', 'medium'].reduce(
       (result, size) => ({
         ...result,

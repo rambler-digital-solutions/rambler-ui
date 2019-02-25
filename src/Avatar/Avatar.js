@@ -1,7 +1,7 @@
 import React, {PureComponent, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import * as profileIcons from '../icons/profiles'
+import profileIcons from './profilesIconMap'
 import {injectSheet} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
@@ -139,10 +139,7 @@ export default class Avatar extends PureComponent {
       backgroundImage: `url(${src})`
     })
 
-    const ProfileIcon =
-      profileType &&
-      profileIcons[`${profileType.replace(/^\w/, m => m.toUpperCase())}Icon`]
-
+    const ProfileIcon = profileType && profileIcons[profileType]
     const profileSize = Math.round(calcProfileSize(size))
     const profileSizePx = profileSize + 'px'
     const children = ProfileIcon && (
