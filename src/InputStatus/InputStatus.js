@@ -60,13 +60,20 @@ export default class InputStatus extends Component {
   }
 
   render() {
-    const {type, message, children, className, classes} = this.props
-
+    const {
+      type,
+      message,
+      children,
+      className,
+      classes,
+      theme, // eslint-disable-line no-unused-vars
+      ...otherProps
+    } = this.props
     const rootClassName = classnames(message && classes[type])
     const messageClassName = classnames(classes.message, className)
 
     return (
-      <div className={rootClassName}>
+      <div className={rootClassName} {...otherProps}>
         {children}
         {message && <div className={messageClassName}>{message}</div>}
       </div>
