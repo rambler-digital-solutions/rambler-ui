@@ -80,7 +80,7 @@ class SuggestItem extends React.Component {
        */
       onSuggestItemClick: PropTypes.func,
       /**
-       * Колбек наведения на SuggstItem
+       * Колбек наведения на SuggestItem
        */
       onSuggestItemHover: PropTypes.func,
       /**

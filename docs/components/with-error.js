@@ -15,8 +15,8 @@ const styles = theme => ({
 
 function withError(Target) {
   class ErrorBoundary extends Component {
-    constructor() {
-      super()
+    constructor(props) {
+      super(props)
       this.state = {hasError: false}
     }
 

@@ -72,5 +72,5 @@ const subscribe = () => {
   })
 }
 
-// Chceking DOM availability to make it work with SSR
+// Checking DOM availability to make it work with SSR
 if (canUseDOM) subscribe()

@@ -13,7 +13,7 @@ const componentPath = path.resolve(__dirname, '../pages/components')
 
 const components = fs
   .readdirSync(componentPath)
-  .filter(name => name.match(/^\w+$/))
+  .filter(name => /^\w+$/.test(name))
   .map(name => {
     const mdxText = fs.readFileSync(`${componentPath}/${name}/index.md`, 'utf8')
     const jsx = mdx.sync(mdxText, {

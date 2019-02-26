@@ -46,7 +46,10 @@ class ContentElementWrapper extends Component {
     let changed = false
     // eslint-disable-next-line no-restricted-syntax
     for (const k in newContentProps)
-      if (newContentProps[k] !== this.contentProps[k]) {
+      if (
+        newContentProps.hasOwnProperty(k) &&
+        newContentProps[k] !== this.contentProps[k]
+      ) {
         changed = true
         break
       }
@@ -428,10 +431,10 @@ export default class FixedOverlay extends PureComponent {
     // }
   }
 
-  onBodyMutation = () => {
-    if (!this.anchorNode) return
-    if (!document.body.contains(this.anchorNode)) this.cleanUp()
-  }
+  // onBodyMutation = () => {
+  //   if (!this.anchorNode) return
+  //   if (!document.body.contains(this.anchorNode)) this.cleanUp()
+  // }
 
   /**
    * Вызывается когда контент показан
