@@ -58,7 +58,7 @@ export default class InputStatus extends Component {
      */
     className: PropTypes.string,
     /**
-     * containerRef используется в качестве ref корневого дива
+     * Используется вместо ref для получения ссылки на узел DOM.
      */
     containerRef: PropTypes.func
   }
