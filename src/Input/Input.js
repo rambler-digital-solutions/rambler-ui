@@ -483,6 +483,10 @@ export default class Input extends Component {
       PropTypes.func
     ]),
     /**
+     * Дополнительные атрибуты кнопки смены статуса типа password
+     */
+    passwordIconProps: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+    /**
      * Позиция инпута в группе
      */
     groupPosition: PropTypes.oneOf(['start', 'middle', 'end', null]),
@@ -530,15 +534,30 @@ export default class Input extends Component {
   }
 
   renderPasswordIcon() {
-    const {type, size, theme, classes, passwordIconTooltip} = this.props
+    const {
+      type,
+      size,
+      theme,
+      classes,
+      passwordIconTooltip,
+      passwordIconProps
+    } = this.props
 
     if (type !== 'password') return null
 
     const {type: currentType} = this.state
     const Icon = currentType === 'password' ? ClosedEyeIcon : EyeIcon
 
+    const iconProps =
+      typeof passwordIconProps === 'function'
+        ? passwordIconProps(currentType)
+        : passwordIconProps
+
     const icon = (
-      <span className={classes.eyeWrapper} onClick={this.inputTypeHelper}>
+      <span
+        {...iconProps}
+        className={classes.eyeWrapper}
+        onClick={this.inputTypeHelper}>
         <Icon
           size={theme.field.sizes[size].eyeIcon}
           className={classes.eyeIcon}
