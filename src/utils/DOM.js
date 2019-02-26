@@ -27,7 +27,7 @@ export function createMutationObserver(handler) {
 /**
  * Найти родителя, которого скроллим
  * @param  {HTMLElement} element - элемент, для которого ищет родительский элемент
- * @paran  {Boolean} noCheckScrollHeight - проверять
+ * @param  {Boolean} noCheckScrollHeight - проверять
  * @return {HTMLElement} найденный родительский элемент
  */
 export function findScrollableParent(element, noCheckScrollHeight) {

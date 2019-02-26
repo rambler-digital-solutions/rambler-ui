@@ -46,7 +46,7 @@ export default function provideSearchDropdown(Search) {
          */
         onSuggestItemClick: PropTypes.func,
         /**
-         * Колбек наведения на SuggstItem
+         * Колбек наведения на SuggestItem
          */
         onSuggestItemHover: PropTypes.func,
         /**

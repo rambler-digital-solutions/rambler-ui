@@ -5,7 +5,7 @@ import {injectSheet} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
 const getKeyframes = (delay = 0) => ({
-  [`${0 + delay}%`]: {
+  [`${delay}%`]: {
     transform: 'scale(1) translate3d(0, 0, 0)'
   },
   [`${20 + delay}%`]: {
