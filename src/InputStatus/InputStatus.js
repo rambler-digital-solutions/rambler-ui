@@ -46,7 +46,7 @@ export default class InputStatus extends Component {
      */
     type: PropTypes.oneOf(['error', 'warning', 'success']),
     /**
-     * Мессадж который будет отображаться как статус
+     * Сообщение, которое будет отображаться как статус
      */
     message: PropTypes.node,
     /**
@@ -54,11 +54,11 @@ export default class InputStatus extends Component {
      */
     children: PropTypes.node.isRequired,
     /**
-     * className
+     * Дополнительный класс контейнера
      */
     className: PropTypes.string,
     /**
-     * Используется вместо ref для получения ссылки на узел DOM.
+     * Коллбек, принимающий ссылку на узел DOM
      */
     containerRef: PropTypes.func
   }
