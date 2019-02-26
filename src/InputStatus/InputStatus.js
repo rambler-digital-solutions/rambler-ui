@@ -56,24 +56,29 @@ export default class InputStatus extends Component {
     /**
      * className
      */
-    className: PropTypes.string
+    className: PropTypes.string,
+    /**
+     * containerRef используется в качестве ref корневого дива
+     */
+    containerRef: PropTypes.func
   }
 
   render() {
     const {
       type,
+      theme, // eslint-disable-line no-unused-vars
+      classes,
       message,
       children,
       className,
-      classes,
-      theme, // eslint-disable-line no-unused-vars
+      containerRef,
       ...otherProps
     } = this.props
     const rootClassName = classnames(message && classes[type])
     const messageClassName = classnames(classes.message, className)
 
     return (
-      <div className={rootClassName} {...otherProps}>
+      <div className={rootClassName} {...otherProps} ref={containerRef}>
         {children}
         {message && <div className={messageClassName}>{message}</div>}
       </div>
