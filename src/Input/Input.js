@@ -632,6 +632,7 @@ export default class Input extends Component {
       theme, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       passwordIconTooltip, // eslint-disable-line no-unused-vars
+      passwordIconProps, // eslint-disable-line no-unused-vars
       inputRef, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
