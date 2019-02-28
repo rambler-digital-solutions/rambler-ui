@@ -57,6 +57,15 @@ export default class TagsInputExample extends Component {
         {item}
       </TagsInputItem>
     ))
+    const clickableItemsWithColoredIcons = this.state.items.map(item => (
+      <TagsInputItem
+        value={item}
+        key={item}
+        onClick={() => {}}
+        icon={<PhotoCameraIcon color="#262626" />}>
+        {item}
+      </TagsInputItem>
+    ))
 
     return (
       <div>
@@ -120,9 +129,11 @@ export default class TagsInputExample extends Component {
                   {clickableItems}
                 </TagsInput>
               </div>
-              <h4>items with onClick and icon</h4>
+              <h4>items with onClick and colored icon</h4>
               <div style={{maxWidth: 240}}>
-                <TagsInput type={type}>{clickableItemsWithIcons}</TagsInput>
+                <TagsInput type={type}>
+                  {clickableItemsWithColoredIcons}
+                </TagsInput>
               </div>
               <h4>disabled, onChange, onMoreClick</h4>
               <div style={{maxWidth: 240}}>

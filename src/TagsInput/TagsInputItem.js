@@ -24,7 +24,8 @@ const iconStyle = {
     },
     icon: {
       alignSelf: 'center',
-      fill: 'currentColor'
+      fill: 'currentColor',
+      transition: 'fill .2s, color .2s'
     },
     text: {
       flex: '0 1 auto',
@@ -64,20 +65,22 @@ const iconStyle = {
           borderRadius: typeTheme.borderRadius,
           lineHeight: `${height}px`,
           '& $icon': {
-            marginLeft: typeTheme.iconLeftMargin
-          },
-          '& $text': {
-            marginLeft: typeTheme.paddingLeft
-          },
-          '& $text:only-child, & $icon + $text': {
-            marginRight: typeTheme.paddingRight
-          },
-          '& $icon ~ $text': {
-            marginLeft: typeTheme.iconRightMargin
+            marginLeft: typeTheme.iconLeftMargin,
+            marginRight: typeTheme.iconRightMargin
           },
           '& $remove': {
-            marginRight: typeTheme.removeRightMargin,
-            marginLeft: typeTheme.removeLeftMargin
+            marginLeft: typeTheme.removeLeftMargin,
+            marginRight: typeTheme.removeRightMargin
+          },
+          '& $text': {
+            marginLeft: typeTheme.paddingLeft,
+            marginRight: typeTheme.paddingRight
+          },
+          '& $icon + $text': {
+            marginLeft: 0
+          },
+          '& $remove ~ $text': {
+            marginRight: 0
           },
           '&$isEnabled': {
             color: colors.default.text,
@@ -85,14 +88,22 @@ const iconStyle = {
             '&$isClickable': {
               '&:hover': {
                 background: colors.hover.background,
-                '& $remove:not(:hover) + $text, & $text:only-child, & $icon + $text': {
+                '& $remove:not(:hover) ~ $text, & $text:only-child, & $icon:first-child + $text': {
                   color: colors.hover.text
+                },
+                '& $remove:not(:hover) + $icon, & $icon:first-child': {
+                  fill: 'currentColor!important',
+                  color: colors.hover.icon
                 }
               },
               '&:active': {
                 background: colors.active.background,
-                '& $remove:not(:active) + $text$text, & $text$text:only-child, & $icon + $text$text': {
+                '& $remove:not(:active) ~ $text$text, & $text$text:only-child, & $icon:first-child + $text$text': {
                   color: colors.active.text
+                },
+                '& $remove:not(:active) + $icon$icon, & $icon$icon:first-child': {
+                  fill: 'currentColor!important',
+                  color: colors.active.icon
                 }
               }
             },
@@ -205,12 +216,6 @@ class TagsInputItem extends Component {
         )}
         onClick={disabled ? undefined : this.handleClick}
         ref={nodeRef}>
-        {icon &&
-          cloneElement(icon, {
-            className: classnames(classes.icon, icon.props.className),
-            size: theme.tagsInput.types[type].iconSize,
-            color: (!disabled && icon.props.color) || null
-          })}
         {onRemove && (
           <ClearIcon
             className={classes.remove}
@@ -221,6 +226,12 @@ class TagsInputItem extends Component {
             role={disabled ? undefined : 'button'}
           />
         )}
+        {icon &&
+          cloneElement(icon, {
+            className: classnames(classes.icon, icon.props.className),
+            size: theme.tagsInput.types[type].iconSize,
+            color: (!disabled && icon.props.color) || null
+          })}
         <span className={classes.text}>{children}</span>
       </div>
     )

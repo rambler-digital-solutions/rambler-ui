@@ -207,7 +207,7 @@ describe('TagsInputItem: should apply default styles', () => {
     expect(textStyles['margin-left']).toEqual(
       (theme.tagsInput.types.regular.paddingLeft || 0) + 'px'
     )
-    expect(textStyles['margin-right']).toEqual(0 + 'px')
+    expect(textStyles['margin-right']).toEqual('0px')
     expect(iconStyles.fill).toEqual(
       nc(theme.tagsInput.types.regular.colors.default.icon)
     )
@@ -236,7 +236,7 @@ describe('TagsInputItem: should apply default styles', () => {
     expect(textStyles['margin-left']).toEqual(
       (theme.tagsInput.types.background.paddingLeft || 0) + 'px'
     )
-    expect(textStyles['margin-right']).toEqual(0 + 'px')
+    expect(textStyles['margin-right']).toEqual('0px')
     expect(iconStyles.fill).toEqual(
       nc(theme.tagsInput.types.background.colors.default.icon)
     )
@@ -266,9 +266,10 @@ describe('TagsInputItem: should apply default styles', () => {
     expect(iconStyles['margin-left']).toEqual(
       (regularTheme.iconLeftMargin || 0) + 'px'
     )
-    expect(textStyles['margin-left']).toEqual(
+    expect(iconStyles['margin-right']).toEqual(
       (regularTheme.iconRightMargin || 0) + 'px'
     )
+    expect(textStyles['margin-left']).toEqual('0px')
     expect(textStyles['margin-right']).toEqual(
       (regularTheme.paddingRight || 0) + 'px'
     )
@@ -294,9 +295,10 @@ describe('TagsInputItem: should apply default styles', () => {
     expect(iconStyles['margin-left']).toEqual(
       (backgroundTheme.iconLeftMargin || 0) + 'px'
     )
-    expect(textStyles['margin-left']).toEqual(
+    expect(iconStyles['margin-right']).toEqual(
       (backgroundTheme.iconRightMargin || 0) + 'px'
     )
+    expect(textStyles['margin-left']).toEqual('0px')
     expect(textStyles['margin-right']).toEqual(
       (backgroundTheme.paddingRight || 0) + 'px'
     )
