@@ -5,15 +5,15 @@ import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
-import {isolateMixin, middleMixin} from '../utils/mixins'
+import {isolateMixin} from '../utils/mixins'
 
 @injectSheet(
   theme => ({
     sideNavItem: {
-      extend: [isolateMixin, middleMixin],
+      extend: isolateMixin,
       fontFamily: theme.fontFamily,
-      display: 'block',
-      textAlign: 'left',
+      display: 'flex',
+      alignItems: 'center',
       userSelect: 'none',
       whiteSpace: 'nowrap',
       cursor: 'pointer',
@@ -21,31 +21,29 @@ import {isolateMixin, middleMixin} from '../utils/mixins'
       textDecoration: 'none',
       fontSize: theme.sideNav.fontSize,
       height: theme.sideNav.height,
-      marginTop: theme.sideNav.betweenMargin,
-      marginBottom: theme.sideNav.betweenMargin,
       color: theme.sideNav.colors.default.text,
-      '&:first-child': {
-        marginTop: 0
-      },
-      '&:last-child': {
-        marginBottom: 0
-      },
+      transition: 'color .2s',
+
       'a&:visited': {
         color: theme.sideNav.colors.default.text
       },
-      '&$isSelected, &:hover, a&:hover': {
+      '&&$isSelected, &&:hover': {
         color: theme.sideNav.colors.selected.text
       }
     },
     icon: {
-      display: 'inline-block'
+      flex: 'none',
+      display: 'inline-block',
+      width: '1em',
+      height: '1em',
+      fontSize: theme.sideNav.iconSize
     },
     isSelected: {
       cursor: 'default'
     },
     medium: {
       '& $icon': {
-        marginRight: 10
+        marginRight: theme.sideNav.iconRightMargin
       }
     }
   }),
@@ -114,6 +112,7 @@ class SideNavItem extends Component {
       const {classes} = this.props
       return cloneElement(icon, {
         color: 'currentColor',
+        size: null,
         ...icon.props,
         className: classnames(icon.props.className, classes.icon)
       })
@@ -140,10 +139,8 @@ class SideNavItem extends Component {
 
     const resultClassName = classnames(
       classes.sideNavItem,
-      {
-        [classes.medium]: mediumSize,
-        [classes.isSelected]: isSelected
-      },
+      mediumSize && classes.medium,
+      isSelected && classes.isSelected,
       className
     )
 
@@ -163,9 +160,12 @@ class SideNavItem extends Component {
       onClick: this.onClick
     }
 
-    const resultChildren = [this.renderIcon(icon), mediumSize && children]
-
-    return cloneElement(resultContainer, resultProps, ...resultChildren)
+    return cloneElement(
+      resultContainer,
+      resultProps,
+      this.renderIcon(icon),
+      mediumSize && children
+    )
   }
 }
 

@@ -1,6 +1,7 @@
 import {SideNav, SideNavItem} from '../SideNav'
 import BookIcon from '../icons/forms/BookIcon'
 import {ApplyTheme} from '../theme'
+import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 
@@ -63,16 +64,22 @@ describe('<SideNav />', () => {
     )
 
     expect(sideNavStyles.display).toEqual('inline-block')
-    expect(sideNavItemStyles['font-family']).toEqual('Roboto, sans-serif')
-    expect(sideNavItemStyles['font-size']).toEqual('13px')
-    expect(sideNavItemStyles.height).toEqual('25px')
-    expect(sideNavItemStyles.width).toEqual('20px')
-    expect(sideNavItemStyles['margin-top']).toEqual('20px')
+    expect(sideNavItemStyles['font-family']).toEqual(theme.fontFamily)
+    expect(sideNavItemStyles['font-size']).toEqual(
+      `${theme.sideNav.fontSize}px`
+    )
+    expect(sideNavItemStyles.height).toEqual(`${theme.sideNav.height}px`)
+    expect(sideNavItemStyles.width).toEqual(`${theme.sideNav.iconSize}px`)
+    expect(sideNavItemStyles['margin-top']).toEqual('0px')
     expect(sideNavItemStyles['margin-left']).toEqual('0px')
     expect(sideNavItemStyles['margin-right']).toEqual('0px')
     expect(sideNavItemStyles['margin-bottom']).toEqual('0px')
-    expect(nc(sideNavItemIconStyles.fill)).toEqual(nc('#262626'))
-    expect(nc(sideNavSelectedIconStyles.fill)).toEqual(nc('#315efb'))
+    expect(nc(sideNavItemIconStyles.fill)).toEqual(
+      nc(theme.sideNav.colors.default.text)
+    )
+    expect(nc(sideNavSelectedIconStyles.fill)).toEqual(
+      nc(theme.sideNav.colors.selected.text)
+    )
     expect(sideNavItem.text()).toEqual('')
   })
 
@@ -98,17 +105,23 @@ describe('<SideNav />', () => {
     const sideNavStyles = getStyles(wrapper.find('.sideNav').first())
     const sideNavItem = wrapper.find('.sideNavItem').first()
     const sideNavItemStyles = getStyles(sideNavItem)
+    const sideNavItemIconStyles = getStyles(wrapper.find('.sideNavItem svg'))
 
     expect(sideNavStyles.display).toEqual('block')
     expect(sideNavStyles.width).toEqual('480px')
-    expect(sideNavItemStyles['font-family']).toEqual('Roboto, sans-serif')
-    expect(sideNavItemStyles['font-size']).toEqual('13px')
-    expect(sideNavItemStyles.height).toEqual('25px')
+    expect(sideNavItemStyles['font-family']).toEqual(theme.fontFamily)
+    expect(sideNavItemStyles['font-size']).toEqual(
+      `${theme.sideNav.fontSize}px`
+    )
+    expect(sideNavItemStyles.height).toEqual(`${theme.sideNav.height}px`)
     expect(sideNavItemStyles.width).toEqual('480px')
-    expect(sideNavItemStyles['margin-top']).toEqual('20px')
+    expect(sideNavItemStyles['margin-top']).toEqual('0px')
     expect(sideNavItemStyles['margin-left']).toEqual('0px')
     expect(sideNavItemStyles['margin-right']).toEqual('0px')
     expect(sideNavItemStyles['margin-bottom']).toEqual('0px')
+    expect(sideNavItemIconStyles['margin-right']).toEqual(
+      `${theme.sideNav.iconRightMargin}px`
+    )
     expect(sideNavItem.text()).toEqual('Адреса электронной почты')
   })
 

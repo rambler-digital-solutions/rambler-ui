@@ -12,11 +12,7 @@ import {isolateMixin} from '../utils/mixins'
     sideNav: {
       extend: isolateMixin,
       fontFamily: theme.fontFamily,
-      display: 'inline-block',
-      '&, & *': {
-        transitionDuration: '.2s',
-        transitionProperty: 'background, opacity, border, box-shadow'
-      }
+      display: 'inline-block'
     },
     block: {
       display: 'block'

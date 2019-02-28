@@ -895,9 +895,10 @@ export function createTheme(config) {
             text: colors.primary
           }
         },
-        height: 25,
-        betweenMargin: 20,
-        fontSize: 13
+        height: 35,
+        fontSize: 13,
+        iconSize: 15,
+        iconRightMargin: 15
       },
       popup: {
         borderRadius: 1,
