@@ -50,6 +50,7 @@ class DropdownContainer extends PureComponent {
     tabIndex: PropTypes.number,
     anchorWidth: PropTypes.number,
     anchorFullWidth: PropTypes.bool,
+    onRequestClose: PropTypes.func,
     closeOnClickOutside: PropTypes.bool,
     pointY: PropTypes.oneOf(POINTS_Y),
     padding: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
@@ -75,7 +76,10 @@ class DropdownContainer extends PureComponent {
   }
 
   onClickOutside = () => {
-    if (this.props.isVisible) this.props.hide()
+    const {props} = this
+    if (props.isVisible)
+      if (props.onRequestClose) props.onRequestClose()
+      else props.hide()
   }
 
   render() {
@@ -177,6 +181,11 @@ export default class Dropdown extends PureComponent {
      */
     onClose: PropTypes.func,
     /**
+     * Коллбек вызывающийся при клике вне контента.
+     * Используется в случае если необходим полный контроль состояния открытия/закрытия из вне.
+     */
+    onRequestClose: PropTypes.func,
+    /**
      * Закрывать ли при клике вне контента
      */
     closeOnClickOutside: PropTypes.bool,
@@ -249,6 +258,7 @@ export default class Dropdown extends PureComponent {
       anchorPointY,
       onOpen,
       onClose,
+      onRequestClose,
       className,
       style,
       padding,
@@ -258,6 +268,7 @@ export default class Dropdown extends PureComponent {
       tabIndex
     } = this.props
     const dropdownProps = {
+      onRequestClose,
       closeOnClickOutside,
       anchorFullWidth,
       className,
