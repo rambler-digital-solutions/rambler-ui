@@ -527,7 +527,7 @@ export default class Input extends Component {
 
   get iconRight() {
     const {type, iconRight} = this.props
-    if (iconRight) return iconRight
+    if (iconRight !== undefined) return iconRight
     if (type === 'time') return <ClockIcon />
     if (type === 'date') return <CalendarIcon />
     return null
