@@ -94,7 +94,7 @@ describe('<Popup />', () => {
     )
     expect(popupStyles.width).toEqual('350px')
     expect(popupStyles['min-width']).toEqual('350px')
-    expect(popupStyles['padding-top']).toEqual('25px')
+    expect(popupStyles['padding-top']).toEqual('20px')
     expect(popupStyles['padding-left']).toEqual('25px')
     expect(popupStyles['padding-right']).toEqual('25px')
     expect(popupStyles['padding-bottom']).toEqual('25px')
