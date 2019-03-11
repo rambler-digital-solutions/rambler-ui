@@ -9,6 +9,9 @@ import {POINTS_Y} from '../constants/overlay'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
+const BG_COLOR = '#fff'
+const ARROW_SIZE = 5
+
 @injectSheet(
   theme => ({
     dropdown: {
@@ -16,27 +19,56 @@ import {isolateMixin} from '../utils/mixins'
       fontFamily: theme.fontFamily,
       borderRadius: theme.dropdown.borderRadius,
       boxSizing: 'border-box',
-      opacity: '0.01',
+      opacity: 0.01,
       pointerEvents: 'none',
       position: 'relative',
       transitionDuration: `${theme.dropdown.animationDuration}ms`,
       transitionProperty: 'opacity, top',
-      background: '#fff',
+      background: BG_COLOR,
       outline: 'none',
       boxShadow: theme.dropdown.boxShadow
     },
-    isVisible: {
-      '&$dropdown': {
-        opacity: '1',
-        pointerEvents: 'auto',
-        top: '0px'
-      }
-    },
     'pointY-bottom': {
-      '&:not($isVisible)': {top: -10}
+      top: -10
     },
     'pointY-top': {
-      '&:not($isVisible)': {top: 10}
+      top: 10
+    },
+    'pointX-left': {},
+    'pointX-center': {},
+    'pointX-right': {},
+    isVisible: {
+      opacity: 1,
+      pointerEvents: 'auto',
+      top: 0
+    },
+    withArrow: {
+      '&:before': {
+        position: 'absolute',
+        border: `${ARROW_SIZE}px solid transparent`,
+        pointerEvents: 'none'
+      },
+      '&$pointY-top:before': {
+        content: '""',
+        top: -ARROW_SIZE,
+        borderTopWidth: 0,
+        borderBottomColor: BG_COLOR
+      },
+      '&$pointY-bottom:before': {
+        content: '""',
+        bottom: -ARROW_SIZE,
+        borderBottomWidth: 0,
+        borderTopColor: BG_COLOR
+      },
+      '&$pointX-left:before': {
+        left: 15
+      },
+      '&$pointX-center:before': {
+        left: `calc(50% - ${ARROW_SIZE}px)`
+      },
+      '&$pointX-right:before': {
+        right: 15
+      }
     }
   }),
   {name: 'Dropdown'}
@@ -53,7 +85,8 @@ class DropdownContainer extends PureComponent {
     onRequestClose: PropTypes.func,
     closeOnClickOutside: PropTypes.bool,
     pointY: PropTypes.oneOf(POINTS_Y),
-    padding: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
+    padding: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
+    showArrow: PropTypes.bool
   }
 
   static defaultProps = {
@@ -63,17 +96,6 @@ class DropdownContainer extends PureComponent {
   }
 
   state = {}
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      this.props.isVisible !== nextProps.isVisible &&
-      nextProps.isVisible &&
-      !this.state.pointY
-    )
-      this.setState({
-        pointY: nextProps.pointY
-      })
-  }
 
   onClickOutside = () => {
     const {props} = this
@@ -96,9 +118,11 @@ class DropdownContainer extends PureComponent {
       padding,
       tabIndex,
       onBecomeVisible,
-      onBecomeInvisible
+      onBecomeInvisible,
+      pointX,
+      pointY,
+      showArrow
     } = this.props
-    const {pointY} = this.state
     let resultStyle = {}
     if (anchorWidth && anchorFullWidth) resultStyle.width = anchorWidth + 'px'
     if (padding) resultStyle.padding = padding
@@ -106,6 +130,7 @@ class DropdownContainer extends PureComponent {
       ...resultStyle,
       ...style
     }
+
     const content = (
       <VisibilityAnimation
         isVisible={isVisible}
@@ -119,7 +144,9 @@ class DropdownContainer extends PureComponent {
                 className={classnames(
                   className,
                   classes.dropdown,
+                  showArrow && classes.withArrow,
                   classes['pointY-' + pointY],
+                  classes['pointX-' + pointX],
                   isVisible && classes.isVisible
                 )}
                 style={resultStyle}
@@ -225,7 +252,11 @@ export default class Dropdown extends PureComponent {
     /**
      * Порядок фокусировки элемента
      */
-    tabIndex: PropTypes.number
+    tabIndex: PropTypes.number,
+    /**
+     * Показать стрелку
+     */
+    showArrow: PropTypes.bool
   }
 
   static defaultProps = {
@@ -265,7 +296,8 @@ export default class Dropdown extends PureComponent {
       overlayClassName,
       overlayStyle,
       appendToBody,
-      tabIndex
+      tabIndex,
+      showArrow
     } = this.props
     const dropdownProps = {
       onRequestClose,
@@ -274,7 +306,8 @@ export default class Dropdown extends PureComponent {
       className,
       style,
       padding,
-      tabIndex
+      tabIndex,
+      showArrow
     }
     const overlayProps = {
       anchor,
