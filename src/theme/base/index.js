@@ -524,8 +524,7 @@ export function createTheme(config) {
       dropdown: {
         borderRadius: 1,
         animationDuration: 200,
-        boxShadow:
-          '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)'
+        boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)'
       },
       formGroup: {
         fontSize: 13
@@ -533,8 +532,7 @@ export function createTheme(config) {
       hint: {
         borderRadius: 1,
         animationDuration: 200,
-        boxShadow:
-          '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)',
+        boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
         colors: {
           background: colors.light,
           text: colors.dark,
@@ -766,8 +764,7 @@ export function createTheme(config) {
       },
       notification: {
         borderRadius: 2,
-        boxShadow:
-          '0 2px 6px 0 rgba(0, 0, 0, 0.1), 0 -2px 6px 0 rgba(0, 0, 0, 0.1)',
+        boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
         padding: '20px 25px 20px 20px',
         colors: {
           background: colors.light,

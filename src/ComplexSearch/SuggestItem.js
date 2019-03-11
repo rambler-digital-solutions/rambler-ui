@@ -143,6 +143,7 @@ class SuggestItem extends React.Component {
       highlightedClassName,
       removeButton,
       value, // eslint-disable-line no-unused-vars
+      theme, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 
