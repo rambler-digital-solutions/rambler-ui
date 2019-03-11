@@ -726,7 +726,7 @@ export function createTheme(config) {
         color: colors.light
       },
       menu: {
-        padding: 13,
+        padding: 15,
         fontSize: 13,
         lineHeight: 18,
         sizes: {

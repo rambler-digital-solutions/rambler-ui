@@ -61,7 +61,7 @@ import '../utils/focus-source'
       boxSizing: 'border-box',
       borderRadius: theme.popup.borderRadius,
       boxShadow: theme.popup.boxShadow,
-      padding: 25,
+      padding: [20, 25, 25],
       color: theme.popup.colors.text,
       minWidth: 300,
       maxWidth: 'calc(100% - 20px)',
