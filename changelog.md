@@ -1,5 +1,9 @@
 # Changelog
 
+## v-3.42.1 - 2019-03-11
+### Added
+* Поправлены `box-shadow` в `<Dropdown />`, `<Hint />` и `<Notification />`
+
 ## v-3.42.0 - 2019-03-11
 ### Added
 * Добавлено свойство `showArrow` в компонент `<Dropdown />` для отображения стрелки
