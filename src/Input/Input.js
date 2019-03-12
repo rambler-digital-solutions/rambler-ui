@@ -158,23 +158,23 @@ const activeBorder = borderColor => ({
             }
           },
           '& $icon': {
-            height: theme.field.sizes[size].iconSize,
-            width: theme.field.sizes[size].iconSize,
-            lineHeight: theme.field.sizes[size].iconSize + 'px',
+            height: theme.field.iconSize,
+            width: theme.field.iconSize,
+            lineHeight: theme.field.iconSize + 'px',
             ...ifMobile({
-              height: theme.field.mobile.sizes[size].iconSize,
-              width: theme.field.mobile.sizes[size].iconSize,
-              lineHeight: theme.field.mobile.sizes[size].iconSize + 'px'
+              height: theme.field.mobile.iconSize,
+              width: theme.field.mobile.iconSize,
+              lineHeight: theme.field.mobile.iconSize + 'px'
             })
           },
           '& $eye': {
-            height: theme.field.sizes[size].eyeIconSize,
-            width: theme.field.sizes[size].eyeIconSize,
-            lineHeight: theme.field.sizes[size].eyeIconSize + 'px',
+            height: theme.field.eyeIconSize,
+            width: theme.field.eyeIconSize,
+            lineHeight: theme.field.eyeIconSize + 'px',
             ...ifMobile({
-              height: theme.field.mobile.sizes[size].eyeIconSize,
-              width: theme.field.mobile.sizes[size].eyeIconSize,
-              lineHeight: theme.field.mobile.sizes[size].eyeIconSize + 'px'
+              height: theme.field.mobile.eyeIconSize,
+              width: theme.field.mobile.eyeIconSize,
+              lineHeight: theme.field.mobile.eyeIconSize + 'px'
             })
           },
           '& $eyeWrapper': {
@@ -183,14 +183,10 @@ const activeBorder = borderColor => ({
               content: '" "',
               position: 'absolute',
               top: -Math.floor(
-                (theme.field.sizes[size].height -
-                  theme.field.sizes[size].eyeIconSize) /
-                  2
+                (theme.field.sizes[size].height - theme.field.eyeIconSize) / 2
               ),
               bottom: -Math.floor(
-                (theme.field.sizes[size].height -
-                  theme.field.sizes[size].eyeIconSize) /
-                  2
+                (theme.field.sizes[size].height - theme.field.eyeIconSize) / 2
               ),
               left: -10,
               right: -10
@@ -300,13 +296,19 @@ const activeBorder = borderColor => ({
             })
           },
           '&$regular $iconLeft, &$awesome $iconLeft': {
-            left: theme.field.sizes[size].iconMargin
+            left: theme.field.sizes[size].iconMargin,
+            ...ifMobile({
+              left: theme.field.mobile.sizes[size].iconMargin
+            })
           },
           '&$promo $iconLeft': {
             left: 0
           },
           '&$regular $iconRight, &$awesome $iconRight': {
-            right: theme.field.sizes[size].iconMargin
+            right: theme.field.sizes[size].iconMargin,
+            ...ifMobile({
+              right: theme.field.mobile.sizes[size].iconMargin
+            })
           },
           '&$promo $iconRight': {
             right: 0
@@ -334,7 +336,10 @@ const activeBorder = borderColor => ({
                 })
               },
               '& $iconLeft': {
-                left: theme.field.sizes[size].iconMargin
+                left: theme.field.sizes[size].iconMargin,
+                ...ifMobile({
+                  left: theme.field.mobile.sizes[size].iconMargin
+                })
               }
             },
             '&:not($endPosition)': {
@@ -358,7 +363,10 @@ const activeBorder = borderColor => ({
                 })
               },
               '& $iconRight': {
-                right: theme.field.sizes[size].iconMargin
+                right: theme.field.sizes[size].iconMargin,
+                ...ifMobile({
+                  right: theme.field.mobile.sizes[size].iconMargin
+                })
               }
             }
           }
@@ -408,7 +416,11 @@ const activeBorder = borderColor => ({
         color: theme.field.icon.colors.active
       },
       '$regular &, $awesome &': {
-        right: theme.input.eyeMargin
+        right: theme.field.eyeMargin,
+
+        ...ifMobile({
+          right: theme.input.mobile.eyeMargin
+        })
       },
       '$promo &': {
         right: 0
@@ -614,7 +626,6 @@ export default class Input extends Component {
   renderPasswordIcon() {
     const {
       type,
-      size,
       theme,
       classes,
       passwordIconTooltip,
@@ -637,7 +648,11 @@ export default class Input extends Component {
         className={classes.eyeWrapper}
         onClick={this.inputTypeHelper}>
         <Icon
-          size={theme.field.sizes[size].eyeIconSize}
+          size={
+            window.innerWidth < 768
+              ? theme.field.mobile.eyeIconSize
+              : theme.field.eyeIconSize
+          }
           className={classes.eyeIcon}
           color="currentColor"
         />
@@ -669,7 +684,10 @@ export default class Input extends Component {
           color: props.disabled
             ? field.colors.disabled.text
             : Icon.props.color || 'currentColor',
-          size: Icon.props.size || field.sizes[props.size].iconSize
+          size:
+            Icon.props.size || window.innerWidth < 768
+              ? field.mobile.iconSize
+              : field.iconSize
         })}
       </div>
     )
