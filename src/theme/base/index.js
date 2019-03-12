@@ -746,8 +746,11 @@ export function createTheme(config) {
       inputStatus: {
         sizes: {
           fontSize: 13,
+          lineHeight: 15,
+
           mobile: {
-            fontSize: 14
+            fontSize: 14,
+            lineHeight: 20
           }
         }
       },
