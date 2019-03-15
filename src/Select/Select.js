@@ -94,6 +94,7 @@ const multipleSelectFix = <optgroup disabled hidden />
       textAlign: 'center',
       lineHeight: 0,
       color: theme.field.colors.default.arrow,
+      pointerEvents: 'auto',
       '&:empty': {
         '&:after': {
           height: 8,
@@ -102,7 +103,6 @@ const multipleSelectFix = <optgroup disabled hidden />
           borderStyle: 'solid',
           borderWidth: '0 0 1px 1px',
           content: '""',
-          pointerEvents: 'none',
           transform: 'rotate(-45deg) translateY(50%)'
         }
       },
@@ -815,7 +815,7 @@ export default class Select extends PureComponent {
         iconRight={rightIcon}
         iconRightClassName={classes.icon}
         onKeyDown={this.keyDown}
-        onClick={this.open}
+        onClick={!onSearch && isOpened ? this.close : this.open}
         onFocus={this.focusInput}
         onBlur={this.blurInput}
         onTouchStart={onSearch ? undefined : this.open}
