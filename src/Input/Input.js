@@ -189,7 +189,19 @@ const activeBorder = borderColor => ({
                 (theme.field.sizes[size].height - theme.field.eyeIconSize) / 2
               ),
               left: -10,
-              right: -10
+              right: -10,
+              ...ifMobile({
+                top: -Math.floor(
+                  (theme.field.sizes[size].height -
+                    theme.field.mobile.eyeIconSize) /
+                    2
+                ),
+                bottom: -Math.floor(
+                  (theme.field.sizes[size].height -
+                    theme.field.mobile.eyeIconSize) /
+                    2
+                )
+              })
             }
           },
           '& $placeholder': {
@@ -416,7 +428,7 @@ const activeBorder = borderColor => ({
         color: theme.field.icon.colors.active
       },
       '$regular &, $awesome &': {
-        right: theme.field.eyeMargin,
+        right: theme.input.eyeMargin,
 
         ...ifMobile({
           right: theme.input.mobile.eyeMargin
