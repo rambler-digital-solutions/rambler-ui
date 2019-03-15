@@ -62,7 +62,7 @@ const tickStyle = {
         },
         '& $fake': setThemeForSelector(awesome.colors.default),
         '&$isEnabled:hover $fake': setThemeForSelector(awesome.colors.hover),
-        '&&$isChecked $fake, &&$indeterminate $fake': setThemeForSelector(
+        '&$isEnabled$isChecked $fake, &&$indeterminate $fake': setThemeForSelector(
           awesome.colors.checked
         ),
         '&$isEnabled$isChecked:hover $fake, &$isEnabled$indeterminate:hover $fake': setThemeForSelector(
