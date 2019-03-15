@@ -728,7 +728,7 @@ export function createTheme(config) {
       menu: {
         padding: 15,
         fontSize: 13,
-        lineHeight: 18,
+        lineHeight: 19,
         sizes: {
           medium: {
             height: 45

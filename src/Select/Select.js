@@ -163,14 +163,21 @@ const multipleSelectFix = <optgroup disabled hidden />
       cursor: 'default'
     },
     menu: {
-      borderBottom: `1px solid ${theme.field.colors.default.outline}`,
-      '$medium &': {
-        maxHeight: theme.menu.sizes.medium.height * 4 + 2
-      },
-      '$small &': {
-        maxHeight: theme.menu.sizes.small.height * 4 + 2
-      }
+      borderBottom: `1px solid ${theme.field.colors.default.outline}`
     },
+    ...['small', 'medium'].reduce(
+      (result, size) => ({
+        ...result,
+        [`menuSize-${size}`]: {
+          maxHeight: theme.menu.sizes[size].height * 7 + 2,
+          '&$reducedHeight': {
+            maxHeight: theme.menu.sizes[size].height * 6 + 2
+          }
+        }
+      }),
+      {}
+    ),
+    reducedHeight: {},
     clear: {
       flex: 'none',
       alignSelf: 'center',
@@ -950,7 +957,12 @@ export default class Select extends PureComponent {
             {children.length > 0 && (
               <Menu
                 style={menuStyle}
-                className={classnames(menuClassName, classes.menu)}
+                className={classnames(
+                  menuClassName,
+                  classes.menu,
+                  classes[`menuSize-${size}`],
+                  onSearch && multiple && classes.reducedHeight
+                )}
                 autoFocus={resultIsOpened && !inputFocused}
                 value={
                   multiple ? (Array.isArray(value) ? value : emptyArr) : value
