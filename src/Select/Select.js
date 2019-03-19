@@ -460,7 +460,8 @@ export default class Select extends PureComponent {
     inputValueRenderer: value => value,
     onFocus: () => {},
     onBlur: () => {},
-    onChange: () => {}
+    onChange: () => {},
+    children: []
   }
 
   state = {
