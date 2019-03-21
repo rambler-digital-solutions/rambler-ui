@@ -203,22 +203,26 @@ const multipleSelectFix = <optgroup disabled hidden />
               content: '" "',
               position: 'absolute',
               top: -Math.floor(
-                (theme.field.sizes[size].height - theme.field.iconSize) / 2
+                (theme.field.sizes[size].height -
+                  theme.field.sizes[size].icon) /
+                  2
               ),
               bottom: -Math.floor(
-                (theme.field.sizes[size].height - theme.field.iconSize) / 2
+                (theme.field.sizes[size].height -
+                  theme.field.sizes[size].icon) /
+                  2
               ),
               left: -10,
               right: -10,
               ...ifMobile({
                 top: -Math.floor(
                   (theme.field.sizes[size].height -
-                    theme.field.mobile.iconSize) /
+                    theme.field.mobile.sizes[size].icon) /
                     2
                 ),
                 bottom: -Math.floor(
                   (theme.field.sizes[size].height -
-                    theme.field.mobile.iconSize) /
+                    theme.field.mobile.sizes[size].icon) /
                     2
                 )
               })

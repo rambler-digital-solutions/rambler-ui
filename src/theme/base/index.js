@@ -570,10 +570,6 @@ export function createTheme(config) {
         fontWeight: 400,
         letterSpacing: 0,
         borderRadius: 1,
-        fontSize: 13,
-        lineHeight: '25px',
-        iconSize: 15,
-        eyeIconSize: 15,
 
         icon: {
           colors: {
@@ -611,13 +607,19 @@ export function createTheme(config) {
             height: 45,
             withIconPadding: 45,
             withIconsPadding: 75,
-            iconMargin: 15
+            iconMargin: 15,
+            icon: 15,
+            eyeIcon: 15,
+            fontSize: 13
           },
           small: {
             height: 35,
             withIconPadding: 45,
             withIconsPadding: 75,
-            iconMargin: 15
+            iconMargin: 15,
+            icon: 15,
+            eyeIcon: 15,
+            fontSize: 13
           }
         },
         animationDuration: 200,
@@ -625,22 +627,25 @@ export function createTheme(config) {
         mobile: {
           fontWeight: 400,
           letterSpacing: 0,
-          fontSize: 16,
-          iconSize: 19,
-          eyeIconSize: 19,
 
           sizes: {
             medium: {
               height: 55,
               withIconPadding: 60,
               withIconsPadding: 100,
-              iconMargin: 20
+              iconMargin: 20,
+              icon: 19,
+              eyeIcon: 19,
+              fontSize: 16
             },
             small: {
               height: 45,
               withIconPadding: 50,
               withIconsPadding: 85,
-              iconMargin: 15
+              iconMargin: 15,
+              icon: 19,
+              eyeIcon: 19,
+              fontSize: 16
             }
           }
         }

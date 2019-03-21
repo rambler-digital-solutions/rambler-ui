@@ -140,14 +140,13 @@ const activeBorder = borderColor => ({
         ...result,
         [size]: {
           '& $input': {
-            fontSize: theme.field.fontSize,
+            fontSize: theme.field.sizes[size].fontSize,
             ...ifMobile({
-              fontSize: theme.field.mobile.fontSize
+              fontSize: theme.field.mobile.sizes[size].fontSize
             })
           },
           '& input$input': {
             height: theme.field.sizes[size].height,
-            lineHeight: theme.field.lineHeight,
             ...ifMobile({
               height: theme.field.mobile.sizes[size].height + 'px'
             }),
@@ -158,23 +157,23 @@ const activeBorder = borderColor => ({
             }
           },
           '& $icon': {
-            height: theme.field.iconSize,
-            width: theme.field.iconSize,
-            lineHeight: theme.field.iconSize + 'px',
+            height: theme.field.sizes[size].icon,
+            width: theme.field.sizes[size].icon,
+            lineHeight: theme.field.sizes[size].icon + 'px',
             ...ifMobile({
-              height: theme.field.mobile.iconSize,
-              width: theme.field.mobile.iconSize,
-              lineHeight: theme.field.mobile.iconSize + 'px'
+              height: theme.field.mobile.sizes[size].icon,
+              width: theme.field.mobile.sizes[size].icon,
+              lineHeight: theme.field.mobile.sizes[size].icon + 'px'
             })
           },
           '& $eye': {
-            height: theme.field.eyeIconSize,
-            width: theme.field.eyeIconSize,
-            lineHeight: theme.field.eyeIconSize + 'px',
+            height: theme.field.sizes[size].eyeIcon,
+            width: theme.field.sizes[size].eyeIcon,
+            lineHeight: theme.field.sizes[size].eyeIcon + 'px',
             ...ifMobile({
-              height: theme.field.mobile.eyeIconSize,
-              width: theme.field.mobile.eyeIconSize,
-              lineHeight: theme.field.mobile.eyeIconSize + 'px'
+              height: theme.field.mobile.sizes[size].eyeIcon,
+              width: theme.field.mobile.sizes[size].eyeIcon,
+              lineHeight: theme.field.mobile.sizes[size].eyeIcon + 'px'
             })
           },
           '& $eyeWrapper': {
@@ -183,32 +182,36 @@ const activeBorder = borderColor => ({
               content: '" "',
               position: 'absolute',
               top: -Math.floor(
-                (theme.field.sizes[size].height - theme.field.eyeIconSize) / 2
+                (theme.field.sizes[size].height -
+                  theme.field.sizes[size].eyeIcon) /
+                  2
               ),
               bottom: -Math.floor(
-                (theme.field.sizes[size].height - theme.field.eyeIconSize) / 2
+                (theme.field.sizes[size].height -
+                  theme.field.sizes[size].eyeIcon) /
+                  2
               ),
               left: -10,
               right: -10,
               ...ifMobile({
                 top: -Math.floor(
                   (theme.field.sizes[size].height -
-                    theme.field.mobile.eyeIconSize) /
+                    theme.field.mobile.sizes[size].eyeIcon) /
                     2
                 ),
                 bottom: -Math.floor(
                   (theme.field.sizes[size].height -
-                    theme.field.mobile.eyeIconSize) /
+                    theme.field.mobile.sizes[size].eyeIcon) /
                     2
                 )
               })
             }
           },
           '& $placeholder': {
-            fontSize: theme.field.fontSize,
+            fontSize: theme.field.sizes[size].fontSize,
             pointerEvents: 'none',
             ...ifMobile({
-              fontSize: theme.field.mobile.fontSize
+              fontSize: theme.field.mobile.sizes[size].fontSize
             })
           },
           '&$withOutline $placeholder': {
@@ -639,6 +642,7 @@ export default class Input extends Component {
     const {
       type,
       theme,
+      size,
       classes,
       passwordIconTooltip,
       passwordIconProps
@@ -662,8 +666,8 @@ export default class Input extends Component {
         <Icon
           size={
             window.innerWidth < 768
-              ? theme.field.mobile.eyeIconSize
-              : theme.field.eyeIconSize
+              ? theme.field.mobile.sizes[size].eyeIcon
+              : theme.field.sizes[size].eyeIcon
           }
           className={classes.eyeIcon}
           color="currentColor"
@@ -698,8 +702,8 @@ export default class Input extends Component {
             : Icon.props.color || 'currentColor',
           size:
             Icon.props.size || window.innerWidth < 768
-              ? field.mobile.iconSize
-              : field.iconSize
+              ? field.mobile.sizes[props.size].icon
+              : field.sizes[props.size].icon
         })}
       </div>
     )
