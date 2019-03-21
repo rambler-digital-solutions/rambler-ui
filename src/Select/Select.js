@@ -934,7 +934,7 @@ export default class Select extends PureComponent {
             overlayClassName={classes.dropdownContainer}
             appendToBody={appendToBody}
             anchorFullWidth={true}
-            autoPositionY={false}
+            autoPositionY={!multiple}
             anchorPointY="bottom"
             contentPointY="top"
             closeOnClickOutside={false}
