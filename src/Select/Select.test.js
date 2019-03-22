@@ -36,7 +36,7 @@ describe('<Select />', () => {
       getWrapperNode(wrapper.find('div[role="button"]')).parentNode
     )
     expect(arrowStyles.position).toEqual('absolute')
-    expect(arrowStyles.right).toEqual('13px')
+    expect(arrowStyles.right).toEqual('15px')
     expect(arrowStyles.width).toEqual(theme.field.sizes.medium.icon + 'px')
     expect(arrowStyles.height).toEqual(theme.field.sizes.medium.icon + 'px')
     expect(arrowStyles['background-color']).toEqual('rgba(0, 0, 0, 0)')

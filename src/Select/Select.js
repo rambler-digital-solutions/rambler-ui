@@ -16,7 +16,7 @@ import {
   ENTER
 } from '../constants/keys'
 import {injectSheet} from '../theme'
-import {isolateMixin, placeholderMixin} from '../utils/mixins'
+import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
 import ClearIconSmall from './ClearIconSmall'
 
@@ -220,7 +220,19 @@ const multipleSelectFix = <optgroup disabled hidden />
                   2
               ),
               left: -10,
-              right: -10
+              right: -10,
+              ...ifMobile({
+                top: -Math.floor(
+                  (theme.field.sizes[size].height -
+                    theme.field.mobile.sizes[size].icon) /
+                    2
+                ),
+                bottom: -Math.floor(
+                  (theme.field.sizes[size].height -
+                    theme.field.mobile.sizes[size].icon) /
+                    2
+                )
+              })
             },
             '&:empty:after': {
               top: size === 'small' ? -2 : -1,

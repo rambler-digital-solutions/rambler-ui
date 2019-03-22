@@ -29,10 +29,12 @@ import {isolateMixin, ifMobile} from '../utils/mixins'
       fontFamily: theme.fontFamily,
       marginTop: 10,
       fontSize: theme.inputStatus.sizes.fontSize,
-      lineHeight: theme.inputStatus.sizes.fontSize + 2 + 'px',
+      lineHeight: theme.inputStatus.sizes.lineHeight + 'px',
       textAlign: 'left',
       ...ifMobile({
-        fontSize: theme.inputStatus.sizes.mobile.fontSize
+        marginTop: 5,
+        fontSize: theme.inputStatus.sizes.mobile.fontSize,
+        lineHeight: theme.inputStatus.sizes.mobile.lineHeight + 'px'
       })
     }
   }),

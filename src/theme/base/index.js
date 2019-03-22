@@ -527,7 +527,13 @@ export function createTheme(config) {
         boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)'
       },
       formGroup: {
-        fontSize: 13
+        fontSize: 13,
+        lineHeight: 15,
+
+        mobile: {
+          fontSize: 14,
+          lineHeight: 20
+        }
       },
       hint: {
         borderRadius: 1,
@@ -562,6 +568,7 @@ export function createTheme(config) {
         fontWeight: 400,
         letterSpacing: 0,
         borderRadius: 1,
+
         icon: {
           colors: {
             default: colors.controls.grey.outline,
@@ -593,39 +600,53 @@ export function createTheme(config) {
             background: colors.light
           }
         },
-        mobile: {
-          fontWeight: 400,
-          letterSpacing: 0,
-          sizes: {
-            medium: {
-              fontSize: 14
-            },
-            small: {
-              fontSize: 14
-            }
-          }
-        },
         sizes: {
           medium: {
             height: 45,
-            fontSize: 13,
-            icon: 18,
+            withIconPadding: 45,
+            withIconsPadding: 75,
+            iconMargin: 15,
+            icon: 15,
             eyeIcon: 15,
-            withIconPadding: 40,
-            withIconsPadding: 70,
-            iconMargin: 13
+            fontSize: 13
           },
           small: {
             height: 35,
-            fontSize: 13,
-            icon: 16,
+            withIconPadding: 45,
+            withIconsPadding: 75,
+            iconMargin: 15,
+            icon: 15,
             eyeIcon: 15,
-            withIconPadding: 40,
-            withIconsPadding: 70,
-            iconMargin: 13
+            fontSize: 13
           }
         },
-        animationDuration: 200
+        animationDuration: 200,
+
+        mobile: {
+          fontWeight: 400,
+          letterSpacing: 0,
+
+          sizes: {
+            medium: {
+              height: 55,
+              withIconPadding: 60,
+              withIconsPadding: 100,
+              iconMargin: 20,
+              icon: 19,
+              eyeIcon: 19,
+              fontSize: 16
+            },
+            small: {
+              height: 45,
+              withIconPadding: 50,
+              withIconsPadding: 85,
+              iconMargin: 15,
+              icon: 19,
+              eyeIcon: 19,
+              fontSize: 16
+            }
+          }
+        }
       },
       tagsInput: {
         fontSize: 13,
@@ -703,21 +724,36 @@ export function createTheme(config) {
         }
       },
       input: {
-        eyeMargin: 13,
+        eyeMargin: 15,
         sizes: {
-          small: {
-            padding: 13
-          },
           medium: {
             padding: 15
+          },
+          small: {
+            padding: 15
+          }
+        },
+
+        mobile: {
+          eyeMargin: 20,
+          sizes: {
+            medium: {
+              padding: 20
+            },
+            small: {
+              padding: 15
+            }
           }
         }
       },
       inputStatus: {
         sizes: {
           fontSize: 13,
+          lineHeight: 15,
+
           mobile: {
-            fontSize: 14
+            fontSize: 14,
+            lineHeight: 20
           }
         }
       },

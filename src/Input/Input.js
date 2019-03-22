@@ -45,7 +45,11 @@ const activeBorder = borderColor => ({
         resize: 'vertical',
         height: '100%',
         paddingTop: theme.input.sizes.medium.padding,
-        paddingBottom: theme.input.sizes.medium.padding
+        paddingBottom: theme.input.sizes.medium.padding,
+        ...ifMobile({
+          paddingTop: theme.input.mobile.sizes.medium.padding,
+          paddingBottom: theme.input.mobile.sizes.medium.padding
+        })
       },
       '&::-ms-reveal, &::-ms-clear': {
         display: 'none'
@@ -143,7 +147,9 @@ const activeBorder = borderColor => ({
           },
           '& input$input': {
             height: theme.field.sizes[size].height,
-            lineHeight: 'normal',
+            ...ifMobile({
+              height: theme.field.mobile.sizes[size].height + 'px'
+            }),
             '&[type="date"], &[type="time"]': {
               ...ifMobile({
                 lineHeight: theme.field.sizes[size].height + 'px'
@@ -153,12 +159,22 @@ const activeBorder = borderColor => ({
           '& $icon': {
             height: theme.field.sizes[size].icon,
             width: theme.field.sizes[size].icon,
-            lineHeight: theme.field.sizes[size].icon + 'px'
+            lineHeight: theme.field.sizes[size].icon + 'px',
+            ...ifMobile({
+              height: theme.field.mobile.sizes[size].icon,
+              width: theme.field.mobile.sizes[size].icon,
+              lineHeight: theme.field.mobile.sizes[size].icon + 'px'
+            })
           },
           '& $eye': {
             height: theme.field.sizes[size].eyeIcon,
             width: theme.field.sizes[size].eyeIcon,
-            lineHeight: theme.field.sizes[size].eyeIcon + 'px'
+            lineHeight: theme.field.sizes[size].eyeIcon + 'px',
+            ...ifMobile({
+              height: theme.field.mobile.sizes[size].eyeIcon,
+              width: theme.field.mobile.sizes[size].eyeIcon,
+              lineHeight: theme.field.mobile.sizes[size].eyeIcon + 'px'
+            })
           },
           '& $eyeWrapper': {
             '&:after': {
@@ -176,7 +192,19 @@ const activeBorder = borderColor => ({
                   2
               ),
               left: -10,
-              right: -10
+              right: -10,
+              ...ifMobile({
+                top: -Math.floor(
+                  (theme.field.sizes[size].height -
+                    theme.field.mobile.sizes[size].eyeIcon) /
+                    2
+                ),
+                bottom: -Math.floor(
+                  (theme.field.sizes[size].height -
+                    theme.field.mobile.sizes[size].eyeIcon) /
+                    2
+                )
+              })
             }
           },
           '& $placeholder': {
@@ -187,61 +215,115 @@ const activeBorder = borderColor => ({
             })
           },
           '&$withOutline $placeholder': {
-            paddingLeft: theme.input.sizes[size].padding
+            paddingLeft: theme.input.sizes[size].padding,
+            ...ifMobile({
+              paddingLeft: theme.input.mobile.sizes[size].padding
+            })
           },
           '&$withOutline $input': {
             paddingLeft: theme.input.sizes[size].padding,
-            paddingRight: theme.input.sizes[size].padding
+            paddingRight: theme.input.sizes[size].padding,
+            ...ifMobile({
+              paddingLeft: theme.input.mobile.sizes[size].padding,
+              paddingRight: theme.input.mobile.sizes[size].padding
+            })
           },
           '&$withLeftIcon$regular $input': {
-            paddingLeft: theme.field.sizes[size].withIconPadding - 1
+            paddingLeft: theme.field.sizes[size].withIconPadding - 1,
+            ...ifMobile({
+              paddingLeft: theme.field.mobile.sizes[size].withIconPadding - 1
+            })
           },
           '&$withLeftIcon$awesome $input': {
-            paddingLeft: theme.field.sizes[size].withIconPadding
+            paddingLeft: theme.field.sizes[size].withIconPadding,
+            ...ifMobile({
+              paddingLeft: theme.field.mobile.sizes[size].withIconPadding
+            })
           },
           '&$withLeftIcon$promo $input': {
             paddingLeft:
               theme.field.sizes[size].withIconPadding -
-              theme.input.sizes[size].padding
+              theme.input.sizes[size].padding,
+            ...ifMobile({
+              paddingLeft:
+                theme.field.mobile.sizes[size].withIconPadding -
+                theme.input.mobile.sizes[size].padding
+            })
           },
           '&$withRightIcon$regular $input, &$withEye$regular $input': {
-            paddingRight: theme.field.sizes[size].withIconPadding - 1
+            paddingRight: theme.field.sizes[size].withIconPadding - 1,
+            ...ifMobile({
+              paddingRight: theme.field.mobile.sizes[size].withIconPadding - 1
+            })
           },
           '&$withEye$withRightIcon$regular $input': {
-            paddingRight: theme.field.sizes[size].withIconsPadding - 1
+            paddingRight: theme.field.sizes[size].withIconsPadding - 1,
+            ...ifMobile({
+              paddingRight: theme.field.mobile.sizes[size].withIconsPadding - 1
+            })
           },
           '&$withRightIcon$awesome $input, &$withEye$awesome $input': {
-            paddingRight: theme.field.sizes[size].withIconPadding
+            paddingRight: theme.field.sizes[size].withIconPadding,
+            ...ifMobile({
+              paddingRight: theme.field.mobile.sizes[size].withIconPadding
+            })
           },
           '&$withEye$withRightIcon$awesome $input': {
-            paddingRight: theme.field.sizes[size].withIconsPadding
+            paddingRight: theme.field.sizes[size].withIconsPadding,
+            ...ifMobile({
+              paddingRight: theme.field.mobile.sizes[size].withIconsPadding
+            })
           },
           '&$withRightIcon$promo $input, &$withEye$promo $input': {
             paddingRight:
               theme.field.sizes[size].withIconPadding -
-              theme.input.sizes[size].padding
+              theme.input.sizes[size].padding,
+            ...ifMobile({
+              paddingRight:
+                theme.field.mobile.sizes[size].withIconPadding -
+                theme.input.mobile.sizes[size].padding
+            })
           },
           '&$withEye$withRightIcon$promo $input': {
             paddingRight:
               theme.field.sizes[size].withIconsPadding -
-              theme.input.sizes[size].padding
+              theme.input.sizes[size].padding,
+            ...ifMobile({
+              paddingRight:
+                theme.field.mobile.sizes[size].withIconsPadding -
+                theme.input.mobile.sizes[size].padding
+            })
           },
           '&$withEye$regular $iconRight, &$withEye$awesome $iconRight': {
-            right: theme.field.sizes[size].withIconPadding
+            right: theme.field.sizes[size].withIconPadding,
+            ...ifMobile({
+              right: theme.field.mobile.sizes[size].withIconPadding
+            })
           },
           '&$withEye$promo $iconRight': {
             right:
               theme.field.sizes[size].withIconPadding -
-              theme.input.sizes[size].padding
+              theme.input.sizes[size].padding,
+            ...ifMobile({
+              right:
+                theme.field.mobile.sizes[size].withIconPadding -
+                theme.input.mobile.sizes[size].padding
+            })
           },
           '&$regular $iconLeft, &$awesome $iconLeft': {
-            left: theme.field.sizes[size].iconMargin
+            left: theme.field.sizes[size].iconMargin,
+            ...ifMobile({
+              left: theme.field.mobile.sizes[size].iconMargin
+            })
           },
           '&$promo $iconLeft': {
             left: 0
           },
           '&$regular $iconRight, &$awesome $iconRight': {
-            right: theme.field.sizes[size].iconMargin
+            right: theme.field.sizes[size].iconMargin,
+            ...ifMobile({
+              right: theme.field.mobile.sizes[size].iconMargin
+            })
           },
           '&$promo $iconRight': {
             right: 0
@@ -263,24 +345,43 @@ const activeBorder = borderColor => ({
           '&$inGroup$promo': {
             '&:not($startPosition)': {
               '&$withLeftIcon $input': {
-                paddingLeft: theme.field.sizes[size].withIconPadding
+                paddingLeft: theme.field.sizes[size].withIconPadding,
+                ...ifMobile({
+                  paddingLeft: theme.field.mobile.sizes[size].withIconPadding
+                })
               },
               '& $iconLeft': {
-                left: theme.field.sizes[size].iconMargin
+                left: theme.field.sizes[size].iconMargin,
+                ...ifMobile({
+                  left: theme.field.mobile.sizes[size].iconMargin
+                })
               }
             },
             '&:not($endPosition)': {
               '&$withRightIcon $input, &$withEye $input': {
-                paddingRight: theme.field.sizes[size].withIconPadding
+                paddingRight: theme.field.sizes[size].withIconPadding,
+                ...ifMobile({
+                  paddingRight: theme.field.mobile.sizes[size].withIconPadding
+                })
               },
               '&$withEye$withRightIcon $input': {
-                paddingRight: theme.field.sizes[size].withIconsPadding - 1
+                paddingRight: theme.field.sizes[size].withIconsPadding - 1,
+                ...ifMobile({
+                  paddingRight:
+                    theme.field.mobile.sizes[size].withIconsPadding - 1
+                })
               },
               '&$withEye $iconRight': {
-                right: theme.field.sizes[size].withIconPadding
+                right: theme.field.sizes[size].withIconPadding,
+                ...ifMobile({
+                  right: theme.field.mobile.sizes[size].withIconPadding
+                })
               },
               '& $iconRight': {
-                right: theme.field.sizes[size].iconMargin
+                right: theme.field.sizes[size].iconMargin,
+                ...ifMobile({
+                  right: theme.field.mobile.sizes[size].iconMargin
+                })
               }
             }
           }
@@ -330,7 +431,11 @@ const activeBorder = borderColor => ({
         color: theme.field.icon.colors.active
       },
       '$regular &, $awesome &': {
-        right: theme.input.eyeMargin
+        right: theme.input.eyeMargin,
+
+        ...ifMobile({
+          right: theme.input.mobile.eyeMargin
+        })
       },
       '$promo &': {
         right: 0
@@ -536,8 +641,8 @@ export default class Input extends Component {
   renderPasswordIcon() {
     const {
       type,
-      size,
       theme,
+      size,
       classes,
       passwordIconTooltip,
       passwordIconProps
@@ -559,7 +664,11 @@ export default class Input extends Component {
         className={classes.eyeWrapper}
         onClick={this.inputTypeHelper}>
         <Icon
-          size={theme.field.sizes[size].eyeIcon}
+          size={
+            window.innerWidth < 768
+              ? theme.field.mobile.sizes[size].eyeIcon
+              : theme.field.sizes[size].eyeIcon
+          }
           className={classes.eyeIcon}
           color="currentColor"
         />
@@ -591,7 +700,10 @@ export default class Input extends Component {
           color: props.disabled
             ? field.colors.disabled.text
             : Icon.props.color || 'currentColor',
-          size: Icon.props.size || field.sizes[props.size].icon
+          size:
+            Icon.props.size || window.innerWidth < 768
+              ? field.mobile.sizes[props.size].icon
+              : field.sizes[props.size].icon
         })}
       </div>
     )
