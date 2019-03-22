@@ -27,7 +27,8 @@ const getKeyframes = (delay = 0) => ({
       color: theme.spinner.color,
       verticalAlign: 'middle',
       pointerEvents: 'none',
-      fontSize: 5
+      fontSize: 5,
+      whiteSpace: 'nowrap'
     },
     position: {
       position: 'absolute',
