@@ -11,7 +11,7 @@ import originalInjectSheet, {
   SheetsRegistry
 } from 'react-jss'
 import preset from 'jss-preset-default'
-import base from './base'
+import base from /* preval */ './base'
 import uuid from '../utils/uuid'
 
 const RAMBLER_UI_THEME = '__RAMBLER_UI_THEME__'

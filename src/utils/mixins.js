@@ -56,30 +56,7 @@ export const isolateMixin = {
   margin: 0
 }
 
-// https://github.com/cssinjs/jss/issues/446
-// Пока используем как временное решение
-const responsiveFactory = rule => {
-  const replaceResponsiveKeys = options => {
-    const result = {}
-    Object.keys(options).forEach(key => {
-      const value = options[key]
-      if (
-        /[$&]/.test(key) &&
-        !(
-          key === 'composes' &&
-          (Array.isArray(value) || typeof value === 'string')
-        )
-      ) {
-        result[key] = replaceResponsiveKeys(options[key])
-      } else {
-        if (!result[rule]) result[rule] = {}
-        result[rule][key] = value
-      }
-    })
-    return result
-  }
-  return replaceResponsiveKeys
-}
+const responsiveFactory = rule => options => ({[rule]: options})
 
 export const ifDesktop = responsiveFactory('@media (min-device-width: 768px)')
 
