@@ -1,6 +1,6 @@
 {
   "name": "rambler-ui",
-  "version": "3.42.5",
+  "version": "3.42.6",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "scripts": {
