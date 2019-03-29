@@ -6,11 +6,14 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
+import {ios, android} from '../utils/browser'
 import Tooltip from '../Tooltip'
 import ClockIcon from '../icons/forms/ClockIcon'
 import CalendarIcon from '../icons/forms/CalendarIcon'
 import EyeIcon from '../icons/forms/EyeIcon'
 import ClosedEyeIcon from '../icons/forms/ClosedEyeIcon'
+
+const isTouchDevice = ios || android
 
 const activeBorder = borderColor => ({
   borderColor,
@@ -665,7 +668,7 @@ export default class Input extends Component {
         onClick={this.inputTypeHelper}>
         <Icon
           size={
-            window.innerWidth < 768
+            isTouchDevice
               ? theme.field.mobile.sizes[size].eyeIcon
               : theme.field.sizes[size].eyeIcon
           }
@@ -701,7 +704,7 @@ export default class Input extends Component {
             ? field.colors.disabled.text
             : Icon.props.color || 'currentColor',
           size:
-            Icon.props.size || window.innerWidth < 768
+            Icon.props.size || isTouchDevice
               ? field.mobile.sizes[props.size].icon
               : field.sizes[props.size].icon
         })}
