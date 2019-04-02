@@ -1,7 +1,7 @@
 /**
  * Компонент radioButtonGroup
  */
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -19,7 +19,7 @@ import {RADIO_INPUT_CONTEXT} from '../constants/context'
   }),
   {name: 'RadioButtonGroup'}
 )
-export default class RadioButtonGroup extends Component {
+export default class RadioButtonGroup extends PureComponent {
   static propTypes = {
     /**
      * Имя, которое будет применяться ко всей группе radio.

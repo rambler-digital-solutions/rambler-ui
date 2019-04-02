@@ -2,12 +2,12 @@
  * HOC попапа
  */
 
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function providePopup(Target) {
   @provideRenderToLayer
-  class ProvidePopup extends Component {
+  class ProvidePopup extends PureComponent {
     openPopup = createElement => {
       const popup = {}
 

@@ -179,7 +179,7 @@ import provideSearchDropdown from './provideSearchDropdown'
   }),
   {name: 'ComplexSearch'}
 )
-export default class ComplexSearch extends React.Component {
+export default class ComplexSearch extends React.PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента Search

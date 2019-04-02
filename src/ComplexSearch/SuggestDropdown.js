@@ -24,7 +24,7 @@ import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
   }),
   {name: 'SuggestDropdown'}
 )
-export default class SuggestDropdown extends React.Component {
+export default class SuggestDropdown extends React.PureComponent {
   static propTypes = {
     /**
      * Признак того, открыт ли дропдаун

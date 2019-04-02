@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TickIcon from '../icons/forms/TickIcon'
@@ -201,7 +201,7 @@ const tickStyle = {
   },
   {name: 'Checkbox'}
 )
-export default class Checkbox extends Component {
+export default class Checkbox extends PureComponent {
   static propTypes = {
     /**
      * Имя чекбокса

@@ -1,7 +1,7 @@
 /**
  * Компонент radioButton
  */
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -126,7 +126,7 @@ function isSimpleType(value) {
   }),
   {name: 'RadioButton'}
 )
-class RadioButton extends Component {
+class RadioButton extends PureComponent {
   static propTypes = {
     /**
      * Выбранное значение radioButton

@@ -1,4 +1,4 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 
 /**
@@ -30,7 +30,7 @@ import PropTypes from 'prop-types'
  *
  *  }
  */
-export default class VisibilityAnimation extends Component {
+export default class VisibilityAnimation extends PureComponent {
   static propTypes = {
     /**
      * Контролирует видимость

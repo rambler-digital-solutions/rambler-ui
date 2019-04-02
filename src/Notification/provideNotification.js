@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function provideNotification(Target) {
   @provideRenderToLayer
-  class ProvideNotification extends Component {
+  class ProvideNotification extends PureComponent {
     openNotification = element => {
       const notification = {}
 

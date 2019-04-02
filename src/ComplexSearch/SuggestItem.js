@@ -37,7 +37,7 @@ import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
   }),
   {name: 'SuggestItem'}
 )
-class SuggestItem extends React.Component {
+class SuggestItem extends React.PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента SuggestItem

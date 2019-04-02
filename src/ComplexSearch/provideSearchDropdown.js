@@ -1,12 +1,14 @@
-import React, {Component, Children} from 'react'
+import React, {PureComponent, Children} from 'react'
 import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import SuggestDropdown from './SuggestDropdown'
 import OnClickOutside from '../OnClickOutside'
 import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
+import getDisplayName from '../utils/get-display-name'
 
 export default function provideSearchDropdown(Search) {
-  return class extends Component {
+  return class extends PureComponent {
+    static displayName = `provideSearchDropdown(${getDisplayName(Search)})`
     static defaultProps = {
       value: '',
       placeholder: '',

@@ -3,7 +3,7 @@ import {
   unmountComponentAtNode,
   findDOMNode
 } from 'react-dom'
-import React, {Children, PureComponent, Component, cloneElement} from 'react'
+import React, {Children, PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import debounce from 'lodash.debounce'
@@ -24,7 +24,7 @@ const noop = () => {}
 // 4. После проброса нужных свойств, ждем событие обновления внутри контента
 // 5. После события скролла, обновляем позицию div (left/top)
 
-class ContentElementWrapper extends Component {
+class ContentElementWrapper extends PureComponent {
   static propTypes = {
     /**
      * Свойства контента

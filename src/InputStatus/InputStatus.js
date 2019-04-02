@@ -1,7 +1,7 @@
 /**
  * Компонент InputStatus
  */
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
@@ -40,7 +40,7 @@ import {isolateMixin, ifMobile} from '../utils/mixins'
   }),
   {name: 'InputStatus'}
 )
-export default class InputStatus extends Component {
+export default class InputStatus extends PureComponent {
   static propTypes = {
     /**
      * Отображает текст статуса компонента input.

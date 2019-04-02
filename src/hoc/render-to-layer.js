@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {
   unmountComponentAtNode,
@@ -33,7 +33,7 @@ import {
  * - onClose() - коллбек, который нужно вызвать в `Target` после закрытия, например после окончания всех анимаций
  */
 export default function renderToLayer(Target) {
-  return class RenderToLayer extends Component {
+  return class RenderToLayer extends PureComponent {
     static propTypes = {
       /**
        * Контролирует видимость
