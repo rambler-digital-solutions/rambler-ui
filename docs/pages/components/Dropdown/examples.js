@@ -5,6 +5,7 @@ import Input from 'rambler-ui/Input'
 
 export default class DropdownExample extends Component {
   state = {
+    inputValue: '',
     isOpenedFixed: false,
     isOpenedRelative: false
   }
@@ -33,6 +34,12 @@ export default class DropdownExample extends Component {
     })
   }
 
+  changeInputValue = (_, value) => {
+    this.setState({
+      inputValue: value
+    })
+  }
+
   render() {
     const {state} = this
     return (
@@ -48,13 +55,15 @@ export default class DropdownExample extends Component {
             anchor={
               <Input
                 style={{width: 200}}
+                value={state.inputValue}
+                placeholder="Открыть Dropdown Relative"
                 onClick={() => {
                   if (!state.isOpenedRelative) this.openRelative()
                 }}
                 onMouseDown={() => {
                   if (state.isOpenedRelative) this.preventCloseRelative = true
                 }}
-                placeholder="Открыть Dropdown Relative"
+                onChange={this.changeInputValue}
               />
             }>
             <div>
