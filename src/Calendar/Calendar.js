@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
@@ -224,7 +224,7 @@ const numberToDate = number =>
   }),
   {name: 'Calendar'}
 )
-export default class Calendar extends Component {
+export default class Calendar extends PureComponent {
   static propTypes = {
     /**
      * Кол-во показываемых месяцев

@@ -39,7 +39,7 @@ import ServiceSourceIcon from './icons/ServiceSourceIcon'
   }),
   {name: 'SourceButtons'}
 )
-export default class SourceButtons extends React.Component {
+export default class SourceButtons extends React.PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента SourceButtons

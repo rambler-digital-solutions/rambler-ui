@@ -117,7 +117,7 @@ import provideSearch from './provideSearch'
   }),
   {name: 'SimpleSearch'}
 )
-export default class SimpleSearch extends React.Component {
+export default class SimpleSearch extends React.PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента Search

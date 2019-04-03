@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3'
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
 import getDisplayName from '../utils/get-display-name'
 import {throttle as throttleRaf} from '../utils/raf'
 
@@ -36,7 +36,7 @@ function createHandlers() {
 
 export default function windowEvents(...types) {
   return function wrap(OriginalComponent) {
-    return class WrappedComponent extends Component {
+    return class WrappedComponent extends PureComponent {
       static displayName = `windowEvents(${getDisplayName(OriginalComponent)})`
 
       componentDidMount() {

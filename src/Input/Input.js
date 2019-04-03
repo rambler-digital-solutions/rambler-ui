@@ -1,7 +1,7 @@
 /**
  * Компонент Input
  */
-import React, {Component, createElement, cloneElement} from 'react'
+import React, {PureComponent, createElement, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
@@ -484,7 +484,7 @@ const activeBorder = borderColor => ({
   }),
   {name: 'Input'}
 )
-export default class Input extends Component {
+export default class Input extends PureComponent {
   static propTypes = {
     /**
      *  Значение введённое в поле, возвращается в callback onChange.

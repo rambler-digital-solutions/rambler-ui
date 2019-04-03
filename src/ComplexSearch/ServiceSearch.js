@@ -126,7 +126,7 @@ import provideSearchDropdown from './provideSearchDropdown'
   }),
   {name: 'ServiceSearch'}
 )
-export default class ServiceSearch extends React.Component {
+export default class ServiceSearch extends React.PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента Search

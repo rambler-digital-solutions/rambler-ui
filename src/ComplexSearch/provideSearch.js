@@ -1,7 +1,9 @@
-import React, {Component} from 'react'
+import React, {PureComponent} from 'react'
+import getDisplayName from '../utils/get-display-name'
 
 export default function provideSearch(Search) {
-  return class extends Component {
+  return class extends PureComponent {
+    static displayName = `provideSearch(${getDisplayName(Search)})`
     static defaultProps = {
       value: '',
       placeholder: '',

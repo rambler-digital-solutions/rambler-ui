@@ -1,11 +1,11 @@
-import {Component} from 'react'
+import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {findDOMNode} from 'react-dom'
 import throttle from 'lodash.throttle'
 import windowEvents from '../hoc/window-events'
 
 @windowEvents('touchstart', 'click')
-export default class OnClickOutside extends Component {
+export default class OnClickOutside extends PureComponent {
   static propTypes = {
     /**
      * Функция обработчик
