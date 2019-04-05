@@ -25,6 +25,7 @@ export default class ButtonExample extends Component {
       <div>
         {types.map(type => (
           <div key={type}>
+            <h4>type: {type}</h4>
             <Button
               style={{margin: 20}}
               icon={<ChevronRightIcon />}
@@ -58,6 +59,37 @@ export default class ButtonExample extends Component {
             </Button>
           </div>
         ))}
+        <div>
+          <h4>rounded: true</h4>
+          <Button
+            style={{margin: 20}}
+            rounded={true}
+            type="secondary"
+            size="small"
+            onClick={this.handleClick}
+            loading={this.state.loading}>
+            Secondary loader
+          </Button>
+          <Button
+            icon={<ChevronRightIcon />}
+            iconPosition="right"
+            style={{margin: 20}}
+            rounded={true}>
+            Rounded With Icon
+          </Button>
+          <Button style={{margin: 20}} rounded={true}>
+            Rounded
+          </Button>
+
+          <h4>overlay</h4>
+          <Button
+            style={{margin: 20}}
+            size="small"
+            overlay={<input type="file" name="hello" />}>
+            Upload file
+          </Button>
+        </div>
+        <h4>block: true</h4>
         <div
           style={{
             width: 300,
@@ -70,33 +102,6 @@ export default class ButtonExample extends Component {
           </Button>
           <Button block={true} type="secondary" size="small" disabled>
             Primary block disabled
-          </Button>
-        </div>
-        <div>
-          <Button
-            style={{margin: 20}}
-            rounded={true}
-            type="secondary"
-            size="small"
-            onClick={this.handleClick}
-            loading={this.state.loading}>
-            Secondary loader
-          </Button>
-          <Button
-            style={{margin: 20}}
-            size="small"
-            overlay={<input type="file" name="hello" />}>
-            Upload file
-          </Button>
-          <Button
-            icon={<ChevronRightIcon />}
-            iconPosition="right"
-            style={{margin: 20}}
-            rounded={true}>
-            Rounded With Icon
-          </Button>
-          <Button style={{margin: 20}} rounded={true}>
-            Rounded
           </Button>
         </div>
       </div>
