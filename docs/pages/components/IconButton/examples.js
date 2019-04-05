@@ -10,6 +10,7 @@ export default function IconButtonExample() {
     <div>
       {types.map(type => (
         <div key={type}>
+          <h4>type: {type}</h4>
           <IconButton style={{margin: 15}} type={type}>
             <RamblerMailIcon />
           </IconButton>
