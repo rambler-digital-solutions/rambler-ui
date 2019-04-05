@@ -43,7 +43,7 @@ import {ifDesktopSize, ifMobile, isolateMixin} from '../utils/mixins'
         marginBottom: 20
       },
       inline: {
-        marginBottom: 20,
+        marginBottom: 30,
         display: 'flex',
         alignItems: 'flex-start',
         '& $label': {

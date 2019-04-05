@@ -6,12 +6,7 @@ import {injectSheet} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
 function chooseProfileSize(size) {
-  let result = []
-  if (size >= 75) result = [27, 15]
-  else if (size >= 45) result = [22, 15]
-  else result = [17, 11]
-
-  return result
+  return size >= 75 ? [27, 15] : size >= 45 ? [22, 15] : [17, 11]
 }
 
 @injectSheet(
