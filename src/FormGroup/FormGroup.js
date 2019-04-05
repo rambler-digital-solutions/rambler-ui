@@ -40,7 +40,7 @@ import {ifDesktopSize, ifMobile, isolateMixin} from '../utils/mixins'
         '& $label': {
           width: '100%'
         },
-        marginBottom: 30
+        marginBottom: 20
       },
       inline: {
         marginBottom: 30,

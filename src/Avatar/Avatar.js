@@ -5,8 +5,8 @@ import profileIcons from './profilesIconMap'
 import {injectSheet} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
-function calcProfileSize(size) {
-  return Math.min(Math.max(14, 0.45 * size), 32)
+function chooseProfileSize(size) {
+  return size >= 75 ? [27, 15] : size >= 45 ? [22, 15] : [17, 11]
 }
 
 @injectSheet(
@@ -140,7 +140,8 @@ export default class Avatar extends PureComponent {
     })
 
     const ProfileIcon = profileType && profileIcons[profileType]
-    const profileSize = Math.round(calcProfileSize(size))
+    const [profileSize, roundSize] = chooseProfileSize(size)
+
     const profileSizePx = profileSize + 'px'
     const children = ProfileIcon && (
       <div
@@ -151,7 +152,7 @@ export default class Avatar extends PureComponent {
           width: profileSizePx,
           height: profileSizePx
         }}>
-        <ProfileIcon size={Math.round(profileSize * 0.55)} />
+        <ProfileIcon size={roundSize} />
       </div>
     )
 

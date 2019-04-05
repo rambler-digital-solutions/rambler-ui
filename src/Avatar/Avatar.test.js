@@ -110,12 +110,12 @@ describe('<Avatar />', () => {
     const iconContainerStyles = getStyles(image.find('div > div'))
 
     expect(nc(iconStyles.fill)).toEqual(nc('#4661a3'))
-    expect(iconStyles.width).toEqual('11px')
-    expect(iconStyles.height).toEqual('11px')
+    expect(iconStyles.width).toEqual('15px')
+    expect(iconStyles.height).toEqual('15px')
 
     expect(iconContainerStyles.position).toEqual('absolute')
-    expect(iconContainerStyles.width).toEqual('20px')
-    expect(iconContainerStyles.height).toEqual('20px')
+    expect(iconContainerStyles.width).toEqual('22px')
+    expect(iconContainerStyles.height).toEqual('22px')
     expect(nc(iconContainerStyles['background-color'])).toEqual(
       nc(theme.avatar.colors.iconBackground)
     )
