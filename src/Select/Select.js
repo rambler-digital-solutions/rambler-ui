@@ -382,6 +382,10 @@ export default class Select extends PureComponent {
      */
     disabled: PropTypes.bool,
     /**
+     * Доступность только для чтения
+     */
+    readOnly: PropTypes.bool,
+    /**
      * Опции поля, массив элементов
      */
     children: PropTypes.arrayOf(PropTypes.element),
@@ -466,13 +470,11 @@ export default class Select extends PureComponent {
     size: 'medium',
     variation: 'awesome',
     disabled: false,
+    readOnly: false,
     appendToBody: false,
     inputMode: false,
     valuesEquality: (a, b) => a === b,
     inputValueRenderer: value => value,
-    onFocus: () => {},
-    onBlur: () => {},
-    onChange: () => {},
     children: []
   }
 
@@ -489,8 +491,8 @@ export default class Select extends PureComponent {
   }
 
   get showArrow() {
-    const {children, clearIcon} = this.props
-    return children && children.length > 0 && !clearIcon
+    const {children, clearIcon, readOnly} = this.props
+    return !readOnly && children && children.length > 0 && !clearIcon
   }
 
   get showClearIcon() {
@@ -546,15 +548,16 @@ export default class Select extends PureComponent {
     if (!multiple) this.setState({isOpened: false})
     if (inputMode) this.setSearchText(value || '')
     this.setValue(value)
-    onChange(value)
+    if (onChange) onChange(value)
     if (!inputMode && !multiple) this.input.focus()
   }
 
   focusInput = event => {
+    const {onFocus} = this.props
     this.setState({
       inputFocused: true
     })
-    if (!this.state.isOpened) this.props.onFocus(event)
+    if (onFocus && !this.state.isOpened) onFocus(event)
   }
 
   blurInput = event => {
@@ -565,7 +568,7 @@ export default class Select extends PureComponent {
       inputFocused: false
     })
     if (inputMode) this.changeValue(this.state.searchText)
-    onBlur(event)
+    if (onBlur) onBlur(event)
   }
 
   preventBlurInput = event => {
@@ -767,6 +770,7 @@ export default class Select extends PureComponent {
       classes,
       placeholder,
       icon,
+      readOnly,
       onSearch,
       multiple,
       inputValueRenderer,
@@ -793,7 +797,8 @@ export default class Select extends PureComponent {
         resultPlaceholder = placeholder
     } else if (multiple) {
       const withValue = Array.isArray(value) && value.length > 0
-      if ((isOpened && onSearch) || !withValue) resultPlaceholder = placeholder
+      if ((isOpened && onSearch && !readOnly) || !withValue)
+        resultPlaceholder = placeholder
     } else {
       const inputValue = inputValueRenderer(value)
       resultPlaceholder =
@@ -835,7 +840,7 @@ export default class Select extends PureComponent {
         onTouchEnd={onSearch ? undefined : this.preventSelect}
         inputClassName={classnames(className, classes.field)}
         placeholder={resultPlaceholder}
-        readOnly={!canBeModified}
+        readOnly={readOnly || !canBeModified}
         value={resultInputValue}
         onChange={this.requestItems}
         inputRef={this.saveInputRef}
@@ -857,7 +862,8 @@ export default class Select extends PureComponent {
       menuStyle,
       menuClassName,
       valuesEquality,
-      onSearch,
+      readOnly,
+      onChange,
       inputMode,
       children,
       appendToBody,
@@ -870,6 +876,7 @@ export default class Select extends PureComponent {
       lightPlaceholderColor
     } = this.props
 
+    const onSearch = readOnly ? undefined : this.props.onSearch
     const focusedInput = inputFocused || isOpened
     const multipleWithValue =
       multiple && Array.isArray(value) && value.length > 0
@@ -879,8 +886,8 @@ export default class Select extends PureComponent {
     const resultClassName = classnames(
       rootClassName,
       classes.root,
-      !disabled && !canBeModified && classes.isReadonly,
-      !disabled && canBeModified && classes.withSearch,
+      (readOnly || (!disabled && !canBeModified)) && classes.isReadonly,
+      !readOnly && !disabled && canBeModified && classes.withSearch,
       icon && classes.withLeftIcon,
       this.showArrow && classes.withRightIcon,
       size && classes[size],
@@ -910,7 +917,7 @@ export default class Select extends PureComponent {
             classes.options,
             classes[`options-${multipleType}`]
           )}
-          onChange={this.changeValue}
+          onChange={readOnly || !onChange ? undefined : this.changeValue}
           isExpanded={!isOpened || onSearch ? false : true}
           type={multipleType}>
           {options}
@@ -931,6 +938,7 @@ export default class Select extends PureComponent {
     )
 
     const resultIsOpened =
+      !readOnly &&
       isOpened &&
       (children.length > 0 ||
         (multiple && Array.isArray(value) && value.length > 0))
@@ -967,6 +975,7 @@ export default class Select extends PureComponent {
                   {options}
                 </TagsInput>
               )}
+
             {children.length > 0 && (
               <Menu
                 style={menuStyle}
@@ -996,20 +1005,22 @@ export default class Select extends PureComponent {
   }
 
   handleNativeSelectChange = ({target}) => {
-    const nextValue = this.props.multiple
+    const {multiple, onChange} = this.props
+    const nextValue = multiple
       ? Array.prototype.map.call(
         target.selectedOptions,
         item => this.values[item.value]
       )
       : this.values[target.value]
     this.setValue(nextValue)
-    this.props.onChange(nextValue)
+    if (onChange) onChange(nextValue)
   }
 
   renderNativeSelect() {
     const {
       placeholder,
       disabled,
+      readOnly,
       multiple,
       multipleType,
       children,
@@ -1105,7 +1116,7 @@ export default class Select extends PureComponent {
           className={classes.nativeSelect}
           multiple={multiple}
           value={resultValue}
-          onChange={this.handleNativeSelectChange}
+          onChange={readOnly ? undefined : this.handleNativeSelectChange}
           onBlur={this.blurInput}
           onFocus={this.focusInput}>
           {placeholder ? (
