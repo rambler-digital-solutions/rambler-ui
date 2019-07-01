@@ -38,9 +38,9 @@ export default () => (
 )
 ```
 
-Более подробно про установку и использование можно прочитать в [документации](https://ui-kit.rambler.ru/#/install) и в описании [API компонентов](https://ui-kit.rambler.ru/#/components/Avatar).
+Более подробно про установку и использование можно прочитать в [документации](https://ui-kit.rambler.ru/#/usage/install) и в описании [API компонентов](https://ui-kit.rambler.ru/#/components/Avatar).
 
-## [Разработка](https://ui-kit.rambler.ru/#/contribute)
+## [Разработка](https://ui-kit.rambler.ru/#/usage/contribute)
 
 ## Лицензия
 
