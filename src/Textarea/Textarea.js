@@ -20,10 +20,6 @@ export default class Textarea extends PureComponent {
      */
     disabled: PropTypes.bool,
     /**
-     * Имя элемента
-     */
-    name: PropTypes.string,
-    /**
      * Задает нижнюю границу определенного цвета, например, для обозначения статуса валидации
      */
     status: PropTypes.oneOf(['error', 'warning', 'success', null]),
@@ -50,23 +46,7 @@ export default class Textarea extends PureComponent {
     /**
      * Обработик изменения значения поля, возвращает event и текущее value
      */
-    onChange: PropTypes.func,
-    /**
-     * Обработчик потери фокуса
-     */
-    onBlur: PropTypes.func,
-    /**
-     * Обработчик фокуса
-     */
-    onFocus: PropTypes.func,
-    /**
-     * Обрабочик отжатия клавиши
-     */
-    onKeyUp: PropTypes.func,
-    /**
-     * Обработчик нажания клавиши
-     */
-    onKeyDown: PropTypes.func
+    onChange: PropTypes.func
   }
 
   static defaultProps = {

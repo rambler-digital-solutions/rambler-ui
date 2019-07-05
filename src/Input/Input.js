@@ -44,7 +44,7 @@ const activeBorder = borderColor => ({
         fontWeight: theme.field.mobile.fontWeight,
         letterSpacing: theme.field.mobile.letterSpacing
       }),
-      'textarea&&': {
+      '$textareaRoot &': {
         resize: 'vertical',
         height: '100%',
         paddingTop: theme.input.sizes.medium.padding,
@@ -101,12 +101,9 @@ const activeBorder = borderColor => ({
     },
     withStatusLine: {
       '& $activeBorder': {
-        borderWidth: '0 0 2px',
+        borderWidth: [0, 0, 2],
         transform: 'scaleX(0.6) scaleY(0)',
         transformOrigin: 'center bottom'
-      },
-      '& $input': {
-        paddingBottom: 1
       }
     },
     withOutline: {
@@ -131,8 +128,8 @@ const activeBorder = borderColor => ({
     promo: {
       composes: ['$withStatusLine'],
       '& $input': {
-        paddingTop: 1,
-        borderBottomWidth: 1
+        borderWidth: [1, 0],
+        borderTopColor: 'transparent!important'
       },
       '& $input, & $input:disabled': {
         background: 'none'
@@ -398,6 +395,7 @@ const activeBorder = borderColor => ({
       boxSizing: 'border-box',
       fontFamily: theme.fontFamily
     },
+    textareaRoot: {},
     activeBorder: {
       position: 'absolute',
       top: 0,
@@ -422,7 +420,13 @@ const activeBorder = borderColor => ({
       bottom: 0,
       margin: 'auto',
       fontSize: 0,
-      color: theme.field.icon.colors.default
+      color: theme.field.icon.colors.default,
+      '$textareaRoot &': {
+        marginTop: theme.input.sizes.medium.padding,
+        ...ifMobile({
+          marginTop: theme.input.mobile.sizes.medium.padding
+        })
+      }
     },
     eye: {
       composes: '$icon',
@@ -521,10 +525,6 @@ export default class Input extends PureComponent {
      */
     variation: PropTypes.oneOf(['regular', 'awesome', 'promo']),
     /**
-     * Имя элемента
-     */
-    name: PropTypes.string,
-    /**
      * Валидация input'a
      */
     status: PropTypes.oneOf(['error', 'warning', 'success', null]),
@@ -558,22 +558,6 @@ export default class Input extends PureComponent {
      * Callback onChange возвращает event и event.target.value
      */
     onChange: PropTypes.func,
-    /**
-     * Callback onBlur
-     */
-    onBlur: PropTypes.func,
-    /**
-     * Callback onFocus
-     */
-    onFocus: PropTypes.func,
-    /**
-     * Callback onKeyUp
-     */
-    onKeyUp: PropTypes.func,
-    /**
-     * Callback onKeyDown
-     */
-    onKeyDown: PropTypes.func,
     /**
      *  icon слева
      */
@@ -733,10 +717,8 @@ export default class Input extends PureComponent {
       inputClassName,
       iconLeftClassName,
       iconRightClassName,
-      name,
       size,
       variation,
-      placeholder,
       iconLeft,
       iconRight, // eslint-disable-line no-unused-vars
       status,
@@ -757,6 +739,7 @@ export default class Input extends PureComponent {
     const resultClassName = classnames(
       className,
       classes.root,
+      tag === 'textarea' && classes.textareaRoot,
       classes[variation],
       classes[status],
       isFocused && classes.isFocused,
@@ -770,7 +753,6 @@ export default class Input extends PureComponent {
     )
 
     const inputElement = createElement(tag, {
-      name,
       value,
       disabled,
       ref: this.saveRef,
@@ -782,7 +764,6 @@ export default class Input extends PureComponent {
       style: inputStyle,
       onChange: this.onChange,
       tabIndex: 0,
-      placeholder,
       ...other
     })
 
