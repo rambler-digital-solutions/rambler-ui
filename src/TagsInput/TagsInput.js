@@ -195,35 +195,26 @@ export default class TagsInput extends PureComponent {
     }
     const {props} = this
     const {horizontalGap} = props.theme.tagsInput.types[props.type]
-    const containerWidth = Math.ceil(
+    const containerWidth = Math.floor(
       this.container.getBoundingClientRect().width
     )
     const moreButtonWidth =
       Math.ceil(this.moreButton.getBoundingClientRect().width) + horizontalGap
-    let firstLineItemsCount = 0
+    let index = 0
     let itemsWidthSum = 0
-    const itemsWidths = []
-    while (firstLineItemsCount < itemsCount) {
+    while (index < itemsCount) {
       const itemWidth =
-        Math.ceil(
-          this.items[firstLineItemsCount].getBoundingClientRect().width
-        ) + horizontalGap
-      if (itemsWidthSum + itemWidth > containerWidth) break
-      itemsWidths.push(itemWidth)
+        Math.ceil(this.items[index].getBoundingClientRect().width) +
+        horizontalGap
+      const iterationWidth =
+        index < itemsCount - 1 ? itemWidth + moreButtonWidth : itemWidth
+
+      if (itemsWidthSum + iterationWidth > containerWidth) break
       itemsWidthSum += itemWidth
-      firstLineItemsCount += 1
-    }
-    if (firstLineItemsCount < itemsCount) {
-      let availableSpace = containerWidth - itemsWidthSum
-      while (availableSpace < moreButtonWidth) {
-        const itemWidth = itemsWidths[firstLineItemsCount]
-        availableSpace += itemWidth
-        firstLineItemsCount -= 1
-      }
+      index += 1
     }
     this.setState({
-      visibleItemsCount:
-        firstLineItemsCount < itemsCount ? firstLineItemsCount : null
+      visibleItemsCount: index < itemsCount ? index : null
     })
   }
 
