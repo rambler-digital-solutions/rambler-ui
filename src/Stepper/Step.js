@@ -8,7 +8,7 @@ import TickIcon from '../icons/forms/TickIcon'
 import {isolateMixin, ifDesktopSize, middleMixin} from '../utils/mixins'
 import {injectSheet} from '../theme'
 
-const defaultIcon = <TickIcon size={15} color="#262626" />
+const defaultIcon = <TickIcon size={15} color="currentColor" />
 
 @injectSheet(
   theme => ({
@@ -41,10 +41,11 @@ const defaultIcon = <TickIcon size={15} color="#262626" />
       userSelect: 'none',
       fontSize: theme.stepper.fontSize,
       backgroundColor: theme.stepper.colors.default.background,
-      border: theme.stepper.colors.default.border,
+      border: `1px solid ${theme.stepper.colors.default.badge.border}`,
       color: theme.stepper.colors.default.badge.color
     },
     active: {
+      color: theme.stepper.colors.active.color,
       '& $badge': {
         color: theme.stepper.colors.active.badge.color,
         backgroundColor: theme.stepper.colors.active.badge.background,
@@ -55,8 +56,9 @@ const defaultIcon = <TickIcon size={15} color="#262626" />
       }
     },
     disabled: {
-      color: theme.stepper.colors.disabled.badge.color,
+      color: theme.stepper.colors.disabled.color,
       '& $badge': {
+        color: theme.stepper.colors.disabled.badge.color,
         backgroundColor: theme.stepper.colors.disabled.badge.background
       },
       '& $text': {
