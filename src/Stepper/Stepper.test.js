@@ -83,36 +83,6 @@ describe('<Stepper />', () => {
     )
   })
 
-  it('Stepper separator test', () => {
-    const props = {
-      value: 1,
-      onChange: () => {},
-      className: 'stepper'
-    }
-    const wrapper = mount(
-      applyTheme(
-        <Stepper {...props}>
-          {[1, 2, 3, 4].map((value, index) => (
-            <Step key={index} className={`step_${value}`}>
-              {value}
-            </Step>
-          ))}
-        </Stepper>
-      )
-    )
-
-    const wrapperNode = getWrapperNode(wrapper)
-
-    expect(wrapperNode.children.length).toEqual(7)
-    expect(wrapperNode.children[1].nodeName).toEqual('SPAN')
-    expect(wrapperNode.children[3].nodeName).toEqual('SPAN')
-    expect(wrapperNode.children[5].nodeName).toEqual('SPAN')
-
-    expect(
-      getComputedStyle(wrapperNode.children[5])['background-color']
-    ).toEqual(nc(theme.stepper.colors.default.separator.background))
-  })
-
   it('Stepper', () => {
     let event,
       value = 1
@@ -136,8 +106,8 @@ describe('<Stepper />', () => {
 
     const wrapperNode = getWrapperNode(wrapper)
     expect(wrapperNode.children[0].className.includes('step')).toEqual(true)
-    expect(wrapperNode.children[2].className.includes('active')).toEqual(true)
-    expect(wrapperNode.children[4].className.includes('disabled')).toEqual(true)
+    expect(wrapperNode.children[1].className.includes('active')).toEqual(true)
+    expect(wrapperNode.children[2].className.includes('disabled')).toEqual(true)
 
     wrapper
       .find('.step_2')
