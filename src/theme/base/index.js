@@ -1095,32 +1095,30 @@ export function createTheme(config) {
         fontSize: 13,
         fontFamily: fontFamilies.Roboto,
         badge: {
-          fontSize: 11
+          fontSize: 13
         },
         colors: {
           default: {
             color: colors.dark,
             background: colors.light,
             badge: {
-              color: colors.light,
-              background: colors.primary
-            },
-            separator: {
-              background: colors.controls.grey.default
+              border: '#dcdfe7',
+              color: colors.dark,
+              background: colors.light
             }
           },
           active: {
-            color: colors.primary,
+            color: colors.dark,
             badge: {
-              color: colors.light,
-              background: colors.primary
+              color: colors.dark,
+              background: fade(colors.controls.grey.outline, 0.11)
             }
           },
           disabled: {
-            color: colors.controls.grey.default,
+            color: '#c6cad8',
             badge: {
-              color: colors.light,
-              background: colors.controls.grey.default
+              color: '#c6cad8',
+              background: colors.light
             }
           }
         }

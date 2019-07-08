@@ -8,7 +8,7 @@ import {isolateMixin, ifDesktopSize} from '../utils/mixins'
 import {injectSheet} from '../theme'
 
 @injectSheet(
-  theme => ({
+  () => ({
     stepper: {
       extend: isolateMixin,
       display: 'flex',
@@ -23,18 +23,6 @@ import {injectSheet} from '../theme'
       ...ifDesktopSize({
         flexDirection: 'row',
         alignItems: 'center'
-      })
-    },
-    separator: {
-      height: '40px',
-      width: '1px',
-      marginLeft: '8px',
-      backgroundColor: theme.stepper.colors.default.separator.background,
-      flex: '1 1 auto',
-      ...ifDesktopSize({
-        height: '1px',
-        flex: '1',
-        marginLeft: 0
       })
     }
   }),
@@ -64,11 +52,6 @@ class Stepper extends Component {
     style: {}
   }
 
-  separator = key => {
-    const {classes} = this.props
-    return <span className={classes.separator} key={key} />
-  }
-
   onChange = (e, index) => {
     if (this.props.value === index) return
     this.props.onChange(e, index)
@@ -86,9 +69,7 @@ class Stepper extends Component {
       ...other
     } = this.props
     const steps = React.Children.toArray(children).reduce(
-      (acc, child, index, children) => {
-        if (index > 0 && index < children.length)
-          acc.push(this.separator(index + 0.5))
+      (acc, child, index) => {
         if (!child.type || child.type.displayName !== 'ruiStep')
           throw new Error('Child component should be instance of <Step />')
         const active = index === currentValue

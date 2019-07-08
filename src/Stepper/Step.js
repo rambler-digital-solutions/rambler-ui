@@ -8,7 +8,7 @@ import TickIcon from '../icons/forms/TickIcon'
 import {isolateMixin, ifDesktopSize, middleMixin} from '../utils/mixins'
 import {injectSheet} from '../theme'
 
-const defaultIcon = <TickIcon size={10} color="currentColor" />
+const defaultIcon = <TickIcon size={15} color="currentColor" />
 
 @injectSheet(
   theme => ({
@@ -35,19 +35,21 @@ const defaultIcon = <TickIcon size={10} color="currentColor" />
       extend: middleMixin,
       display: 'inline-block',
       borderRadius: '50%',
-      width: '18px',
-      height: '18px',
+      width: '35px',
+      height: '35px',
       marginRight: '10px',
       userSelect: 'none',
       fontSize: theme.stepper.badge.fontSize,
       backgroundColor: theme.stepper.colors.default.badge.background,
+      border: `1px solid ${theme.stepper.colors.default.badge.border}`,
       color: theme.stepper.colors.default.badge.color
     },
     active: {
       color: theme.stepper.colors.active.color,
       '& $badge': {
+        color: theme.stepper.colors.active.badge.color,
         backgroundColor: theme.stepper.colors.active.badge.background,
-        color: theme.stepper.colors.active.badge.color
+        fontWeight: '500'
       },
       '& $text': {
         cursor: 'default'
@@ -56,8 +58,8 @@ const defaultIcon = <TickIcon size={10} color="currentColor" />
     disabled: {
       color: theme.stepper.colors.disabled.color,
       '& $badge': {
-        backgroundColor: theme.stepper.colors.disabled.badge.background,
-        color: theme.stepper.colors.disabled.badge.color
+        color: theme.stepper.colors.disabled.badge.color,
+        backgroundColor: theme.stepper.colors.disabled.badge.background
       },
       '& $text': {
         cursor: 'default'

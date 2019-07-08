@@ -141,6 +141,7 @@ export default class FieldGroup extends PureComponent {
           showDivider && classes.showDivider
         )}>
         {Children.map(children, child => {
+          if (!child) return
           let groupPosition = 'middle'
           if (i === 1) groupPosition = 'start'
           else if (i === count) groupPosition = 'end'
