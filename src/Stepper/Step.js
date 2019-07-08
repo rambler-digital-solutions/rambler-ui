@@ -39,8 +39,8 @@ const defaultIcon = <TickIcon size={15} color="currentColor" />
       height: '35px',
       marginRight: '10px',
       userSelect: 'none',
-      fontSize: theme.stepper.fontSize,
-      backgroundColor: theme.stepper.colors.default.background,
+      fontSize: theme.stepper.badge.fontSize,
+      backgroundColor: theme.stepper.colors.default.badge.background,
       border: `1px solid ${theme.stepper.colors.default.badge.border}`,
       color: theme.stepper.colors.default.badge.color
     },
