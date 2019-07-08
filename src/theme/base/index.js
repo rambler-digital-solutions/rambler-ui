@@ -1065,26 +1065,22 @@ export function createTheme(config) {
           default: {
             color: colors.dark,
             background: colors.light,
+            border: 'solid 1px #dcdfe7',
             badge: {
-              color: colors.light,
+              color: '#c6cad8',
               background: colors.primary
-            },
-            separator: {
-              background: colors.controls.grey.default
             }
           },
           active: {
-            color: colors.primary,
             badge: {
-              color: colors.light,
-              background: colors.primary
+              color: colors.dark,
+              background: 'rgba(141, 150, 178, 0.1)'
             }
           },
           disabled: {
-            color: colors.controls.grey.default,
             badge: {
-              color: colors.light,
-              background: colors.controls.grey.default
+              color: '#c6cad8',
+              background: colors.light
             }
           }
         }

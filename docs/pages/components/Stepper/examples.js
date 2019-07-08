@@ -59,7 +59,7 @@ export default class StepperExample extends Component {
                 completed={false}
                 icon={
                   this.state.value === index ? (
-                    <TickIcon size={10} color="#fff" />
+                    <TickIcon size={15} color="#262626" />
                   ) : (
                     undefined
                   )
