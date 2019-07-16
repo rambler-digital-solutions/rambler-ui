@@ -30,33 +30,24 @@ import {ios, android} from '../utils/browser'
       transitionProperty: 'opacity'
     },
     hintMobile: {
-      extend: isolateMixin,
       position: 'relative',
       width: 265
     },
     message: {
-      fontFamily: theme.fontFamily,
       position: 'absolute',
-      borderRadius: theme.hint.borderRadius,
-      boxSizing: 'border-box',
-      boxShadow: theme.hint.boxShadow,
-      color: theme.hint.colors.text,
       width: '100%',
-      backgroundColor: theme.hint.colors.background,
-      fontSize: theme.hint.fontSize,
-      lineHeight: 1.54,
       padding: 20,
-      opacity: 0.01
+      fontSize: 14
     },
     arrow: {
-      content: '""',
       position: 'absolute',
       borderStyle: 'solid',
       borderColor: 'transparent',
       bottom: '100%',
-      left: '48%',
+      left: '48.5%',
       borderWidth: 5,
-      borderBottomColor: theme.hint.colors.background
+      borderBottomColor: theme.hint.colors.background,
+      zIndex: 100
     },
     isVisible: {
       opacity: 1
@@ -134,13 +125,6 @@ class HintContent extends PureComponent {
       device
     } = this.props
 
-    const iconProps = icon.props || {}
-
-    const anchor = cloneElement(icon, {
-      className: classnames(classes.icon, iconProps.className),
-      color: iconProps.color || theme.hint.colors.icon
-    })
-
     if (device === 'mobile')
       return (
         <VisibilityAnimation
@@ -150,30 +134,37 @@ class HintContent extends PureComponent {
           onInvisible={onBecomeInvisible}>
           {({isVisible}) => {
             if (this.msg) {
-              const coords = this.msg.getBoundingClientRect()
+              const elemCoords = this.msg.getBoundingClientRect()
               const de = document.documentElement
-              if (coords.right > de.clientWidth) {
-                const c = coords.right - de.clientWidth + 5
+              if (elemCoords.right > de.clientWidth) {
+                const c = elemCoords.right - de.clientWidth + 20
                 this.msg.style.right = c + 'px'
+              } else if (elemCoords.x < 0) {
+                this.msg.style.left = 20 + 'px'
               }
-              if (coords.x < 0) this.msg.style.left = 25 + 'px'
-
-              this.msg.style.opacity = 1
+              if (
+                de.scrollWidth > de.clientWidth &&
+                elemCoords.width > de.clientWidth
+              ) 
+                this.msg.style.width = de.clientWidth - 20 + 'px'
+              
             }
             return (
               <div
-                className={classnames(
-                  classes.hintMobile,
-                  isVisible && classes.isVisible,
-                  className
-                )}
+                className={classnames(classes.hintMobile, className)}
                 style={{
                   ...style
                 }}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}>
                 <div className={classes.arrow} />
-                <div ref={el => (this.msg = el)} className={classes.message}>
+                <div
+                  ref={el => (this.msg = el)}
+                  className={classnames(
+                    classes.hint,
+                    isVisible && classes.isVisible,
+                    classes.message
+                  )}>
                   {children}
                 </div>
               </div>
@@ -181,6 +172,13 @@ class HintContent extends PureComponent {
           }}
         </VisibilityAnimation>
       )
+
+    const iconProps = icon.props || {}
+
+    const anchor = cloneElement(icon, {
+      className: classnames(classes.icon, iconProps.className),
+      color: iconProps.color || theme.hint.colors.icon
+    })
 
     return (
       <VisibilityAnimation
@@ -309,17 +307,6 @@ export default class Hint extends PureComponent {
       closeOnScroll
     } = this.props
 
-    const pointX = positionX === 'left' ? 'right' : 'left'
-
-    const anchor = cloneElement(icon, {
-      style,
-      className: classnames(classes.icon, className),
-      color: theme.hint.colors.icon,
-      onMouseEnter: this.show,
-      onTouchStart: this.show,
-      onMouseLeave: this.hide
-    })
-
     const isNativeSelectAllowed = ios || android
 
     if (isNativeSelectAllowed) {
@@ -334,37 +321,46 @@ export default class Hint extends PureComponent {
       })
 
       return (
-        <div>
-          <FixedOverlay
-            isOpened={this.state.isOpened}
-            anchor={anchor}
-            content={
-              <HintContent
-                device="mobile"
-                className={contentClassName}
-                style={contentStyle}
-                icon={icon}
-                onMouseEnter={this.show}
-                onMouseLeave={this.hide}>
-                {children}
-              </HintContent>
-            }
-            autoPositionX={false}
-            autoPositionY={false}
-            anchorPointX="center"
-            contentPointX="center"
-            anchorPointY="bottom"
-            contentPointY="top"
-            cachePositionOptions={false}
-            closeOnScroll={closeOnScroll}
-            onContentClose={this.hide}
-            containerNodeStyle={{
-              marginTop: '10px'
-            }}
-          />
-        </div>
+        <FixedOverlay
+          isOpened={this.state.isOpened}
+          anchor={anchor}
+          content={
+            <HintContent
+              device="mobile"
+              className={contentClassName}
+              style={contentStyle}
+              icon={icon}
+              onMouseEnter={this.show}
+              onMouseLeave={this.hide}>
+              {children}
+            </HintContent>
+          }
+          autoPositionX={false}
+          autoPositionY={false}
+          anchorPointX="center"
+          contentPointX="center"
+          anchorPointY="bottom"
+          contentPointY="top"
+          cachePositionOptions={false}
+          closeOnScroll={closeOnScroll}
+          onContentClose={this.hide}
+          containerNodeStyle={{
+            marginTop: '10px'
+          }}
+        />
       )
     }
+
+    const pointX = positionX === 'left' ? 'right' : 'left'
+
+    const anchor = cloneElement(icon, {
+      style,
+      className: classnames(classes.icon, className),
+      color: theme.hint.colors.icon,
+      onMouseEnter: this.show,
+      onTouchStart: this.show,
+      onMouseLeave: this.hide
+    })
 
     return (
       <FixedOverlay
