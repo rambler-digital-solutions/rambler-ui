@@ -31,7 +31,7 @@ import {ios, android} from '../utils/browser'
     },
     hintMobile: {
       position: 'relative',
-      width: 265
+      width: '100%'
     },
     message: {
       position: 'absolute',
@@ -134,20 +134,17 @@ class HintContent extends PureComponent {
           onInvisible={onBecomeInvisible}>
           {({isVisible}) => {
             if (this.msg) {
-              const elemCoords = this.msg.getBoundingClientRect()
+              const overlay = this.msg.parentNode.parentNode
+              const ovrCoords = overlay.getBoundingClientRect()
               const de = document.documentElement
-              if (elemCoords.right > de.clientWidth) {
-                const c = elemCoords.right - de.clientWidth + 20
-                this.msg.style.right = c + 'px'
-              } else if (elemCoords.x < 0) {
-                this.msg.style.left = 20 + 'px'
+
+              if (ovrCoords.left < 0) {
+                this.msg.style.left =
+                  Math.abs(parseInt(overlay.style.left)) + 'px'
+              } else if (ovrCoords.left + ovrCoords.width > de.clientWidth) {
+                const right = ovrCoords.right - de.clientWidth
+                this.msg.style.right = right + 'px'
               }
-              if (
-                de.scrollWidth > de.clientWidth &&
-                elemCoords.width > de.clientWidth
-              ) 
-                this.msg.style.width = de.clientWidth - 20 + 'px'
-              
             }
             return (
               <div
@@ -345,6 +342,8 @@ export default class Hint extends PureComponent {
           closeOnScroll={closeOnScroll}
           onContentClose={this.hide}
           containerNodeStyle={{
+            width: '100%',
+            maxWidth: '480px',
             marginTop: '10px'
           }}
         />
