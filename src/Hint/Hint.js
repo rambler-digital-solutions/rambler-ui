@@ -133,11 +133,10 @@ class HintContent extends PureComponent {
           onVisible={onBecomeVisible}
           onInvisible={onBecomeInvisible}>
           {({isVisible}) => {
-            if (this.msg) {
+            if (this.msg && isVisible) {
+              const de = document.documentElement
               const overlay = this.msg.parentNode.parentNode
               const ovrCoords = overlay.getBoundingClientRect()
-              const de = document.documentElement
-
               if (ovrCoords.left < 0) {
                 this.msg.style.left =
                   Math.abs(parseInt(overlay.style.left)) + 'px'
