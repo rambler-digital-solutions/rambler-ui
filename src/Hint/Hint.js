@@ -44,7 +44,6 @@ import {ios, android} from '../utils/browser'
       borderStyle: 'solid',
       borderColor: 'transparent',
       bottom: '100%',
-      left: '48.5%',
       borderWidth: 5,
       borderBottomColor: theme.hint.colors.background,
       zIndex: 100
@@ -137,6 +136,12 @@ class HintContent extends PureComponent {
               const de = document.documentElement
               const overlay = this.msg.parentNode.parentNode
               const ovrCoords = overlay.getBoundingClientRect()
+
+              const arrow = this.msg.parentNode.firstChild
+              const arrCoords = arrow.getBoundingClientRect()
+              arrow.style.left =
+                ovrCoords.width / 2 - arrCoords.width / 2 + 'px'
+
               if (ovrCoords.left < 0) {
                 this.msg.style.left =
                   Math.abs(parseInt(overlay.style.left)) + 'px'
