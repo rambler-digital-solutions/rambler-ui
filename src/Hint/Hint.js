@@ -145,7 +145,7 @@ class HintContent extends PureComponent {
               if (ovrCoords.left < 0) {
                 this.msg.style.left =
                   Math.abs(parseInt(overlay.style.left)) + 'px'
-              } else if (ovrCoords.left + ovrCoords.width > de.clientWidth) {
+              } else if (ovrCoords.right > de.clientWidth) {
                 const right = ovrCoords.right - de.clientWidth
                 this.msg.style.right = right + 'px'
               }
