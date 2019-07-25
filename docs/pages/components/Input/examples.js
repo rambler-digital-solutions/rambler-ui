@@ -135,6 +135,16 @@ export default class InputExample extends Component {
                     variation={variation}
                   />
                 </FormGroup>
+                <FormGroup
+                  style={{width: '170px'}}
+                  label="Input month (without placeholder)">
+                  <Input
+                    type="month"
+                    value={this.state.value}
+                    onChange={this.onChange}
+                    variation={variation}
+                  />
+                </FormGroup>
                 <FormGroup label="Input password with left and right icon">
                   <Input
                     iconLeft={<RamblerMailIcon />}
