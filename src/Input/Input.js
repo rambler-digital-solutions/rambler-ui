@@ -57,7 +57,7 @@ const activeBorder = borderColor => ({
       '&::-ms-reveal, &::-ms-clear': {
         display: 'none'
       },
-      '&[type="date"], &[type="time"]': {
+      '&[type="month"], &[type="date"], &[type="time"]': {
         '&::-webkit-clear-button, &::-webkit-inner-spin-button': {
           display: 'none'
         },
@@ -150,7 +150,7 @@ const activeBorder = borderColor => ({
             ...ifMobile({
               height: theme.field.mobile.sizes[size].height + 'px'
             }),
-            '&[type="date"], &[type="time"]': {
+            '&[type="month"], &[type="date"], &[type="time"]': {
               ...ifMobile({
                 lineHeight: theme.field.sizes[size].height + 'px'
               })
@@ -514,7 +514,8 @@ export default class Input extends PureComponent {
       'text',
       'url',
       'time',
-      'date'
+      'date',
+      'month'
     ]),
     /**
      * Размер инпута
@@ -621,7 +622,7 @@ export default class Input extends PureComponent {
     const {type, iconRight} = this.props
     if (iconRight !== undefined) return iconRight
     if (type === 'time') return <ClockIcon />
-    if (type === 'date') return <CalendarIcon />
+    if (type === 'date' || type === 'month') return <CalendarIcon />
     return null
   }
 
@@ -699,7 +700,7 @@ export default class Input extends PureComponent {
   renderPlaceholder() {
     const {type, value, placeholder, classes} = this.props
     if (
-      (type === 'date' || type === 'time') &&
+      (type === 'month' || type === 'date' || type === 'time') &&
       (value === '' || value == null) &&
       placeholder
     )
