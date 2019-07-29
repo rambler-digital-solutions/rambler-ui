@@ -542,7 +542,7 @@ export function createTheme(config) {
         colors: {
           background: colors.light,
           text: colors.dark,
-          icon: colors.lightGrey
+          icon: '#8d96b2'
         },
         fontSize: 13
       },
