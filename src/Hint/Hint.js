@@ -97,13 +97,11 @@ class HintContent extends PureComponent {
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onBecomeVisible: PropTypes.func,
-    onBecomeInvisible: PropTypes.func,
-    device: PropTypes.string
+    onBecomeInvisible: PropTypes.func
   }
 
   static defaultProps = {
-    isVisible: false,
-    device: 'desktop'
+    isVisible: false
   }
 
   render() {
@@ -120,11 +118,12 @@ class HintContent extends PureComponent {
       onMouseEnter,
       onMouseLeave,
       onBecomeVisible,
-      onBecomeInvisible,
-      device
+      onBecomeInvisible
     } = this.props
 
-    if (device === 'mobile')
+    const isNativeSelectAllowed = ios || android
+
+    if (isNativeSelectAllowed)
       return (
         <VisibilityAnimation
           isVisible={isVisible}
@@ -212,6 +211,11 @@ class HintContent extends PureComponent {
   () => ({
     icon: {
       display: 'inline-block'
+    },
+    container: {
+      width: '100%',
+      maxWidth: '480px',
+      marginTop: '10px'
     }
   }),
   {name: 'Hint'}
@@ -327,7 +331,6 @@ export default class Hint extends PureComponent {
           anchor={anchor}
           content={
             <HintContent
-              device="mobile"
               className={contentClassName}
               style={contentStyle}
               icon={icon}
@@ -345,11 +348,7 @@ export default class Hint extends PureComponent {
           cachePositionOptions={false}
           closeOnScroll={closeOnScroll}
           onContentClose={this.hide}
-          containerNodeStyle={{
-            width: '100%',
-            maxWidth: '480px',
-            marginTop: '10px'
-          }}
+          containerNodeClassName={classes.container}
         />
       )
     }
