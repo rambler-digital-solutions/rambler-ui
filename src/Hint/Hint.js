@@ -127,17 +127,17 @@ class HintContent extends PureComponent {
 
     const isNativeSelectAllowed = ios || android
 
-    let arrowStyle = {}
+    if (isNativeSelectAllowed) {
+      let arrowStyle = {}
 
-    const clientWidth = document.documentElement.clientWidth
+      const clientWidth = document.documentElement.clientWidth
 
-    if (hintCoordsLeft < 0 || clientWidth < 480)
-      arrowStyle = {left: anchorCoordsCenter - 5 + 'px'}
-    else if (hintCoordsLeft === null)
-      arrowStyle = {right: clientWidth - anchorCoordsCenter - 5 + 'px'}
-    else arrowStyle = {left: anchorCoordsCenter - hintCoordsLeft - 5 + 'px'}
+      if (hintCoordsLeft < 0 || clientWidth < 480)
+        arrowStyle = {left: anchorCoordsCenter - 5 + 'px'}
+      else if (hintCoordsLeft === null)
+        arrowStyle = {right: clientWidth - anchorCoordsCenter - 5 + 'px'}
+      else arrowStyle = {left: anchorCoordsCenter - hintCoordsLeft - 5 + 'px'}
 
-    if (isNativeSelectAllowed)
       return (
         <VisibilityAnimation
           isVisible={isVisible}
@@ -165,6 +165,7 @@ class HintContent extends PureComponent {
           )}
         </VisibilityAnimation>
       )
+    }
 
     const iconProps = icon.props || {}
 
@@ -311,22 +312,22 @@ export default class Hint extends PureComponent {
 
     const isNativeSelectAllowed = ios || android
 
-    let center,
-      left,
-      containerStyle = {}
-
-    if (anchorCoords) center = anchorCoords.left + anchorCoords.width / 2
-
-    left = center - 240
-
-    if (document.documentElement.clientWidth < 480 || center - 240 < 0) {
-      containerStyle = {left: 0}
-    } else if (center + 240 > document.documentElement.clientWidth) {
-      containerStyle = {left: null, right: 0}
-      left = null
-    }
-
     if (isNativeSelectAllowed) {
+      let center,
+        left,
+        containerStyle = {}
+
+      if (anchorCoords) center = anchorCoords.left + anchorCoords.width / 2
+
+      left = center - 240
+
+      if (document.documentElement.clientWidth < 480 || center - 240 < 0) {
+        containerStyle = {left: 0}
+      } else if (center + 240 > document.documentElement.clientWidth) {
+        containerStyle = {left: null, right: 0}
+        left = null
+      }
+
       const anchor = cloneElement(icon, {
         style,
         className: classnames(classes.icon, className),
