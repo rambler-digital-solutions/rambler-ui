@@ -89,6 +89,7 @@ class HintContent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
+    anchorCoords: PropTypes.object,
     icon: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
     isVisible: PropTypes.bool,
@@ -109,6 +110,7 @@ class HintContent extends PureComponent {
       isVisible,
       className,
       style,
+      anchorCoords,
       icon,
       children,
       pointX,
@@ -123,6 +125,12 @@ class HintContent extends PureComponent {
 
     const isNativeSelectAllowed = ios || android
 
+    const arrowStyle = {}
+
+    if (anchorCoords) 
+      arrowStyle.left = anchorCoords.left + 'px'
+    
+
     if (isNativeSelectAllowed)
       return (
         <VisibilityAnimation
@@ -130,46 +138,25 @@ class HintContent extends PureComponent {
           animationDuration={theme.hint.animationDuration}
           onVisible={onBecomeVisible}
           onInvisible={onBecomeInvisible}>
-          {({isVisible}) => {
-            if (this.msg && isVisible) {
-              const de = document.documentElement
-              const overlay = this.msg.parentNode.parentNode
-              const ovrCoords = overlay.getBoundingClientRect()
-
-              const arrow = this.msg.parentNode.firstChild
-              const arrCoords = arrow.getBoundingClientRect()
-              arrow.style.left =
-                ovrCoords.width / 2 - arrCoords.width / 2 + 'px'
-
-              if (ovrCoords.left < 0) {
-                this.msg.style.left =
-                  Math.abs(parseInt(overlay.style.left)) + 'px'
-              } else if (ovrCoords.right > de.clientWidth) {
-                const right = ovrCoords.right - de.clientWidth
-                this.msg.style.right = right + 'px'
-              }
-            }
-            return (
+          {({isVisible}) => (
+            <div
+              className={classnames(classes.hintMobile, className)}
+              style={{
+                ...style
+              }}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}>
+              <div className={classes.arrow} style={arrowStyle} />
               <div
-                className={classnames(classes.hintMobile, className)}
-                style={{
-                  ...style
-                }}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={onMouseLeave}>
-                <div className={classes.arrow} />
-                <div
-                  ref={el => (this.msg = el)}
-                  className={classnames(
-                    classes.hint,
-                    isVisible && classes.isVisible,
-                    classes.message
-                  )}>
-                  {children}
-                </div>
+                className={classnames(
+                  classes.hint,
+                  isVisible && classes.isVisible,
+                  classes.message
+                )}>
+                {children}
               </div>
-            )
-          }}
+            </div>
+          )}
         </VisibilityAnimation>
       )
 
@@ -270,7 +257,8 @@ export default class Hint extends PureComponent {
     super(props)
 
     this.state = {
-      isOpened: props.isOpened || false
+      isOpened: props.isOpened || false,
+      anchorCoords: null
     }
   }
 
@@ -280,11 +268,12 @@ export default class Hint extends PureComponent {
       else this.hide()
   }
 
-  show = () => {
+  show = e => {
     if (this.state.isOpened) clearTimeout(this.hideTimeout)
     else
       this.setState({
-        isOpened: true
+        isOpened: true,
+        anchorCoords: e.target.getBoundingClientRect()
       })
   }
 
@@ -312,7 +301,20 @@ export default class Hint extends PureComponent {
       closeOnScroll
     } = this.props
 
+    const {anchorCoords} = this.state
+
     const isNativeSelectAllowed = ios || android
+
+    let center,
+      containerStyle = {}
+
+    if (anchorCoords) center = anchorCoords.left + anchorCoords.width / 2
+
+    if (document.documentElement.clientWidth < 480 || center - 240 < 0) 
+      containerStyle = {left: 0}
+    else if (center + 240 > document.documentElement.clientWidth) 
+      containerStyle = {left: null, right: 0}
+    
 
     if (isNativeSelectAllowed) {
       const anchor = cloneElement(icon, {
@@ -331,6 +333,7 @@ export default class Hint extends PureComponent {
           anchor={anchor}
           content={
             <HintContent
+              anchorCoords={anchorCoords}
               className={contentClassName}
               style={contentStyle}
               icon={icon}
@@ -349,6 +352,7 @@ export default class Hint extends PureComponent {
           closeOnScroll={closeOnScroll}
           onContentClose={this.hide}
           containerNodeClassName={classes.container}
+          containerNodeStyle={containerStyle}
         />
       )
     }
