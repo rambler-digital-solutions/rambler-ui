@@ -280,7 +280,7 @@ export default class Hint extends PureComponent {
     else
       this.setState({
         isOpened: true,
-        anchorCoords: e.target.getBoundingClientRect()
+        anchorCoords: e && e.target.getBoundingClientRect()
       })
   }
 
