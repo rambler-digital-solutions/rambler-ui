@@ -89,7 +89,7 @@ class HintContent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
-    left: PropTypes.number, // Координаты левого края Hint
+    hintCoordsLeft: PropTypes.number, // Координаты левого края Hint
     anchorCoordsCenter: PropTypes.number, // Координаты центра anchor
     icon: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
@@ -111,7 +111,7 @@ class HintContent extends PureComponent {
       isVisible,
       className,
       style,
-      left,
+      hintCoordsLeft,
       anchorCoordsCenter,
       icon,
       children,
@@ -131,13 +131,11 @@ class HintContent extends PureComponent {
 
     const clientWidth = document.documentElement.clientWidth
 
-    if (left < 0 || clientWidth < 480) 
+    if (hintCoordsLeft < 0 || clientWidth < 480)
       arrowStyle = {left: anchorCoordsCenter - 5 + 'px'}
-    else if (left === null) 
+    else if (hintCoordsLeft === null)
       arrowStyle = {right: clientWidth - anchorCoordsCenter - 5 + 'px'}
-    else 
-      arrowStyle = {left: anchorCoordsCenter - left - 5 + 'px'}
-    
+    else arrowStyle = {left: anchorCoordsCenter - hintCoordsLeft - 5 + 'px'}
 
     if (isNativeSelectAllowed)
       return (
@@ -321,9 +319,9 @@ export default class Hint extends PureComponent {
 
     left = center - 240
 
-    if (document.documentElement.clientWidth < 480 || center - 240 < 0)
-    {containerStyle = {left: 0}}
-    else if (center + 240 > document.documentElement.clientWidth) {
+    if (document.documentElement.clientWidth < 480 || center - 240 < 0) {
+      containerStyle = {left: 0}
+    } else if (center + 240 > document.documentElement.clientWidth) {
       containerStyle = {left: null, right: 0}
       left = null
     }
@@ -345,7 +343,7 @@ export default class Hint extends PureComponent {
           anchor={anchor}
           content={
             <HintContent
-              left={left}
+              hintCoordsLeft={left}
               anchorCoordsCenter={center}
               className={contentClassName}
               style={contentStyle}
