@@ -89,7 +89,8 @@ class HintContent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
-    anchorCoords: PropTypes.object,
+    left: PropTypes.number, // Координаты левого края Hint
+    anchorCoordsCenter: PropTypes.number, // Координаты центра anchor
     icon: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
     isVisible: PropTypes.bool,
@@ -110,7 +111,8 @@ class HintContent extends PureComponent {
       isVisible,
       className,
       style,
-      anchorCoords,
+      left,
+      anchorCoordsCenter,
       icon,
       children,
       pointX,
@@ -125,10 +127,16 @@ class HintContent extends PureComponent {
 
     const isNativeSelectAllowed = ios || android
 
-    const arrowStyle = {}
+    let arrowStyle = {}
 
-    if (anchorCoords) 
-      arrowStyle.left = anchorCoords.left + 'px'
+    const clientWidth = document.documentElement.clientWidth
+
+    if (left < 0 || clientWidth < 480) 
+      arrowStyle = {left: anchorCoordsCenter - 5 + 'px'}
+    else if (left === null) 
+      arrowStyle = {right: clientWidth - anchorCoordsCenter - 5 + 'px'}
+    else 
+      arrowStyle = {left: anchorCoordsCenter - left - 5 + 'px'}
     
 
     if (isNativeSelectAllowed)
@@ -306,15 +314,19 @@ export default class Hint extends PureComponent {
     const isNativeSelectAllowed = ios || android
 
     let center,
+      left,
       containerStyle = {}
 
     if (anchorCoords) center = anchorCoords.left + anchorCoords.width / 2
 
-    if (document.documentElement.clientWidth < 480 || center - 240 < 0) 
-      containerStyle = {left: 0}
-    else if (center + 240 > document.documentElement.clientWidth) 
+    left = center - 240
+
+    if (document.documentElement.clientWidth < 480 || center - 240 < 0)
+    {containerStyle = {left: 0}}
+    else if (center + 240 > document.documentElement.clientWidth) {
       containerStyle = {left: null, right: 0}
-    
+      left = null
+    }
 
     if (isNativeSelectAllowed) {
       const anchor = cloneElement(icon, {
@@ -333,7 +345,8 @@ export default class Hint extends PureComponent {
           anchor={anchor}
           content={
             <HintContent
-              anchorCoords={anchorCoords}
+              left={left}
+              anchorCoordsCenter={center}
               className={contentClassName}
               style={contentStyle}
               icon={icon}
