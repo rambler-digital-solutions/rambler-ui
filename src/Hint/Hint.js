@@ -7,6 +7,7 @@ import {FixedOverlay} from '../Overlay'
 import {POINTS_X, POINTS_Y} from '../constants/overlay'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
+import {ios, android} from '../utils/browser'
 
 @injectSheet(
   theme => ({
@@ -19,14 +20,33 @@ import {isolateMixin} from '../utils/mixins'
       boxSizing: 'border-box',
       boxShadow: theme.hint.boxShadow,
       paddingTop: 15,
-      paddingBottom: 20,
-      width: 275,
+      paddingBottom: 15,
+      width: 265,
       backgroundColor: theme.hint.colors.background,
       fontSize: theme.hint.fontSize,
-      lineHeight: 1.31,
+      lineHeight: 1.54,
       opacity: 0.01,
       transitionDuration: `${theme.hint.animationDuration}ms`,
       transitionProperty: 'opacity'
+    },
+    hintMobile: {
+      position: 'relative',
+      width: '100%'
+    },
+    message: {
+      position: 'absolute',
+      width: '100%',
+      padding: 20,
+      fontSize: 14
+    },
+    arrow: {
+      position: 'absolute',
+      borderStyle: 'solid',
+      borderColor: 'transparent',
+      bottom: '100%',
+      borderWidth: 5,
+      borderBottomColor: theme.hint.colors.background,
+      zIndex: 100
     },
     isVisible: {
       opacity: 1
@@ -36,24 +56,24 @@ import {isolateMixin} from '../utils/mixins'
     },
     left: {
       left: -15,
-      paddingLeft: 47,
-      paddingRight: 24,
+      paddingLeft: 45,
+      paddingRight: 15,
       '& $icon': {
         left: 15
       }
     },
     right: {
       left: 15,
-      paddingLeft: 24,
-      paddingRight: 47,
+      paddingLeft: 15,
+      paddingRight: 45,
       '& $icon': {
         right: 15
       }
     },
     top: {
-      top: -14,
+      top: -15,
       '& $icon': {
-        top: 14
+        top: 15
       }
     },
     bottom: {
@@ -69,6 +89,7 @@ class HintContent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
+    anchorCoordsCenter: PropTypes.number, // Координаты центра anchor
     icon: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
     isVisible: PropTypes.bool,
@@ -89,6 +110,7 @@ class HintContent extends PureComponent {
       isVisible,
       className,
       style,
+      anchorCoordsCenter,
       icon,
       children,
       pointX,
@@ -100,6 +122,48 @@ class HintContent extends PureComponent {
       onBecomeVisible,
       onBecomeInvisible
     } = this.props
+
+    const isNativeSelectAllowed = ios || android
+
+    if (isNativeSelectAllowed) {
+      let arrowStyle = {}
+
+      const clientWidth = document.documentElement.clientWidth
+
+      if (anchorCoordsCenter - 240 < 0 || clientWidth < 480)
+        arrowStyle = {left: anchorCoordsCenter - 5 + 'px'}
+      else if (clientWidth < anchorCoordsCenter + 240)
+        arrowStyle = {right: clientWidth - anchorCoordsCenter - 5 + 'px'}
+      else arrowStyle = {left: 235 + 'px'}
+
+      return (
+        <VisibilityAnimation
+          isVisible={isVisible}
+          animationDuration={theme.hint.animationDuration}
+          onVisible={onBecomeVisible}
+          onInvisible={onBecomeInvisible}>
+          {({isVisible}) => (
+            <div
+              className={classnames(classes.hintMobile, className)}
+              style={{
+                ...style
+              }}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}>
+              <div className={classes.arrow} style={arrowStyle} />
+              <div
+                className={classnames(
+                  classes.hint,
+                  isVisible && classes.isVisible,
+                  classes.message
+                )}>
+                {children}
+              </div>
+            </div>
+          )}
+        </VisibilityAnimation>
+      )
+    }
 
     const iconProps = icon.props || {}
 
@@ -139,6 +203,11 @@ class HintContent extends PureComponent {
   () => ({
     icon: {
       display: 'inline-block'
+    },
+    container: {
+      width: '100%',
+      maxWidth: '480px',
+      marginTop: '10px'
     }
   }),
   {name: 'Hint'}
@@ -186,14 +255,15 @@ export default class Hint extends PureComponent {
   static defaultProps = {
     positionX: 'right',
     closeOnScroll: true,
-    icon: <QuestionIcon size={16} />
+    icon: <QuestionIcon size={15} color="#315efb" />
   }
 
   constructor(props) {
     super(props)
 
     this.state = {
-      isOpened: props.isOpened || false
+      isOpened: props.isOpened || false,
+      anchorCoords: null
     }
   }
 
@@ -203,11 +273,12 @@ export default class Hint extends PureComponent {
       else this.hide()
   }
 
-  show = () => {
+  show = e => {
     if (this.state.isOpened) clearTimeout(this.hideTimeout)
     else
       this.setState({
-        isOpened: true
+        isOpened: true,
+        anchorCoords: e && e.target.getBoundingClientRect()
       })
   }
 
@@ -235,13 +306,68 @@ export default class Hint extends PureComponent {
       closeOnScroll
     } = this.props
 
+    const {anchorCoords} = this.state
+
+    const isNativeSelectAllowed = ios || android
+
+    if (isNativeSelectAllowed) {
+      let center,
+        containerStyle = {}
+
+      if (anchorCoords) center = anchorCoords.left + anchorCoords.width / 2
+
+      if (document.documentElement.clientWidth < 480 || center - 240 < 0) 
+        containerStyle = {left: 0}
+      else if (center + 240 > document.documentElement.clientWidth) 
+        containerStyle = {left: null, right: 0}
+      
+
+      const anchor = cloneElement(icon, {
+        style,
+        className: classnames(classes.icon, className),
+        color: this.state.isOpened ? icon.props.color : theme.hint.colors.icon,
+        size: 19,
+        onMouseEnter: this.show,
+        onTouchStart: this.show,
+        onMouseLeave: this.hide
+      })
+
+      return (
+        <FixedOverlay
+          isOpened={this.state.isOpened}
+          anchor={anchor}
+          content={
+            <HintContent
+              anchorCoordsCenter={center}
+              className={contentClassName}
+              style={contentStyle}
+              icon={icon}
+              onMouseEnter={this.show}
+              onMouseLeave={this.hide}>
+              {children}
+            </HintContent>
+          }
+          autoPositionX={false}
+          autoPositionY={false}
+          anchorPointX="center"
+          contentPointX="center"
+          anchorPointY="bottom"
+          contentPointY="top"
+          cachePositionOptions={false}
+          closeOnScroll={closeOnScroll}
+          onContentClose={this.hide}
+          containerNodeClassName={classes.container}
+          containerNodeStyle={containerStyle}
+        />
+      )
+    }
+
     const pointX = positionX === 'left' ? 'right' : 'left'
-    const iconProps = icon.props || {}
 
     const anchor = cloneElement(icon, {
       style,
       className: classnames(classes.icon, className),
-      color: iconProps.color || theme.hint.colors.icon,
+      color: theme.hint.colors.icon,
       onMouseEnter: this.show,
       onTouchStart: this.show,
       onMouseLeave: this.hide

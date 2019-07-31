@@ -8,14 +8,14 @@ export default class HintExample extends PureComponent {
       <div style={{display: 'flex', alignItems: 'center'}}>
         <div style={{width: '33%', display: 'flex', alignItems: 'center'}}>
           Подсказка справа
-          <Hint style={{marginLeft: 15}} positionX={'right'}>
+          <Hint style={{marginLeft: 10}} positionX={'right'}>
             Номер телефона поможет вам восстановить пароль от почты
           </Hint>
         </div>
 
         <div style={{width: '33%', display: 'flex', alignItems: 'center'}}>
           Кастомная иконка
-          <Hint icon={<InfoIcon color="magenta" />} style={{marginLeft: 15}}>
+          <Hint icon={<InfoIcon color="magenta" />} style={{marginLeft: 10}}>
             Номер телефона поможет вам восстановить пароль от почты
           </Hint>
         </div>
@@ -28,7 +28,7 @@ export default class HintExample extends PureComponent {
             justifyContent: 'flex-end'
           }}>
           Подсказка слева
-          <Hint style={{marginLeft: 15}} positionX={'left'}>
+          <Hint style={{marginLeft: 10}} positionX={'left'}>
             Номер телефона поможет вам восстановить пароль от почты
           </Hint>
         </div>

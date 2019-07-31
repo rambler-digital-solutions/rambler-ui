@@ -39,18 +39,18 @@ describe('<Hint />', () => {
 
     const anchorStyles = getStyles(wrapper)
 
-    expect(anchorStyles.width).toEqual('16px')
-    expect(anchorStyles.height).toEqual('16px')
+    expect(anchorStyles.width).toEqual('15px')
+    expect(anchorStyles.height).toEqual('15px')
     expect(nc(anchorStyles.fill)).toEqual(nc(theme.hint.colors.icon))
 
     const contentNode = document.querySelector('.content')
     const contentStyles = getNodeStyles(contentNode)
 
     expect(contentStyles.position).toEqual('relative')
-    expect(contentStyles.top).toEqual('-14px')
-    expect(contentStyles.width).toEqual('275px')
+    expect(contentStyles.top).toEqual('-15px')
+    expect(contentStyles.width).toEqual('265px')
     expect(contentStyles['padding-top']).toEqual('15px')
-    expect(contentStyles['padding-bottom']).toEqual('20px')
+    expect(contentStyles['padding-bottom']).toEqual('15px')
     expect(nc(contentStyles['background-color'])).toEqual(
       nc(theme.hint.colors.background)
     )
