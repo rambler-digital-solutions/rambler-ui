@@ -349,6 +349,8 @@ export default class RelativeOverlay extends PureComponent {
      * - hide - функция, которая должна вызываться, если контент нужно закрыть
      * - anchorWidth: ширина anchor
      * - anchorHeight: высота anchor
+     * - anchorLeft: координата anchor по оси X
+     * - anchorTop: координата anchor по оси Y
      */
     content: PropTypes.node.isRequired,
     /**
@@ -411,6 +413,14 @@ export default class RelativeOverlay extends PureComponent {
        * Высота anchor элемента
        */
       anchorHeight: undefined,
+      /**
+       * Координата anchor по оси X
+       */
+      anchorLeft: undefined,
+      /**
+       * Координата anchor по оси Y
+       */
+      anchorTop: undefined,
       /**
        * Стиль контента
        */
@@ -531,14 +541,17 @@ export default class RelativeOverlay extends PureComponent {
 
     whenPositioned.then(
       ({style, pointX, pointY, anchorPointX, anchorPointY}) => {
+        const anchorRect = this.props.getElementRect(this.containerElement)
         this.setState({
           anchorPointX,
           anchorPointY,
           contentStyle: style,
           contentPointX: pointX,
           contentPointY: pointY,
-          anchorWidth: this.containerElement.offsetWidth,
-          anchorHeight: this.containerElement.offsetHeight,
+          anchorWidth: anchorRect.width,
+          anchorHeight: anchorRect.height,
+          anchorLeft: anchorRect.left,
+          anchorTop: anchorRect.top,
           isContentVisible: true
         })
       }
@@ -597,6 +610,8 @@ export default class RelativeOverlay extends PureComponent {
       anchorPointY,
       anchorWidth,
       anchorHeight,
+      anchorLeft,
+      anchorTop,
       contentStyle
     } = this.state
     let contentElement = null
@@ -611,6 +626,8 @@ export default class RelativeOverlay extends PureComponent {
             anchorPointY,
             anchorWidth,
             anchorHeight,
+            anchorLeft,
+            anchorTop,
             isVisible: isContentVisible,
             pointX: contentPointX,
             pointY: contentPointY,

@@ -296,6 +296,8 @@ export default class FixedOverlay extends PureComponent {
      * - hide - функция, которая должна вызываться, если контент нужно закрыть
      * - anchorWidth: ширина anchor
      * - anchorHeight: высота anchor
+     * - anchorLeft: координата anchor по оси X
+     * - anchorTop: координата anchor по оси Y
      */
     content: PropTypes.node.isRequired,
     /**
@@ -509,8 +511,10 @@ export default class FixedOverlay extends PureComponent {
       pointY: options.contentPointY,
       anchorPointX: options.anchorPointX,
       anchorPointY: options.anchorPointY,
-      anchorWidth: this.anchorNode.offsetWidth,
-      anchorHeight: this.anchorNode.offsetHeight
+      anchorWidth: anchorRect.width,
+      anchorHeight: anchorRect.height,
+      anchorLeft: anchorRect.left,
+      anchorTop: anchorRect.top
     })
     if (containerNodeClassName)
       this.contentContainerNode.className = containerNodeClassName
