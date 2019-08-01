@@ -541,8 +541,13 @@ export function createTheme(config) {
         boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
         colors: {
           background: colors.light,
-          text: colors.dark,
-          icon: '#8d96b2'
+          text: colors.dark
+        },
+        icon: {
+          colors: {
+            default: '#8d96b2',
+            active: colors.primary
+          }
         },
         fontSize: 13
       },

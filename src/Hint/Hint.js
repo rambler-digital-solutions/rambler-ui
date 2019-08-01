@@ -9,6 +9,8 @@ import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
 
+const isMobileBehavior = ios || android
+
 @injectSheet(
   theme => ({
     hint: {
@@ -29,13 +31,9 @@ import {ios, android} from '../utils/browser'
       transitionDuration: `${theme.hint.animationDuration}ms`,
       transitionProperty: 'opacity'
     },
-    hintMobile: {
-      position: 'relative',
-      width: '100%'
-    },
-    message: {
-      position: 'absolute',
+    mobile: {
       width: '100%',
+      maxWidth: 480,
       padding: 20,
       fontSize: 14
     },
@@ -43,7 +41,6 @@ import {ios, android} from '../utils/browser'
       position: 'absolute',
       borderStyle: 'solid',
       borderColor: 'transparent',
-      bottom: '100%',
       borderWidth: 5,
       borderBottomColor: theme.hint.colors.background,
       zIndex: 100
@@ -72,14 +69,27 @@ import {ios, android} from '../utils/browser'
     },
     top: {
       top: -15,
+      '&$mobile': {
+        top: 10
+      },
       '& $icon': {
         top: 15
+      },
+      '& $arrow': {
+        bottom: '100%'
       }
     },
     bottom: {
       top: 19,
+      '&$mobile': {
+        top: -10
+      },
       '& $icon': {
         bottom: 19
+      },
+      '& $arrow': {
+        top: '100%',
+        transform: 'rotate(180deg)'
       }
     }
   }),
@@ -89,7 +99,6 @@ class HintContent extends PureComponent {
   static propTypes = {
     className: PropTypes.string,
     style: PropTypes.object,
-    anchorCoordsCenter: PropTypes.number, // Координаты центра anchor
     icon: PropTypes.node.isRequired,
     children: PropTypes.node.isRequired,
     isVisible: PropTypes.bool,
@@ -105,13 +114,55 @@ class HintContent extends PureComponent {
     isVisible: false
   }
 
+  cachedPosition = {}
+
+  get position() {
+    const {clientWidth} = document.body
+    const {anchorLeft = 0, anchorWidth = 0} = this.props
+    const key = `${anchorLeft}-${anchorWidth}-${clientWidth}`
+    if (key === this.cachedPosition.key) return this.cachedPosition
+    const anchorCenterLeft = anchorLeft + anchorWidth / 2
+    let contentLeft
+    let arrowLeft
+    if (clientWidth < 480 || anchorCenterLeft < 240) {
+      contentLeft = 0
+      arrowLeft = anchorCenterLeft - 5
+    } else if (anchorCenterLeft > clientWidth - 240) {
+      contentLeft = clientWidth - 480
+      arrowLeft = anchorCenterLeft - 5 + 480 - clientWidth
+    } else {
+      contentLeft = anchorCenterLeft - 240
+      arrowLeft = 240 - 5
+    }
+    this.cachedPosition = {
+      key,
+      arrowLeft,
+      contentLeft
+    }
+    return this.cachedPosition
+  }
+
+  renderIcon() {
+    const {icon, classes, theme} = this.props
+    if (isMobileBehavior)
+      return (
+        <div
+          className={classes.arrow}
+          style={{left: this.position.arrowLeft}}
+        />
+      )
+    const iconProps = icon.props || {}
+    return cloneElement(icon, {
+      className: classnames(classes.icon, iconProps.className),
+      color: iconProps.color || theme.hint.icon.colors.active
+    })
+  }
+
   render() {
     const {
       isVisible,
       className,
       style,
-      anchorCoordsCenter,
-      icon,
       children,
       pointX,
       pointY,
@@ -123,54 +174,12 @@ class HintContent extends PureComponent {
       onBecomeInvisible
     } = this.props
 
-    const isNativeSelectAllowed = ios || android
+    let contentStyle
 
-    if (isNativeSelectAllowed) {
-      let arrowStyle = {}
-
-      const clientWidth = document.documentElement.clientWidth
-
-      if (anchorCoordsCenter - 240 < 0 || clientWidth < 480)
-        arrowStyle = {left: anchorCoordsCenter - 5 + 'px'}
-      else if (clientWidth < anchorCoordsCenter + 240)
-        arrowStyle = {right: clientWidth - anchorCoordsCenter - 5 + 'px'}
-      else arrowStyle = {left: 235 + 'px'}
-
-      return (
-        <VisibilityAnimation
-          isVisible={isVisible}
-          animationDuration={theme.hint.animationDuration}
-          onVisible={onBecomeVisible}
-          onInvisible={onBecomeInvisible}>
-          {({isVisible}) => (
-            <div
-              className={classnames(classes.hintMobile, className)}
-              style={{
-                ...style
-              }}
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave}>
-              <div className={classes.arrow} style={arrowStyle} />
-              <div
-                className={classnames(
-                  classes.hint,
-                  isVisible && classes.isVisible,
-                  classes.message
-                )}>
-                {children}
-              </div>
-            </div>
-          )}
-        </VisibilityAnimation>
-      )
-    }
-
-    const iconProps = icon.props || {}
-
-    const anchor = cloneElement(icon, {
-      className: classnames(classes.icon, iconProps.className),
-      color: iconProps.color || theme.hint.colors.icon
-    })
+    if (isMobileBehavior)
+      contentStyle = {
+        left: this.position.contentLeft
+      }
 
     return (
       <VisibilityAnimation
@@ -182,15 +191,15 @@ class HintContent extends PureComponent {
           <div
             className={classnames(
               classes.hint,
-              classes[pointX],
+              classes[isMobileBehavior ? 'mobile' : pointX],
               classes[pointY],
               isVisible && classes.isVisible,
               className
             )}
-            style={style}
+            style={{...contentStyle, ...style}}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}>
-            {anchor}
+            {this.renderIcon()}
             {children}
           </div>
         )}
@@ -203,11 +212,6 @@ class HintContent extends PureComponent {
   () => ({
     icon: {
       display: 'inline-block'
-    },
-    container: {
-      width: '100%',
-      maxWidth: '480px',
-      marginTop: '10px'
     }
   }),
   {name: 'Hint'}
@@ -255,17 +259,14 @@ export default class Hint extends PureComponent {
   static defaultProps = {
     positionX: 'right',
     closeOnScroll: true,
-    icon: <QuestionIcon size={15} color="#315efb" />
+    icon: <QuestionIcon size={15} />
   }
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      isOpened: props.isOpened || false,
-      anchorCoords: null
-    }
+  state = {
+    isOpened: this.props.isOpened || false
   }
+
+  containerStyle = isMobileBehavior ? {left: 0, right: 0} : null
 
   componentWillReceiveProps({isOpened}) {
     if (isOpened !== undefined && isOpened !== this.props.isOpened)
@@ -273,12 +274,11 @@ export default class Hint extends PureComponent {
       else this.hide()
   }
 
-  show = e => {
+  show = () => {
     if (this.state.isOpened) clearTimeout(this.hideTimeout)
     else
       this.setState({
-        isOpened: true,
-        anchorCoords: e && e.target.getBoundingClientRect()
+        isOpened: true
       })
   }
 
@@ -306,68 +306,18 @@ export default class Hint extends PureComponent {
       closeOnScroll
     } = this.props
 
-    const {anchorCoords} = this.state
-
-    const isNativeSelectAllowed = ios || android
-
-    if (isNativeSelectAllowed) {
-      let center,
-        containerStyle = {}
-
-      if (anchorCoords) center = anchorCoords.left + anchorCoords.width / 2
-
-      if (document.documentElement.clientWidth < 480 || center - 240 < 0) 
-        containerStyle = {left: 0}
-      else if (center + 240 > document.documentElement.clientWidth) 
-        containerStyle = {left: null, right: 0}
-      
-
-      const anchor = cloneElement(icon, {
-        style,
-        className: classnames(classes.icon, className),
-        color: this.state.isOpened ? icon.props.color : theme.hint.colors.icon,
-        size: 19,
-        onMouseEnter: this.show,
-        onTouchStart: this.show,
-        onMouseLeave: this.hide
-      })
-
-      return (
-        <FixedOverlay
-          isOpened={this.state.isOpened}
-          anchor={anchor}
-          content={
-            <HintContent
-              anchorCoordsCenter={center}
-              className={contentClassName}
-              style={contentStyle}
-              icon={icon}
-              onMouseEnter={this.show}
-              onMouseLeave={this.hide}>
-              {children}
-            </HintContent>
-          }
-          autoPositionX={false}
-          autoPositionY={false}
-          anchorPointX="center"
-          contentPointX="center"
-          anchorPointY="bottom"
-          contentPointY="top"
-          cachePositionOptions={false}
-          closeOnScroll={closeOnScroll}
-          onContentClose={this.hide}
-          containerNodeClassName={classes.container}
-          containerNodeStyle={containerStyle}
-        />
-      )
-    }
-
+    const {isOpened} = this.state
     const pointX = positionX === 'left' ? 'right' : 'left'
+    const color =
+      icon.props.color ||
+      (isOpened
+        ? theme.hint.icon.colors.active
+        : theme.hint.icon.colors.default)
 
     const anchor = cloneElement(icon, {
+      color,
       style,
       className: classnames(classes.icon, className),
-      color: theme.hint.colors.icon,
       onMouseEnter: this.show,
       onTouchStart: this.show,
       onMouseLeave: this.hide
@@ -375,7 +325,7 @@ export default class Hint extends PureComponent {
 
     return (
       <FixedOverlay
-        isOpened={this.state.isOpened}
+        isOpened={isOpened}
         anchor={anchor}
         content={
           <HintContent
@@ -387,15 +337,16 @@ export default class Hint extends PureComponent {
             {children}
           </HintContent>
         }
-        autoPositionX={true}
+        autoPositionX={!isMobileBehavior}
         autoPositionY={true}
-        anchorPointX={pointX}
-        contentPointX={pointX}
-        anchorPointY="top"
+        anchorPointX={isMobileBehavior ? 'center' : pointX}
+        contentPointX={isMobileBehavior ? 'center' : pointX}
+        anchorPointY={isMobileBehavior ? 'bottom' : 'top'}
         contentPointY="top"
         cachePositionOptions={false}
         closeOnScroll={closeOnScroll}
         onContentClose={this.hide}
+        containerNodeStyle={this.containerStyle}
       />
     )
   }

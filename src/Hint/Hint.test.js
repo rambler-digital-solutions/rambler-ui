@@ -41,7 +41,7 @@ describe('<Hint />', () => {
 
     expect(anchorStyles.width).toEqual('15px')
     expect(anchorStyles.height).toEqual('15px')
-    expect(nc(anchorStyles.fill)).toEqual(nc(theme.hint.colors.icon))
+    expect(nc(anchorStyles.fill)).toEqual(nc(theme.hint.icon.colors.active))
 
     const contentNode = document.querySelector('.content')
     const contentStyles = getNodeStyles(contentNode)
