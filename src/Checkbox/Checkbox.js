@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import TickIcon from '../icons/forms/TickIcon'
+import TickIcon from './TickIcon'
 import TickIconSmall from './TickIconSmall'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 import {injectSheet} from '../theme'
