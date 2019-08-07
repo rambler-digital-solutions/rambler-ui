@@ -26,10 +26,7 @@ const defaultIcon = <TickIcon size={15} color="currentColor" />
       ...ifDesktopSize({
         padding: '0 10px',
         marginTop: 0
-      }),
-      '&:not($active) $badge': {
-        lineHeight: '33px'
-      }
+      })
     },
     text: {
       cursor: 'pointer'
@@ -158,7 +155,7 @@ class Step extends Component {
         style={style}
         onClick={this.onClick}>
         <span className={classnames(classes.badge, badgeClassName)}>
-          {icon ? icon : completed ? defaultIcon : value + 1}
+          {icon ? icon : completed ? defaultIcon : <span>{value + 1}</span>}
         </span>
         <span className={classnames(classes.text, textClassName)}>
           {children}
