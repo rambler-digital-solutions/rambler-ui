@@ -26,7 +26,10 @@ const defaultIcon = <TickIcon size={15} color="currentColor" />
       ...ifDesktopSize({
         padding: '0 10px',
         marginTop: 0
-      })
+      }),
+      '&:not($active) $badge': {
+        lineHeight: '33px'
+      }
     },
     text: {
       cursor: 'pointer'
@@ -35,9 +38,10 @@ const defaultIcon = <TickIcon size={15} color="currentColor" />
       extend: middleMixin,
       display: 'inline-block',
       borderRadius: '50%',
-      width: '35px',
-      height: '35px',
-      marginRight: '10px',
+      boxSizing: 'border-box',
+      width: 35,
+      height: 35,
+      marginRight: 10,
       userSelect: 'none',
       fontSize: theme.stepper.badge.fontSize,
       backgroundColor: theme.stepper.colors.default.badge.background,
