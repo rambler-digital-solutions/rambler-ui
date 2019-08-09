@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
-import ChevronRightIcon from '../icons/forms/ChevronRightIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
@@ -50,10 +49,14 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
       bottom: 15,
       opacity: 1
     },
+    marginAtClose: {
+      marginRight: 25
+    },
     title: {
       extend: middleMixin,
       fontSize: theme.notification.titleSize,
-      fontWeight: 500
+      fontWeight: 500,
+      marginBottom: 10
     },
     icon: {
       extend: middleMixin,
@@ -66,7 +69,7 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
       textAlign: 'center'
     },
     body: {
-      marginTop: 10
+      lineHeight: theme.notification.lineHeight
     },
     actionButton: {
       extend: middleMixin,
@@ -74,7 +77,7 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
       outline: 'none',
       border: 0,
       margin: 0,
-      marginTop: 12,
+      marginTop: 10,
       padding: 0,
       height: 20,
       backgroundColor: 'transparent',
@@ -123,7 +126,7 @@ export default class Notification extends PureComponent {
     /**
      * Тайтл
      */
-    title: PropTypes.node.isRequired,
+    title: PropTypes.node,
     /**
      * Сообщение
      */
@@ -210,23 +213,27 @@ export default class Notification extends PureComponent {
                 <ClearIcon color={theme.notification.colors.close} />
               </IconButton>
             )}
-            <div className={classes.title}>
-              {icon && <div className={classes.icon}>{icon}</div>}
-              {title}
+            <div
+              className={classnames(
+                classes.content,
+                showClose && classes.marginAtClose
+              )}>
+              {title && (
+                <div className={classes.title}>
+                  {icon && <div className={classes.icon}>{icon}</div>}
+                  {title}
+                </div>
+              )}
+              <div className={classes.body}>{body}</div>
+              {actionButton && (
+                <button
+                  type="button"
+                  className={classes.actionButton}
+                  onClick={onAction}>
+                  {actionButton}
+                </button>
+              )}
             </div>
-            <div className={classes.body}>{body}</div>
-            {actionButton && (
-              <button
-                type="button"
-                className={classes.actionButton}
-                onClick={onAction}>
-                {actionButton}
-                <ChevronRightIcon
-                  size={9}
-                  color={theme.notification.actionButton.colors.default}
-                />
-              </button>
-            )}
           </div>
         )}
       </VisibilityAnimation>
