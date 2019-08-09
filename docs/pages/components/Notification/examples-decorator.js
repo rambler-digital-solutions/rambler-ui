@@ -12,6 +12,7 @@ class WithNotification extends Component {
         body="Вы готовы удалить почту?"
         actionButton="Да"
         onAction={() => notification.close()}
+        showClose={false}
       />
     )
   }

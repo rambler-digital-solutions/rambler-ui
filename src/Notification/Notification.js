@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import IconButton from '../IconButton'
 import ClearIcon from '../icons/forms/ClearIcon'
 import VisibilityAnimation from '../VisibilityAnimation'
 import OnClickOutside from '../OnClickOutside'
@@ -83,7 +82,6 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
       backgroundColor: 'transparent',
       color: theme.notification.actionButton.colors.default,
       fontSize: theme.notification.actionButton.fontSize,
-      fontWeight: 500,
       cursor: 'pointer',
       transitionDuration: theme.notification.animationDuration,
       transitionProperty: 'color',
@@ -98,9 +96,33 @@ import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
       }
     },
     close: {
-      position: 'absolute !important',
-      top: 13,
-      right: 13
+      position: 'absolute',
+      top: 15,
+      right: 15,
+      boxSizing: 'border-box',
+      outline: 'none',
+      border: 0,
+      borderRadius: '50%',
+      height: 15,
+      width: 15,
+      lineHeight: 0,
+      padding: 0,
+      backgroundColor: 'transparent',
+      cursor: 'pointer',
+      transitionDuration: '.2s',
+      transitionProperty: 'background-color, border',
+      '&:hover:not(:active)': {
+        backgroundColor: 'rgba(0, 0, 0, 0.05)'
+      },
+      '&:focus:not(:active)': {
+        border: '1px solid'
+      },
+      '&:active': {
+        backgroundColor: 'rgba(0, 0, 0, 0.1)'
+      },
+      '& ~ $title, & ~ $body': {
+        marginRight: 25
+      }
     }
   }),
   {name: 'Notification'}
@@ -204,36 +226,28 @@ export default class Notification extends PureComponent {
               className
             )}>
             {showClose && (
-              <IconButton
-                type="flat"
-                buttonType="button"
-                size="small"
+              <button
+                type="button"
                 className={classes.close}
                 onClick={onRequestClose}>
-                <ClearIcon color={theme.notification.colors.close} />
-              </IconButton>
+                <ClearIcon size={9} color={theme.notification.colors.close} />
+              </button>
             )}
-            <div
-              className={classnames(
-                classes.content,
-                showClose && classes.marginAtClose
-              )}>
-              {title && (
-                <div className={classes.title}>
-                  {icon && <div className={classes.icon}>{icon}</div>}
-                  {title}
-                </div>
-              )}
-              <div className={classes.body}>{body}</div>
-              {actionButton && (
-                <button
-                  type="button"
-                  className={classes.actionButton}
-                  onClick={onAction}>
-                  {actionButton}
-                </button>
-              )}
-            </div>
+            {title && (
+              <div className={classes.title}>
+                {icon && <div className={classes.icon}>{icon}</div>}
+                {title}
+              </div>
+            )}
+            <div className={classes.body}>{body}</div>
+            {actionButton && (
+              <button
+                type="button"
+                className={classes.actionButton}
+                onClick={onAction}>
+                {actionButton}
+              </button>
+            )}
           </div>
         )}
       </VisibilityAnimation>
