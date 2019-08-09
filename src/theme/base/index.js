@@ -806,13 +806,14 @@ export function createTheme(config) {
       notification: {
         borderRadius: 2,
         boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
-        padding: '20px 25px 20px 20px',
+        padding: '15px 20px',
         colors: {
           background: colors.light,
           iconBackground: colors.controls.grey.lightBackground,
           text: colors.dark,
           close: colors.controls.grey.icon
         },
+        lineHeight: 1.54,
         actionButton: {
           fontSize: 13,
           colors: {
