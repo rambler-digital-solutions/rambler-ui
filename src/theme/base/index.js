@@ -811,7 +811,7 @@ export function createTheme(config) {
           background: colors.light,
           iconBackground: colors.controls.grey.lightBackground,
           text: colors.dark,
-          close: colors.controls.grey.icon
+          close: colors.dark
         },
         lineHeight: 1.54,
         actionButton: {

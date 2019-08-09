@@ -209,8 +209,8 @@ describe('<Notification />', () => {
     const buttonStyles = getNodeStyles(buttonNode)
 
     expect(buttonStyles.position).toEqual('absolute')
-    expect(buttonStyles.top).toEqual('13px')
-    expect(buttonStyles.right).toEqual('13px')
+    expect(buttonStyles.top).toEqual('15px')
+    expect(buttonStyles.right).toEqual('15px')
   })
 
   it('should append action button', () => {
