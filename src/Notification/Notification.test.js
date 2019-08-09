@@ -102,10 +102,10 @@ describe('<Notification />', () => {
       nc(theme.notification.colors.text)
     )
     expect(notificationStyles.width).toEqual('335px')
-    expect(notificationStyles['padding-top']).toEqual('20px')
+    expect(notificationStyles['padding-top']).toEqual('15px')
     expect(notificationStyles['padding-left']).toEqual('20px')
-    expect(notificationStyles['padding-right']).toEqual('25px')
-    expect(notificationStyles['padding-bottom']).toEqual('20px')
+    expect(notificationStyles['padding-right']).toEqual('20px')
+    expect(notificationStyles['padding-bottom']).toEqual('15px')
   })
 
   it('should apply positionX', () => {
