@@ -75,6 +75,10 @@ class MenuItem extends PureComponent {
      */
     value: PropTypes.any,
     /**
+     * Отключение опции
+     */
+    disabled: PropTypes.bool,
+    /**
      * Контент опции
      */
     children: PropTypes.node.isRequired,
@@ -180,6 +184,7 @@ class MenuItem extends PureComponent {
       container,
       className,
       value,
+      disabled,
       classes,
       children,
       theme, // eslint-disable-line no-unused-vars
@@ -190,6 +195,7 @@ class MenuItem extends PureComponent {
     this.isFocused = this.ctx.isItemFocused(this.id)
     this.disabled = this.ctx.isMenuDisabled()
     this.size = this.ctx.getMenuSize()
+    const isItemDisabled = !!disabled || this.disabled
 
     let element
     if (container && isValidElement(container)) element = container
@@ -202,13 +208,13 @@ class MenuItem extends PureComponent {
         className,
         classes.root,
         this.size && classes[this.size],
-        this.disabled ? classes.isDisabled : classes.isEnabled,
+        isItemDisabled ? classes.isDisabled : classes.isEnabled,
         this.isSelected && classes.isSelected
       ),
-      tabIndex: this.disabled ? null : 0,
-      onFocus: this.disabled ? null : this.handleFocus,
-      onClick: this.disabled ? null : this.handleSelect,
-      onKeyDown: this.disabled ? null : this.handlePressKey,
+      tabIndex: isItemDisabled ? null : 0,
+      onFocus: isItemDisabled ? null : this.handleFocus,
+      onClick: isItemDisabled ? null : this.handleSelect,
+      onKeyDown: isItemDisabled ? null : this.handlePressKey,
       'data-menu-item-id': this.id
     }
 
