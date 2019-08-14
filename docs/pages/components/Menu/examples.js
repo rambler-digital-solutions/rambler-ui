@@ -66,7 +66,10 @@ export default class MenuExample extends Component {
               key={categoryIndex}>
               <h5 style={{margin: 0, padding: 13}}>{category.category}</h5>
               {category.items.map((item, itemIndex) => (
-                <IsolatedMenuItem value={item} key={itemIndex}>
+                <IsolatedMenuItem
+                  value={item}
+                  key={itemIndex}
+                  disabled={itemIndex === 0}>
                   {item}
                 </IsolatedMenuItem>
               ))}
