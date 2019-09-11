@@ -9,6 +9,7 @@ import PgumosruIcon from '../icons/profiles/PgumosruIcon'
 import RamblerIcon from '../icons/profiles/RamblerIcon'
 import TwitterIcon from '../icons/profiles/TwitterIcon'
 import VkontakteIcon from '../icons/profiles/VkontakteIcon'
+import SberbankIcon from '../icons/profiles/SberbankIcon'
 
 export default {
   facebook: FacebookIcon,
@@ -20,6 +21,7 @@ export default {
   odnoklassniki: OdnoklassnikiIcon,
   pgumosru: PgumosruIcon,
   rambler: RamblerIcon,
+  sberbank: SberbankIcon,
   twitter: TwitterIcon,
   vkontakte: VkontakteIcon
 }
