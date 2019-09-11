@@ -1,5 +1,10 @@
 # Changelog
 
+## v-3.46.0 - 2019-09-11
+### Added
+* Добавлен тип профиля `sberbank` в `<Avatar />`
+* Добавлена иконка `<SberbankIcon />`
+
 ## v-3.45.0 - 2019-09-09
 ### Added
 * Добавлена иконка `<RamblerPromoCodesIcon />`
