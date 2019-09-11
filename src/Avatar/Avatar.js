@@ -87,6 +87,7 @@ export default class Avatar extends PureComponent {
       'odnoklassniki',
       'pgumosru',
       'rambler',
+      'sberbank',
       'twitter',
       'vkontakte'
     ]),
