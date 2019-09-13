@@ -6,7 +6,7 @@
   },
   {
     "name": "The size of the library components",
-    "limit": "84 KB",
+    "limit": "85 KB",
     "path": "test/only-components.js"
   },
   {
