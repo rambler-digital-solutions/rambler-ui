@@ -78,6 +78,7 @@ export default class Avatar extends PureComponent {
      * Тип профиля для отображения иконки
      */
     profileType: PropTypes.oneOf([
+      'apple',
       'facebook',
       'championat',
       'google',
