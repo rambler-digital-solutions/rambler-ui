@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgIcon from 'rambler-ui/icons/SvgIcon'
+import SvgIcon from '../SvgIcon'
 
 export default function AppleIcon(props) {
   return (
