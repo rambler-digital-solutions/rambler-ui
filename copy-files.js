@@ -1,3 +1,4 @@
+/* eslint-env node */
 const path = require('path')
 const fse = require('fs-extra')
 const glob = require('glob')
@@ -11,8 +12,8 @@ async function copyDeclarationFiles() {
   const cmds = files.map(file =>
     fse.copy(path.resolve(srcPath, file), path.resolve(buildPath, file))
   )
-  console.log('=====================================')
-  console.log('declaration files copied successfully')
+  global.console.log('=====================================')
+  global.console.log('declaration files copied successfully')
   return Promise.all(cmds)
 }
 
