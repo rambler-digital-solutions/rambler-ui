@@ -1,6 +1,7 @@
 import { Component } from "react";
+import {TCalVariation} from '../../index'
 
-declare type CalendarProps = {
+declare interface CalendarProps {
     visibleMonths?: number
     className?: string
     style?: object

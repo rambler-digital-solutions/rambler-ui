@@ -3,9 +3,9 @@
     cебе в ногу ибо  существует пропс type совпадающий с
     ключевым словом type
 */
-type TIconPoistion = "left" | "right"
-type TVariation = "regular" | "awesome"
-type TSize = "small" | "medium"
-type TType = "primary" | "secondary" | "outline" | "flat" | "danger"
-type TCalVariation = "service" | "media"
-type TypographyType = 'h1' | 'h2' | 'h3' | 'text' | 'quote' | 'epigraph' | 'source' | 'timestamp' | 'description' | 'galleryDescription' | 'photoSource' | 'list'
+export type TIconPoistion = "left" | "right"
+export type TVariation = "regular" | "awesome"
+export type TSize = "small" | "medium"
+export type TType = "primary" | "secondary" | "outline" | "flat" | "danger"
+export type TCalVariation = "service" | "media"
+export type TypographyType = 'h1' | 'h2' | 'h3' | 'text' | 'quote' | 'epigraph' | 'source' | 'timestamp' | 'description' | 'galleryDescription' | 'photoSource' | 'list'

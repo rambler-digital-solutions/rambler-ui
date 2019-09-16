@@ -1,6 +1,7 @@
 import { Component } from "react"
+import {TIconPoistion, TSize, TVariation} from '../../index'
 
-declare type CheckboxProps = {
+declare interface CheckboxProps {
     name?: string
     disabled?: boolean
     className?: string
