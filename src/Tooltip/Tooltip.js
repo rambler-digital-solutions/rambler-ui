@@ -344,6 +344,16 @@ export default class Tooltip extends PureComponent {
     isOpened: false
   }
 
+  constructor(props) {
+    super(props)
+    if (this.props.isOpened) {
+      this.clearDelayTimeout()
+      this.state = {
+        isOpened: true
+      }
+    }
+  }
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.isOpened !== undefined &&
@@ -353,9 +363,9 @@ export default class Tooltip extends PureComponent {
       else this.hide()
   }
 
-  componentWillMount() {
-    if (this.props.isOpened) this.show()
-  }
+  // componentWillMount() {
+  //   if (this.props.isOpened) this.show()
+  // }
 
   onMouseEnter = event => {
     event.stopPropagation()

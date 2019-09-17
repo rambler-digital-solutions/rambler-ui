@@ -182,13 +182,13 @@ class RadioButton extends PureComponent {
     return this.inputValue === this.context[RADIO_INPUT_CONTEXT].getValue()
   }
 
-  componentWillMount() {
-    this.setInputValue(this.props.value)
-    this.context[RADIO_INPUT_CONTEXT].events.on(
-      'updateValue',
-      this.onUpdateValue
-    )
-  }
+  // componentWillMount() {
+  //   this.setInputValue(this.props.value)
+  //   this.context[RADIO_INPUT_CONTEXT].events.on(
+  //     'updateValue',
+  //     this.onUpdateValue
+  //   )
+  // }
 
   componentWillUnmount() {
     this.context[RADIO_INPUT_CONTEXT].events.removeListener(
@@ -203,6 +203,11 @@ class RadioButton extends PureComponent {
   }
 
   componentDidMount() {
+    this.setInputValue(this.props.value)
+    this.context[RADIO_INPUT_CONTEXT].events.on(
+      'updateValue',
+      this.onUpdateValue
+    )
     if (this.input) this.input.checked = this.isChecked
   }
 

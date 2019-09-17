@@ -72,6 +72,11 @@ export default class RadioButtonGroup extends PureComponent {
     onChange: () => {}
   }
 
+  constructor(props) {
+    super(props)
+    this.value = this.props.value
+  }
+
   getRadioInputName = () => {
     this.resultRadioInputName =
       this.resultRadioInputName || this.props.name || `RadioGroup-${uuid()}`
@@ -89,9 +94,9 @@ export default class RadioButtonGroup extends PureComponent {
     }
   }
 
-  componentWillMount() {
-    this.value = this.props.value
-  }
+  // componentWillMount() {
+  //   this.value = this.props.value
+  // }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.props.value) {

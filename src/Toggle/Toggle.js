@@ -193,6 +193,22 @@ export default class Toggle extends Component {
     minWidth: 0
   }
 
+  constructor(props) {
+    super(props)
+    // this.setValue(this.props.value)
+    this.state = {
+      value: null,
+      minWidth: 0
+    }
+    if (this.value === this.props.value) {
+      this.value = this.props.value
+      this.state = {
+        value: this.props.value,
+        minWidth: 0
+      }
+    }
+  }
+
   optionsElements = []
   addElement = ref => {
     this.optionsElements.push(ref)
@@ -204,9 +220,9 @@ export default class Toggle extends Component {
     if (this.props.onChange) this.props.onChange(event, value)
   }
 
-  componentWillMount() {
-    this.setValue(this.props.value)
-  }
+  // componentWillMount() {
+  //   this.setValue(this.props.value)
+  // }
 
   componentWillReceiveProps(nextProps) {
     this.setValue(nextProps.value)
