@@ -195,18 +195,6 @@ export default class Toggle extends Component {
 
   constructor(props) {
     super(props)
-    // this.setValue(this.props.value)
-    this.state = {
-      value: null,
-      minWidth: 0
-    }
-    if (this.value === this.props.value) {
-      this.value = this.props.value
-      this.state = {
-        value: this.props.value,
-        minWidth: 0
-      }
-    }
   }
 
   optionsElements = []
@@ -229,6 +217,7 @@ export default class Toggle extends Component {
   }
 
   componentDidMount() {
+    this.setValue(this.props.value)
     // Делаем через таймаут т.к. при начально загрузки страницы jss добавляет стили асинхронно
     if (this.shouldCalcMinWidth())
       whenDomReady.then(() => {
