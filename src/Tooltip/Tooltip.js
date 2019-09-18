@@ -357,8 +357,7 @@ export default class Tooltip extends PureComponent {
     if (this.props.isOpened) this.show()
   }
 
-  onMouseEnter = event => {
-    event.stopPropagation()
+  onMouseEnter = () => {
     this.show()
   }
 
