@@ -178,6 +178,11 @@ class RadioButton extends PureComponent {
     })
   }
 
+  constructor(props) {
+    super(props)
+    this.setInputValue(this.props.value)
+  }
+
   get isChecked() {
     return this.inputValue === this.context[RADIO_INPUT_CONTEXT].getValue()
   }
@@ -203,7 +208,6 @@ class RadioButton extends PureComponent {
   }
 
   componentDidMount() {
-    this.setInputValue(this.props.value)
     this.context[RADIO_INPUT_CONTEXT].events.on(
       'updateValue',
       this.onUpdateValue
