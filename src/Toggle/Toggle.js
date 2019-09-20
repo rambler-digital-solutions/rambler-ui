@@ -214,11 +214,10 @@ export default class Toggle extends Component {
   // }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.value !== nextProps.value) 
+    if (prevState.value !== nextProps.value)
       return {
         value: nextProps.value
       }
-    
   }
 
   // componentWillReceiveProps(nextProps) {
