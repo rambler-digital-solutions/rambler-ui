@@ -180,6 +180,7 @@ export default class Toggle extends Component {
   }
 
   static defaultProps = {
+    value: null,
     size: 'small',
     behavior: 'radio',
     block: false,
@@ -189,7 +190,7 @@ export default class Toggle extends Component {
   }
 
   state = {
-    value: null,
+    value: this.props.value,
     minWidth: 0
   }
 
@@ -212,9 +213,17 @@ export default class Toggle extends Component {
   //   this.setValue(this.props.value)
   // }
 
-  componentWillReceiveProps(nextProps) {
-    this.setValue(nextProps.value)
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.value !== nextProps.value) 
+      return {
+        value: nextProps.value
+      }
+    
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   this.setValue(nextProps.value)
+  // }
 
   componentDidMount() {
     this.setValue(this.props.value)
