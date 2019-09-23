@@ -428,24 +428,42 @@ export default class RelativeOverlay extends PureComponent {
     }
   }
 
-  componentWillReceiveProps({
-    isOpened,
-    anchorPointX,
-    anchorPointY,
-    contentPointX,
-    contentPointY
-  }) {
-    if (isOpened !== undefined && isOpened !== this.props.isOpened)
-      if (isOpened) this.show()
+  // componentWillReceiveProps({
+  //   isOpened,
+  //   anchorPointX,
+  //   anchorPointY,
+  //   contentPointX,
+  //   contentPointY
+  // }) {
+  //   if (isOpened !== undefined && isOpened !== this.props.isOpened)
+  //     if (isOpened) this.show()
+  //     else this.hide()
+  //   else if (
+  //     isOpened &&
+  //     (this.props.anchorPointX !== anchorPointX ||
+  //       this.props.anchorPointY !== anchorPointY ||
+  //       this.props.contentPointX !== contentPointX ||
+  //       this.props.contentPointY !== contentPointY)
+  //   )
+  //     this.show()
+  // }
+
+  getSnapshotBeforeUpdate(prevProps) {
+    if (
+      this.props.isOpened !== undefined &&
+      this.props.isOpened !== prevProps.isOpened
+    )
+      if (this.props.isOpened) this.show()
       else this.hide()
     else if (
-      isOpened &&
-      (this.props.anchorPointX !== anchorPointX ||
-        this.props.anchorPointY !== anchorPointY ||
-        this.props.contentPointX !== contentPointX ||
-        this.props.contentPointY !== contentPointY)
+      this.props.isOpened &&
+      (prevProps.anchorPointX !== this.props.anchorPointX ||
+        prevProps.anchorPointY !== this.props.anchorPointY ||
+        prevProps.contentPointX !== this.props.contentPointX ||
+        prevProps.contentPointY !== this.props.contentPointY)
     )
       this.show()
+    return null
   }
 
   componentWillUnmount() {

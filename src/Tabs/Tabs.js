@@ -89,8 +89,23 @@ export default class Tabs extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setValue(nextProps.value)
+  // componentWillReceiveProps(nextProps) {
+  //   this.setValue(nextProps.value)
+  // }
+
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   if (this.props.value !== prevState.value) {
+  //     this.setState({
+  //       value: this.props.value
+  //     })
+  //   }
+  // }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.value !== state.value)
+      return {
+        value: props.value
+      }
   }
 
   getChildContext() {

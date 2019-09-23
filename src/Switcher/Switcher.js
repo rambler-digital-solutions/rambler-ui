@@ -178,8 +178,13 @@ export default class Switcher extends PureComponent {
   //   this.switch(this.props.checked)
   // }
 
-  componentWillReceiveProps(nextProps) {
-    this.switch(nextProps.checked)
+  // componentWillReceiveProps(nextProps) {
+  //   this.switch(nextProps.checked)
+  // }
+
+  getSnapshotBeforeUpdate() {
+    this.switch(this.props.checked)
+    return null
   }
 
   switch(checked) {

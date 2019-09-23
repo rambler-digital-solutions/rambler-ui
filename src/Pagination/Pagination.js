@@ -224,10 +224,17 @@ export default class Pagination extends Component {
     showInput: false
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.state.pageValue !== nextProps.currentPage)
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.state.pageValue !== nextProps.currentPage)
+  //     this.setState({
+  //       pageValue: nextProps.currentPage
+  //     })
+  // }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.pageValue !== this.props.currentPage)
       this.setState({
-        pageValue: nextProps.currentPage
+        pageValue: this.props.currentPage
       })
   }
 

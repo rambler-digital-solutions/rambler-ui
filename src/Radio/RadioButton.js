@@ -202,9 +202,16 @@ class RadioButton extends PureComponent {
     )
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value)
-      this.setInputValue(nextProps.value)
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.value !== this.props.value)
+  //     this.setInputValue(nextProps.value)
+  // }
+
+  getSnapshotBeforeUpdate(prevProps) {
+    if (this.props.value !== prevProps.value)
+      this.setInputValue(this.props.value)
+
+    return null
   }
 
   componentDidMount() {

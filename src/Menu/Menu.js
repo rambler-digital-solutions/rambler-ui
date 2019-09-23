@@ -189,8 +189,13 @@ export default class Menu extends PureComponent {
     if (this.props.autoFocus) this.setAutoFocus()
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.setValue(nextProps.value)
+  // componentWillReceiveProps(nextProps) {
+  //   this.setValue(nextProps.value)
+  // }
+
+  getSnapshotBeforeUpdate() {
+    this.setValue(this.props.value)
+    return null
   }
 
   componentDidUpdate(prevProps, prevState) {

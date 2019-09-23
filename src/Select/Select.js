@@ -500,8 +500,13 @@ export default class Select extends PureComponent {
     return !multiple && clearIcon && !this.isValueEmpty(this.state.value)
   }
 
-  componentWillReceiveProps({value}) {
-    this.setValue(value)
+  // componentWillReceiveProps({value}) {
+  //   this.setValue(value)
+  // }
+
+  getSnapshotBeforeUpdate() {
+    this.setValue(this.props.value)
+    return null
   }
 
   handleDropdownClose = () => {

@@ -98,9 +98,17 @@ export default class RadioButtonGroup extends PureComponent {
   //   this.value = this.props.value
   // }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this.value = nextProps.value
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps.value !== this.props.value) {
+  //     this.value = nextProps.value
+  //     if (this.radioInputEvents)
+  //       this.radioInputEvents.emit('updateValue', this.value)
+  //   }
+  // }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
+      this.value = this.props.value
       if (this.radioInputEvents)
         this.radioInputEvents.emit('updateValue', this.value)
     }

@@ -381,26 +381,45 @@ export default class FixedOverlay extends PureComponent {
     this.cleanUp()
   }
 
-  componentWillReceiveProps({
-    isOpened,
-    anchorPointX,
-    anchorPointY,
-    contentPointX,
-    contentPointY,
-    content
-  }) {
-    if (isOpened !== undefined && isOpened !== this.props.isOpened)
-      if (isOpened) this.show()
+  // componentWillReceiveProps({
+  //   isOpened,
+  //   anchorPointX,
+  //   anchorPointY,
+  //   contentPointX,
+  //   contentPointY,
+  //   content
+  // }) {
+  //   if (isOpened !== undefined && isOpened !== this.props.isOpened)
+  //     if (isOpened) this.show()
+  //     else this.hide()
+  //   else if (
+  //     isOpened &&
+  //     (this.props.anchorPointX !== anchorPointX ||
+  //       this.props.anchorPointY !== anchorPointY ||
+  //       this.props.contentPointX !== contentPointX ||
+  //       this.props.contentPointY !== contentPointY ||
+  //       this.props.content !== content)
+  //   )
+  //     this.show()
+  // }
+
+  getSnapshotBeforeUpdate(prevProps) {
+    if (
+      this.props.isOpened !== undefined &&
+      this.props.isOpened !== prevProps.isOpened
+    )
+      if (this.props.isOpened) this.show()
       else this.hide()
     else if (
-      isOpened &&
-      (this.props.anchorPointX !== anchorPointX ||
-        this.props.anchorPointY !== anchorPointY ||
-        this.props.contentPointX !== contentPointX ||
-        this.props.contentPointY !== contentPointY ||
-        this.props.content !== content)
+      this.props.isOpened &&
+      (prevProps.anchorPointX !== this.props.anchorPointX ||
+        prevProps.anchorPointY !== this.props.anchorPointY ||
+        prevProps.contentPointX !== this.props.anchorPointX ||
+        prevProps.contentPointY !== this.props.contentPointY ||
+        prevProps.content !== this.props.content)
     )
       this.show()
+    return null
   }
 
   componentDidMount() {

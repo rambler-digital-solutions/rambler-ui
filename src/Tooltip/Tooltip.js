@@ -354,12 +354,18 @@ export default class Tooltip extends PureComponent {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.isOpened !== undefined &&
-      nextProps.isOpened !== this.props.isOpened
-    )
-      if (nextProps.isOpened) this.show()
+  // componentWillReceiveProps(nextProps) {
+  //   if (
+  //     nextProps.isOpened !== undefined &&
+  //     nextProps.isOpened !== this.props.isOpened
+  //   )
+  //     if (nextProps.isOpened) this.show()
+  //     else this.hide()
+  // }
+
+  componentDidUpdate() {
+    if (this.props.isOpened !== undefined && this.props.isOpened)
+      if (this.props.isOpened) this.show()
       else this.hide()
   }
 
