@@ -1,7 +1,7 @@
 import {Component} from 'react'
 import {TCalVariation} from '..'
 
-declare interface CalendarProps {
+export interface CalendarProps {
   visibleMonths?: number
   className?: string
   style?: object
@@ -19,7 +19,7 @@ declare interface CalendarProps {
   highlightWeekend?: boolean
   onChange?: (...args: any[]) => any
 }
-declare type CalendarState =
+export type CalendarState =
   | {
       data: any[]
       dates: any[]

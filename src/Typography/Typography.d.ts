@@ -1,6 +1,6 @@
 import {PureComponent, ReactNode} from 'react'
 
-declare interface TypographyProps {
+export interface TypographyProps {
   type?:
     | 'h1'
     | 'h2'
@@ -13,10 +13,10 @@ declare interface TypographyProps {
     | 'description'
     | 'galleryDescription'
     | 'photoSource'
-    | 'list';
-  tagName?: string;
-  children?: ReactNode;
-  uppercase?: boolean;
+    | 'list'
+  tagName?: string
+  children?: ReactNode
+  uppercase?: boolean
 }
 
 export default class Typography extends PureComponent<TypographyProps, {}> {}

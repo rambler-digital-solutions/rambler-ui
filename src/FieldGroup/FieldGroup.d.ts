@@ -1,14 +1,13 @@
 import {CSSProperties, PureComponent} from 'react'
 
-
-declare interface FieldGroupProps {
-  className?: string;
-  style?: CSSProperties;
-  size?: 'small' | 'medium';
-  variation?: 'regular' | 'awesome' | 'promo';
-  status?: 'error' | 'warning' | 'success' | null;
-  disabled?: boolean;
-  showDivider?: boolean;
+export interface FieldGroupProps {
+  className?: string
+  style?: CSSProperties
+  size?: 'small' | 'medium'
+  variation?: 'regular' | 'awesome' | 'promo'
+  status?: 'error' | 'warning' | 'success' | null
+  disabled?: boolean
+  showDivider?: boolean
 }
 
 export default class FieldGroup extends PureComponent<FieldGroupProps, {}> {}

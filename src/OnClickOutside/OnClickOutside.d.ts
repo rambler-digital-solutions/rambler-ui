@@ -1,7 +1,10 @@
 import {PureComponent} from 'react'
 
-declare interface OnClickOutsideProps {
-  handler: () => any;
+export interface OnClickOutsideProps {
+  handler: () => any
 }
 
-export default class OnClickOutside extends PureComponent<OnClickOutsideProps, {}> {}
+export default class OnClickOutside extends PureComponent<
+  OnClickOutsideProps,
+  {}
+> {}
