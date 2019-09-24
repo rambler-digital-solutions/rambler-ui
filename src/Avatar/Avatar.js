@@ -78,6 +78,7 @@ export default class Avatar extends PureComponent {
      * Тип профиля для отображения иконки
      */
     profileType: PropTypes.oneOf([
+      'apple',
       'facebook',
       'championat',
       'google',
@@ -87,6 +88,7 @@ export default class Avatar extends PureComponent {
       'odnoklassniki',
       'pgumosru',
       'rambler',
+      'sberbank',
       'twitter',
       'vkontakte'
     ]),

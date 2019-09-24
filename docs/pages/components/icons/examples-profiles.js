@@ -27,11 +27,15 @@ export default () => (
           style={{
             ...styles,
             borderRadius: '50%',
-            backgroundColor: '#444',
+            backgroundColor: '#f5f7f8',
             lineHeight: 0
           }}>
           <Tooltip content={`<${iconName} />`}>
-            <Icon size={12} color="white" style={{margin: 4}} />
+            <Icon
+              size={12}
+              color="rgba(0, 0, 0, 0.247059)"
+              style={{margin: 4}}
+            />
           </Tooltip>
         </div>
       )

@@ -15,13 +15,13 @@ npm install
 Для запуска песочницы выполните:
 
 ```sh
-npm run dev
+npm start
 ```
 
 На определенном порту/хосте:
 
 ```sh
-npm run dev -- --port 8080 --host 127.0.0.1
+npm start -- --port 8080 --host 127.0.0.1
 ```
 
 ## Структура библиотеки

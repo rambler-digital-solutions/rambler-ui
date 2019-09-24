@@ -19,8 +19,8 @@ export default class InputExample extends Component {
         <div>
           <h3>Form groups</h3>
           <div style={{display: 'flex'}}>
-            {['regular', 'awesome', 'promo'].map(variation => (
-              <div style={{width: 300, marginRight: 40}} key={variation}>
+            {['regular', 'awesome', 'promo'].map((variation, i) => (
+              <div style={{width: 196, marginLeft: i && 20}} key={variation}>
                 <h4>{`Variation: ${variation}`}</h4>
                 <FormGroup label="Input">
                   <Input
@@ -135,9 +135,7 @@ export default class InputExample extends Component {
                     variation={variation}
                   />
                 </FormGroup>
-                <FormGroup
-                  style={{width: '170px'}}
-                  label="Input month (without placeholder)">
+                <FormGroup label="Input month (without placeholder)">
                   <Input
                     type="month"
                     value={this.state.value}

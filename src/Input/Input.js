@@ -689,9 +689,10 @@ export default class Input extends PureComponent {
             ? field.colors.disabled.text
             : Icon.props.color || 'currentColor',
           size:
-            Icon.props.size || isTouchDevice
+            Icon.props.size ||
+            (isTouchDevice
               ? field.mobile.sizes[props.size].icon
-              : field.sizes[props.size].icon
+              : field.sizes[props.size].icon)
         })}
       </div>
     )
