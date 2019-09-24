@@ -23,7 +23,7 @@ export type TypographyType =
   | 'list'
 
 import * as theme from './theme'
-import * as Toogle from './Toggle'
+import * as Toggle from './Toggle'
 import * as Radio from './Radio'
 import * as icons from './icons'
 import * as Popup from './Popup'
@@ -39,7 +39,7 @@ import * as Stepper from './Stepper'
 
 export {
   theme,
-  Toogle,
+  Toggle,
   Radio,
   icons,
   Popup,
