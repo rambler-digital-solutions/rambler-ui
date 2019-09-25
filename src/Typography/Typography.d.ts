@@ -1,19 +1,8 @@
 import {PureComponent, ReactNode} from 'react'
+import {TypographyType} from '../index'
 
 export interface TypographyProps {
-  type?:
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'text'
-    | 'quote'
-    | 'epigraph'
-    | 'source'
-    | 'timestamp'
-    | 'description'
-    | 'galleryDescription'
-    | 'photoSource'
-    | 'list'
+  type?: TypographyType
   tagName?: string
   children?: ReactNode
   uppercase?: boolean
