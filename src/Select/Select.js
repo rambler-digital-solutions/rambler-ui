@@ -639,13 +639,13 @@ export default class Select extends PureComponent {
   }
 
   closeOnClickOutside = event => {
-    const {isOpened, inputFocused} = this.state
+    const {isOpened, inputFocused, onBlur} = this.state
     if (!isOpened || inputFocused) return
     this.setState({
       isOpened: false,
       inputFocused: false
     })
-    this.props.onBlur(event)
+    if (onBlur) onBlur(event)
   }
 
   keyDown = event => {
