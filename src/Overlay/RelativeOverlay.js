@@ -287,7 +287,7 @@ function getContentProps(params) {
     },
     content: {
       position: 'absolute',
-      zIndex: 1
+      zIndex: 10
     }
   }),
   {name: 'RelativeOverlay'}
