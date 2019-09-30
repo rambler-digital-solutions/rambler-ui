@@ -156,6 +156,9 @@ const activeBorder = borderColor => ({
               })
             }
           },
+          '& $characterCounter': {
+            lineHeight: theme.field.sizes[size].height + 'px'
+          },
           '& $icon': {
             height: theme.field.sizes[size].icon,
             width: theme.field.sizes[size].icon,
@@ -398,11 +401,17 @@ const activeBorder = borderColor => ({
     textareaRoot: {},
     characterCounter: {
       position: 'absolute',
+      top: 0,
+      bottom: 0,
       right: 15,
-      bottom: 10,
+      margin: 'auto',
       fontSize: 11,
-      lineHeight: 1.36,
-      color: '#b0b4c2'
+      color: '#b0b4c2',
+      '$textareaRoot &': {
+        top: 'auto',
+        bottom: 10,
+        lineHeight: 1.36
+      }
     },
     characterCounterWarn: {
       color: '#ffc000'
@@ -804,8 +813,7 @@ export default class Input extends PureComponent {
       onChange: this.onChange,
       tabIndex: 0,
       ...(!!maxLength && {
-        maxLength:
-          maxLength + (characterCounter ? Math.ceil(maxLength * 0.05) : 0)
+        maxLength: characterCounter ? Math.ceil(maxLength * 1.05) : maxLength
       }),
       ...other
     })
