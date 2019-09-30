@@ -369,10 +369,6 @@ export default class Tooltip extends PureComponent {
       else this.hide()
   }
 
-  // componentWillMount() {
-  //   if (this.props.isOpened) this.show()
-  // }
-
   onMouseEnter = () => {
     this.show()
   }
