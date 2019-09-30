@@ -404,10 +404,10 @@ const activeBorder = borderColor => ({
       lineHeight: 1.36,
       color: '#b0b4c2'
     },
-    'maxLengthCounter--warn': {
+    maxLengthCounterWarn: {
       color: '#ffc000'
     },
-    'maxLengthCounter--error': {
+    maxLengthCounterError: {
       color: '#ff564e'
     },
     activeBorder: {
@@ -604,7 +604,15 @@ export default class Input extends PureComponent {
     /**
      * Дополнительный класс левой иконки
      */
-    iconLeftClassName: PropTypes.string
+    iconLeftClassName: PropTypes.string,
+    /**
+     * Максимальная длина значения поля
+     */
+    maxLength: PropTypes.number,
+    /**
+     * Отображения счетчика максимальной длины
+     */
+    maxLengthCounter: PropTypes.bool
   }
 
   static defaultProps = {
@@ -734,8 +742,8 @@ export default class Input extends PureComponent {
     return (
       <span
         className={`${classes.maxLengthCounter} ${
-          warn ? classes['maxLengthCounter--warn'] : ''
-        } ${error ? classes['maxLengthCounter--error'] : ''}`}>
+          warn ? classes.maxLengthCounterWarn : ''
+        } ${error ? classes.maxLengthCounterError : ''}`}>
         {availableLength}
       </span>
     )
@@ -766,6 +774,7 @@ export default class Input extends PureComponent {
       passwordIconProps, // eslint-disable-line no-unused-vars
       inputRef, // eslint-disable-line no-unused-vars
       maxLength,
+      maxLengthCounter,
       ...other
     } = this.props
 
@@ -819,7 +828,7 @@ export default class Input extends PureComponent {
             classnames(iconRightClassName, classes.iconRight)
           )}
         {this.renderPasswordIcon()}
-        {!!maxLength && this.renderMaxLengthCounter()}
+        {maxLengthCounter && this.renderMaxLengthCounter()}
       </div>
     )
   }
