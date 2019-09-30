@@ -1,7 +1,8 @@
 import {
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
+  // unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
   unmountComponentAtNode,
-  findDOMNode
+  findDOMNode,
+  createPortal
 } from 'react-dom'
 import React, {Children, PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
@@ -364,6 +365,12 @@ export default class FixedOverlay extends PureComponent {
     closeOnScroll: false
   }
 
+  state = {
+    isPortal: false
+  }
+
+  element = null
+
   constructor(props) {
     super(props)
     this.events = new EventEmitter()
@@ -547,7 +554,7 @@ export default class FixedOverlay extends PureComponent {
   mountPortal() {
     if (this.portal) return Promise.resolve(this.portal)
     return new Promise(resolve => {
-      const element = (
+      this.element = (
         <ContentElementWrapper
           ref={resolve}
           contentProps={{
@@ -559,7 +566,10 @@ export default class FixedOverlay extends PureComponent {
           }}
         />
       )
-      renderSubtreeIntoContainer(this, element, this.getContentContainerNode())
+      this.setState({
+        isPortal: true
+      })
+      // renderSubtreeIntoContainer(this, this.element, this.getContentContainerNode())
     }).then(portal => {
       this.portal = portal
       this.contentNode = findDOMNode(portal)
@@ -569,6 +579,9 @@ export default class FixedOverlay extends PureComponent {
   }
 
   unmountPortal() {
+    this.setState({
+      isPortal: false
+    })
     if (this.portal) {
       unmountComponentAtNode(this.getContentContainerNode())
       this.removeContentContainerNode()
@@ -607,6 +620,9 @@ export default class FixedOverlay extends PureComponent {
     if (this.portal && !this.isOpened) return Promise.resolve()
     this.isOpened = true
     const transactionIndex = ++this.transactionIndex
+    this.setState({
+      isPortal: true
+    })
     return this.mountPortal()
       .then(() => {
         if (transactionIndex < this.transactionIndex) return Promise.reject()
@@ -695,6 +711,13 @@ export default class FixedOverlay extends PureComponent {
   }
 
   render() {
-    return wrapChildren(this.props.anchor)
+    const {isPortal} = this.state
+    // return wrapChildren(this.props.anchor)
+    return (
+      <React.Fragment>
+        {wrapChildren(this.props.anchor)}
+        {isPortal && createPortal(this.element, this.getContentContainerNode())}
+      </React.Fragment>
+    )
   }
 }
