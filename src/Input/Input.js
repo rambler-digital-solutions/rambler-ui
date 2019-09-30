@@ -396,6 +396,20 @@ const activeBorder = borderColor => ({
       fontFamily: theme.fontFamily
     },
     textareaRoot: {},
+    characterCounter: {
+      position: 'absolute',
+      right: 15,
+      bottom: 10,
+      fontSize: 11,
+      lineHeight: 1.36,
+      color: '#b0b4c2'
+    },
+    characterCounterWarn: {
+      color: '#ffc000'
+    },
+    characterCounterError: {
+      color: '#ff564e'
+    },
     activeBorder: {
       position: 'absolute',
       top: 0,
@@ -590,7 +604,11 @@ export default class Input extends PureComponent {
     /**
      * Дополнительный класс левой иконки
      */
-    iconLeftClassName: PropTypes.string
+    iconLeftClassName: PropTypes.string,
+    /**
+     * Отображения счетчика символов
+     */
+    characterCounter: PropTypes.bool
   }
 
   static defaultProps = {
@@ -709,6 +727,23 @@ export default class Input extends PureComponent {
     return null
   }
 
+  renderCharacterCounter() {
+    const {maxLength, value, classes} = this.props
+
+    const statusClassName =
+      value.length >= maxLength
+        ? classes.characterCounterError
+        : value.length >= Math.ceil(maxLength * 0.95)
+          ? classes.characterCounterWarn
+          : ''
+
+    return (
+      <span className={`${classes.characterCounter} ${statusClassName}`}>
+        {maxLength - value.length}
+      </span>
+    )
+  }
+
   render() {
     const {
       tag = 'input',
@@ -733,6 +768,8 @@ export default class Input extends PureComponent {
       passwordIconTooltip, // eslint-disable-line no-unused-vars
       passwordIconProps, // eslint-disable-line no-unused-vars
       inputRef, // eslint-disable-line no-unused-vars
+      maxLength,
+      characterCounter,
       ...other
     } = this.props
 
@@ -766,6 +803,10 @@ export default class Input extends PureComponent {
       style: inputStyle,
       onChange: this.onChange,
       tabIndex: 0,
+      ...(!!maxLength && {
+        maxLength:
+          maxLength + (characterCounter ? Math.ceil(maxLength * 0.05) : 0)
+      }),
       ...other
     })
 
@@ -785,6 +826,7 @@ export default class Input extends PureComponent {
             classnames(iconRightClassName, classes.iconRight)
           )}
         {this.renderPasswordIcon()}
+        {characterCounter && this.renderCharacterCounter()}
       </div>
     )
   }
