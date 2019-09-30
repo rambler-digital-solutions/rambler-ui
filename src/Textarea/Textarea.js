@@ -48,13 +48,9 @@ export default class Textarea extends PureComponent {
      */
     onChange: PropTypes.func,
     /**
-     * Максимальная длина значения поля
+     * Отображения счетчика символов
      */
-    maxLength: PropTypes.number,
-    /**
-     * Отображения счетчика максимальной длины
-     */
-    maxLengthCounter: PropTypes.bool
+    characterCounter: PropTypes.bool
   }
 
   static defaultProps = {

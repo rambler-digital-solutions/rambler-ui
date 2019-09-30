@@ -53,7 +53,7 @@ export default class TextareaExample extends Component {
             onChange={this.onChange}
             style={{width: '500px'}}
             maxLength={20}
-            maxLengthCounter={true}
+            characterCounter={true}
           />
         </FormGroup>
 

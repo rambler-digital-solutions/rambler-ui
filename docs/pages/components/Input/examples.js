@@ -272,7 +272,7 @@ export default class InputExample extends Component {
               value={this.state.value}
               onChange={this.onChange}
               placeholder="placeholder"
-              maxLength={'10'}
+              maxLength={10}
             />
           </FormGroup>
           <FormGroup
@@ -284,7 +284,7 @@ export default class InputExample extends Component {
               onChange={this.onChange}
               placeholder="placeholder"
               maxLength={10}
-              maxLengthCounter={true}
+              characterCounter={true}
             />
           </FormGroup>
         </div>

@@ -396,7 +396,7 @@ const activeBorder = borderColor => ({
       fontFamily: theme.fontFamily
     },
     textareaRoot: {},
-    maxLengthCounter: {
+    characterCounter: {
       position: 'absolute',
       right: 15,
       bottom: 10,
@@ -404,10 +404,10 @@ const activeBorder = borderColor => ({
       lineHeight: 1.36,
       color: '#b0b4c2'
     },
-    maxLengthCounterWarn: {
+    characterCounterWarn: {
       color: '#ffc000'
     },
-    maxLengthCounterError: {
+    characterCounterError: {
       color: '#ff564e'
     },
     activeBorder: {
@@ -606,13 +606,9 @@ export default class Input extends PureComponent {
      */
     iconLeftClassName: PropTypes.string,
     /**
-     * Максимальная длина значения поля
+     * Отображения счетчика символов
      */
-    maxLength: PropTypes.number,
-    /**
-     * Отображения счетчика максимальной длины
-     */
-    maxLengthCounter: PropTypes.bool
+    characterCounter: PropTypes.bool
   }
 
   static defaultProps = {
@@ -731,20 +727,19 @@ export default class Input extends PureComponent {
     return null
   }
 
-  renderMaxLengthCounter() {
+  renderCharacterCounter() {
     const {maxLength, value, classes} = this.props
-    const availableLength = maxLength - value.length
 
-    const warn =
-      availableLength > 0 && Math.round(maxLength * 0.05) >= availableLength
-    const error = availableLength <= 0
+    const statusClassName =
+      value.length >= maxLength
+        ? classes.characterCounterError
+        : value.length >= Math.ceil(maxLength * 0.95)
+          ? classes.characterCounterWarn
+          : ''
 
     return (
-      <span
-        className={`${classes.maxLengthCounter} ${
-          warn ? classes.maxLengthCounterWarn : ''
-        } ${error ? classes.maxLengthCounterError : ''}`}>
-        {availableLength}
+      <span className={`${classes.characterCounter} ${statusClassName}`}>
+        {maxLength - value.length}
       </span>
     )
   }
@@ -774,7 +769,7 @@ export default class Input extends PureComponent {
       passwordIconProps, // eslint-disable-line no-unused-vars
       inputRef, // eslint-disable-line no-unused-vars
       maxLength,
-      maxLengthCounter,
+      characterCounter,
       ...other
     } = this.props
 
@@ -808,7 +803,10 @@ export default class Input extends PureComponent {
       style: inputStyle,
       onChange: this.onChange,
       tabIndex: 0,
-      ...(!!maxLength && {maxLength: String(Math.round(maxLength * 1.05))}),
+      ...(!!maxLength && {
+        maxLength:
+          maxLength + (characterCounter ? Math.ceil(maxLength * 0.05) : 0)
+      }),
       ...other
     })
 
@@ -828,7 +826,7 @@ export default class Input extends PureComponent {
             classnames(iconRightClassName, classes.iconRight)
           )}
         {this.renderPasswordIcon()}
-        {maxLengthCounter && this.renderMaxLengthCounter()}
+        {characterCounter && this.renderCharacterCounter()}
       </div>
     )
   }
