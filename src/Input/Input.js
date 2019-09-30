@@ -528,7 +528,7 @@ export default class Input extends PureComponent {
     /**
      * Валидация input'a
      */
-    status: PropTypes.oneOf(['error', 'warning', 'success', null]),
+    status: PropTypes.oneOf(['error', 'warning', 'success', 'filled', null]),
     /**
      * Подсветка импута, как в состоянии `:focus`
      */
