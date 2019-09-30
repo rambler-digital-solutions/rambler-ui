@@ -44,6 +44,16 @@ export default class TextareaExample extends Component {
           </InputStatus>
         </FormGroup>
 
+        <FormGroup inline={true} label="With max length counter">
+          <Textarea
+            variation="regular"
+            value={this.state.value}
+            onChange={this.onChange}
+            style={{width: '500px'}}
+            maxLength={20}
+          />
+        </FormGroup>
+
         <FormGroup inline={true} label="Disabled">
           <Textarea
             value={this.state.value}

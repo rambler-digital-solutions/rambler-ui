@@ -396,6 +396,20 @@ const activeBorder = borderColor => ({
       fontFamily: theme.fontFamily
     },
     textareaRoot: {},
+    maxLengthCounter: {
+      position: 'absolute',
+      right: 15,
+      bottom: 10,
+      fontSize: 11,
+      lineHeight: 1.36,
+      color: '#b0b4c2'
+    },
+    'maxLengthCounter--warn': {
+      color: '#ffc000'
+    },
+    'maxLengthCounter--error': {
+      color: '#ff564e'
+    },
     activeBorder: {
       position: 'absolute',
       top: 0,
@@ -709,6 +723,24 @@ export default class Input extends PureComponent {
     return null
   }
 
+  renderMaxLengthCounter() {
+    const {maxLength, value, classes} = this.props
+    const availableLength = maxLength - value.length
+
+    const warn =
+      availableLength > 0 && Math.round(maxLength * 0.05) >= availableLength
+    const error = availableLength <= 0
+
+    return (
+      <span
+        className={`${classes.maxLengthCounter} ${
+          warn ? classes['maxLengthCounter--warn'] : ''
+        } ${error ? classes['maxLengthCounter--error'] : ''}`}>
+        {availableLength}
+      </span>
+    )
+  }
+
   render() {
     const {
       tag = 'input',
@@ -733,6 +765,7 @@ export default class Input extends PureComponent {
       passwordIconTooltip, // eslint-disable-line no-unused-vars
       passwordIconProps, // eslint-disable-line no-unused-vars
       inputRef, // eslint-disable-line no-unused-vars
+      maxLength,
       ...other
     } = this.props
 
@@ -766,6 +799,7 @@ export default class Input extends PureComponent {
       style: inputStyle,
       onChange: this.onChange,
       tabIndex: 0,
+      ...(!!maxLength && {maxLength: String(Math.round(maxLength * 1.05))}),
       ...other
     })
 
@@ -785,6 +819,7 @@ export default class Input extends PureComponent {
             classnames(iconRightClassName, classes.iconRight)
           )}
         {this.renderPasswordIcon()}
+        {!!maxLength && this.renderMaxLengthCounter()}
       </div>
     )
   }
