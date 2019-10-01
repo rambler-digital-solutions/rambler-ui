@@ -1,5 +1,3 @@
-/* global process */
-export const version = process.env.VERSION
 export {default as Button} from './Button'
 export {default as Dropdown} from './Dropdown'
 export {default as Tooltip} from './Tooltip'

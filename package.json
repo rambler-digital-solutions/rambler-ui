@@ -10,7 +10,7 @@
     "test:ci": "npm run karma -- --browsers ChromeC,FirefoxC",
     "test:watch": "npm run karma -- --browsers ChromeC --auto-watch --no-single-run",
     "prebuild": "rm -rf build",
-    "build": "NODE_ENV=production VERSION=$npm_package_version babel src --out-dir build --ignore **/*.test.js",
+    "build": "NODE_ENV=production babel src --out-dir build --ignore **/*.test.js",
     "postbuild": "cp package.json .npmignore README.md build",
     "start": "NODE_ENV=development webpack-dev-server -d --hot --config docs/webpack.config.js",
     "prepages": "rm -rf docs/build",
