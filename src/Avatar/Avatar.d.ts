@@ -1,4 +1,19 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactElement} from 'react'
+
+export type AvatarShape = 'circle' | 'square' | 'rounded'
+
+export type ProfileType =
+  | 'facebook'
+  | 'championat'
+  | 'google'
+  | 'instagram'
+  | 'livejournal'
+  | 'mailru'
+  | 'odnoklassniki'
+  | 'pgumosru'
+  | 'rambler'
+  | 'twitter'
+  | 'vkontakte'
 
 export interface AvatarProps {
   className?: string
@@ -7,23 +22,10 @@ export interface AvatarProps {
   iconBackgroundColor?: string
   src: string
   size?: number
-  shape?: 'circle' | 'square' | 'rounded'
-  profileType?:
-    | 'facebook'
-    | 'championat'
-    | 'google'
-    | 'instagram'
-    | 'livejournal'
-    | 'mailru'
-    | 'odnoklassniki'
-    | 'pgumosru'
-    | 'rambler'
-    | 'twitter'
-    | 'vkontakte'
+  shape?: AvatarShape
+  profileType?: ProfileType
   href?: string
-  container?: ReactNode
+  container?: ReactElement
 }
 
-export default class Avatar extends PureComponent<AvatarProps, {}> {
-  render(): ReactNode
-}
+export default class Avatar extends PureComponent<AvatarProps, {}> {}

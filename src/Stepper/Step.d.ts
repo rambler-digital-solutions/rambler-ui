@@ -1,4 +1,4 @@
-import {Component, CSSProperties, ReactNode} from 'react'
+import {Component, CSSProperties, ReactNode, SyntheticEvent} from 'react'
 
 export interface StepProps {
   value: number
@@ -6,7 +6,7 @@ export interface StepProps {
   disabled?: boolean
   completed?: boolean
   active?: boolean
-  onClick?: (event: object, newValue: any) => void
+  onClick?: (event: SyntheticEvent, value: any) => void | Promise<void>
   className?: string
   badgeClassName?: string
   textClassName?: string

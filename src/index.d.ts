@@ -1,26 +1,10 @@
-/*
-    Венгерская нотация здесь для того, чтобы не выстрелить случайно
-    cебе в ногу ибо  существует пропс type совпадающий с
-    ключевым словом type
-*/
-export type TIconPoistion = 'left' | 'right'
-export type TVariation = 'regular' | 'awesome'
-export type TSize = 'small' | 'medium'
-export type TType = 'primary' | 'secondary' | 'outline' | 'flat' | 'danger'
-export type TCalVariation = 'service' | 'media'
-export type TypographyType =
-  | 'h1'
-  | 'h2'
-  | 'h3'
-  | 'text'
-  | 'quote'
-  | 'epigraph'
-  | 'source'
-  | 'timestamp'
-  | 'description'
-  | 'galleryDescription'
-  | 'photoSource'
-  | 'list'
+export type HorizontalPosition = 'left' | 'center' | 'right'
+export type VerticalPosition = 'top' | 'center' | 'bottom'
+export type Variation = 'regular' | 'awesome' | 'promo'
+export type Size = 'small' | 'medium'
+export type TagType = 'regular' | 'background'
+export type ButtonType = 'primary' | 'secondary' | 'outline' | 'flat' | 'danger'
+export type StatusType = 'error' | 'warning' | 'success' | 'filled'
 
 import * as theme from './theme'
 import * as Toggle from './Toggle'
@@ -54,7 +38,6 @@ export {
   Stepper
 }
 
-export const version: string
 export {default as Button} from './Button'
 export {default as Dropdown} from './Dropdown'
 export {default as Tooltip} from './Tooltip'

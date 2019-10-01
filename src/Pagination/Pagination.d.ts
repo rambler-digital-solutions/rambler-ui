@@ -1,4 +1,4 @@
-import {Component, CSSProperties, ReactElement} from 'react'
+import {Component, CSSProperties, ReactElement, SyntheticEvent} from 'react'
 
 export interface PaginationProps {
   pagesCount?: number
@@ -6,7 +6,7 @@ export interface PaginationProps {
   className?: string
   style?: CSSProperties
   pageContainer?: (pageNumber: number) => ReactElement
-  onChange?: (event: object, newValue: number) => void
+  onChange?: (event: SyntheticEvent, value: number) => void | Promise<void>
   showPageInput?: boolean
   pageInputClassName?: string
   pageInputLabel?: string

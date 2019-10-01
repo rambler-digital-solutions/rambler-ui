@@ -961,20 +961,19 @@ export default class Select extends PureComponent {
             closeOnClickOutside={false}
             cachePositionOptions={false}
             onClose={this.handleDropdownClose}>
-            {multipleWithValue &&
-              onSearch && (
-                <TagsInput
-                  className={classnames(
-                    classes.selected,
-                    classes[`options-${multipleType}`]
-                  )}
-                  onChange={this.changeValue}
-                  isExpanded={true}
-                  onMouseDown={this.preventBlurInput}
-                  type={multipleType}>
-                  {options}
-                </TagsInput>
-              )}
+            {multipleWithValue && onSearch && (
+              <TagsInput
+                className={classnames(
+                  classes.selected,
+                  classes[`options-${multipleType}`]
+                )}
+                onChange={this.changeValue}
+                isExpanded={true}
+                onMouseDown={this.preventBlurInput}
+                type={multipleType}>
+                {options}
+              </TagsInput>
+            )}
 
             {children.length > 0 && (
               <Menu

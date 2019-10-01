@@ -5,7 +5,7 @@ export interface MenuItemProps {
   value?: any
   disabled?: boolean
   children: ReactNode
-  container?: ReactElement | ((activeClassName) => any)
+  container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
 }
 
 export default class MenuItem extends PureComponent<MenuItemProps, {}> {}

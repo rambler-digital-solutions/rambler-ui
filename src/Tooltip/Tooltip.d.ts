@@ -1,4 +1,5 @@
 import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {StatusType, HorizontalPosition, VerticalPosition} from '..'
 
 export interface TooltipProps {
   content?: ReactNode
@@ -8,9 +9,11 @@ export interface TooltipProps {
   contentClassName?: string
   contentStyle?: CSSProperties
   delay?: number
-  status?: 'default' | 'success' | 'error' | 'warning'
+  status?: Exclude<StatusType, 'filled'> | 'default'
   isOpened?: boolean
-  position?: 'top' | 'bottom' | 'left' | 'right'
+  position?:
+    | Exclude<VerticalPosition, 'center'>
+    | Exclude<HorizontalPosition, 'center'>
   autoPosition?: boolean
   closeOnClickOutside?: boolean
   closeOnScroll?: boolean

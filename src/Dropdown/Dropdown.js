@@ -165,9 +165,6 @@ class DropdownContainer extends PureComponent {
   }
 }
 
-/**
- * Компонент Dropdown
- */
 export default class Dropdown extends PureComponent {
   static propTypes = {
     /**

@@ -1,11 +1,11 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
 
 export interface RadioButtonGroupProps {
   name?: string
   children?: ReactNode
   className?: string
   style?: CSSProperties
-  onChange?: () => any
+  onChange?: (event: SyntheticEvent, value: any) => void | Promise<void>
   value?: any
 }
 

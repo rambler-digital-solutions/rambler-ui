@@ -1,7 +1,7 @@
-import {PureComponent} from 'react'
+import {PureComponent, SyntheticEvent} from 'react'
 
 export interface OnClickOutsideProps {
-  handler: () => any
+  handler: (event: SyntheticEvent) => void | Promise<void>
 }
 
 export default class OnClickOutside extends PureComponent<

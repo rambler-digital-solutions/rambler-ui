@@ -1,22 +1,24 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, Ref} from 'react'
+import {HorizontalPosition, VerticalPosition} from '..'
+import {getBoundingClientRect} from '../utils/DOM'
 
 export interface FixedOverlayProps {
   isOpened: boolean
-  anchorPointX: 'left' | 'right' | 'center'
-  anchorPointY: 'top' | 'bottom' | 'center'
-  contentPointX: 'left' | 'right' | 'center'
-  contentPointY: 'top' | 'bottom' | 'center'
+  anchorPointX: HorizontalPosition
+  anchorPointY: VerticalPosition
+  contentPointX: HorizontalPosition
+  contentPointY: VerticalPosition
   autoPositionX?: boolean
   autoPositionY?: boolean
   anchor: ReactNode
   content: ReactNode
-  contentWrapperRef?: () => any
-  onContentClose?: () => any
-  onContentOpen?: () => any
-  getWindowSize?: () => any
-  getElementRect?: () => any
-  getYScroll?: () => any
-  getXScroll?: () => any
+  contentWrapperRef?: Ref<HTMLElement>
+  onContentClose?: () => void | Promise<void>
+  onContentOpen?: () => void | Promise<void>
+  getWindowSize?: () => {width: number; height: number}
+  getElementRect?: typeof getBoundingClientRect
+  getYScroll?: (getElementRect: typeof getBoundingClientRect) => number
+  getXScroll?: (getElementRect: typeof getBoundingClientRect) => number
   cachePositionOptions?: boolean
   closeOnScroll?: boolean
   containerNodeClassName?: string

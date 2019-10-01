@@ -1,11 +1,11 @@
-import {CSSProperties, PureComponent} from 'react'
+import {CSSProperties, PureComponent, SyntheticEvent} from 'react'
 
 export interface SourceButtonsProps {
   style?: CSSProperties
   className?: string
-  sourceButtonsProps?: () => any
+  sourceButtonsProps?: () => object
   serviceTooltipLabel?: string
-  onSourceIconClick?: () => void
+  onSourceIconClick?: (event: SyntheticEvent) => void | Promise<void>
   activeType?: string
 }
 

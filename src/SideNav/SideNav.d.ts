@@ -1,13 +1,14 @@
-import {Component, CSSProperties, ReactNode} from 'react'
+import {Component, CSSProperties, ReactNode, SyntheticEvent} from 'react'
+import {Size} from '..'
 
 export interface SideNavProps {
   className?: string
   style?: CSSProperties
   children?: ReactNode
-  size?: 'small' | 'medium'
+  size?: Size
   value?: any
   block?: boolean
-  onChange?: (event: object, newValue: any) => void
+  onChange?: (event: SyntheticEvent, value: any) => void | Promise<void>
 }
 
 export default class SideNav extends Component<SideNavProps, {}> {}

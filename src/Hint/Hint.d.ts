@@ -1,4 +1,5 @@
 import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {HorizontalPosition} from '..'
 
 export interface HintProps {
   className?: string
@@ -8,7 +9,7 @@ export interface HintProps {
   contentStyle?: CSSProperties
   children: ReactNode
   isOpened?: boolean
-  positionX?: 'left' | 'right'
+  positionX?: Exclude<HorizontalPosition, 'center'>
   closeOnScroll?: boolean
 }
 

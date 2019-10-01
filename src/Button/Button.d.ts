@@ -1,22 +1,24 @@
-/**
- * Компонент кнопки
- * Скетч: https://app.zeplin.io/project.html#pid=5788d29d450aa06b5691c466&sid=5788d41ba2e261bb69d6c68e
- */
-import {ReactNode, PureComponent} from 'react'
-import {TIconPoistion, TSize, TType} from '..'
+import {
+  CSSProperties,
+  ReactElement,
+  ReactNode,
+  PureComponent,
+  SyntheticEvent
+} from 'react'
+import {HorizontalPosition, Size, ButtonType} from '..'
 
-interface ButtonProps {
-  type?: TType
+export interface ButtonProps {
+  type?: ButtonType
   href?: string
   target?: string
   className?: string
-  style?: object
+  style?: CSSProperties
   icon?: ReactNode
-  iconPosition?: TIconPoistion
-  size?: TSize
-  onClick?: (...args: any[]) => any
-  container?: JSX.Element
-  overlay?: JSX.Element
+  iconPosition?: Exclude<HorizontalPosition, 'center'>
+  size?: Size
+  onClick?: (event: SyntheticEvent) => void | Promise<void>
+  container?: ReactElement
+  overlay?: ReactElement
   disabled?: boolean
   block?: boolean
   buttonType?: string
@@ -24,9 +26,5 @@ interface ButtonProps {
   loading?: boolean
   rounded?: boolean
 }
-export default class Button extends PureComponent<ButtonProps, {}> {
-  renderIcon(
-    icon: any
-  ): import('react').DetailedReactHTMLElement<any, HTMLElement>
-  render(): import('react').FunctionComponentElement<any>
-}
+
+export default class Button extends PureComponent<ButtonProps, {}> {}

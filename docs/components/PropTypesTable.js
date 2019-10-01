@@ -204,9 +204,7 @@ class PropTypesTable extends PureComponent {
         .map(tag => `*${tag.name}:* ${tag.description}`)
         .join('<br>')
       if (parsedReturns.description)
-        signature += `<br> *returns* (${parsedReturns.type.name}): ${
-          parsedReturns.description
-        }`
+        signature += `<br> *returns* (${parsedReturns.type.name}): ${parsedReturns.description}`
     }
 
     return `${deprecated} ${jsDocText}${signature}`

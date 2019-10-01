@@ -1,4 +1,5 @@
 import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {Size} from '..'
 
 export interface ServiceSearchProps {
   style?: CSSProperties
@@ -10,20 +11,20 @@ export interface ServiceSearchProps {
   dropdownStyle?: CSSProperties
   dropdownClassName?: string
   placeholder?: string
-  onSearch?: (value: string, options: object) => any
-  onFocus: () => void
-  onBlur?: () => void
-  onSelectItem?: (value) => void
-  onClickItem?: (value) => void
-  onRemoveItem?: (value) => void
-  onHoverItem?: (value) => void
-  onSubmit?: (value: string, options: object) => void
-  onPressEnter?: (value: string, options: object) => void
+  onSearch?: (value: string, options: object) => void | Promise<void>
+  onFocus: () => void | Promise<void>
+  onBlur?: () => void | Promise<void>
+  onSelectItem?: (value: string) => void | Promise<void>
+  onClickItem?: (value: string) => void | Promise<void>
+  onRemoveItem?: (value: string) => void | Promise<void>
+  onHoverItem?: (value: string) => void | Promise<void>
+  onSubmit?: (value: string, options: object) => void | Promise<void>
+  onPressEnter?: (value: string, options: object) => void | Promise<void>
   appendToBody?: boolean
   autoPositionY?: boolean
   inputProps?: object
-  sourceButtonsProps?: () => any
-  size?: 'small' | 'medium'
+  sourceButtonsProps?: () => object
+  size?: Size
   inputLeftIcon?: ReactNode
 }
 

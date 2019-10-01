@@ -1,8 +1,8 @@
-import {Component, CSSProperties} from 'react'
+import {Component, CSSProperties, SyntheticEvent} from 'react'
 
 export interface StepperProps {
   value: number
-  onChange: (event: object, newValue: number) => void
+  onChange: (event: SyntheticEvent, value: number) => void | Promise<void>
   className?: string
   style?: CSSProperties
 }

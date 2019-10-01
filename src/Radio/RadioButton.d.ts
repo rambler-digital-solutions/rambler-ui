@@ -1,4 +1,5 @@
 import {CSSProperties, PureComponent} from 'react'
+import {HorizontalPosition} from '..'
 
 export interface RadioButtonProps {
   value: any
@@ -8,7 +9,7 @@ export interface RadioButtonProps {
   labelClassName?: string
   style?: CSSProperties
   labelStyle?: CSSProperties
-  labelPosition?: 'left' | 'right'
+  labelPosition?: Exclude<HorizontalPosition, 'center'>
 }
 
 export default class RadioButton extends PureComponent<RadioButtonProps, {}> {}

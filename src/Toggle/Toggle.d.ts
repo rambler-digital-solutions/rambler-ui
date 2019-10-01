@@ -1,12 +1,13 @@
-import {Component, CSSProperties, ReactNode} from 'react'
+import {Component, CSSProperties, ReactNode, SyntheticEvent} from 'react'
+import {Size} from '..'
 
 export interface ToggleProps {
   value?: any
-  onChange?: (event: object, newValue: any) => void
+  onChange?: (event: SyntheticEvent, value: any) => void | Promise<void>
   className?: string
   style?: CSSProperties
   children?: ReactNode
-  size?: 'small' | 'medium'
+  size?: Size
   behavior?: 'radio' | 'toggle'
   block?: boolean
   equalWidth?: boolean

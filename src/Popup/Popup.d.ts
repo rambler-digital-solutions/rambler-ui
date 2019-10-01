@@ -1,4 +1,4 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
 
 export interface PopupProps {
   className?: string
@@ -19,9 +19,9 @@ export interface PopupProps {
   showClose?: boolean
   closeOnEsc?: boolean
   closeOnClickOutside?: boolean
-  onOpen?: () => void
-  onRequestClose?: () => void
-  onClose?: () => void
+  onOpen?: () => void | Promise<void>
+  onRequestClose?: () => void | Promise<void>
+  onClose?: () => void | Promise<void>
 }
 
 export default class Popup extends PureComponent<PopupProps, {}> {}

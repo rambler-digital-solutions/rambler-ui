@@ -1,11 +1,12 @@
-import {PureComponent, ReactNode} from 'react'
+import {PureComponent, ReactNode, Ref} from 'react'
+import {StatusType} from '..'
 
 export interface InputStatusProps {
-  type?: 'error' | 'warning' | 'success'
+  type?: Exclude<StatusType, 'filled'>
   message?: ReactNode
   children: ReactNode
   className?: string
-  containerRef?: (ref) => any
+  containerRef?: Ref<HTMLElement>
 }
 
 export default class InputStatus extends PureComponent<InputStatusProps, {}> {}

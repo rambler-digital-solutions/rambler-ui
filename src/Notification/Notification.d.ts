@@ -1,4 +1,5 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
+import {HorizontalPosition} from '..'
 
 export interface NotificationProps {
   className?: string
@@ -8,11 +9,11 @@ export interface NotificationProps {
   title?: ReactNode
   body: ReactNode
   actionButton?: string
-  positionX?: 'left' | 'right'
+  positionX?: Exclude<HorizontalPosition, 'center'>
   showClose?: boolean
   closeOnClickOutside?: boolean
-  onAction?: () => any
-  onRequestClose?: () => any
+  onAction?: (event: SyntheticEvent) => void | Promise<void>
+  onRequestClose?: (event: SyntheticEvent) => void | Promise<void>
 }
 
 export default class Notification extends PureComponent<

@@ -87,15 +87,14 @@ if (folders.includes('stable')) {
         if (exists) return acc
         return acc.concat(version)
       }, [])
-      .sort(
-        (v1, v2) =>
-          !v2.path
-            ? 1
-            : !v1.path
-              ? -1
-              : versionToNumber(v2.path) > versionToNumber(v1.path)
-                ? 1
-                : -1
+      .sort((v1, v2) =>
+        !v2.path
+          ? 1
+          : !v1.path
+            ? -1
+            : versionToNumber(v2.path) > versionToNumber(v1.path)
+              ? 1
+              : -1
       )
     fs.writeFileSync(
       path.join(outDir, 'versions.json'),

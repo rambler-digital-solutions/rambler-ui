@@ -1,11 +1,12 @@
 import {CSSProperties, PureComponent} from 'react'
+import {Size, Variation, StatusType} from '..'
 
 export interface FieldGroupProps {
   className?: string
   style?: CSSProperties
-  size?: 'small' | 'medium'
-  variation?: 'regular' | 'awesome' | 'promo'
-  status?: 'error' | 'warning' | 'success' | null
+  size?: Size
+  variation?: Variation
+  status?: Exclude<StatusType, 'filled'> | null
   disabled?: boolean
   showDivider?: boolean
 }

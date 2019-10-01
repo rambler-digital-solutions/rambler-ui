@@ -1,13 +1,14 @@
 import {PureComponent, ReactNode} from 'react'
+import {TagType} from '..'
 
 export interface TagsInputProps {
   children?: ReactNode
   disabled?: boolean
   className?: string
   isExpanded?: boolean
-  onChange?: () => void
-  onMoreClick?: () => void
-  type?: 'regular' | 'background'
+  onChange?: () => void | Promise<void>
+  onMoreClick?: () => void | Promise<void>
+  type?: TagType
 }
 
 export default class TagsInput extends PureComponent<TagsInputProps, {}> {}

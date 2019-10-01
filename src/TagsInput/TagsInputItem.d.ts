@@ -1,15 +1,16 @@
-import {Component, ReactElement} from 'react'
+import {Component, ReactElement, Ref, SyntheticEvent} from 'react'
+import {TagType} from '..'
 
 export interface TagsInputItemProps {
   className?: string
   value: any
   children: string
   icon?: ReactElement
-  onClick?: () => void
-  onRemove?: (event, value) => void
-  nodeRef?: (r) => any
+  onClick?: (event: SyntheticEvent) => void | Promise<void>
+  onRemove?: (event: SyntheticEvent, value: any) => void | Promise<void>
+  nodeRef?: Ref<HTMLElement>
   disabled?: boolean
-  type?: 'regular' | 'background'
+  type?: TagType
 }
 
 export default class TagsInputItem extends Component<TagsInputItemProps, {}> {}

@@ -1,5 +1,18 @@
 import {PureComponent, ReactNode} from 'react'
-import {TypographyType} from '../index'
+
+export type TypographyType =
+  | 'h1'
+  | 'h2'
+  | 'h3'
+  | 'text'
+  | 'quote'
+  | 'epigraph'
+  | 'source'
+  | 'timestamp'
+  | 'description'
+  | 'galleryDescription'
+  | 'photoSource'
+  | 'list'
 
 export interface TypographyProps {
   type?: TypographyType

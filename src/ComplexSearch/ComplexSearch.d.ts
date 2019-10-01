@@ -1,4 +1,5 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
+import {Size} from '..'
 
 export interface ComplexSearchProps {
   style?: CSSProperties
@@ -14,23 +15,23 @@ export interface ComplexSearchProps {
   dropdownClassName?: string
   division?: string
   placeholder?: string
-  onSearch?: (value: string, options: object) => void | any
-  onFocus?: () => any
-  onBlur?: () => any
-  onSelectItem?: (value) => any
-  onClickItem?: (value) => any
-  onRemoveItem?: (value) => any
-  onHoverItem?: (value) => any
-  onSubmit?: (value: string, options: object) => any
-  onPressEnter?: (value: string, options: object) => any
+  onSearch?: (value: string, options: object) => void | Promise<void>
+  onFocus?: (event: SyntheticEvent) => void | Promise<void>
+  onBlur?: (event: SyntheticEvent) => void | Promise<void>
+  onSelectItem?: (value: string) => void | Promise<void>
+  onClickItem?: (value: string) => void | Promise<void>
+  onRemoveItem?: (value: string) => void | Promise<void>
+  onHoverItem?: (value: string) => void | Promise<void>
+  onSubmit?: (value: string, options: object) => void | Promise<void>
+  onPressEnter?: (value: string, options: object) => void | Promise<void>
   appendToBody?: boolean
   autoPositionY?: boolean
   inputProps?: object
-  sourceButtonsProps?: () => any
+  sourceButtonsProps?: () => object
   serviceTooltipLabel?: string
   searchButtonProps?: object
   sourceType?: boolean
-  size?: 'small' | 'medium'
+  size?: Size
 }
 
 export default class ComplexSearch extends PureComponent<

@@ -13,20 +13,20 @@ export default class OnClickOutside extends PureComponent {
     handler: PropTypes.func.isRequired
   }
 
-  onClick = throttle(e => {
+  onClick = throttle(event => {
     let outsideClick = true
-    let el = e.target
+    let element = event.target
     let insideBody = false
-    while (el.parentNode) {
-      if (el === this.componentNode) {
+    while (element.parentNode) {
+      if (element === this.componentNode) {
         outsideClick = false
         break
       }
-      if (el === document.body) insideBody = true
-      el = el.parentNode
+      if (element === document.body) insideBody = true
+      element = element.parentNode
     }
     if (!outsideClick || !insideBody) return
-    this.props.handler(e)
+    this.props.handler(event)
   })
 
   componentDidMount() {

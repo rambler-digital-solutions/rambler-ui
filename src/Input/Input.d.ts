@@ -1,33 +1,36 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
+import {Size, Variation, StatusType} from '..'
+
+export type InputType =
+  | 'email'
+  | 'number'
+  | 'password'
+  | 'tel'
+  | 'text'
+  | 'url'
+  | 'time'
+  | 'date'
+  | 'month'
 
 export interface InputProps {
   value: any
   placeholder?: string
   disabled?: boolean
-  type?:
-    | 'email'
-    | 'number'
-    | 'password'
-    | 'tel'
-    | 'text'
-    | 'url'
-    | 'time'
-    | 'date'
-    | 'month'
-  size?: 'small' | 'medium'
-  variation?: 'regular' | 'awesome' | 'promo'
-  status?: 'error' | 'warning' | 'success' | null
+  type?: InputType
+  size?: Size
+  variation?: Variation
+  status?: StatusType | null
   isFocused?: boolean
   className?: string
   inputClassName?: string
   fullWidth?: any
   inputStyle?: CSSProperties
   style?: CSSProperties
-  onChange?: (e) => void
+  onChange?: (event: SyntheticEvent, value: any) => void | Promise<void>
   iconLeft: ReactNode
   iconRight?: ReactNode
-  passwordIconTooltip?: string | (() => void)
-  passwordIconProps?: object | (() => void)
+  passwordIconTooltip?: string | ((type: 'text' | 'password') => string)
+  passwordIconProps?: object | ((type: 'text' | 'password') => object)
   groupPosition?: 'start' | 'middle' | 'end' | null
   iconRightClassName?: string
   iconLeftClassName?: string

@@ -1,4 +1,5 @@
 import {CSSProperties, PureComponent, ReactElement} from 'react'
+import {Size} from '..'
 
 export interface MenuProps {
   className?: string
@@ -10,9 +11,9 @@ export interface MenuProps {
   value?: any
   valuesEquality?: () => boolean
   children?: ReactElement | Array<ReactElement>
-  onChange?: () => void
-  onEscKeyDown?: () => void
-  size?: 'small' | 'medium'
+  onChange?: () => void | Promise<void>
+  onEscKeyDown?: () => void | Promise<void>
+  size?: Size
 }
 
 export default class Menu extends PureComponent<MenuProps, {}> {}

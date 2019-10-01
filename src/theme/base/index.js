@@ -9,9 +9,6 @@ const fontFamilies = {
   CorsicaRamblerLX: 'CorsicaRamblerLX, sans-serif'
 }
 
-/**
- * Создание темы
- */
 export function createTheme(config) {
   const {colors} = config
 

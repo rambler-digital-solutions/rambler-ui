@@ -1,24 +1,21 @@
-import {Component} from 'react'
-import {TIconPoistion, TSize, TVariation} from '..'
+import {CSSProperties, PureComponent, SyntheticEvent} from 'react'
+import {HorizontalPosition, Size, Variation} from '..'
 
 export interface CheckboxProps {
   name?: string
   disabled?: boolean
   className?: string
-  style?: object
-  iconPosition?: TIconPoistion
+  style?: CSSProperties
+  iconPosition?: Exclude<HorizontalPosition, 'center'>
   checked?: boolean
   indeterminate?: boolean
-  onCheck?: (...args: any[]) => any
-  checkboxStyle?: object
+  onCheck?: (event: SyntheticEvent, checked: boolean) => void | Promise<void>
+  checkboxStyle?: CSSProperties
   checkboxClassName?: string
-  labelStyle?: object
+  labelStyle?: CSSProperties
   labelClassName?: string
-  variation?: TVariation
-  size?: TSize
+  variation?: Exclude<Variation, 'promo'>
+  size?: Size
 }
 
-export default class Checkbox extends Component<CheckboxProps, {}> {
-  input: HTMLInputElement
-  onChange: (event: any) => void
-}
+export default class Checkbox extends PureComponent<CheckboxProps, {}> {}

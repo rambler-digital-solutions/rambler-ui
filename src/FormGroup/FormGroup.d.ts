@@ -1,9 +1,10 @@
 import {Component, CSSProperties, ReactNode} from 'react'
+import {Size} from '..'
 
 export interface FormGroupProps {
   inline?: boolean
   label?: ReactNode
-  size?: 'small' | 'medium'
+  size?: Size
   className?: string
   fieldId?: string
   children: ReactNode

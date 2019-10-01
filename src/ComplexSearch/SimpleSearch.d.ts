@@ -1,4 +1,5 @@
 import {CSSProperties, PureComponent} from 'react'
+import {Size} from '..'
 
 export interface SimpleSearchProps {
   style?: CSSProperties
@@ -7,15 +8,15 @@ export interface SimpleSearchProps {
   value?: string
   showSearchButton?: boolean
   placeholder?: string
-  onSearch?: (value: string, options: object) => void
-  onFocus?: () => void
-  onBlur?: () => void
-  onSubmit?: (value: string, options: object) => void
-  onPressEnter?: (value: string, options: object) => void
+  onSearch?: (value: string, options: object) => void | Promise<void>
+  onFocus?: () => void | Promise<void>
+  onBlur?: () => void | Promise<void>
+  onSubmit?: (value: string, options: object) => void | Promise<void>
+  onPressEnter?: (value: string, options: object) => void | Promise<void>
   inputProps?: object
-  sourceButtonsProps?: () => any
+  sourceButtonsProps?: () => object
   searchButtonProps?: object
-  size?: 'small' | 'medium'
+  size?: Size
   sourceType?: boolean
   serviceTooltipLabel?: string
 }

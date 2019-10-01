@@ -1,4 +1,5 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
+import {HorizontalPosition} from '..'
 
 export interface SwitcherProps {
   name?: string
@@ -11,10 +12,10 @@ export interface SwitcherProps {
   trackStyle?: CSSProperties
   labelClassName?: string
   labelStyle?: CSSProperties
-  iconPosition?: 'left' | 'right'
+  iconPosition?: Exclude<HorizontalPosition, 'center'>
   checked: boolean
   children?: ReactNode
-  onCheck?: (event, checked) => void
+  onCheck?: (event: SyntheticEvent, checked: boolean) => void | Promise<void>
 }
 
 export default class Switcher extends PureComponent<SwitcherProps, {}> {}

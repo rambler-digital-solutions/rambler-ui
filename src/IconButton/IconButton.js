@@ -1,8 +1,3 @@
-/**
- * Компонент кнопки-иконки
- * Скетч: https://zpl.io/ZTWunL
- */
-
 import React, {PureComponent, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
