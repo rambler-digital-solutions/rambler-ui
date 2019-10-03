@@ -2,7 +2,7 @@ import {CSSProperties, PureComponent, SyntheticEvent} from 'react'
 import {StatusType, Variation} from '..'
 
 export interface TextareaProps {
-  value: any
+  value: string | null
   placeholder?: string
   disabled?: boolean
   status?: StatusType | null
@@ -11,7 +11,7 @@ export interface TextareaProps {
   style?: CSSProperties
   textareaClassName?: string
   textareaStyle?: CSSProperties
-  onChange?: (event: SyntheticEvent, value: any) => void | Promise<void>
+  onChange?: (event: SyntheticEvent, value: string) => void | Promise<void>
 }
 
 export default class Textarea extends PureComponent<TextareaProps, {}> {}

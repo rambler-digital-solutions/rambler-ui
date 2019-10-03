@@ -7,8 +7,8 @@ import {
 } from 'react'
 import {Size} from '..'
 
-export interface TabsItemProps {
-  value?: any
+export interface TabsItemProps<T> {
+  value?: T
   className?: string
   style?: CSSProperties
   children?: ReactNode
@@ -16,7 +16,10 @@ export interface TabsItemProps {
   isSelected?: boolean
   disabled?: boolean
   container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
-  onPress?: (event: SyntheticEvent, value: any) => void | Promise<void>
+  onPress?: (event: SyntheticEvent, value: T) => void | Promise<void>
 }
 
-export default class TabsItem extends Component<TabsItemProps, {}> {}
+export default class TabsItem<T = any> extends Component<
+  TabsItemProps<T>,
+  {}
+> {}

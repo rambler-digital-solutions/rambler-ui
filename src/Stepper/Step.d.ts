@@ -6,7 +6,7 @@ export interface StepProps {
   disabled?: boolean
   completed?: boolean
   active?: boolean
-  onClick?: (event: SyntheticEvent, value: any) => void | Promise<void>
+  onClick?: (event: SyntheticEvent, value: number) => void | Promise<void>
   className?: string
   badgeClassName?: string
   textClassName?: string

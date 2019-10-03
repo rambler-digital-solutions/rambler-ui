@@ -13,7 +13,7 @@ export type InputType =
   | 'month'
 
 export interface InputProps {
-  value: any
+  value: string | null
   placeholder?: string
   disabled?: boolean
   type?: InputType
@@ -23,10 +23,9 @@ export interface InputProps {
   isFocused?: boolean
   className?: string
   inputClassName?: string
-  fullWidth?: any
   inputStyle?: CSSProperties
   style?: CSSProperties
-  onChange?: (event: SyntheticEvent, value: any) => void | Promise<void>
+  onChange?: (event: SyntheticEvent, value: string) => void | Promise<void>
   iconLeft: ReactNode
   iconRight?: ReactNode
   passwordIconTooltip?: string | ((type: 'text' | 'password') => string)

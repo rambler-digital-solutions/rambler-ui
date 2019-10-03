@@ -1,11 +1,14 @@
 import {PureComponent, ReactElement, ReactNode} from 'react'
 
-export interface MenuItemProps {
+export interface MenuItemProps<T> {
   className?: string
-  value?: any
+  value?: T
   disabled?: boolean
   children: ReactNode
   container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
 }
 
-export default class MenuItem extends PureComponent<MenuItemProps, {}> {}
+export default class MenuItem<T = any> extends PureComponent<
+  MenuItemProps<T>,
+  {}
+> {}

@@ -735,17 +735,18 @@ export default class Input extends PureComponent {
 
   renderCharacterCounter() {
     const {maxLength, value, classes} = this.props
+    const length = value ? value.length : 0
 
     const statusClassName =
-      value.length >= maxLength
+      length >= maxLength
         ? classes.characterCounterError
-        : value.length >= Math.ceil(maxLength * 0.95)
+        : length >= Math.ceil(maxLength * 0.95)
           ? classes.characterCounterWarn
           : ''
 
     return (
       <span className={`${classes.characterCounter} ${statusClassName}`}>
-        {maxLength - value.length}
+        {maxLength - length}
       </span>
     )
   }

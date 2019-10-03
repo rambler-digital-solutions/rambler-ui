@@ -1,7 +1,7 @@
 import {CSSProperties, PureComponent, ReactNode} from 'react'
 import {Size} from '..'
 
-export interface ServiceSearchProps {
+export interface ServiceSearchProps<T> {
   style?: CSSProperties
   className?: string
   inputWrapperClassName?: string
@@ -14,10 +14,10 @@ export interface ServiceSearchProps {
   onSearch?: (value: string, options: object) => void | Promise<void>
   onFocus: () => void | Promise<void>
   onBlur?: () => void | Promise<void>
-  onSelectItem?: (value: string) => void | Promise<void>
-  onClickItem?: (value: string) => void | Promise<void>
-  onRemoveItem?: (value: string) => void | Promise<void>
-  onHoverItem?: (value: string) => void | Promise<void>
+  onSelectItem?: (value: T) => void | Promise<void>
+  onClickItem?: (value: T) => void | Promise<void>
+  onRemoveItem?: (value: T) => void | Promise<void>
+  onHoverItem?: (value: T) => void | Promise<void>
   onSubmit?: (value: string, options: object) => void | Promise<void>
   onPressEnter?: (value: string, options: object) => void | Promise<void>
   appendToBody?: boolean
@@ -28,7 +28,7 @@ export interface ServiceSearchProps {
   inputLeftIcon?: ReactNode
 }
 
-export default class ServiceSearch extends PureComponent<
-  ServiceSearchProps,
+export default class ServiceSearch<T = any> extends PureComponent<
+  ServiceSearchProps<T>,
   {}
 > {}

@@ -1,7 +1,7 @@
 import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
 import {Size} from '..'
 
-export interface ComplexSearchProps {
+export interface ComplexSearchProps<T> {
   style?: CSSProperties
   className?: string
   inputWrapperClassName?: string
@@ -18,10 +18,10 @@ export interface ComplexSearchProps {
   onSearch?: (value: string, options: object) => void | Promise<void>
   onFocus?: (event: SyntheticEvent) => void | Promise<void>
   onBlur?: (event: SyntheticEvent) => void | Promise<void>
-  onSelectItem?: (value: string) => void | Promise<void>
-  onClickItem?: (value: string) => void | Promise<void>
-  onRemoveItem?: (value: string) => void | Promise<void>
-  onHoverItem?: (value: string) => void | Promise<void>
+  onSelectItem?: (value: T) => void | Promise<void>
+  onClickItem?: (value: T) => void | Promise<void>
+  onRemoveItem?: (value: T) => void | Promise<void>
+  onHoverItem?: (value: T) => void | Promise<void>
   onSubmit?: (value: string, options: object) => void | Promise<void>
   onPressEnter?: (value: string, options: object) => void | Promise<void>
   appendToBody?: boolean
@@ -34,7 +34,7 @@ export interface ComplexSearchProps {
   size?: Size
 }
 
-export default class ComplexSearch extends PureComponent<
-  ComplexSearchProps,
+export default class ComplexSearch<T = any> extends PureComponent<
+  ComplexSearchProps<T>,
   {}
 > {}

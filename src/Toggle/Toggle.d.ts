@@ -1,9 +1,9 @@
 import {Component, CSSProperties, ReactNode, SyntheticEvent} from 'react'
 import {Size} from '..'
 
-export interface ToggleProps {
-  value?: any
-  onChange?: (event: SyntheticEvent, value: any) => void | Promise<void>
+export interface ToggleProps<T> {
+  value?: T | null
+  onChange?: (event: SyntheticEvent, value: T | null) => void | Promise<void>
   className?: string
   style?: CSSProperties
   children?: ReactNode
@@ -15,4 +15,4 @@ export interface ToggleProps {
   variation?: 'regular' | 'transparent'
 }
 
-export default class Toggle extends Component<ToggleProps, {}> {}
+export default class Toggle<T = any> extends Component<ToggleProps<T>, {}> {}

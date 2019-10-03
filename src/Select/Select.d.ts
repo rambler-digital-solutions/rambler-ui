@@ -7,7 +7,7 @@ import {
 } from 'react'
 import {Size, Variation, StatusType, TagType} from '..'
 
-export interface SelectProps {
+export interface SelectProps<T> {
   className?: string
   style?: CSSProperties
   dropdownClassName?: string
@@ -19,10 +19,10 @@ export interface SelectProps {
   clearIcon?: boolean
   arrowClassName?: string
   arrowStyle?: CSSProperties
-  value?: any
-  valuesEquality?: (value: any, nextValue: any) => boolean
-  inputValueRenderer?: (value: any) => string
-  iconElementRenderer?: (value: any) => ReactElement
+  value?: T
+  valuesEquality?: (value?: T, nextValue?: T) => boolean
+  inputValueRenderer?: (value?: T) => string
+  iconElementRenderer?: (value?: T) => ReactElement
   placeholder?: string
   lightPlaceholderColor?: boolean
   disabled?: boolean
@@ -36,9 +36,9 @@ export interface SelectProps {
   appendToBody?: boolean
   onFocus?: (event: SyntheticEvent) => void | Promise<void>
   onBlur?: (event: SyntheticEvent) => void | Promise<void>
-  onChange?: (value: any) => void | Promise<void>
+  onChange?: (value?: T) => void | Promise<void>
   onSearch?: (searchText: string) => void | Promise<void>
-  customElementRenderer?: (value: any) => ReactElement
+  customElementRenderer?: (value?: T) => ReactElement
   rootClassName?: string
   rootStyle?: CSSProperties
   containerClassName?: string
@@ -47,4 +47,7 @@ export interface SelectProps {
   native?: boolean
 }
 
-export default class Select extends PureComponent<SelectProps, {}> {}
+export default class Select<T = any> extends PureComponent<
+  SelectProps<T>,
+  {}
+> {}
