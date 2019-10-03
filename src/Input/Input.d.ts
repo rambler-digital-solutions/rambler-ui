@@ -26,7 +26,7 @@ export interface InputProps {
   inputStyle?: CSSProperties
   style?: CSSProperties
   onChange?: (event: SyntheticEvent, value: string) => void | Promise<void>
-  iconLeft: ReactNode
+  iconLeft?: ReactNode
   iconRight?: ReactNode
   passwordIconTooltip?: string | ((type: 'text' | 'password') => string)
   passwordIconProps?: object | ((type: 'text' | 'password') => object)
