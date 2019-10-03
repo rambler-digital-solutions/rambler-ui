@@ -1,8 +1,9 @@
 {
   "name": "rambler-ui",
-  "version": "3.48.0",
+  "version": "3.49.0",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "karma": "NODE_ENV=test /usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start",
     "test": "npm run karma -- --browsers ChromeC",
