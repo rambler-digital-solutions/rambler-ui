@@ -531,8 +531,6 @@ export default class Calendar extends PureComponent {
 
     const [numberFrom, numberTo] = [].concat(value).map(dateToNumber)
 
-    if (numberFrom && numberFrom === day && range && !numberTo) return
-
     if (range && numberFrom && !numberTo)
       if (day < numberFrom) this.setNewDates(event, [day, numberFrom])
       else this.setNewDates(event, [numberFrom, day])
