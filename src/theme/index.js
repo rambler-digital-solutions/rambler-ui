@@ -26,7 +26,6 @@ const ruiPrefix = 'rui-'
 
 // const theming = createTheming(RAMBLER_UI_THEME)
 const theming = createTheming(ApplyThemeContext)
-// console.log('theming: ', theming)
 const {ThemeProvider, withTheme} = theming
 
 export {withTheme}
@@ -44,11 +43,8 @@ export const globalJss = createJss()
 // console.log('globalJss: ', globalJss)
 
 export const createGenerateId = (themeId = 0) => {
-  // console.log('themeId in cGId: ', themeId)
   const generateId = originalCreateGenerateId()
-  // console.log('generateId func: ', generateId)
   return (rule, sheet) => {
-    // console.log('rule and sheet: ', {rule, sheet});
     const displayNamePrefix = sheet
       ? sheet.options[RAMBLER_UI_CLASS_NAME_PREFIX]
       : ''
@@ -91,13 +87,10 @@ export class ApplyTheme extends PureComponent {
       context[RAMBLER_UI_SHEETS_REGISTRY] ||
       globalSheetsRegistry
     const jss = props.jss || context[RAMBLER_UI_JSS] || globalJss
-    // console.log('jss: ', jss)
     if (sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null)
       sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0
     const themeId = sheetsRegistry[RAMBLER_UI_THEME_COUNTER]++
     const generateId = props.generateId || createGenerateId(themeId)
-    // console.log('theme in mapProps: ', theme)
-    // console.log('this.context: ', this.context)
 
     return {
       jss,
@@ -125,21 +118,11 @@ export class ApplyTheme extends PureComponent {
   render() {
     const {children} = this.props
     const {jss, sheetsRegistry, getResultTheme, generateId} = this.computedProps
-    // console.log('this.computedProps: ', this.computedProps)
-    // const jssProviderProps = {
-    //   jss,
-    //   registry: sheetsRegistry,
-    //   generateId
-    // }
-    // console.log('jss provider props: ', jssProviderProps)
-    // const resultTheme = getResultTheme()
-    // console.log('result theme: ', resultTheme)
     return (
       <JssProvider jss={jss} registry={sheetsRegistry} generateId={generateId}>
         <ThemeProvider theme={getResultTheme}>{children}</ThemeProvider>
       </JssProvider>
     )
-    // return container
   }
 }
 
@@ -148,15 +131,6 @@ ApplyTheme.contextType = ApplyThemeContext
 export const injectSheet = (styles, options = {}) => Component =>
   originalInjectSheet(styles, {
     theming,
+    injectTheme: true,
     [RAMBLER_UI_CLASS_NAME_PREFIX]: `${options.name || uuid()}-`
   })(Component)
-
-// export const injectSheet = (styles, options = {}) => Component => {
-// console.log('=====injectSheet=====')
-// console.log('styles: ', styles)
-// console.log('options: ', options, ' uuid: ', uuid())
-// return originalInjectSheet(styles, {
-//   theming,
-//   [RAMBLER_UI_CLASS_NAME_PREFIX]: `${options.name || uuid()}-`
-// })(Component)
-// }
