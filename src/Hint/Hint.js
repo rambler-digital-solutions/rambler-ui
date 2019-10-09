@@ -278,10 +278,9 @@ export default class Hint extends PureComponent {
     if (
       this.props.isOpened !== undefined &&
       prevState.isOpened !== this.props.isOpened
-    ) 
+    )
       if (this.props.isOpened) this.show()
       else this.hide()
-    
   }
 
   show = () => {

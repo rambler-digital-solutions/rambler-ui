@@ -10,6 +10,8 @@ import {MENU_ITEM_CONTEXT} from '../constants/context'
 
 const emptyArr = []
 
+export const MenuContext = React.createContext()
+
 @injectSheet(
   theme => ({
     menu: {
@@ -153,6 +155,22 @@ export default class Menu extends PureComponent {
         getItemRef: this.getItemRef,
         events: this.events
       }
+    }
+  }
+
+  getContextValue() {
+    if (!this.events) this.createEvents()
+
+    return {
+      [MENU_ITEM_CONTEXT]: {
+        isValueSelected: this.isValueSelected,
+        isItemFocused: this.isItemFocused,
+        isMenuDisabled: this.isMenuDisabled,
+        getMenuSize: this.getMenuSize,
+        getItemRef: this.getItemRef,
+        events: this.events
+      },
+      test: 'field'
     }
   }
 
@@ -370,16 +388,30 @@ export default class Menu extends PureComponent {
       ...other
     } = this.getMenuProps()
 
+    // return (
+    //   <div
+    //     {...other}
+    //     ref={this.saveMenuRef}
+    //     style={{maxHeight, ...style}}
+    //     className={classnames(classes.menu, className)}
+    //     onKeyDown={this.keyDown}
+    //     onBlur={this.handleBlur}>
+    //     {children}
+    //   </div>
+    // )
+
     return (
-      <div
-        {...other}
-        ref={this.saveMenuRef}
-        style={{maxHeight, ...style}}
-        className={classnames(classes.menu, className)}
-        onKeyDown={this.keyDown}
-        onBlur={this.handleBlur}>
-        {children}
-      </div>
+      <MenuContext.Provider value={this.getContextValue()}>
+        <div
+          {...other}
+          ref={this.saveMenuRef}
+          style={{maxHeight, ...style}}
+          className={classnames(classes.menu, className)}
+          onKeyDown={this.keyDown}
+          onBlur={this.handleBlur}>
+          {children}
+        </div>
+      </MenuContext.Provider>
     )
   }
 }

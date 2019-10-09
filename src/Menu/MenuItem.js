@@ -7,6 +7,7 @@ import {isolateMixin} from '../utils/mixins'
 import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
 import {MENU_ITEM_CONTEXT} from '../constants/context'
+import {MenuContext} from './Menu'
 
 @injectSheet(
   theme => ({
@@ -124,7 +125,11 @@ class MenuItem extends PureComponent {
     })
   }
 
+  // static contextType = MenuContext;
+
   id = uuid()
+
+  newContext = null
 
   get ctx() {
     return this.context[MENU_ITEM_CONTEXT]
@@ -135,6 +140,7 @@ class MenuItem extends PureComponent {
   }
 
   componentDidMount() {
+    // console.log('this.context: ', this.context);
     this.ctx.events.on('onPropsChange', this.handlePropsChange)
     this.ctx.events.emit('onItemMount', this.id, this)
     if (this.ctx.isItemFocused(this.id)) this.item.focus()
@@ -179,6 +185,19 @@ class MenuItem extends PureComponent {
     }
   }
 
+  setNewContext(ctx) {
+    const {value} = this.props
+    const context = ctx[MENU_ITEM_CONTEXT]
+    // console.log({context})
+    this.newContext = ctx
+    this.isSelected =
+      this.props.hasOwnProperty('value') && context.isValueSelected(value)
+    this.isFocused = context.isItemFocused(this.id)
+    this.disabled = context.isMenuDisabled()
+    this.size = context.getMenuSize()
+    return null
+  }
+
   render() {
     const {
       container,
@@ -218,14 +237,45 @@ class MenuItem extends PureComponent {
       'data-menu-item-id': this.id
     }
 
-    return element ? (
-      cloneElement(element, props, children)
-    ) : (
-      <div {...props}>{children}</div>
-    )
+    // return element ? (
+    //   cloneElement(element, props, children)
+    // ) : (
+    //   <div {...props}>{children}</div>
+    // )
+
+    // console.log('element: ', element);
+
+    // return (
+    //   <MenuContext.Consumer>
+    //     {(context) => {
+    //       element ?
+    //         cloneElement(element, props, children) :
+    //         (<div {...props}>{children}</div>)
+    //     }}
+    //   </MenuContext.Consumer>
+    // )
+
+    if (element)
+      return (
+        <MenuContext.Consumer>
+          {cloneElement(element, props, children)}
+        </MenuContext.Consumer>
+      )
+    else
+      return (
+        <MenuContext.Consumer>
+          {context => (
+            <React.Fragment>
+              <div {...props}>{children}</div>
+              {this.setNewContext(context)}
+            </React.Fragment>
+          )}
+        </MenuContext.Consumer>
+      )
   }
 }
 
 MenuItem.displayName = 'ruiMenuItem'
+// MenuItem.contextType = MenuContext
 
 export default MenuItem

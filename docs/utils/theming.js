@@ -22,7 +22,10 @@ export const theme = {
   }
 }
 
-const theming = createTheming('UI_DOCS_THEME')
+const ThemeProviderContext = React.createContext({})
+// const theming = createTheming('UI_DOCS_THEME')
+// console.log('cr ctx: ', ThemeProviderContext)
+const theming = createTheming(ThemeProviderContext)
 const {ThemeProvider: Provider, withTheme} = theming
 
 export {withTheme}
