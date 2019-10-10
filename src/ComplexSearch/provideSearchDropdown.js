@@ -6,7 +6,7 @@ import OnClickOutside from '../OnClickOutside'
 import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
 import getDisplayName from '../utils/get-display-name'
 
-const provideSearchDropdownContext = React.createContext({})
+export const provideSearchDropdownContext = React.createContext({})
 
 export default function provideSearchDropdown(Search) {
   return class extends PureComponent {

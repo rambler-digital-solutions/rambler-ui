@@ -1,10 +1,11 @@
 import React from 'react'
 import * as PropTypes from 'prop-types'
-import EventEmitter from 'eventemitter3'
+// import EventEmitter from 'eventemitter3'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import uuid from '../utils/uuid'
 import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
+import {provideSearchDropdownContext} from './provideSearchDropdown'
 
 @injectSheet(
   theme => ({
@@ -65,34 +66,36 @@ class SuggestItem extends React.PureComponent {
     removeButton: ''
   }
 
-  static contextTypes = {
-    [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-      /**
-       * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-       */
-      registerSuggestItem: PropTypes.func,
-      /**
-       * Колбек удаления SuggestItem
-       */
-      onRemoveSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек клика по SuggestItem
-       */
-      onSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек наведения на SuggestItem
-       */
-      onSuggestItemHover: PropTypes.func,
-      /**
-       * Функция для подсветки SuggestItem
-       */
-      setHighlightedId: PropTypes.func,
-      /**
-       * Шина событий
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
-  }
+  // static contextTypes = {
+  //   [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
+  //     /**
+  //      * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
+  //      */
+  //     registerSuggestItem: PropTypes.func,
+  //     /**
+  //      * Колбек удаления SuggestItem
+  //      */
+  //     onRemoveSuggestItemClick: PropTypes.func,
+  //     /**
+  //      * Колбек клика по SuggestItem
+  //      */
+  //     onSuggestItemClick: PropTypes.func,
+  //     /**
+  //      * Колбек наведения на SuggestItem
+  //      */
+  //     onSuggestItemHover: PropTypes.func,
+  //     /**
+  //      * Функция для подсветки SuggestItem
+  //      */
+  //     setHighlightedId: PropTypes.func,
+  //     /**
+  //      * Шина событий
+  //      */
+  //     events: PropTypes.instanceOf(EventEmitter)
+  //   })
+  // }
+
+  static contextType = provideSearchDropdownContext
 
   constructor(props) {
     super(props)
