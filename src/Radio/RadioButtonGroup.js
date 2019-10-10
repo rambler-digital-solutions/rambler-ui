@@ -10,6 +10,8 @@ import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import {RADIO_INPUT_CONTEXT} from '../constants/context'
 
+export const RadioButtonContext = React.createContext({})
+
 @injectSheet(
   theme => ({
     radioButtonGroup: {
@@ -48,24 +50,24 @@ export default class RadioButtonGroup extends PureComponent {
     value: PropTypes.any
   }
 
-  static childContextTypes = {
-    [RADIO_INPUT_CONTEXT]: PropTypes.shape({
-      /**
-       * Получить текущее значение
-       */
-      getValue: PropTypes.func,
-      /**
-       * Получить атрибут name для input
-       */
-      getName: PropTypes.func,
-      /**
-       * Шина событий
-       * @newValue - событие установки нового значения, кидают компоненты RadioButton
-       * @updateValue - событие изменения значения, кидает компонент RadioButtonGroup
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
-  }
+  // static childContextTypes = {
+  //   [RADIO_INPUT_CONTEXT]: PropTypes.shape({
+  //     /**
+  //      * Получить текущее значение
+  //      */
+  //     getValue: PropTypes.func,
+  //     /**
+  //      * Получить атрибут name для input
+  //      */
+  //     getName: PropTypes.func,
+  //     /**
+  //      * Шина событий
+  //      * @newValue - событие установки нового значения, кидают компоненты RadioButton
+  //      * @updateValue - событие изменения значения, кидает компонент RadioButtonGroup
+  //      */
+  //     events: PropTypes.instanceOf(EventEmitter)
+  //   })
+  // }
 
   static defaultProps = {
     name: null,
@@ -83,7 +85,18 @@ export default class RadioButtonGroup extends PureComponent {
     return this.resultRadioInputName
   }
 
-  getChildContext() {
+  // getChildContext() {
+  //   if (!this.radioInputEvents) this.createRadioInputEvents()
+  //   return {
+  //     [RADIO_INPUT_CONTEXT]: {
+  //       events: this.radioInputEvents,
+  //       getName: this.getRadioInputName,
+  //       getValue: () => this.value
+  //     }
+  //   }
+  // }
+
+  get contextValue() {
     if (!this.radioInputEvents) this.createRadioInputEvents()
     return {
       [RADIO_INPUT_CONTEXT]: {
@@ -141,10 +154,18 @@ export default class RadioButtonGroup extends PureComponent {
 
     const resultClassName = classnames(classes.radioButtonGroup, className)
 
+    // return (
+    //   <div className={resultClassName} {...otherRootProps}>
+    //     {children}
+    //   </div>
+    // )
+
     return (
-      <div className={resultClassName} {...otherRootProps}>
-        {children}
-      </div>
+      <RadioButtonContext.Provider value={this.contextValue}>
+        <div className={resultClassName} {...otherRootProps}>
+          {children}
+        </div>
+      </RadioButtonContext.Provider>
     )
   }
 }

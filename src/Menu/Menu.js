@@ -10,7 +10,7 @@ import {MENU_ITEM_CONTEXT} from '../constants/context'
 
 const emptyArr = []
 
-export const MenuContext = React.createContext()
+export const MenuContext = React.createContext({})
 
 @injectSheet(
   theme => ({
@@ -92,39 +92,39 @@ export default class Menu extends PureComponent {
     size: 'medium'
   }
 
-  static childContextTypes = {
-    [MENU_ITEM_CONTEXT]: PropTypes.shape({
-      /**
-       * Проверка, выбрано ли значение (args: value)
-       */
-      isValueSelected: PropTypes.func,
-      /**
-       * Проверка, в фокусе ли значение (args: key)
-       */
-      isItemFocused: PropTypes.func,
-      /**
-       * Проверка, не активно ли меню
-       */
-      isMenuDisabled: PropTypes.func,
-      /**
-       * Получение размера меню
-       */
-      getMenuSize: PropTypes.func,
-      /**
-       * Получение MenuItem node ref (args: key)
-       */
-      getItemRef: PropTypes.func,
-      /**
-       * Шина событий
-       * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
-       * onItemSelect - клик по MenuItem (args: value)
-       * onItemFocus - фокус на MenuItem (args: id)
-       * onItemMount - добавление и обновление MenuItem (args: id, componentInstanseRef)
-       * onItemUnmount - удаление MenuItem (args: id)
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
-  }
+  // static childContextTypes = {
+  //   [MENU_ITEM_CONTEXT]: PropTypes.shape({
+  //     /**
+  //      * Проверка, выбрано ли значение (args: value)
+  //      */
+  //     isValueSelected: PropTypes.func,
+  //     /**
+  //      * Проверка, в фокусе ли значение (args: key)
+  //      */
+  //     isItemFocused: PropTypes.func,
+  //     /**
+  //      * Проверка, не активно ли меню
+  //      */
+  //     isMenuDisabled: PropTypes.func,
+  //     /**
+  //      * Получение размера меню
+  //      */
+  //     getMenuSize: PropTypes.func,
+  //     /**
+  //      * Получение MenuItem node ref (args: key)
+  //      */
+  //     getItemRef: PropTypes.func,
+  //     /**
+  //      * Шина событий
+  //      * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
+  //      * onItemSelect - клик по MenuItem (args: value)
+  //      * onItemFocus - фокус на MenuItem (args: id)
+  //      * onItemMount - добавление и обновление MenuItem (args: id, componentInstanseRef)
+  //      * onItemUnmount - удаление MenuItem (args: id)
+  //      */
+  //     events: PropTypes.instanceOf(EventEmitter)
+  //   })
+  // }
 
   constructor(props) {
     super(props)
@@ -143,7 +143,22 @@ export default class Menu extends PureComponent {
     this.registeredItems = {}
   }
 
-  getChildContext() {
+  // getChildContext() {
+  //   if (!this.events) this.createEvents()
+  //
+  //   return {
+  //     [MENU_ITEM_CONTEXT]: {
+  //       isValueSelected: this.isValueSelected,
+  //       isItemFocused: this.isItemFocused,
+  //       isMenuDisabled: this.isMenuDisabled,
+  //       getMenuSize: this.getMenuSize,
+  //       getItemRef: this.getItemRef,
+  //       events: this.events
+  //     }
+  //   }
+  // }
+
+  get contextValue() {
     if (!this.events) this.createEvents()
 
     return {
@@ -155,22 +170,6 @@ export default class Menu extends PureComponent {
         getItemRef: this.getItemRef,
         events: this.events
       }
-    }
-  }
-
-  getContextValue() {
-    if (!this.events) this.createEvents()
-
-    return {
-      [MENU_ITEM_CONTEXT]: {
-        isValueSelected: this.isValueSelected,
-        isItemFocused: this.isItemFocused,
-        isMenuDisabled: this.isMenuDisabled,
-        getMenuSize: this.getMenuSize,
-        getItemRef: this.getItemRef,
-        events: this.events
-      },
-      test: 'field'
     }
   }
 
@@ -401,7 +400,7 @@ export default class Menu extends PureComponent {
     // )
 
     return (
-      <MenuContext.Provider value={this.getContextValue()}>
+      <MenuContext.Provider value={this.contextValue}>
         <div
           {...other}
           ref={this.saveMenuRef}

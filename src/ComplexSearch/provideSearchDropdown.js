@@ -6,6 +6,8 @@ import OnClickOutside from '../OnClickOutside'
 import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
 import getDisplayName from '../utils/get-display-name'
 
+const provideSearchDropdownContext = React.createContext({})
+
 export default function provideSearchDropdown(Search) {
   return class extends PureComponent {
     static displayName = `provideSearchDropdown(${getDisplayName(Search)})`
@@ -90,7 +92,20 @@ export default function provideSearchDropdown(Search) {
       this.events.removeAllListeners()
     }
 
-    getChildContext() {
+    // getChildContext() {
+    //   return {
+    //     [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: {
+    //       events: this.events,
+    //       registerSuggestItem: this.registerSuggestItem,
+    //       onRemoveSuggestItemClick: this.onRemoveSuggestItemClick,
+    //       onSuggestItemClick: this.onSuggestItemClick,
+    //       onSuggestItemHover: this.onSuggestItemHover,
+    //       setHighlightedId: this.setHighlightedId
+    //     }
+    //   }
+    // }
+
+    get contextValue() {
       return {
         [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: {
           events: this.events,
@@ -260,21 +275,40 @@ export default function provideSearchDropdown(Search) {
     render() {
       const {isDropdownOpened} = this.state
 
+      // return (
+      //   <OnClickOutside handler={this.onClickOutside}>
+      //     <Search
+      //       {...this.props}
+      //       isDropdownOpened={isDropdownOpened}
+      //       renderDropdown={this.renderDropdown}
+      //       clearForm={this.clearForm}
+      //       setNode={this.setNode}
+      //       onBlur={this.onBlur}
+      //       onFocus={this.onFocus}
+      //       onKeyDown={this.onKeyDown}
+      //       onSearch={this.props.onSearch}
+      //       setHighlightedId={this.setHighlightedId}
+      //     />
+      //   </OnClickOutside>
+      // )
+
       return (
-        <OnClickOutside handler={this.onClickOutside}>
-          <Search
-            {...this.props}
-            isDropdownOpened={isDropdownOpened}
-            renderDropdown={this.renderDropdown}
-            clearForm={this.clearForm}
-            setNode={this.setNode}
-            onBlur={this.onBlur}
-            onFocus={this.onFocus}
-            onKeyDown={this.onKeyDown}
-            onSearch={this.props.onSearch}
-            setHighlightedId={this.setHighlightedId}
-          />
-        </OnClickOutside>
+        <provideSearchDropdownContext.Provider value={this.contextValue}>
+          <OnClickOutside handler={this.onClickOutside}>
+            <Search
+              {...this.props}
+              isDropdownOpened={isDropdownOpened}
+              renderDropdown={this.renderDropdown}
+              clearForm={this.clearForm}
+              setNode={this.setNode}
+              onBlur={this.onBlur}
+              onFocus={this.onFocus}
+              onKeyDown={this.onKeyDown}
+              onSearch={this.props.onSearch}
+              setHighlightedId={this.setHighlightedId}
+            />
+          </OnClickOutside>
+        </provideSearchDropdownContext.Provider>
       )
     }
   }

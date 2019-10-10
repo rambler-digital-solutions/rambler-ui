@@ -7,6 +7,8 @@ import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin, topBorderMixin, bottomBorderMixin} from '../utils/mixins'
 
+export const TabsContext = React.createContext({})
+
 @injectSheet(
   theme => ({
     tabs: {
@@ -78,9 +80,9 @@ export default class Tabs extends Component {
     disabled: false
   }
 
-  static childContextTypes = {
-    position: PropTypes.string
-  }
+  // static childContextTypes = {
+  //   position: PropTypes.string
+  // }
 
   constructor(props) {
     super(props)
@@ -106,9 +108,16 @@ export default class Tabs extends Component {
       return {
         value: props.value
       }
+    return {}
   }
 
-  getChildContext() {
+  // getChildContext() {
+  //   return {
+  //     position: this.props.position
+  //   }
+  // }
+
+  get contextValue() {
     return {
       position: this.props.position
     }
@@ -162,17 +171,32 @@ export default class Tabs extends Component {
 
     const isBottomPosition = position === 'bottom'
 
+    // return (
+    //   <div
+    //     {...other}
+    //     className={classnames(
+    //       className,
+    //       classes.tabs,
+    //       disabled && classes.isDisabled,
+    //       isBottomPosition && classes.isBottom
+    //     )}>
+    //     {tabs}
+    //   </div>
+    // )
+
     return (
-      <div
-        {...other}
-        className={classnames(
-          className,
-          classes.tabs,
-          disabled && classes.isDisabled,
-          isBottomPosition && classes.isBottom
-        )}>
-        {tabs}
-      </div>
+      <TabsContext.Provider value={this.contextValue}>
+        <div
+          {...other}
+          className={classnames(
+            className,
+            classes.tabs,
+            disabled && classes.isDisabled,
+            isBottomPosition && classes.isBottom
+          )}>
+          {tabs}
+        </div>
+      </TabsContext.Provider>
     )
   }
 }

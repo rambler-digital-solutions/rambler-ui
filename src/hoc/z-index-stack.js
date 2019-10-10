@@ -2,6 +2,8 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import getDisplayName from '../utils/get-display-name'
 
+export const zIndexStackContext = React.createContext({})
+
 /**
  * Функция, задающая контекс zIndex
  * 1. Достаем значение zIndex в стеке
@@ -21,24 +23,38 @@ export default function zIndexStack(initialZIndex) {
         zIndex: initialZIndex
       }
 
-      static contextTypes = {
-        ruiZIndex: PropTypes.number
-      }
-
-      static childContextTypes = {
-        ruiZIndex: PropTypes.number
-      }
+      // static contextTypes = {
+      //   ruiZIndex: PropTypes.number
+      // }
+      //
+      // static childContextTypes = {
+      //   ruiZIndex: PropTypes.number
+      // }
 
       zIndex = (this.context.ruiZIndex || 0) + this.props.zIndex
 
-      getChildContext() {
+      // getChildContext() {
+      //   return {
+      //     ruiZIndex: this.zIndex
+      //   }
+      // }
+
+      get contextValue() {
         return {
           ruiZIndex: this.zIndex
         }
       }
 
+      // render() {
+      //   return <Target {...this.props} zIndex={this.zIndex} />
+      // }
+
       render() {
-        return <Target {...this.props} zIndex={this.zIndex} />
+        return (
+          <zIndexStackContext.Provider value={this.contextValue}>
+            <Target {...this.props} zIndex={this.zIndex} />
+          </zIndexStackContext.Provider>
+        )
       }
     }
 }

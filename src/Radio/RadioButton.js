@@ -4,12 +4,13 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'eventemitter3'
+// import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
 import {injectSheet} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 import {RADIO_INPUT_CONTEXT} from '../constants/context'
 import '../utils/focus-source'
+import {RadioButtonContext} from './RadioButtonGroup'
 
 function isSimpleType(value) {
   const type = typeof value
@@ -170,13 +171,15 @@ class RadioButton extends PureComponent {
     labelStyle: {}
   }
 
-  static contextTypes = {
-    [RADIO_INPUT_CONTEXT]: PropTypes.shape({
-      getValue: PropTypes.func,
-      getName: PropTypes.func,
-      events: PropTypes.instanceOf(EventEmitter)
-    })
-  }
+  static contextType = RadioButtonContext
+
+  // static contextTypes = {
+  //   [RADIO_INPUT_CONTEXT]: PropTypes.shape({
+  //     getValue: PropTypes.func,
+  //     getName: PropTypes.func,
+  //     events: PropTypes.instanceOf(EventEmitter)
+  //   })
+  // }
 
   constructor(props) {
     super(props)

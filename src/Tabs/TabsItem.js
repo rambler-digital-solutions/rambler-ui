@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
+import {TabsContext} from './Tabs'
 
 const setThemeForSelector = colors => ({
   borderColor: colors.border,
@@ -122,6 +123,8 @@ class TabsItem extends Component {
     isSelected: false,
     disabled: false
   }
+
+  static contextType = TabsContext
 
   handleClick = event => {
     const {props} = this
