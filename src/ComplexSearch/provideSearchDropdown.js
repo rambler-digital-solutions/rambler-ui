@@ -1,5 +1,5 @@
 import React, {PureComponent, Children} from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import SuggestDropdown from './SuggestDropdown'
 import OnClickOutside from '../OnClickOutside'
@@ -35,34 +35,34 @@ export default function provideSearchDropdown(Search) {
       onPressEnter() {}
     }
 
-    static childContextTypes = {
-      [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-        /**
-         * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-         */
-        registerSuggestItem: PropTypes.func,
-        /**
-         * Колбек удаления SuggestItem
-         */
-        onRemoveSuggestItemClick: PropTypes.func,
-        /**
-         * Колбек клика по SuggestItem
-         */
-        onSuggestItemClick: PropTypes.func,
-        /**
-         * Колбек наведения на SuggestItem
-         */
-        onSuggestItemHover: PropTypes.func,
-        /**
-         * Функция для подсветки SuggestItem
-         */
-        setHighlightedId: PropTypes.func,
-        /**
-         * Шина событий
-         */
-        events: PropTypes.instanceOf(EventEmitter)
-      })
-    }
+    // static childContextTypes = {
+    //   [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
+    //     /**
+    //      * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
+    //      */
+    //     registerSuggestItem: PropTypes.func,
+    //     /**
+    //      * Колбек удаления SuggestItem
+    //      */
+    //     onRemoveSuggestItemClick: PropTypes.func,
+    //     /**
+    //      * Колбек клика по SuggestItem
+    //      */
+    //     onSuggestItemClick: PropTypes.func,
+    //     /**
+    //      * Колбек наведения на SuggestItem
+    //      */
+    //     onSuggestItemHover: PropTypes.func,
+    //     /**
+    //      * Функция для подсветки SuggestItem
+    //      */
+    //     setHighlightedId: PropTypes.func,
+    //     /**
+    //      * Шина событий
+    //      */
+    //     events: PropTypes.instanceOf(EventEmitter)
+    //   })
+    // }
 
     constructor(props) {
       super(props)
