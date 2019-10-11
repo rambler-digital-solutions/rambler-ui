@@ -7,28 +7,36 @@ import {isolateMixin, topBorderMixin, bottomBorderMixin} from '../utils/mixins'
 @injectSheet(
   theme => ({
     tabs: {
-      extend: [
-        isolateMixin,
-        bottomBorderMixin(theme.tabs.colors.default.outline)
-      ],
+      extend: isolateMixin,
       display: 'inline-flex',
       fontFamily: theme.fontFamily,
       paddingLeft: theme.tabs.sidePadding,
       paddingRight: theme.tabs.sidePadding
     },
+    'position-top': {
+      extend: bottomBorderMixin(theme.tabs.colors.default.outline)
+    },
+    'position-bottom': {
+      extend: topBorderMixin(theme.tabs.colors.default.outline)
+    },
     item: {
       '&&': {
         flex: 'none'
-      },
-      '&:nth-child(1n+2)': {
-        marginLeft: theme.tabs.betweenMargin
       }
     },
+    ...['small', 'medium'].reduce(
+      (result, size) => ({
+        ...result,
+        [`size-${size}`]: {
+          '& $item:nth-child(1n+2)': {
+            marginLeft: theme.tabs.sizes[size].horizontalGap
+          }
+        }
+      }),
+      {}
+    ),
     isDisabled: {
       cursor: 'not-allowed'
-    },
-    isBottom: {
-      extend: [topBorderMixin(theme.tabs.colors.default.outline)]
     }
   }),
   {name: 'Tabs'}
@@ -142,16 +150,15 @@ export default class Tabs extends Component {
       })
     })
 
-    const isBottomPosition = position === 'bottom'
-
     return (
       <div
         {...other}
         className={classnames(
           className,
           classes.tabs,
-          disabled && classes.isDisabled,
-          isBottomPosition && classes.isBottom
+          classes[`size-${size}`],
+          classes[`position-${position}`],
+          disabled && classes.isDisabled
         )}>
         {tabs}
       </div>

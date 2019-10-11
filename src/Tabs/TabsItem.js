@@ -11,7 +11,7 @@ const setThemeForSelector = colors => ({
 
 @injectSheet(
   theme => {
-    const {sizes, bottom, colors} = theme.tabs
+    const {sizes, colors} = theme.tabs
     return {
       tab: {
         extend: isolateMixin,
@@ -21,7 +21,7 @@ const setThemeForSelector = colors => ({
         cursor: 'pointer',
         outline: 'none !important',
         borderStyle: 'solid',
-        borderWidth: `0 0 ${theme.tabs.borderWidth}px`,
+        borderWidth: 0,
         background: 'none',
         fontWeight: 500,
         transitionDuration: theme.tabs.animationDuration,
@@ -39,28 +39,36 @@ const setThemeForSelector = colors => ({
         '&$isDisabled': setThemeForSelector(colors.disabled),
         '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
       },
-      tabBottom: {
-        borderWidth: `${theme.tabs.borderWidth}px 0 0`
-      },
+      ...['top', 'bottom'].reduce(
+        (positionResult, position) => ({
+          ...positionResult,
+          [`position-${position}`]: {
+            [`border${position === 'top' ? 'Bottom' : 'Top'}Width`]: theme.tabs
+              .borderWidth,
+            ...['small', 'medium'].reduce(
+              (sizeResult, size) => ({
+                ...sizeResult,
+                [`&$size-${size}`]: {
+                  [`padding${position === 'top' ? 'Bottom' : 'Top'}`]: sizes[
+                    size
+                  ].verticalPadding
+                }
+              }),
+              {}
+            )
+          }
+        }),
+        {}
+      ),
       'size-small': {
-        extend: sizes.small,
-        lineHeight: 1.36,
+        fontSize: sizes.small.fontSize,
+        lineHeight: sizes.small.lineHeight,
         letterSpacing: 1.3,
         textTransform: 'uppercase'
       },
       'size-medium': {
-        extend: sizes.medium,
-        lineHeight: 1.43
-      },
-      'size-small-bottom': {
-        extend: bottom.sizes.small,
-        lineHeight: 1.36,
-        letterSpacing: 1.3,
-        textTransform: 'uppercase'
-      },
-      'size-medium-bottom': {
-        extend: bottom.sizes.medium,
-        lineHeight: 1.43
+        fontSize: sizes.medium.fontSize,
+        lineHeight: sizes.medium.lineHeight
       },
       isDisabled: {
         cursor: 'not-allowed',
@@ -95,6 +103,10 @@ class TabsItem extends Component {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
+     * Позиционирование таба (автоматически проставляется компонентом `<Tabs/>`)
+     */
+    position: PropTypes.oneOf(['top', 'bottom']),
+    /**
      * Выбран ли этот таб (автоматически проставляется компонентом `<Tabs/>`)
      */
     isSelected: PropTypes.bool,
@@ -116,6 +128,7 @@ class TabsItem extends Component {
 
   static defaultProps = {
     size: 'small',
+    position: 'top',
     isSelected: false,
     disabled: false
   }
@@ -143,13 +156,11 @@ class TabsItem extends Component {
       ...other
     } = this.props
 
-    const isBottomPosition = position === 'bottom'
-
     const resultClassName = classnames(
       className,
       classes.tab,
-      isBottomPosition && classes.tabBottom,
-      classes[`size-${size}${isBottomPosition ? '-bottom' : ''}`],
+      classes[`position-${position}`],
+      classes[`size-${size}`],
       disabled ? classes.isDisabled : classes.isEnabled,
       isSelected && classes.isSelected
     )
