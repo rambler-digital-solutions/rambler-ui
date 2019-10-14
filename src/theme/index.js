@@ -40,7 +40,6 @@ export const createSheetsRegistry = () => new SheetsRegistry()
 
 export const globalSheetsRegistry = createSheetsRegistry()
 export const globalJss = createJss()
-// console.log('globalJss: ', globalJss)
 
 export const createGenerateId = (themeId = 0) => {
   const generateId = originalCreateGenerateId()
