@@ -258,22 +258,37 @@ describe('<Tabs />', () => {
     expect(funcEl.className.includes('isSelected')).toEqual(true)
   })
 
-  it('TabsItem styles', () => {
+  it('small and top TabsItem styles', () => {
     const wrapper = mount(
       applyTheme(<TabsItem {...linkProps} className="test" />)
     )
 
     const link = getStyles(wrapper)
+    expect(link['border-top-width']).toEqual(0 + 'px')
     expect(link['border-bottom-width']).toEqual(theme.tabs.borderWidth + 'px')
     expect(link['border-bottom-style']).toEqual('solid')
     expect(link['border-bottom-color']).toEqual(transparentColor)
+    expect(link['padding-top']).toEqual(0 + 'px')
+    expect(link['padding-bottom']).toEqual(
+      theme.tabs.sizes.small.verticalPadding + 'px'
+    )
     expect(nc(link.color)).toEqual(nc(theme.tabs.colors.default.text))
   })
 
-  it('selected TabsItem styles', () => {
-    const wrapper = mount(applyTheme(<TabsItem {...buttonProps} isSelected />))
+  it('medium and bottom selected TabsItem styles', () => {
+    const wrapper = mount(
+      applyTheme(
+        <TabsItem {...buttonProps} size="medium" position="bottom" isSelected />
+      )
+    )
 
     const button = getStyles(wrapper)
+    expect(button['border-top-width']).toEqual(theme.tabs.borderWidth + 'px')
+    expect(button['border-bottom-width']).toEqual(0 + 'px')
+    expect(button['padding-top']).toEqual(
+      theme.tabs.sizes.medium.verticalPadding + 'px'
+    )
+    expect(button['padding-bottom']).toEqual(0 + 'px')
     expect(nc(button.color)).toEqual(nc(theme.tabs.colors.selected.text))
     expect(nc(button['border-bottom-color'])).toEqual(
       nc(theme.tabs.colors.selected.text)
@@ -300,14 +315,13 @@ describe('<Tabs />', () => {
     )
   })
 
-  it('Tabs styles', () => {
+  it('small and top Tabs styles', () => {
     const wrapper = mount(
       applyTheme(
         <Tabs value="selected">
           <TabsItem {...linkProps} value="selected" />
           <TabsItem {...buttonProps} />
           <TabsItem {...containerProps} />
-          <TabsItem {...funcProps} />
         </Tabs>
       )
     )
@@ -316,19 +330,47 @@ describe('<Tabs />', () => {
     const link = getStyles(wrapper.find('#' + linkProps.id).first())
     const button = getStyles(wrapper.find('#' + buttonProps.id).first())
     const container = getStyles(wrapper.find('#' + containerProps.id).first())
-    const func = getStyles(wrapper.find('#' + funcProps.id).first())
 
     expect(tabs['padding-left']).toEqual(theme.tabs.sidePadding + 'px')
     expect(tabs['padding-right']).toEqual(theme.tabs.sidePadding + 'px')
     expect(tabs.display.includes('inline-flex')).toEqual(true)
 
     expect(link['margin-left']).toEqual(0 + 'px')
-    expect(button['margin-left']).toEqual(theme.tabs.betweenMargin + 'px')
-    expect(container['margin-left']).toEqual(theme.tabs.betweenMargin + 'px')
-    expect(func['margin-left']).toEqual(theme.tabs.betweenMargin + 'px')
     expect(link['margin-right']).toEqual(0 + 'px')
+    expect(button['margin-left']).toEqual(
+      theme.tabs.sizes.small.horizontalGap + 'px'
+    )
     expect(button['margin-right']).toEqual(0 + 'px')
+    expect(container['margin-left']).toEqual(
+      theme.tabs.sizes.small.horizontalGap + 'px'
+    )
     expect(container['margin-right']).toEqual(0 + 'px')
-    expect(func['margin-right']).toEqual(0 + 'px')
+  })
+
+  it('medium and bottom Tabs styles', () => {
+    const wrapper = mount(
+      applyTheme(
+        <Tabs value="selected" size="medium" position="bottom">
+          <TabsItem {...linkProps} value="selected" />
+          <TabsItem {...buttonProps} />
+          <TabsItem {...containerProps} />
+        </Tabs>
+      )
+    )
+
+    const link = getStyles(wrapper.find('#' + linkProps.id).first())
+    const button = getStyles(wrapper.find('#' + buttonProps.id).first())
+    const container = getStyles(wrapper.find('#' + containerProps.id).first())
+
+    expect(link['margin-left']).toEqual(0 + 'px')
+    expect(link['margin-right']).toEqual(0 + 'px')
+    expect(button['margin-left']).toEqual(
+      theme.tabs.sizes.medium.horizontalGap + 'px'
+    )
+    expect(button['margin-right']).toEqual(0 + 'px')
+    expect(container['margin-left']).toEqual(
+      theme.tabs.sizes.medium.horizontalGap + 'px'
+    )
+    expect(container['margin-right']).toEqual(0 + 'px')
   })
 })
