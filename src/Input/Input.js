@@ -33,6 +33,7 @@ const activeBorder = borderColor => ({
       appearance: 'none',
       lineHeight: 'normal',
       background: theme.field.colors.default.background,
+      color: theme.field.colors.default.text,
       boxShadow: 'none',
       border: '0 solid',
       borderColor: theme.field.colors.default.outline,
