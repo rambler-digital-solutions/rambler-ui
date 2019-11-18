@@ -11,7 +11,7 @@ pages:
     - /^gh-pages$/
   script:
     - mkdir public
-    - rsync -rv --exclude=.git --exclude 2.*.* --exclude=node_modules --exclude=public . ./public
+    - rsync -rv --exclude=.git --exclude="2.*" --exclude=node_modules --exclude=public . ./public
   artifacts:
     untracked: false
     paths:
