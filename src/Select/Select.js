@@ -140,7 +140,7 @@ const multipleSelectFix = <optgroup disabled hidden />
       pointerEvents: 'none'
     },
     multipleValueItem: {
-      '$options-regular &': {
+      '$isEnabled $options-regular &': {
         color: theme.field.colors.default.text
       }
     },
@@ -291,6 +291,7 @@ const multipleSelectFix = <optgroup disabled hidden />
     isFocused: {},
     isOpened: {},
     isReadonly: {},
+    isEnabled: {},
     isDisabled: {},
     isMultipleWithoutSearch: {},
     isMultipleDropdown: {},
@@ -891,7 +892,7 @@ export default class Select extends PureComponent {
       icon && classes.withLeftIcon,
       this.showArrow && classes.withRightIcon,
       size && classes[size],
-      disabled && classes.isDisabled,
+      disabled ? classes.isDisabled : classes.isEnabled,
       isOpened && classes.isOpened,
       focusedInput && classes.isFocused,
       lightPlaceholderColor && classes.lightPlaceholder,
@@ -919,7 +920,8 @@ export default class Select extends PureComponent {
           )}
           onChange={readOnly || !onChange ? undefined : this.changeValue}
           isExpanded={!isOpened || onSearch ? false : true}
-          type={multipleType}>
+          type={multipleType}
+          disabled={disabled}>
           {options}
         </TagsInput>
       )
@@ -1076,7 +1078,7 @@ export default class Select extends PureComponent {
       classes.withRightIcon,
       icon && classes.withLeftIcon,
       size && classes[size],
-      disabled && classes.isDisabled,
+      disabled ? classes.isDisabled : classes.isEnabled,
       inputFocused && classes.isFocused,
       multiple && classes.isMultipleWithoutSearch,
       multiple && classes.withCustom,
@@ -1106,7 +1108,8 @@ export default class Select extends PureComponent {
               classes[`options-${multipleType}`]
             )}
             size={size}
-            type={multipleType}>
+            type={multipleType}
+            disabled={disabled}>
             {selectedOptions}
           </TagsInput>
         )}
