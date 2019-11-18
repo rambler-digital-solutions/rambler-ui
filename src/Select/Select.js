@@ -56,21 +56,7 @@ const multipleSelectFix = <optgroup disabled hidden />
           color: theme.field.colors.disabled.arrow + '!important',
           pointerEvents: 'none'
         }
-      },
-      ...placeholderMixin(
-        '&$isReadonly:not($lightPlaceholder):not($isDisabled) $input input',
-        {
-          opacity: 1,
-          color: theme.field.colors.default.text
-        }
-      ),
-      ...placeholderMixin(
-        '&:not($isFocused):not($lightPlaceholder):not($isDisabled) $input input',
-        {
-          opacity: 1,
-          color: theme.field.colors.default.text
-        }
-      )
+      }
     },
     dropdownContainer: {
       '&&': {
@@ -127,6 +113,14 @@ const multipleSelectFix = <optgroup disabled hidden />
       '$withCustom &&': {
         extend: absolutePosition,
         height: '100%'
+      }
+    },
+    darkPlaceholder: {
+      '$isEnabled$isReadonly &, $isEnabled:not($isFocused) &': {
+        ...placeholderMixin('&', {
+          opacity: 1,
+          color: theme.field.colors.default.text
+        })
       }
     },
     withCustom: {
@@ -298,7 +292,6 @@ const multipleSelectFix = <optgroup disabled hidden />
     withSearch: {},
     withLeftIcon: {},
     withRightIcon: {},
-    lightPlaceholder: {},
     ['options-regular']: {},
     ['options-background']: {}
   }),
@@ -776,7 +769,8 @@ export default class Select extends PureComponent {
       multiple,
       inputValueRenderer,
       customElementRenderer,
-      inputMode
+      inputMode,
+      lightPlaceholderColor
     } = this.props
 
     const focusedInput = inputFocused || isOpened
@@ -839,7 +833,11 @@ export default class Select extends PureComponent {
         onBlur={this.blurInput}
         onTouchStart={onSearch ? undefined : this.open}
         onTouchEnd={onSearch ? undefined : this.preventSelect}
-        inputClassName={classnames(className, classes.field)}
+        inputClassName={classnames(
+          className,
+          classes.field,
+          !lightPlaceholderColor && classes.darkPlaceholder
+        )}
         placeholder={resultPlaceholder}
         readOnly={readOnly || !canBeModified}
         value={resultInputValue}
@@ -873,8 +871,7 @@ export default class Select extends PureComponent {
       disabled,
       size,
       icon,
-      classes,
-      lightPlaceholderColor
+      classes
     } = this.props
 
     const onSearch = readOnly ? undefined : this.props.onSearch
@@ -895,7 +892,6 @@ export default class Select extends PureComponent {
       disabled ? classes.isDisabled : classes.isEnabled,
       isOpened && classes.isOpened,
       focusedInput && classes.isFocused,
-      lightPlaceholderColor && classes.lightPlaceholder,
       multiple && !onSearch && classes.isMultipleWithoutSearch
     )
 
@@ -1032,8 +1028,7 @@ export default class Select extends PureComponent {
       className,
       classes,
       rootStyle,
-      rootClassName,
-      lightPlaceholderColor
+      rootClassName
     } = this.props
 
     const {value, inputFocused} = this.state
@@ -1081,8 +1076,7 @@ export default class Select extends PureComponent {
       disabled ? classes.isDisabled : classes.isEnabled,
       inputFocused && classes.isFocused,
       multiple && classes.isMultipleWithoutSearch,
-      multiple && classes.withCustom,
-      lightPlaceholderColor && classes.lightPlaceholder
+      multiple && classes.withCustom
     )
 
     return (
