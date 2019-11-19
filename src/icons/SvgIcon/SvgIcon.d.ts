@@ -6,7 +6,7 @@ export interface SvgIconProps {
   style?: CSSProperties
   color?: string
   children?: ReactNode | ((size: number) => ReactNode)
-  size: string | number | Size | 'large'
+  size?: string | number | Size | 'large'
   viewBox: string
 }
 
