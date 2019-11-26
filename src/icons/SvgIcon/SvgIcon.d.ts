@@ -1,13 +1,9 @@
-import {CSSProperties, ReactNode, FC} from 'react'
+import {CSSProperties, ReactNode, FC, SVGProps} from 'react'
 import {Size} from '../..'
 
-export interface SvgIconProps {
-  className?: string
-  style?: CSSProperties
-  color?: string
+export interface SvgIconProps extends SVGProps<SVGElement> {
   children?: ReactNode | ((size: number) => ReactNode)
   size?: string | number | Size | 'large'
-  viewBox?: string
 }
 
 declare const SvgIcon: FC<SvgIconProps>
