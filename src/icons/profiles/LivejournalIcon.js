@@ -4,7 +4,7 @@ import SvgIcon from '../SvgIcon'
 export default function LivejournalIcon(props) {
   const {color} = props
   return (
-    <SvgIcon {...props} viewBox="0 0 18 18">
+    <SvgIcon viewBox="0 0 18 18" {...props}>
       <path
         d="M1.844 6.21L0 4.369A8.405 8.405 0 0 1 4.347 0l1.841 1.839.001.001a8.384 8.384 0 1 1-5.056 7.695 8.275 8.275 0 0 1 .71-3.323l6.82 6.806h-.001a8.415 8.415 0 0 1 4.343-4.369h.001L6.19 1.843l-.003-.001a8.407 8.407 0 0 0-4.343 4.369zm11.649 4.764a4.894 4.894 0 0 0-2.523 2.537l3.184.659-.66-3.196h-.001z"
         fill={color || '#00afed'}
