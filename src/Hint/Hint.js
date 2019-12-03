@@ -281,6 +281,7 @@ export default class Hint extends PureComponent {
     )
       if (this.props.isOpened) this.show()
       else this.hide()
+    return null
   }
 
   show = () => {

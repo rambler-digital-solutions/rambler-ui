@@ -35,6 +35,8 @@ import {ifDesktopSize, ifMobile, isolateMixin} from '../utils/mixins'
     inner: {
       position: 'relative'
     },
+    small: {},
+    medium: {},
     ...ifDesktopSize({
       normal: {
         '& $label': {

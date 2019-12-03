@@ -59,6 +59,8 @@ import windowEvents from '../hoc/window-events'
         cursor: 'not-allowed'
       }
     },
+    regular: {},
+    background: {},
     ...['regular', 'background'].reduce((typesResult, type) => {
       const {height, verticalGap, horizontalGap} = tagsInput.types[type]
       return {
@@ -139,11 +141,12 @@ export default class TagsInput extends PureComponent {
     if (!this.props.isExpanded) this.updateVisibleItemsCount()
   }
 
-  componentWillUpdate(nextProps) {
-    if (React.Children.count(nextProps.children) === 0) this.items = []
-  }
+  // componentWillUpdate(nextProps) {
+  //   if (React.Children.count(nextProps.children) === 0) this.items = []
+  // }
 
   componentDidUpdate(prevProps, prevState) {
+    if (React.Children.count(this.props.children) === 0) this.items = []
     if (
       this.shouldVisibleItemsCountUpdate(
         this.state,
