@@ -14,9 +14,9 @@ export default class Route extends PureComponent {
 
   async componentDidMount() {
     let {path} = this.props
-    const {
-      default: component
-    } = await import(/* webpackMode: "lazy" */ `docs/pages${path}`)
+    const {default: component} = await import(
+      /* webpackMode: "lazy" */ `docs/pages${path}`
+    )
     this.component = component
     this.forceUpdate()
   }

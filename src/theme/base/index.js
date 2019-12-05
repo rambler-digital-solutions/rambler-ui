@@ -9,9 +9,6 @@ const fontFamilies = {
   CorsicaRamblerLX: 'CorsicaRamblerLX, sans-serif'
 }
 
-/**
- * Создание темы
- */
 export function createTheme(config) {
   const {colors} = config
 
@@ -1012,7 +1009,6 @@ export function createTheme(config) {
       },
       tabs: {
         sidePadding: 10,
-        betweenMargin: 40,
         borderWidth: 2,
         animationDuration: 200,
         colors: {
@@ -1040,24 +1036,16 @@ export function createTheme(config) {
         },
         sizes: {
           small: {
+            horizontalGap: 40,
+            verticalPadding: 9,
             fontSize: 11,
-            paddingBottom: 9
+            lineHeight: 1.36
           },
           medium: {
-            fontSize: 14,
-            paddingBottom: 11
-          }
-        },
-        bottom: {
-          sizes: {
-            small: {
-              fontSize: 11,
-              paddingTop: 9
-            },
-            medium: {
-              fontSize: 14,
-              paddingTop: 11
-            }
+            horizontalGap: 20,
+            verticalPadding: 13,
+            fontSize: 13,
+            lineHeight: 15 / 13
           }
         }
       },

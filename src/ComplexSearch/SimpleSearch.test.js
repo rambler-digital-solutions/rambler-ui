@@ -40,7 +40,7 @@ describe('<SimpleSearch />', () => {
   })
 
   it('should change size with props', () => {
-    ['small', 'medium'].forEach(size => {
+    ;['small', 'medium'].forEach(size => {
       const wrapper = getSearchWrapper({
         size
       })

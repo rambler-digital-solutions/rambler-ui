@@ -33,6 +33,7 @@ test:
   script:
     - npm run test:ci
     - npm run lint
+    - npm run types
     - npm run build
     - npm run size
   coverage: '/All files\D+\d+\.\d+\D+(\d+\.\d+)/'
@@ -116,7 +117,7 @@ pages:
     - /^gh-pages$/
   script:
     - mkdir public
-    - rsync -rv --exclude=.git --exclude=node_modules --exclude=public . ./public
+    - rsync -rv --exclude=.git --exclude="2.*" --exclude=node_modules --exclude=public . ./public
   artifacts:
     untracked: false
     paths:

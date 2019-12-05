@@ -1,6 +1,3 @@
-/**
- * Компонент Textarea
- */
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import Input from '../Input'
@@ -44,9 +41,13 @@ export default class Textarea extends PureComponent {
      */
     textareaStyle: PropTypes.object,
     /**
-     * Обработик изменения значения поля, возвращает event и текущее value
+     * Обработчик изменения значения поля, возвращает event и текущее value
      */
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    /**
+     * Отображения счетчика символов
+     */
+    characterCounter: PropTypes.bool
   }
 
   static defaultProps = {

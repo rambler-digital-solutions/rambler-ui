@@ -264,6 +264,29 @@ export default class InputExample extends Component {
               placeholder="placeholder"
             />
           </FormGroup>
+          <FormGroup
+            label="Input with max length restriction (10 chars)"
+            inline={true}>
+            <Input
+              type="text"
+              value={this.state.value}
+              onChange={this.onChange}
+              placeholder="placeholder"
+              maxLength={10}
+            />
+          </FormGroup>
+          <FormGroup
+            label="Input with max length restriction and counter"
+            inline={true}>
+            <Input
+              type="text"
+              value={this.state.value}
+              onChange={this.onChange}
+              placeholder="placeholder"
+              maxLength={10}
+              characterCounter={true}
+            />
+          </FormGroup>
         </div>
       </div>
     )

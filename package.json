@@ -1,8 +1,9 @@
 {
   "name": "rambler-ui",
-  "version": "3.47.0",
+  "version": "3.49.10",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
+  "typings": "index.d.ts",
   "scripts": {
     "karma": "NODE_ENV=test /usr/bin/env node --max-old-space-size=4096 ./node_modules/karma/bin/karma start",
     "test": "npm run karma -- --browsers ChromeC",
@@ -10,14 +11,14 @@
     "test:ci": "npm run karma -- --browsers ChromeC,FirefoxC",
     "test:watch": "npm run karma -- --browsers ChromeC --auto-watch --no-single-run",
     "prebuild": "rm -rf build",
-    "build": "NODE_ENV=production VERSION=$npm_package_version babel src --out-dir build --ignore **/*.test.js",
-    "postbuild": "cp package.json .npmignore README.md build",
+    "build": "NODE_ENV=production babel src --out-dir build --ignore **/*.test.js && node copy-files.js",
     "start": "NODE_ENV=development webpack-dev-server -d --hot --config docs/webpack.config.js",
     "prepages": "rm -rf docs/build",
     "pages": "NODE_ENV=production webpack -p --progress --config docs/webpack.config.js && node docs/scripts/publish-site.js",
-    "lint": "eslint '**/*.js'",
-    "format": "prettier --write '**/*.js' && eslint '**/*.js' --fix",
+    "lint": "eslint '**/*.js' && eslint --config ./.eslintrc.typescript.json '**/*.ts'",
+    "format": "prettier --write '**/*.{js,ts}' && eslint '**/*.js' --fix && eslint --config ./.eslintrc.typescript.json '**/*.ts' --fix",
     "size": "size-limit",
+    "types": "tsc",
     "precommit": "lint-staged",
     "postversion": "git push --follow-tags"
   },
@@ -44,6 +45,13 @@
   "devDependencies": {
     "@mdx-js/loader": "^0.15.4",
     "@mdx-js/mdx": "^0.15.4",
+    "@types/jss": "^9.5.8",
+    "@types/node": "^12.7.8",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.2",
+    "@types/react-jss": "^8.6.4",
+    "@typescript-eslint/eslint-plugin": "^2.3.2",
+    "@typescript-eslint/parser": "^2.3.2",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.9.0",
     "babel-eslint": "^8.0.1",
@@ -69,13 +77,15 @@
     "doctrine": "^2.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
-    "eslint": "^4.7.2",
+    "eslint": "^6.5.1",
+    "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-babel": "^3.3.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-react": "^7.4.0",
     "file-loader": "^4.2.0",
     "get-md-title": "^1.0.4",
     "gh-pages": "^0.12.0",
+    "glob": "^7.1.4",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
     "husky": "^0.11.4",
@@ -92,7 +102,7 @@
     "karma-webpack": "^4.0.2",
     "lint-staged": "^6.1.0",
     "minimist": "^1.2.0",
-    "prettier": "^1.14.3",
+    "prettier": "^1.18.2",
     "promise-queue": "^2.2.5",
     "puppeteer": "^1.19.0",
     "raw-loader": "^3.1.0",
@@ -110,6 +120,7 @@
     "size-limit": "^0.22.0",
     "sticky-sidebar": "^3.3.1",
     "style-loader": "^1.0.0",
+    "typescript": "^3.6.3",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.7",
     "webpack-dev-server": "^3.8.0"
@@ -127,6 +138,11 @@
     "*.js": [
       "prettier --write",
       "eslint --fix",
+      "git add"
+    ],
+    "*.ts": [
+      "prettier --write",
+      "eslint --config ./.eslintrc.typescript.json --fix",
       "git add"
     ]
   }

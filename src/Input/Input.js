@@ -1,6 +1,3 @@
-/**
- * Компонент Input
- */
 import React, {PureComponent, createElement, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
@@ -36,6 +33,7 @@ const activeBorder = borderColor => ({
       appearance: 'none',
       lineHeight: 'normal',
       background: theme.field.colors.default.background,
+      color: theme.field.colors.default.text,
       boxShadow: 'none',
       border: '0 solid',
       borderColor: theme.field.colors.default.outline,
@@ -155,6 +153,9 @@ const activeBorder = borderColor => ({
                 lineHeight: theme.field.sizes[size].height + 'px'
               })
             }
+          },
+          '& $characterCounter': {
+            lineHeight: theme.field.sizes[size].height + 'px'
           },
           '& $icon': {
             height: theme.field.sizes[size].icon,
@@ -396,6 +397,26 @@ const activeBorder = borderColor => ({
       fontFamily: theme.fontFamily
     },
     textareaRoot: {},
+    characterCounter: {
+      position: 'absolute',
+      top: 0,
+      bottom: 0,
+      right: 15,
+      margin: 'auto',
+      fontSize: 11,
+      color: '#b0b4c2',
+      '$textareaRoot &': {
+        top: 'auto',
+        bottom: 10,
+        lineHeight: 1.36
+      }
+    },
+    characterCounterWarn: {
+      color: '#ffc000'
+    },
+    characterCounterError: {
+      color: '#ff564e'
+    },
     activeBorder: {
       position: 'absolute',
       top: 0,
@@ -528,7 +549,7 @@ export default class Input extends PureComponent {
     /**
      * Валидация input'a
      */
-    status: PropTypes.oneOf(['error', 'warning', 'success', null]),
+    status: PropTypes.oneOf(['error', 'warning', 'success', 'filled', null]),
     /**
      * Подсветка импута, как в состоянии `:focus`
      */
@@ -590,7 +611,11 @@ export default class Input extends PureComponent {
     /**
      * Дополнительный класс левой иконки
      */
-    iconLeftClassName: PropTypes.string
+    iconLeftClassName: PropTypes.string,
+    /**
+     * Отображения счетчика символов
+     */
+    characterCounter: PropTypes.bool
   }
 
   static defaultProps = {
@@ -709,6 +734,24 @@ export default class Input extends PureComponent {
     return null
   }
 
+  renderCharacterCounter() {
+    const {maxLength, value, classes} = this.props
+    const length = value ? value.length : 0
+
+    const statusClassName =
+      length >= maxLength
+        ? classes.characterCounterError
+        : length >= Math.ceil(maxLength * 0.95)
+          ? classes.characterCounterWarn
+          : ''
+
+    return (
+      <span className={`${classes.characterCounter} ${statusClassName}`}>
+        {maxLength - length}
+      </span>
+    )
+  }
+
   render() {
     const {
       tag = 'input',
@@ -733,6 +776,8 @@ export default class Input extends PureComponent {
       passwordIconTooltip, // eslint-disable-line no-unused-vars
       passwordIconProps, // eslint-disable-line no-unused-vars
       inputRef, // eslint-disable-line no-unused-vars
+      maxLength,
+      characterCounter,
       ...other
     } = this.props
 
@@ -766,6 +811,9 @@ export default class Input extends PureComponent {
       style: inputStyle,
       onChange: this.onChange,
       tabIndex: 0,
+      ...(!!maxLength && {
+        maxLength: characterCounter ? Math.ceil(maxLength * 1.05) : maxLength
+      }),
       ...other
     })
 
@@ -785,6 +833,7 @@ export default class Input extends PureComponent {
             classnames(iconRightClassName, classes.iconRight)
           )}
         {this.renderPasswordIcon()}
+        {characterCounter && this.renderCharacterCounter()}
       </div>
     )
   }

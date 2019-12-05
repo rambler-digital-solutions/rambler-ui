@@ -45,11 +45,11 @@ class ContentElementWrapper extends PureComponent {
 
   updateContentProps(newContentProps) {
     let changed = false
-    // eslint-disable-next-line no-restricted-syntax
-    for (const k in newContentProps)
+    // eslint-disable-next-line no-unused-vars
+    for (const propKey in newContentProps)
       if (
-        newContentProps.hasOwnProperty(k) &&
-        newContentProps[k] !== this.contentProps[k]
+        newContentProps.hasOwnProperty(propKey) &&
+        newContentProps[propKey] !== this.contentProps[propKey]
       ) {
         changed = true
         break

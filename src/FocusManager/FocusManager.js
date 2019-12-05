@@ -10,7 +10,8 @@ export default class FocusManager extends PureComponent {
   constructor(props) {
     super(props)
     const {tabIndex} = this.props
-    if (tabIndex > 0) this.beforeActiveElement = document.activeElement
+    if (tabIndex == null || tabIndex < 0) return
+    this.beforeActiveElement = document.activeElement
   }
 
   beforeActiveElement = null

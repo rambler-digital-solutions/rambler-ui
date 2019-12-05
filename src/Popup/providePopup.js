@@ -1,7 +1,3 @@
-/**
- * HOC попапа
- */
-
 import React, {PureComponent} from 'react'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 

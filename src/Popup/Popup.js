@@ -1,8 +1,3 @@
-/**
- * Компонент попапа
- * Скетч: * https://zpl.io/ZTWunL
- */
-
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
