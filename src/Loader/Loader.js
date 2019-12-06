@@ -97,10 +97,6 @@ export default class Loader extends PureComponent {
     this.updateLoading(this.props.loading)
   }
 
-  // componentWillReceiveProps({loading}) {
-  //   this.updateLoading(loading)
-  // }
-
   componentDidUpdate(prevProps) {
     if (prevProps.loading !== this.props.loading)
       this.updateLoading(this.props.loading)

@@ -76,7 +76,7 @@
     "debug": "^2.2.0",
     "doctrine": "^2.1.0",
     "enzyme": "^3.10.0",
-    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-adapter-react-16": "^1.15.1",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-babel": "^3.3.0",
