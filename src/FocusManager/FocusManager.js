@@ -7,20 +7,13 @@ export default class FocusManager extends PureComponent {
     children: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props)
+  beforeActiveElement = null
+
+  componentDidMount() {
     const {tabIndex} = this.props
     if (tabIndex == null || tabIndex < 0) return
     this.beforeActiveElement = document.activeElement
   }
-
-  beforeActiveElement = null
-
-  // componentWillMount() {
-  //   const {tabIndex} = this.props
-  //   if (tabIndex < 0) return
-  //   this.beforeActiveElement = document.activeElement
-  // }
 
   componentWillUnmount() {
     if (this.beforeActiveElement) this.beforeActiveElement.focus()

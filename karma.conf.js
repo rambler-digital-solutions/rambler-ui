@@ -39,12 +39,6 @@ module.exports = config =>
         'react/lib/ExecutionEnvironment',
         'react/lib/ReactContext'
       ]
-      // resolve: {
-      //   modules: ['src', 'node_modules']
-      // },
-      // resolveLoader: {
-      //   modules: ['node_modules']
-      // }
     },
 
     webpackMiddleware: {
