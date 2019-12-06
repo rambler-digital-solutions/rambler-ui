@@ -54,14 +54,14 @@ const getKeyframes = (delay = 0) => ({
       animationFillMode: 'forwards',
       animationIterationCount: 'infinite',
       '&:nth-child(1)': {
-        animationName: 'ruiAnimateDot1'
+        animationName: '$ruiAnimateDot1'
       },
       '&:nth-child(2)': {
-        animationName: 'ruiAnimateDot2',
+        animationName: '$ruiAnimateDot2',
         margin: '0 1em'
       },
       '&:nth-child(3)': {
-        animationName: 'ruiAnimateDot3'
+        animationName: '$ruiAnimateDot3'
       }
     }
   }),
