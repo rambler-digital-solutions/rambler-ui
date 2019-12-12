@@ -16,7 +16,6 @@ import {injectSheet} from '../theme'
     '-webkit-appearance': 'none',
     background: 'transparent',
     margin: 0,
-    // background: '#e8eaf0',
     zIndex: 2,
     '&:focus': {
       outline: 'none'
@@ -43,7 +42,6 @@ import {injectSheet} from '../theme'
       borderRadius: '15px',
       background: '#ffffff',
       cursor: 'pointer',
-      // '-webkit-appearance': 'none',
       marginTop: '-5px'
     },
     '&::-moz-focus-outer': {
