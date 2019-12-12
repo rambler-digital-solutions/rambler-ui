@@ -4,10 +4,11 @@ import classnames from 'classnames'
 import {injectSheet} from '../theme'
 
 @injectSheet(theme => ({
-  container: {
+  root: {
     position: 'relative',
     width: '100%',
-    height: '5px'
+    height: '5px',
+    background: '#dcdfe7'
   },
   range: {
     position: 'absolute',
@@ -54,13 +55,6 @@ import {injectSheet} from '../theme'
     background: `${theme.colors.primary}`,
     height: '5px',
     zIndex: 1
-  },
-  empty: {
-    position: 'absolute',
-    right: '0',
-    background: '#dcdfe7',
-    height: '5px',
-    zIndex: 1
   }
 }))
 export default class Slider extends PureComponent {
@@ -68,15 +62,11 @@ export default class Slider extends PureComponent {
     /**
      * Значение слайдера
      */
-    value: PropTypes.any,
+    value: PropTypes.number,
     /**
      * CSS-класс
      */
     className: PropTypes.string,
-    /**
-     * CSS-id
-     */
-    id: PropTypes.string,
     /**
      * Inline-стили
      */
@@ -94,7 +84,7 @@ export default class Slider extends PureComponent {
      */
     step: PropTypes.number,
     /**
-     * Функция, вызывающая при изменении значения `function (event: object, newValue: any) {}`
+     * Функция, вызывающая при изменении значения `function (event: object, newValue: number) {}`
      */
     onChange: PropTypes.func
   }
@@ -109,11 +99,21 @@ export default class Slider extends PureComponent {
   }
 
   render() {
-    const {value, classes, id, className, min, max, step} = this.props
+    const {
+      value,
+      classes,
+      className,
+      min,
+      max,
+      step,
+      onChange, // eslint-disable-line no-unused-vars
+      theme, // eslint-disable-line no-unused-vars
+      ...other
+    } = this.props
     const rootClassName = classnames(className, classes.range)
     const filledPart = Math.round(value / (max / 100))
     return (
-      <div className={classes.container}>
+      <div className={classes.root}>
         <div className={classes.filled} style={{width: `${filledPart}%`}} />
         <input
           type="range"
@@ -121,13 +121,9 @@ export default class Slider extends PureComponent {
           min={min}
           max={max}
           step={step}
-          id={id}
           className={rootClassName}
           onChange={this.onChange}
-        />
-        <div
-          className={classes.empty}
-          style={{width: `${Math.round(100 - filledPart)}%`}}
+          {...other}
         />
       </div>
     )
