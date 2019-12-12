@@ -35,6 +35,19 @@ import {injectSheet} from '../theme'
       cursor: 'pointer',
       '-webkit-appearance': 'none',
       marginTop: '-5px'
+    },
+    '&::-moz-range-thumb': {
+      border: `5px solid ${theme.colors.primary}`,
+      height: '5px',
+      width: '5px',
+      borderRadius: '15px',
+      background: '#ffffff',
+      cursor: 'pointer',
+      // '-webkit-appearance': 'none',
+      marginTop: '-5px'
+    },
+    '&::-moz-focus-outer': {
+      border: 0
     }
   },
   filled: {
