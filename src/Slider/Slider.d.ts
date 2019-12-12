@@ -10,7 +10,7 @@ export interface SliderProps<T> {
   onChange?: (event: SyntheticEvent, value: T) => void | Promise<void>
 }
 
-export default class TabsItem<T = any> extends PureComponent<
+export default class Slider<T = any> extends PureComponent<
   SliderProps<T>,
   {}
 > {}
