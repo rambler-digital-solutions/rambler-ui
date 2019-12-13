@@ -1184,6 +1184,20 @@ export function createTheme(config) {
           size: 35,
           fontSize: 13
         }
+      },
+      slider: {
+        height: 5,
+        colors: {
+          background: '#dcdfe7',
+          fill: colors.primary
+        },
+        thumb: {
+          size: 15,
+          colors: {
+            color: colors.light,
+            border: colors.primary
+          }
+        }
       }
     },
     config
