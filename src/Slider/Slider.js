@@ -7,14 +7,14 @@ import {injectSheet} from '../theme'
   root: {
     position: 'relative',
     width: '100%',
-    height: '5px',
-    background: '#dcdfe7'
+    height: theme.slider.height,
+    background: theme.slider.colors.background
   },
   range: {
     position: 'absolute',
     width: '100%',
-    height: '5px',
-    '-webkit-appearance': 'none',
+    height: theme.slider.height,
+    appearance: 'none',
     background: 'transparent',
     margin: 0,
     zIndex: 2,
@@ -22,26 +22,25 @@ import {injectSheet} from '../theme'
       outline: 'none'
     },
     '&::-webkit-slider-runnable-track': {
-      height: '5px',
-      '-webkit-appearance': 'none',
-      color: '#315efb'
+      height: theme.slider.height,
+      appearance: 'none'
     },
     '&::-webkit-slider-thumb': {
-      border: `5px solid ${theme.colors.primary}`,
+      border: `5px solid ${theme.slider.thumb.colors.border}`,
       height: '15px',
       width: '15px',
       borderRadius: '15px',
-      background: '#ffffff',
+      background: theme.slider.thumb.colors.color,
       cursor: 'pointer',
-      '-webkit-appearance': 'none',
+      appearance: 'none',
       marginTop: '-5px'
     },
     '&::-moz-range-thumb': {
-      border: `5px solid ${theme.colors.primary}`,
-      height: '5px',
+      border: `5px solid ${theme.slider.thumb.colors.border}`,
+      height: theme.slider.height,
       width: '5px',
       borderRadius: '15px',
-      background: '#ffffff',
+      background: theme.slider.thumb.colors.color,
       cursor: 'pointer',
       marginTop: '-5px'
     },
@@ -52,8 +51,8 @@ import {injectSheet} from '../theme'
   filled: {
     position: 'absolute',
     left: '0',
-    background: `${theme.colors.primary}`,
-    height: '5px',
+    background: theme.colors.primary,
+    height: theme.slider.height,
     zIndex: 1
   }
 }))
@@ -106,14 +105,15 @@ export default class Slider extends PureComponent {
       min,
       max,
       step,
+      style,
       onChange, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
-    const rootClassName = classnames(className, classes.range)
+    const rootClassName = classnames(className, classes.root)
     const filledPart = Math.round(value / (max / 100))
     return (
-      <div className={classes.root}>
+      <div className={rootClassName} style={style}>
         <div className={classes.filled} style={{width: `${filledPart}%`}} />
         <input
           type="range"
@@ -121,7 +121,7 @@ export default class Slider extends PureComponent {
           min={min}
           max={max}
           step={step}
-          className={rootClassName}
+          className={classes.range}
           onChange={this.onChange}
           {...other}
         />
