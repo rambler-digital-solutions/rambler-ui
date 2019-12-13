@@ -7,6 +7,8 @@ import {
   getNodeStyles,
   getStyles
 } from '../utils/test-utils'
+import theme from '../theme/base'
+import {normalize} from '../utils/colors'
 
 describe('<Slider />', () => {
   it('should apply default props', () => {
@@ -53,5 +55,25 @@ describe('<Slider />', () => {
     const wrapperWidth = getStyles(wrapper)['width']
     const sliderWidth = getNodeStyles(rangeInput)['width']
     expect(sliderWidth).toEqual(wrapperWidth)
+  })
+
+  it('should apply theme', () => {
+    const wrapper = mount(withTheme(<Slider />))
+    const slider = wrapper.find(Slider)
+    const rangeInput = getWrapperNode(slider.find('input'))
+    const root = getWrapperNode(slider.find('div').at(0))
+    const rootStyles = getNodeStyles(root)
+    const filled = getWrapperNode(slider.find('div').at(1))
+    const rangeInputStyles = getNodeStyles(rangeInput)
+    const filledStyles = getNodeStyles(filled)
+    expect(rangeInputStyles['height']).toEqual(`${theme.slider.height}px`)
+    expect(filledStyles['height']).toEqual(`${theme.slider.height}px`)
+    expect(filledStyles['background-color']).toEqual(
+      normalize(theme.colors.primary)
+    )
+    expect(rootStyles['height']).toEqual(`${theme.slider.height}px`)
+    expect(rootStyles['background-color']).toEqual(
+      normalize(theme.slider.colors.background)
+    )
   })
 })
