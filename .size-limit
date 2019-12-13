@@ -1,7 +1,7 @@
 [
   {
     "name": "The initial cost people pay for using one component",
-    "limit": "24 KB",
+    "limit": "25 KB",
     "path": "test/overhead.js"
   },
   {
