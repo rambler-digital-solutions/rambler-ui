@@ -46,6 +46,17 @@ import {injectSheet} from '../theme'
       marginTop: `-${theme.slider.height}px`,
       boxSizing: 'border-box'
     },
+    '&::-ms-thumb': {
+      border: `5px solid ${theme.slider.thumb.colors.border}`,
+      height: theme.slider.thumb.size,
+      width: theme.slider.thumb.size,
+      borderRadius: theme.slider.thumb.size,
+      background: theme.slider.thumb.colors.color,
+      cursor: 'pointer',
+      appearance: 'none',
+      marginTop: `-${theme.slider.height}px`,
+      boxSizing: 'border-box'
+    },
     '&::-moz-focus-outer': {
       border: 0
     }
