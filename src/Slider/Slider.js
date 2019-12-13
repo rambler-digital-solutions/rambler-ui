@@ -17,7 +17,6 @@ import {injectSheet} from '../theme'
     appearance: 'none',
     background: 'transparent',
     margin: 0,
-    zIndex: 2,
     '&:focus': {
       outline: 'none'
     },
@@ -26,23 +25,26 @@ import {injectSheet} from '../theme'
       appearance: 'none'
     },
     '&::-webkit-slider-thumb': {
-      border: `5px solid ${theme.slider.thumb.colors.border}`,
-      height: '15px',
-      width: '15px',
-      borderRadius: '15px',
+      border: `${theme.slider.height}px solid ${theme.slider.thumb.colors.border}`,
+      height: theme.slider.thumb.size,
+      width: theme.slider.thumb.size,
+      borderRadius: theme.slider.thumb.size,
       background: theme.slider.thumb.colors.color,
       cursor: 'pointer',
       appearance: 'none',
-      marginTop: '-5px'
+      marginTop: `-${theme.slider.height}px`,
+      boxSizing: 'border-box'
     },
     '&::-moz-range-thumb': {
       border: `5px solid ${theme.slider.thumb.colors.border}`,
-      height: theme.slider.height,
-      width: '5px',
-      borderRadius: '15px',
+      height: theme.slider.thumb.size,
+      width: theme.slider.thumb.size,
+      borderRadius: theme.slider.thumb.size,
       background: theme.slider.thumb.colors.color,
       cursor: 'pointer',
-      marginTop: '-5px'
+      appearance: 'none',
+      marginTop: `-${theme.slider.height}px`,
+      boxSizing: 'border-box'
     },
     '&::-moz-focus-outer': {
       border: 0
@@ -52,8 +54,7 @@ import {injectSheet} from '../theme'
     position: 'absolute',
     left: '0',
     background: theme.colors.primary,
-    height: theme.slider.height,
-    zIndex: 1
+    height: theme.slider.height
   }
 }))
 export default class Slider extends PureComponent {
