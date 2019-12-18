@@ -12,13 +12,15 @@ export default class SliderExample extends Component {
 
   render() {
     return (
-      <Slider
-        min={0}
-        max={500}
-        step={1}
-        value={this.state.value}
-        onChange={this.onChange}
-      />
+      <div style={{padding: 50}}>
+        <Slider
+          min={0}
+          max={500}
+          step={1}
+          value={this.state.value}
+          onChange={this.onChange}
+        />
+      </div>
     )
   }
 }

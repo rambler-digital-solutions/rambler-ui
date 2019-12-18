@@ -2,56 +2,58 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
-import {isIE, isEdge} from '../utils/browser'
-const isNotIeOrEdge = !isIE && !isEdge
+import {isolateMixin} from '../utils/mixins'
 
 @injectSheet(theme => ({
   root: {
+    extend: isolateMixin,
     position: 'relative',
+    boxSizing: 'border-box',
     width: '100%',
-    height: isNotIeOrEdge ? theme.slider.height : theme.slider.thumb.size,
-    background: isNotIeOrEdge ? theme.slider.colors.background : 'transparent'
+    height: theme.slider.thumb.size,
+    padding: `${(theme.slider.thumb.size - theme.slider.height) / 2}px 0`
   },
   range: {
     position: 'absolute',
     width: '100%',
-    appearance: 'none',
-    background: 'transparent',
     margin: 0,
+    marginTop: (theme.slider.height - theme.slider.thumb.size) / 2,
     padding: 0,
-    height: isNotIeOrEdge ? theme.slider.height : '',
+    height: theme.slider.thumb.size,
+    background: 'transparent',
+    '-webkit-appearance': 'none',
     '&:focus': {
       outline: 'none'
     },
     '&::-webkit-slider-runnable-track': {
+      width: '100%',
       height: theme.slider.height,
-      appearance: 'none'
+      border: 'none'
     },
     '&::-webkit-slider-thumb': {
+      boxSizing: 'border-box',
       border: `${theme.slider.height}px solid ${theme.slider.thumb.colors.border}`,
       height: theme.slider.thumb.size,
       width: theme.slider.thumb.size,
       borderRadius: '50%',
       background: theme.slider.thumb.colors.color,
       cursor: 'pointer',
-      appearance: 'none',
-      marginTop: `-${theme.slider.height}px`,
-      boxSizing: 'border-box'
+      marginTop: (theme.slider.height - theme.slider.thumb.size) / 2,
+      '-webkit-appearance': 'none'
     },
     '&::-moz-range-track': {
+      width: '100%',
       height: theme.slider.height,
-      appearance: 'none'
+      border: 'none'
     },
     '&::-moz-range-thumb': {
+      boxSizing: 'border-box',
       border: `${theme.slider.height}px solid ${theme.slider.thumb.colors.border}`,
       height: theme.slider.thumb.size,
       width: theme.slider.thumb.size,
       borderRadius: '50%',
       background: theme.slider.thumb.colors.color,
-      cursor: 'pointer',
-      appearance: 'none',
-      marginTop: `-${theme.slider.height}px`,
-      boxSizing: 'border-box'
+      cursor: 'pointer'
     },
     '&::-moz-focus-outer': {
       border: 0
@@ -61,31 +63,35 @@ const isNotIeOrEdge = !isIE && !isEdge
       height: theme.slider.height,
       background: 'transparent',
       borderColor: 'transparent',
-      borderWidth: isIE ? `${theme.slider.thumb.size}px 0` : '',
+      borderWidth: `${(theme.slider.thumb.size - theme.slider.height) / 2}px 0`,
       color: 'transparent'
     },
     '&::-ms-thumb': {
-      border: `5px solid ${theme.slider.thumb.colors.border}`,
+      boxSizing: 'border-box',
+      border: `${theme.slider.height}px solid ${theme.slider.thumb.colors.border}`,
       height: theme.slider.thumb.size,
+      margin: 0,
       width: theme.slider.thumb.size,
       borderRadius: '50%',
       background: theme.slider.thumb.colors.color,
-      marginTop: isEdge && 1,
-      boxSizing: 'border-box'
+      cursor: 'pointer'
     },
     '&::-ms-fill-lower': {
-      background: theme.colors.primary,
-      borderRadius: theme.slider.thumb.size
+      background: 'transparent'
     },
     '&::-ms-fill-upper': {
-      background: theme.slider.colors.background,
-      borderRadius: theme.slider.thumb.size
+      background: 'transparent'
     }
   },
-  filled: {
+  track: {
     position: 'absolute',
-    left: '0',
-    background: theme.colors.primary,
+    width: '100%',
+    background: theme.slider.colors.background,
+    height: theme.slider.height
+  },
+  fill: {
+    position: 'absolute',
+    background: theme.slider.colors.fill,
     height: theme.slider.height
   }
 }))
@@ -122,6 +128,8 @@ export default class Slider extends PureComponent {
   }
 
   static defaultProps = {
+    min: 0,
+    max: 100,
     step: 1
   }
 
@@ -144,12 +152,11 @@ export default class Slider extends PureComponent {
       ...other
     } = this.props
     const rootClassName = classnames(className, classes.root)
-    const filledPart = Math.round(value / (max / 100))
+    const filledWidth = ((value - min) / (max - min)) * 100
     return (
       <div className={rootClassName} style={style}>
-        {isNotIeOrEdge && (
-          <div className={classes.filled} style={{width: `${filledPart}%`}} />
-        )}
+        <div className={classes.track} />
+        <div className={classes.fill} style={{width: `${filledWidth}%`}} />
         <input
           type="range"
           value={value}
