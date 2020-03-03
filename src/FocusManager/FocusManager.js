@@ -16,7 +16,11 @@ export default class FocusManager extends PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.beforeActiveElement) this.beforeActiveElement.focus()
+    if (
+      this.beforeActiveElement &&
+      typeof this.beforeActiveElement.focus === 'function'
+    )
+      this.beforeActiveElement.focus()
   }
 
   focusElement = element => {
