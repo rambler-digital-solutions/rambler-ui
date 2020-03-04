@@ -201,11 +201,7 @@ class Playground extends PureComponent {
     try {
       const {code} = transform(raw, {
         presets: ['es2015', 'react'],
-        plugins: [
-          'transform-decorators-legacy',
-          'transform-object-rest-spread',
-          'transform-class-properties'
-        ]
+        plugins: ['transform-object-rest-spread', 'transform-class-properties']
       })
 
       const execute = new Function('module', 'exports', 'require', code)

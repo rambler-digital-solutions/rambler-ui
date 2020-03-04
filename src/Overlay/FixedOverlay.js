@@ -7,6 +7,7 @@ import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
 import {DROPDOWN_ZINDEX} from '../constants/z-indexes'
 import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
+import compose from '../utils/compose'
 import {
   getBoundingClientRect as originalGetBoundingClientRect,
   createMutationObserver
@@ -226,9 +227,7 @@ function getPositionOptions(params) {
  * При скролле body, documentElement или window, ресайзе window, перестраивается позиция элемента
  */
 
-@zIndexStack(DROPDOWN_ZINDEX)
-@windowEvents('scroll', 'resize')
-export default class FixedOverlay extends PureComponent {
+class FixedOverlay extends PureComponent {
   static propTypes = {
     /**
      * Флаг управления показом оверлея
@@ -671,3 +670,8 @@ export default class FixedOverlay extends PureComponent {
     )
   }
 }
+
+export default compose(
+  zIndexStack(DROPDOWN_ZINDEX),
+  windowEvents('scroll', 'resize')
+)(FixedOverlay)

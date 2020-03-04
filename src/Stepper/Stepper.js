@@ -1,31 +1,29 @@
-import React, {Component, cloneElement} from 'react'
+import React, {PureComponent, Children, cloneElement} from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import {isolateMixin, ifDesktopSize} from '../utils/mixins'
 import {injectSheet} from '../theme'
 
-@injectSheet(
-  () => ({
-    stepper: {
-      extend: isolateMixin,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      alignItems: 'start',
-      marginLeft: 'auto',
-      marginRight: 'auto',
-      marginBottom: '35px',
-      width: '100%',
-      position: 'relative',
-      ...ifDesktopSize({
-        flexDirection: 'row',
-        alignItems: 'center'
-      })
-    }
-  }),
-  {name: 'Stepper'}
-)
-class Stepper extends Component {
+const styles = {
+  stepper: {
+    extend: isolateMixin,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'start',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '35px',
+    width: '100%',
+    position: 'relative',
+    ...ifDesktopSize({
+      flexDirection: 'row',
+      alignItems: 'center'
+    })
+  }
+}
+
+class Stepper extends PureComponent {
   static propTypes = {
     /**
      * Текущий индекс выбранного Step
@@ -65,30 +63,27 @@ class Stepper extends Component {
       onChange, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
-    const steps = React.Children.toArray(children).reduce(
-      (acc, child, index) => {
-        if (!child.type || child.type.displayName !== 'ruiStep')
-          throw new Error('Child component should be instance of <Step />')
-        const active = index === currentValue
-        const completed = index < currentValue
-        const disabled = index > currentValue
-        const props = {...child.props}
-        const extendedProps = {
-          active,
-          completed,
-          disabled,
-          value: index,
-          key: child.key !== undefined ? child.key : index,
-          onClick: this.onChange
-        }
-        Object.keys(extendedProps).forEach(key => {
-          if (!props.hasOwnProperty(key)) props[key] = extendedProps[key]
-        })
-        acc.push(cloneElement(child, props))
-        return acc
-      },
-      []
-    )
+    const steps = Children.toArray(children).reduce((acc, child, index) => {
+      if (!child.type || child.type.displayName !== 'ruiStep')
+        throw new Error('Child component should be instance of <Step />')
+      const active = index === currentValue
+      const completed = index < currentValue
+      const disabled = index > currentValue
+      const props = {...child.props}
+      const extendedProps = {
+        active,
+        completed,
+        disabled,
+        value: index,
+        key: child.key !== undefined ? child.key : index,
+        onClick: this.onChange
+      }
+      Object.keys(extendedProps).forEach(key => {
+        if (!props.hasOwnProperty(key)) props[key] = extendedProps[key]
+      })
+      acc.push(cloneElement(child, props))
+      return acc
+    }, [])
     return (
       <div
         {...other}
@@ -100,6 +95,4 @@ class Stepper extends Component {
   }
 }
 
-Stepper.displayName = 'ruiStepper'
-
-export default Stepper
+export default injectSheet(styles, {name: 'Stepper'})(Stepper)

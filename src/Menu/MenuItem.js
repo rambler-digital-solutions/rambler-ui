@@ -7,62 +7,59 @@ import {isolateMixin} from '../utils/mixins'
 import uuid from '../utils/uuid'
 import {MenuContext} from './Menu'
 
-@injectSheet(
-  theme => ({
-    root: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      boxSizing: 'border-box',
-      display: 'flex',
-      alignItems: 'center',
-      flexWrap: 'wrap',
-      paddingLeft: theme.menu.padding,
-      paddingRight: theme.menu.padding,
-      outline: 0,
-      fontSize: theme.menu.fontSize,
-      lineHeight: theme.menu.lineHeight + 'px'
-    },
-    ...['medium', 'small'].reduce(
-      (result, size) => ({
-        ...result,
-        [size]: {
-          minHeight: theme.menu.sizes[size].height,
-          paddingTop:
-            (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2,
-          paddingBottom:
-            (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2
-        }
-      }),
-      {}
-    ),
-    isEnabled: {
-      color: theme.menu.colors.default.text,
-      backgroundColor: theme.menu.colors.default.background,
-      cursor: 'pointer',
-      '&:hover': {
-        color: theme.menu.colors.hover.text,
-        backgroundColor: theme.menu.colors.hover.background
-      },
-      '&:focus': {
-        color: theme.menu.colors.focus.text,
-        background: theme.menu.colors.focus.background
-      },
-      '&:active': {
-        color: theme.menu.colors.active.text,
-        background: theme.menu.colors.active.background
+const styles = theme => ({
+  root: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    boxSizing: 'border-box',
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    paddingLeft: theme.menu.padding,
+    paddingRight: theme.menu.padding,
+    outline: 0,
+    fontSize: theme.menu.fontSize,
+    lineHeight: theme.menu.lineHeight + 'px'
+  },
+  ...['medium', 'small'].reduce(
+    (result, size) => ({
+      ...result,
+      [size]: {
+        minHeight: theme.menu.sizes[size].height,
+        paddingTop: (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2,
+        paddingBottom:
+          (theme.menu.sizes[size].height - theme.menu.lineHeight) / 2
       }
+    }),
+    {}
+  ),
+  isEnabled: {
+    color: theme.menu.colors.default.text,
+    backgroundColor: theme.menu.colors.default.background,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.menu.colors.hover.text,
+      backgroundColor: theme.menu.colors.hover.background
     },
-    isSelected: {
-      color: theme.menu.colors.selected.text
+    '&:focus': {
+      color: theme.menu.colors.focus.text,
+      background: theme.menu.colors.focus.background
     },
-    isDisabled: {
-      color: theme.menu.colors.disabled.text,
-      background: theme.menu.colors.disabled.background,
-      cursor: 'not-allowed'
+    '&:active': {
+      color: theme.menu.colors.active.text,
+      background: theme.menu.colors.active.background
     }
-  }),
-  {name: 'MenuItem'}
-)
+  },
+  isSelected: {
+    color: theme.menu.colors.selected.text
+  },
+  isDisabled: {
+    color: theme.menu.colors.disabled.text,
+    background: theme.menu.colors.disabled.background,
+    cursor: 'not-allowed'
+  }
+})
+
 class MenuItem extends PureComponent {
   static propTypes = {
     /**
@@ -189,6 +186,7 @@ class MenuItem extends PureComponent {
   }
 }
 
-MenuItem.displayName = 'ruiMenuItem'
-
-export default MenuItem
+export default injectSheet(styles, {
+  name: 'MenuItem',
+  displayName: 'ruiMenuItem'
+})(MenuItem)

@@ -1,4 +1,9 @@
-import React, {PureComponent, createElement, cloneElement} from 'react'
+import React, {
+  PureComponent,
+  Children,
+  createElement,
+  cloneElement
+} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Menu from '../Menu/Menu'
@@ -37,267 +42,263 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
-@injectSheet(
-  theme => ({
-    root: {
-      extend: isolateMixin,
-      position: 'relative',
-      '&:hover, &$isFocused': {
-        '& $arrow': {
-          color: theme.field.colors.focus.arrow
-        }
+const styles = theme => ({
+  root: {
+    extend: isolateMixin,
+    position: 'relative',
+    '&:hover, &$isFocused': {
+      '& $arrow': {
+        color: theme.field.colors.focus.arrow
+      }
+    },
+    '&$isDisabled': {
+      cursor: 'not-allowed',
+      '& $input': {
+        pointerEvents: 'none'
       },
-      '&$isDisabled': {
-        cursor: 'not-allowed',
-        '& $input': {
-          pointerEvents: 'none'
+      '& $arrow': {
+        color: theme.field.colors.disabled.arrow + '!important',
+        pointerEvents: 'none'
+      }
+    }
+  },
+  dropdownContainer: {
+    '&&': {
+      display: 'block'
+    },
+    '$isMultipleWithoutSearch &': {
+      extend: absolutePosition,
+      bottom: null
+    }
+  },
+  icon: {
+    '$isMultipleWithoutSearch &': {
+      top: 'auto',
+      bottom: 'auto',
+      margin: 0,
+      transform: 'translateY(-50%)'
+    }
+  },
+  arrow: {
+    cursor: 'pointer',
+    textAlign: 'center',
+    lineHeight: 0,
+    color: theme.field.colors.default.arrow,
+    pointerEvents: 'auto',
+    '&:empty': {
+      '&:after': {
+        height: 8,
+        width: 8,
+        position: 'absolute',
+        borderStyle: 'solid',
+        borderWidth: '0 0 1px 1px',
+        content: '""',
+        transform: 'rotate(-45deg) translateY(50%)'
+      }
+    },
+    '& svg': {
+      extend: absolutePosition,
+      margin: 'auto',
+      maxWidth: '100%',
+      maxHeight: '100%'
+    }
+  },
+  input: {
+    '$withCustom &': absolutePosition
+  },
+  field: {
+    '$isReadonly &': {
+      cursor: 'pointer',
+      userSelect: 'none'
+    },
+    '$withSearch &': {
+      cursor: 'text'
+    },
+    '$withCustom &&': {
+      extend: absolutePosition,
+      height: '100%'
+    }
+  },
+  darkPlaceholder: {
+    '$isEnabled$isReadonly &, $isEnabled:not($isFocused) &': {
+      ...placeholderMixin('&', {
+        opacity: 1,
+        color: theme.field.colors.default.text
+      })
+    }
+  },
+  withCustom: {
+    position: 'relative',
+    '$isOpened &': {
+      zIndex: 1
+    }
+  },
+  custom: {
+    position: 'relative',
+    pointerEvents: 'none'
+  },
+  multipleValueItem: {
+    '$isEnabled $options-regular &': {
+      color: theme.field.colors.default.text
+    }
+  },
+  options: {
+    composes: '$custom'
+  },
+  dropdown: {
+    '&&': {
+      boxShadow: 'none',
+      border: `1px solid ${theme.field.colors.default.outline}`,
+      borderBottom: 0,
+      '&$isMultipleDropdown': {
+        transitionProperty: 'opacity',
+        top: '0 !important'
+      }
+    }
+  },
+  selected: {
+    borderBottom: `1px solid ${theme.field.colors.default.outline}`,
+    cursor: 'default'
+  },
+  menu: {
+    borderBottom: `1px solid ${theme.field.colors.default.outline}`
+  },
+  ...['small', 'medium'].reduce(
+    (result, size) => ({
+      ...result,
+      [`menuSize-${size}`]: {
+        maxHeight: theme.menu.sizes[size].height * 7 + 2,
+        '&$reducedHeight': {
+          maxHeight: theme.menu.sizes[size].height * 6 + 2
+        }
+      }
+    }),
+    {}
+  ),
+  reducedHeight: {},
+  clear: {
+    flex: 'none',
+    alignSelf: 'center',
+    color: theme.field.icon.colors.default,
+    fill: 'currentColor',
+    marginTop: 1,
+    marginLeft: 1,
+    cursor: 'pointer',
+    pointerEvents: 'auto',
+    '&:hover , &:active': {
+      color: theme.field.icon.colors.active
+    }
+  },
+  ...['medium', 'small'].reduce(
+    (result, size) => ({
+      ...result,
+      [size]: {
+        '&$isMultipleWithoutSearch': {
+          height: theme.field.sizes[size].height
+        },
+        '&$isMultipleWithoutSearch $icon': {
+          top: theme.field.sizes[size].height / 2
+        },
+        '& $withCustom': {
+          minHeight: theme.field.sizes[size].height
         },
         '& $arrow': {
-          color: theme.field.colors.disabled.arrow + '!important',
-          pointerEvents: 'none'
-        }
-      }
-    },
-    dropdownContainer: {
-      '&&': {
-        display: 'block'
-      },
-      '$isMultipleWithoutSearch &': {
-        extend: absolutePosition,
-        bottom: null
-      }
-    },
-    icon: {
-      '$isMultipleWithoutSearch &': {
-        top: 'auto',
-        bottom: 'auto',
-        margin: 0,
-        transform: 'translateY(-50%)'
-      }
-    },
-    arrow: {
-      cursor: 'pointer',
-      textAlign: 'center',
-      lineHeight: 0,
-      color: theme.field.colors.default.arrow,
-      pointerEvents: 'auto',
-      '&:empty': {
-        '&:after': {
-          height: 8,
-          width: 8,
-          position: 'absolute',
-          borderStyle: 'solid',
-          borderWidth: '0 0 1px 1px',
-          content: '""',
-          transform: 'rotate(-45deg) translateY(50%)'
-        }
-      },
-      '& svg': {
-        extend: absolutePosition,
-        margin: 'auto',
-        maxWidth: '100%',
-        maxHeight: '100%'
-      }
-    },
-    input: {
-      '$withCustom &': absolutePosition
-    },
-    field: {
-      '$isReadonly &': {
-        cursor: 'pointer',
-        userSelect: 'none'
-      },
-      '$withSearch &': {
-        cursor: 'text'
-      },
-      '$withCustom &&': {
-        extend: absolutePosition,
-        height: '100%'
-      }
-    },
-    darkPlaceholder: {
-      '$isEnabled$isReadonly &, $isEnabled:not($isFocused) &': {
-        ...placeholderMixin('&', {
-          opacity: 1,
-          color: theme.field.colors.default.text
-        })
-      }
-    },
-    withCustom: {
-      position: 'relative',
-      '$isOpened &': {
-        zIndex: 1
-      }
-    },
-    custom: {
-      position: 'relative',
-      pointerEvents: 'none'
-    },
-    multipleValueItem: {
-      '$isEnabled $options-regular &': {
-        color: theme.field.colors.default.text
-      }
-    },
-    options: {
-      composes: '$custom'
-    },
-    dropdown: {
-      '&&': {
-        boxShadow: 'none',
-        border: `1px solid ${theme.field.colors.default.outline}`,
-        borderBottom: 0,
-        '&$isMultipleDropdown': {
-          transitionProperty: 'opacity',
-          top: '0 !important'
-        }
-      }
-    },
-    selected: {
-      borderBottom: `1px solid ${theme.field.colors.default.outline}`,
-      cursor: 'default'
-    },
-    menu: {
-      borderBottom: `1px solid ${theme.field.colors.default.outline}`
-    },
-    ...['small', 'medium'].reduce(
-      (result, size) => ({
-        ...result,
-        [`menuSize-${size}`]: {
-          maxHeight: theme.menu.sizes[size].height * 7 + 2,
-          '&$reducedHeight': {
-            maxHeight: theme.menu.sizes[size].height * 6 + 2
-          }
-        }
-      }),
-      {}
-    ),
-    reducedHeight: {},
-    clear: {
-      flex: 'none',
-      alignSelf: 'center',
-      color: theme.field.icon.colors.default,
-      fill: 'currentColor',
-      marginTop: 1,
-      marginLeft: 1,
-      cursor: 'pointer',
-      pointerEvents: 'auto',
-      '&:hover , &:active': {
-        color: theme.field.icon.colors.active
-      }
-    },
-    ...['medium', 'small'].reduce(
-      (result, size) => ({
-        ...result,
-        [size]: {
-          '&$isMultipleWithoutSearch': {
-            height: theme.field.sizes[size].height
-          },
-          '&$isMultipleWithoutSearch $icon': {
-            top: theme.field.sizes[size].height / 2
-          },
-          '& $withCustom': {
-            minHeight: theme.field.sizes[size].height
-          },
-          '& $arrow': {
-            '&:before': {
-              display: 'block',
-              content: '" "',
-              position: 'absolute',
+          '&:before': {
+            display: 'block',
+            content: '" "',
+            position: 'absolute',
+            top: -Math.floor(
+              (theme.field.sizes[size].height - theme.field.sizes[size].icon) /
+                2
+            ),
+            bottom: -Math.floor(
+              (theme.field.sizes[size].height - theme.field.sizes[size].icon) /
+                2
+            ),
+            left: -10,
+            right: -10,
+            ...ifMobile({
               top: -Math.floor(
                 (theme.field.sizes[size].height -
-                  theme.field.sizes[size].icon) /
+                  theme.field.mobile.sizes[size].icon) /
                   2
               ),
               bottom: -Math.floor(
                 (theme.field.sizes[size].height -
-                  theme.field.sizes[size].icon) /
+                  theme.field.mobile.sizes[size].icon) /
                   2
-              ),
-              left: -10,
-              right: -10,
-              ...ifMobile({
-                top: -Math.floor(
-                  (theme.field.sizes[size].height -
-                    theme.field.mobile.sizes[size].icon) /
-                    2
-                ),
-                bottom: -Math.floor(
-                  (theme.field.sizes[size].height -
-                    theme.field.mobile.sizes[size].icon) /
-                    2
-                )
-              })
-            },
-            '&:empty:after': {
-              top: size === 'small' ? -2 : -1,
-              left: size === 'small' ? 1 : 1
-            }
+              )
+            })
           },
-          '&$isOpened $arrow:empty:after': {
-            transform: 'rotate(45deg) translateY(-50%) scaleY(-1)',
-            top: size === 'small' ? 9 : 9,
+          '&:empty:after': {
+            top: size === 'small' ? -2 : -1,
             left: size === 'small' ? 1 : 1
-          },
-          '& $custom': {
-            paddingRight: theme.input.sizes[size].padding + 1,
-            paddingLeft: theme.input.sizes[size].padding + 1
-          },
-          '&$withLeftIcon $custom': {
-            paddingLeft: theme.field.sizes[size].withIconPadding + 1
-          },
-          '&$withRightIcon $custom': {
-            paddingRight: theme.field.sizes[size].withIconPadding + 1
-          },
-          ...['regular', 'background'].reduce((result, type) => {
-            const verticalPadding =
-              (theme.field.sizes[size].height -
-                theme.tagsInput.types[type].height) /
-              2
-            return {
-              ...result,
-              [`& $options$options-${type}`]: {
-                paddingTop: verticalPadding,
-                paddingBottom: verticalPadding
-              },
-              [`& $selected$options-${type}`]: {
-                padding: `${verticalPadding - 1}px ${theme.input.sizes[size]
-                  .padding - 1}px`
-              }
+          }
+        },
+        '&$isOpened $arrow:empty:after': {
+          transform: 'rotate(45deg) translateY(-50%) scaleY(-1)',
+          top: size === 'small' ? 9 : 9,
+          left: size === 'small' ? 1 : 1
+        },
+        '& $custom': {
+          paddingRight: theme.input.sizes[size].padding + 1,
+          paddingLeft: theme.input.sizes[size].padding + 1
+        },
+        '&$withLeftIcon $custom': {
+          paddingLeft: theme.field.sizes[size].withIconPadding + 1
+        },
+        '&$withRightIcon $custom': {
+          paddingRight: theme.field.sizes[size].withIconPadding + 1
+        },
+        ...['regular', 'background'].reduce((result, type) => {
+          const verticalPadding =
+            (theme.field.sizes[size].height -
+              theme.tagsInput.types[type].height) /
+            2
+          return {
+            ...result,
+            [`& $options$options-${type}`]: {
+              paddingTop: verticalPadding,
+              paddingBottom: verticalPadding
+            },
+            [`& $selected$options-${type}`]: {
+              padding: `${verticalPadding - 1}px ${theme.input.sizes[size]
+                .padding - 1}px`
             }
-          }, {})
-        }
-      }),
-      {}
-    ),
-    isNative: {
-      '& $icon': {
-        pointerEvents: 'none'
+          }
+        }, {})
       }
-    },
-    nativeSelect: {
-      extend: [isolateMixin, absolutePosition],
-      width: '100%',
-      height: '100%',
-      opacity: 0,
-      overflow: 'hidden',
-      outline: 0
-    },
-    isFocused: {},
-    isOpened: {},
-    isReadonly: {},
-    isEnabled: {},
-    isDisabled: {},
-    isMultipleWithoutSearch: {},
-    isMultipleDropdown: {},
-    withSearch: {},
-    withLeftIcon: {},
-    withRightIcon: {},
-    ['options-regular']: {},
-    ['options-background']: {}
-  }),
-  {name: 'Select'}
-)
-export default class Select extends PureComponent {
+    }),
+    {}
+  ),
+  isNative: {
+    '& $icon': {
+      pointerEvents: 'none'
+    }
+  },
+  nativeSelect: {
+    extend: [isolateMixin, absolutePosition],
+    width: '100%',
+    height: '100%',
+    opacity: 0,
+    overflow: 'hidden',
+    outline: 0
+  },
+  isFocused: {},
+  isOpened: {},
+  isReadonly: {},
+  isEnabled: {},
+  isDisabled: {},
+  isMultipleWithoutSearch: {},
+  isMultipleDropdown: {},
+  withSearch: {},
+  withLeftIcon: {},
+  withRightIcon: {},
+  ['options-regular']: {},
+  ['options-background']: {}
+})
+
+class Select extends PureComponent {
   static propTypes = {
     /**
      * Дополнительный CSS-класс поля
@@ -1038,7 +1039,7 @@ export default class Select extends PureComponent {
     let resultValue = multiple ? [] : ''
     this.values = []
     const options = []
-    React.Children.forEach(children, (item, index) => {
+    Children.forEach(children, (item, index) => {
       const {children} = item.props
       if (item.type.displayName !== 'ruiMenuItem')
         throw new Error('Child component should be instance of <MenuItem />')
@@ -1136,3 +1137,5 @@ export default class Select extends PureComponent {
       : this.renderSelect()
   }
 }
+
+export default injectSheet(styles, {name: 'Select'})(Select)

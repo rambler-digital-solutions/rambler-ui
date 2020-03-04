@@ -8,126 +8,123 @@ import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import {SNACKBAR_ZINDEX} from '../constants/z-indexes'
 import {injectSheet} from '../theme'
+import compose from '../utils/compose'
 import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
 
-@zIndexStack(SNACKBAR_ZINDEX)
-@renderToLayer
-@injectSheet(
-  theme => ({
-    notification: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      position: 'fixed',
-      left: 15,
-      right: 15,
-      bottom: 5,
-      boxSizing: 'border-box',
-      boxShadow: theme.notification.boxShadow,
-      padding: theme.notification.padding,
-      backgroundColor: theme.notification.colors.background,
-      color: theme.notification.colors.text,
-      fontSize: theme.notification.fontSize,
-      opacity: 0,
-      transitionDuration: theme.notification.animationDuration,
-      transitionProperty: 'bottom, opacity',
-      ...ifDesktop({
-        width: 335,
-        borderRadius: theme.notification.borderRadius
-      })
-    },
+const styles = theme => ({
+  notification: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    position: 'fixed',
+    left: 15,
+    right: 15,
+    bottom: 5,
+    boxSizing: 'border-box',
+    boxShadow: theme.notification.boxShadow,
+    padding: theme.notification.padding,
+    backgroundColor: theme.notification.colors.background,
+    color: theme.notification.colors.text,
+    fontSize: theme.notification.fontSize,
+    opacity: 0,
+    transitionDuration: theme.notification.animationDuration,
+    transitionProperty: 'bottom, opacity',
     ...ifDesktop({
-      left: {
-        right: 'auto'
-      },
-      right: {
-        left: 'auto',
-        right: 15
-      }
-    }),
-    isVisible: {
-      bottom: 15,
-      opacity: 1
+      width: 335,
+      borderRadius: theme.notification.borderRadius
+    })
+  },
+  ...ifDesktop({
+    left: {
+      right: 'auto'
     },
-    marginAtClose: {
-      marginRight: 25
-    },
-    title: {
-      extend: middleMixin,
-      fontSize: theme.notification.titleSize,
-      fontWeight: 500,
-      marginBottom: 10
-    },
-    icon: {
-      extend: middleMixin,
-      display: 'inline-block',
-      borderRadius: '50%',
-      marginRight: 10,
-      width: 39,
-      height: 39,
-      backgroundColor: theme.notification.colors.iconBackground,
-      textAlign: 'center'
-    },
-    body: {
-      lineHeight: theme.notification.lineHeight
-    },
-    actionButton: {
-      extend: middleMixin,
-      boxSizing: 'border-box',
-      outline: 'none',
-      border: 0,
-      margin: 0,
-      marginTop: 10,
-      padding: 0,
-      height: 20,
-      backgroundColor: 'transparent',
-      color: theme.notification.actionButton.colors.default,
-      fontSize: theme.notification.actionButton.fontSize,
-      cursor: 'pointer',
-      transitionDuration: theme.notification.animationDuration,
-      transitionProperty: 'color',
-      '&:hover:not(:active)': {
-        color: theme.notification.actionButton.colors.hover
-      },
-      '&:active': {
-        color: theme.notification.actionButton.colors.active
-      },
-      '& svg': {
-        marginLeft: 7
-      }
-    },
-    close: {
-      position: 'absolute',
-      top: 15,
-      right: 15,
-      boxSizing: 'border-box',
-      outline: 'none',
-      border: 0,
-      borderRadius: '50%',
-      height: 15,
-      width: 15,
-      lineHeight: 0,
-      padding: 0,
-      backgroundColor: 'transparent',
-      cursor: 'pointer',
-      transitionDuration: '.2s',
-      transitionProperty: 'background-color, border',
-      '&:hover:not(:active)': {
-        backgroundColor: 'rgba(0, 0, 0, 0.05)'
-      },
-      '&:focus:not(:active)': {
-        border: '1px solid'
-      },
-      '&:active': {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)'
-      },
-      '& ~ $title, & ~ $body': {
-        marginRight: 25
-      }
+    right: {
+      left: 'auto',
+      right: 15
     }
   }),
-  {name: 'Notification'}
-)
-export default class Notification extends PureComponent {
+  isVisible: {
+    bottom: 15,
+    opacity: 1
+  },
+  marginAtClose: {
+    marginRight: 25
+  },
+  title: {
+    extend: middleMixin,
+    fontSize: theme.notification.titleSize,
+    fontWeight: 500,
+    marginBottom: 10
+  },
+  icon: {
+    extend: middleMixin,
+    display: 'inline-block',
+    borderRadius: '50%',
+    marginRight: 10,
+    width: 39,
+    height: 39,
+    backgroundColor: theme.notification.colors.iconBackground,
+    textAlign: 'center'
+  },
+  body: {
+    lineHeight: theme.notification.lineHeight
+  },
+  actionButton: {
+    extend: middleMixin,
+    boxSizing: 'border-box',
+    outline: 'none',
+    border: 0,
+    margin: 0,
+    marginTop: 10,
+    padding: 0,
+    height: 20,
+    backgroundColor: 'transparent',
+    color: theme.notification.actionButton.colors.default,
+    fontSize: theme.notification.actionButton.fontSize,
+    cursor: 'pointer',
+    transitionDuration: theme.notification.animationDuration,
+    transitionProperty: 'color',
+    '&:hover:not(:active)': {
+      color: theme.notification.actionButton.colors.hover
+    },
+    '&:active': {
+      color: theme.notification.actionButton.colors.active
+    },
+    '& svg': {
+      marginLeft: 7
+    }
+  },
+  close: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    boxSizing: 'border-box',
+    outline: 'none',
+    border: 0,
+    borderRadius: '50%',
+    height: 15,
+    width: 15,
+    lineHeight: 0,
+    padding: 0,
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+    transitionDuration: '.2s',
+    transitionProperty: 'background-color, border',
+    '&:hover:not(:active)': {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)'
+    },
+    '&:focus:not(:active)': {
+      border: '1px solid'
+    },
+    '&:active': {
+      backgroundColor: 'rgba(0, 0, 0, 0.1)'
+    },
+    '& ~ $title, & ~ $body': {
+      marginRight: 25
+    }
+  }
+})
+
+class Notification extends PureComponent {
   static propTypes = {
     /**
      * Css-класс
@@ -267,3 +264,9 @@ export default class Notification extends PureComponent {
     return this.renderContent()
   }
 }
+
+export default compose(
+  zIndexStack(SNACKBAR_ZINDEX),
+  renderToLayer,
+  injectSheet(styles, {name: 'Notification'})
+)(Notification)

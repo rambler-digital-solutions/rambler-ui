@@ -1,10 +1,10 @@
-import React, {PureComponent, Children} from 'react'
+import React, {PureComponent, Children, createContext} from 'react'
 import EventEmitter from 'eventemitter3'
 import SuggestDropdown from './SuggestDropdown'
 import OnClickOutside from '../OnClickOutside'
 import getDisplayName from '../utils/get-display-name'
 
-export const ProvideSearchDropdownContext = React.createContext({})
+export const ProvideSearchDropdownContext = createContext({})
 
 export default function provideSearchDropdown(Search) {
   return class extends PureComponent {

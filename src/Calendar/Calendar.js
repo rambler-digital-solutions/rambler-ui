@@ -19,212 +19,210 @@ const numberToDate = number =>
     number % 100
   )
 
-@injectSheet(
-  ({calendar}) => ({
-    root: {
-      display: 'inline-block',
-      width: 275,
-      padding: 15,
-      fontFamily: calendar.service.fontFamily,
-      backgroundColor: calendar.colors.default.background,
-      boxSizing: 'border-box'
-    },
-    headline: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      height: 15,
-      padding: '0 10px',
-      boxSizing: 'border-box'
-    },
-    month: {
-      position: 'relative',
-      top: 1,
-      lineHeight: calendar.month.size + 'px',
-      fontSize: calendar.month.fontSize,
-      fontWeight: calendar.month.fontWeight,
-      color: calendar.colors.default.text
-    },
+const styles = ({calendar}) => ({
+  root: {
+    display: 'inline-block',
+    width: 275,
+    padding: 15,
+    fontFamily: calendar.service.fontFamily,
+    backgroundColor: calendar.colors.default.background,
+    boxSizing: 'border-box'
+  },
+  headline: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 15,
+    padding: '0 10px',
+    boxSizing: 'border-box'
+  },
+  month: {
+    position: 'relative',
+    top: 1,
+    lineHeight: calendar.month.size + 'px',
+    fontSize: calendar.month.fontSize,
+    fontWeight: calendar.month.fontWeight,
+    color: calendar.colors.default.text
+  },
 
-    item: {
-      extend: isolateMixin,
-      display: 'inline-block',
-      flex: 'none',
-      border: 0,
-      outline: 'none !important',
-      background: 'none',
-      whiteSpace: 'nowrap',
-      textAlign: 'center',
-      boxSizing: 'border-box',
-      'button&::-moz-focus-inner': {
-        border: 'none !important',
-        outline: 'none !important'
-      },
-      '$isSelectable &': {
-        transitionDuration: calendar.animationDuration,
-        transitionProperty: 'color, background-color'
-      }
+  item: {
+    extend: isolateMixin,
+    display: 'inline-block',
+    flex: 'none',
+    border: 0,
+    outline: 'none !important',
+    background: 'none',
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    boxSizing: 'border-box',
+    'button&::-moz-focus-inner': {
+      border: 'none !important',
+      outline: 'none !important'
     },
-    day: {
-      composes: '$item',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      width: calendar.size
-    },
-
-    arrow: {
-      composes: '$item',
-      position: 'relative',
-      width: calendar.arrow.size,
-      height: calendar.arrow.size,
-      color: calendar.service.colors.default,
-      cursor: 'pointer',
-      overflow: 'hidden',
-      '&:before': {
-        boxSizing: 'border-box',
-        position: 'absolute',
-        top: -1,
-        left: 3,
-        content: '""',
-        width: 9,
-        height: 9,
-        border: 'solid',
-        borderWidth: '0 0 1px 1px',
-        transform: 'rotate(45deg)',
-        transformOrigin: 'left bottom'
-      },
-      '&:hover': {
-        color: calendar.service.colors.hover
-      },
-      ...focusSourceMixin('other', '&:focus', {
-        color: calendar.service.colors.hover
-      }),
-      '$isMedia &': {
-        color: calendar.media.colors.default
-      },
-      '$isMedia &:hover': {
-        color: calendar.media.colors.hover
-      },
-      '&:disabled': {
-        color: calendar.colors.disabled.text,
-        cursor: 'not-allowed'
-      }
-    },
-    prev: {
-      composes: '$arrow'
-    },
-    next: {
-      composes: '$arrow',
-      transform: 'scaleX(-1)'
-    },
-    arrowMock: {
-      visibility: 'hidden',
-      pointerEvents: 'none'
-    },
-    week: {
-      display: 'flex',
-      margin: '20px 0 11px'
-    },
-    weekDay: {
-      composes: '$day',
-      height: calendar.weekDay.size,
-      fontSize: calendar.weekDay.fontSize,
-      color: calendar.colors.default.weekDay
-    },
-
-    days: {
-      overflow: 'hidden',
-      '$isAnimate &': {
-        transitionDuration: calendar.animationDuration,
-        transitionProperty: 'height'
-      }
-    },
-    daysWrap: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      '$isAnimate &': {
-        transitionDuration: calendar.animationDuration,
-        transitionProperty: 'transform'
-      }
-    },
-    dateDay: {
-      composes: '$day',
-      height: calendar.date.size,
-      fontSize: calendar.date.fontSize,
-      color: calendar.colors.default.text,
-      backgroundColor: calendar.colors.default.background,
-      '$isSelectable &:not(:disabled)': {
-        cursor: 'pointer'
-      },
-      '$isSelectable &:not(:disabled):hover': {
-        color: calendar.colors.hover.text
-      },
-      ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
-        color: calendar.colors.hover.text
-      }),
-      '&:disabled': {
-        cursor: 'not-allowed'
-      }
-    },
-
-    isMedia: {
-      fontFamily: calendar.media.fontFamily
-    },
-    isAnimate: {},
-
-    isSelectable: {
-      userSelect: 'none'
-    },
-    isWeekend: {
-      color: calendar.colors.weekend.text
-    },
-    isToday: {
-      fontWeight: 500,
-      color: calendar.colors.today.text,
-      '$isSelectable &:not(:disabled):hover': {
-        color: calendar.colors.todayHover.text
-      },
-      ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
-        color: calendar.colors.todayHover.text
-      }),
-      ...focusSourceMixin('other', '$isSelectable &$isUnavailable:hover', {
-        color: calendar.colors.disabled.text
-      }),
-      ...focusSourceMixin('other', '$isSelectable &$isUnavailable:focus', {
-        color: calendar.colors.disabled.text
-      })
-    },
-    isSelected: {
-      backgroundColor: calendar.colors.selected.background
-    },
-    isActive: {
-      color: calendar.colors.active.text,
-      backgroundColor: calendar.colors.active.background,
-      '$isSelectable &:not(:disabled):hover': {
-        color: calendar.colors.active.text,
-        backgroundColor: calendar.colors.activeHover.background
-      },
-      ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
-        color: calendar.colors.active.text,
-        backgroundColor: calendar.colors.activeHover.background
-      }),
-      '$isSelectable &$isUnavailable:hover': {
-        color: calendar.colors.disabled.text,
-        backgroundColor: calendar.colors.activeHover.background
-      },
-      ...focusSourceMixin('other', '$isSelectable &$isUnavailable:focus', {
-        color: calendar.colors.disabled.text,
-        backgroundColor: calendar.colors.activeHover.background
-      })
-    },
-    isUnavailable: {
-      color: calendar.colors.disabled.text
+    '$isSelectable &': {
+      transitionDuration: calendar.animationDuration,
+      transitionProperty: 'color, background-color'
     }
-  }),
-  {name: 'Calendar'}
-)
-export default class Calendar extends PureComponent {
+  },
+  day: {
+    composes: '$item',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: calendar.size
+  },
+
+  arrow: {
+    composes: '$item',
+    position: 'relative',
+    width: calendar.arrow.size,
+    height: calendar.arrow.size,
+    color: calendar.service.colors.default,
+    cursor: 'pointer',
+    overflow: 'hidden',
+    '&:before': {
+      boxSizing: 'border-box',
+      position: 'absolute',
+      top: -1,
+      left: 3,
+      content: '""',
+      width: 9,
+      height: 9,
+      border: 'solid',
+      borderWidth: '0 0 1px 1px',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'left bottom'
+    },
+    '&:hover': {
+      color: calendar.service.colors.hover
+    },
+    ...focusSourceMixin('other', '&:focus', {
+      color: calendar.service.colors.hover
+    }),
+    '$isMedia &': {
+      color: calendar.media.colors.default
+    },
+    '$isMedia &:hover': {
+      color: calendar.media.colors.hover
+    },
+    '&:disabled': {
+      color: calendar.colors.disabled.text,
+      cursor: 'not-allowed'
+    }
+  },
+  prev: {
+    composes: '$arrow'
+  },
+  next: {
+    composes: '$arrow',
+    transform: 'scaleX(-1)'
+  },
+  arrowMock: {
+    visibility: 'hidden',
+    pointerEvents: 'none'
+  },
+  week: {
+    display: 'flex',
+    margin: '20px 0 11px'
+  },
+  weekDay: {
+    composes: '$day',
+    height: calendar.weekDay.size,
+    fontSize: calendar.weekDay.fontSize,
+    color: calendar.colors.default.weekDay
+  },
+
+  days: {
+    overflow: 'hidden',
+    '$isAnimate &': {
+      transitionDuration: calendar.animationDuration,
+      transitionProperty: 'height'
+    }
+  },
+  daysWrap: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    '$isAnimate &': {
+      transitionDuration: calendar.animationDuration,
+      transitionProperty: 'transform'
+    }
+  },
+  dateDay: {
+    composes: '$day',
+    height: calendar.date.size,
+    fontSize: calendar.date.fontSize,
+    color: calendar.colors.default.text,
+    backgroundColor: calendar.colors.default.background,
+    '$isSelectable &:not(:disabled)': {
+      cursor: 'pointer'
+    },
+    '$isSelectable &:not(:disabled):hover': {
+      color: calendar.colors.hover.text
+    },
+    ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
+      color: calendar.colors.hover.text
+    }),
+    '&:disabled': {
+      cursor: 'not-allowed'
+    }
+  },
+
+  isMedia: {
+    fontFamily: calendar.media.fontFamily
+  },
+  isAnimate: {},
+
+  isSelectable: {
+    userSelect: 'none'
+  },
+  isWeekend: {
+    color: calendar.colors.weekend.text
+  },
+  isToday: {
+    fontWeight: 500,
+    color: calendar.colors.today.text,
+    '$isSelectable &:not(:disabled):hover': {
+      color: calendar.colors.todayHover.text
+    },
+    ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
+      color: calendar.colors.todayHover.text
+    }),
+    ...focusSourceMixin('other', '$isSelectable &$isUnavailable:hover', {
+      color: calendar.colors.disabled.text
+    }),
+    ...focusSourceMixin('other', '$isSelectable &$isUnavailable:focus', {
+      color: calendar.colors.disabled.text
+    })
+  },
+  isSelected: {
+    backgroundColor: calendar.colors.selected.background
+  },
+  isActive: {
+    color: calendar.colors.active.text,
+    backgroundColor: calendar.colors.active.background,
+    '$isSelectable &:not(:disabled):hover': {
+      color: calendar.colors.active.text,
+      backgroundColor: calendar.colors.activeHover.background
+    },
+    ...focusSourceMixin('other', '$isSelectable &:not(:disabled):focus', {
+      color: calendar.colors.active.text,
+      backgroundColor: calendar.colors.activeHover.background
+    }),
+    '$isSelectable &$isUnavailable:hover': {
+      color: calendar.colors.disabled.text,
+      backgroundColor: calendar.colors.activeHover.background
+    },
+    ...focusSourceMixin('other', '$isSelectable &$isUnavailable:focus', {
+      color: calendar.colors.disabled.text,
+      backgroundColor: calendar.colors.activeHover.background
+    })
+  },
+  isUnavailable: {
+    color: calendar.colors.disabled.text
+  }
+})
+
+class Calendar extends PureComponent {
   static propTypes = {
     /**
      * Кол-во показываемых месяцев
@@ -739,3 +737,5 @@ export default class Calendar extends PureComponent {
     })
   }
 }
+
+export default injectSheet(styles, {name: 'Calendar'})(Calendar)

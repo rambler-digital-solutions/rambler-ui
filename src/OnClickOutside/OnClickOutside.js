@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import throttle from 'lodash.throttle'
 import windowEvents from '../hoc/window-events'
 
-@windowEvents('touchstart', 'click')
-export default class OnClickOutside extends PureComponent {
+class OnClickOutside extends PureComponent {
   static propTypes = {
     /**
      * Функция обработчик
@@ -50,3 +49,5 @@ export default class OnClickOutside extends PureComponent {
     return this.props.children(this.componentRef)
   }
 }
+
+export default windowEvents('touchstart', 'click')(OnClickOutside)

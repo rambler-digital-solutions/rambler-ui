@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 
-const styles = () => ({
+const styles = {
   root: {
     display: 'inline',
     padding: '.2em .3em',
@@ -10,7 +10,7 @@ const styles = () => ({
     fontSize: '92%',
     lineHeight: '18px'
   }
-})
+}
 
 const InlineCode = ({classes, children}) => (
   <code className={classes.root}>{children}</code>

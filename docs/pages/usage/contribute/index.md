@@ -51,12 +51,13 @@ src/
 import React, { PureComponent } from 'react'
 import { injectSheet } from '../theme'
 
-@injectSheet({
+const styles = {
   root: { // имя css-класса внутри комонента
     color: 'black'
   }
-}, {name: 'Button'})
-export default class Button extends PureComponent {
+}
+
+class Button extends PureComponent {
   render() {
     const {classes, children} = this.props
 
@@ -67,6 +68,8 @@ export default class Button extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'Button'})(Button)
 ```
 
 Более подробно про `injectSheet` описано в документации [`react-jss`](https://github.com/cssinjs/react-jss). В нашей реализации вторым аргументом в `injectSheet` передается объект с опциями, содержащий имя компонента для генерации детерминированных имен классов.
@@ -80,12 +83,13 @@ export default class Button extends PureComponent {
 import React, { PureComponent } from 'react'
 import { injectSheet } from '../theme'
 
-@injectSheet(theme => {
+const styles = theme => ({
   root: { // имя css-класса внутри комонента
     color: theme.button.color
   }
-}, {name: 'Button'})
-export default class Button extends PureComponent {
+})
+
+class Button extends PureComponent {
   render() {
     const {classes, children} = this.props
 
@@ -96,6 +100,8 @@ export default class Button extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'Button'})(Button)
 
 // src/theme/base/index.js
 import deepmerge from 'deepmerge'

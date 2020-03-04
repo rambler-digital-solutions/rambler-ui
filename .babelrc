@@ -10,7 +10,6 @@
   "plugins": [
     "syntax-dynamic-import",
     "transform-react-constant-elements",
-    "transform-decorators-legacy",
     "transform-object-rest-spread",
     "transform-class-properties",
     "transform-export-extensions",

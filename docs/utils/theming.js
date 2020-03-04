@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {createContext} from 'react'
 import injectSheet, {createTheming} from 'react-jss'
 
 export const fontFamily = {
@@ -22,7 +22,7 @@ export const theme = {
   }
 }
 
-const ThemeContext = React.createContext({})
+const ThemeContext = createContext({})
 const theming = createTheming(ThemeContext)
 const {ThemeProvider: Provider, withTheme} = theming
 

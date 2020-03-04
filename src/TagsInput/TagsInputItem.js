@@ -9,124 +9,122 @@ const iconStyle = {
   fill: null
 }
 
-@injectSheet(
-  ({tagsInput}) => ({
-    root: {
-      extend: isolateMixin,
-      display: 'inline-flex',
-      fontSize: tagsInput.fontSize,
-      whiteSpace: 'nowrap',
-      pointerEvents: 'none',
-      transition: 'background-color .2s'
-    },
-    icon: {
-      alignSelf: 'center',
-      fill: 'currentColor',
-      transition: 'fill .2s, color .2s'
-    },
-    text: {
-      flex: '0 1 auto',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      transition: 'color .2s'
-    },
-    remove: {
-      order: 1,
-      flex: 'none',
-      fontSize: 15,
-      width: '1em',
-      height: '1em',
-      alignSelf: 'center',
-      pointerEvents: 'auto',
-      transition: 'fill .2s'
-    },
-    isClickable: {
-      pointerEvents: 'auto'
-    },
-    isEnabled: {
-      '&$isClickable, & $remove': {
-        cursor: 'pointer'
-      }
-    },
-    isDisabled: {
-      '&$isClickable, & $remove': {
-        cursor: 'not-allowed'
-      }
-    },
-    ...['regular', 'background'].reduce((result, type) => {
-      const typeTheme = tagsInput.types[type]
-      const {height, colors} = typeTheme
-      return {
-        ...result,
-        [type]: {
-          borderRadius: typeTheme.borderRadius,
-          lineHeight: `${height}px`,
-          '& $icon': {
-            marginLeft: typeTheme.iconLeftMargin,
-            marginRight: typeTheme.iconRightMargin
-          },
-          '& $remove': {
-            marginLeft: typeTheme.removeLeftMargin,
-            marginRight: typeTheme.removeRightMargin
-          },
-          '& $text': {
-            marginLeft: typeTheme.paddingLeft,
-            marginRight: typeTheme.paddingRight
-          },
-          '& $icon + $text': {
-            marginLeft: 0
-          },
-          '& $remove ~ $text': {
-            marginRight: 0
-          },
-          '&$isEnabled': {
-            color: colors.default.text,
-            background: colors.default.background,
-            '&$isClickable': {
-              '&:hover': {
-                background: colors.hover.background,
-                '& $remove:not(:hover) ~ $text, & $text:only-child, & $icon:first-child + $text': {
-                  color: colors.hover.text
-                },
-                '& $remove:not(:hover) + $icon, & $icon:first-child': {
-                  fill: 'currentColor!important',
-                  color: colors.hover.icon
-                }
+const styles = ({tagsInput}) => ({
+  root: {
+    extend: isolateMixin,
+    display: 'inline-flex',
+    fontSize: tagsInput.fontSize,
+    whiteSpace: 'nowrap',
+    pointerEvents: 'none',
+    transition: 'background-color .2s'
+  },
+  icon: {
+    alignSelf: 'center',
+    fill: 'currentColor',
+    transition: 'fill .2s, color .2s'
+  },
+  text: {
+    flex: '0 1 auto',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    transition: 'color .2s'
+  },
+  remove: {
+    order: 1,
+    flex: 'none',
+    fontSize: 15,
+    width: '1em',
+    height: '1em',
+    alignSelf: 'center',
+    pointerEvents: 'auto',
+    transition: 'fill .2s'
+  },
+  isClickable: {
+    pointerEvents: 'auto'
+  },
+  isEnabled: {
+    '&$isClickable, & $remove': {
+      cursor: 'pointer'
+    }
+  },
+  isDisabled: {
+    '&$isClickable, & $remove': {
+      cursor: 'not-allowed'
+    }
+  },
+  ...['regular', 'background'].reduce((result, type) => {
+    const typeTheme = tagsInput.types[type]
+    const {height, colors} = typeTheme
+    return {
+      ...result,
+      [type]: {
+        borderRadius: typeTheme.borderRadius,
+        lineHeight: `${height}px`,
+        '& $icon': {
+          marginLeft: typeTheme.iconLeftMargin,
+          marginRight: typeTheme.iconRightMargin
+        },
+        '& $remove': {
+          marginLeft: typeTheme.removeLeftMargin,
+          marginRight: typeTheme.removeRightMargin
+        },
+        '& $text': {
+          marginLeft: typeTheme.paddingLeft,
+          marginRight: typeTheme.paddingRight
+        },
+        '& $icon + $text': {
+          marginLeft: 0
+        },
+        '& $remove ~ $text': {
+          marginRight: 0
+        },
+        '&$isEnabled': {
+          color: colors.default.text,
+          background: colors.default.background,
+          '&$isClickable': {
+            '&:hover': {
+              background: colors.hover.background,
+              '& $remove:not(:hover) ~ $text, & $text:only-child, & $icon:first-child + $text': {
+                color: colors.hover.text
               },
-              '&:active': {
-                background: colors.active.background,
-                '& $remove:not(:active) ~ $text$text, & $text$text:only-child, & $icon:first-child + $text$text': {
-                  color: colors.active.text
-                },
-                '& $remove:not(:active) + $icon$icon, & $icon$icon:first-child': {
-                  fill: 'currentColor!important',
-                  color: colors.active.icon
-                }
+              '& $remove:not(:hover) + $icon, & $icon:first-child': {
+                fill: 'currentColor!important',
+                color: colors.hover.icon
               }
             },
-            '& $remove': {
-              fill: colors.default.icon,
-              '&:hover': {
-                fill: colors.hover.icon
+            '&:active': {
+              background: colors.active.background,
+              '& $remove:not(:active) ~ $text$text, & $text$text:only-child, & $icon:first-child + $text$text': {
+                color: colors.active.text
               },
-              '&:active': {
-                fill: colors.active.icon
+              '& $remove:not(:active) + $icon$icon, & $icon$icon:first-child': {
+                fill: 'currentColor!important',
+                color: colors.active.icon
               }
             }
           },
-          '&$isDisabled': {
-            color: colors.disabled.text,
-            background: colors.disabled.background,
-            '& $remove': {
-              fill: colors.disabled.icon
+          '& $remove': {
+            fill: colors.default.icon,
+            '&:hover': {
+              fill: colors.hover.icon
+            },
+            '&:active': {
+              fill: colors.active.icon
             }
+          }
+        },
+        '&$isDisabled': {
+          color: colors.disabled.text,
+          background: colors.disabled.background,
+          '& $remove': {
+            fill: colors.disabled.icon
           }
         }
       }
-    }, {})
-  }),
-  {name: 'TagsInputItem'}
-)
+    }
+  }, {})
+})
+
 class TagsInputItem extends Component {
   static propTypes = {
     /**
@@ -234,6 +232,8 @@ class TagsInputItem extends Component {
     )
   }
 }
-TagsInputItem.displayName = 'ruiTagsInputItem'
 
-export default TagsInputItem
+export default injectSheet(styles, {
+  name: 'TagsInputItem',
+  displayName: 'ruiTagsInputItem'
+})(TagsInputItem)

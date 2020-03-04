@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, createContext} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -9,22 +9,20 @@ import {isolateMixin, beautyScroll} from '../utils/mixins'
 
 const emptyArr = []
 
-export const MenuContext = React.createContext({})
+export const MenuContext = createContext({})
 
-@injectSheet(
-  theme => ({
-    menu: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      boxSizing: 'border-box',
-      padding: 0,
-      overflowY: 'auto',
-      ...beautyScroll('&')
-    }
-  }),
-  {name: 'Menu'}
-)
-export default class Menu extends PureComponent {
+const styles = theme => ({
+  menu: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    boxSizing: 'border-box',
+    padding: 0,
+    overflowY: 'auto',
+    ...beautyScroll('&')
+  }
+})
+
+class Menu extends PureComponent {
   static propTypes = {
     /**
      * Дополнительный CSS-класс поля
@@ -339,3 +337,5 @@ export default class Menu extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'Menu'})(Menu)

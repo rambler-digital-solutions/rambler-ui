@@ -1,185 +1,182 @@
-import React, {cloneElement} from 'react'
+import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import ClearIcon from './icons/ClearIcon'
 import MediaSearchIcon from './icons/MediaSearchIcon'
+import compose from '../utils/compose'
 import {isolateMixin} from '../utils/mixins'
 import SourceButtons from './SourceButtons'
 import provideSearch from './provideSearch'
 import provideSearchDropdown from './provideSearchDropdown'
 
-@provideSearch
-@provideSearchDropdown
-@injectSheet(
-  theme => ({
-    active: {},
-    root: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      fontSize: theme.search.fontSize,
-      width: '100%',
-      maxWidth: theme.search.maxWidth,
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    inputRow: {
-      position: 'relative',
-      width: '100%',
-      display: 'flex'
-    },
-    inputWrapper: {
-      borderColor: theme.search.input.default.borderColor,
-      borderWidth: 2,
-      borderStyle: 'solid',
-      borderRightWidth: 0,
-      display: 'flex',
-      alignItems: 'center',
-      position: 'relative',
-      borderRadius: '1px 0 0 1px',
-      width: '100%',
-      boxSizing: 'border-box',
-      backgroundColor: theme.search.input.backgroundColor,
+const styles = theme => ({
+  active: {},
+  root: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    fontSize: theme.search.fontSize,
+    width: '100%',
+    maxWidth: theme.search.maxWidth,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  inputRow: {
+    position: 'relative',
+    width: '100%',
+    display: 'flex'
+  },
+  inputWrapper: {
+    borderColor: theme.search.input.default.borderColor,
+    borderWidth: 2,
+    borderStyle: 'solid',
+    borderRightWidth: 0,
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    borderRadius: '1px 0 0 1px',
+    width: '100%',
+    boxSizing: 'border-box',
+    backgroundColor: theme.search.input.backgroundColor,
 
-      '&$active': {
-        borderColor: theme.search.input.hover.borderColor
-      }
-    },
-    division: {
-      height: 30,
-      padding: '0 12px',
-      display: 'flex',
-      alignItems: 'center',
-      margin: '0 3px',
-      fontSize: 11,
-      textTransform: 'uppercase',
-      fontWeight: 500,
-      borderRadius: '1px',
-      backgroundColor: theme.search.division.color,
-      letterSpacing: 1.3,
-      cursor: 'pointer'
-    },
-    input: {
-      extend: isolateMixin,
-      padding: '10px 12px',
-      border: 'none',
-      boxSizing: 'border-box',
-      display: 'block',
-      borderRadius: 0,
-      height: '100%',
-      width: '100%',
-      fontWeight: 400,
-      fontSize: theme.search.fontSize,
-      lineHeight: '20px',
-      appearance: 'none',
-      color: theme.search.input.color,
-      outline: 0,
-      boxShadow: 'none',
+    '&$active': {
+      borderColor: theme.search.input.hover.borderColor
+    }
+  },
+  division: {
+    height: 30,
+    padding: '0 12px',
+    display: 'flex',
+    alignItems: 'center',
+    margin: '0 3px',
+    fontSize: 11,
+    textTransform: 'uppercase',
+    fontWeight: 500,
+    borderRadius: '1px',
+    backgroundColor: theme.search.division.color,
+    letterSpacing: 1.3,
+    cursor: 'pointer'
+  },
+  input: {
+    extend: isolateMixin,
+    padding: '10px 12px',
+    border: 'none',
+    boxSizing: 'border-box',
+    display: 'block',
+    borderRadius: 0,
+    height: '100%',
+    width: '100%',
+    fontWeight: 400,
+    fontSize: theme.search.fontSize,
+    lineHeight: '20px',
+    appearance: 'none',
+    color: theme.search.input.color,
+    outline: 0,
+    boxShadow: 'none',
 
-      '&::-ms-reveal, &::-ms-clear': {
-        display: 'none'
-      },
-
-      '&::-webkit-input-placeholder': {
-        fontSize: theme.search.input.placeholder.fontSize,
-        color: theme.search.input.placeholder.color,
-        opacity: 1
-      },
-      '&::-moz-placeholder': {
-        fontSize: theme.search.input.placeholder.fontSize,
-        color: theme.search.input.placeholder.color,
-        opacity: 1
-      },
-      '&:-ms-input-placeholder': {
-        fontSize: theme.search.input.placeholder.fontSize,
-        color: theme.search.input.placeholder.color,
-        opacity: 1
-      }
-    },
-    inputLeftIcon: {
-      marginLeft: 12
-    },
-    searchButton: {
-      extend: isolateMixin,
-      width: 125,
-      padding: '0 0 0 21px',
-      color: theme.search.button.color,
-      borderRadius: '0 1px 1px 0',
-      border: 'none',
-      flexShrink: 0,
-      display: 'inline-flex',
-      alignItems: 'center',
-      cursor: 'pointer',
-      boxSizing: 'border-box',
-      background: theme.search.button.default.background,
-      outline: 'none',
-      fontSize: theme.search.button.fontSize,
-      fontWeight: theme.search.button.fontWeight,
-      letterSpacing: theme.search.button.letterSpacing,
-      textTransform: theme.search.button.textTransform,
-
-      '&:hover': {
-        background: theme.search.button.hover.background
-      },
-
-      '&:active': {
-        background: theme.search.button.active.background
-      }
-    },
-    searchIcon: {
-      marginRight: 7,
-      verticalAlign: 'middle'
-    },
-    withoutButton: {
-      '& $inputWrapper': {
-        borderRadius: 1,
-        borderRightWidth: 2,
-        boxShadow: 'none'
-      }
+    '&::-ms-reveal, &::-ms-clear': {
+      display: 'none'
     },
 
-    serviceIcons: {
-      display: 'flex',
-      flexShrink: 0,
-      padding: '0 15px',
-      alignItems: 'center'
+    '&::-webkit-input-placeholder': {
+      fontSize: theme.search.input.placeholder.fontSize,
+      color: theme.search.input.placeholder.color,
+      opacity: 1
+    },
+    '&::-moz-placeholder': {
+      fontSize: theme.search.input.placeholder.fontSize,
+      color: theme.search.input.placeholder.color,
+      opacity: 1
+    },
+    '&:-ms-input-placeholder': {
+      fontSize: theme.search.input.placeholder.fontSize,
+      color: theme.search.input.placeholder.color,
+      opacity: 1
+    }
+  },
+  inputLeftIcon: {
+    marginLeft: 12
+  },
+  searchButton: {
+    extend: isolateMixin,
+    width: 125,
+    padding: '0 0 0 21px',
+    color: theme.search.button.color,
+    borderRadius: '0 1px 1px 0',
+    border: 'none',
+    flexShrink: 0,
+    display: 'inline-flex',
+    alignItems: 'center',
+    cursor: 'pointer',
+    boxSizing: 'border-box',
+    background: theme.search.button.default.background,
+    outline: 'none',
+    fontSize: theme.search.button.fontSize,
+    fontWeight: theme.search.button.fontWeight,
+    letterSpacing: theme.search.button.letterSpacing,
+    textTransform: theme.search.button.textTransform,
+
+    '&:hover': {
+      background: theme.search.button.hover.background
     },
 
-    serviceIcon: {
-      opacity: 0.5,
-      transition: 'opacity 0.2s, color 0.2s',
-      color: theme.search.input.default.icon,
-      cursor: 'pointer',
-      marginRight: 10,
+    '&:active': {
+      background: theme.search.button.active.background
+    }
+  },
+  searchIcon: {
+    marginRight: 7,
+    verticalAlign: 'middle'
+  },
+  withoutButton: {
+    '& $inputWrapper': {
+      borderRadius: 1,
+      borderRightWidth: 2,
+      boxShadow: 'none'
+    }
+  },
 
-      '&:last-child': {
-        marginRight: 0
-      },
+  serviceIcons: {
+    display: 'flex',
+    flexShrink: 0,
+    padding: '0 15px',
+    alignItems: 'center'
+  },
 
-      '&:hover': {
-        opacity: 1,
-        color: theme.search.input.hover.icon
-      },
+  serviceIcon: {
+    opacity: 0.5,
+    transition: 'opacity 0.2s, color 0.2s',
+    color: theme.search.input.default.icon,
+    cursor: 'pointer',
+    marginRight: 10,
 
-      '&$active': {
-        opacity: 1
-      }
+    '&:last-child': {
+      marginRight: 0
     },
-    ...['small', 'medium'].reduce(
-      (result, size) => ({
-        ...result,
-        [`size-${size}`]: {
-          '& $inputWrapper': {
-            height: theme.search.sizes[size].height
-          }
+
+    '&:hover': {
+      opacity: 1,
+      color: theme.search.input.hover.icon
+    },
+
+    '&$active': {
+      opacity: 1
+    }
+  },
+  ...['small', 'medium'].reduce(
+    (result, size) => ({
+      ...result,
+      [`size-${size}`]: {
+        '& $inputWrapper': {
+          height: theme.search.sizes[size].height
         }
-      }),
-      {}
-    )
-  }),
-  {name: 'ComplexSearch'}
-)
-export default class ComplexSearch extends React.PureComponent {
+      }
+    }),
+    {}
+  )
+})
+
+class ComplexSearch extends PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента Search
@@ -506,3 +503,9 @@ export default class ComplexSearch extends React.PureComponent {
     )
   }
 }
+
+export default compose(
+  provideSearch,
+  provideSearchDropdown,
+  injectSheet(styles, {name: 'ComplexSearch'})
+)(ComplexSearch)

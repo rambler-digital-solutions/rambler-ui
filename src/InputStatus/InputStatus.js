@@ -4,40 +4,38 @@ import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin, ifMobile} from '../utils/mixins'
 
-@injectSheet(
-  theme => ({
-    success: {
-      '& $message': {
-        color: theme.colors.success
-      }
-    },
-    warning: {
-      '& $message': {
-        color: theme.colors.warn
-      }
-    },
-    error: {
-      '& $message': {
-        color: theme.colors.danger
-      }
-    },
-    message: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      marginTop: 10,
-      fontSize: theme.inputStatus.sizes.fontSize,
-      lineHeight: theme.inputStatus.sizes.lineHeight + 'px',
-      textAlign: 'left',
-      ...ifMobile({
-        marginTop: 5,
-        fontSize: theme.inputStatus.sizes.mobile.fontSize,
-        lineHeight: theme.inputStatus.sizes.mobile.lineHeight + 'px'
-      })
+const styles = theme => ({
+  success: {
+    '& $message': {
+      color: theme.colors.success
     }
-  }),
-  {name: 'InputStatus'}
-)
-export default class InputStatus extends PureComponent {
+  },
+  warning: {
+    '& $message': {
+      color: theme.colors.warn
+    }
+  },
+  error: {
+    '& $message': {
+      color: theme.colors.danger
+    }
+  },
+  message: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    marginTop: 10,
+    fontSize: theme.inputStatus.sizes.fontSize,
+    lineHeight: theme.inputStatus.sizes.lineHeight + 'px',
+    textAlign: 'left',
+    ...ifMobile({
+      marginTop: 5,
+      fontSize: theme.inputStatus.sizes.mobile.fontSize,
+      lineHeight: theme.inputStatus.sizes.mobile.lineHeight + 'px'
+    })
+  }
+})
+
+class InputStatus extends PureComponent {
   static propTypes = {
     /**
      * Отображает текст статуса компонента input.
@@ -84,3 +82,5 @@ export default class InputStatus extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'InputStatus'})(InputStatus)

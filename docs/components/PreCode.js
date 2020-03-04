@@ -1,7 +1,7 @@
 import React from 'react'
 import injectSheet, {fontFamily} from 'docs/utils/theming'
 
-const styles = () => ({
+const styles = {
   root: {
     padding: '14px 25px 14px 20px',
     overflow: 'auto',
@@ -15,7 +15,7 @@ const styles = () => ({
       fontFamily: 'inherit'
     }
   }
-})
+}
 
 const PreCode = ({classes, children}) => (
   <pre className={classes.root}>{children}</pre>

@@ -10,6 +10,7 @@ import zIndexStack from '../hoc/z-index-stack'
 import {ESCAPE} from '../constants/keys'
 import {POPUP_ZINDEX} from '../constants/z-indexes'
 import {injectSheet} from '../theme'
+import compose from '../utils/compose'
 import {
   isolateMixin,
   middleMixin,
@@ -18,106 +19,102 @@ import {
 } from '../utils/mixins'
 import '../utils/focus-source'
 
-@zIndexStack(POPUP_ZINDEX)
-@renderToLayer
-@injectSheet(
-  theme => ({
-    backdrop: {
-      extend: [isolateMixin, middleMixin],
-      fontFamily: theme.fontFamily,
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      paddingTop: 20,
-      paddingBottom: 20,
-      textAlign: 'center',
-      overflowY: 'auto',
-      overflowX: 'hidden',
-      marginTop: -10,
-      opacity: 0,
-      transitionDuration: theme.popup.animationDuration,
-      transitionProperty: 'margin-top, opacity'
+const styles = theme => ({
+  backdrop: {
+    extend: [isolateMixin, middleMixin],
+    fontFamily: theme.fontFamily,
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    paddingTop: 20,
+    paddingBottom: 20,
+    textAlign: 'center',
+    overflowY: 'auto',
+    overflowX: 'hidden',
+    marginTop: -10,
+    opacity: 0,
+    transitionDuration: theme.popup.animationDuration,
+    transitionProperty: 'margin-top, opacity'
+  },
+  'backdrop-black': {
+    backgroundColor: theme.popup.colors.backdrop.default
+  },
+  'backdrop-blue': {
+    backgroundColor: theme.popup.colors.backdrop.blue
+  },
+  isVisible: {
+    marginTop: 0,
+    opacity: 1
+  },
+  popup: {
+    position: 'relative',
+    display: 'inline-block',
+    boxSizing: 'border-box',
+    borderRadius: theme.popup.borderRadius,
+    boxShadow: theme.popup.boxShadow,
+    padding: [20, 25, 25],
+    color: theme.popup.colors.text,
+    minWidth: 300,
+    maxWidth: 'calc(100% - 20px)',
+    marginLeft: 10,
+    marginRight: 10,
+    backgroundColor: theme.popup.colors.background,
+    fontSize: theme.popup.text.fontSize,
+    lineHeight: `${theme.popup.text.lineHeight}px`,
+    textAlign: 'left',
+    outline: 'none',
+    ...ifDesktop({
+      minWidth: 350,
+      maxWidth: 'auto'
+    })
+  },
+  title: {
+    marginBottom: 20,
+    paddingRight: 25,
+    fontSize: theme.popup.title.fontSize,
+    lineHeight: `${theme.popup.title.lineHeight}px`,
+    fontWeight: 500
+  },
+  close: {
+    position: 'absolute',
+    top: 25,
+    right: 25,
+    border: 0,
+    margin: 0,
+    padding: 0,
+    width: 15,
+    height: 15,
+    background: 'transparent',
+    outline: 0,
+    color: theme.popup.colors.close.default,
+    cursor: 'pointer',
+    '&:hover': {
+      color: theme.popup.colors.close.hover
     },
-    'backdrop-black': {
-      backgroundColor: theme.popup.colors.backdrop.default
+    ...focusSourceMixin('other', '&:focus', {
+      color: theme.popup.colors.close.hover
+    })
+  },
+  buttons: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    marginTop: 30,
+    '& > *': {
+      flexGrow: 1,
+      width: '50%'
     },
-    'backdrop-blue': {
-      backgroundColor: theme.popup.colors.backdrop.blue
-    },
-    isVisible: {
-      marginTop: 0,
-      opacity: 1
-    },
-    popup: {
-      position: 'relative',
-      display: 'inline-block',
-      boxSizing: 'border-box',
-      borderRadius: theme.popup.borderRadius,
-      boxShadow: theme.popup.boxShadow,
-      padding: [20, 25, 25],
-      color: theme.popup.colors.text,
-      minWidth: 300,
-      maxWidth: 'calc(100% - 20px)',
+    '& > * + *': {
       marginLeft: 10,
-      marginRight: 10,
-      backgroundColor: theme.popup.colors.background,
-      fontSize: theme.popup.text.fontSize,
-      lineHeight: `${theme.popup.text.lineHeight}px`,
-      textAlign: 'left',
-      outline: 'none',
       ...ifDesktop({
-        minWidth: 350,
-        maxWidth: 'auto'
+        marginLeft: 20
       })
-    },
-    title: {
-      marginBottom: 20,
-      paddingRight: 25,
-      fontSize: theme.popup.title.fontSize,
-      lineHeight: `${theme.popup.title.lineHeight}px`,
-      fontWeight: 500
-    },
-    close: {
-      position: 'absolute',
-      top: 25,
-      right: 25,
-      border: 0,
-      margin: 0,
-      padding: 0,
-      width: 15,
-      height: 15,
-      background: 'transparent',
-      outline: 0,
-      color: theme.popup.colors.close.default,
-      cursor: 'pointer',
-      '&:hover': {
-        color: theme.popup.colors.close.hover
-      },
-      ...focusSourceMixin('other', '&:focus', {
-        color: theme.popup.colors.close.hover
-      })
-    },
-    buttons: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      marginTop: 30,
-      '& > *': {
-        flexGrow: 1,
-        width: '50%'
-      },
-      '& > * + *': {
-        marginLeft: 10,
-        ...ifDesktop({
-          marginLeft: 20
-        })
-      }
     }
-  }),
-  {name: 'Popup'}
-)
-export default class Popup extends PureComponent {
+  }
+})
+
+class Popup extends PureComponent {
   static propTypes = {
     /**
      * Css-класс
@@ -345,3 +342,9 @@ export default class Popup extends PureComponent {
     )
   }
 }
+
+export default compose(
+  zIndexStack(POPUP_ZINDEX),
+  renderToLayer,
+  injectSheet(styles, {name: 'Popup'})
+)(Popup)

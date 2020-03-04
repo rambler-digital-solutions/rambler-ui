@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, createContext} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -6,18 +6,16 @@ import uuid from '../utils/uuid'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
-export const RadioButtonContext = React.createContext({})
+export const RadioButtonContext = createContext({})
 
-@injectSheet(
-  theme => ({
-    radioButtonGroup: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily
-    }
-  }),
-  {name: 'RadioButtonGroup'}
-)
-export default class RadioButtonGroup extends PureComponent {
+const styles = theme => ({
+  radioButtonGroup: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily
+  }
+})
+
+class RadioButtonGroup extends PureComponent {
   static propTypes = {
     /**
      * Имя, которое будет применяться ко всей группе radio.
@@ -112,3 +110,5 @@ export default class RadioButtonGroup extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'RadioButtonGroup'})(RadioButtonGroup)

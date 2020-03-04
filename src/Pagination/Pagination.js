@@ -12,148 +12,146 @@ const buttonContainer = () => <button type="button" />
 
 const isInt = value => typeof value === 'number' && (value | 0) === value
 
-@injectSheet(
-  theme => ({
-    root: {
-      extend: isolateMixin,
-      display: 'inline-flex',
-      flexWrap: 'wrap',
-      justifyContent: 'center',
-      fontFamily: theme.fontFamily,
-      userSelect: 'none',
-      color: theme.pagination.colors.default.text,
-      '&:hover $arrow': {
-        opacity: 1
-      }
-    },
-    item: {
-      extend: isolateMixin,
-      display: 'inline-block',
-      flex: 'none',
-      height: theme.pagination.size,
-      lineHeight: theme.pagination.size + 'px',
-      border: 0,
-      outline: 'none !important',
-      background: 'none',
-      fontSize: theme.pagination.fontSize,
-      whiteSpace: 'nowrap',
-      textAlign: 'center',
-      cursor: 'default',
-      'button&::-moz-focus-inner': {
-        border: 'none !important',
-        outline: 'none !important'
-      }
-    },
-    page: {
-      composes: '$item',
-      minWidth: theme.pagination.size,
-      padding: '0 5px',
-      borderRadius: theme.pagination.size / 2,
-      cursor: 'pointer',
-      background: theme.pagination.colors.default.background,
-      transitionDuration: theme.tabs.animationDuration,
-      transitionProperty: 'color, background-color',
-      '&&': {
-        color: theme.pagination.colors.default.text,
-        fontWeight: 400
-      },
-      '&$isSelected': {
-        color: theme.pagination.colors.selected.text,
-        fontWeight: 500,
-        backgroundColor: theme.pagination.colors.selected.background
-      },
-      '&:focus': {
-        color: theme.pagination.colors.focus.text
-      },
-      '&:hover': {
-        color: theme.pagination.colors.hover.text
-      },
-      '&:active': {
-        color: theme.pagination.colors.active.text,
-        background: theme.pagination.colors.active.background
-      },
-      '&$isDisabled': {
-        color: theme.pagination.colors.disabled.text,
-        background: 'none'
-      }
-    },
-    arrow: {
-      composes: '$item',
-      position: 'relative',
-      width: theme.pagination.size,
-      cursor: 'pointer',
-      overflow: 'hidden',
-      paddingLeft: theme.pagination.size,
-      opacity: 0,
-      '&&': {
-        transitionDuration: theme.tabs.animationDuration,
-        transitionProperty: 'fill, opacity',
-        color: theme.pagination.colors.default.arrow
-      },
-      '&&:focus': {
-        color: theme.pagination.colors.focus.arrow
-      },
-      '&&:hover': {
-        color: theme.pagination.colors.hover.arrow
-      },
-      '&&:active': {
-        color: theme.pagination.colors.active.arrow
-      },
-      '&$isDisabled': {
-        color: theme.pagination.colors.disabled.arrow + '!important'
-      },
-      '&:before': {
-        boxSizing: 'border-box',
-        position: 'absolute',
-        top: 6,
-        left: 13,
-        content: '""',
-        width: 11,
-        height: 11,
-        border: 'solid',
-        borderWidth: '0 0 2px 2px',
-        transform: 'rotate(45deg)',
-        transformOrigin: 'left bottom'
-      }
-    },
-    prevArrow: {
-      composes: '$arrow',
-      marginRight: 7
-    },
-    nextArrow: {
-      composes: '$arrow',
-      marginLeft: 7,
-      transform: 'scaleX(-1)'
-    },
-    isDisabled: {
-      cursor: 'not-allowed'
-    },
-    isSelected: {},
-    inputWrapper: {
-      paddingLeft: 20
-    },
-    input: {
-      width: 76
-    },
-    inputSmall: {
-      width: 45,
-      marginRight: 10
-    },
-    label: {
-      fontSize: theme.pagination.fontSize,
-      lineHeight: theme.pagination.size + 'px',
-      cursor: 'pointer',
-      color: theme.pagination.colors.label.default,
-      transitionDuration: theme.tabs.animationDuration,
-      transitionProperty: 'color',
-      '&:hover, &:focus': {
-        color: theme.pagination.colors.label.hover
-      }
+const styles = theme => ({
+  root: {
+    extend: isolateMixin,
+    display: 'inline-flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    fontFamily: theme.fontFamily,
+    userSelect: 'none',
+    color: theme.pagination.colors.default.text,
+    '&:hover $arrow': {
+      opacity: 1
     }
-  }),
-  {name: 'Pagination'}
-)
-export default class Pagination extends Component {
+  },
+  item: {
+    extend: isolateMixin,
+    display: 'inline-block',
+    flex: 'none',
+    height: theme.pagination.size,
+    lineHeight: theme.pagination.size + 'px',
+    border: 0,
+    outline: 'none !important',
+    background: 'none',
+    fontSize: theme.pagination.fontSize,
+    whiteSpace: 'nowrap',
+    textAlign: 'center',
+    cursor: 'default',
+    'button&::-moz-focus-inner': {
+      border: 'none !important',
+      outline: 'none !important'
+    }
+  },
+  page: {
+    composes: '$item',
+    minWidth: theme.pagination.size,
+    padding: '0 5px',
+    borderRadius: theme.pagination.size / 2,
+    cursor: 'pointer',
+    background: theme.pagination.colors.default.background,
+    transitionDuration: theme.tabs.animationDuration,
+    transitionProperty: 'color, background-color',
+    '&&': {
+      color: theme.pagination.colors.default.text,
+      fontWeight: 400
+    },
+    '&$isSelected': {
+      color: theme.pagination.colors.selected.text,
+      fontWeight: 500,
+      backgroundColor: theme.pagination.colors.selected.background
+    },
+    '&:focus': {
+      color: theme.pagination.colors.focus.text
+    },
+    '&:hover': {
+      color: theme.pagination.colors.hover.text
+    },
+    '&:active': {
+      color: theme.pagination.colors.active.text,
+      background: theme.pagination.colors.active.background
+    },
+    '&$isDisabled': {
+      color: theme.pagination.colors.disabled.text,
+      background: 'none'
+    }
+  },
+  arrow: {
+    composes: '$item',
+    position: 'relative',
+    width: theme.pagination.size,
+    cursor: 'pointer',
+    overflow: 'hidden',
+    paddingLeft: theme.pagination.size,
+    opacity: 0,
+    '&&': {
+      transitionDuration: theme.tabs.animationDuration,
+      transitionProperty: 'fill, opacity',
+      color: theme.pagination.colors.default.arrow
+    },
+    '&&:focus': {
+      color: theme.pagination.colors.focus.arrow
+    },
+    '&&:hover': {
+      color: theme.pagination.colors.hover.arrow
+    },
+    '&&:active': {
+      color: theme.pagination.colors.active.arrow
+    },
+    '&$isDisabled': {
+      color: theme.pagination.colors.disabled.arrow + '!important'
+    },
+    '&:before': {
+      boxSizing: 'border-box',
+      position: 'absolute',
+      top: 6,
+      left: 13,
+      content: '""',
+      width: 11,
+      height: 11,
+      border: 'solid',
+      borderWidth: '0 0 2px 2px',
+      transform: 'rotate(45deg)',
+      transformOrigin: 'left bottom'
+    }
+  },
+  prevArrow: {
+    composes: '$arrow',
+    marginRight: 7
+  },
+  nextArrow: {
+    composes: '$arrow',
+    marginLeft: 7,
+    transform: 'scaleX(-1)'
+  },
+  isDisabled: {
+    cursor: 'not-allowed'
+  },
+  isSelected: {},
+  inputWrapper: {
+    paddingLeft: 20
+  },
+  input: {
+    width: 76
+  },
+  inputSmall: {
+    width: 45,
+    marginRight: 10
+  },
+  label: {
+    fontSize: theme.pagination.fontSize,
+    lineHeight: theme.pagination.size + 'px',
+    cursor: 'pointer',
+    color: theme.pagination.colors.label.default,
+    transitionDuration: theme.tabs.animationDuration,
+    transitionProperty: 'color',
+    '&:hover, &:focus': {
+      color: theme.pagination.colors.label.hover
+    }
+  }
+})
+
+class Pagination extends Component {
   static propTypes = {
     /**
      * Количество страниц
@@ -482,3 +480,5 @@ export default class Pagination extends Component {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'Pagination'})(Pagination)

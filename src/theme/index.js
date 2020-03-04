@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {PureComponent, createContext} from 'react'
 import PropTypes from 'prop-types'
 import deepmerge from 'deepmerge'
 import jss, {
@@ -14,8 +14,8 @@ import preset from 'jss-preset-default'
 import base from /* preval */ './base'
 import uuid from '../utils/uuid'
 
-const RamblerUIThemeContext = React.createContext({})
-const ApplyThemeContext = React.createContext({})
+const RamblerUIThemeContext = createContext({})
+const ApplyThemeContext = createContext({})
 
 const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 const RAMBLER_UI_CLASS_NAME_PREFIX = '__RAMBLER_UI_CLASS_NAME_PREFIX__'
@@ -107,9 +107,12 @@ export class ApplyTheme extends PureComponent {
   }
 }
 
-export const injectSheet = (styles, options = {}) => Component =>
-  originalInjectSheet(styles, {
+export const injectSheet = (styles, options = {}) => Component => {
+  const StyledComponent = originalInjectSheet(styles, {
     theming,
     injectTheme: true,
     [RAMBLER_UI_CLASS_NAME_PREFIX]: `${options.name || uuid()}-`
   })(Component)
+  if (options.displayName) StyledComponent.displayName = options.displayName
+  return StyledComponent
+}

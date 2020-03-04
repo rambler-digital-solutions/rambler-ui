@@ -4,42 +4,40 @@ import classnames from 'classnames'
 import Spinner from '../Spinner'
 import {injectSheet} from '../theme'
 
-@injectSheet(
-  theme => ({
-    loader: {
-      position: 'relative',
-      width: '100%',
-      minHeight: '100%'
+const styles = theme => ({
+  loader: {
+    position: 'relative',
+    width: '100%',
+    minHeight: '100%'
+  },
+  overlay: {
+    position: 'absolute',
+    background: theme.loader.color,
+    transitionProperty: 'opacity',
+    pointerEvents: 'none',
+    transitionDuration: theme.loader.animationDuration,
+    opacity: 0,
+    zIndex: -1,
+    left: 0,
+    top: 0,
+    right: 0,
+    bottom: 0
+  },
+  isLoading: {
+    '&$overlay': {
+      opacity: 0.7,
+      zIndex: 'initial'
     },
-    overlay: {
-      position: 'absolute',
-      background: theme.loader.color,
-      transitionProperty: 'opacity',
-      pointerEvents: 'none',
-      transitionDuration: theme.loader.animationDuration,
-      opacity: 0,
-      zIndex: -1,
-      left: 0,
-      top: 0,
-      right: 0,
-      bottom: 0
-    },
-    isLoading: {
-      '&$overlay': {
-        opacity: 0.7,
-        zIndex: 'initial'
-      },
-      '&$loader': {
-        pointerEvents: 'none'
-      }
-    },
-    blur: {
-      filter: 'blur(1px)'
+    '&$loader': {
+      pointerEvents: 'none'
     }
-  }),
-  {name: 'Loader'}
-)
-export default class Loader extends PureComponent {
+  },
+  blur: {
+    filter: 'blur(1px)'
+  }
+})
+
+class Loader extends PureComponent {
   static propTypes = {
     /**
      * CSS-класс
@@ -169,3 +167,5 @@ export default class Loader extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'Loader'})(Loader)

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tooltip from '../Tooltip'
@@ -6,40 +6,38 @@ import {injectSheet} from '../theme'
 import GlobalSourceIcon from './icons/GlobalSourceIcon'
 import ServiceSourceIcon from './icons/ServiceSourceIcon'
 
-@injectSheet(
-  theme => ({
-    root: {
-      display: 'flex',
-      alignItems: 'center'
+const styles = theme => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center'
+  },
+  active: {},
+  icon: {
+    opacity: 0.5,
+    transition: 'opacity 0.2s, color 0.2s',
+    color: theme.search.input.default.icon,
+    cursor: 'pointer',
+    marginRight: 10,
+    height: 20,
+    width: 20,
+    display: 'inline-flex',
+
+    '&:last-child': {
+      marginRight: 0
     },
-    active: {},
-    icon: {
-      opacity: 0.5,
-      transition: 'opacity 0.2s, color 0.2s',
-      color: theme.search.input.default.icon,
-      cursor: 'pointer',
-      marginRight: 10,
-      height: 20,
-      width: 20,
-      display: 'inline-flex',
 
-      '&:last-child': {
-        marginRight: 0
-      },
+    '&:hover': {
+      opacity: 1,
+      color: theme.search.input.hover.icon
+    },
 
-      '&:hover': {
-        opacity: 1,
-        color: theme.search.input.hover.icon
-      },
-
-      '&$active': {
-        opacity: 1
-      }
+    '&$active': {
+      opacity: 1
     }
-  }),
-  {name: 'SourceButtons'}
-)
-export default class SourceButtons extends React.PureComponent {
+  }
+})
+
+class SourceButtons extends PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента SourceButtons
@@ -114,3 +112,5 @@ export default class SourceButtons extends React.PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'SourceButtons'})(SourceButtons)

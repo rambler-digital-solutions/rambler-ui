@@ -276,23 +276,21 @@ function getContentProps(params) {
   }
 }
 
+const styles = {
+  container: {
+    position: 'relative',
+    display: 'inline-block'
+  },
+  content: {
+    position: 'absolute',
+    zIndex: 10
+  }
+}
+
 /**
  * Оверлей, который оборачивает внутри children, и позиционируется относительно children рядом с ними
  */
-@injectSheet(
-  () => ({
-    container: {
-      position: 'relative',
-      display: 'inline-block'
-    },
-    content: {
-      position: 'absolute',
-      zIndex: 10
-    }
-  }),
-  {name: 'RelativeOverlay'}
-)
-export default class RelativeOverlay extends PureComponent {
+class RelativeOverlay extends PureComponent {
   static propTypes = {
     /**
      * Класс контейнера
@@ -648,3 +646,5 @@ export default class RelativeOverlay extends PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'RelativeOverlay'})(RelativeOverlay)

@@ -1,132 +1,129 @@
-import React, {cloneElement} from 'react'
+import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
+import compose from '../utils/compose'
 import ClearIcon from './icons/ClearIcon'
 import ServiceSearchIcon from './icons/ServiceSearchIcon'
 import {isolateMixin} from '../utils/mixins'
 import provideSearch from './provideSearch'
 import provideSearchDropdown from './provideSearchDropdown'
 
-@provideSearch
-@provideSearchDropdown
-@injectSheet(
-  theme => ({
-    small: {},
-    medium: {},
-    active: {},
-    root: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      fontSize: theme.serviceSearch.fontSize,
-      width: '100%',
-      maxWidth: theme.serviceSearch.maxWidth,
-      display: 'flex',
-      flexDirection: 'column'
-    },
-    inputRow: {
-      height: '100%',
-      position: 'relative',
-      width: '100%',
-      display: 'flex'
-    },
-    inputWrapper: {
-      borderStyle: 'solid',
-      display: 'flex',
-      alignItems: 'center',
-      position: 'relative',
-      paddingRight: 30,
-      borderRadius: 1,
-      width: '100%',
-      boxSizing: 'border-box',
-      borderColor: theme.serviceSearch.input.default.borderColor,
-      borderWidth: 1,
-      backgroundColor: theme.search.input.backgroundColor,
+const styles = theme => ({
+  small: {},
+  medium: {},
+  active: {},
+  root: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    fontSize: theme.serviceSearch.fontSize,
+    width: '100%',
+    maxWidth: theme.serviceSearch.maxWidth,
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  inputRow: {
+    height: '100%',
+    position: 'relative',
+    width: '100%',
+    display: 'flex'
+  },
+  inputWrapper: {
+    borderStyle: 'solid',
+    display: 'flex',
+    alignItems: 'center',
+    position: 'relative',
+    paddingRight: 30,
+    borderRadius: 1,
+    width: '100%',
+    boxSizing: 'border-box',
+    borderColor: theme.serviceSearch.input.default.borderColor,
+    borderWidth: 1,
+    backgroundColor: theme.search.input.backgroundColor,
 
-      '&$active': {
-        borderColor: theme.serviceSearch.input.hover.borderColor
-      }
-    },
-    input: {
-      extend: isolateMixin,
-      padding: '10px 14px',
-      border: 'none',
-      boxSizing: 'border-box',
-      display: 'block',
-      borderRadius: 0,
-      width: '100%',
-      fontWeight: 400,
-      fontSize: theme.serviceSearch.fontSize,
-      lineHeight: '25px',
-      appearance: 'none',
-      color: theme.serviceSearch.input.color,
-      height: '100%',
-      outline: 0,
-      boxShadow: 'none',
+    '&$active': {
+      borderColor: theme.serviceSearch.input.hover.borderColor
+    }
+  },
+  input: {
+    extend: isolateMixin,
+    padding: '10px 14px',
+    border: 'none',
+    boxSizing: 'border-box',
+    display: 'block',
+    borderRadius: 0,
+    width: '100%',
+    fontWeight: 400,
+    fontSize: theme.serviceSearch.fontSize,
+    lineHeight: '25px',
+    appearance: 'none',
+    color: theme.serviceSearch.input.color,
+    height: '100%',
+    outline: 0,
+    boxShadow: 'none',
 
-      '&::-ms-reveal, &::-ms-clear': {
-        display: 'none'
-      },
-      '&::-webkit-input-placeholder': {
-        fontSize: theme.serviceSearch.input.placeholder.fontSize,
-        color: theme.serviceSearch.input.placeholder.color,
-        opacity: 1
-      },
-      '&::-moz-placeholder': {
-        fontSize: theme.serviceSearch.input.placeholder.fontSize,
-        color: theme.serviceSearch.input.placeholder.color,
-        opacity: 1
-      },
-      '&:-ms-input-placeholder': {
-        fontSize: theme.serviceSearch.input.placeholder.fontSize,
-        color: theme.serviceSearch.input.placeholder.color,
-        opacity: 1
-      }
+    '&::-ms-reveal, &::-ms-clear': {
+      display: 'none'
     },
-    inputLeftIcon: {
-      marginLeft: 12
+    '&::-webkit-input-placeholder': {
+      fontSize: theme.serviceSearch.input.placeholder.fontSize,
+      color: theme.serviceSearch.input.placeholder.color,
+      opacity: 1
     },
-    searchButton: {
-      extend: isolateMixin,
-      background: 'none',
-      outline: 'none',
-      border: 'none',
-      cursor: 'pointer',
-      position: 'absolute',
-      padding: 0,
-      width: 15,
-      height: 15,
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)'
+    '&::-moz-placeholder': {
+      fontSize: theme.serviceSearch.input.placeholder.fontSize,
+      color: theme.serviceSearch.input.placeholder.color,
+      opacity: 1
     },
-    searchIcon: {
-      color: theme.serviceSearch.input.default.icon,
-      outline: 'none'
-    },
-    clearIcon: {
-      position: 'absolute',
-      right: 15,
-      top: '50%',
-      transform: 'translateY(-50%)',
-      cursor: 'pointer',
-      color: theme.serviceSearch.clear.color
-    },
-    ...['small', 'medium'].reduce(
-      (result, size) => ({
-        ...result,
-        [`size-${size}`]: {
-          '& $inputWrapper': {
-            height: theme.serviceSearch.sizes[size].height
-          }
+    '&:-ms-input-placeholder': {
+      fontSize: theme.serviceSearch.input.placeholder.fontSize,
+      color: theme.serviceSearch.input.placeholder.color,
+      opacity: 1
+    }
+  },
+  inputLeftIcon: {
+    marginLeft: 12
+  },
+  searchButton: {
+    extend: isolateMixin,
+    background: 'none',
+    outline: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    position: 'absolute',
+    padding: 0,
+    width: 15,
+    height: 15,
+    right: 15,
+    top: '50%',
+    transform: 'translateY(-50%)'
+  },
+  searchIcon: {
+    color: theme.serviceSearch.input.default.icon,
+    outline: 'none'
+  },
+  clearIcon: {
+    position: 'absolute',
+    right: 15,
+    top: '50%',
+    transform: 'translateY(-50%)',
+    cursor: 'pointer',
+    color: theme.serviceSearch.clear.color
+  },
+  ...['small', 'medium'].reduce(
+    (result, size) => ({
+      ...result,
+      [`size-${size}`]: {
+        '& $inputWrapper': {
+          height: theme.serviceSearch.sizes[size].height
         }
-      }),
-      {}
-    )
-  }),
-  {name: 'ServiceSearch'}
-)
-export default class ServiceSearch extends React.PureComponent {
+      }
+    }),
+    {}
+  )
+})
+
+class ServiceSearch extends PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента Search
@@ -376,3 +373,9 @@ export default class ServiceSearch extends React.PureComponent {
     )
   }
 }
+
+export default compose(
+  provideSearch,
+  provideSearchDropdown,
+  injectSheet(styles, {name: 'ServiceSearch'})
+)(ServiceSearch)

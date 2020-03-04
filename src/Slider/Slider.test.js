@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import Slider from './Slider'
 import {
   withTheme,
@@ -20,7 +20,7 @@ describe('<Slider />', () => {
 
   it('onChange slider', done => {
     let currentValue = 1
-    class SliderTest extends React.Component {
+    class SliderTest extends Component {
       state = {
         value: 1
       }

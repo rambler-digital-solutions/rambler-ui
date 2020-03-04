@@ -1,42 +1,40 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import * as PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import uuid from '../utils/uuid'
 import {ProvideSearchDropdownContext} from './provideSearchDropdown'
 
-@injectSheet(
-  theme => ({
-    isHighlighted: {},
-    root: {
-      height: theme.suggestItem.height,
-      padding: '0 15px',
-      cursor: 'pointer',
-      fontSize: theme.suggestItem.fontSize,
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+const styles = theme => ({
+  isHighlighted: {},
+  root: {
+    height: theme.suggestItem.height,
+    padding: '0 15px',
+    cursor: 'pointer',
+    fontSize: theme.suggestItem.fontSize,
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 
-      '&$isHighlighted': {
-        backgroundColor: theme.suggestItem.highlighted.backgroundColor,
-        color: theme.search.color
-      }
-    },
-    string: {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap'
-    },
-    removeButton: {
-      fontSize: theme.suggestItem.removeButton.fontSize,
-      color: theme.suggestItem.removeButton.color,
-      paddingLeft: 10
+    '&$isHighlighted': {
+      backgroundColor: theme.suggestItem.highlighted.backgroundColor,
+      color: theme.search.color
     }
-  }),
-  {name: 'SuggestItem'}
-)
-class SuggestItem extends React.PureComponent {
+  },
+  string: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
+  },
+  removeButton: {
+    fontSize: theme.suggestItem.removeButton.fontSize,
+    color: theme.suggestItem.removeButton.color,
+    paddingLeft: 10
+  }
+})
+
+class SuggestItem extends PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента SuggestItem
@@ -134,4 +132,4 @@ class SuggestItem extends React.PureComponent {
   }
 }
 
-export default SuggestItem
+export default injectSheet(styles, {name: 'SuggestItem'})(SuggestItem)

@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function provideSnackbar(Target) {
-  @provideRenderToLayer
   class ProvideSnackbar extends Component {
     openSnackbar = element => {
       const snackbar = {}
@@ -40,5 +39,5 @@ export default function provideSnackbar(Target) {
     }
   }
 
-  return ProvideSnackbar
+  return provideRenderToLayer(ProvideSnackbar)
 }

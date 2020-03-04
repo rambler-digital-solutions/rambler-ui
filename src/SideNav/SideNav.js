@@ -4,20 +4,18 @@ import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(
-  theme => ({
-    sideNav: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      display: 'inline-block'
-    },
-    block: {
-      display: 'block'
-    }
-  }),
-  {name: 'SideNav'}
-)
-export default class SideNav extends Component {
+const styles = theme => ({
+  sideNav: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    display: 'inline-block'
+  },
+  block: {
+    display: 'block'
+  }
+})
+
+class SideNav extends Component {
   static propTypes = {
     /**
      * Класс контейнера
@@ -123,3 +121,5 @@ export default class SideNav extends Component {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'SideNav'})(SideNav)

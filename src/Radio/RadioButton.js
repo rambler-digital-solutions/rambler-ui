@@ -7,121 +7,115 @@ import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 import '../utils/focus-source'
 import {RadioButtonContext} from './RadioButtonGroup'
 
-function isSimpleType(value) {
-  const type = typeof value
-  return (
-    type === 'string' ||
-    type === 'number' ||
-    type === 'boolean' ||
-    value === null ||
-    value === undefined
-  )
-}
+const isSimpleType = value =>
+  typeof value === 'string' ||
+  typeof value === 'number' ||
+  typeof value === 'boolean' ||
+  value === null ||
+  value === undefined
 
-@injectSheet(
-  theme => ({
-    root: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      fontSize: theme.radio.fontSize,
-      display: 'flex',
-      width: '100%',
-      cursor: 'pointer',
-      position: 'relative',
-      color: theme.radio.colors.default.text,
-      userSelect: 'none',
-      '&:not(:last-child)': {
-        marginBottom: theme.radio.marginBottom
-      }
-    },
-    isDisabled: {
-      pointerEvents: 'none',
-      color: theme.radio.colors.disabled.text,
-      cursor: 'not-allowed'
-    },
-    real: {
-      fontFamily: theme.fontFamily,
-      position: 'absolute',
-      opacity: '0',
-      appearance: 'none',
-      pointerEvents: 'none'
-    },
-    fake: {
-      flex: 'none',
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      position: 'relative',
+const styles = theme => ({
+  root: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    fontSize: theme.radio.fontSize,
+    display: 'flex',
+    width: '100%',
+    cursor: 'pointer',
+    position: 'relative',
+    color: theme.radio.colors.default.text,
+    userSelect: 'none',
+    '&:not(:last-child)': {
+      marginBottom: theme.radio.marginBottom
+    }
+  },
+  isDisabled: {
+    pointerEvents: 'none',
+    color: theme.radio.colors.disabled.text,
+    cursor: 'not-allowed'
+  },
+  real: {
+    fontFamily: theme.fontFamily,
+    position: 'absolute',
+    opacity: '0',
+    appearance: 'none',
+    pointerEvents: 'none'
+  },
+  fake: {
+    flex: 'none',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    position: 'relative',
+    boxSizing: 'border-box',
+    borderRadius: '50%',
+    width: theme.radio.radioSize,
+    height: theme.radio.radioSize,
+    border: '1px solid',
+    borderColor: theme.radio.colors.default.dotBorder,
+    background: theme.radio.colors.default.dotBackground,
+    marginTop: 3,
+    transitionDuration: theme.radio.animationDuration,
+    transitionProperty: 'border-color, background-color, color',
+    '&:after': {
       boxSizing: 'border-box',
-      borderRadius: '50%',
-      width: theme.radio.radioSize,
-      height: theme.radio.radioSize,
-      border: '1px solid',
-      borderColor: theme.radio.colors.default.dotBorder,
-      background: theme.radio.colors.default.dotBackground,
-      marginTop: 3,
-      transitionDuration: theme.radio.animationDuration,
-      transitionProperty: 'border-color, background-color, color',
-      '&:after': {
-        boxSizing: 'border-box',
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        margin: 'auto',
-        width: 5,
-        height: 5,
-        transform: 'scale(0.5, 0.5)',
-        opacity: 0,
-        transitionDuration: 'inherit',
-        transitionProperty: 'opacity, transform, background-color',
-        background: 'currentColor',
-        borderRadius: '50%'
-      },
-      '$isChecked &:after': {
-        transform: 'scale(1, 1)',
-        opacity: 1
-      },
-      '$isEnabled:hover &': {
-        borderColor: theme.radio.colors.hover.dotBorder,
-        color: theme.radio.colors.hover.dot
-      },
-      ...focusSourceMixin('other', '$real:focus + &', {
-        borderColor: theme.radio.colors.focus.dotBorder
-      }),
-      '$isEnabled:active &': {
-        borderColor: theme.radio.colors.active.dotBorder,
-        background: theme.radio.colors.active.dotBackground,
-        color: theme.radio.colors.active.dot
-      },
-      '$isDisabled &': {
-        borderColor: theme.radio.colors.disabled.dotBorder,
-        color: theme.radio.colors.disabled.dot
-      },
-      '$labelright &': {
-        marginRight: theme.radio.labelMargin
-      },
-      '$labelleft &': {
-        marginLeft: theme.radio.labelMargin
-      }
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      margin: 'auto',
+      width: 5,
+      height: 5,
+      transform: 'scale(0.5, 0.5)',
+      opacity: 0,
+      transitionDuration: 'inherit',
+      transitionProperty: 'opacity, transform, background-color',
+      background: 'currentColor',
+      borderRadius: '50%'
     },
-    label: {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      lineHeight: theme.radio.lineHeight + 'px',
-      '$labelleft &': {
-        order: -1,
-        marginRight: 'auto'
-      }
+    '$isChecked &:after': {
+      transform: 'scale(1, 1)',
+      opacity: 1
     },
-    isChecked: {},
-    isEnabled: {},
-    labelleft: {},
-    labelright: {}
-  }),
-  {name: 'RadioButton'}
-)
+    '$isEnabled:hover &': {
+      borderColor: theme.radio.colors.hover.dotBorder,
+      color: theme.radio.colors.hover.dot
+    },
+    ...focusSourceMixin('other', '$real:focus + &', {
+      borderColor: theme.radio.colors.focus.dotBorder
+    }),
+    '$isEnabled:active &': {
+      borderColor: theme.radio.colors.active.dotBorder,
+      background: theme.radio.colors.active.dotBackground,
+      color: theme.radio.colors.active.dot
+    },
+    '$isDisabled &': {
+      borderColor: theme.radio.colors.disabled.dotBorder,
+      color: theme.radio.colors.disabled.dot
+    },
+    '$labelright &': {
+      marginRight: theme.radio.labelMargin
+    },
+    '$labelleft &': {
+      marginLeft: theme.radio.labelMargin
+    }
+  },
+  label: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    lineHeight: theme.radio.lineHeight + 'px',
+    '$labelleft &': {
+      order: -1,
+      marginRight: 'auto'
+    }
+  },
+  isChecked: {},
+  isEnabled: {},
+  labelleft: {},
+  labelright: {}
+})
+
 class RadioButton extends PureComponent {
   static propTypes = {
     /**
@@ -260,5 +254,7 @@ class RadioButton extends PureComponent {
   }
 }
 
-RadioButton.displayName = 'ruiRadioButton'
-export default RadioButton
+export default injectSheet(styles, {
+  name: 'RadioButton',
+  displayName: 'ruiRadioButton'
+})(RadioButton)

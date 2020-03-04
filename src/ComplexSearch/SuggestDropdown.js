@@ -1,28 +1,26 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import Dropdown from '../Dropdown'
 
-@injectSheet(
-  () => ({
-    dropdown: {
-      transition: 'none',
-      animation: 'none',
-      width: '100%'
-    },
-    overlay: {
-      width: '100%'
-    },
-    suggest: {
-      width: '100%',
-      background: 'white',
-      boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
-    }
-  }),
-  {name: 'SuggestDropdown'}
-)
-export default class SuggestDropdown extends React.PureComponent {
+const styles = {
+  dropdown: {
+    transition: 'none',
+    animation: 'none',
+    width: '100%'
+  },
+  overlay: {
+    width: '100%'
+  },
+  suggest: {
+    width: '100%',
+    background: 'white',
+    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
+  }
+}
+
+class SuggestDropdown extends PureComponent {
   static propTypes = {
     /**
      * Признак того, открыт ли дропдаун
@@ -93,3 +91,5 @@ export default class SuggestDropdown extends React.PureComponent {
     )
   }
 }
+
+export default injectSheet(styles, {name: 'SuggestDropdown'})(SuggestDropdown)
