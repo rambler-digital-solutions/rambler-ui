@@ -36,11 +36,11 @@
     "classnames": "^2.2.6",
     "deepmerge": "^3.2.0",
     "eventemitter3": "^3.1.0",
-    "jss": "^10.0.0",
-    "jss-preset-default": "^10.0.0",
+    "jss": "^10.0.4",
+    "jss-preset-default": "^10.0.4",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
-    "react-jss": "^10.0.0"
+    "react-jss": "^10.0.4"
   },
   "devDependencies": {
     "@mdx-js/loader": "^0.15.4",

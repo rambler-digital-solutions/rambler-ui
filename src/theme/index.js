@@ -14,18 +14,15 @@ import preset from 'jss-preset-default'
 import base from /* preval */ './base'
 import uuid from '../utils/uuid'
 
+const RamblerUIThemeContext = React.createContext({})
 const ApplyThemeContext = React.createContext({})
 
-// const RAMBLER_UI_THEME = '__RAMBLER_UI_THEME__'
-const RAMBLER_UI_JSS = '__RAMBLER_UI_JSS__'
-const RAMBLER_UI_SHEETS_REGISTRY = '__RAMBLER_UI_SHEETS_REGISTRY__'
 const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 const RAMBLER_UI_CLASS_NAME_PREFIX = '__RAMBLER_UI_CLASS_NAME_PREFIX__'
 
 const ruiPrefix = 'rui-'
 
-// const theming = createTheming(RAMBLER_UI_THEME)
-const theming = createTheming(ApplyThemeContext)
+const theming = createTheming(RamblerUIThemeContext)
 const {ThemeProvider, withTheme} = theming
 
 export {withTheme}
@@ -67,25 +64,13 @@ export class ApplyTheme extends PureComponent {
 
   static contextType = ApplyThemeContext
 
-  // static contextTypes = {
-  //   [RAMBLER_UI_JSS]: PropTypes.object,
-  //   [RAMBLER_UI_SHEETS_REGISTRY]: PropTypes.object
-  // }
-
-  // static childContextTypes = {
-  //   [RAMBLER_UI_JSS]: PropTypes.object,
-  //   [RAMBLER_UI_SHEETS_REGISTRY]: PropTypes.object
-  // }
-
   computedProps = this.mapProps(this.props, this.context)
 
   mapProps({theme = base, ...props}, context) {
     let resultTheme, currTheme, currParentTheme
     const sheetsRegistry =
-      props.sheetsRegistry ||
-      context[RAMBLER_UI_SHEETS_REGISTRY] ||
-      globalSheetsRegistry
-    const jss = props.jss || context[RAMBLER_UI_JSS] || globalJss
+      props.sheetsRegistry || context.sheetsRegistry || globalSheetsRegistry
+    const jss = props.jss || context.jss || globalJss
     if (sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null)
       sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0
     const themeId = sheetsRegistry[RAMBLER_UI_THEME_COUNTER]++
@@ -106,21 +91,18 @@ export class ApplyTheme extends PureComponent {
     }
   }
 
-  // getChildContext() {
-  //   const {jss, sheetsRegistry} = this.computedProps
-  //   return {
-  //     [RAMBLER_UI_JSS]: jss,
-  //     [RAMBLER_UI_SHEETS_REGISTRY]: sheetsRegistry
-  //   }
-  // }
-
   render() {
     const {children} = this.props
     const {jss, sheetsRegistry, getResultTheme, generateId} = this.computedProps
     return (
-      <JssProvider jss={jss} registry={sheetsRegistry} generateId={generateId}>
-        <ThemeProvider theme={getResultTheme}>{children}</ThemeProvider>
-      </JssProvider>
+      <ApplyThemeContext.Provider value={(jss, sheetsRegistry)}>
+        <JssProvider
+          jss={jss}
+          registry={sheetsRegistry}
+          generateId={generateId}>
+          <ThemeProvider theme={getResultTheme}>{children}</ThemeProvider>
+        </JssProvider>
+      </ApplyThemeContext.Provider>
     )
   }
 }
