@@ -257,7 +257,7 @@ class Notification extends PureComponent {
     if (closeOnClickOutside)
       return (
         <OnClickOutside handler={this.onClickOutside}>
-          {this.renderContent}
+          {componentRef => this.renderContent(componentRef)}
         </OnClickOutside>
       )
 

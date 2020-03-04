@@ -296,7 +296,7 @@ class Popup extends PureComponent {
     if (closeOnClickOutside)
       return (
         <OnClickOutside handler={onRequestClose}>
-          {this.renderContent}
+          {componentRef => this.renderContent(componentRef)}
         </OnClickOutside>
       )
 

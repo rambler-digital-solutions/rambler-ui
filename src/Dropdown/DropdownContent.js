@@ -92,8 +92,6 @@ class DropdownContent extends PureComponent {
     closeOnClickOutside: true
   }
 
-  state = {}
-
   onClickOutside = () => {
     const {props} = this
     if (props.isVisible)
@@ -165,7 +163,7 @@ class DropdownContent extends PureComponent {
 
     return (
       <OnClickOutside handler={this.onClickOutside}>
-        {this.renderContent}
+        {componentRef => this.renderContent(componentRef)}
       </OnClickOutside>
     )
   }
