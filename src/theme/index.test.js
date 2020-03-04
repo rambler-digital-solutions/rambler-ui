@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {createContext} from 'react'
 import classnames from 'classnames'
 import originalInjectSheet, {createTheming} from 'react-jss'
 import {
@@ -12,7 +12,8 @@ import {mount, getNodeStyles} from '../utils/test-utils'
 import {normalize as nc} from '../utils/colors'
 
 const getTheme = color => ({button: {color}})
-const theming = createTheming('foo')
+const ThemeContext = createContext({})
+const theming = createTheming(ThemeContext)
 const {ThemeProvider} = theming
 
 const Button = injectSheet(({button}) => ({button}), {name: 'Button'})(

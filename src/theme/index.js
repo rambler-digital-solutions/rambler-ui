@@ -95,7 +95,7 @@ export class ApplyTheme extends PureComponent {
     const {children} = this.props
     const {jss, sheetsRegistry, getResultTheme, generateId} = this.computedProps
     return (
-      <ApplyThemeContext.Provider value={(jss, sheetsRegistry)}>
+      <ApplyThemeContext.Provider value={{jss, sheetsRegistry}}>
         <JssProvider
           jss={jss}
           registry={sheetsRegistry}
