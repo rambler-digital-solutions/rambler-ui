@@ -61,8 +61,9 @@ class SideNav extends Component {
     value: this.value
   }
 
-  componentDidUpdate() {
-    this.setValue(this.props.value)
+  componentDidUpdate(prevProps) {
+    const {value} = this.props
+    if (value !== prevProps.value) this.setValue(value)
   }
 
   setValue(value) {

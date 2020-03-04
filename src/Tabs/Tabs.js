@@ -93,8 +93,9 @@ class Tabs extends Component {
     }
   }
 
-  componentDidUpdate() {
-    this.setValue(this.props.value)
+  componentDidUpdate(prevProps) {
+    const {value} = this.props
+    if (value !== prevProps.value) this.setValue(value)
   }
 
   setValue(value) {

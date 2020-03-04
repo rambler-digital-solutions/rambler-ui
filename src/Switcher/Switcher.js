@@ -164,9 +164,9 @@ class Switcher extends PureComponent {
     checked: this.checked
   }
 
-  componentDidUpdate() {
-    this.switch(this.props.checked)
-    return null
+  componentDidUpdate(prevProps) {
+    const {checked} = this.props
+    if (checked !== prevProps.checked) this.switch(checked)
   }
 
   switch(checked) {
