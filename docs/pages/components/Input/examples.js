@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Input from 'rambler-ui/Input'
 import FormGroup from 'rambler-ui/FormGroup'
-import InputStatus from 'rambler-ui/InputStatus'
+import FieldStatus from 'rambler-ui/FieldStatus'
 import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
 
 export default class InputExample extends Component {
@@ -53,7 +53,7 @@ export default class InputExample extends Component {
                   />
                 </FormGroup>
                 <FormGroup label="Input success">
-                  <InputStatus type="success" message="Success message">
+                  <FieldStatus type="success" message="Success message">
                     <Input
                       status="success"
                       type="text"
@@ -62,10 +62,10 @@ export default class InputExample extends Component {
                       placeholder="placeholder"
                       variation={variation}
                     />
-                  </InputStatus>
+                  </FieldStatus>
                 </FormGroup>
                 <FormGroup label="Input warning">
-                  <InputStatus type="warning" message="Warning message">
+                  <FieldStatus type="warning" message="Warning message">
                     <Input
                       status="warning"
                       type="text"
@@ -74,10 +74,10 @@ export default class InputExample extends Component {
                       placeholder="placeholder"
                       variation={variation}
                     />
-                  </InputStatus>
+                  </FieldStatus>
                 </FormGroup>
                 <FormGroup label="Input error">
-                  <InputStatus type="error" message="Error message">
+                  <FieldStatus type="error" message="Error message">
                     <Input
                       status="error"
                       type="text"
@@ -86,7 +86,7 @@ export default class InputExample extends Component {
                       placeholder="placeholder"
                       variation={variation}
                     />
-                  </InputStatus>
+                  </FieldStatus>
                 </FormGroup>
                 <FormGroup label="Input disabled">
                   <Input
@@ -196,7 +196,7 @@ export default class InputExample extends Component {
             />
           </FormGroup>
           <FormGroup label="Input success" inline={true}>
-            <InputStatus type="success" message="Success message">
+            <FieldStatus type="success" message="Success message">
               <Input
                 status="success"
                 type="text"
@@ -204,10 +204,10 @@ export default class InputExample extends Component {
                 onChange={this.onChange}
                 placeholder="placeholder"
               />
-            </InputStatus>
+            </FieldStatus>
           </FormGroup>
           <FormGroup label="Input warning" inline={true}>
-            <InputStatus type="warning" message="Warning message">
+            <FieldStatus type="warning" message="Warning message">
               <Input
                 status="warning"
                 type="text"
@@ -215,10 +215,10 @@ export default class InputExample extends Component {
                 onChange={this.onChange}
                 placeholder="placeholder"
               />
-            </InputStatus>
+            </FieldStatus>
           </FormGroup>
           <FormGroup label="Input error" inline={true}>
-            <InputStatus type="error" message="Error message">
+            <FieldStatus type="error" message="Error message">
               <Input
                 status="error"
                 type="text"
@@ -226,7 +226,7 @@ export default class InputExample extends Component {
                 onChange={this.onChange}
                 placeholder="placeholder"
               />
-            </InputStatus>
+            </FieldStatus>
           </FormGroup>
           <FormGroup label="Input disabled" inline={true}>
             <Input

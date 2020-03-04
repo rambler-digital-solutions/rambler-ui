@@ -98,7 +98,7 @@ class FormGroup extends Component {
      */
     fieldId: PropTypes.string,
     /**
-     * Children - может быть InputStatus или Input.
+     * Children - может быть FieldStatus или Input.
      */
     children: PropTypes.node.isRequired,
     /**

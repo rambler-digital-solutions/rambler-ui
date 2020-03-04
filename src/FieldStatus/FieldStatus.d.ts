@@ -1,7 +1,7 @@
 import {PureComponent, ReactNode, Ref} from 'react'
 import {StatusType} from '..'
 
-export interface InputStatusProps {
+export interface FieldStatusProps {
   type?: Exclude<StatusType, 'filled'>
   message?: ReactNode
   children: ReactNode
@@ -9,4 +9,4 @@ export interface InputStatusProps {
   containerRef?: Ref<HTMLElement>
 }
 
-export default class InputStatus extends PureComponent<InputStatusProps, {}> {}
+export default class FieldStatus extends PureComponent<FieldStatusProps, {}> {}

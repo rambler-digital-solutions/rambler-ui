@@ -35,7 +35,7 @@ const styles = theme => ({
   }
 })
 
-class InputStatus extends PureComponent {
+class FieldStatus extends PureComponent {
   static propTypes = {
     /**
      * Отображает текст статуса компонента input.
@@ -47,7 +47,7 @@ class InputStatus extends PureComponent {
      */
     message: PropTypes.node,
     /**
-     * Элемент Input относительно которого будет отражаться InputStatus
+     * Элемент Input относительно которого будет отражаться FieldStatus
      */
     children: PropTypes.node.isRequired,
     /**
@@ -83,4 +83,4 @@ class InputStatus extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'InputStatus'})(InputStatus)
+export default injectSheet(styles, {name: 'FieldStatus'})(FieldStatus)
