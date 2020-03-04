@@ -65,7 +65,7 @@ export class ApplyTheme extends PureComponent {
     generateId: PropTypes.func
   }
 
-  // static contextType = ApplyThemeContext
+  static contextType = ApplyThemeContext
 
   // static contextTypes = {
   //   [RAMBLER_UI_JSS]: PropTypes.object,
@@ -124,8 +124,6 @@ export class ApplyTheme extends PureComponent {
     )
   }
 }
-
-ApplyTheme.contextType = ApplyThemeContext
 
 export const injectSheet = (styles, options = {}) => Component =>
   originalInjectSheet(styles, {

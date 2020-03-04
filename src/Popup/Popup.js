@@ -235,7 +235,7 @@ export default class Popup extends PureComponent {
     if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
-  renderContent() {
+  renderContent = componentRef => {
     const {
       children,
       className,
@@ -250,17 +250,19 @@ export default class Popup extends PureComponent {
       okButton,
       tabIndex,
       cancelButton,
-      onRequestClose,
-      closeOnClickOutside
+      onRequestClose
     } = this.props
 
-    const content = (
+    return (
       <FocusManager tabIndex={tabIndex}>
-        {({focusElement}) => (
+        {focusRef => (
           <div
             style={style}
             className={classnames(classes.popup, className)}
-            ref={focusElement}>
+            ref={element => {
+              focusRef(element)
+              if (componentRef) componentRef(element)
+            }}>
             {showClose && (
               <button className={classes.close} onClick={onRequestClose}>
                 <ClearIcon size={15} color="currentColor" />
@@ -289,11 +291,19 @@ export default class Popup extends PureComponent {
         )}
       </FocusManager>
     )
+  }
+
+  renderPopup() {
+    const {closeOnClickOutside, onRequestClose} = this.props
 
     if (closeOnClickOutside)
-      return <OnClickOutside handler={onRequestClose}>{content}</OnClickOutside>
+      return (
+        <OnClickOutside handler={onRequestClose}>
+          {this.renderContent}
+        </OnClickOutside>
+      )
 
-    return content
+    return this.renderContent()
   }
 
   render() {
@@ -328,7 +338,7 @@ export default class Popup extends PureComponent {
               isVisible && classes.isVisible,
               backdropClassName
             )}>
-            {this.renderContent()}
+            {this.renderPopup()}
           </div>
         )}
       </VisibilityAnimation>

@@ -233,34 +233,37 @@ class TooltipContent extends PureComponent {
 
     return (
       <OnClickOutside handler={onClickOutside}>
-        <VisibilityAnimation
-          isVisible={isVisible}
-          activeClassName={classes.isVisible}
-          animationDuration={theme.tooltip.animationDuration}
-          onVisible={onBecomeVisible}
-          onInvisible={onBecomeInvisible}>
-          {({isVisible}) => (
-            <div
-              style={{padding: '3px'}}
-              className={classnames(
-                className,
-                classes.content,
-                classes['x' + pointX],
-                classes['y' + pointY],
-                classes['xa' + anchorPointX],
-                classes['ya' + anchorPointY],
-                classes[status],
-                isVisible && classes.isVisible
-              )}>
-              <div className={classes.arrow} style={arrowStyle} />
+        {componentRef => (
+          <VisibilityAnimation
+            isVisible={isVisible}
+            activeClassName={classes.isVisible}
+            animationDuration={theme.tooltip.animationDuration}
+            onVisible={onBecomeVisible}
+            onInvisible={onBecomeInvisible}>
+            {({isVisible}) => (
               <div
-                style={style}
-                className={classnames(bodyClassName, classes.body)}>
-                {children}
+                ref={componentRef}
+                style={{padding: '3px'}}
+                className={classnames(
+                  className,
+                  classes.content,
+                  classes['x' + pointX],
+                  classes['y' + pointY],
+                  classes['xa' + anchorPointX],
+                  classes['ya' + anchorPointY],
+                  classes[status],
+                  isVisible && classes.isVisible
+                )}>
+                <div className={classes.arrow} style={arrowStyle} />
+                <div
+                  style={style}
+                  className={classnames(bodyClassName, classes.body)}>
+                  {children}
+                </div>
               </div>
-            </div>
-          )}
-        </VisibilityAnimation>
+            )}
+          </VisibilityAnimation>
+        )}
       </OnClickOutside>
     )
   }
@@ -341,30 +344,14 @@ export default class Tooltip extends PureComponent {
   }
 
   state = {
-    isOpened: false
+    isOpened: this.props.isOpened || false
   }
 
-  constructor(props) {
-    super(props)
-    if (this.props.isOpened) {
-      this.clearDelayTimeout()
-      this.state = {
-        isOpened: true
-      }
-    }
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (
-  //     nextProps.isOpened !== undefined &&
-  //     nextProps.isOpened !== this.props.isOpened
-  //   )
-  //     if (nextProps.isOpened) this.show()
-  //     else this.hide()
-  // }
-
-  componentDidUpdate() {
-    if (this.props.isOpened !== undefined && this.props.isOpened)
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.isOpened !== undefined &&
+      this.props.isOpened !== prevProps.isOpened
+    )
       if (this.props.isOpened) this.show()
       else this.hide()
   }

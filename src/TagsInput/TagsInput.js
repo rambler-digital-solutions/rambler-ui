@@ -138,10 +138,6 @@ export default class TagsInput extends PureComponent {
     if (!this.props.isExpanded) this.updateVisibleItemsCount()
   }
 
-  // componentWillUpdate(nextProps) {
-  //   if (React.Children.count(nextProps.children) === 0) this.items = []
-  // }
-
   componentDidUpdate(prevProps, prevState) {
     if (React.Children.count(this.props.children) === 0) this.items = []
     if (

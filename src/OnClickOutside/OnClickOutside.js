@@ -1,6 +1,5 @@
 import {PureComponent} from 'react'
 import PropTypes from 'prop-types'
-import {findDOMNode} from 'react-dom'
 import throttle from 'lodash.throttle'
 import windowEvents from '../hoc/window-events'
 
@@ -10,7 +9,25 @@ export default class OnClickOutside extends PureComponent {
     /**
      * Функция обработчик
      */
-    handler: PropTypes.func.isRequired
+    handler: PropTypes.func.isRequired,
+    /**
+     * Функция возращающая контент
+     */
+    children: PropTypes.func.isRequired
+  }
+
+  componentDidMount() {
+    this.props.windowEvents.on('click', this.onClick)
+    this.props.windowEvents.on('touchstart', this.onClick)
+  }
+
+  componentWillUnmount() {
+    this.props.windowEvents.removeListener('click', this.onClick)
+    this.props.windowEvents.removeListener('touchstart', this.onClick)
+  }
+
+  componentRef = element => {
+    this.componentNode = element
   }
 
   onClick = throttle(event => {
@@ -29,18 +46,7 @@ export default class OnClickOutside extends PureComponent {
     this.props.handler(event)
   })
 
-  componentDidMount() {
-    this.componentNode = findDOMNode(this)
-    this.props.windowEvents.on('click', this.onClick)
-    this.props.windowEvents.on('touchstart', this.onClick)
-  }
-
-  componentWillUnmount() {
-    this.props.windowEvents.removeListener('click', this.onClick)
-    this.props.windowEvents.removeListener('touchstart', this.onClick)
-  }
-
   render() {
-    return this.props.children
+    return this.props.children(this.componentRef)
   }
 }

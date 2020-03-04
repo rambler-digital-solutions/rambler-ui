@@ -104,13 +104,12 @@ class DropdownContainer extends PureComponent {
       else props.hide()
   }
 
-  render() {
+  renderContent = componentRef => {
     const {
       isVisible,
       children,
       anchorWidth,
       anchorFullWidth,
-      closeOnClickOutside,
       className,
       style,
       theme,
@@ -130,8 +129,7 @@ class DropdownContainer extends PureComponent {
       ...resultStyle,
       ...style
     }
-
-    const content = (
+    return (
       <VisibilityAnimation
         isVisible={isVisible}
         animationDuration={theme.dropdown.animationDuration}
@@ -139,7 +137,7 @@ class DropdownContainer extends PureComponent {
         onInvisible={onBecomeInvisible}>
         {({isVisible}) => (
           <FocusManager tabIndex={tabIndex}>
-            {({focusElement}) => (
+            {focusRef => (
               <div
                 className={classnames(
                   className,
@@ -150,7 +148,10 @@ class DropdownContainer extends PureComponent {
                   isVisible && classes.isVisible
                 )}
                 style={resultStyle}
-                ref={focusElement}>
+                ref={element => {
+                  focusRef(element)
+                  if (componentRef) componentRef(element)
+                }}>
                 {children}
               </div>
             )}
@@ -158,9 +159,17 @@ class DropdownContainer extends PureComponent {
         )}
       </VisibilityAnimation>
     )
-    if (!closeOnClickOutside) return content
+  }
+
+  render() {
+    const {closeOnClickOutside} = this.props
+
+    if (!closeOnClickOutside) return this.renderContent()
+
     return (
-      <OnClickOutside handler={this.onClickOutside}>{content}</OnClickOutside>
+      <OnClickOutside handler={this.onClickOutside}>
+        {this.renderContent}
+      </OnClickOutside>
     )
   }
 }
@@ -267,10 +276,7 @@ export default class Dropdown extends PureComponent {
     tabIndex: null
   }
 
-  constructor(props) {
-    super(props)
-    this.Overlay = props.appendToBody ? FixedOverlay : RelativeOverlay
-  }
+  Overlay = this.props.appendToBody ? FixedOverlay : RelativeOverlay
 
   render() {
     const {

@@ -221,20 +221,6 @@ export default class Pagination extends Component {
     showInput: false
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.state.pageValue !== nextProps.currentPage)
-  //     this.setState({
-  //       pageValue: nextProps.currentPage
-  //     })
-  // }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.pageValue !== this.props.currentPage)
-      this.setState({
-        pageValue: this.props.currentPage
-      })
-  }
-
   get pageContainer() {
     return this.props.pageContainer || buttonContainer
   }
@@ -245,6 +231,13 @@ export default class Pagination extends Component {
     const {pagesCount} = this.props
     const page = +pageValue
     return isInt(page) && page <= pagesCount && page > 0
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.pageValue !== this.props.currentPage)
+      this.setState({
+        pageValue: this.props.currentPage
+      })
   }
 
   handleChange = (event, pageNumber) => {

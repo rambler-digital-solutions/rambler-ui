@@ -1,11 +1,9 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-// import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
 import {injectSheet} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
-import {RADIO_INPUT_CONTEXT} from '../constants/context'
 import '../utils/focus-source'
 import {RadioButtonContext} from './RadioButtonGroup'
 
@@ -170,60 +168,28 @@ class RadioButton extends PureComponent {
 
   static contextType = RadioButtonContext
 
-  // static contextTypes = {
-  //   [RADIO_INPUT_CONTEXT]: PropTypes.shape({
-  //     getValue: PropTypes.func,
-  //     getName: PropTypes.func,
-  //     events: PropTypes.instanceOf(EventEmitter)
-  //   })
-  // }
-
   constructor(props) {
     super(props)
     this.setInputValue(this.props.value)
   }
 
   get isChecked() {
-    return this.inputValue === this.context[RADIO_INPUT_CONTEXT].getValue()
-  }
-
-  // componentWillMount() {
-  //   this.setInputValue(this.props.value)
-  //   this.context[RADIO_INPUT_CONTEXT].events.on(
-  //     'updateValue',
-  //     this.onUpdateValue
-  //   )
-  // }
-
-  componentWillUnmount() {
-    this.context[RADIO_INPUT_CONTEXT].events.removeListener(
-      'updateValue',
-      this.onUpdateValue
-    )
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.value !== this.props.value)
-  //     this.setInputValue(nextProps.value)
-  // }
-
-  getSnapshotBeforeUpdate(prevProps) {
-    if (this.props.value !== prevProps.value)
-      this.setInputValue(this.props.value)
-
-    return null
+    return this.inputValue === this.context.getValue()
   }
 
   componentDidMount() {
-    this.context[RADIO_INPUT_CONTEXT].events.on(
-      'updateValue',
-      this.onUpdateValue
-    )
+    this.context.events.on('updateValue', this.onUpdateValue)
     if (this.input) this.input.checked = this.isChecked
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value)
+      this.setInputValue(this.props.value)
     if (this.input) this.input.checked = this.isChecked
+  }
+
+  componentWillUnmount() {
+    this.context.events.removeListener('updateValue', this.onUpdateValue)
   }
 
   setInputValue(value) {
@@ -235,14 +201,10 @@ class RadioButton extends PureComponent {
     this.forceUpdate()
   }
 
-  onChange = e => {
-    this.context[RADIO_INPUT_CONTEXT].events.emit(
-      'newValue',
-      e,
-      this.props.value
-    )
+  onChange = event => {
+    this.context.events.emit('newValue', event, this.props.value)
     // оставляем для обратной совместимости
-    if (this.props.onChange) this.props.onChange(e, this.inputValue)
+    if (this.props.onChange) this.props.onChange(event, this.inputValue)
   }
 
   render() {
@@ -280,7 +242,7 @@ class RadioButton extends PureComponent {
           ref={input => {
             this.input = input
           }}
-          name={this.context[RADIO_INPUT_CONTEXT].getName()}
+          name={this.context.getName()}
           value={this.stringValue}
           disabled={disabled}
           onChange={this.onChange}

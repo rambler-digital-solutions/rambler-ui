@@ -22,8 +22,8 @@ export const theme = {
   }
 }
 
-const themeContext = React.createContext({})
-const theming = createTheming(themeContext)
+const ThemeContext = React.createContext({})
+const theming = createTheming(ThemeContext)
 const {ThemeProvider: Provider, withTheme} = theming
 
 export {withTheme}

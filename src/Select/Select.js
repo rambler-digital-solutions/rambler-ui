@@ -494,13 +494,8 @@ export default class Select extends PureComponent {
     return !multiple && clearIcon && !this.isValueEmpty(this.state.value)
   }
 
-  // componentWillReceiveProps({value}) {
-  //   this.setValue(value)
-  // }
-
-  getSnapshotBeforeUpdate() {
+  componentDidUpdate() {
     this.setValue(this.props.value)
-    return null
   }
 
   handleDropdownClose = () => {
@@ -948,60 +943,62 @@ export default class Select extends PureComponent {
 
     return (
       <OnClickOutside handler={this.closeOnClickOutside}>
-        <div className={resultClassName} style={rootStyle}>
-          <Dropdown
-            isOpened={resultIsOpened}
-            anchor={dropdownAnchor}
-            padding={false}
-            style={dropdownStyle}
-            className={dropdownResultClassName}
-            overlayClassName={classes.dropdownContainer}
-            appendToBody={appendToBody}
-            anchorFullWidth={true}
-            autoPositionY={!multiple}
-            anchorPointY="bottom"
-            contentPointY="top"
-            closeOnClickOutside={false}
-            cachePositionOptions={false}
-            onClose={this.handleDropdownClose}>
-            {multipleWithValue && onSearch && (
-              <TagsInput
-                className={classnames(
-                  classes.selected,
-                  classes[`options-${multipleType}`]
-                )}
-                onChange={this.changeValue}
-                isExpanded={true}
-                onMouseDown={this.preventBlurInput}
-                type={multipleType}>
-                {options}
-              </TagsInput>
-            )}
+        {componentRef => (
+          <div ref={componentRef} className={resultClassName} style={rootStyle}>
+            <Dropdown
+              isOpened={resultIsOpened}
+              anchor={dropdownAnchor}
+              padding={false}
+              style={dropdownStyle}
+              className={dropdownResultClassName}
+              overlayClassName={classes.dropdownContainer}
+              appendToBody={appendToBody}
+              anchorFullWidth={true}
+              autoPositionY={!multiple}
+              anchorPointY="bottom"
+              contentPointY="top"
+              closeOnClickOutside={false}
+              cachePositionOptions={false}
+              onClose={this.handleDropdownClose}>
+              {multipleWithValue && onSearch && (
+                <TagsInput
+                  className={classnames(
+                    classes.selected,
+                    classes[`options-${multipleType}`]
+                  )}
+                  onChange={this.changeValue}
+                  isExpanded={true}
+                  onMouseDown={this.preventBlurInput}
+                  type={multipleType}>
+                  {options}
+                </TagsInput>
+              )}
 
-            {children.length > 0 && (
-              <Menu
-                style={menuStyle}
-                className={classnames(
-                  menuClassName,
-                  classes.menu,
-                  classes[`menuSize-${size}`],
-                  onSearch && multiple && classes.reducedHeight
-                )}
-                autoFocus={resultIsOpened && !inputFocused}
-                value={
-                  multiple ? (Array.isArray(value) ? value : emptyArr) : value
-                }
-                valuesEquality={valuesEquality}
-                onChange={this.changeValue}
-                onMouseDown={this.preventBlurInput}
-                onEscKeyDown={this.closeOnEsc}
-                multiple={multiple}
-                size={size}>
-                {children}
-              </Menu>
-            )}
-          </Dropdown>
-        </div>
+              {children.length > 0 && (
+                <Menu
+                  style={menuStyle}
+                  className={classnames(
+                    menuClassName,
+                    classes.menu,
+                    classes[`menuSize-${size}`],
+                    onSearch && multiple && classes.reducedHeight
+                  )}
+                  autoFocus={resultIsOpened && !inputFocused}
+                  value={
+                    multiple ? (Array.isArray(value) ? value : emptyArr) : value
+                  }
+                  valuesEquality={valuesEquality}
+                  onChange={this.changeValue}
+                  onMouseDown={this.preventBlurInput}
+                  onEscKeyDown={this.closeOnEsc}
+                  multiple={multiple}
+                  size={size}>
+                  {children}
+                </Menu>
+              )}
+            </Dropdown>
+          </div>
+        )}
       </OnClickOutside>
     )
   }

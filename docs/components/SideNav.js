@@ -456,48 +456,51 @@ class SideNav extends PureComponent {
 
     return (
       <OnClickOutside handler={this.closeNavOnClickOutside}>
-        <div
-          className={classnames(
-            classes.root,
-            navOpened && classes.opened,
-            (!desktop || !navOpened) && classes.mobile
-          )}>
-          <div className={classes.scroll}>
-            <Link to="/" className={classes.logo} preload={false}>
-              <Logo />
-            </Link>
-            <button
-              type="button"
-              className={classes.toggle}
-              onClick={this.toggleNav}>
-              <span />
-              <span />
-              <span />
-            </button>
-            {this.renderList(index)}
-            <div className={classes.buttons}>
-              <Button
-                type="outlineBlue"
-                block
-                href="https://brand.rambler.ru"
-                rel="noreferrer noopener"
-                target="_blank">
-                Дизайнеру
-                <ArrowIcon color="#315efb" />
-              </Button>
-              <Button
-                type="outlineBlue"
-                block
-                href="https://github.com/rambler-digital-solutions/rambler-ui"
-                rel="noreferrer noopener"
-                target="_blank">
-                Разработчику
-                <ArrowIcon color="#315efb" />
-              </Button>
+        {componentRef => (
+          <div
+            ref={componentRef}
+            className={classnames(
+              classes.root,
+              navOpened && classes.opened,
+              (!desktop || !navOpened) && classes.mobile
+            )}>
+            <div className={classes.scroll}>
+              <Link to="/" className={classes.logo} preload={false}>
+                <Logo />
+              </Link>
+              <button
+                type="button"
+                className={classes.toggle}
+                onClick={this.toggleNav}>
+                <span />
+                <span />
+                <span />
+              </button>
+              {this.renderList(index)}
+              <div className={classes.buttons}>
+                <Button
+                  type="outlineBlue"
+                  block
+                  href="https://brand.rambler.ru"
+                  rel="noreferrer noopener"
+                  target="_blank">
+                  Дизайнеру
+                  <ArrowIcon color="#315efb" />
+                </Button>
+                <Button
+                  type="outlineBlue"
+                  block
+                  href="https://github.com/rambler-digital-solutions/rambler-ui"
+                  rel="noreferrer noopener"
+                  target="_blank">
+                  Разработчику
+                  <ArrowIcon color="#315efb" />
+                </Button>
+              </div>
+              {this.renderVersion()}
             </div>
-            {this.renderVersion()}
           </div>
-        </div>
+        )}
       </OnClickOutside>
     )
   }

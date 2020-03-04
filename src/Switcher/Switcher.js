@@ -160,29 +160,13 @@ export default class Switcher extends PureComponent {
     onCheck: () => {}
   }
 
+  checked = this.props.checked || false
+
   state = {
-    checked: false
+    checked: this.checked
   }
 
-  constructor(props) {
-    super(props)
-    if (this.checked !== this.props.checked) {
-      this.checked = this.props.checked
-      this.state = {
-        checked: this.props.checked
-      }
-    }
-  }
-
-  // componentWillMount() {
-  //   this.switch(this.props.checked)
-  // }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.switch(nextProps.checked)
-  // }
-
-  getSnapshotBeforeUpdate() {
+  componentDidUpdate() {
     this.switch(this.props.checked)
     return null
   }

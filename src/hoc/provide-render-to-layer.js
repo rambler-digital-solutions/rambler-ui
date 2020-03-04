@@ -1,9 +1,5 @@
 import React, {Component, cloneElement, Fragment} from 'react'
-import {
-  unmountComponentAtNode,
-  // unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
-  createPortal
-} from 'react-dom'
+import {createPortal} from 'react-dom'
 import uuid from '../utils/uuid'
 
 /**
@@ -42,17 +38,15 @@ import uuid from '../utils/uuid'
  */
 export default function provideRenderToLayer(Target) {
   return class ProvideRenderToLayer extends Component {
-    state = {
-      isPortal: false
-    }
     elements = []
-    listElement = null
-    wrapper = null
+
+    state = {
+      isOpened: false
+    }
 
     componentWillUnmount() {
       this.elements = []
       this.unmountPortal()
-      this.wrapper = null
     }
 
     renderToLayer = (element, props) => {
@@ -65,7 +59,7 @@ export default function provideRenderToLayer(Target) {
       })
 
       this.elements.push(resultElement)
-      this.renderPortal()
+      this.mountPortal()
 
       return resultElement
     }
@@ -85,66 +79,38 @@ export default function provideRenderToLayer(Target) {
         })
 
         this.elements[elementIndex] = closedElement
-        this.renderPortal()
+        this.mountPortal()
       }).then(closedElement => {
         this.elements = this.elements.filter(el => el !== closedElement)
-        this.renderPortal()
+        if (this.elements.length === 0) this.unmountPortal()
       })
     }
 
-    renderPortal() {
-      if (this.elements.length > 0) {
-        this.listElement = this.elements.map((el, i) => <div key={i}>{el}</div>)
-        this.setState({
-          isPortal: true
-        })
-        // if (!this.node) {
-        //   this.node = document.createElement('div')
-        //   document.body.appendChild(this.node)
-        // }
-        // const listElement = <div>{this.elements}</div>
-        // renderSubtreeIntoContainer(this, listElement, this.node)
-      } else {
-        this.unmountPortal()
+    getContentContainerNode() {
+      if (!this.node) {
+        this.node = document.createElement('div')
+        document.body.appendChild(this.node)
       }
+      return this.node
+    }
+
+    mountPortal() {
+      this.setState({isOpened: true})
     }
 
     unmountPortal() {
-      if (this.wrapper) {
-        this.setState({
-          isPortal: false
-        })
-        unmountComponentAtNode(this.wrapper)
-        document.body.removeChild(this.wrapper)
-        this.wrapper = null
+      if (this.node) {
+        this.setState({isOpened: false})
+        document.body.removeChild(this.node)
+        this.node = null
       }
-      // if (this.node) {
-      //   unmountComponentAtNode(this.node)
-      //   document.body.removeChild(this.node)
-      //   this.node = null
-      // }
     }
 
-    // render() {
-    //   return (
-    //     <Target
-    //       {...this.props}
-    //       renderToLayer={this.renderToLayer}
-    //       unrenderAtLayer={this.unrenderAtLayer}
-    //     />
-    //   )
-    // }
-
-    getContainerElement() {
-      if (!this.wrapper) {
-        this.wrapper = document.createElement('div')
-        document.body.appendChild(this.wrapper)
-      }
-      return this.wrapper
+    renderContent() {
+      return <Fragment>{this.elements}</Fragment>
     }
 
     render() {
-      const {isPortal} = this.state
       return (
         <Fragment>
           <Target
@@ -152,8 +118,8 @@ export default function provideRenderToLayer(Target) {
             renderToLayer={this.renderToLayer}
             unrenderAtLayer={this.unrenderAtLayer}
           />
-          {isPortal &&
-            createPortal(this.listElement, this.getContainerElement())}
+          {this.state.isOpened &&
+            createPortal(this.renderContent(), this.getContentContainerNode())}
         </Fragment>
       )
     }

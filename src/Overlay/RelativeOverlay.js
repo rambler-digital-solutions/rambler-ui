@@ -383,87 +383,69 @@ export default class RelativeOverlay extends PureComponent {
     getElementRect: originalGetBoundingClientRect
   }
 
-  constructor(props) {
-    super(props)
-    this.events = new EventEmitter()
-    // Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
-    this.transactionIndex = 0
-    this.state = {
-      /**
-       * Вставлен ли контент в DOM
-       */
-      isContentInDom: props.isOpened || false,
-      /**
-       * является ли content видимым
-       */
-      isContentVisible: false,
-      /**
-       * Точка прикрепления контента X
-       */
-      contentPointX: props.contentPointX,
-      /**
-       * Точка прикрепления контента Y
-       */
-      contentPointY: props.contentPointY,
-      /**
-       * Ширина anchor элемента
-       */
-      anchorWidth: undefined,
-      /**
-       * Высота anchor элемента
-       */
-      anchorHeight: undefined,
-      /**
-       * Координата anchor по оси X
-       */
-      anchorLeft: undefined,
-      /**
-       * Координата anchor по оси Y
-       */
-      anchorTop: undefined,
-      /**
-       * Стиль контента
-       */
-      contentStyle: {}
-    }
+  events = new EventEmitter()
+
+  // Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
+  transactionIndex = 0
+
+  state = {
+    /**
+     * Вставлен ли контент в DOM
+     */
+    isContentInDom: this.props.isOpened || false,
+    /**
+     * является ли content видимым
+     */
+    isContentVisible: false,
+    /**
+     * Точка прикрепления контента X
+     */
+    contentPointX: this.props.contentPointX,
+    /**
+     * Точка прикрепления контента Y
+     */
+    contentPointY: this.props.contentPointY,
+    /**
+     * Ширина anchor элемента
+     */
+    anchorWidth: undefined,
+    /**
+     * Высота anchor элемента
+     */
+    anchorHeight: undefined,
+    /**
+     * Координата anchor по оси X
+     */
+    anchorLeft: undefined,
+    /**
+     * Координата anchor по оси Y
+     */
+    anchorTop: undefined,
+    /**
+     * Стиль контента
+     */
+    contentStyle: {}
   }
 
-  // componentWillReceiveProps({
-  //   isOpened,
-  //   anchorPointX,
-  //   anchorPointY,
-  //   contentPointX,
-  //   contentPointY
-  // }) {
-  //   if (isOpened !== undefined && isOpened !== this.props.isOpened)
-  //     if (isOpened) this.show()
-  //     else this.hide()
-  //   else if (
-  //     isOpened &&
-  //     (this.props.anchorPointX !== anchorPointX ||
-  //       this.props.anchorPointY !== anchorPointY ||
-  //       this.props.contentPointX !== contentPointX ||
-  //       this.props.contentPointY !== contentPointY)
-  //   )
-  //     this.show()
-  // }
-
-  getSnapshotBeforeUpdate(prevProps) {
-    if (
-      this.props.isOpened !== undefined &&
-      this.props.isOpened !== prevProps.isOpened
-    )
-      if (this.props.isOpened) this.show()
+  componentDidUpdate(prevProps) {
+    const {
+      isOpened,
+      anchorPointX,
+      anchorPointY,
+      contentPointX,
+      contentPointY
+    } = this.props
+    if (isOpened !== undefined && isOpened !== prevProps.isOpened)
+      if (isOpened) this.show()
       else this.hide()
     else if (
-      this.props.isOpened &&
-      (prevProps.anchorPointX !== this.props.anchorPointX ||
-        prevProps.anchorPointY !== this.props.anchorPointY ||
-        prevProps.contentPointX !== this.props.contentPointX ||
-        prevProps.contentPointY !== this.props.contentPointY)
+      isOpened &&
+      (prevProps.anchorPointX !== anchorPointX ||
+        prevProps.anchorPointY !== anchorPointY ||
+        prevProps.contentPointX !== contentPointX ||
+        prevProps.contentPointY !== contentPointY)
     )
       this.show()
-    return null
   }
 
   componentWillUnmount() {

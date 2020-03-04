@@ -80,15 +80,6 @@ export default class VisibilityAnimation extends PureComponent {
     if (this.props.isVisible) this.delayTimeout = setTimeout(this.show, 60)
   }
 
-  // componentWillReceiveProps({isVisible}) {
-  //   if (isVisible !== this.props.isVisible) {
-  //     clearTimeout(this.delayTimeout)
-  //
-  //     if (isVisible) this.delayTimeout = setTimeout(this.show, 60)
-  //     else this.hide()
-  //   }
-  // }
-
   componentDidUpdate(prevProps) {
     if (prevProps.isVisible !== this.props.isVisible) {
       clearTimeout(this.delayTimeout)

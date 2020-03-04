@@ -1,16 +1,15 @@
 import React, {PureComponent, Children} from 'react'
-// import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import SuggestDropdown from './SuggestDropdown'
 import OnClickOutside from '../OnClickOutside'
-import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
 import getDisplayName from '../utils/get-display-name'
 
-export const provideSearchDropdownContext = React.createContext({})
+export const ProvideSearchDropdownContext = React.createContext({})
 
 export default function provideSearchDropdown(Search) {
   return class extends PureComponent {
     static displayName = `provideSearchDropdown(${getDisplayName(Search)})`
+
     static defaultProps = {
       value: '',
       placeholder: '',
@@ -35,87 +34,41 @@ export default function provideSearchDropdown(Search) {
       onPressEnter() {}
     }
 
-    // static childContextTypes = {
-    //   [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-    //     /**
-    //      * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-    //      */
-    //     registerSuggestItem: PropTypes.func,
-    //     /**
-    //      * Колбек удаления SuggestItem
-    //      */
-    //     onRemoveSuggestItemClick: PropTypes.func,
-    //     /**
-    //      * Колбек клика по SuggestItem
-    //      */
-    //     onSuggestItemClick: PropTypes.func,
-    //     /**
-    //      * Колбек наведения на SuggestItem
-    //      */
-    //     onSuggestItemHover: PropTypes.func,
-    //     /**
-    //      * Функция для подсветки SuggestItem
-    //      */
-    //     setHighlightedId: PropTypes.func,
-    //     /**
-    //      * Шина событий
-    //      */
-    //     events: PropTypes.instanceOf(EventEmitter)
-    //   })
-    // }
+    state = {
+      isDropdownOpened: false
+    }
 
-    constructor(props) {
-      super(props)
+    events = new EventEmitter()
 
-      this.state = {
-        isDropdownOpened: false
+    /**
+     * Упорядоченный массив с зарегестрированными компонентами SuggestItem
+     * @type {Array}
+     */
+    sortedSuggestItems = []
+
+    /**
+     * Объект с сохраненными suggestItems
+     */
+    suggestItems = {}
+
+    /**
+     * Текущий подсвеченный элемент
+     */
+    highlightedSuggestItemId = null
+
+    get contextValue() {
+      return {
+        events: this.events,
+        registerSuggestItem: this.registerSuggestItem,
+        onRemoveSuggestItemClick: this.onRemoveSuggestItemClick,
+        onSuggestItemClick: this.onSuggestItemClick,
+        onSuggestItemHover: this.onSuggestItemHover,
+        setHighlightedId: this.setHighlightedId
       }
-
-      this.events = new EventEmitter()
-
-      /**
-       * Упорядоченный массив с зарегестрированными компонентами SuggestItem
-       * @type {Array}
-       */
-      this.sortedSuggestItems = []
-      /**
-       * Объект с сохраненными suggestItems
-       */
-      this.suggestItems = {}
-      /**
-       * Текущий подсвеченный элемент
-       */
-      this.highlightedSuggestItemId = null
     }
 
     componentWillUnmount() {
       this.events.removeAllListeners()
-    }
-
-    // getChildContext() {
-    //   return {
-    //     [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: {
-    //       events: this.events,
-    //       registerSuggestItem: this.registerSuggestItem,
-    //       onRemoveSuggestItemClick: this.onRemoveSuggestItemClick,
-    //       onSuggestItemClick: this.onSuggestItemClick,
-    //       onSuggestItemHover: this.onSuggestItemHover,
-    //       setHighlightedId: this.setHighlightedId
-    //     }
-    //   }
-    // }
-
-    get contextValue() {
-      return {
-        [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: {
-          events: this.events,
-          registerSuggestItem: this.registerSuggestItem,
-          onRemoveSuggestItemClick: this.onRemoveSuggestItemClick,
-          onSuggestItemClick: this.onSuggestItemClick,
-          onSuggestItemHover: this.onSuggestItemHover,
-          setHighlightedId: this.setHighlightedId
-        }
-      }
     }
 
     registerSuggestItem = (id, component) => {
@@ -221,7 +174,8 @@ export default function provideSearchDropdown(Search) {
 
     setNode = name => node => {
       this[`${name}Node`] = node
-      this.props.setNode && this.props.setNode(name)(node)
+      if (this.props.setNode) this.props.setNode(name)(node)
+      if (this.setRootNode && name === 'root') this.setRootNode(node)
     }
 
     isNodeNotInComponent(node) {
@@ -275,40 +229,28 @@ export default function provideSearchDropdown(Search) {
     render() {
       const {isDropdownOpened} = this.state
 
-      // return (
-      //   <OnClickOutside handler={this.onClickOutside}>
-      //     <Search
-      //       {...this.props}
-      //       isDropdownOpened={isDropdownOpened}
-      //       renderDropdown={this.renderDropdown}
-      //       clearForm={this.clearForm}
-      //       setNode={this.setNode}
-      //       onBlur={this.onBlur}
-      //       onFocus={this.onFocus}
-      //       onKeyDown={this.onKeyDown}
-      //       onSearch={this.props.onSearch}
-      //       setHighlightedId={this.setHighlightedId}
-      //     />
-      //   </OnClickOutside>
-      // )
-
       return (
-        <provideSearchDropdownContext.Provider value={this.contextValue}>
+        <ProvideSearchDropdownContext.Provider value={this.contextValue}>
           <OnClickOutside handler={this.onClickOutside}>
-            <Search
-              {...this.props}
-              isDropdownOpened={isDropdownOpened}
-              renderDropdown={this.renderDropdown}
-              clearForm={this.clearForm}
-              setNode={this.setNode}
-              onBlur={this.onBlur}
-              onFocus={this.onFocus}
-              onKeyDown={this.onKeyDown}
-              onSearch={this.props.onSearch}
-              setHighlightedId={this.setHighlightedId}
-            />
+            {componentRef => {
+              this.setRootNode = componentRef
+              return (
+                <Search
+                  {...this.props}
+                  isDropdownOpened={isDropdownOpened}
+                  renderDropdown={this.renderDropdown}
+                  clearForm={this.clearForm}
+                  setNode={this.setNode}
+                  onBlur={this.onBlur}
+                  onFocus={this.onFocus}
+                  onKeyDown={this.onKeyDown}
+                  onSearch={this.props.onSearch}
+                  setHighlightedId={this.setHighlightedId}
+                />
+              )
+            }}
           </OnClickOutside>
-        </provideSearchDropdownContext.Provider>
+        </ProvideSearchDropdownContext.Provider>
       )
     }
   }

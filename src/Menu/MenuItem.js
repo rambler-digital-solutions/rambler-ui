@@ -4,9 +4,7 @@ import classnames from 'classnames'
 import {ENTER} from '../constants/keys'
 import {injectSheet} from '../theme'
 import {isolateMixin} from '../utils/mixins'
-// import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
-import {MENU_ITEM_CONTEXT} from '../constants/context'
 import {MenuContext} from './Menu'
 
 @injectSheet(
@@ -91,87 +89,49 @@ class MenuItem extends PureComponent {
     container: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
   }
 
-  // static contextTypes = {
-  //   [MENU_ITEM_CONTEXT]: PropTypes.shape({
-  //     /**
-  //      * Проверка, выбрано ли значение (args: value)
-  //      */
-  //     isValueSelected: PropTypes.func,
-  //     /**
-  //      * Проверка, в фокусе ли значение (args: key)
-  //      */
-  //     isItemFocused: PropTypes.func,
-  //     /**
-  //      * Проверка, не активно ли меню
-  //      */
-  //     isMenuDisabled: PropTypes.func,
-  //     /**
-  //      * Получение размера меню
-  //      */
-  //     getMenuSize: PropTypes.func,
-  //     /**
-  //      * Получение MenuItem node ref (args: key)
-  //      */
-  //     getItemRef: PropTypes.func,
-  //     /**
-  //      * Шина событий
-  //      * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
-  //      * onItemSelect - клик по MenuItem (args: value)
-  //      * onItemFocus - фокус на MenuItem (args: id)
-  //      * onItemMount - добавление и обновление MenuItem (args: id, componentInstanseRef)
-  //      * onItemUnmount - удаление MenuItem (args: id)
-  //      */
-  //     events: PropTypes.instanceOf(EventEmitter)
-  //   })
-  // }
-
   static contextType = MenuContext
 
   id = uuid()
 
-  get ctx() {
-    return this.context[MENU_ITEM_CONTEXT]
-  }
-
   get item() {
-    return this.ctx.getItemRef(this.id)
+    return this.context.getItemRef(this.id)
   }
 
   componentDidMount() {
-    this.ctx.events.on('onPropsChange', this.handlePropsChange)
-    this.ctx.events.emit('onItemMount', this.id, this)
-    if (this.ctx.isItemFocused(this.id)) this.item.focus()
+    this.context.events.on('onPropsChange', this.handlePropsChange)
+    this.context.events.emit('onItemMount', this.id, this)
+    if (this.context.isItemFocused(this.id)) this.item.focus()
   }
 
   componentDidUpdate() {
-    if (this.ctx.isItemFocused(this.id)) this.item.focus()
+    if (this.context.isItemFocused(this.id)) this.item.focus()
   }
 
   componentWillUnmount() {
-    this.ctx.events.removeListener('onPropsChange', this.handlePropsChange)
-    this.ctx.events.emit('onItemUnmount', this.id)
+    this.context.events.removeListener('onPropsChange', this.handlePropsChange)
+    this.context.events.emit('onItemUnmount', this.id)
   }
 
   handlePropsChange = () => {
-    const {props, ctx} = this
+    const {props, context} = this
     if (
       (props.hasOwnProperty('value') &&
-        ctx.isValueSelected(props.value) !== this.isSelected) ||
-      ctx.isItemFocused(this.id) !== this.isFocused ||
-      ctx.isMenuDisabled() !== this.disabled ||
-      ctx.getMenuSize() !== this.size
+        context.isValueSelected(props.value) !== this.isSelected) ||
+      context.isItemFocused(this.id) !== this.isFocused ||
+      context.isMenuDisabled() !== this.disabled ||
+      context.getMenuSize() !== this.size
     )
       this.forceUpdate()
   }
 
   handleFocus = () => {
-    this.ctx.events.emit('onItemFocus', this.id)
+    this.context.events.emit('onItemFocus', this.id)
   }
 
   handleSelect = () => {
     const {props} = this
     if (props.hasOwnProperty('value'))
-      this.ctx.events.emit('onItemSelect', props.value)
+      this.context.events.emit('onItemSelect', props.value)
   }
 
   handlePressKey = event => {
@@ -194,10 +154,10 @@ class MenuItem extends PureComponent {
       ...other
     } = this.props
     this.isSelected =
-      this.props.hasOwnProperty('value') && this.ctx.isValueSelected(value)
-    this.isFocused = this.ctx.isItemFocused(this.id)
-    this.disabled = this.ctx.isMenuDisabled()
-    this.size = this.ctx.getMenuSize()
+      this.props.hasOwnProperty('value') && this.context.isValueSelected(value)
+    this.isFocused = this.context.isItemFocused(this.id)
+    this.disabled = this.context.isMenuDisabled()
+    this.size = this.context.getMenuSize()
     const isItemDisabled = !!disabled || this.disabled
 
     let element

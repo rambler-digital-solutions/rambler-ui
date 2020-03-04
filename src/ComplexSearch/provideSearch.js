@@ -33,19 +33,11 @@ export default function provideSearch(Search) {
       sourceType: 'global'
     }
 
-    // componentWillReceiveProps(nextProps) {
-    //   if (this.props.value !== nextProps.value)
-    //     this.setState({
-    //       value: nextProps.value
-    //     })
-    // }
-
-    getSnapshotBeforeUpdate(prevProps) {
+    componentDidUpdate(prevProps) {
       if (prevProps.value !== this.props.value)
         this.setState({
           value: this.props.value
         })
-      return null
     }
 
     onSubmit = e => {

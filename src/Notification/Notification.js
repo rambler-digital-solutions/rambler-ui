@@ -192,7 +192,7 @@ export default class Notification extends PureComponent {
     if (this.state.isVisible) this.props.onRequestClose()
   }
 
-  render() {
+  renderContent = componentRef => {
     const {
       isOpened,
       className,
@@ -207,17 +207,17 @@ export default class Notification extends PureComponent {
       actionButton,
       onAction,
       onRequestClose,
-      closeOnClickOutside,
       onClose
     } = this.props
 
-    const content = (
+    return (
       <VisibilityAnimation
         isVisible={isOpened}
         animationDuration={theme.notification.animationDuration}
         onInvisible={onClose}>
         {({isVisible}) => (
           <div
+            ref={componentRef}
             style={style}
             className={classnames(
               classes.notification,
@@ -252,12 +252,18 @@ export default class Notification extends PureComponent {
         )}
       </VisibilityAnimation>
     )
+  }
+
+  render() {
+    const {closeOnClickOutside} = this.props
 
     if (closeOnClickOutside)
       return (
-        <OnClickOutside handler={this.onClickOutside}>{content}</OnClickOutside>
+        <OnClickOutside handler={this.onClickOutside}>
+          {this.renderContent}
+        </OnClickOutside>
       )
 
-    return content
+    return this.renderContent()
   }
 }

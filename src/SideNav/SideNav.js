@@ -57,23 +57,14 @@ export default class SideNav extends Component {
     size: 'medium'
   }
 
-  constructor(props) {
-    super(props)
+  value = this.props.value
 
-    this.state = {
-      value: props.value
-    }
-
-    this.value = props.value
+  state = {
+    value: this.value
   }
 
-  // componentWillReceiveProps({value}) {
-  //   this.setValue(value)
-  // }
-
-  getSnapshotBeforeUpdate() {
+  componentDidUpdate() {
     this.setValue(this.props.value)
-    return null
   }
 
   setValue(value) {

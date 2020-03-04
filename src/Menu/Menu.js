@@ -6,7 +6,6 @@ import {ESCAPE, UP, DOWN, TAB} from '../constants/keys'
 import {injectSheet} from '../theme'
 import {getBoundingClientRect} from '../utils/DOM'
 import {isolateMixin, beautyScroll} from '../utils/mixins'
-import {MENU_ITEM_CONTEXT} from '../constants/context'
 
 const emptyArr = []
 
@@ -92,84 +91,31 @@ export default class Menu extends PureComponent {
     size: 'medium'
   }
 
-  // static childContextTypes = {
-  //   [MENU_ITEM_CONTEXT]: PropTypes.shape({
-  //     /**
-  //      * Проверка, выбрано ли значение (args: value)
-  //      */
-  //     isValueSelected: PropTypes.func,
-  //     /**
-  //      * Проверка, в фокусе ли значение (args: key)
-  //      */
-  //     isItemFocused: PropTypes.func,
-  //     /**
-  //      * Проверка, не активно ли меню
-  //      */
-  //     isMenuDisabled: PropTypes.func,
-  //     /**
-  //      * Получение размера меню
-  //      */
-  //     getMenuSize: PropTypes.func,
-  //     /**
-  //      * Получение MenuItem node ref (args: key)
-  //      */
-  //     getItemRef: PropTypes.func,
-  //     /**
-  //      * Шина событий
-  //      * onPropsChange - изменение значений props в Menu, влияющих на отображение опций
-  //      * onItemSelect - клик по MenuItem (args: value)
-  //      * onItemFocus - фокус на MenuItem (args: id)
-  //      * onItemMount - добавление и обновление MenuItem (args: id, componentInstanseRef)
-  //      * onItemUnmount - удаление MenuItem (args: id)
-  //      */
-  //     events: PropTypes.instanceOf(EventEmitter)
-  //   })
-  // }
+  value = this.props.multiple
+    ? Array.isArray(this.props.value)
+      ? this.props.value
+      : emptyArr
+    : this.props.value
 
-  constructor(props) {
-    super(props)
-    const {value} = props
-    this.value = props.multiple
-      ? Array.isArray(value)
-        ? value
-        : emptyArr
-      : value
-    this.state = {
-      value: this.value
-    }
-    this.focusIndex = -1
-    this.itemsKeys = []
-    this.itemsRefs = {}
-    this.registeredItems = {}
+  state = {
+    value: this.value
   }
 
-  // getChildContext() {
-  //   if (!this.events) this.createEvents()
-  //
-  //   return {
-  //     [MENU_ITEM_CONTEXT]: {
-  //       isValueSelected: this.isValueSelected,
-  //       isItemFocused: this.isItemFocused,
-  //       isMenuDisabled: this.isMenuDisabled,
-  //       getMenuSize: this.getMenuSize,
-  //       getItemRef: this.getItemRef,
-  //       events: this.events
-  //     }
-  //   }
-  // }
+  focusIndex = -1
+  itemsKeys = []
+  itemsRefs = {}
+  registeredItems = {}
 
   get contextValue() {
     if (!this.events) this.createEvents()
 
     return {
-      [MENU_ITEM_CONTEXT]: {
-        isValueSelected: this.isValueSelected,
-        isItemFocused: this.isItemFocused,
-        isMenuDisabled: this.isMenuDisabled,
-        getMenuSize: this.getMenuSize,
-        getItemRef: this.getItemRef,
-        events: this.events
-      }
+      isValueSelected: this.isValueSelected,
+      isItemFocused: this.isItemFocused,
+      isMenuDisabled: this.isMenuDisabled,
+      getMenuSize: this.getMenuSize,
+      getItemRef: this.getItemRef,
+      events: this.events
     }
   }
 
@@ -206,26 +152,17 @@ export default class Menu extends PureComponent {
     if (this.props.autoFocus) this.setAutoFocus()
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   this.setValue(nextProps.value)
-  // }
-
-  getSnapshotBeforeUpdate() {
-    this.setValue(this.props.value)
-    return null
-  }
-
   componentDidUpdate(prevProps, prevState) {
-    const {props, state} = this
+    const {props} = this
     this.updateItemsKeys()
+    this.setValue(props.value)
     if (
       props.disabled !== prevProps.disabled ||
       props.size !== prevProps.size ||
-      state.value !== prevState.value
+      props.value !== prevState.value
     )
       this.events.emit('onPropsChange')
-
-    if (this.props.autoFocus && !prevProps.autoFocus) this.setAutoFocus()
+    if (props.autoFocus && !prevProps.autoFocus) this.setAutoFocus()
   }
 
   componentWillUnmount() {
@@ -386,18 +323,6 @@ export default class Menu extends PureComponent {
       classes,
       ...other
     } = this.getMenuProps()
-
-    // return (
-    //   <div
-    //     {...other}
-    //     ref={this.saveMenuRef}
-    //     style={{maxHeight, ...style}}
-    //     className={classnames(classes.menu, className)}
-    //     onKeyDown={this.keyDown}
-    //     onBlur={this.handleBlur}>
-    //     {children}
-    //   </div>
-    // )
 
     return (
       <MenuContext.Provider value={this.contextValue}>

@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'eventemitter3'
 import {injectSheet} from '../theme'
 import Dropdown from '../Dropdown'
-import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
 
 @injectSheet(
   () => ({
@@ -61,35 +59,6 @@ export default class SuggestDropdown extends React.PureComponent {
     overlayClassName: '',
     style: {},
     setNode: () => {}
-  }
-
-  static contextTypes = {
-    [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-      /**
-       * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-       */
-      registerSuggestItem: PropTypes.func,
-      /**
-       * Колбек удаления SuggestItem
-       */
-      onRemoveSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек клика по SuggestItem
-       */
-      onSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек наведения на SuggstItem
-       */
-      onSuggestItemHover: PropTypes.func,
-      /**
-       * Функция для подсветки SuggestItem
-       */
-      setHighlightedId: PropTypes.func,
-      /**
-       * Шина событий
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
   }
 
   render() {

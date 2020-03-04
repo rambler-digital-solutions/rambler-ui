@@ -1,10 +1,5 @@
-import {
-  // unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
-  unmountComponentAtNode,
-  findDOMNode,
-  createPortal
-} from 'react-dom'
-import React, {Children, PureComponent, cloneElement} from 'react'
+import React, {PureComponent, Fragment, cloneElement} from 'react'
+import {createPortal, findDOMNode} from 'react-dom'
 import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import debounce from 'lodash.debounce'
@@ -37,10 +32,10 @@ class ContentElementWrapper extends PureComponent {
     return this.contentProps.isVisible
   }
 
-  constructor(props) {
-    super(props)
-    this.contentProps = props.contentProps || {}
-    this.state = {contentProps: this.contentProps}
+  contentProps = this.props.contentProps || {}
+
+  state = {
+    contentProps: this.contentProps
   }
 
   updateContentProps(newContentProps) {
@@ -226,21 +221,6 @@ function getPositionOptions(params) {
 }
 
 /**
- * Если нужно оборачиваем children в <span>
- * @param  {ReactElement} children
- * @return {ReactElement}
- */
-function wrapChildren(children) {
-  let shouldWrap = Children.count(children) > 1
-  if (!shouldWrap)
-    Children.forEach(children, child => {
-      shouldWrap = typeof child === 'string'
-    })
-  if (shouldWrap) return <span>{children}</span>
-  return children
-}
-
-/**
  * Оверлей, который добавляется к body
  * Есть возможность прицепить оверлей, как fixed, так и absolute
  * При скролле body, documentElement или window, ресайзе window, перестраивается позиция элемента
@@ -366,67 +346,44 @@ export default class FixedOverlay extends PureComponent {
   }
 
   state = {
-    isPortal: false
+    isOpened: false
   }
 
-  element = null
+  contentElement = null
 
-  constructor(props) {
-    super(props)
-    this.events = new EventEmitter()
-    /**
-     * Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
-     * @type {Number}
-     */
-    this.transactionIndex = 0
-    /**
-     * Текущий статус показа hiding/showing
-     */
-  }
+  events = new EventEmitter()
+
+  /**
+   * Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
+   * @type {Number}
+   */
+  transactionIndex = 0
 
   componentWillUnmount() {
     this.cleanUp()
   }
 
-  // componentWillReceiveProps({
-  //   isOpened,
-  //   anchorPointX,
-  //   anchorPointY,
-  //   contentPointX,
-  //   contentPointY,
-  //   content
-  // }) {
-  //   if (isOpened !== undefined && isOpened !== this.props.isOpened)
-  //     if (isOpened) this.show()
-  //     else this.hide()
-  //   else if (
-  //     isOpened &&
-  //     (this.props.anchorPointX !== anchorPointX ||
-  //       this.props.anchorPointY !== anchorPointY ||
-  //       this.props.contentPointX !== contentPointX ||
-  //       this.props.contentPointY !== contentPointY ||
-  //       this.props.content !== content)
-  //   )
-  //     this.show()
-  // }
-
-  getSnapshotBeforeUpdate(prevProps) {
-    if (
-      this.props.isOpened !== undefined &&
-      this.props.isOpened !== prevProps.isOpened
-    )
-      if (this.props.isOpened) this.show()
+  componentDidUpdate(prevProps) {
+    const {
+      isOpened,
+      anchorPointX,
+      anchorPointY,
+      contentPointX,
+      contentPointY,
+      content
+    } = this.props
+    if (isOpened !== undefined && isOpened !== prevProps.isOpened)
+      if (isOpened) this.show()
       else this.hide()
     else if (
-      this.props.isOpened &&
-      (prevProps.anchorPointX !== this.props.anchorPointX ||
-        prevProps.anchorPointY !== this.props.anchorPointY ||
-        prevProps.contentPointX !== this.props.anchorPointX ||
-        prevProps.contentPointY !== this.props.contentPointY ||
-        prevProps.content !== this.props.content)
+      isOpened &&
+      (prevProps.anchorPointX !== anchorPointX ||
+        prevProps.anchorPointY !== anchorPointY ||
+        prevProps.contentPointX !== contentPointX ||
+        prevProps.contentPointY !== contentPointY ||
+        prevProps.content !== content)
     )
       this.show()
-    return null
   }
 
   componentDidMount() {
@@ -554,7 +511,7 @@ export default class FixedOverlay extends PureComponent {
   mountPortal() {
     if (this.portal) return Promise.resolve(this.portal)
     return new Promise(resolve => {
-      this.element = (
+      this.contentElement = (
         <ContentElementWrapper
           ref={resolve}
           contentProps={{
@@ -566,10 +523,7 @@ export default class FixedOverlay extends PureComponent {
           }}
         />
       )
-      this.setState({
-        isPortal: true
-      })
-      // renderSubtreeIntoContainer(this, this.element, this.getContentContainerNode())
+      this.setState({isOpened: true})
     }).then(portal => {
       this.portal = portal
       this.contentNode = findDOMNode(portal)
@@ -579,14 +533,12 @@ export default class FixedOverlay extends PureComponent {
   }
 
   unmountPortal() {
-    this.setState({
-      isPortal: false
-    })
     if (this.portal) {
-      unmountComponentAtNode(this.getContentContainerNode())
+      this.setState({isOpened: false})
       this.removeContentContainerNode()
       this.unsubscribeListeners()
       this.portal = null
+      this.contentElement = null
       if (this.contentNodeObserver) {
         this.contentNodeObserver.disconnect()
         this.contentNodeObserver = null
@@ -620,9 +572,6 @@ export default class FixedOverlay extends PureComponent {
     if (this.portal && !this.isOpened) return Promise.resolve()
     this.isOpened = true
     const transactionIndex = ++this.transactionIndex
-    this.setState({
-      isPortal: true
-    })
     return this.mountPortal()
       .then(() => {
         if (transactionIndex < this.transactionIndex) return Promise.reject()
@@ -711,13 +660,14 @@ export default class FixedOverlay extends PureComponent {
   }
 
   render() {
-    const {isPortal} = this.state
-    // return wrapChildren(this.props.anchor)
+    const {anchor} = this.props
+    const {isOpened} = this.state
     return (
-      <React.Fragment>
-        {wrapChildren(this.props.anchor)}
-        {isPortal && createPortal(this.element, this.getContentContainerNode())}
-      </React.Fragment>
+      <Fragment>
+        {anchor}
+        {isOpened &&
+          createPortal(this.contentElement, this.getContentContainerNode())}
+      </Fragment>
     )
   }
 }

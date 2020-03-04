@@ -187,15 +187,12 @@ export default class Toggle extends Component {
   }
 
   state = {
-    value: this.props.value,
+    value: this.props.value || null,
     minWidth: 0
   }
 
-  constructor(props) {
-    super(props)
-  }
-
   optionsElements = []
+
   addElement = ref => {
     this.optionsElements.push(ref)
   }
@@ -206,21 +203,6 @@ export default class Toggle extends Component {
     if (this.props.onChange) this.props.onChange(event, value)
   }
 
-  // componentWillMount() {
-  //   this.setValue(this.props.value)
-  // }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (prevState.value !== nextProps.value)
-      return {
-        value: nextProps.value
-      }
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setValue(nextProps.value)
-  // }
-
   componentDidMount() {
     this.setValue(this.props.value)
     // Делаем через таймаут т.к. при начально загрузки страницы jss добавляет стили асинхронно
@@ -228,6 +210,10 @@ export default class Toggle extends Component {
       whenDomReady.then(() => {
         this.setState({minWidth: this.calcMinWidth()})
       })
+  }
+
+  componentDidUpdate() {
+    this.setValue(this.props.value)
   }
 
   calcMinWidth() {

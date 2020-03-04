@@ -268,20 +268,13 @@ export default class Hint extends PureComponent {
 
   containerStyle = isMobileBehavior ? {left: 0, right: 0} : null
 
-  // componentWillReceiveProps({isOpened}) {
-  //   if (isOpened !== undefined && isOpened !== this.props.isOpened)
-  //     if (isOpened) this.show()
-  //     else this.hide()
-  // }
-
-  getSnapshotBeforeUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (
       this.props.isOpened !== undefined &&
-      prevState.isOpened !== this.props.isOpened
+      this.props.isOpened !== prevProps.isOpened
     )
       if (this.props.isOpened) this.show()
       else this.hide()
-    return null
   }
 
   show = () => {

@@ -4,8 +4,7 @@ import * as PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {injectSheet} from '../theme'
 import uuid from '../utils/uuid'
-import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
-import {provideSearchDropdownContext} from './provideSearchDropdown'
+import {ProvideSearchDropdownContext} from './provideSearchDropdown'
 
 @injectSheet(
   theme => ({
@@ -66,57 +65,22 @@ class SuggestItem extends React.PureComponent {
     removeButton: ''
   }
 
-  // static contextTypes = {
-  //   [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-  //     /**
-  //      * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-  //      */
-  //     registerSuggestItem: PropTypes.func,
-  //     /**
-  //      * Колбек удаления SuggestItem
-  //      */
-  //     onRemoveSuggestItemClick: PropTypes.func,
-  //     /**
-  //      * Колбек клика по SuggestItem
-  //      */
-  //     onSuggestItemClick: PropTypes.func,
-  //     /**
-  //      * Колбек наведения на SuggestItem
-  //      */
-  //     onSuggestItemHover: PropTypes.func,
-  //     /**
-  //      * Функция для подсветки SuggestItem
-  //      */
-  //     setHighlightedId: PropTypes.func,
-  //     /**
-  //      * Шина событий
-  //      */
-  //     events: PropTypes.instanceOf(EventEmitter)
-  //   })
-  // }
+  static contextType = ProvideSearchDropdownContext
 
-  static contextType = provideSearchDropdownContext
+  id = uuid()
 
-  constructor(props) {
-    super(props)
-    this.id = uuid()
-    this.state = {
-      isHighlighted: false
-    }
-  }
-
-  get ctx() {
-    return this.context[COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]
+  state = {
+    isHighlighted: false
   }
 
   componentDidMount() {
-    this.ctx.events.on('highlight', this.onHighlight)
-    this.ctx.registerSuggestItem(this.id, this)
+    this.context.events.on('highlight', this.onHighlight)
+    this.context.registerSuggestItem(this.id, this)
   }
 
   componentWillUnmount() {
-    this.ctx.events.removeListener('highlight', this.onHighlight)
-    this.ctx.registerSuggestItem(this.id, null)
+    this.context.events.removeListener('highlight', this.onHighlight)
+    this.context.registerSuggestItem(this.id, null)
   }
 
   onHighlight = highlightedItemId => {
@@ -126,17 +90,17 @@ class SuggestItem extends React.PureComponent {
   }
 
   onItemClick = () => {
-    this.ctx.setHighlightedId(this.id)
-    this.ctx.onSuggestItemClick(this.props.value)
+    this.context.setHighlightedId(this.id)
+    this.context.onSuggestItemClick(this.props.value)
   }
 
   onMouseEnter = () => {
-    this.ctx.setHighlightedId(this.id)
-    this.ctx.onSuggestItemHover(this.props.value)
+    this.context.setHighlightedId(this.id)
+    this.context.onSuggestItemHover(this.props.value)
   }
 
   onRemoveClick = () => {
-    this.ctx.onRemoveSuggestItemClick(this.props.value)
+    this.context.onRemoveSuggestItemClick(this.props.value)
   }
 
   render() {

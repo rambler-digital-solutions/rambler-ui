@@ -1,10 +1,6 @@
 import React, {PureComponent} from 'react'
+import {createPortal} from 'react-dom'
 import PropTypes from 'prop-types'
-import {
-  // unmountComponentAtNode,
-  // unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
-  createPortal
-} from 'react-dom'
 
 /**
  * Монтирует дерево оборачиваемого `Target` в отдельную ноду в DOM.
@@ -65,95 +61,55 @@ export default function renderToLayer(Target) {
       containerRef: () => {}
     }
 
-    element = null
+    state = {
+      isOpened: this.props.isOpened || false
+    }
 
     componentDidMount() {
-      // if (this.props.isOpened) this.mountPortal()
+      if (this.props.isOpened) this.mountPortal()
     }
 
     componentDidUpdate(prevProps) {
       const {isOpened} = this.props
-      if (isOpened !== prevProps.isOpened)
-        if (!isOpened) {
-          document.body.removeChild(this.getContainerElement())
-          this.element = null
-        }
-
-      // if (isOpened !== prevProps.isOpened)
-      //   if (isOpened) this.mountPortal()
-      //   else this.unmountPortal()
-      // else if (isOpened) this.renderPortal()
+      if (isOpened !== prevProps.isOpened) if (isOpened) this.mountPortal()
     }
 
     componentWillUnmount() {
-      // unmountComponentAtNode(this.getContainerElement())
-      document.body.removeChild(this.getContainerElement())
-      this.element = null
-      // this.unmountPortal(true)
+      this.unmountPortal()
     }
 
     onOpen = () => {
-      if (this.resolveOpening) this.resolveOpening()
+      this.props.onOpen()
     }
 
     onClose = () => {
-      if (this.resolveClosing) this.resolveClosing()
-      // unmountComponentAtNode(this.getContainerElement())
+      this.props.onClose()
+      this.unmountPortal()
+    }
+
+    getContentContainerNode() {
+      if (!this.node) {
+        this.node = document.createElement('div')
+        this.node.style.position = 'absolute'
+        this.node.style.zIndex = this.props.zIndex
+        this.props.containerRef(this.node)
+        document.body.appendChild(this.node)
+      }
+      return this.node
     }
 
     mountPortal() {
-      // if (!this.node)
-      //   new Promise(resolve => {
-      //     this.node = document.createElement('div')
-      //     this.node.style.position = 'absolute'
-      //     this.node.style.zIndex = this.props.zIndex
-      //     document.body.appendChild(this.node)
-      //     this.props.containerRef(this.node)
-      //     this.resolveOpening = resolve
-      //     this.renderPortal()
-      // }).then(() => {
-      //   this.resolveOpening = null
-      //   this.props.onOpen()
-      // })
+      this.setState({isOpened: true})
     }
 
-    appendElement() {
-      if (this.getContainerElement()) document.body.appendChild(this.element)
-    }
-
-    getContainerElement() {
-      if (!this.element) {
-        this.element = document.createElement('div')
-        this.element.style.position = 'absolute'
-        this.element.style.zIndex = this.props.zIndex
-        // this.element = element;
-        this.props.containerRef(this.element)
-        // document.body.appendChild(this.element);
-        this.appendElement()
+    unmountPortal() {
+      if (this.node) {
+        this.props.containerRef()
+        this.setState({isOpened: false})
+        document.body.removeChild(this.node)
+        this.node = null
       }
-      return this.element
     }
-
-    renderPortal() {
-      // if (this.node)
-      // renderSubtreeIntoContainer(this, this.renderContent(), this.node)
-    }
-
-    // unmountPortal(force) {
-    // if (this.node)
-    //   new Promise(resolve => {
-    //     if (force) resolve()
-    //     this.resolveClosing = resolve
-    // this.renderPortal()
-    // }).then(() => {
-    //   unmountComponentAtNode(this.node)
-    //   document.body.removeChild(this.node)
-    //   this.node = null
-    //   this.resolveClosing = null
-    //   this.props.containerRef()
-    //   this.props.onClose()
-    // })
-    // }
 
     renderContent() {
       return (
@@ -162,11 +118,8 @@ export default function renderToLayer(Target) {
     }
 
     render() {
-      // return null
-      return (
-        this.props.isOpened &&
-        createPortal(this.renderContent(), this.getContainerElement())
-      )
+      if (!this.state.isOpened) return null
+      return createPortal(this.renderContent(), this.getContentContainerNode())
     }
   }
 }

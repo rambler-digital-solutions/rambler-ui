@@ -85,47 +85,18 @@ export default class Tabs extends Component {
     disabled: false
   }
 
-  // static childContextTypes = {
-  //   position: PropTypes.string
-  // }
-
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.value
-    }
+  state = {
+    value: this.props.value
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   this.setValue(nextProps.value)
-  // }
-
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   if (this.props.value !== prevState.value) {
-  //     this.setState({
-  //       value: this.props.value
-  //     })
-  //   }
-  // }
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.value !== state.value)
-      return {
-        value: props.value
-      }
-    return {}
-  }
-
-  // getChildContext() {
-  //   return {
-  //     position: this.props.position
-  //   }
-  // }
 
   get contextValue() {
     return {
       position: this.props.position
     }
+  }
+
+  componentDidUpdate() {
+    this.setValue(this.props.value)
   }
 
   setValue(value) {
