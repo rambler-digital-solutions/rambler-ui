@@ -185,7 +185,7 @@ class Toggle extends Component {
   }
 
   state = {
-    value: this.props.value || null,
+    value: this.props.value,
     minWidth: 0
   }
 

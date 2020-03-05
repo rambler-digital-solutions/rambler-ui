@@ -36,7 +36,7 @@ describe('<Hint />', () => {
       contentClassName: 'hint-content-2'
     })
 
-    await new Promise(resolve => setTimeout(resolve, 66))
+    await new Promise(resolve => setTimeout(resolve, 100))
 
     const anchorStyles = getStyles(wrapper)
 
