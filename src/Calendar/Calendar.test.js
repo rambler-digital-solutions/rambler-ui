@@ -15,7 +15,7 @@ describe('<Calendar />', () => {
         [key]: classes[key]
           .split(/\s+/)
           .map(i => '.' + i)
-          .join(' ')
+          .join('')
       }),
       {}
     )
@@ -37,7 +37,7 @@ describe('<Calendar />', () => {
     })
   })
 
-  it('check a today', done => {
+  it('check a today', () => {
     const wrapper = mount(
       applyTheme(
         <Calendar {...defaultPropsToggle} today={date} initDate={date} />
@@ -56,11 +56,9 @@ describe('<Calendar />', () => {
     expect(value.getDate()).toEqual(date.getDate())
     expect(value.getMonth()).toEqual(date.getMonth())
     expect(value.getFullYear()).toEqual(date.getFullYear())
-
-    done()
   })
 
-  it('check the heading with year', done => {
+  it('check the heading with year', () => {
     const wrapper = mount(applyTheme(<Calendar initDate={date} />))
 
     const classes = getClasses(wrapper)
@@ -73,11 +71,9 @@ describe('<Calendar />', () => {
 
     wrapper.find(classes.next).simulate('click')
     expect(node.text()).toEqual(i18n.months[month + 1] + ', ' + year)
-
-    done()
   })
 
-  it('check the heading without year', done => {
+  it('check the heading without year', () => {
     const wrapper = mount(
       applyTheme(<Calendar initDate={date} showYear={false} />)
     )
@@ -87,11 +83,9 @@ describe('<Calendar />', () => {
     const month = date.getMonth()
 
     expect(node.text()).toEqual(i18n.months[month])
-
-    done()
   })
 
-  it('check selected date', done => {
+  it('check selected date', () => {
     const wrapper = mount(applyTheme(<Calendar value={date} initDate={date} />))
 
     const classes = getClasses(wrapper)
@@ -102,11 +96,9 @@ describe('<Calendar />', () => {
     expect(getStyles(day)['background-color']).toEqual(
       nc(calendar.colors.active.background)
     )
-
-    done()
   })
 
-  it('check selected range', done => {
+  it('check selected range', () => {
     const wrapper = mount(
       applyTheme(<Calendar value={[date, dateTo]} initDate={date} range />)
     )
@@ -138,11 +130,9 @@ describe('<Calendar />', () => {
     expect(getStyles(selected.at(0))['background-color']).toEqual(
       nc(calendar.colors.selected.background)
     )
-
-    done()
   })
 
-  it('check visibleMonths', done => {
+  it('check visibleMonths', () => {
     const wrapper = mount(
       applyTheme(
         <Calendar
@@ -158,11 +148,9 @@ describe('<Calendar />', () => {
     const calendars = wrapper.find(classes.root)
 
     expect(calendars.length).toEqual(3)
-
-    done()
   })
 
-  it('check arrow count', done => {
+  it('check arrow count', () => {
     const wrapper = mount(
       applyTheme(
         <Calendar
@@ -182,11 +170,9 @@ describe('<Calendar />', () => {
     expect(prev.length).toEqual(1)
     expect(next.length).toEqual(1)
     expect(mock.length).toEqual(4)
-
-    done()
   })
 
-  it('check month calculation', done => {
+  it('check month calculation', () => {
     const wrapper = mount(
       applyTheme(
         <Calendar
@@ -204,11 +190,9 @@ describe('<Calendar />', () => {
     const months = wrapper.find(classes.month)
 
     expect(months.map(month => month.text())).toEqual(values)
-
-    done()
   })
 
-  it('check month calculation with two years', done => {
+  it('check month calculation with two years', () => {
     const wrapper = mount(
       applyTheme(
         <Calendar visibleMonths={3} initDate={new Date(2018, 0, 15)} range />
@@ -221,11 +205,9 @@ describe('<Calendar />', () => {
     const months = wrapper.find(classes.month)
 
     expect(months.map(month => month.text())).toEqual(values)
-
-    done()
   })
 
-  it('check month calculation with three years', done => {
+  it('check month calculation with three years', () => {
     const wrapper = mount(
       applyTheme(
         <Calendar visibleMonths={14} initDate={new Date(2018, 0, 15)} range />
@@ -253,7 +235,5 @@ describe('<Calendar />', () => {
     const months = wrapper.find(classes.month)
 
     expect(months.map(month => month.text())).toEqual(values)
-
-    done()
   })
 })
