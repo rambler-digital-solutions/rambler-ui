@@ -1,4 +1,4 @@
-import React, {PureComponent, createContext} from 'react'
+import React, {PureComponent, createContext, forwardRef} from 'react'
 import PropTypes from 'prop-types'
 import deepmerge from 'deepmerge'
 import jss, {
@@ -116,11 +116,11 @@ export const createUseStyles = (styles, options = {}) =>
 
 export const withStyles = (styles, options = {}) => Component => {
   const useStyles = createUseStyles(styles, options)
-  const StyledComponent = props => {
+  const StyledComponent = forwardRef((props, ref) => {
     const theme = useTheme()
     const classes = useStyles()
-    return <Component {...props} theme={theme} classes={classes} />
-  }
+    return <Component {...props} ref={ref} theme={theme} classes={classes} />
+  })
   if (options.displayName) StyledComponent.displayName = options.displayName
   return StyledComponent
 }
