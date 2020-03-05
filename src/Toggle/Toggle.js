@@ -1,7 +1,7 @@
 import React, {Component, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 
 const whenDomReady = new Promise(resolve => {
@@ -296,4 +296,4 @@ class Toggle extends Component {
   }
 }
 
-export default injectSheet(styles, {name: 'Toggle'})(Toggle)
+export default withStyles(styles, {name: 'Toggle'})(Toggle)

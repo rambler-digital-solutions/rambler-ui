@@ -1,7 +1,7 @@
 import React, {Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import {ENTER} from '../constants/keys'
 import Tooltip from '../Tooltip'
@@ -481,4 +481,4 @@ class Pagination extends Component {
   }
 }
 
-export default injectSheet(styles, {name: 'Pagination'})(Pagination)
+export default withStyles(styles, {name: 'Pagination'})(Pagination)

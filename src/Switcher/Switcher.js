@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
 const setThemeForSelector = colors => ({
@@ -248,4 +248,4 @@ class Switcher extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Switcher'})(Switcher)
+export default withStyles(styles, {name: 'Switcher'})(Switcher)

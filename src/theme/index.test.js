@@ -1,9 +1,9 @@
 import React, {createContext} from 'react'
 import classnames from 'classnames'
-import originalInjectSheet, {createTheming} from 'react-jss'
+import originalWithStyles, {createTheming} from 'react-jss'
 import {
   ApplyTheme,
-  injectSheet,
+  withStyles,
   withTheme,
   createJss,
   createSheetsRegistry
@@ -16,13 +16,13 @@ const ThemeContext = createContext({})
 const theming = createTheming(ThemeContext)
 const {ThemeProvider} = theming
 
-const Button = injectSheet(({button}) => ({button}), {name: 'Button'})(
+const Button = withStyles(({button}) => ({button}), {name: 'Button'})(
   function Button({classes, className}) {
     return <button className={classnames(classes.button, className)} />
   }
 )
 
-const External = originalInjectSheet(({button}) => ({button}), {theming})(
+const External = originalWithStyles(({button}) => ({button}), {theming})(
   function External({classes, className}) {
     return <button className={classnames(classes.button, className)} />
   }

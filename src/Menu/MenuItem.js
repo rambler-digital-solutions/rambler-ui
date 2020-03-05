@@ -2,7 +2,7 @@ import React, {PureComponent, isValidElement, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {ENTER} from '../constants/keys'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import uuid from '../utils/uuid'
 import {MenuContext} from './Menu'
@@ -186,7 +186,7 @@ class MenuItem extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {
+export default withStyles(styles, {
   name: 'MenuItem',
   displayName: 'ruiMenuItem'
 })(MenuItem)

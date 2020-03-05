@@ -5,10 +5,11 @@ import jss, {
   create as originalCreateJss,
   createGenerateId as originalCreateGenerateId
 } from 'jss'
-import originalInjectSheet, {
+import {
   createTheming,
   JssProvider,
-  SheetsRegistry
+  SheetsRegistry,
+  createUseStyles as originalCreateUseStyles
 } from 'react-jss'
 import preset from 'jss-preset-default'
 import base from /* preval */ './base'
@@ -23,9 +24,9 @@ const RAMBLER_UI_CLASS_NAME_PREFIX = '__RAMBLER_UI_CLASS_NAME_PREFIX__'
 const ruiPrefix = 'rui-'
 
 const theming = createTheming(RamblerUIThemeContext)
-const {ThemeProvider, withTheme} = theming
+const {ThemeProvider, withTheme, useTheme} = theming
 
-export {withTheme}
+export {withTheme, useTheme}
 
 export const createJss = (options = {}) =>
   originalCreateJss({
@@ -107,12 +108,19 @@ export class ApplyTheme extends PureComponent {
   }
 }
 
-export const injectSheet = (styles, options = {}) => Component => {
-  const StyledComponent = originalInjectSheet(styles, {
+export const createUseStyles = (styles, options = {}) =>
+  originalCreateUseStyles(styles, {
     theming,
-    injectTheme: true,
     [RAMBLER_UI_CLASS_NAME_PREFIX]: `${options.name || uuid()}-`
-  })(Component)
+  })
+
+export const withStyles = (styles, options = {}) => Component => {
+  const useStyles = createUseStyles(styles, options)
+  const StyledComponent = props => {
+    const theme = useTheme()
+    const classes = useStyles()
+    return <Component {...props} theme={theme} classes={classes} />
+  }
   if (options.displayName) StyledComponent.displayName = options.displayName
   return StyledComponent
 }

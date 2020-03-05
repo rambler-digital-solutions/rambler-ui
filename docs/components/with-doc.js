@@ -3,7 +3,7 @@ import {MDXProvider} from '@mdx-js/tag'
 import {withRouter} from 'react-router-dom'
 import IconButton from 'rambler-ui/IconButton'
 import createSourceUrl from 'docs/utils/create-source-url'
-import injectSheet from 'docs/utils/theming'
+import {withStyles} from 'docs/utils/theming'
 import 'highlight.js/styles/default.css'
 import H1 from 'docs/components/H1'
 import H2 from 'docs/components/H2'
@@ -77,7 +77,7 @@ const styles = theme => ({
 
 export default meta => Component =>
   withRouter(
-    injectSheet(styles)(
+    withStyles(styles)(
       class extends PureComponent {
         sourceUrl = createSourceUrl(this.props.location.pathname)
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import QuestionIcon from '../icons/forms/QuestionIcon'
 import {FixedOverlay} from '../Overlay'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {ios, android} from '../utils/browser'
 import HintContent from './HintContent'
 
@@ -160,4 +160,4 @@ class Hint extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Hint'})(Hint)
+export default withStyles(styles, {name: 'Hint'})(Hint)

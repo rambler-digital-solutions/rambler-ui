@@ -1,7 +1,7 @@
 import React, {PureComponent, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import compose from '../utils/compose'
 import {isolateMixin} from '../utils/mixins'
 import windowEvents from '../hoc/window-events'
@@ -308,5 +308,5 @@ class TagsInput extends PureComponent {
 
 export default compose(
   windowEvents('resize'),
-  injectSheet(styles, {name: 'TagsInput'})
+  withStyles(styles, {name: 'TagsInput'})
 )(TagsInput)

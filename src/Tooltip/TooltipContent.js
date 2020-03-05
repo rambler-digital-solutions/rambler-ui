@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import OnClickOutside from '../OnClickOutside'
 import VisibilityAnimation from '../VisibilityAnimation'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {POINTS_Y} from '../constants/overlay'
 import {isolateMixin, fontSmoothingMixin} from '../utils/mixins'
 
@@ -264,4 +264,4 @@ class TooltipContent extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'TooltipContent'})(TooltipContent)
+export default withStyles(styles, {name: 'TooltipContent'})(TooltipContent)

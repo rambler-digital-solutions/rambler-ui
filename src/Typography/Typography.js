@@ -1,7 +1,7 @@
 import {PureComponent, createElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, ifMobile} from '../utils/mixins'
 
 const getFontStyle = ({
@@ -180,4 +180,4 @@ class Typography extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Typography'})(Typography)
+export default withStyles(styles, {name: 'Typography'})(Typography)

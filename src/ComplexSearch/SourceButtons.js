@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Tooltip from '../Tooltip'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import GlobalSourceIcon from './icons/GlobalSourceIcon'
 import ServiceSourceIcon from './icons/ServiceSourceIcon'
 
@@ -113,4 +113,4 @@ class SourceButtons extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'SourceButtons'})(SourceButtons)
+export default withStyles(styles, {name: 'SourceButtons'})(SourceButtons)

@@ -2,7 +2,7 @@ import React, {PureComponent, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import profileIcons from './profilesIconMap'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
 const chooseProfileSize = size =>
@@ -167,4 +167,4 @@ class Avatar extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Avatar'})(Avatar)
+export default withStyles(styles, {name: 'Avatar'})(Avatar)

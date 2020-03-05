@@ -1,5 +1,5 @@
 import React from 'react'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = {
   root: {
@@ -16,4 +16,4 @@ const InlineCode = ({classes, children}) => (
   <code className={classes.root}>{children}</code>
 )
 
-export default injectSheet(styles)(InlineCode)
+export default withStyles(styles)(InlineCode)

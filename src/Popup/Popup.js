@@ -9,7 +9,7 @@ import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import {ESCAPE} from '../constants/keys'
 import {POPUP_ZINDEX} from '../constants/z-indexes'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import compose from '../utils/compose'
 import {
   isolateMixin,
@@ -346,5 +346,5 @@ class Popup extends PureComponent {
 export default compose(
   zIndexStack(POPUP_ZINDEX),
   renderToLayer,
-  injectSheet(styles, {name: 'Popup'})
+  withStyles(styles, {name: 'Popup'})
 )(Popup)

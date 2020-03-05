@@ -1,7 +1,7 @@
 import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
 const styles = theme => ({
@@ -164,7 +164,7 @@ class SideNavItem extends Component {
   }
 }
 
-export default injectSheet(styles, {
+export default withStyles(styles, {
   name: 'SideNavItem',
   displayName: 'ruiSideNavItem'
 })(SideNavItem)

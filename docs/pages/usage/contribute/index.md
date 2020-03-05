@@ -49,7 +49,7 @@ src/
 ```js
 // src/Button/Button.js
 import React, { PureComponent } from 'react'
-import { injectSheet } from '../theme'
+import { withStyles } from '../theme'
 
 const styles = {
   root: { // имя css-класса внутри комонента
@@ -69,10 +69,36 @@ class Button extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Button'})(Button)
+export default withStyles(styles, {name: 'Button'})(Button)
 ```
 
-Более подробно про `injectSheet` описано в документации [`react-jss`](https://github.com/cssinjs/react-jss). В нашей реализации вторым аргументом в `injectSheet` передается объект с опциями, содержащий имя компонента для генерации детерминированных имен классов.
+или
+
+```js
+// src/Button/Button.js
+import React, { PureComponent } from 'react'
+import { createUseStyles } from '../theme'
+
+const styles = {
+  root: { // имя css-класса внутри комонента
+    color: 'black'
+  }
+}
+
+const useStyles = createUseStyles(styles, {name: 'Button'})
+
+const Button = ({children}) => {
+  const classes = useStyles()
+
+  return (
+    <ul className={classes.root}>
+      {children}
+    </ul>
+  )
+}
+```
+
+Более подробно про `withStyles` и `createUseStyles` описано в документации [`react-jss`](https://github.com/cssinjs/react-jss). В нашей реализации вторым аргументом в `withStyles` и `createUseStyles` передается объект с опциями, содержащий имя компонента для генерации детерминированных имен классов.
 
 ### Темизация
 
@@ -81,7 +107,7 @@ export default injectSheet(styles, {name: 'Button'})(Button)
 ```js
 // src/Button/Button.js
 import React, { PureComponent } from 'react'
-import { injectSheet } from '../theme'
+import { withStyles } from '../theme'
 
 const styles = theme => ({
   root: { // имя css-класса внутри комонента
@@ -101,7 +127,7 @@ class Button extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Button'})(Button)
+export default withStyles(styles, {name: 'Button'})(Button)
 
 // src/theme/base/index.js
 import deepmerge from 'deepmerge'

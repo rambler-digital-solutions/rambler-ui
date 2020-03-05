@@ -20,7 +20,7 @@ import {
   DELETE,
   ENTER
 } from '../constants/keys'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
 import ClearIconSmall from './ClearIconSmall'
@@ -1139,4 +1139,4 @@ class Select extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Select'})(Select)
+export default withStyles(styles, {name: 'Select'})(Select)

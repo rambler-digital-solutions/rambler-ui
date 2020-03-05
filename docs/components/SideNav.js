@@ -9,7 +9,7 @@ import {Menu, MenuItem} from 'rambler-ui/Menu'
 import {throttle} from 'rambler-ui/utils/raf'
 import {createMutationObserver} from 'rambler-ui/utils/DOM'
 import config from 'docs/config'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 import Button from 'docs/components/Button'
 import Link from 'docs/components/Link'
 import Logo from 'docs/components/icons/Logo'
@@ -506,4 +506,4 @@ class SideNav extends PureComponent {
   }
 }
 
-export default withRouter(injectSheet(styles)(SideNav))
+export default withRouter(withStyles(styles)(SideNav))

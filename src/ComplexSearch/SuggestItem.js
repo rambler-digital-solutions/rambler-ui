@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import * as PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import uuid from '../utils/uuid'
 import {ProvideSearchDropdownContext} from './provideSearchDropdown'
 
@@ -132,4 +132,4 @@ class SuggestItem extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'SuggestItem'})(SuggestItem)
+export default withStyles(styles, {name: 'SuggestItem'})(SuggestItem)

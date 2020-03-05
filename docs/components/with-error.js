@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import injectSheet from 'docs/utils/theming'
+import {withStyles} from 'docs/utils/theming'
 
 const styles = theme => ({
   error: {
@@ -46,7 +46,7 @@ function withError(Target) {
     Target.displayName ||
     Target.constructor.name})`
 
-  return injectSheet(styles)(ErrorBoundary)
+  return withStyles(styles)(ErrorBoundary)
 }
 
 export default withError

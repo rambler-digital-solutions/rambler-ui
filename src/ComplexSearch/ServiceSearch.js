@@ -1,7 +1,7 @@
 import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import compose from '../utils/compose'
 import ClearIcon from './icons/ClearIcon'
 import ServiceSearchIcon from './icons/ServiceSearchIcon'
@@ -377,5 +377,5 @@ class ServiceSearch extends PureComponent {
 export default compose(
   provideSearch,
   provideSearchDropdown,
-  injectSheet(styles, {name: 'ServiceSearch'})
+  withStyles(styles, {name: 'ServiceSearch'})
 )(ServiceSearch)

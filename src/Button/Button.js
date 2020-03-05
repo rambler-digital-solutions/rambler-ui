@@ -2,7 +2,7 @@ import React, {PureComponent, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Spinner from '../Spinner'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {
   middleMixin,
   isolateMixin,
@@ -383,4 +383,4 @@ class Button extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Button'})(Button)
+export default withStyles(styles, {name: 'Button'})(Button)

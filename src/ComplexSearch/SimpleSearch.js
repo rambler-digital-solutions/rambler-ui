@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import compose from '../utils/compose'
 import SearchIcon from './icons/SearchIcon'
 import SourceButtons from './SourceButtons'
@@ -322,5 +322,5 @@ class SimpleSearch extends PureComponent {
 
 export default compose(
   provideSearch,
-  injectSheet(styles, {name: 'SimpleSearch'})
+  withStyles(styles, {name: 'SimpleSearch'})
 )(SimpleSearch)

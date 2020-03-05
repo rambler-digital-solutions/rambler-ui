@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TickIcon from '../icons/forms/TickIcon'
 import {isolateMixin, ifDesktopSize, middleMixin} from '../utils/mixins'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 
 const defaultIcon = <TickIcon size={15} color="currentColor" />
 
@@ -160,4 +160,4 @@ class Step extends Component {
   }
 }
 
-export default injectSheet(styles, {name: 'Step', displayName: 'ruiStep'})(Step)
+export default withStyles(styles, {name: 'Step', displayName: 'ruiStep'})(Step)

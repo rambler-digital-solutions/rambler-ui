@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Spinner from '../Spinner'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 
 const styles = theme => ({
   loader: {
@@ -168,4 +168,4 @@ class Loader extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Loader'})(Loader)
+export default withStyles(styles, {name: 'Loader'})(Loader)

@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
 const getKeyframes = (delay = 0) => ({
@@ -120,4 +120,4 @@ class Spinner extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Spinner'})(Spinner)
+export default withStyles(styles, {name: 'Spinner'})(Spinner)

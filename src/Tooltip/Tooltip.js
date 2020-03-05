@@ -2,7 +2,7 @@ import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {FixedOverlay} from '../Overlay'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import TooltipContent from './TooltipContent'
 
 const containerNodeStyle = {'pointer-events': 'none'}
@@ -212,4 +212,4 @@ class Tooltip extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Tooltip'})(Tooltip)
+export default withStyles(styles, {name: 'Tooltip'})(Tooltip)

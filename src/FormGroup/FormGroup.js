@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {ifDesktopSize, ifMobile, isolateMixin} from '../utils/mixins'
 
 const styles = theme => ({
@@ -147,4 +147,4 @@ class FormGroup extends Component {
   }
 }
 
-export default injectSheet(styles, {name: 'FormGroup'})(FormGroup)
+export default withStyles(styles, {name: 'FormGroup'})(FormGroup)

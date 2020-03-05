@@ -6,7 +6,7 @@ import recast from 'recast'
 import remark from 'remark'
 import html from 'remark-html'
 import {lighten} from 'rambler-ui/utils/colors'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = theme => ({
   scrollArea: {
@@ -280,4 +280,4 @@ class PropTypesTable extends PureComponent {
   }
 }
 
-export default injectSheet(styles)(PropTypesTable)
+export default withStyles(styles)(PropTypesTable)

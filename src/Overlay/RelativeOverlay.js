@@ -4,7 +4,7 @@ import {
   findOverflowedParent,
   getBoundingClientRect as originalGetBoundingClientRect
 } from '../utils/DOM'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -647,4 +647,4 @@ class RelativeOverlay extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'RelativeOverlay'})(RelativeOverlay)
+export default withStyles(styles, {name: 'RelativeOverlay'})(RelativeOverlay)

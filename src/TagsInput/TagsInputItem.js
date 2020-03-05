@@ -2,7 +2,7 @@ import React, {Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {isolateMixin} from '../utils/mixins'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import ClearIcon from './ClearIcon'
 
 const iconStyle = {
@@ -233,7 +233,7 @@ class TagsInputItem extends Component {
   }
 }
 
-export default injectSheet(styles, {
+export default withStyles(styles, {
   name: 'TagsInputItem',
   displayName: 'ruiTagsInputItem'
 })(TagsInputItem)

@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import TickIcon from './TickIcon'
 import TickIconSmall from './TickIconSmall'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import '../utils/focus-source'
 
 const setThemeForSelector = colors => ({
@@ -347,4 +347,4 @@ class Checkbox extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Checkbox'})(Checkbox)
+export default withStyles(styles, {name: 'Checkbox'})(Checkbox)

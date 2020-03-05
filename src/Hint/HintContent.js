@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import VisibilityAnimation from '../VisibilityAnimation'
 import {POINTS_X, POINTS_Y} from '../constants/overlay'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
 
@@ -204,4 +204,4 @@ class HintContent extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'HintContent'})(HintContent)
+export default withStyles(styles, {name: 'HintContent'})(HintContent)

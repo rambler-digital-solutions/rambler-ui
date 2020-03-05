@@ -1,7 +1,7 @@
 import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import {TabsContext} from './Tabs'
 
@@ -193,7 +193,7 @@ class TabsItem extends Component {
   }
 }
 
-export default injectSheet(styles, {
+export default withStyles(styles, {
   name: 'TabsItem',
   displayName: 'ruiTabsItem'
 })(TabsItem)

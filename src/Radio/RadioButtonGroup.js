@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
 export const RadioButtonContext = createContext({})
@@ -111,4 +111,4 @@ class RadioButtonGroup extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'RadioButtonGroup'})(RadioButtonGroup)
+export default withStyles(styles, {name: 'RadioButtonGroup'})(RadioButtonGroup)

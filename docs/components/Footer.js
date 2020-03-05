@@ -3,7 +3,7 @@ import IconButton from 'rambler-ui/IconButton'
 import FacebookIcon from 'rambler-ui/icons/profiles/FacebookIcon'
 import GithubIcon from 'docs/components/icons/Github'
 // import MediumIcon from 'docs/components/icons/Medium'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const currentYear = new Date().getFullYear()
 
@@ -143,4 +143,4 @@ const Footer = ({classes}) => (
   </footer>
 )
 
-export default injectSheet(styles)(Footer)
+export default withStyles(styles)(Footer)

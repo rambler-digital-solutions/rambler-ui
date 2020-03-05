@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import Dropdown from '../Dropdown'
 
 const styles = {
@@ -92,4 +92,4 @@ class SuggestDropdown extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'SuggestDropdown'})(SuggestDropdown)
+export default withStyles(styles, {name: 'SuggestDropdown'})(SuggestDropdown)

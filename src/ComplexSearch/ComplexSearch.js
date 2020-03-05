@@ -1,7 +1,7 @@
 import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import ClearIcon from './icons/ClearIcon'
 import MediaSearchIcon from './icons/MediaSearchIcon'
 import compose from '../utils/compose'
@@ -507,5 +507,5 @@ class ComplexSearch extends PureComponent {
 export default compose(
   provideSearch,
   provideSearchDropdown,
-  injectSheet(styles, {name: 'ComplexSearch'})
+  withStyles(styles, {name: 'ComplexSearch'})
 )(ComplexSearch)

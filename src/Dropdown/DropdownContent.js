@@ -5,7 +5,7 @@ import VisibilityAnimation from '../VisibilityAnimation'
 import FocusManager from '../FocusManager'
 import OnClickOutside from '../OnClickOutside'
 import {POINTS_Y} from '../constants/overlay'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
 const BG_COLOR = '#fff'
@@ -169,4 +169,4 @@ class DropdownContent extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Dropdown'})(DropdownContent)
+export default withStyles(styles, {name: 'Dropdown'})(DropdownContent)

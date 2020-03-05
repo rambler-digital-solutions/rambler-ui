@@ -1,7 +1,7 @@
 import React, {Component, Children, cloneElement, createContext} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, topBorderMixin, bottomBorderMixin} from '../utils/mixins'
 
 export const TabsContext = createContext({})
@@ -162,4 +162,4 @@ class Tabs extends Component {
   }
 }
 
-export default injectSheet(styles, {name: 'Tabs'})(Tabs)
+export default withStyles(styles, {name: 'Tabs'})(Tabs)

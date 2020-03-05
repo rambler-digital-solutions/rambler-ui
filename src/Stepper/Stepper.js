@@ -2,7 +2,7 @@ import React, {PureComponent, Children, cloneElement} from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import {isolateMixin, ifDesktopSize} from '../utils/mixins'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 
 const styles = {
   stepper: {
@@ -95,4 +95,4 @@ class Stepper extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Stepper'})(Stepper)
+export default withStyles(styles, {name: 'Stepper'})(Stepper)

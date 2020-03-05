@@ -7,7 +7,7 @@ import OnClickOutside from '../OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import {SNACKBAR_ZINDEX} from '../constants/z-indexes'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import compose from '../utils/compose'
 import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
 
@@ -268,5 +268,5 @@ class Notification extends PureComponent {
 export default compose(
   zIndexStack(SNACKBAR_ZINDEX),
   renderToLayer,
-  injectSheet(styles, {name: 'Notification'})
+  withStyles(styles, {name: 'Notification'})
 )(Notification)

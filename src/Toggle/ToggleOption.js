@@ -1,7 +1,7 @@
 import React, {Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
 const styles = theme => ({
@@ -133,7 +133,7 @@ class ToggleOption extends Component {
   }
 }
 
-export default injectSheet(styles, {
+export default withStyles(styles, {
   name: 'ToggleOption',
   displayName: 'ruiToggleOption'
 })(ToggleOption)

@@ -2,7 +2,7 @@ import React, {PureComponent, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import Spinner from '../Spinner'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, ifMobile, focusSourceMixin} from '../utils/mixins'
 import '../utils/focus-source'
 
@@ -310,4 +310,4 @@ class IconButton extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'IconButton'})(IconButton)
+export default withStyles(styles, {name: 'IconButton'})(IconButton)

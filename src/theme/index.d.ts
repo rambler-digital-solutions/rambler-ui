@@ -1,21 +1,21 @@
 import {PureComponent} from 'react'
-import {JSS, create, SheetsRegistry, GenerateClassName} from 'jss'
-import injectSheet, {withTheme} from 'react-jss'
+import {Jss, create, SheetsRegistry, GenerateId} from 'jss'
+import withStyles, {withTheme, useTheme, createUseStyles} from 'react-jss'
 import {Theme} from './base'
 
 export const createJss: typeof create
 export const createSheetsRegistry: () => SheetsRegistry
 export const globalSheetsRegistry: SheetsRegistry
-export const globalJss: JSS
-export const createGenerateClassName: (themeId?: number) => GenerateClassName
+export const globalJss: Jss
+export const createGenerateId: (themeId?: number) => GenerateId
 
-export {withTheme, injectSheet}
+export {withTheme, withStyles, useTheme, createUseStyles}
 
 export interface ApplyThemeProps {
   theme?: Theme | ((theme: Theme) => Theme)
-  jss?: JSS
+  jss?: Jss
   sheetsRegistry?: SheetsRegistry
-  generateClassName?: GenerateClassName
+  generateId?: GenerateId
 }
 
 export class ApplyTheme extends PureComponent<ApplyThemeProps, {}> {}

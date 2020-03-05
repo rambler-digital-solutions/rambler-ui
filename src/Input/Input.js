@@ -1,7 +1,7 @@
 import React, {PureComponent, createElement, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
 import Tooltip from '../Tooltip'
@@ -837,4 +837,4 @@ class Input extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Input'})(Input)
+export default withStyles(styles, {name: 'Input'})(Input)

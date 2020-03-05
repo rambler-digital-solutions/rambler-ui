@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
 const styles = theme => ({
@@ -173,4 +173,4 @@ class Slider extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Slider'})(Slider)
+export default withStyles(styles, {name: 'Slider'})(Slider)

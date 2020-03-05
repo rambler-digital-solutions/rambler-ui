@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 import '../utils/focus-source'
 
@@ -738,4 +738,4 @@ class Calendar extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Calendar'})(Calendar)
+export default withStyles(styles, {name: 'Calendar'})(Calendar)

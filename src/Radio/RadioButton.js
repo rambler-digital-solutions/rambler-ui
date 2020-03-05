@@ -2,7 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import uuid from '../utils/uuid'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 import '../utils/focus-source'
 import {RadioButtonContext} from './RadioButtonGroup'
@@ -254,7 +254,7 @@ class RadioButton extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {
+export default withStyles(styles, {
   name: 'RadioButton',
   displayName: 'ruiRadioButton'
 })(RadioButton)

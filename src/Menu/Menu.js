@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
 import {ESCAPE, UP, DOWN, TAB} from '../constants/keys'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {getBoundingClientRect} from '../utils/DOM'
 import {isolateMixin, beautyScroll} from '../utils/mixins'
 
@@ -338,4 +338,4 @@ class Menu extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'Menu'})(Menu)
+export default withStyles(styles, {name: 'Menu'})(Menu)

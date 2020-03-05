@@ -1,5 +1,5 @@
 import React from 'react'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = {
   root: {
@@ -21,4 +21,4 @@ const PreCode = ({classes, children}) => (
   <pre className={classes.root}>{children}</pre>
 )
 
-export default injectSheet(styles)(PreCode)
+export default withStyles(styles)(PreCode)

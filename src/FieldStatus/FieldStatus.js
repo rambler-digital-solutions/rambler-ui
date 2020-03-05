@@ -1,7 +1,7 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, ifMobile} from '../utils/mixins'
 
 const styles = theme => ({
@@ -83,4 +83,4 @@ class FieldStatus extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'FieldStatus'})(FieldStatus)
+export default withStyles(styles, {name: 'FieldStatus'})(FieldStatus)

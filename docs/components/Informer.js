@@ -1,5 +1,5 @@
 import React from 'react'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 import H3 from 'docs/components/H3'
 
 const styles = theme => ({
@@ -124,4 +124,4 @@ const Informer = ({classes}) => (
   </footer>
 )
 
-export default injectSheet(styles)(Informer)
+export default withStyles(styles)(Informer)

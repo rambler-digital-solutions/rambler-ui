@@ -1,7 +1,7 @@
 import React, {PureComponent, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
 const styles = theme => ({
@@ -156,4 +156,4 @@ class FieldGroup extends PureComponent {
   }
 }
 
-export default injectSheet(styles, {name: 'FieldGroup'})(FieldGroup)
+export default withStyles(styles, {name: 'FieldGroup'})(FieldGroup)
