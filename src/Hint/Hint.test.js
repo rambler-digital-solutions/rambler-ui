@@ -33,10 +33,11 @@ describe('<Hint />', () => {
   it('should apply default styles', async () => {
     const wrapper = mountWrapper({
       isOpened: true,
+      closeOnScroll: false,
       contentClassName: 'hint-content-2'
     })
 
-    await new Promise(resolve => setTimeout(resolve, 100))
+    await new Promise(resolve => setTimeout(resolve, 66))
 
     const anchorStyles = getStyles(wrapper)
 
