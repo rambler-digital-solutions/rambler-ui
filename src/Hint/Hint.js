@@ -50,6 +50,10 @@ class Hint extends PureComponent {
      */
     positionX: PropTypes.oneOf(['left', 'right']),
     /**
+     * Автоматическое позиционирование по оси Y (если выходит за пределы экрана)
+     */
+    autoPositionY: PropTypes.bool,
+    /**
      * Скрывать при скролле страницы
      */
     closeOnScroll: PropTypes.bool
@@ -57,6 +61,7 @@ class Hint extends PureComponent {
 
   static defaultProps = {
     positionX: 'right',
+    autoPositionY: true,
     closeOnScroll: true,
     icon: <QuestionIcon size={15} />
   }
@@ -105,6 +110,7 @@ class Hint extends PureComponent {
       positionX,
       theme,
       classes,
+      autoPositionY,
       closeOnScroll
     } = this.props
 
@@ -140,7 +146,7 @@ class Hint extends PureComponent {
           </HintContent>
         }
         autoPositionX={!isMobileBehavior}
-        autoPositionY={true}
+        autoPositionY={autoPositionY}
         anchorPointX={isMobileBehavior ? 'center' : pointX}
         contentPointX={isMobileBehavior ? 'center' : pointX}
         anchorPointY={isMobileBehavior ? 'bottom' : 'top'}

@@ -10,6 +10,7 @@ export interface HintProps {
   children: ReactNode
   isOpened?: boolean
   positionX?: Exclude<HorizontalPosition, 'center'>
+  autoPositionY?: boolean
   closeOnScroll?: boolean
 }
 

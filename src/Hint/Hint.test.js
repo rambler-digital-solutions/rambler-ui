@@ -33,7 +33,7 @@ describe('<Hint />', () => {
   it('should apply default styles', async () => {
     const wrapper = mountWrapper({
       isOpened: true,
-      closeOnScroll: false,
+      autoPositionY: false,
       contentClassName: 'hint-content-2'
     })
 
