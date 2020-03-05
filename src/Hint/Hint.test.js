@@ -8,15 +8,15 @@ describe('<Hint />', () => {
   const mountWrapper = props =>
     mount(
       withTheme(
-        <Hint className="anchor" contentClassName="content" {...props}>
+        <Hint className="anchor" {...props}>
           Hello world
         </Hint>
       )
     )
 
   it('should open hint content when change props.isOpened', () => {
-    const wrapper = mountWrapper()
-    let contentNode = document.querySelector('.content')
+    const wrapper = mountWrapper({contentClassName: 'hint-content-1'})
+    let contentNode = document.querySelector('.hint-content-1')
 
     expect(contentNode).toEqual(null)
 
@@ -24,7 +24,7 @@ describe('<Hint />', () => {
       isOpened: true
     })
 
-    contentNode = document.querySelector('.content')
+    contentNode = document.querySelector('.hint-content-1')
 
     expect(document.body.lastElementChild).toEqual(contentNode.parentNode)
     expect(document.body.lastElementChild.childElementCount).toEqual(1)
@@ -32,7 +32,8 @@ describe('<Hint />', () => {
 
   it('should apply default styles', async () => {
     const wrapper = mountWrapper({
-      isOpened: true
+      isOpened: true,
+      contentClassName: 'hint-content-2'
     })
 
     await new Promise(resolve => setTimeout(resolve, 66))
@@ -43,7 +44,7 @@ describe('<Hint />', () => {
     expect(anchorStyles.height).toEqual('15px')
     expect(nc(anchorStyles.fill)).toEqual(nc(theme.hint.icon.colors.active))
 
-    const contentNode = document.querySelector('.content')
+    const contentNode = document.querySelector('.hint-content-2')
     const contentStyles = getNodeStyles(contentNode)
 
     expect(contentStyles.position).toEqual('relative')
