@@ -2,7 +2,7 @@ import React, {cloneElement} from 'react'
 import Enzyme, {mount as enzymeMount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import jasmineEnzyme from 'jasmine-enzyme'
-import {ApplyTheme} from '../theme'
+import {ThemeProvider} from '../theme'
 
 const bodyStyle = document.body.style
 const htmlStyle = document.documentElement.style
@@ -49,12 +49,12 @@ export function getStyles(wrappedComponent) {
 }
 
 export function applyTheme(children) {
-  return <ApplyTheme>{children}</ApplyTheme>
+  return <ThemeProvider>{children}</ThemeProvider>
 }
 
 export function withTheme(element) {
   const Result = props => (
-    <ApplyTheme>{cloneElement(element, props)}</ApplyTheme>
+    <ThemeProvider>{cloneElement(element, props)}</ThemeProvider>
   )
   Result.displayName = element.displayName
   return <Result />

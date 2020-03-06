@@ -1,11 +1,11 @@
 import React from 'react'
 import {TagsInput, TagsInputItem} from '../TagsInput'
-import {ApplyTheme} from '../theme'
+import {ThemeProvider} from '../theme'
 import {mount, getStyles} from '../utils/test-utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 
-const applyTheme = children => <ApplyTheme children={children} />
+const applyTheme = children => <ThemeProvider children={children} />
 
 describe('TagsInput: should apply props', () => {
   it('apply className and children, moreButton is renered', () => {

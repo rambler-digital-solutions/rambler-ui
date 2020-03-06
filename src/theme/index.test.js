@@ -2,7 +2,7 @@ import React, {createContext} from 'react'
 import classnames from 'classnames'
 import originalWithStyles, {createTheming} from 'react-jss'
 import {
-  ApplyTheme,
+  ThemeProvider,
   withStyles,
   withTheme,
   createJss,
@@ -14,7 +14,7 @@ import {normalize as nc} from '../utils/colors'
 const getTheme = color => ({button: {color}})
 const ThemeContext = createContext({})
 const theming = createTheming(ThemeContext)
-const {ThemeProvider} = theming
+const {ThemeProvider: ExternalThemeProvider} = theming
 
 const Button = withStyles(({button}) => ({button}), {name: 'Button'})(
   function Button({classes, className}) {
@@ -28,12 +28,12 @@ const External = originalWithStyles(({button}) => ({button}), {theming})(
   }
 )
 
-describe('<ApplyTheme />', () => {
+describe('<ThemeProvider />', () => {
   it('should pass theme', () => {
     mount(
-      <ApplyTheme theme={getTheme('#ffffff')}>
+      <ThemeProvider theme={getTheme('#ffffff')}>
         <Button className="apply-theme" />
-      </ApplyTheme>
+      </ThemeProvider>
     )
 
     const button = document.querySelector('.apply-theme')
@@ -42,14 +42,14 @@ describe('<ApplyTheme />', () => {
 
   it('should merge nested theme', () => {
     mount(
-      <ApplyTheme theme={getTheme('#ffffff')}>
+      <ThemeProvider theme={getTheme('#ffffff')}>
         <div>
           <Button className="apply-nested" />
-          <ApplyTheme theme={getTheme('#000000')}>
+          <ThemeProvider theme={getTheme('#000000')}>
             <Button className="apply-nested" />
-          </ApplyTheme>
+          </ThemeProvider>
         </div>
-      </ApplyTheme>
+      </ThemeProvider>
     )
 
     const buttons = document.querySelectorAll('.apply-nested')
@@ -60,14 +60,14 @@ describe('<ApplyTheme />', () => {
 
   it('should apply default className for external components', () => {
     mount(
-      <ApplyTheme theme={getTheme('#ffffff')}>
-        <ThemeProvider theme={getTheme('#ffffff')}>
+      <ThemeProvider theme={getTheme('#ffffff')}>
+        <ExternalThemeProvider theme={getTheme('#ffffff')}>
           <div>
             <Button className="class-names" />
             <External className="class-names" />
           </div>
-        </ThemeProvider>
-      </ApplyTheme>
+        </ExternalThemeProvider>
+      </ThemeProvider>
     )
 
     const buttons = document.querySelectorAll('.class-names')
@@ -78,12 +78,12 @@ describe('<ApplyTheme />', () => {
   it('should isolate multiple providers', () => {
     mount(
       <div>
-        <ApplyTheme theme={getTheme('#ffffff')}>
+        <ThemeProvider theme={getTheme('#ffffff')}>
           <Button className="apply-isolate" />
-        </ApplyTheme>
-        <ApplyTheme theme={getTheme('#000000')}>
+        </ThemeProvider>
+        <ThemeProvider theme={getTheme('#000000')}>
           <Button className="apply-isolate" />
-        </ApplyTheme>
+        </ThemeProvider>
       </div>
     )
 
@@ -98,17 +98,17 @@ describe('<ApplyTheme />', () => {
     const sheetsRegistry = createSheetsRegistry()
 
     mount(
-      <ApplyTheme
+      <ThemeProvider
         theme={getTheme('#ffffff')}
         jss={jss}
         sheetsRegistry={sheetsRegistry}>
         <div>
           <Button />
-          <ApplyTheme theme={getTheme('#000000')}>
+          <ThemeProvider theme={getTheme('#000000')}>
             <Button />
-          </ApplyTheme>
+          </ThemeProvider>
         </div>
-      </ApplyTheme>
+      </ThemeProvider>
     )
 
     const classPrefix = sheetsRegistry.registry[0].classes.button
@@ -133,26 +133,26 @@ describe('<ApplyTheme />', () => {
 
     mount(
       <div>
-        <ApplyTheme
+        <ThemeProvider
           theme={getTheme('#ffffff')}
           jss={jss}
           sheetsRegistry={sheetsRegistry}>
           <div>
             <Button />
-            <ApplyTheme
+            <ThemeProvider
               theme={getTheme('#000000')}
               jss={nestedJss}
               sheetsRegistry={nestedSheetsRegistry}>
               <Button />
-            </ApplyTheme>
+            </ThemeProvider>
           </div>
-        </ApplyTheme>
-        <ApplyTheme
+        </ThemeProvider>
+        <ThemeProvider
           theme={getTheme('#777777')}
           jss={separateJss}
           sheetsRegistry={separateSheetsRegistry}>
           <Button />
-        </ApplyTheme>
+        </ThemeProvider>
       </div>
     )
 
@@ -177,16 +177,18 @@ describe('<ApplyTheme />', () => {
 
     mount(
       <div>
-        <ApplyTheme theme={getTheme('#ffffff')} sheetsRegistry={sheetsRegistry}>
+        <ThemeProvider
+          theme={getTheme('#ffffff')}
+          sheetsRegistry={sheetsRegistry}>
           <div>
             <Button />
           </div>
-        </ApplyTheme>
-        <ApplyTheme
+        </ThemeProvider>
+        <ThemeProvider
           theme={getTheme('#777777')}
           sheetsRegistry={separateSheetsRegistry}>
           <Button />
-        </ApplyTheme>
+        </ThemeProvider>
       </div>
     )
 
@@ -209,9 +211,9 @@ describe('<ApplyTheme />', () => {
     })
 
     mount(
-      <ApplyTheme theme={getTheme('#ffffff')}>
+      <ThemeProvider theme={getTheme('#ffffff')}>
         <Button className="with-theme" />
-      </ApplyTheme>
+      </ThemeProvider>
     )
 
     const button = document.querySelector('.with-theme')

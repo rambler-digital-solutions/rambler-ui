@@ -2,9 +2,9 @@ import 'babel-polyfill'
 import React from 'react'
 import {render} from 'react-dom'
 import {HashRouter, Switch} from 'react-router-dom'
-import {ApplyTheme} from 'rambler-ui/theme'
+import {ThemeProvider as UIThemeProvider} from 'rambler-ui/theme'
 import pageList from 'docs/page-list'
-import {ThemeProvider} from 'docs/utils/theming'
+import {ThemeProvider as DocsThemeProvider} from 'docs/utils/theming'
 import App from 'docs/components/App'
 import Route from 'docs/components/Route'
 import SideNav from 'docs/components/SideNav'
@@ -22,8 +22,8 @@ const flattenRoutes = (routes, acc = []) =>
   )
 
 const root = (
-  <ApplyTheme>
-    <ThemeProvider>
+  <UIThemeProvider>
+    <DocsThemeProvider>
       <HashRouter>
         <App>
           <SideNav index={pageList} />
@@ -37,8 +37,8 @@ const root = (
           </div>
         </App>
       </HashRouter>
-    </ThemeProvider>
-  </ApplyTheme>
+    </DocsThemeProvider>
+  </UIThemeProvider>
 )
 
 render(root, document.getElementById('root'))

@@ -11,14 +11,14 @@ npm install --save rambler-ui
 ```js
 // src/index.js
 import React from 'react'
-import { render } from 'react-dom'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {render} from 'react-dom'
+import {ThemeProvider} from 'rambler-ui/theme'
 import App from './App'
 
 const app = (
-  <ApplyTheme>
+  <ThemeProvider>
     <App />
-  </ApplyTheme>
+  </ThemeProvider>
 )
 
 render(app, document.getElementById('app'))
@@ -40,22 +40,22 @@ export default () => (
 
 ## Server-Side rendering
 
-Для отрисовки на сервере необходимо в `<ApplyTheme />` пробрасывать отдельный `sheetsRegistry`, для извлечения стилей и вставки их непосредственно в html ответа сервера. После загрузки и регидратации приложения в браузере, необходимо удалить извлеченные на сервере стили из DOM для избежания сайд-эффектов.
+Для отрисовки на сервере необходимо в `<ThemeProvider />` пробрасывать отдельный `sheetsRegistry`, для извлечения стилей и вставки их непосредственно в html ответа сервера. После загрузки и регидратации приложения в браузере, необходимо удалить извлеченные на сервере стили из DOM для избежания сайд-эффектов.
 
 ```js
 // src/render.js
 import React from 'react'
-import { renderToString } from 'react-dom/server'
-import { ApplyTheme, createSheetsRegistry } from 'rambler-ui/theme'
+import {renderToString } from 'react-dom/server'
+import {ThemeProvider, createSheetsRegistry} from 'rambler-ui/theme'
 import App from './App'
 
 export default function render(req, res) {
   const sheetsRegistry = createSheetsRegistry()
 
   const app = renderToString(
-    <ApplyTheme sheetsRegistry={sheetsRegistry}>
+    <ThemeProvider sheetsRegistry={sheetsRegistry}>
       <App />
-    </ApplyTheme>
+    </ThemeProvider>
   )
 
   return res.send(`

@@ -11,11 +11,11 @@ export const createGenerateId: (themeId?: number) => GenerateId
 
 export {withTheme, withStyles, useTheme, createUseStyles}
 
-export interface ApplyThemeProps {
+export interface ThemeProviderProps {
   theme?: Theme | ((theme: Theme) => Theme)
   jss?: Jss
   sheetsRegistry?: SheetsRegistry
   generateId?: GenerateId
 }
 
-export class ApplyTheme extends PureComponent<ApplyThemeProps, {}> {}
+export class ThemeProvider extends PureComponent<ThemeProviderProps, {}> {}

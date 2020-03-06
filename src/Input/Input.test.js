@@ -2,7 +2,7 @@ import React from 'react'
 import Input from './Input'
 import FieldStatus from '../FieldStatus'
 import FormGroup from '../FormGroup'
-import {ApplyTheme} from '../theme'
+import {ThemeProvider} from '../theme'
 import {
   mount,
   getStyles,
@@ -13,7 +13,7 @@ import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 import RamblerMailIcon from '../icons/services/RamblerMailIcon'
 
-const applyTheme = children => <ApplyTheme>{children}</ApplyTheme>
+const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 
 describe('Input', () => {
   const formGroupProps = {

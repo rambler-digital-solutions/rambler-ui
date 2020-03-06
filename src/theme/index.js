@@ -15,16 +15,16 @@ import preset from 'jss-preset-default'
 import base from /* preval */ './base'
 import uuid from '../utils/uuid'
 
-const RamblerUIThemeContext = createContext({})
-const ApplyThemeContext = createContext({})
+const ThemeContext = createContext({})
+const ThemeProviderContext = createContext({})
 
 const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 const RAMBLER_UI_CLASS_NAME_PREFIX = '__RAMBLER_UI_CLASS_NAME_PREFIX__'
 
 const ruiPrefix = 'rui-'
 
-const theming = createTheming(RamblerUIThemeContext)
-const {ThemeProvider, withTheme, useTheme} = theming
+const theming = createTheming(ThemeContext)
+const {ThemeProvider: JssThemeProvider, withTheme, useTheme} = theming
 
 export {withTheme, useTheme}
 
@@ -55,7 +55,7 @@ export const createGenerateId = (themeId = 0) => {
 
 jss.setup({createGenerateId})
 
-export class ApplyTheme extends PureComponent {
+export class ThemeProvider extends PureComponent {
   static propTypes = {
     theme: PropTypes.object,
     jss: PropTypes.object,
@@ -63,7 +63,7 @@ export class ApplyTheme extends PureComponent {
     generateId: PropTypes.func
   }
 
-  static contextType = ApplyThemeContext
+  static contextType = ThemeProviderContext
 
   computedProps = this.mapProps(this.props, this.context)
 
@@ -96,14 +96,14 @@ export class ApplyTheme extends PureComponent {
     const {children} = this.props
     const {jss, sheetsRegistry, getResultTheme, generateId} = this.computedProps
     return (
-      <ApplyThemeContext.Provider value={{jss, sheetsRegistry}}>
+      <ThemeProviderContext.Provider value={{jss, sheetsRegistry}}>
         <JssProvider
           jss={jss}
           registry={sheetsRegistry}
           generateId={generateId}>
-          <ThemeProvider theme={getResultTheme}>{children}</ThemeProvider>
+          <JssThemeProvider theme={getResultTheme}>{children}</JssThemeProvider>
         </JssProvider>
-      </ApplyThemeContext.Provider>
+      </ThemeProviderContext.Provider>
     )
   }
 }

@@ -1,13 +1,13 @@
 import {SideNav, SideNavItem} from '../SideNav'
 import BookIcon from '../icons/forms/BookIcon'
-import {ApplyTheme} from '../theme'
+import {ThemeProvider} from '../theme'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 
 import React from 'react'
 
-const applyTheme = children => <ApplyTheme>{children}</ApplyTheme>
+const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 
 describe('<SideNav />', () => {
   const defaultPropsSideNav = {

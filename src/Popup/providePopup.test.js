@@ -2,12 +2,12 @@ import React, {Component, cloneElement} from 'react'
 import Popup from './Popup'
 import providePopup from './providePopup'
 import Button from '../Button/Button'
-import {ApplyTheme} from '../theme'
+import {ThemeProvider} from '../theme'
 import {mount} from '../utils/test-utils'
 
 const withTheme = element => {
   const Result = props => (
-    <ApplyTheme>{cloneElement(element, props)}</ApplyTheme>
+    <ThemeProvider>{cloneElement(element, props)}</ThemeProvider>
   )
   Result.displayName = element.displayName
   return <Result />

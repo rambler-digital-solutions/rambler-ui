@@ -48,8 +48,8 @@ src/
 
 ```js
 // src/Button/Button.js
-import React, { PureComponent } from 'react'
-import { withStyles } from '../theme'
+import React, {PureComponent} from 'react'
+import {withStyles} from '../theme'
 
 const styles = {
   root: { // имя css-класса внутри комонента
@@ -76,8 +76,8 @@ export default withStyles(styles, {name: 'Button'})(Button)
 
 ```js
 // src/Button/Button.js
-import React, { PureComponent } from 'react'
-import { createUseStyles } from '../theme'
+import React from 'react'
+import {createUseStyles} from '../theme'
 
 const styles = {
   root: { // имя css-класса внутри комонента
@@ -106,8 +106,8 @@ const Button = ({children}) => {
 
 ```js
 // src/Button/Button.js
-import React, { PureComponent } from 'react'
-import { withStyles } from '../theme'
+import React, {PureComponent} from 'react'
+import {withStyles} from '../theme'
 
 const styles = theme => ({
   root: { // имя css-класса внутри комонента
@@ -133,7 +133,7 @@ export default withStyles(styles, {name: 'Button'})(Button)
 import deepmerge from 'deepmerge'
 
 export function createTheme(config) {
-  const { colors } = config
+  const {colors} = config
 
   return deepmerge({
     fontFamily: 'Roboto, sans-serif',

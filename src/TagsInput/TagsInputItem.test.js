@@ -1,12 +1,12 @@
 import React from 'react'
 import {TagsInputItem} from '../TagsInput'
 import PhotoCameraIcon from '../icons/forms/PhotoCameraIcon'
-import {ApplyTheme} from '../theme'
+import {ThemeProvider} from '../theme'
 import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 
-const applyTheme = children => <ApplyTheme children={children} />
+const applyTheme = children => <ThemeProvider children={children} />
 
 describe('TagsInputItem: should apply props', () => {
   it('className and children', () => {

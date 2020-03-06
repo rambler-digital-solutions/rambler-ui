@@ -1,11 +1,11 @@
 import React from 'react'
 import {Toggle, ToggleOption} from '../Toggle'
-import {ApplyTheme} from '../theme'
+import {ThemeProvider} from '../theme'
 import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 
-const applyTheme = children => <ApplyTheme>{children}</ApplyTheme>
+const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 
 describe('Toggle', () => {
   const defaultPropsToggle = {
