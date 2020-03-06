@@ -13,14 +13,14 @@ npm install --save rambler-ui
 ```js
 // src/index.js
 import React from 'react'
-import { render } from 'react-dom'
-import { ApplyTheme } from 'rambler-ui/theme'
+import {render} from 'react-dom'
+import {ThemeProvider} from 'rambler-ui/theme'
 import App from './App'
 
 const app = (
-  <ApplyTheme>
+  <ThemeProvider>
     <App />
-  </ApplyTheme>
+  </ThemeProvider>
 )
 
 render(app, document.getElementById('app'))

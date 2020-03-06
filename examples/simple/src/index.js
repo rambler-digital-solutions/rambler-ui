@@ -1,12 +1,12 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {ApplyTheme} from 'rambler-ui/theme'
+import {ThemeProvider} from 'rambler-ui/theme'
 import App from './App'
 
 const app = (
-  <ApplyTheme>
+  <ThemeProvider>
     <App />
-  </ApplyTheme>
+  </ThemeProvider>
 )
 
 render(app, document.getElementById('app'))
