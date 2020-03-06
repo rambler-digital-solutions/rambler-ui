@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TickIcon from '../icons/forms/TickIcon'
-import {isolateMixin, ifDesktopSize, middleMixin} from '../utils/mixins'
+import {isolateMixin, ifDesktopWindow, middleMixin} from '../utils/mixins'
 import {withStyles} from '../theme'
 
 const defaultIcon = <TickIcon size={15} color="currentColor" />
@@ -19,7 +19,7 @@ const styles = theme => ({
     color: theme.stepper.colors.default.color,
     textAlign: 'center',
     zIndex: 1,
-    ...ifDesktopSize({
+    ...ifDesktopWindow({
       padding: '0 10px',
       marginTop: 0
     })

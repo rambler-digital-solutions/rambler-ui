@@ -33,15 +33,17 @@ const styles = theme => ({
       borderRadius: theme.notification.borderRadius
     })
   },
-  ...ifDesktop({
-    left: {
+  left: {
+    ...ifDesktop({
       right: 'auto'
-    },
-    right: {
+    })
+  },
+  right: {
+    ...ifDesktop({
       left: 'auto',
       right: 15
-    }
-  }),
+    })
+  },
   isVisible: {
     bottom: 15,
     opacity: 1

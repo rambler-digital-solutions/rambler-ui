@@ -62,7 +62,7 @@ export const ifDesktop = responsiveFactory('@media (min-device-width: 768px)')
 
 export const ifMobile = responsiveFactory('@media (max-device-width: 767px)')
 
-export const ifDesktopSize = responsiveFactory('@media (min-width: 768px)')
+export const ifDesktopWindow = responsiveFactory('@media (min-width: 768px)')
 
 const pseudoSelectors = [
   '::-webkit-input-placeholder',

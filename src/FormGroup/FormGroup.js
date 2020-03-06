@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
-import {ifDesktopSize, ifMobile, isolateMixin} from '../utils/mixins'
+import {ifDesktopWindow, ifMobile, isolateMixin} from '../utils/mixins'
 
 const styles = theme => ({
   root: {
@@ -10,7 +10,6 @@ const styles = theme => ({
     fontFamily: theme.fontFamily,
     fontSize: theme.formGroup.fontSize,
     lineHeight: theme.formGroup.lineHeight + 'px',
-
     ...ifMobile({
       fontSize: theme.formGroup.mobile.fontSize,
       lineHeight: theme.formGroup.mobile.lineHeight + 'px'
@@ -32,7 +31,7 @@ const styles = theme => ({
   },
   small: {},
   medium: {},
-  ...ifDesktopSize({
+  ...ifDesktopWindow({
     normal: {
       '& $label': {
         width: '100%'

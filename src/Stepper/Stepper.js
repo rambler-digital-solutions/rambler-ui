@@ -1,7 +1,7 @@
 import React, {PureComponent, Children, cloneElement} from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
-import {isolateMixin, ifDesktopSize} from '../utils/mixins'
+import {isolateMixin, ifDesktopWindow} from '../utils/mixins'
 import {withStyles} from '../theme'
 
 const styles = {
@@ -16,7 +16,7 @@ const styles = {
     marginBottom: '35px',
     width: '100%',
     position: 'relative',
-    ...ifDesktopSize({
+    ...ifDesktopWindow({
       flexDirection: 'row',
       alignItems: 'center'
     })
