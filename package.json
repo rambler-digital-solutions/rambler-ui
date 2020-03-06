@@ -18,7 +18,7 @@
     "lint": "eslint '**/*.js' && eslint --config ./.eslintrc.typescript.json '**/*.ts'",
     "format": "prettier --write '**/*.{js,ts}' && eslint '**/*.js' --fix && eslint --config ./.eslintrc.typescript.json '**/*.ts' --fix",
     "size": "size-limit",
-    "types": "tsc",
+    "types": "tsc --noEmit",
     "precommit": "lint-staged",
     "postversion": "git push --follow-tags"
   },
@@ -45,11 +45,11 @@
   "devDependencies": {
     "@mdx-js/loader": "^0.15.4",
     "@mdx-js/mdx": "^0.15.4",
-    "@types/jss": "^9.5.8",
+    "@types/jss": "^10.0.0",
     "@types/node": "^12.7.8",
     "@types/react": "^16.8.8",
     "@types/react-dom": "^16.8.2",
-    "@types/react-jss": "^8.6.4",
+    "@types/react-jss": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^2.3.2",
     "@typescript-eslint/parser": "^2.3.2",
     "babel-cli": "^6.26.0",
