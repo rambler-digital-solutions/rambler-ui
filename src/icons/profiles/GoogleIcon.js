@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SvgIcon from '../SvgIcon'
 
 export default function GoogleIcon(props) {
@@ -33,4 +34,8 @@ GoogleIcon.displayName = 'GoogleIcon'
 
 GoogleIcon.defaultProps = {
   color: null
+}
+
+GoogleIcon.propTypes = {
+  color: PropTypes.string
 }

@@ -199,6 +199,10 @@ class Snackbar extends PureComponent {
      */
     onRequestClose: PropTypes.func,
     /**
+     * Коллбек вызывающийся после закрытия
+     */
+    onClose: PropTypes.func,
+    /**
      * Высота снэкбара
      */
     size: PropTypes.oneOf(['small', 'medium'])

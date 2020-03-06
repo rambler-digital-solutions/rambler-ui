@@ -274,23 +274,23 @@ class ComplexSearch extends PureComponent {
      */
     appendToBody: PropTypes.bool,
     /**
-     * 	Автоматическое позиционирование дропдауна по оси Y (если выходит за пределы экрана)
+     * Автоматическое позиционирование дропдауна по оси Y (если выходит за пределы экрана)
      */
     autoPositionY: PropTypes.bool,
     /**
-     * 	Дополнительные аттрибуты для поискового инпута
+     * Дополнительные аттрибуты для поискового инпута
      */
     inputProps: PropTypes.object,
     /**
-     * 	Дополнительные аттрибуты для кнопок переключения источника поиска
+     * Дополнительные аттрибуты для кнопок переключения источника поиска
      */
     sourceButtonsProps: PropTypes.func,
     /**
-     * 	Текст тултипа поиска по сервису
+     * Текст тултипа поиска по сервису
      */
     serviceTooltipLabel: PropTypes.string,
     /**
-     * 	Дополнительные аттрибуты для кнопки
+     * Дополнительные аттрибуты для кнопки
      */
     searchButtonProps: PropTypes.object,
     /**
@@ -352,8 +352,8 @@ class ComplexSearch extends PureComponent {
       placeholder,
       inputProps,
       classes,
-      setNode,
-      onKeyDown,
+      setNode, // eslint-disable-line react/prop-types
+      onKeyDown, // eslint-disable-line react/prop-types
       onFocus,
       onBlur,
       value,
@@ -381,7 +381,7 @@ class ComplexSearch extends PureComponent {
       division,
       inputWrapperClassName,
       classes,
-      isDropdownOpened,
+      isDropdownOpened, // eslint-disable-line react/prop-types
       onSubmit
     } = this.props
 
@@ -407,10 +407,11 @@ class ComplexSearch extends PureComponent {
     const {
       classes,
       sourceType,
-      searchOptions,
+      searchOptions, // eslint-disable-line react/prop-types
       sourceButtonsProps,
       serviceTooltipLabel,
-      changeSourceType
+      clearForm, // eslint-disable-line react/prop-types
+      changeSourceType // eslint-disable-line react/prop-types
     } = this.props
     return (
       <div className={classes.serviceIcons}>
@@ -419,7 +420,7 @@ class ComplexSearch extends PureComponent {
             className={classes.serviceIcon}
             size={20}
             color="currentColor"
-            onClick={this.props.clearForm}
+            onClick={clearForm}
           />
         )}
         {sourceType && (
@@ -427,6 +428,7 @@ class ComplexSearch extends PureComponent {
             serviceTooltipLabel={serviceTooltipLabel}
             onSourceIconClick={changeSourceType}
             sourceButtonsProps={sourceButtonsProps}
+            // eslint-disable-next-line react/prop-types
             activeType={searchOptions.sourceType}
           />
         )}
@@ -478,11 +480,18 @@ class ComplexSearch extends PureComponent {
   }
 
   renderDropdown() {
+    // eslint-disable-next-line react/prop-types
     return this.props.renderDropdown(this.renderInput())
   }
 
   render() {
-    const {classes, style, className, size, setNode} = this.props
+    const {
+      classes,
+      style,
+      className,
+      size,
+      setNode // eslint-disable-line react/prop-types
+    } = this.props
     const button = this.renderButton()
 
     return (

@@ -1,4 +1,4 @@
-import React, {Component, cloneElement, Fragment} from 'react'
+import React, {Component, cloneElement} from 'react'
 import {createPortal} from 'react-dom'
 import uuid from '../utils/uuid'
 
@@ -106,21 +106,17 @@ export default function provideRenderToLayer(Target) {
       }
     }
 
-    renderContent() {
-      return <Fragment>{this.elements}</Fragment>
-    }
-
     render() {
       return (
-        <Fragment>
+        <>
           <Target
             {...this.props}
             renderToLayer={this.renderToLayer}
             unrenderAtLayer={this.unrenderAtLayer}
           />
           {this.state.isOpened &&
-            createPortal(this.renderContent(), this.getContentContainerNode())}
-        </Fragment>
+            createPortal(<>{this.elements}</>, this.getContentContainerNode())}
+        </>
       )
     }
   }

@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import {parse} from 'react-docgen'
 import {parse as parseDoctrine} from 'doctrine'
@@ -265,7 +265,7 @@ class PropTypesTable extends PureComponent {
     const {classes} = this.props
 
     return (
-      <Fragment>
+      <>
         <div className={classes.scrollArea}>
           <div
             className={classes.table}
@@ -275,7 +275,7 @@ class PropTypesTable extends PureComponent {
         {requiredProps > 0 && (
           <div className={classes.required}>* Обязательный параметр</div>
         )}
-      </Fragment>
+      </>
     )
   }
 }

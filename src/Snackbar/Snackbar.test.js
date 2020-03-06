@@ -8,7 +8,7 @@ import {normalize as nc} from '../utils/colors'
 describe('<Snackbar />', () => {
   let containerNode
 
-  const mountWrapper = props =>
+  const mountWrapper = (props = {}) =>
     mount(
       withTheme(
         <Snackbar
@@ -16,9 +16,9 @@ describe('<Snackbar />', () => {
           containerRef={ref => {
             containerNode = ref
           }}
-          children="Hi"
-          {...props}
-        />
+          {...props}>
+          {props.children || 'Hi'}
+        </Snackbar>
       )
     )
 

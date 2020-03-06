@@ -205,17 +205,29 @@ class ServiceSearch extends PureComponent {
      */
     appendToBody: PropTypes.bool,
     /**
-     * 	Автоматическое позиционирование дропдауна по оси Y (если выходит за пределы экрана)
+     * Автоматическое позиционирование дропдауна по оси Y (если выходит за пределы экрана)
      */
     autoPositionY: PropTypes.bool,
     /**
-     * 	Дополнительные аттрибуты для поискового инпута
+     * Дополнительные аттрибуты для поискового инпута
      */
     inputProps: PropTypes.object,
     /**
-     * 	Дополнительные аттрибуты для кнопок переключения источника поиска
+     * Дополнительные аттрибуты для кнопок переключения источника поиска
      */
     sourceButtonsProps: PropTypes.func,
+    /**
+     * Дополнительные аттрибуты для кнопки
+     */
+    searchButtonProps: PropTypes.object,
+    /**
+     * Переопределение стандартных стилей кнопки поиска
+     */
+    searchButtonStyle: PropTypes.object,
+    /**
+     * Дополнительный CSS-класс кнопки поиска
+     */
+    searchButtonClassName: PropTypes.string,
     /**
      * Размер поискового блока
      */
@@ -270,8 +282,8 @@ class ServiceSearch extends PureComponent {
       classes,
       onSearch,
       onBlur,
-      onKeyDown,
-      setNode,
+      onKeyDown, // eslint-disable-line react/prop-types
+      setNode, // eslint-disable-line react/prop-types
       onFocus,
       value
     } = this.props
@@ -327,7 +339,8 @@ class ServiceSearch extends PureComponent {
     const {
       inputWrapperClassName,
       classes,
-      isDropdownOpened,
+      isDropdownOpened, // eslint-disable-line react/prop-types
+      clearForm, // eslint-disable-line react/prop-types
       onSubmit
     } = this.props
 
@@ -349,7 +362,7 @@ class ServiceSearch extends PureComponent {
             className={classes.clearIcon}
             size={20}
             color="currentColor"
-            onClick={this.props.clearForm}
+            onClick={clearForm}
           />
         )}
       </form>
@@ -357,11 +370,18 @@ class ServiceSearch extends PureComponent {
   }
 
   renderDropdown() {
+    // eslint-disable-next-line react/prop-types
     return this.props.renderDropdown(this.renderInput())
   }
 
   render() {
-    const {classes, style, className, size, setNode} = this.props
+    const {
+      classes,
+      style,
+      className,
+      size,
+      setNode // eslint-disable-line react/prop-types
+    } = this.props
 
     return (
       <div

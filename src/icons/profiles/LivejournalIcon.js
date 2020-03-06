@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SvgIcon from '../SvgIcon'
 
 export default function LivejournalIcon(props) {
@@ -29,4 +30,8 @@ LivejournalIcon.displayName = 'LivejournalIcon'
 
 LivejournalIcon.defaultProps = {
   color: null
+}
+
+LivejournalIcon.propTypes = {
+  color: PropTypes.string
 }

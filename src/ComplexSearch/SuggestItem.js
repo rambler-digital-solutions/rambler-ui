@@ -55,7 +55,11 @@ class SuggestItem extends PureComponent {
     /**
      * Значение поиского запроса айтема, может быть  любым объектом
      */
-    value: PropTypes.any.isRequired
+    value: PropTypes.any.isRequired,
+    /**
+     * Контент элемента
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {

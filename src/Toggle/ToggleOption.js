@@ -62,6 +62,10 @@ class ToggleOption extends Component {
      */
     icon: PropTypes.node,
     /**
+     * Коллбек клика на кнопку, в качестве аргументов принимает объект события
+     */
+    onClick: PropTypes.func,
+    /**
      * Размер компонента (автоматически проставляется компонентом `<Toggle/>`)
      */
     size: PropTypes.oneOf(['small', 'medium']),

@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import VisibilityAnimation from '../VisibilityAnimation'
 import FocusManager from '../FocusManager'
 import OnClickOutside from '../OnClickOutside'
-import {POINTS_Y} from '../constants/overlay'
+import {POINTS_Y, POINTS_X} from '../constants/overlay'
 import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
@@ -82,8 +82,10 @@ class DropdownContent extends PureComponent {
     onRequestClose: PropTypes.func,
     closeOnClickOutside: PropTypes.bool,
     pointY: PropTypes.oneOf(POINTS_Y),
+    pointX: PropTypes.oneOf(POINTS_X),
     padding: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
-    showArrow: PropTypes.bool
+    showArrow: PropTypes.bool,
+    children: PropTypes.node
   }
 
   static defaultProps = {

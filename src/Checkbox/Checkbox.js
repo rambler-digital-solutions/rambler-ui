@@ -257,7 +257,11 @@ class Checkbox extends PureComponent {
     /**
      * Размер чекбокса
      */
-    size: PropTypes.oneOf(['small', 'medium'])
+    size: PropTypes.oneOf(['small', 'medium']),
+    /**
+     * Контент инпута
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {

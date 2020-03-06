@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import SvgIcon from '../SvgIcon'
 
 export default function SberbankIcon(props) {
@@ -24,4 +25,8 @@ SberbankIcon.displayName = 'SberbankIcon'
 
 SberbankIcon.defaultProps = {
   color: null
+}
+
+SberbankIcon.propTypes = {
+  color: PropTypes.string
 }

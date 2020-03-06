@@ -190,6 +190,7 @@ describe('<SideNav />', () => {
   })
 
   it('Check SideNavItem is wrapped into container', () => {
+    // eslint-disable-next-line react/prop-types
     const Button = ({children, className, activeClassName}) => (
       <button className={`${className} ${activeClassName}`}>{children}</button>
     )

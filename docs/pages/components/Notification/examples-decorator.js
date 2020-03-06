@@ -1,9 +1,14 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Button from 'rambler-ui/Button'
 import FaceIcon from 'rambler-ui/icons/forms/FaceIcon'
 import {Notification, provideNotification} from 'rambler-ui/Notification'
 
 class WithNotification extends Component {
+  static propTypes = {
+    openNotification: PropTypes.func
+  }
+
   open = () => {
     const notification = this.props.openNotification(
       <Notification

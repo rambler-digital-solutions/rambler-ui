@@ -175,7 +175,11 @@ class Notification extends PureComponent {
     /**
      * Коллбек вызывающийся при всех вариантах закрытия (автоматически проставляется, если используется `@provideNotification`)
      */
-    onRequestClose: PropTypes.func
+    onRequestClose: PropTypes.func,
+    /**
+     * Коллбек вызывающийся после закрытия
+     */
+    onClose: PropTypes.func
   }
 
   static defaultProps = {

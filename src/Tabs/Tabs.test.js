@@ -26,6 +26,7 @@ describe('<Tabs />', () => {
     children: 'tab2',
     title: 'Title2'
   }
+  // eslint-disable-next-line react/prop-types
   const Container = ({activeClassName, ...props}) => (
     <div data-test={activeClassName} {...props} />
   )
@@ -35,12 +36,14 @@ describe('<Tabs />', () => {
     container: <Container data-own="own" />,
     title: 'Title3'
   }
+  // eslint-disable-next-line react/prop-types
+  const OwnContainer = ({activeClassName}) => (
+    <Container data-own="own" activeClassName={activeClassName} />
+  )
   const funcProps = {
     id: 'funciton',
     children: 'tab4',
-    container: ({activeClassName}) => (
-      <Container data-own="own" activeClassName={activeClassName} />
-    ),
+    container: OwnContainer,
     title: 'Title4'
   }
 

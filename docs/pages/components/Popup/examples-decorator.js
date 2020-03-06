@@ -1,8 +1,13 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Button from 'rambler-ui/Button'
 import {Popup, providePopup} from 'rambler-ui/Popup'
 
 class WithPopup extends Component {
+  static propTypes = {
+    openPopup: PropTypes.func
+  }
+
   state = {
     latestEvent: 'none'
   }

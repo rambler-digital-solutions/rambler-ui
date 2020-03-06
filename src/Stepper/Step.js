@@ -109,7 +109,11 @@ class Step extends Component {
     /**
      *  Объект css стилей компонента
      */
-    style: PropTypes.object
+    style: PropTypes.object,
+    /**
+     * Контент (обычно просто текст)
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {

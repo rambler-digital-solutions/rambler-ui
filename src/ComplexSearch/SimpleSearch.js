@@ -165,17 +165,25 @@ class SimpleSearch extends PureComponent {
      */
     onPressEnter: PropTypes.func,
     /**
-     * 	Дополнительные аттрибуты для поискового инпута
+     * Дополнительные аттрибуты для поискового инпута
      */
     inputProps: PropTypes.object,
     /**
-     * 	Дополнительные аттрибуты для кнопок переключения источника поиска
+     * Дополнительные аттрибуты для кнопок переключения источника поиска
      */
     sourceButtonsProps: PropTypes.func,
     /**
-     * 	Дополнительные аттрибуты для кнопки
+     * Дополнительные аттрибуты для кнопки
      */
     searchButtonProps: PropTypes.object,
+    /**
+     * Переопределение стандартных стилей кнопки поиска
+     */
+    searchButtonStyle: PropTypes.object,
+    /**
+     * Дополнительный CSS-класс кнопки поиска
+     */
+    searchButtonClassName: PropTypes.string,
     /**
      * Размер поискового блока
      */
@@ -185,7 +193,7 @@ class SimpleSearch extends PureComponent {
      */
     sourceType: PropTypes.bool,
     /**
-     * 	Текст тултипа поиска по сервису
+     * Текст тултипа поиска по сервису
      */
     serviceTooltipLabel: PropTypes.string
   }
@@ -211,10 +219,10 @@ class SimpleSearch extends PureComponent {
       placeholder,
       inputProps,
       classes,
-      onKeyDown,
-      onFocusInput,
-      onBlurInput,
-      setNode,
+      onKeyDown, // eslint-disable-line react/prop-types
+      onFocusInput, // eslint-disable-line react/prop-types
+      onBlurInput, // eslint-disable-line react/prop-types
+      setNode, // eslint-disable-line react/prop-types
       value,
       onSearch
     } = this.props
@@ -254,11 +262,11 @@ class SimpleSearch extends PureComponent {
     const {
       classes,
       sourceType,
-      searchOptions,
+      searchOptions, // eslint-disable-line react/prop-types
       showSearchButton,
       sourceButtonsProps,
       serviceTooltipLabel,
-      changeSourceType
+      changeSourceType // eslint-disable-line react/prop-types
     } = this.props
     return (
       <div className={classes.serviceIcons}>
@@ -267,6 +275,7 @@ class SimpleSearch extends PureComponent {
             onSourceIconClick={changeSourceType}
             sourceButtonsProps={sourceButtonsProps}
             serviceTooltipLabel={serviceTooltipLabel}
+            // eslint-disable-next-line react/prop-types
             activeType={searchOptions.sourceType}
           />
         )}

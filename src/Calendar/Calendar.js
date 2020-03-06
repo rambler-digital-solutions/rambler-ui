@@ -605,13 +605,10 @@ class Calendar extends PureComponent {
             />
           )}
 
-          <div
-            className={classes.month}
-            children={
-              theme.i18n.months[displayMonth] +
-              (showYear ? ', ' + displayYear : '')
-            }
-          />
+          <div className={classes.month}>
+            {theme.i18n.months[displayMonth] +
+              (showYear ? ', ' + displayYear : '')}
+          </div>
 
           {showMonthSwitch && (
             <button
@@ -639,9 +636,9 @@ class Calendar extends PureComponent {
               className={classnames(classes.weekDay, {
                 [classes.isWeekend]:
                   highlightWeekend && (index === 5 || index === 6)
-              })}
-              children={el}
-            />
+              })}>
+              {el}
+            </div>
           ))}
         </div>
 
@@ -690,17 +687,15 @@ class Calendar extends PureComponent {
                       (number < minNumberDate || number > maxNumberDate) &&
                       'disabled'
                     }
-                    onClick={event => this.onClick(event, number)}
-                    children={number % 100}
-                  />
+                    onClick={event => this.onClick(event, number)}>
+                    {number % 100}
+                  </button>
                 )
 
               return (
-                <span
-                  key={number}
-                  className={classNameDateday}
-                  children={number % 100}
-                />
+                <span key={number} className={classNameDateday}>
+                  {number % 100}
+                </span>
               )
             })}
           </div>

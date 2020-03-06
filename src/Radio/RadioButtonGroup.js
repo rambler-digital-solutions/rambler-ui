@@ -41,7 +41,11 @@ class RadioButtonGroup extends PureComponent {
     /**
      * Значение, выбранного в данный момент radio
      */
-    value: PropTypes.any
+    value: PropTypes.any,
+    /**
+     * Позиция label - либо слева, либо справа
+     */
+    labelPosition: PropTypes.oneOf(['left', 'right'])
   }
 
   static defaultProps = {

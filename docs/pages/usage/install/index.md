@@ -4,7 +4,7 @@
 npm install --save rambler-ui
 ```
 
-Библиотека и ее зависимости используют фичи ES2015+: `Promise` и т. д. Для использования в старых браузерах необходимо добавить [`babel-polyfill`](https://babeljs.io/docs/usage/polyfill/) в ваше приложение.
+Библиотека и ее зависимости используют фичи ES2015+: `Promise` и т. д. Для использования в старых браузерах необходимо добавить [`@babel/polyfill`](https://babeljs.io/docs/en/babel-polyfill/) в ваше приложение.
 
 ## Использование
 

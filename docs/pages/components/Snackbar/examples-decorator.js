@@ -1,8 +1,13 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import Button from 'rambler-ui/Button'
 import {Snackbar, provideSnackbar} from 'rambler-ui/Snackbar'
 
 class WithSnackbar extends Component {
+  static propTypes = {
+    openSnackbar: PropTypes.func
+  }
+
   openAlert = () => {
     this.props.openSnackbar(
       <Snackbar positionY="top" showClose type="danger">

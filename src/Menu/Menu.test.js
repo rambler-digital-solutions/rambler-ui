@@ -146,6 +146,7 @@ describe('<Menu />', () => {
       render() {
         return (
           <Menu
+            // eslint-disable-next-line react/prop-types
             multiple={this.props.multiple}
             value={this.state.value}
             onChange={this.setValue}

@@ -7,17 +7,19 @@ const styles = {
   margin: 10
 }
 
-export default () => (
-  <div>
-    {Object.keys(icons).map(iconName => {
-      const Icon = icons[iconName]
-      return (
-        <div key={iconName} style={styles}>
-          <Tooltip content={`<${iconName} />`}>
-            <Icon />
-          </Tooltip>
-        </div>
-      )
-    })}
-  </div>
-)
+export default function ServiceIconsExamples() {
+  return (
+    <div>
+      {Object.keys(icons).map(iconName => {
+        const Icon = icons[iconName]
+        return (
+          <div key={iconName} style={styles}>
+            <Tooltip content={`<${iconName} />`}>
+              <Icon />
+            </Tooltip>
+          </div>
+        )
+      })}
+    </div>
+  )
+}

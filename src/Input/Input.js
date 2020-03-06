@@ -613,7 +613,11 @@ class Input extends PureComponent {
     /**
      * Отображения счетчика символов
      */
-    characterCounter: PropTypes.bool
+    characterCounter: PropTypes.bool,
+    /**
+     * Коллбек вызывающийся при монтировании/размонтировании элемента input
+     */
+    inputRef: PropTypes.func
   }
 
   static defaultProps = {
@@ -752,7 +756,7 @@ class Input extends PureComponent {
 
   render() {
     const {
-      tag = 'input',
+      tag = 'input', // eslint-disable-line react/prop-types
       className,
       style,
       disabled,

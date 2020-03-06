@@ -100,6 +100,8 @@ class HintContent extends PureComponent {
     isVisible: PropTypes.bool,
     pointX: PropTypes.oneOf(POINTS_X),
     pointY: PropTypes.oneOf(POINTS_Y),
+    anchorLeft: PropTypes.number,
+    anchorWidth: PropTypes.number,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onBecomeVisible: PropTypes.func,

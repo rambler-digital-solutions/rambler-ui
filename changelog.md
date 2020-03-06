@@ -1,5 +1,15 @@
 # Changelog
 
+## v-4.0.0
+### BREAKING
+* Для корректной работы необходим `react@^16.8` и `react-dom@^16.8`
+* Компонент `<ApplyTheme />` переименован в `<ThemeProvider />`
+* Фабрика функций создания имен классов `createGenerateClassName` и свойство `generateClassName` переименованы в `createGenerateId` и `generateId` соответственно
+* Компонент `<InputStatus />` переименован в `<FieldStatus />`
+
+### Changed
+* Удалены устаревшее API и life-cycle методы компонентов `react`
+
 ## v-3.50.1 - 2020-02-21
 ### Fixed
 * Поправлена фокусировка на `<svg />` при анмаунте компонентов перехватывающих фокус

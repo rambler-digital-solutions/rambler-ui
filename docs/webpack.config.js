@@ -31,7 +31,7 @@ module.exports = {
           {
             loader: '@mdx-js/loader',
             options: {
-              mdPlugins: [exportMeta, highlight]
+              remarkPlugins: [exportMeta, highlight]
             }
           }
         ]

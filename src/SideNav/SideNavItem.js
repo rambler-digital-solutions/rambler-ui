@@ -91,7 +91,11 @@ class SideNavItem extends Component {
     /**
      * Колбек нажатия на элемент (автоматически проставляется компонентом `<SideNav />`)
      */
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    /**
+     * Коллбек клика на элемент, в качестве аргументов принимает объект события
+     */
+    onClick: PropTypes.func
   }
 
   onClick = event => {

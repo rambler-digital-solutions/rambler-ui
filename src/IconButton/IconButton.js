@@ -206,7 +206,11 @@ class IconButton extends PureComponent {
     /**
      * Показывать индикатор загрузки
      */
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    /**
+     * Ширина кнопки
+     */
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
   }
 
   static defaultProps = {

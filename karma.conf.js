@@ -13,7 +13,7 @@ module.exports = config =>
 
     files: [
       'test/init.js',
-      'node_modules/babel-polyfill/dist/polyfill.js',
+      'node_modules/@babel/polyfill/dist/polyfill.js',
       `src/${component.match(',') ? `{${component}}` : component}/*.test.js`
     ],
 

@@ -1,4 +1,4 @@
-import React, {PureComponent, Fragment, cloneElement} from 'react'
+import React, {PureComponent, cloneElement} from 'react'
 import {createPortal, findDOMNode} from 'react-dom'
 import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
@@ -662,11 +662,11 @@ class FixedOverlay extends PureComponent {
     const {anchor} = this.props
     const {isOpened} = this.state
     return (
-      <Fragment>
+      <>
         {anchor}
         {isOpened &&
           createPortal(this.contentElement, this.getContentContainerNode())}
-      </Fragment>
+      </>
     )
   }
 }

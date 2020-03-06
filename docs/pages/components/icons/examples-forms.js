@@ -7,19 +7,21 @@ const styles = {
   margin: 10
 }
 
-export default () => (
-  <div>
-    {Object.keys(icons)
-      .filter(iconName => iconName.indexOf('Icon') > 0)
-      .map(iconName => {
-        const Icon = icons[iconName]
-        return (
-          <div key={iconName} style={styles}>
-            <Tooltip content={`<${iconName} />`}>
-              <Icon />
-            </Tooltip>
-          </div>
-        )
-      })}
-  </div>
-)
+export default function FormIconsExamples() {
+  return (
+    <div>
+      {Object.keys(icons)
+        .filter(iconName => iconName.indexOf('Icon') > 0)
+        .map(iconName => {
+          const Icon = icons[iconName]
+          return (
+            <div key={iconName} style={styles}>
+              <Tooltip content={`<${iconName} />`}>
+                <Icon />
+              </Tooltip>
+            </div>
+          )
+        })}
+    </div>
+  )
+}

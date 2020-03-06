@@ -12,7 +12,7 @@ import {
   createUseStyles as originalCreateUseStyles
 } from 'react-jss'
 import preset from 'jss-preset-default'
-import base from /* preval */ './base'
+import base from './base'
 import uuid from '../utils/uuid'
 
 const ThemeContext = createContext({})
@@ -60,7 +60,8 @@ export class ThemeProvider extends PureComponent {
     theme: PropTypes.object,
     jss: PropTypes.object,
     sheetsRegistry: PropTypes.object,
-    generateId: PropTypes.func
+    generateId: PropTypes.func,
+    children: PropTypes.node
   }
 
   static contextType = ThemeProviderContext

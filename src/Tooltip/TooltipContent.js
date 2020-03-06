@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import OnClickOutside from '../OnClickOutside'
 import VisibilityAnimation from '../VisibilityAnimation'
 import {withStyles} from '../theme'
-import {POINTS_Y} from '../constants/overlay'
+import {POINTS_Y, POINTS_X} from '../constants/overlay'
 import {isolateMixin, fontSmoothingMixin} from '../utils/mixins'
 
 const styles = theme => ({
@@ -173,6 +173,12 @@ class TooltipContent extends PureComponent {
     onClickOutside: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     pointY: PropTypes.oneOf(POINTS_Y),
+    pointX: PropTypes.oneOf(POINTS_X),
+    anchorPointY: PropTypes.oneOf(POINTS_Y),
+    anchorPointX: PropTypes.oneOf(POINTS_X),
+    anchorWidth: PropTypes.number,
+    anchorHeight: PropTypes.number,
+    status: PropTypes.oneOf(['default', 'success', 'error', 'warning']),
     children: PropTypes.node
   }
 

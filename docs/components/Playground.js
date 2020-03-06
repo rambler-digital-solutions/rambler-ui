@@ -6,7 +6,7 @@ import classnames from 'classnames'
 import debounce from 'lodash.debounce'
 import Highlight from 'react-highlight.js'
 import Codemirror from 'react-codemirror'
-import {transform} from 'babel-standalone'
+import {transform} from '@babel/standalone'
 import 'codemirror/mode/javascript/javascript'
 import 'codemirror/lib/codemirror.css'
 import 'highlight.js/styles/default.css'
@@ -200,16 +200,13 @@ class Playground extends PureComponent {
 
     try {
       const {code} = transform(raw, {
-        presets: ['es2015', 'react'],
-        plugins: ['transform-object-rest-spread', 'transform-class-properties']
+        presets: ['env', 'react'],
+        plugins: ['proposal-object-rest-spread', 'proposal-class-properties']
       })
-
       const execute = new Function('module', 'exports', 'require', code)
-
       const module = {
         exports: {}
       }
-
       const deepRequire = function(moduleName, module = modules) {
         const [name, ...path] = Array.isArray(moduleName)
           ? moduleName

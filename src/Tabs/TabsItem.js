@@ -95,6 +95,10 @@ class TabsItem extends Component {
      */
     children: PropTypes.node,
     /**
+     * Если указан href, то кнопка будет ссылкой
+     */
+    href: PropTypes.string,
+    /**
      * Размер компонента (автоматически проставляется компонентом `<Tabs/>`)
      */
     size: PropTypes.oneOf(['small', 'medium']),

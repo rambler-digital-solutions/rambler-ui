@@ -40,7 +40,11 @@ class Stepper extends PureComponent {
     /**
      *  Объект css стилей root-компонента
      */
-    style: PropTypes.object
+    style: PropTypes.object,
+    /**
+     *  Элементы переключателя, обязаны быть компонентами типа <Step />
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {

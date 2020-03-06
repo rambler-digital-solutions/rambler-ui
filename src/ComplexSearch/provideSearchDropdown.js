@@ -1,4 +1,5 @@
 import React, {PureComponent, Children, createContext} from 'react'
+import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import SuggestDropdown from './SuggestDropdown'
 import OnClickOutside from '../OnClickOutside'
@@ -9,6 +10,26 @@ export const ProvideSearchDropdownContext = createContext({})
 export default function provideSearchDropdown(Search) {
   return class extends PureComponent {
     static displayName = `provideSearchDropdown(${getDisplayName(Search)})`
+
+    static propTypes = {
+      appendToBody: PropTypes.bool,
+      autoPositionY: PropTypes.bool,
+      children: PropTypes.node,
+      dropdownStyle: PropTypes.object,
+      dropdownClassName: PropTypes.string,
+      setNode: PropTypes.func,
+      clearForm: PropTypes.func,
+      onSearch: PropTypes.func,
+      onFocus: PropTypes.func,
+      onBlur: PropTypes.func,
+      onSelectItem: PropTypes.func,
+      onClickItem: PropTypes.func,
+      onRemoveItem: PropTypes.func,
+      onHoverItem: PropTypes.func,
+      onSubmit: PropTypes.func,
+      onKeyDown: PropTypes.func,
+      onPressEnter: PropTypes.func
+    }
 
     static defaultProps = {
       value: '',
@@ -183,7 +204,8 @@ export default function provideSearchDropdown(Search) {
       return (
         (!this.suggestNode ||
           (this.suggestNode !== node && !this.suggestNode.contains(node))) &&
-        (this.rootNode !== node && !this.rootNode.contains(node))
+        this.rootNode !== node &&
+        !this.rootNode.contains(node)
       )
     }
 

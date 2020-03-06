@@ -1,8 +1,14 @@
 import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function provideSnackbar(Target) {
   class ProvideSnackbar extends Component {
+    static propTypes = {
+      renderToLayer: PropTypes.func.isRequired,
+      unrenderAtLayer: PropTypes.func.isRequired
+    }
+
     openSnackbar = element => {
       const snackbar = {}
 

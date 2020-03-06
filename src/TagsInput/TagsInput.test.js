@@ -5,7 +5,7 @@ import {mount, getStyles} from '../utils/test-utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 
-const applyTheme = children => <ThemeProvider children={children} />
+const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 
 describe('TagsInput: should apply props', () => {
   it('apply className and children, moreButton is renered', () => {
@@ -15,12 +15,10 @@ describe('TagsInput: should apply props', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput className={className}>
-          <TagsInputItem
-            children="1"
-            className={children1ClassName}
-            value="1"
-          />
-          <TagsInputItem children="2" value="2" />
+          <TagsInputItem className={children1ClassName} value="1">
+            1
+          </TagsInputItem>
+          <TagsInputItem value="2">2</TagsInputItem>
         </TagsInput>
       )
     )
@@ -42,8 +40,8 @@ describe('TagsInput: should apply props', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput isExpanded>
-          <TagsInputItem children="1" value="1" />
-          <TagsInputItem children="2" value="2" />
+          <TagsInputItem value="1">1</TagsInputItem>
+          <TagsInputItem value="2">2</TagsInputItem>
         </TagsInput>
       )
     )
@@ -102,8 +100,12 @@ describe('TagsInput: should apply props', () => {
           onChange={val => {
             value = val
           }}>
-          <TagsInputItem children="1" value={1} id="ch1" />
-          <TagsInputItem children="2" value={2} id="ch2" />
+          <TagsInputItem value={1} id="ch1">
+            1
+          </TagsInputItem>
+          <TagsInputItem value={2} id="ch2">
+            2
+          </TagsInputItem>
         </TagsInput>
       )
     )
@@ -129,8 +131,10 @@ describe('TagsInput: should apply props', () => {
             value = val
           }}
           disabled>
-          <TagsInputItem children="1" value={1} id="ch1" />
-          <TagsInputItem children="2" value={2} />
+          <TagsInputItem value={1} id="ch1">
+            1
+          </TagsInputItem>
+          <TagsInputItem value={2}>2</TagsInputItem>
         </TagsInput>
       )
     )
@@ -146,7 +150,9 @@ describe('TagsInput: should apply default styles', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}}>
-          <TagsInputItem children="1" value={1} style={{width: 60}} />
+          <TagsInputItem value={1} style={{width: 60}}>
+            1
+          </TagsInputItem>
         </TagsInput>
       )
     )
@@ -180,8 +186,12 @@ describe('TagsInput: should apply default styles', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}}>
-          <TagsInputItem children="1" value={1} style={{width: 60}} />
-          <TagsInputItem children="2" value={2} style={{width: 60}} />
+          <TagsInputItem value={1} style={{width: 60}}>
+            1
+          </TagsInputItem>
+          <TagsInputItem value={2} style={{width: 60}}>
+            2
+          </TagsInputItem>
         </TagsInput>
       )
     )
@@ -216,8 +226,12 @@ describe('TagsInput: should apply default styles', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}} isExpanded>
-          <TagsInputItem children="1" value={1} style={{width: 60}} />
-          <TagsInputItem children="2" value={2} style={{width: 60}} />
+          <TagsInputItem value={1} style={{width: 60}}>
+            1
+          </TagsInputItem>
+          <TagsInputItem value={2} style={{width: 60}}>
+            2
+          </TagsInputItem>
         </TagsInput>
       )
     )
@@ -234,8 +248,12 @@ describe('TagsInput: should apply default styles', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}} disabled>
-          <TagsInputItem children="1" value={1} style={{width: 60}} />
-          <TagsInputItem children="2" value={2} style={{width: 60}} />
+          <TagsInputItem value={1} style={{width: 60}}>
+            1
+          </TagsInputItem>
+          <TagsInputItem value={2} style={{width: 60}}>
+            2
+          </TagsInputItem>
         </TagsInput>
       )
     )
@@ -255,7 +273,9 @@ describe('TagsInput: should apply default styles', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}} type="background">
-          <TagsInputItem children="1" value={1} style={{width: 60}} />
+          <TagsInputItem value={1} style={{width: 60}}>
+            1
+          </TagsInputItem>
         </TagsInput>
       )
     )
@@ -285,8 +305,12 @@ describe('TagsInput: should apply default styles', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInput style={{width: 100}} type="background">
-          <TagsInputItem children="1" value={1} style={{width: 60}} />
-          <TagsInputItem children="2" value={2} style={{width: 60}} />
+          <TagsInputItem value={1} style={{width: 60}}>
+            1
+          </TagsInputItem>
+          <TagsInputItem value={2} style={{width: 60}}>
+            2
+          </TagsInputItem>
         </TagsInput>
       )
     )

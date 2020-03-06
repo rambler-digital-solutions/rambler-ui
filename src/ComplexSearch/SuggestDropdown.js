@@ -45,7 +45,11 @@ class SuggestDropdown extends PureComponent {
     /**
      * Переопределение стилей дропдауна
      */
-    style: PropTypes.object
+    style: PropTypes.object,
+    /**
+     * Контент дропдауна
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -66,8 +70,8 @@ class SuggestDropdown extends PureComponent {
       anchor,
       appendToBody,
       autoPositionY,
-      dropdownStyle,
-      dropdownClassName,
+      style,
+      className,
       classes
     } = this.props
 
@@ -76,8 +80,8 @@ class SuggestDropdown extends PureComponent {
         isOpened={isOpened}
         anchor={anchor}
         padding={false}
-        style={dropdownStyle}
-        className={classnames(classes.dropdown, dropdownClassName)}
+        style={style}
+        className={classnames(classes.dropdown, className)}
         appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={autoPositionY}

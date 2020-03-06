@@ -1,9 +1,18 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import getDisplayName from '../utils/get-display-name'
 
 export default function provideSearch(Search) {
   return class extends PureComponent {
     static displayName = `provideSearch(${getDisplayName(Search)})`
+
+    static propTypes = {
+      value: PropTypes.string,
+      onSubmit: PropTypes.func,
+      onSearch: PropTypes.func,
+      onPressEnter: PropTypes.func
+    }
+
     static defaultProps = {
       value: '',
       placeholder: '',

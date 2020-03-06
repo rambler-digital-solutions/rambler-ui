@@ -149,7 +149,11 @@ class RadioButton extends PureComponent {
     /**
      * Позиция label - либо слева, либо справа
      */
-    labelPosition: PropTypes.oneOf(['left', 'right'])
+    labelPosition: PropTypes.oneOf(['left', 'right']),
+    /**
+     * Контент поля
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -198,6 +202,7 @@ class RadioButton extends PureComponent {
   onChange = event => {
     this.context.events.emit('newValue', event, this.props.value)
     // оставляем для обратной совместимости
+    // eslint-disable-next-line react/prop-types
     if (this.props.onChange) this.props.onChange(event, this.inputValue)
   }
 
@@ -216,6 +221,7 @@ class RadioButton extends PureComponent {
       onBlur,
       theme, // eslint-disable-line no-unused-vars
       value, // eslint-disable-line no-unused-vars
+      // eslint-disable-next-line react/prop-types
       onChange, // eslint-disable-line no-unused-vars
       ...other
     } = this.props

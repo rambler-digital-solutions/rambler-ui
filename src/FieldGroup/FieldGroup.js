@@ -104,7 +104,11 @@ class FieldGroup extends PureComponent {
     /**
      * Разделитель между инпутами группы
      */
-    showDivider: PropTypes.bool
+    showDivider: PropTypes.bool,
+    /**
+     * Набор полей ввода Input или Select
+     */
+    children: PropTypes.node.isRequired
   }
 
   static defaultProps = {

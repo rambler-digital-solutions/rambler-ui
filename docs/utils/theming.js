@@ -1,4 +1,5 @@
 import React, {createContext} from 'react'
+import PropTypes from 'prop-types'
 import {
   createTheming,
   createUseStyles as originalCreateUseStyles
@@ -34,6 +35,10 @@ export {withTheme, useTheme}
 export const ThemeProvider = ({children}) => (
   <Provider theme={theme}>{children}</Provider>
 )
+
+ThemeProvider.propTypes = {
+  children: PropTypes.node
+}
 
 export const createUseStyles = styles =>
   originalCreateUseStyles(styles, {theming})

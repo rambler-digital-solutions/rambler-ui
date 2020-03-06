@@ -35,8 +35,8 @@ function createHandlers() {
 }
 
 export default function windowEvents(...types) {
-  return function wrap(OriginalComponent) {
-    return class WrappedComponent extends PureComponent {
+  return OriginalComponent =>
+    class WrappedComponent extends PureComponent {
       static displayName = `windowEvents(${getDisplayName(OriginalComponent)})`
 
       componentDidMount() {
@@ -70,5 +70,4 @@ export default function windowEvents(...types) {
         return <OriginalComponent {...this.props} windowEvents={events} />
       }
     }
-  }
 }
