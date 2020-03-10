@@ -76,7 +76,7 @@ describe('<FixedOverlay />', () => {
         />
       )
     )
-    wrapperNode = getWrapperNode(wrapper)
+    wrapperNode = getWrapperNode(wrapper.find(Anchor))
     wrapperNodeRect = wrapperNode.getBoundingClientRect()
   }
 

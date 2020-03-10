@@ -1,18 +1,12 @@
 import React from 'react'
 import Hint from './Hint'
-import {withTheme, mount, getStyles, getNodeStyles} from '../utils/test-utils'
+import {withTheme, mount, getNodeStyles} from '../utils/test-utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 
 describe('<Hint />', () => {
   const mountWrapper = props =>
-    mount(
-      withTheme(
-        <Hint className="anchor" {...props}>
-          Hello world
-        </Hint>
-      )
-    )
+    mount(withTheme(<Hint {...props}>Hello world</Hint>))
 
   it('should open hint content when change props.isOpened', () => {
     const wrapper = mountWrapper({contentClassName: 'hint-content-1'})
@@ -31,15 +25,17 @@ describe('<Hint />', () => {
   })
 
   it('should apply default styles', async () => {
-    const wrapper = mountWrapper({
+    mountWrapper({
       isOpened: true,
       autoPositionY: false,
+      className: 'hint-anchor-2',
       contentClassName: 'hint-content-2'
     })
 
     await new Promise(resolve => setTimeout(resolve, 66))
 
-    const anchorStyles = getStyles(wrapper)
+    const anchorNode = document.querySelector('.hint-anchor-2')
+    const anchorStyles = getNodeStyles(anchorNode)
 
     expect(anchorStyles.width).toEqual('15px')
     expect(anchorStyles.height).toEqual('15px')
