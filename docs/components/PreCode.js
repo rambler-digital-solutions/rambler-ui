@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = {
@@ -20,5 +21,9 @@ const styles = {
 const PreCode = ({classes, children}) => (
   <pre className={classes.root}>{children}</pre>
 )
+
+PreCode.propTypes = {
+  children: PropTypes.node
+}
 
 export default withStyles(styles)(PreCode)

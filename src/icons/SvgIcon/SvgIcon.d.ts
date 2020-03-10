@@ -1,4 +1,4 @@
-import {CSSProperties, ReactNode, FC, SVGProps} from 'react'
+import {ReactNode, FC, SVGProps} from 'react'
 import {Size} from '../..'
 
 export interface SvgIconProps extends SVGProps<SVGElement> {

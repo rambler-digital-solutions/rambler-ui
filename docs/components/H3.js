@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = {
@@ -13,5 +14,9 @@ const styles = {
 }
 
 const H3 = ({classes, children}) => <h3 className={classes.root}>{children}</h3>
+
+H3.propTypes = {
+  children: PropTypes.node
+}
 
 export default withStyles(styles)(H3)

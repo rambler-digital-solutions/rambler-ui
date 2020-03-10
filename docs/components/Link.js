@@ -7,14 +7,9 @@ const queue = new Queue(1)
 
 class Link extends PureComponent {
   static propTypes = {
-    /**
-     * Path to preload
-     */
     to: PropTypes.string,
-    /**
-     * Need chunk preload
-     */
-    preload: PropTypes.bool
+    preload: PropTypes.bool,
+    activeClassName: PropTypes.string
   }
 
   static defaultProps = {
@@ -36,10 +31,10 @@ class Link extends PureComponent {
     const {
       activeClassName,
       preload, // eslint-disable-line no-unused-vars
-      match, // eslint-disable-line no-unused-vars
-      location, // eslint-disable-line no-unused-vars
-      history, // eslint-disable-line no-unused-vars
-      staticContext, // eslint-disable-line no-unused-vars
+      match, // eslint-disable-line no-unused-vars, react/prop-types
+      location, // eslint-disable-line no-unused-vars, react/prop-types
+      history, // eslint-disable-line no-unused-vars, react/prop-types
+      staticContext, // eslint-disable-line no-unused-vars, react/prop-types
       ...props
     } = this.props
     return activeClassName ? (

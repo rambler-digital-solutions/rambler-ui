@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import StickySidebar from 'sticky-sidebar/dist/sticky-sidebar'
 import debounce from 'lodash.debounce'
@@ -222,6 +223,13 @@ const styles = theme => ({
 })
 
 class SideNav extends PureComponent {
+  static propTypes = {
+    index: PropTypes.array,
+    location: PropTypes.shape({
+      pathname: PropTypes.string
+    })
+  }
+
   state = {
     desktop: showNavigation,
     navOpened: showNavigation,

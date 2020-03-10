@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import UiButton from 'rambler-ui/Button'
 import {withStyles, fontFamily} from 'docs/utils/theming'
@@ -54,5 +55,9 @@ const Button = ({type, classes, ...props}) => (
     className={classnames(classes.button, classes[type])}
   />
 )
+
+Button.propTypes = {
+  type: PropTypes.string
+}
 
 export default withStyles(styles)(Button)

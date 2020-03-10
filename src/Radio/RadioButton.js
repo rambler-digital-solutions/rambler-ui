@@ -221,8 +221,7 @@ class RadioButton extends PureComponent {
       onBlur,
       theme, // eslint-disable-line no-unused-vars
       value, // eslint-disable-line no-unused-vars
-      // eslint-disable-next-line react/prop-types
-      onChange, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars, react/prop-types
       ...other
     } = this.props
 

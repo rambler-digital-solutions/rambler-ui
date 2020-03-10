@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = {
@@ -15,5 +16,9 @@ const styles = {
 const InlineCode = ({classes, children}) => (
   <code className={classes.root}>{children}</code>
 )
+
+InlineCode.propTypes = {
+  children: PropTypes.node
+}
 
 export default withStyles(styles)(InlineCode)
