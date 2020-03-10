@@ -102,6 +102,7 @@ class HintContent extends PureComponent {
     pointY: PropTypes.oneOf(POINTS_Y),
     anchorLeft: PropTypes.number,
     anchorWidth: PropTypes.number,
+    contentRef: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onBecomeVisible: PropTypes.func,
@@ -166,6 +167,7 @@ class HintContent extends PureComponent {
       pointY,
       theme,
       classes,
+      contentRef,
       onMouseEnter,
       onMouseLeave,
       onBecomeVisible,
@@ -187,6 +189,7 @@ class HintContent extends PureComponent {
         onInvisible={onBecomeInvisible}>
         {({isVisible}) => (
           <div
+            ref={contentRef}
             className={classnames(
               classes.hint,
               classes[isMobileBehavior ? 'mobile' : pointX],

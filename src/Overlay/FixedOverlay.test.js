@@ -13,6 +13,7 @@ class Content extends Component {
     isVisible: PropTypes.bool,
     pointX: PropTypes.oneOf(['left', 'right', 'center']),
     pointY: PropTypes.oneOf(['top', 'bottom', 'center']),
+    contentRef: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     anchorWidth: PropTypes.number,
@@ -28,6 +29,7 @@ class Content extends Component {
   render() {
     return (
       <div
+        ref={this.props.contentRef}
         style={{padding: '15px', background: '#ddd'}}
         className="content-body">
         Content

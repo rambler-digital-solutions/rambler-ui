@@ -169,6 +169,7 @@ class TooltipContent extends PureComponent {
     style: PropTypes.object,
     bodyClassName: PropTypes.string,
     isVisible: PropTypes.bool,
+    contentRef: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onClickOutside: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
@@ -202,6 +203,7 @@ class TooltipContent extends PureComponent {
       theme,
       classes,
       status,
+      contentRef,
       onClickOutside,
       onBecomeVisible,
       onBecomeInvisible
@@ -243,7 +245,10 @@ class TooltipContent extends PureComponent {
             onInvisible={onBecomeInvisible}>
             {({isVisible}) => (
               <div
-                ref={componentRef}
+                ref={element => {
+                  if (componentRef) componentRef(element)
+                  if (contentRef) contentRef(element)
+                }}
                 style={{padding: '3px'}}
                 className={classnames(
                   className,

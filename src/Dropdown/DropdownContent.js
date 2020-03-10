@@ -73,6 +73,7 @@ const styles = theme => ({
 class DropdownContent extends PureComponent {
   static propTypes = {
     isVisible: PropTypes.bool,
+    contentRef: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     hide: PropTypes.func,
@@ -113,6 +114,7 @@ class DropdownContent extends PureComponent {
       classes,
       padding,
       tabIndex,
+      contentRef,
       onBecomeVisible,
       onBecomeInvisible,
       pointX,
@@ -148,6 +150,7 @@ class DropdownContent extends PureComponent {
                 ref={element => {
                   focusRef(element)
                   if (componentRef) componentRef(element)
+                  if (contentRef) contentRef(element)
                 }}>
                 {children}
               </div>

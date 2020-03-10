@@ -1,10 +1,11 @@
 import React, {PureComponent, cloneElement} from 'react'
-import {createPortal, findDOMNode} from 'react-dom'
+import {createPortal} from 'react-dom'
 import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import debounce from 'lodash.debounce'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
+import {withStyles} from '../theme'
 import {DROPDOWN_ZINDEX} from '../constants/z-indexes'
 import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
 import compose from '../utils/compose'
@@ -221,6 +222,14 @@ function getPositionOptions(params) {
   }
 }
 
+const styles = {
+  ref: {
+    position: 'absolute',
+    display: 'none',
+    visibility: 'hidden'
+  }
+}
+
 /**
  * Оверлей, который добавляется к body
  * Есть возможность прицепить оверлей, как fixed, так и absolute
@@ -278,6 +287,7 @@ class FixedOverlay extends PureComponent {
      * - anchorHeight: высота anchor
      * - anchorLeft: координата anchor по оси X
      * - anchorTop: координата anchor по оси Y
+     * - contentRef: получение ноды контента
      */
     content: PropTypes.node.isRequired,
     /**
@@ -386,7 +396,6 @@ class FixedOverlay extends PureComponent {
   }
 
   componentDidMount() {
-    this.anchorNode = findDOMNode(this)
     if (!this.anchorNode)
       throw new Error('Anchor node for FixedOverlay does not found')
     this.anchorNodeObserver = createMutationObserver(
@@ -518,14 +527,16 @@ class FixedOverlay extends PureComponent {
             onBecomeVisible: this.onContentBecomeVisible,
             onBecomeInvisible: this.onContentBecomeInvisible,
             content: this.props.content,
-            hide: this.hide
+            hide: this.hide,
+            contentRef: this.setContentNode
           }}
         />
       )
       this.setState({isOpened: true})
     }).then(portal => {
       this.portal = portal
-      this.contentNode = findDOMNode(portal)
+      if (!this.contentNode)
+        throw new Error('Content node for FixedOverlay does not found')
       this.subscribeListeners()
       return portal
     })
@@ -658,11 +669,20 @@ class FixedOverlay extends PureComponent {
     }
   }
 
+  setAnchorNode = element => {
+    this.anchorNode = element && element.nextSibling
+  }
+
+  setContentNode = element => {
+    this.contentNode = element
+  }
+
   render() {
-    const {anchor} = this.props
+    const {anchor, classes} = this.props
     const {isOpened} = this.state
     return (
       <>
+        <span ref={this.setAnchorNode} className={classes.ref}></span>
         {anchor}
         {isOpened &&
           createPortal(this.contentElement, this.getContentContainerNode())}
@@ -673,5 +693,6 @@ class FixedOverlay extends PureComponent {
 
 export default compose(
   zIndexStack(DROPDOWN_ZINDEX),
-  windowEvents('scroll', 'resize')
+  windowEvents('scroll', 'resize'),
+  withStyles(styles, {name: 'FixedOverlay'})
 )(FixedOverlay)
