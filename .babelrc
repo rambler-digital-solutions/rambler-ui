@@ -18,7 +18,24 @@
     "preval"
   ],
   "env": {
-    "production": {
+    "cjs": {
+      "plugins": [
+        ["transform-react-remove-prop-types", {
+          "mode": "wrap",
+          "removeImport": false
+        }]
+      ]
+    },
+    "es": {
+      "presets": [
+        ["@babel/preset-env", {
+          "targets": {
+            "browsers": "last 2 versions"
+          },
+          "modules": false,
+          "useBuiltIns": false
+        }]
+      ],
       "plugins": [
         ["transform-react-remove-prop-types", {
           "mode": "wrap",
