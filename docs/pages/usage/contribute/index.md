@@ -102,7 +102,7 @@ const Button = ({children}) => {
 
 ### Темизация
 
-Библиотека позволяет темизировать компоненты путем изменеия базовых цветов и свойств отдельных компонентов, путем расширения [базовой темы](https://github.com/rambler-digital-solutions/rambler-ui/tree/master/src/theme/base/index.js). Соответственно при описании стилей компонента, необходимо базовые параметры: цвета, шрифты, размеры - выносить в тему и переиспользовать внутри:
+Библиотека позволяет темизировать компоненты путем изменеия базовых цветов и свойств отдельных компонентов, путем расширения [базовой темы](https://github.com/rambler-digital-solutions/rambler-ui/tree/master/src/theme/create-theme.js). Соответственно при описании стилей компонента, необходимо базовые параметры: цвета, шрифты, размеры - выносить в тему и переиспользовать внутри:
 
 ```js
 // src/Button/Button.js
@@ -129,10 +129,10 @@ class Button extends PureComponent {
 
 export default withStyles(styles, {name: 'Button'})(Button)
 
-// src/theme/base/index.js
+// src/theme/create-theme.js
 import deepmerge from 'deepmerge'
 
-export function createTheme(config) {
+export const createTheme = config => {
   const {colors} = config
 
   return deepmerge({

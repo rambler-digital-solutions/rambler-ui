@@ -1,8 +1,6 @@
 import React from 'react'
 import {render} from 'react-dom'
-import {ThemeProvider} from 'rambler-ui/theme'
-import {createTheme} from 'rambler-ui/theme/base'
-import colors from 'rambler-ui/theme/base/colors'
+import {ThemeProvider, createTheme, colors} from 'rambler-ui/theme'
 import App from './App'
 
 const theme = createTheme({

@@ -1,7 +1,5 @@
 import deepmerge from 'deepmerge'
-import {fade, darken, lighten, mix} from '../../utils/colors'
-import colorsConfig from './colors'
-import i18n from './i18n'
+import {fade, darken, lighten, mix} from '../utils/colors'
 
 const fontFamilies = {
   Georgia: 'Georgia, serif',
@@ -9,7 +7,7 @@ const fontFamilies = {
   CorsicaRamblerLX: 'CorsicaRamblerLX, sans-serif'
 }
 
-export function createTheme(config) {
+export const createTheme = config => {
   const {colors} = config
 
   const disabledButtonColors = {
@@ -1203,5 +1201,3 @@ export function createTheme(config) {
     config
   )
 }
-
-export default createTheme({colors: colorsConfig, i18n})

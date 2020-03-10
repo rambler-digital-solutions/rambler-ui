@@ -1,11 +1,13 @@
 # Changelog
 
 ## v-4.0.0
-### BREAKING
+### BREAKING CHANGES
 * Для корректной работы необходим `react@^16.8` и `react-dom@^16.8`
 * Компонент `<ApplyTheme />` переименован в `<ThemeProvider />`
 * Фабрика функций создания имен классов `createGenerateClassName` и свойство `generateClassName` переименованы в `createGenerateId` и `generateId` соответственно
 * Компонент `<InputStatus />` переименован в `<FieldStatus />`
+* Все экспорты сделаны именованными вместо дефолтных, например `import {Button} from 'rambler-ui/Button'`
+* Удалена тема `champ`
 
 ### Changed
 * Удалены устаревшее API и life-cycle методы компонентов `react`
