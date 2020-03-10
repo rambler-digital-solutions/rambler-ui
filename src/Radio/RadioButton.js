@@ -5,7 +5,7 @@ import uuid from '../utils/uuid'
 import {withStyles} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 import '../utils/focus-source'
-import {RadioButtonContext} from './RadioButtonGroup'
+import {RadioButtonContext} from './context'
 
 const isSimpleType = value =>
   typeof value === 'string' ||

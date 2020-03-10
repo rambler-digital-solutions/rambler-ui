@@ -1,12 +1,11 @@
-import React, {PureComponent, createContext} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
 import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
-
-export const RadioButtonContext = createContext({})
+import {RadioButtonContext} from './context'
 
 const styles = theme => ({
   radioButtonGroup: {

@@ -1,10 +1,9 @@
-import React, {Component, Children, cloneElement, createContext} from 'react'
+import React, {Component, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
 import {isolateMixin, topBorderMixin, bottomBorderMixin} from '../utils/mixins'
-
-export const TabsContext = createContext({})
+import {TabsContext} from './context'
 
 const styles = theme => ({
   tabs: {

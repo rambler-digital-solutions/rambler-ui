@@ -7,7 +7,7 @@ const fontFamilies = {
   CorsicaRamblerLX: 'CorsicaRamblerLX, sans-serif'
 }
 
-export const createTheme = config => {
+export default function createTheme(config) {
   const {colors} = config
 
   const disabledButtonColors = {

@@ -14,7 +14,7 @@ const ThemeProviderContext = createContext({})
 
 const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 
-export class ThemeProvider extends PureComponent {
+export default class ThemeProvider extends PureComponent {
   static propTypes = {
     theme: PropTypes.object,
     jss: PropTypes.object,

@@ -2,7 +2,7 @@ import React from 'react'
 import {mount, getStyles, applyTheme} from '../utils/test-utils'
 import {normalize as nc} from '../utils/colors'
 import theme from '../theme/base'
-import i18n from '../theme/base/i18n'
+import i18n from '../theme/i18n'
 import Calendar from './Calendar'
 
 describe('<Calendar />', () => {

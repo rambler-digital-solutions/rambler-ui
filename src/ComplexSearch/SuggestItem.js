@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
 import uuid from '../utils/uuid'
-import {ProvideSearchDropdownContext} from './provideSearchDropdown'
+import {ProvideSearchDropdownContext} from './context'
 
 const styles = theme => ({
   isHighlighted: {},

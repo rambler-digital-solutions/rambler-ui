@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
-import {TabsContext} from './Tabs'
+import {TabsContext} from './context'
 
 const setThemeForSelector = colors => ({
   borderColor: colors.border,

@@ -1,4 +1,4 @@
-import React, {PureComponent, createContext} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -6,10 +6,9 @@ import {ESCAPE, UP, DOWN, TAB} from '../constants/keys'
 import {withStyles} from '../theme'
 import {getBoundingClientRect} from '../utils/DOM'
 import {isolateMixin, beautyScroll} from '../utils/mixins'
+import {MenuContext} from './context'
 
 const emptyArr = []
-
-export const MenuContext = createContext({})
 
 const styles = theme => ({
   menu: {

@@ -5,7 +5,7 @@ import {ENTER} from '../constants/keys'
 import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import uuid from '../utils/uuid'
-import {MenuContext} from './Menu'
+import {MenuContext} from './context'
 
 const styles = theme => ({
   root: {

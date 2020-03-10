@@ -1,7 +1,6 @@
 import React, {PureComponent} from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
-import * as RamblerUI from 'rambler-ui'
 import classnames from 'classnames'
 import debounce from 'lodash.debounce'
 import Highlight from 'react-highlight.js'
@@ -14,10 +13,18 @@ import {lighten} from 'rambler-ui/utils/colors'
 import {withStyles, fontFamily} from 'docs/utils/theming'
 import withError from 'docs/components/with-error'
 
-const modules = {
-  react: React,
-  'react-dom': ReactDOM,
-  'rambler-ui': RamblerUI
+const requireRamblerUi = require.context('rambler-ui', true, /(\.js|\/)$/)
+
+const requires = {
+  react: () => React,
+  'react-dom': () => ReactDOM,
+  'rambler-ui': path => {
+    const localPath = path.replace('rambler-ui/', './')
+    const resolvedPath = requireRamblerUi
+      .keys()
+      .find(key => key === `${localPath}/` || key === `${localPath}.js`)
+    return requireRamblerUi(resolvedPath || localPath)
+  }
 }
 
 const styles = theme => ({
@@ -207,17 +214,15 @@ class Playground extends PureComponent {
       const module = {
         exports: {}
       }
-      const deepRequire = function(moduleName, module = modules) {
-        const [name, ...path] = Array.isArray(moduleName)
-          ? moduleName
-          : moduleName.split('/')
-        const child = module[name]
-        if (path && path.length > 0) return deepRequire(path, child)
-        if (child) return child
-        throw new Error(`Module "${moduleName}" is not defined`)
+      const enhancedRequire = function(path) {
+        const [moduleName] = path.split('/')
+        const require = requires[moduleName]
+        const exports = typeof require === 'function' ? require(path) : null
+        if (!exports) throw new Error(`Module "${path}" is not defined`)
+        return exports
       }
 
-      execute(module, module.exports, deepRequire)
+      execute(module, module.exports, enhancedRequire)
 
       let Component = module.exports.default
 

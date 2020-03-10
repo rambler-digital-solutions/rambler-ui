@@ -9,4 +9,7 @@ export interface ThemeProviderProps {
   generateId?: GenerateId
 }
 
-export class ThemeProvider extends PureComponent<ThemeProviderProps, {}> {}
+export default class ThemeProvider extends PureComponent<
+  ThemeProviderProps,
+  {}
+> {}

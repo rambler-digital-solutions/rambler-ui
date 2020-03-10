@@ -2,7 +2,7 @@ import React, {PureComponent, createContext} from 'react'
 import PropTypes from 'prop-types'
 import getDisplayName from '../utils/get-display-name'
 
-export const ZIndexStackContext = createContext({})
+const ZIndexStackContext = createContext({})
 
 /**
  * Функция, задающая контекс zIndex
