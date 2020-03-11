@@ -1,4 +1,4 @@
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../../SvgIcon'
 
 export const RamblerAutoIcon: typeof SvgIcon
 export const RamblerMailIcon: typeof SvgIcon

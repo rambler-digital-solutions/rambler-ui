@@ -1,4 +1,4 @@
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../../SvgIcon'
 
 export const AppleIcon: typeof SvgIcon
 export const FacebookIcon: typeof SvgIcon

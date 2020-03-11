@@ -1,4 +1,4 @@
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../../SvgIcon'
 
 export const TickIcon: typeof SvgIcon
 export const EyeIcon: typeof SvgIcon

@@ -1,5 +1,5 @@
 import {ReactNode, FC, SVGProps} from 'react'
-import {Size} from '../..'
+import {Size} from '../'
 
 export interface SvgIconProps extends SVGProps<SVGElement> {
   children?: ReactNode | ((size: number) => ReactNode)
