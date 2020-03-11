@@ -131,13 +131,6 @@ class Avatar extends PureComponent {
       ...other
     } = this.props
 
-    const styles = Object.assign({}, style, {
-      backgroundColor,
-      width: size,
-      height: size,
-      backgroundImage: `url(${src})`
-    })
-
     const ProfileIcon = profileType && profileIcons[profileType]
     const [profileSize, roundSize] = chooseProfileSize(size)
 
@@ -159,7 +152,13 @@ class Avatar extends PureComponent {
       this.getContainer(),
       {
         ...other,
-        style: styles,
+        style: {
+          ...style,
+          backgroundColor,
+          width: size,
+          height: size,
+          backgroundImage: `url(${src})`
+        },
         className: classnames(classes.avatar, classes[shape], className)
       },
       children

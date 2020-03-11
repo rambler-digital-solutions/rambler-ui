@@ -1,6 +1,6 @@
 import React from 'react'
 import {ThemeProvider} from '../theme'
-import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
+import {mount, getStyles, getWrapperNode} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 

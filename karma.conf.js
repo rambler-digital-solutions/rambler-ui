@@ -2,9 +2,6 @@
 const argv = require('minimist')(process.argv.slice(2))
 const {component = '**'} = argv
 
-process.env.CHROME_BIN =
-  process.env.CHROME_BIN || require('puppeteer').executablePath()
-
 module.exports = config =>
   config.set({
     basePath: '',

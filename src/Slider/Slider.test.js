@@ -6,7 +6,7 @@ import {
   getWrapperNode,
   getNodeStyles,
   getStyles
-} from '../utils/test-utils'
+} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize} from '../utils/colors'
 

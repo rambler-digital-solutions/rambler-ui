@@ -1,7 +1,7 @@
 import React from 'react'
 import {RadioButton, RadioButtonGroup} from '../Radio'
 import {ThemeProvider} from '../theme'
-import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
+import {mount, getStyles, getWrapperNode} from '../../test/utils'
 import theme from '../theme/base'
 
 const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>

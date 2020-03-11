@@ -1,7 +1,7 @@
 import React from 'react'
 import {TagsInput, TagsInputItem} from '../TagsInput'
 import {ThemeProvider} from '../theme'
-import {mount, getStyles} from '../utils/test-utils'
+import {mount, getStyles} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 

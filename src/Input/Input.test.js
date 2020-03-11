@@ -3,12 +3,7 @@ import Input from './Input'
 import FieldStatus from '../FieldStatus'
 import FormGroup from '../FormGroup'
 import {ThemeProvider} from '../theme'
-import {
-  mount,
-  getStyles,
-  getNodeStyles,
-  getWrapperNode
-} from '../utils/test-utils'
+import {mount, getStyles, getNodeStyles, getWrapperNode} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 import RamblerMailIcon from '../icons/services/RamblerMailIcon'

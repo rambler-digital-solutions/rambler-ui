@@ -1,6 +1,6 @@
 import React from 'react'
 import Spinner from './Spinner'
-import {mount, withTheme, getStyles} from '../utils/test-utils'
+import {mount, withTheme, getStyles} from '../../test/utils'
 
 describe('<Spinner />', () => {
   it('should apply default styles', () => {

@@ -9,21 +9,17 @@
     "@babel/preset-react"
   ],
   "plugins": [
+    "babel-plugin-optimize-clsx",
+    ["@babel/plugin-proposal-object-rest-spread", {"loose": true}],
+    ["@babel/plugin-proposal-class-properties", {"loose": true}],
     "@babel/plugin-transform-runtime",
-    "@babel/plugin-syntax-dynamic-import",
-    "@babel/plugin-transform-react-constant-elements",
-    "@babel/plugin-proposal-object-rest-spread",
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-export-namespace-from",
-    "preval"
+    "@babel/plugin-transform-object-assign",
+    "@babel/plugin-transform-react-constant-elements"
   ],
   "env": {
     "cjs": {
       "plugins": [
-        ["transform-react-remove-prop-types", {
-          "mode": "wrap",
-          "removeImport": false
-        }]
+        ["transform-react-remove-prop-types", {"mode": "wrap"}]
       ]
     },
     "es": {
@@ -37,15 +33,18 @@
         }]
       ],
       "plugins": [
-        ["transform-react-remove-prop-types", {
-          "mode": "wrap",
-          "removeImport": false
-        }]
+        ["transform-react-remove-prop-types", {"mode": "wrap"}]
+      ]
+    },
+    "docs": {
+      "plugins": [
+        "@babel/plugin-syntax-dynamic-import",
+        "preval"
       ]
     },
     "test": {
       "plugins": [
-        "istanbul"
+        "babel-plugin-istanbul"
       ]
     }
   }

@@ -7,7 +7,7 @@ import {
   getStyles,
   getNodeStyles,
   getWrapperNode
-} from '../utils/test-utils'
+} from '../../test/utils'
 
 const contentEl = <div className="content">Hello world</div>
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import Hint from './Hint'
-import {withTheme, mount, getNodeStyles} from '../utils/test-utils'
+import {withTheme, mount, getNodeStyles} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 

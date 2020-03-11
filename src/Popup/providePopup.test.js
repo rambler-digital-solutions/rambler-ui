@@ -3,7 +3,7 @@ import Popup from './Popup'
 import providePopup from './providePopup'
 import Button from '../Button/Button'
 import {ThemeProvider} from '../theme'
-import {mount} from '../utils/test-utils'
+import {mount} from '../../test/utils'
 
 const withTheme = element => {
   const Result = props => (

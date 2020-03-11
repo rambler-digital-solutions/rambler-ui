@@ -1,3 +1,5 @@
-export * as services from './services'
-export * as forms from './forms'
-export * as profiles from './profiles'
+import * as services from './services'
+import * as forms from './forms'
+import * as profiles from './profiles'
+
+export {services, forms, profiles}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Notification from './Notification'
 import provideNotification from './provideNotification'
-import {withTheme, mount} from '../utils/test-utils'
+import {withTheme, mount} from '../../test/utils'
 
 const WithNotification = provideNotification(
   class extends Component {

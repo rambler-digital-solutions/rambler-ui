@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import VisibilityAnimation from './VisibilityAnimation'
 import renderToLayer from '../hoc/render-to-layer'
-import {mount, getWrapperNode} from '../utils/test-utils'
+import {mount, getWrapperNode} from '../../test/utils'
 
 /* eslint-disable react/prop-types */
 class Animated extends Component {

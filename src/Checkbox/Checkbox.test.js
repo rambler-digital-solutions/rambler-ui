@@ -3,7 +3,7 @@ import Checkbox from './Checkbox'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 import {ThemeProvider} from '../theme'
-import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
+import {mount, getStyles, getWrapperNode} from '../../test/utils'
 
 const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 

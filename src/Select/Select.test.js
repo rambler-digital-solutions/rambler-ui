@@ -10,7 +10,7 @@ import {
   getStyles,
   getNodeStyles,
   getWrapperNode
-} from '../utils/test-utils'
+} from '../../test/utils'
 
 describe('<Select />', () => {
   it('should apply default styles', () => {

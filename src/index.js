@@ -1,4 +1,6 @@
-export * as icons from './icons'
+import * as icons from './icons'
+
+export {icons}
 
 export * from './theme'
 export * from './Toggle'

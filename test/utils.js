@@ -2,7 +2,7 @@ import React, {cloneElement} from 'react'
 import Enzyme, {mount as enzymeMount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import jasmineEnzyme from 'jasmine-enzyme'
-import {ThemeProvider} from '../theme'
+import {ThemeProvider} from '../src/theme'
 
 const bodyStyle = document.body.style
 const htmlStyle = document.documentElement.style

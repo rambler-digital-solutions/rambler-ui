@@ -1,5 +1,5 @@
 import React from 'react'
-import {mount, getStyles, applyTheme} from '../utils/test-utils'
+import {mount, getStyles, applyTheme} from '../../test/utils'
 import {normalize as nc} from '../utils/colors'
 import theme from '../theme/base'
 import i18n from '../theme/i18n'

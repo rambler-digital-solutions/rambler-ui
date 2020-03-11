@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Snackbar from './Snackbar'
 import provideSnackbar from './provideSnackbar'
-import {withTheme, mount} from '../utils/test-utils'
+import {withTheme, mount} from '../../test/utils'
 
 const WithSnackbar = provideSnackbar(
   class extends Component {

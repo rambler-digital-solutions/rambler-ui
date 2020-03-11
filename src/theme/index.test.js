@@ -8,7 +8,7 @@ import {
   createJss,
   createSheetsRegistry
 } from './'
-import {mount, getNodeStyles} from '../utils/test-utils'
+import {mount, getNodeStyles} from '../../test/utils'
 import {normalize as nc} from '../utils/colors'
 
 const getTheme = color => ({button: {color}})
