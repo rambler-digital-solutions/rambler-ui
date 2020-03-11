@@ -5,7 +5,7 @@ import EventEmitter from 'eventemitter3'
 import {ESCAPE, UP, DOWN, TAB} from '../constants/keys'
 import {withStyles} from '../theme'
 import {getBoundingClientRect} from '../utils/DOM'
-import {isolateMixin, beautyScroll} from '../utils/mixins'
+import {isolateMixin} from '../utils/mixins'
 import {MenuContext} from './context'
 
 const emptyArr = []
@@ -17,7 +17,23 @@ const styles = theme => ({
     boxSizing: 'border-box',
     padding: 0,
     overflowY: 'auto',
-    ...beautyScroll('&')
+    '&&': {},
+    '& > *': {},
+    '&::-webkit-scrollbar': {
+      width: 4,
+      backgroundColor: 'transparent'
+    },
+    '&::-webkit-scrollbar-track': {
+      '-webkit-box-shadow': 'none'
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: '#dcdfe7',
+      borderRadius: 0
+    },
+    '&::-webkit-scrollbar-track-piece': {},
+    '&::-webkit-scrollbar-button': {},
+    '&::-webkit-scrollbar-corner': {},
+    '&::-webkit-resizer': {}
   }
 })
 

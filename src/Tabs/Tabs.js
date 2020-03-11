@@ -2,7 +2,7 @@ import React, {Component, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
-import {isolateMixin, topBorderMixin, bottomBorderMixin} from '../utils/mixins'
+import {isolateMixin} from '../utils/mixins'
 import {TabsContext} from './context'
 
 const styles = theme => ({
@@ -14,10 +14,10 @@ const styles = theme => ({
     paddingRight: theme.tabs.sidePadding
   },
   'position-top': {
-    extend: bottomBorderMixin(theme.tabs.colors.default.outline)
+    boxShadow: `inset 0 -1px 0px ${theme.tabs.colors.default.outline}`
   },
   'position-bottom': {
-    extend: topBorderMixin(theme.tabs.colors.default.outline)
+    boxShadow: `inset 0 1px 0px ${theme.tabs.colors.default.outline}`
   },
   item: {
     '&&': {

@@ -11,18 +11,6 @@ export const middleMixin = {
   }
 }
 
-export const borderMixin = color => ({
-  boxShadow: `inset 0 0 0 1px ${color}`
-})
-
-export const topBorderMixin = color => ({
-  boxShadow: `inset 0 1px 0px ${color}`
-})
-
-export const bottomBorderMixin = color => ({
-  boxShadow: `inset 0 -1px 0px ${color}`
-})
-
 export const isolateMixin = {
   borderCollapse: 'separate',
   borderSpacing: 0,
@@ -71,6 +59,7 @@ const pseudoSelectors = [
   ':-ms-input-placeholder',
   '::placeholder'
 ]
+
 export const placeholderMixin = (selector, style) =>
   pseudoSelectors.reduce(
     (result, pseudo) => ({
@@ -84,26 +73,6 @@ export const fontSmoothingMixin = {
   '-webkit-font-smoothing': 'antialiased',
   '-moz-osx-font-smoothing': 'grayscale'
 }
-
-export const beautyScroll = selector => ({
-  [selector + selector]: {},
-  [`${selector} > *`]: {},
-  [`${selector}::-webkit-scrollbar`]: {
-    width: 4,
-    backgroundColor: 'transparent'
-  },
-  [`${selector}::-webkit-scrollbar-track`]: {
-    '-webkit-box-shadow': 'none'
-  },
-  [`${selector}::-webkit-scrollbar-thumb`]: {
-    background: '#dcdfe7',
-    borderRadius: 0
-  },
-  [`${selector}::-webkit-scrollbar-track-piece`]: {},
-  [`${selector}::-webkit-scrollbar-button`]: {},
-  [`${selector}::-webkit-scrollbar-corner`]: {},
-  [`${selector}::-webkit-resizer`]: {}
-})
 
 /**
  * Applying styles on elements depending on focus event source type

@@ -70,14 +70,12 @@ const styles = theme => ({
     },
     '& $option:enabled:hover': {
       borderColor: theme.toggle.colors.hover.border,
-      // '&:before': borderMixin(theme.toggle.colors.hover.border),
       color: theme.toggle.colors.checked.text
     },
     ...focusSourceMixin('other', '& $option:focus', {
       color: theme.toggle.colors.focus.text
     }),
     '& $option:active': {
-      // '&:before': borderMixin(theme.toggle.colors.active.border),
       color: theme.toggle.colors.active.text,
       background: theme.toggle.colors.active.background
     },

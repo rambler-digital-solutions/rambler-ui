@@ -1,18 +1,14 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import Button from 'rambler-ui/Button'
 import {Popup, providePopup} from 'rambler-ui/Popup'
 
 class WithPopup extends Component {
-  static propTypes = {
-    openPopup: PropTypes.func
-  }
-
   state = {
     latestEvent: 'none'
   }
 
   openAlert = () => {
+    // eslint-disable-next-line react/prop-types
     this.alertPopup = this.props.openPopup(resolve => (
       <Popup
         title="Ошибка"
@@ -47,6 +43,7 @@ class WithPopup extends Component {
   }
 
   openConfirm = () => {
+    // eslint-disable-next-line react/prop-types
     this.confirmPopup = this.props.openPopup((resolve, reject) => (
       <Popup
         title="Удаление почты"
