@@ -6,8 +6,12 @@
 * Компонент `<ApplyTheme />` переименован в `<ThemeProvider />`
 * Фабрика функций создания имен классов `createGenerateClassName` и свойство `generateClassName` переименованы в `createGenerateId` и `generateId` соответственно
 * Компонент `<InputStatus />` переименован в `<FieldStatus />`
-* Все экспорты сделаны именованными вместо дефолтных, например `import {Button} from 'rambler-ui/Button'`
-* Удалена тема `champ`
+* Компонент `<SvgIcon />` перенесен из `rambler-ui/icons` в корень
+* Переделаны экспорты темы, теперь все функции и классы импортируются из `rambler-ui/theme`
+* Удалена тема `champ` и иконка `rambler-ui/icons/profiles/PhoneIcon`
+
+### Added
+* Добавлена сборка с EcmaScript модулями для улучшения tree-shaking
 
 ### Changed
 * Удалены устаревшее API и life-cycle методы компонентов `react`

@@ -1,6 +1,3 @@
-import * as icons from './icons'
-export {icons}
-
 export type HorizontalPosition = 'left' | 'center' | 'right'
 export type VerticalPosition = 'top' | 'center' | 'bottom'
 export type Variation = 'regular' | 'awesome' | 'promo'
@@ -9,6 +6,9 @@ export type TagType = 'regular' | 'background'
 export type ButtonType = 'primary' | 'secondary' | 'outline' | 'flat' | 'danger'
 export type StatusType = 'error' | 'warning' | 'success' | 'filled'
 
+export * from './icons/forms'
+export * from './icons/profiles'
+export * from './icons/services'
 export * from './theme'
 export * from './Toggle'
 export * from './Radio'
@@ -50,8 +50,8 @@ export * from './FormGroup'
 export {default as FieldStatus} from './FieldStatus'
 export * from './FieldStatus'
 
-export {default as SvgIcon} from './icons/SvgIcon'
-export * from './icons/SvgIcon'
+export {default as SvgIcon} from './SvgIcon'
+export * from './SvgIcon'
 
 export {default as Hint} from './Hint'
 export * from './Hint'

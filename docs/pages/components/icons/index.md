@@ -1,7 +1,7 @@
 import examplesFormsCode from '!!raw-loader!./examples-forms'
 import examplesProfilesCode from '!!raw-loader!./examples-profiles'
 import examplesServicesCode from '!!raw-loader!./examples-services'
-import svgIconCode from '!!raw-loader!rambler-ui/icons/SvgIcon/SvgIcon'
+import svgIconCode from '!!raw-loader!rambler-ui/SvgIcon/SvgIcon'
 
 import Playground from 'docs/components/Playground'
 import PropTypesTable from 'docs/components/PropTypesTable'
@@ -17,5 +17,5 @@ import PropTypesTable from 'docs/components/PropTypesTable'
 ### Иконки сервисов
 <Playground code={examplesServicesCode} />
 
-### Свойства `<SvgIcon />`
+### Свойства иконок
 <PropTypesTable code={svgIconCode} />

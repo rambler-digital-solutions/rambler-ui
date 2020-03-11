@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SvgIcon from 'rambler-ui/icons/SvgIcon'
+import SvgIcon from 'rambler-ui/SvgIcon'
 
 export default function ArrowIcon({color, ...props}) {
   return (

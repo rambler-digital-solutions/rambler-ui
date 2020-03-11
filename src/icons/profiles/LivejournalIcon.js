@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../../SvgIcon'
 
 export default function LivejournalIcon(props) {
   const {color} = props

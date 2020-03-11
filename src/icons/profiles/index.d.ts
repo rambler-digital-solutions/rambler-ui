@@ -1,21 +1,18 @@
 import SvgIcon from '../SvgIcon'
 
-type SvgIconComponent = typeof SvgIcon
-
-export const AppleIcon: SvgIconComponent
-export const FacebookIcon: SvgIconComponent
-export const ChampionatIcon: SvgIconComponent
-export const GoogleIcon: SvgIconComponent
-export const InstagramIcon: SvgIconComponent
-export const LivejournalIcon: SvgIconComponent
-export const MailruIcon: SvgIconComponent
-export const OdnoklassnikiIcon: SvgIconComponent
-export const PgumosruIcon: SvgIconComponent
-export const PhoneIcon: SvgIconComponent
-export const RamblerIcon: SvgIconComponent
-export const SberbankIcon: SvgIconComponent
-export const TwitterIcon: SvgIconComponent
-export const VkontakteIcon: SvgIconComponent
-export const TelegramIcon: SvgIconComponent
-export const YoutubeIcon: SvgIconComponent
-export const RssIcon: SvgIconComponent
+export const AppleIcon: typeof SvgIcon
+export const FacebookIcon: typeof SvgIcon
+export const ChampionatIcon: typeof SvgIcon
+export const GoogleIcon: typeof SvgIcon
+export const InstagramIcon: typeof SvgIcon
+export const LivejournalIcon: typeof SvgIcon
+export const MailruIcon: typeof SvgIcon
+export const OdnoklassnikiIcon: typeof SvgIcon
+export const PgumosruIcon: typeof SvgIcon
+export const RamblerIcon: typeof SvgIcon
+export const SberbankIcon: typeof SvgIcon
+export const TwitterIcon: typeof SvgIcon
+export const VkontakteIcon: typeof SvgIcon
+export const TelegramIcon: typeof SvgIcon
+export const YoutubeIcon: typeof SvgIcon
+export const RssIcon: typeof SvgIcon

@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgIcon from 'rambler-ui/icons/SvgIcon'
+import SvgIcon from 'rambler-ui/SvgIcon'
 
 /* eslint-disable max-len */
 export default function SketchIcon(props) {
