@@ -4,8 +4,10 @@ import classnames from 'classnames'
 import uuid from '../utils/uuid'
 import {withStyles} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
-import '../utils/focus-source'
 import {RadioButtonContext} from './context'
+import {subscribeFocusEvents} from '../utils/focus-source'
+
+subscribeFocusEvents()
 
 const isSimpleType = value =>
   typeof value === 'string' ||

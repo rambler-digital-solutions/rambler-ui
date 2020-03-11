@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
-import '../utils/focus-source'
+import {subscribeFocusEvents} from '../utils/focus-source'
+
+subscribeFocusEvents()
 
 const toNumber = (year, month, date) => year * 10000 + month * 100 + date
 

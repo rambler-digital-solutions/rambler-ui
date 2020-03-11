@@ -5,7 +5,9 @@ import TickIcon from './TickIcon'
 import TickIconSmall from './TickIconSmall'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 import {withStyles} from '../theme'
-import '../utils/focus-source'
+import {subscribeFocusEvents} from '../utils/focus-source'
+
+subscribeFocusEvents()
 
 const setThemeForSelector = colors => ({
   background: colors.background,

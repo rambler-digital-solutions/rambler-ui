@@ -4,7 +4,9 @@ import classnames from 'classnames'
 import Spinner from '../Spinner'
 import {withStyles} from '../theme'
 import {isolateMixin, ifMobile, focusSourceMixin} from '../utils/mixins'
-import '../utils/focus-source'
+import {subscribeFocusEvents} from '../utils/focus-source'
+
+subscribeFocusEvents()
 
 const styles = theme => ({
   button: {

@@ -51,9 +51,11 @@ const handleFocusEvent = event => {
 }
 
 let subscribed = false
-const subscribe = () => {
+
+export const subscribeFocusEvents = () => {
   // Subscribe only once
-  if (subscribed) return
+  // Checking DOM availability to make it work with SSR
+  if (subscribed || !canUseDOM) return
   subscribed = true
 
   document.documentElement.addEventListener('keydown', handleKeyStartEvent)
@@ -71,6 +73,3 @@ const subscribe = () => {
     document.documentElement.addEventListener(event, handleFocusEvent)
   })
 }
-
-// Checking DOM availability to make it work with SSR
-if (canUseDOM) subscribe()

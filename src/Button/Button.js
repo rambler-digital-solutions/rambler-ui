@@ -10,7 +10,9 @@ import {
   ifMobile,
   focusSourceMixin
 } from '../utils/mixins'
-import '../utils/focus-source'
+import {subscribeFocusEvents} from '../utils/focus-source'
+
+subscribeFocusEvents()
 
 const styles = theme => ({
   button: {

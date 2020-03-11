@@ -12,9 +12,9 @@
     "test:ci": "npm run karma -- --browsers ChromeC,FirefoxC",
     "test:watch": "npm run karma -- --browsers ChromeC --auto-watch --no-single-run",
     "prebuild": "rm -rf build",
+    "build": "npm run build:cjs && npm run build:es",
     "build:cjs": "NODE_ENV=production BABEL_ENV=cjs babel src --out-dir build --ignore **/*.test.js && node copy-files.js",
     "build:es": "NODE_ENV=production BABEL_ENV=es babel src --out-dir build/es --ignore **/*.test.js && node copy-files.js",
-    "build": "npm run build:cjs && npm run build:es",
     "start": "NODE_ENV=development webpack-dev-server -d --hot --config docs/webpack.config.js",
     "prepages": "rm -rf docs/build",
     "pages": "NODE_ENV=production webpack -p --progress --config docs/webpack.config.js && node docs/scripts/publish-site.js",
@@ -153,5 +153,6 @@
       "prettier --write",
       "git add"
     ]
-  }
+  },
+  "sideEffects": false
 }
