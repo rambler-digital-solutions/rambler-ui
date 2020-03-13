@@ -6,11 +6,12 @@ import jss, {
 import {createTheming, SheetsRegistry} from 'react-jss'
 import preset from 'jss-preset-default'
 
-const ThemeContext = createContext({})
-
 export const RAMBLER_UI_CLASS_NAME_PREFIX = 'rui-'
 export const RAMBLER_UI_DISPLAY_NAME_PREFIX =
   '__RAMBLER_UI_DISPLAY_NAME_PREFIX__'
+
+export const ThemeContext = createContext({})
+export const ThemeProviderContext = createContext({})
 
 export const theming = createTheming(ThemeContext)
 
@@ -24,8 +25,8 @@ export const createJss = (options = {}) =>
 
 export const createSheetsRegistry = () => new SheetsRegistry()
 
-export const globalSheetsRegistry = createSheetsRegistry()
 export const globalJss = createJss()
+export const globalSheetsRegistry = createSheetsRegistry()
 
 export const createGenerateId = (themeId = 0) => {
   const generateId = originalCreateGenerateId()

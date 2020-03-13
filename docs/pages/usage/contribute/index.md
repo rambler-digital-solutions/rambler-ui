@@ -72,33 +72,7 @@ class Button extends PureComponent {
 export default withStyles(styles, {name: 'Button'})(Button)
 ```
 
-или
-
-```js
-// src/Button/Button.js
-import React from 'react'
-import {createUseStyles} from '../theme'
-
-const styles = {
-  root: { // имя css-класса внутри комонента
-    color: 'black'
-  }
-}
-
-const useStyles = createUseStyles(styles, {name: 'Button'})
-
-const Button = ({children}) => {
-  const classes = useStyles()
-
-  return (
-    <ul className={classes.root}>
-      {children}
-    </ul>
-  )
-}
-```
-
-Более подробно про `withStyles` и `createUseStyles` описано в документации [`react-jss`](https://github.com/cssinjs/react-jss). В нашей реализации вторым аргументом в `withStyles` и `createUseStyles` передается объект с опциями, содержащий имя компонента для генерации детерминированных имен классов.
+Более подробно про `withStyles` описано в документации [`react-jss`](https://github.com/cssinjs/react-jss). В нашей реализации вторым аргументом в `withStyles` передается объект с опциями, содержащий имя компонента для генерации детерминированных имен классов.
 
 ### Темизация
 
@@ -183,7 +157,8 @@ export default () => (
 Для тестов используется `karma`, `jasmine` и headless `Chrome` и `Firefox` для их запуска:
 
 ```sh
-npm test              # запуск тестов в Chrome
+npm test              # запуск тестов
+npm run test:chrome   # в Chrome
 npm run test:firefox  # в Firefox
 npm run test:watch    # в режиме отслеживания изменений
 ```

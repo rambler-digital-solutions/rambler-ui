@@ -2,17 +2,13 @@
   {
     "name": "The initial cost people pay for using one component with commonjs build",
     "limit": "30 KB",
-    "path": [
-      "build/Button/index.js",
-      "build/theme/index.js",
-      "!build/**/*.test.js"
-    ]
+    "path": ["build/Button/index.js", "!build/**/*.test.js"]
   },
   {
     "name": "The initial cost people pay for using one component with es build",
     "limit": "26 KB",
     "path": "build/es/index.js",
-    "import": "{Button, ThemeProvider}"
+    "import": "{Button}"
   },
   {
     "name": "The size of the commonjs library components",

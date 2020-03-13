@@ -5,6 +5,7 @@
 * Удалены устаревшее API и life-cycle методы компонентов `react`, теперь для корректной работы необходим `react@^16.8` и `react-dom@^16.8`
 * Компонент `<ApplyTheme />` переименован в `<ThemeProvider />`
 * Фабрика функций создания имен классов `createGenerateClassName` и свойство `generateClassName` переименованы в `createGenerateId` и `generateId` соответственно
+* С этой версии `<ThemeProvider />` сделан не обязательным в общем случае, но остается обязательным при отрисовке server-side или при необходимости использования кастомных `jss`, `sheetsRegistry`, `generateId` или собственной `theme`
 * Компонент `<InputStatus />` переименован в `<FieldStatus />`
 * Компонент `<SvgIcon />` перенесен из `rambler-ui/icons` в корень
 * Переделаны экспорты темы, теперь все функции и классы импортируются из `rambler-ui/theme`

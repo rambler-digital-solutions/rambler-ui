@@ -1,4 +1,4 @@
-export {default as withStyles, createUseStyles} from 'react-jss'
+export {default as withStyles} from 'react-jss'
 
 export {
   createJss,

@@ -1,16 +1,15 @@
-import React, {PureComponent, createContext} from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import deepmerge from 'deepmerge'
 import {JssProvider} from 'react-jss'
-import baseTheme from './base'
 import {
   globalJss,
   globalSheetsRegistry,
   createGenerateId,
+  ThemeProviderContext,
   JssThemeProvider
 } from './jss'
-
-const ThemeProviderContext = createContext({})
+import baseTheme from './base'
 
 const RAMBLER_UI_THEME_COUNTER = '__RAMBLER_UI_THEME_COUNTER__'
 
@@ -25,36 +24,36 @@ export default class ThemeProvider extends PureComponent {
 
   static contextType = ThemeProviderContext
 
-  computedProps = this.mapProps(this.props, this.context)
+  jss = this.props.jss || this.context.jss || globalJss
 
-  mapProps({theme = baseTheme, ...props}, context) {
-    let resultTheme, currTheme, currParentTheme
-    const sheetsRegistry =
-      props.sheetsRegistry || context.sheetsRegistry || globalSheetsRegistry
-    const jss = props.jss || context.jss || globalJss
-    if (sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null)
-      sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0
-    const themeId = sheetsRegistry[RAMBLER_UI_THEME_COUNTER]++
-    const generateId = props.generateId || createGenerateId(themeId)
+  sheetsRegistry =
+    this.props.sheetsRegistry ||
+    this.context.sheetsRegistry ||
+    globalSheetsRegistry
 
-    return {
-      jss,
-      sheetsRegistry,
-      generateId,
-      getResultTheme: parentTheme => {
-        if (currTheme !== theme || currParentTheme !== parentTheme) {
-          resultTheme = parentTheme ? deepmerge(parentTheme, theme) : theme
-          currParentTheme = parentTheme
-          currTheme = theme
-        }
-        return resultTheme
-      }
+  themeId =
+    this.sheetsRegistry[RAMBLER_UI_THEME_COUNTER] == null
+      ? (this.sheetsRegistry[RAMBLER_UI_THEME_COUNTER] = 0)
+      : ++this.sheetsRegistry[RAMBLER_UI_THEME_COUNTER]
+
+  generateId = this.props.generateId || createGenerateId(this.themeId)
+
+  getResultTheme = parentTheme => {
+    const {theme = baseTheme} = this.props
+    if (
+      this.currentTheme !== theme ||
+      this.currentParentTheme !== parentTheme
+    ) {
+      this.resultTheme = parentTheme ? deepmerge(parentTheme, theme) : theme
+      this.currentParentTheme = parentTheme
+      this.currentTheme = theme
     }
+    return this.resultTheme
   }
 
   render() {
     const {children} = this.props
-    const {jss, sheetsRegistry, getResultTheme, generateId} = this.computedProps
+    const {jss, sheetsRegistry, getResultTheme, generateId} = this
     return (
       <ThemeProviderContext.Provider value={{jss, sheetsRegistry}}>
         <JssProvider
