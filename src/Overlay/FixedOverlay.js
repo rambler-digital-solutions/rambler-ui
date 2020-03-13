@@ -1,16 +1,14 @@
-import {
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer, // eslint-disable-line camelcase
-  unmountComponentAtNode,
-  findDOMNode
-} from 'react-dom'
-import React, {Children, PureComponent, cloneElement} from 'react'
+import React, {PureComponent, cloneElement} from 'react'
+import {createPortal} from 'react-dom'
 import PropTypes from 'prop-types'
 import EventEmitter from 'eventemitter3'
 import debounce from 'lodash.debounce'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
+import {withStyles} from '../theme'
 import {DROPDOWN_ZINDEX} from '../constants/z-indexes'
 import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
+import compose from '../utils/compose'
 import {
   getBoundingClientRect as originalGetBoundingClientRect,
   createMutationObserver
@@ -36,10 +34,10 @@ class ContentElementWrapper extends PureComponent {
     return this.contentProps.isVisible
   }
 
-  constructor(props) {
-    super(props)
-    this.contentProps = props.contentProps || {}
-    this.state = {contentProps: this.contentProps}
+  contentProps = this.props.contentProps || {}
+
+  state = {
+    contentProps: this.contentProps
   }
 
   updateContentProps(newContentProps) {
@@ -224,19 +222,12 @@ function getPositionOptions(params) {
   }
 }
 
-/**
- * Если нужно оборачиваем children в <span>
- * @param  {ReactElement} children
- * @return {ReactElement}
- */
-function wrapChildren(children) {
-  let shouldWrap = Children.count(children) > 1
-  if (!shouldWrap)
-    Children.forEach(children, child => {
-      shouldWrap = typeof child === 'string'
-    })
-  if (shouldWrap) return <span>{children}</span>
-  return children
+const styles = {
+  ref: {
+    position: 'absolute',
+    display: 'none',
+    visibility: 'hidden'
+  }
 }
 
 /**
@@ -245,9 +236,7 @@ function wrapChildren(children) {
  * При скролле body, documentElement или window, ресайзе window, перестраивается позиция элемента
  */
 
-@zIndexStack(DROPDOWN_ZINDEX)
-@windowEvents('scroll', 'resize')
-export default class FixedOverlay extends PureComponent {
+class FixedOverlay extends PureComponent {
   static propTypes = {
     /**
      * Флаг управления показом оверлея
@@ -298,6 +287,7 @@ export default class FixedOverlay extends PureComponent {
      * - anchorHeight: высота anchor
      * - anchorLeft: координата anchor по оси X
      * - anchorTop: координата anchor по оси Y
+     * - contentRef: получение ноды контента
      */
     content: PropTypes.node.isRequired,
     /**
@@ -364,47 +354,48 @@ export default class FixedOverlay extends PureComponent {
     closeOnScroll: false
   }
 
-  constructor(props) {
-    super(props)
-    this.events = new EventEmitter()
-    /**
-     * Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
-     * @type {Number}
-     */
-    this.transactionIndex = 0
-    /**
-     * Текущий статус показа hiding/showing
-     */
+  state = {
+    isOpened: false
   }
+
+  contentElement = null
+
+  events = new EventEmitter()
+
+  /**
+   * Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
+   * @type {Number}
+   */
+  transactionIndex = 0
 
   componentWillUnmount() {
     this.cleanUp()
   }
 
-  componentWillReceiveProps({
-    isOpened,
-    anchorPointX,
-    anchorPointY,
-    contentPointX,
-    contentPointY,
-    content
-  }) {
-    if (isOpened !== undefined && isOpened !== this.props.isOpened)
+  componentDidUpdate(prevProps) {
+    const {
+      isOpened,
+      anchorPointX,
+      anchorPointY,
+      contentPointX,
+      contentPointY,
+      content
+    } = this.props
+    if (isOpened !== undefined && isOpened !== prevProps.isOpened)
       if (isOpened) this.show()
       else this.hide()
     else if (
       isOpened &&
-      (this.props.anchorPointX !== anchorPointX ||
-        this.props.anchorPointY !== anchorPointY ||
-        this.props.contentPointX !== contentPointX ||
-        this.props.contentPointY !== contentPointY ||
-        this.props.content !== content)
+      (prevProps.anchorPointX !== anchorPointX ||
+        prevProps.anchorPointY !== anchorPointY ||
+        prevProps.contentPointX !== contentPointX ||
+        prevProps.contentPointY !== contentPointY ||
+        prevProps.content !== content)
     )
       this.show()
   }
 
   componentDidMount() {
-    this.anchorNode = findDOMNode(this)
     if (!this.anchorNode)
       throw new Error('Anchor node for FixedOverlay does not found')
     this.anchorNodeObserver = createMutationObserver(
@@ -528,7 +519,7 @@ export default class FixedOverlay extends PureComponent {
   mountPortal() {
     if (this.portal) return Promise.resolve(this.portal)
     return new Promise(resolve => {
-      const element = (
+      this.contentElement = (
         <ContentElementWrapper
           ref={resolve}
           contentProps={{
@@ -536,14 +527,16 @@ export default class FixedOverlay extends PureComponent {
             onBecomeVisible: this.onContentBecomeVisible,
             onBecomeInvisible: this.onContentBecomeInvisible,
             content: this.props.content,
-            hide: this.hide
+            hide: this.hide,
+            contentRef: this.setContentNode
           }}
         />
       )
-      renderSubtreeIntoContainer(this, element, this.getContentContainerNode())
+      this.setState({isOpened: true})
     }).then(portal => {
       this.portal = portal
-      this.contentNode = findDOMNode(portal)
+      if (!this.contentNode)
+        throw new Error('Content node for FixedOverlay does not found')
       this.subscribeListeners()
       return portal
     })
@@ -551,10 +544,11 @@ export default class FixedOverlay extends PureComponent {
 
   unmountPortal() {
     if (this.portal) {
-      unmountComponentAtNode(this.getContentContainerNode())
+      this.setState({isOpened: false})
       this.removeContentContainerNode()
       this.unsubscribeListeners()
       this.portal = null
+      this.contentElement = null
       if (this.contentNodeObserver) {
         this.contentNodeObserver.disconnect()
         this.contentNodeObserver = null
@@ -675,7 +669,30 @@ export default class FixedOverlay extends PureComponent {
     }
   }
 
+  setAnchorNode = element => {
+    this.anchorNode = element && element.nextSibling
+  }
+
+  setContentNode = element => {
+    this.contentNode = element
+  }
+
   render() {
-    return wrapChildren(this.props.anchor)
+    const {anchor, classes} = this.props
+    const {isOpened} = this.state
+    return (
+      <>
+        <span ref={this.setAnchorNode} className={classes.ref}></span>
+        {anchor}
+        {isOpened &&
+          createPortal(this.contentElement, this.getContentContainerNode())}
+      </>
+    )
   }
 }
+
+export default compose(
+  zIndexStack(DROPDOWN_ZINDEX),
+  windowEvents('scroll', 'resize'),
+  withStyles(styles, {name: 'FixedOverlay'})
+)(FixedOverlay)

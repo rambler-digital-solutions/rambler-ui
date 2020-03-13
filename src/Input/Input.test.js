@@ -1,19 +1,14 @@
 import React from 'react'
 import Input from './Input'
-import InputStatus from '../InputStatus'
+import FieldStatus from '../FieldStatus'
 import FormGroup from '../FormGroup'
-import {ApplyTheme} from '../theme'
-import {
-  mount,
-  getStyles,
-  getNodeStyles,
-  getWrapperNode
-} from '../utils/test-utils'
+import {ThemeProvider} from '../theme'
+import {mount, getStyles, getNodeStyles, getWrapperNode} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 import RamblerMailIcon from '../icons/services/RamblerMailIcon'
 
-const applyTheme = children => <ApplyTheme>{children}</ApplyTheme>
+const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 
 describe('Input', () => {
   const formGroupProps = {
@@ -75,7 +70,7 @@ describe('Input', () => {
     const wrapper = mount(
       applyTheme(
         <FormGroup {...formGroupProps}>
-          <InputStatus>
+          <FieldStatus>
             <Input {...defaultProps} />
             <Input
               {...defaultProps}
@@ -95,7 +90,7 @@ describe('Input', () => {
               status={null}
               isFocused={true}
             />
-          </InputStatus>
+          </FieldStatus>
         </FormGroup>
       )
     )
@@ -144,9 +139,9 @@ describe('Input', () => {
     const wrapper = mount(
       applyTheme(
         <FormGroup {...formGroupProps}>
-          <InputStatus>
+          <FieldStatus>
             <Input {...defaultProps} {...handlersProps} />
-          </InputStatus>
+          </FieldStatus>
         </FormGroup>
       )
     )
@@ -169,7 +164,7 @@ describe('Input', () => {
     const wrapper = mount(
       applyTheme(
         <FormGroup {...formGroupProps}>
-          <InputStatus>
+          <FieldStatus>
             <Input {...defaultProps} />
             <Input
               {...defaultProps}
@@ -178,7 +173,7 @@ describe('Input', () => {
               disabled
             />
             <Input {...passwordProps} />
-          </InputStatus>
+          </FieldStatus>
         </FormGroup>
       )
     )
@@ -213,9 +208,9 @@ describe('Input', () => {
     const wrapper = mount(
       applyTheme(
         <FormGroup {...formGroupProps}>
-          <InputStatus>
+          <FieldStatus>
             <Input {...passwordProps} iconLeft={<RamblerMailIcon />} />
-          </InputStatus>
+          </FieldStatus>
         </FormGroup>
       )
     )
@@ -251,10 +246,10 @@ describe('Input', () => {
     const wrapper = mount(
       applyTheme(
         <FormGroup {...formGroupProps}>
-          <InputStatus>
+          <FieldStatus>
             <Input {...passwordProps} iconRight={<RamblerMailIcon />} />
             <Input {...defaultProps} iconRight={<RamblerMailIcon />} />
-          </InputStatus>
+          </FieldStatus>
         </FormGroup>
       )
     )
@@ -284,9 +279,9 @@ describe('Input', () => {
     const wrapper = mount(
       applyTheme(
         <FormGroup {...formGroupProps}>
-          <InputStatus>
+          <FieldStatus>
             <Input {...defaultProps} {...sizeProps} />
-          </InputStatus>
+          </FieldStatus>
         </FormGroup>
       )
     )

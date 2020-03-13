@@ -1,6 +1,6 @@
 import React from 'react'
 import Pagination from './Pagination'
-import {mount, withTheme, getStyles} from '../utils/test-utils'
+import {mount, withTheme, getStyles} from '../../test/utils'
 
 describe('<Pagination />', () => {
   it('should apply default styles', () => {

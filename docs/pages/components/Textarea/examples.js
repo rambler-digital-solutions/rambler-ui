@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Textarea from 'rambler-ui/Textarea'
 import FormGroup from 'rambler-ui/FormGroup'
-import InputStatus from 'rambler-ui/InputStatus'
+import FieldStatus from 'rambler-ui/FieldStatus'
 import RamblerMailIcon from 'rambler-ui/icons/services/RamblerMailIcon'
 
 export default class TextareaExample extends Component {
@@ -32,7 +32,7 @@ export default class TextareaExample extends Component {
         </FormGroup>
 
         <FormGroup inline={true} label="With error status">
-          <InputStatus type="error" message="Some error">
+          <FieldStatus type="error" message="Some error">
             <Textarea
               status="error"
               size="small"
@@ -41,7 +41,7 @@ export default class TextareaExample extends Component {
               style={{width: '500px'}}
               placeholder="Отчество"
             />
-          </InputStatus>
+          </FieldStatus>
         </FormGroup>
 
         <FormGroup

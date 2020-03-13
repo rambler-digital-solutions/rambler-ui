@@ -1,8 +1,5 @@
 import React, {Component, cloneElement} from 'react'
-import {
-  unmountComponentAtNode,
-  unstable_renderSubtreeIntoContainer as renderSubtreeIntoContainer // eslint-disable-line camelcase
-} from 'react-dom'
+import {createPortal} from 'react-dom'
 import uuid from '../utils/uuid'
 
 /**
@@ -43,6 +40,10 @@ export default function provideRenderToLayer(Target) {
   return class ProvideRenderToLayer extends Component {
     elements = []
 
+    state = {
+      isOpened: false
+    }
+
     componentWillUnmount() {
       this.elements = []
       this.unmountPortal()
@@ -58,7 +59,7 @@ export default function provideRenderToLayer(Target) {
       })
 
       this.elements.push(resultElement)
-      this.renderPortal()
+      this.mountPortal()
 
       return resultElement
     }
@@ -78,31 +79,28 @@ export default function provideRenderToLayer(Target) {
         })
 
         this.elements[elementIndex] = closedElement
-        this.renderPortal()
+        this.mountPortal()
       }).then(closedElement => {
         this.elements = this.elements.filter(el => el !== closedElement)
-        this.renderPortal()
+        if (this.elements.length === 0) this.unmountPortal()
       })
     }
 
-    renderPortal() {
-      if (this.elements.length > 0) {
-        if (!this.node) {
-          this.node = document.createElement('div')
-          document.body.appendChild(this.node)
-        }
-
-        const listElement = <div>{this.elements}</div>
-
-        renderSubtreeIntoContainer(this, listElement, this.node)
-      } else {
-        this.unmountPortal()
+    getContentContainerNode() {
+      if (!this.node) {
+        this.node = document.createElement('div')
+        document.body.appendChild(this.node)
       }
+      return this.node
+    }
+
+    mountPortal() {
+      this.setState({isOpened: true})
     }
 
     unmountPortal() {
       if (this.node) {
-        unmountComponentAtNode(this.node)
+        this.setState({isOpened: false})
         document.body.removeChild(this.node)
         this.node = null
       }
@@ -110,11 +108,15 @@ export default function provideRenderToLayer(Target) {
 
     render() {
       return (
-        <Target
-          {...this.props}
-          renderToLayer={this.renderToLayer}
-          unrenderAtLayer={this.unrenderAtLayer}
-        />
+        <>
+          <Target
+            {...this.props}
+            renderToLayer={this.renderToLayer}
+            unrenderAtLayer={this.unrenderAtLayer}
+          />
+          {this.state.isOpened &&
+            createPortal(<>{this.elements}</>, this.getContentContainerNode())}
+        </>
       )
     }
   }

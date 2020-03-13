@@ -1,23 +1,21 @@
 import React, {Component, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(
-  theme => ({
-    sideNav: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      display: 'inline-block'
-    },
-    block: {
-      display: 'block'
-    }
-  }),
-  {name: 'SideNav'}
-)
-export default class SideNav extends Component {
+const styles = theme => ({
+  sideNav: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    display: 'inline-block'
+  },
+  block: {
+    display: 'block'
+  }
+})
+
+class SideNav extends Component {
   static propTypes = {
     /**
      * Класс контейнера
@@ -57,18 +55,15 @@ export default class SideNav extends Component {
     size: 'medium'
   }
 
-  constructor(props) {
-    super(props)
+  value = this.props.value
 
-    this.state = {
-      value: props.value
-    }
-
-    this.value = props.value
+  state = {
+    value: this.value
   }
 
-  componentWillReceiveProps({value}) {
-    this.setValue(value)
+  componentDidUpdate(prevProps) {
+    const {value} = this.props
+    if (value !== prevProps.value) this.setValue(value)
   }
 
   setValue(value) {
@@ -127,3 +122,5 @@ export default class SideNav extends Component {
     )
   }
 }
+
+export default withStyles(styles, {name: 'SideNav'})(SideNav)

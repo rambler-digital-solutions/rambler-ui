@@ -1,5 +1,6 @@
 import React from 'react'
-import SvgIcon from '../SvgIcon'
+import PropTypes from 'prop-types'
+import SvgIcon from '../../SvgIcon'
 
 export default function GoogleIcon(props) {
   const {color} = props
@@ -33,4 +34,8 @@ GoogleIcon.displayName = 'GoogleIcon'
 
 GoogleIcon.defaultProps = {
   color: null
+}
+
+GoogleIcon.propTypes = {
+  color: PropTypes.string
 }

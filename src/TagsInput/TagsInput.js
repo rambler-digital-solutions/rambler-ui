@@ -1,93 +1,93 @@
-import React, {PureComponent, cloneElement} from 'react'
+import React, {PureComponent, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
+import compose from '../utils/compose'
 import {isolateMixin} from '../utils/mixins'
 import windowEvents from '../hoc/window-events'
 
-@injectSheet(
-  ({fontFamily, tagsInput}) => ({
-    root: {
-      extend: isolateMixin,
-      fontSize: tagsInput.fontSize,
-      fontFamily,
-      fontWeight: 400,
-      userSelect: 'none',
-      overflow: 'hidden'
-    },
-    items: {
-      display: 'flex',
-      '$isDisabled &': {
-        pointerEvents: 'none'
-      }
-    },
-    isExpanded: {
-      '& $items': {
-        flexWrap: 'wrap'
-      }
-    },
-    item: {
-      '&&': {
-        flex: 'none',
-        alignSelf: 'flex-start',
-        whiteSpace: 'nowrap'
-      }
-    },
-    more: {
-      composes: '$item',
-      color: tagsInput.colors.default.more,
-      transition: 'color .2s',
-      '$isDisabled &': {
-        color: tagsInput.colors.disabled.more
-      }
-    },
-    isClickable: {
-      pointerEvents: 'auto',
-      '$isEnabled &': {
-        cursor: 'pointer',
-        '&:hover': {
-          color: tagsInput.colors.hover.more
-        },
-        '&:active': {
-          color: tagsInput.colors.active.more
-        }
+const styles = ({fontFamily, tagsInput}) => ({
+  root: {
+    extend: isolateMixin,
+    fontSize: tagsInput.fontSize,
+    fontFamily,
+    fontWeight: 400,
+    userSelect: 'none',
+    overflow: 'hidden'
+  },
+  items: {
+    display: 'flex',
+    '$isDisabled &': {
+      pointerEvents: 'none'
+    }
+  },
+  isExpanded: {
+    '& $items': {
+      flexWrap: 'wrap'
+    }
+  },
+  item: {
+    '&&': {
+      flex: 'none',
+      alignSelf: 'flex-start',
+      whiteSpace: 'nowrap'
+    }
+  },
+  more: {
+    composes: '$item',
+    color: tagsInput.colors.default.more,
+    transition: 'color .2s',
+    '$isDisabled &': {
+      color: tagsInput.colors.disabled.more
+    }
+  },
+  isClickable: {
+    pointerEvents: 'auto',
+    '$isEnabled &': {
+      cursor: 'pointer',
+      '&:hover': {
+        color: tagsInput.colors.hover.more
       },
-      '$isDisabled &': {
-        cursor: 'not-allowed'
+      '&:active': {
+        color: tagsInput.colors.active.more
       }
     },
-    ...['regular', 'background'].reduce((typesResult, type) => {
-      const {height, verticalGap, horizontalGap} = tagsInput.types[type]
-      return {
-        ...typesResult,
-        [type]: {
-          '& $items': {
-            marginTop: -verticalGap,
-            marginLeft: -horizontalGap,
-            minHeight: height + verticalGap
-          },
-          '& $item': {
-            marginTop: verticalGap,
-            marginLeft: horizontalGap,
-            maxWidth: `calc(100% - ${horizontalGap}px)`,
-            lineHeight: `${height}px`
-          }
+    '$isDisabled &': {
+      cursor: 'not-allowed'
+    }
+  },
+  regular: {},
+  background: {},
+  ...['regular', 'background'].reduce((typesResult, type) => {
+    const {height, verticalGap, horizontalGap} = tagsInput.types[type]
+    return {
+      ...typesResult,
+      [type]: {
+        '& $items': {
+          marginTop: -verticalGap,
+          marginLeft: -horizontalGap,
+          minHeight: height + verticalGap
+        },
+        '& $item': {
+          marginTop: verticalGap,
+          marginLeft: horizontalGap,
+          maxWidth: `calc(100% - ${horizontalGap}px)`,
+          lineHeight: `${height}px`
         }
       }
-    }, {}),
-    isHidden: {
-      '&&': {
-        order: 1,
-        visibility: 'hidden'
-      }
-    },
-    isEnabled: {},
-    isDisabled: {}
-  }),
-  {name: 'TagsInput'}
-)
-@windowEvents('resize')
-export default class TagsInput extends PureComponent {
+    }
+  }, {}),
+  isHidden: {
+    '&&': {
+      order: 1,
+      visibility: 'hidden'
+    }
+  },
+  isEnabled: {},
+  isDisabled: {}
+})
+
+class TagsInput extends PureComponent {
   static propTypes = {
     /**
      *  Элементы инпута, обязаны быть компонентами типа <TagsInputItem />
@@ -136,11 +136,8 @@ export default class TagsInput extends PureComponent {
     if (!this.props.isExpanded) this.updateVisibleItemsCount()
   }
 
-  componentWillUpdate(nextProps) {
-    if (React.Children.count(nextProps.children) === 0) this.items = []
-  }
-
   componentDidUpdate(prevProps, prevState) {
+    if (Children.count(this.props.children) === 0) this.items = []
     if (
       this.shouldVisibleItemsCountUpdate(
         this.state,
@@ -170,8 +167,8 @@ export default class TagsInput extends PureComponent {
     if (props.isExpanded) return false
     if (props.isExpanded !== prevProps.isExpanded) return true
     if (state.containerWidth !== prevState.containerWidth) return true
-    const items = React.Children.toArray(props.children)
-    const prevItems = React.Children.toArray(prevProps.children)
+    const items = Children.toArray(props.children)
+    const prevItems = Children.toArray(prevProps.children)
     let itemsCount = items.length
     if (itemsCount !== prevItems.length) return true
     while (itemsCount--)
@@ -231,7 +228,7 @@ export default class TagsInput extends PureComponent {
   onItemRemove = (event, value) => {
     if (this.props.disabled) return
     event.stopPropagation()
-    const values = React.Children.toArray(this.props.children).map(
+    const values = Children.toArray(this.props.children).map(
       item => item.props.value
     )
     this.props.onChange(values.filter(item => item !== value))
@@ -260,8 +257,8 @@ export default class TagsInput extends PureComponent {
       disabled ? classes.isDisabled : classes.isEnabled,
       isExpanded && classes.isExpanded
     )
-    const count = React.Children.count(children)
-    const items = React.Children.map(children, (child, i) => {
+    const count = Children.count(children)
+    const items = Children.map(children, (child, i) => {
       if (!child.type || child.type.displayName !== 'ruiTagsInputItem')
         throw new Error(
           'Child component should be instance of <TagsInputItem />'
@@ -308,3 +305,8 @@ export default class TagsInput extends PureComponent {
     )
   }
 }
+
+export default compose(
+  windowEvents('resize'),
+  withStyles(styles, {name: 'TagsInput'})
+)(TagsInput)

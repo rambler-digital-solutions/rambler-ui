@@ -2,9 +2,6 @@
 const argv = require('minimist')(process.argv.slice(2))
 const {component = '**'} = argv
 
-process.env.CHROME_BIN =
-  process.env.CHROME_BIN || require('puppeteer').executablePath()
-
 module.exports = config =>
   config.set({
     basePath: '',
@@ -13,7 +10,7 @@ module.exports = config =>
 
     files: [
       'test/init.js',
-      'node_modules/babel-polyfill/dist/polyfill.js',
+      'node_modules/@babel/polyfill/dist/polyfill.js',
       `src/${component.match(',') ? `{${component}}` : component}/*.test.js`
     ],
 
@@ -38,13 +35,7 @@ module.exports = config =>
         'react/addons',
         'react/lib/ExecutionEnvironment',
         'react/lib/ReactContext'
-      ],
-      resolve: {
-        modules: ['src', 'node_modules']
-      },
-      resolveLoader: {
-        modules: ['node_modules']
-      }
+      ]
     },
 
     webpackMiddleware: {

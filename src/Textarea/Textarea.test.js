@@ -1,6 +1,6 @@
 import React from 'react'
 import Textarea from './Textarea'
-import {withTheme, mount, getStyles, getWrapperNode} from '../utils/test-utils'
+import {withTheme, mount, getStyles, getWrapperNode} from '../../test/utils'
 import theme from '../theme/base'
 
 describe('<Textarea />', () => {

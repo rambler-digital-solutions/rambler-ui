@@ -1,47 +1,46 @@
-import React, {Component, cloneElement} from 'react'
+import React, {Component, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
-import {isolateMixin, topBorderMixin, bottomBorderMixin} from '../utils/mixins'
+import {withStyles} from '../theme'
+import {isolateMixin} from '../utils/mixins'
+import {TabsContext} from './context'
 
-@injectSheet(
-  theme => ({
-    tabs: {
-      extend: isolateMixin,
-      display: 'inline-flex',
-      fontFamily: theme.fontFamily,
-      paddingLeft: theme.tabs.sidePadding,
-      paddingRight: theme.tabs.sidePadding
-    },
-    'position-top': {
-      extend: bottomBorderMixin(theme.tabs.colors.default.outline)
-    },
-    'position-bottom': {
-      extend: topBorderMixin(theme.tabs.colors.default.outline)
-    },
-    item: {
-      '&&': {
-        flex: 'none'
-      }
-    },
-    ...['small', 'medium'].reduce(
-      (result, size) => ({
-        ...result,
-        [`size-${size}`]: {
-          '& $item:nth-child(1n+2)': {
-            marginLeft: theme.tabs.sizes[size].horizontalGap
-          }
-        }
-      }),
-      {}
-    ),
-    isDisabled: {
-      cursor: 'not-allowed'
+const styles = theme => ({
+  tabs: {
+    extend: isolateMixin,
+    display: 'inline-flex',
+    fontFamily: theme.fontFamily,
+    paddingLeft: theme.tabs.sidePadding,
+    paddingRight: theme.tabs.sidePadding
+  },
+  'position-top': {
+    boxShadow: `inset 0 -1px 0px ${theme.tabs.colors.default.outline}`
+  },
+  'position-bottom': {
+    boxShadow: `inset 0 1px 0px ${theme.tabs.colors.default.outline}`
+  },
+  item: {
+    '&&': {
+      flex: 'none'
     }
-  }),
-  {name: 'Tabs'}
-)
-export default class Tabs extends Component {
+  },
+  ...['small', 'medium'].reduce(
+    (result, size) => ({
+      ...result,
+      [`size-${size}`]: {
+        '& $item:nth-child(1n+2)': {
+          marginLeft: theme.tabs.sizes[size].horizontalGap
+        }
+      }
+    }),
+    {}
+  ),
+  isDisabled: {
+    cursor: 'not-allowed'
+  }
+})
+
+class Tabs extends Component {
   static propTypes = {
     /**
      * Выбранное значение табов
@@ -83,25 +82,19 @@ export default class Tabs extends Component {
     disabled: false
   }
 
-  static childContextTypes = {
-    position: PropTypes.string
+  state = {
+    value: this.props.value
   }
 
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.value
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setValue(nextProps.value)
-  }
-
-  getChildContext() {
+  get contextValue() {
     return {
       position: this.props.position
     }
+  }
+
+  componentDidUpdate(prevProps) {
+    const {value} = this.props
+    if (value !== prevProps.value) this.setValue(value)
   }
 
   setValue(value) {
@@ -129,7 +122,7 @@ export default class Tabs extends Component {
       ...other
     } = this.props
     let i = 0
-    const tabs = React.Children.map(children, child => {
+    const tabs = Children.map(children, child => {
       if (!child.type || child.type.displayName !== 'ruiTabsItem')
         throw new Error('Child component should be instance of <Tab />')
       const {className, value} = child.props
@@ -151,17 +144,21 @@ export default class Tabs extends Component {
     })
 
     return (
-      <div
-        {...other}
-        className={classnames(
-          className,
-          classes.tabs,
-          classes[`size-${size}`],
-          classes[`position-${position}`],
-          disabled && classes.isDisabled
-        )}>
-        {tabs}
-      </div>
+      <TabsContext.Provider value={this.contextValue}>
+        <div
+          {...other}
+          className={classnames(
+            className,
+            classes.tabs,
+            classes[`size-${size}`],
+            classes[`position-${position}`],
+            disabled && classes.isDisabled
+          )}>
+          {tabs}
+        </div>
+      </TabsContext.Provider>
     )
   }
 }
+
+export default withStyles(styles, {name: 'Tabs'})(Tabs)

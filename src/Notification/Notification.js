@@ -7,127 +7,126 @@ import OnClickOutside from '../OnClickOutside'
 import renderToLayer from '../hoc/render-to-layer'
 import zIndexStack from '../hoc/z-index-stack'
 import {SNACKBAR_ZINDEX} from '../constants/z-indexes'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
+import compose from '../utils/compose'
 import {isolateMixin, middleMixin, ifDesktop} from '../utils/mixins'
 
-@zIndexStack(SNACKBAR_ZINDEX)
-@renderToLayer
-@injectSheet(
-  theme => ({
-    notification: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      position: 'fixed',
-      left: 15,
-      right: 15,
-      bottom: 5,
-      boxSizing: 'border-box',
-      boxShadow: theme.notification.boxShadow,
-      padding: theme.notification.padding,
-      backgroundColor: theme.notification.colors.background,
-      color: theme.notification.colors.text,
-      fontSize: theme.notification.fontSize,
-      opacity: 0,
-      transitionDuration: theme.notification.animationDuration,
-      transitionProperty: 'bottom, opacity',
-      ...ifDesktop({
-        width: 335,
-        borderRadius: theme.notification.borderRadius
-      })
-    },
+const styles = theme => ({
+  notification: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    position: 'fixed',
+    left: 15,
+    right: 15,
+    bottom: 5,
+    boxSizing: 'border-box',
+    boxShadow: theme.notification.boxShadow,
+    padding: theme.notification.padding,
+    backgroundColor: theme.notification.colors.background,
+    color: theme.notification.colors.text,
+    fontSize: theme.notification.fontSize,
+    opacity: 0,
+    transitionDuration: theme.notification.animationDuration,
+    transitionProperty: 'bottom, opacity',
     ...ifDesktop({
-      left: {
-        right: 'auto'
-      },
-      right: {
-        left: 'auto',
-        right: 15
-      }
-    }),
-    isVisible: {
-      bottom: 15,
-      opacity: 1
+      width: 335,
+      borderRadius: theme.notification.borderRadius
+    })
+  },
+  left: {
+    ...ifDesktop({
+      right: 'auto'
+    })
+  },
+  right: {
+    ...ifDesktop({
+      left: 'auto',
+      right: 15
+    })
+  },
+  isVisible: {
+    bottom: 15,
+    opacity: 1
+  },
+  marginAtClose: {
+    marginRight: 25
+  },
+  title: {
+    extend: middleMixin,
+    fontSize: theme.notification.titleSize,
+    fontWeight: 500,
+    marginBottom: 10
+  },
+  icon: {
+    extend: middleMixin,
+    display: 'inline-block',
+    borderRadius: '50%',
+    marginRight: 10,
+    width: 39,
+    height: 39,
+    backgroundColor: theme.notification.colors.iconBackground,
+    textAlign: 'center'
+  },
+  body: {
+    lineHeight: theme.notification.lineHeight
+  },
+  actionButton: {
+    extend: middleMixin,
+    boxSizing: 'border-box',
+    outline: 'none',
+    border: 0,
+    margin: 0,
+    marginTop: 10,
+    padding: 0,
+    height: 20,
+    backgroundColor: 'transparent',
+    color: theme.notification.actionButton.colors.default,
+    fontSize: theme.notification.actionButton.fontSize,
+    cursor: 'pointer',
+    transitionDuration: theme.notification.animationDuration,
+    transitionProperty: 'color',
+    '&:hover:not(:active)': {
+      color: theme.notification.actionButton.colors.hover
     },
-    marginAtClose: {
-      marginRight: 25
+    '&:active': {
+      color: theme.notification.actionButton.colors.active
     },
-    title: {
-      extend: middleMixin,
-      fontSize: theme.notification.titleSize,
-      fontWeight: 500,
-      marginBottom: 10
-    },
-    icon: {
-      extend: middleMixin,
-      display: 'inline-block',
-      borderRadius: '50%',
-      marginRight: 10,
-      width: 39,
-      height: 39,
-      backgroundColor: theme.notification.colors.iconBackground,
-      textAlign: 'center'
-    },
-    body: {
-      lineHeight: theme.notification.lineHeight
-    },
-    actionButton: {
-      extend: middleMixin,
-      boxSizing: 'border-box',
-      outline: 'none',
-      border: 0,
-      margin: 0,
-      marginTop: 10,
-      padding: 0,
-      height: 20,
-      backgroundColor: 'transparent',
-      color: theme.notification.actionButton.colors.default,
-      fontSize: theme.notification.actionButton.fontSize,
-      cursor: 'pointer',
-      transitionDuration: theme.notification.animationDuration,
-      transitionProperty: 'color',
-      '&:hover:not(:active)': {
-        color: theme.notification.actionButton.colors.hover
-      },
-      '&:active': {
-        color: theme.notification.actionButton.colors.active
-      },
-      '& svg': {
-        marginLeft: 7
-      }
-    },
-    close: {
-      position: 'absolute',
-      top: 15,
-      right: 15,
-      boxSizing: 'border-box',
-      outline: 'none',
-      border: 0,
-      borderRadius: '50%',
-      height: 15,
-      width: 15,
-      lineHeight: 0,
-      padding: 0,
-      backgroundColor: 'transparent',
-      cursor: 'pointer',
-      transitionDuration: '.2s',
-      transitionProperty: 'background-color, border',
-      '&:hover:not(:active)': {
-        backgroundColor: 'rgba(0, 0, 0, 0.05)'
-      },
-      '&:focus:not(:active)': {
-        border: '1px solid'
-      },
-      '&:active': {
-        backgroundColor: 'rgba(0, 0, 0, 0.1)'
-      },
-      '& ~ $title, & ~ $body': {
-        marginRight: 25
-      }
+    '& svg': {
+      marginLeft: 7
     }
-  }),
-  {name: 'Notification'}
-)
-export default class Notification extends PureComponent {
+  },
+  close: {
+    position: 'absolute',
+    top: 15,
+    right: 15,
+    boxSizing: 'border-box',
+    outline: 'none',
+    border: 0,
+    borderRadius: '50%',
+    height: 15,
+    width: 15,
+    lineHeight: 0,
+    padding: 0,
+    backgroundColor: 'transparent',
+    cursor: 'pointer',
+    transitionDuration: '.2s',
+    transitionProperty: 'background-color, border',
+    '&:hover:not(:active)': {
+      backgroundColor: 'rgba(0, 0, 0, 0.05)'
+    },
+    '&:focus:not(:active)': {
+      border: '1px solid'
+    },
+    '&:active': {
+      backgroundColor: 'rgba(0, 0, 0, 0.1)'
+    },
+    '& ~ $title, & ~ $body': {
+      marginRight: 25
+    }
+  }
+})
+
+class Notification extends PureComponent {
   static propTypes = {
     /**
      * Css-класс
@@ -176,7 +175,11 @@ export default class Notification extends PureComponent {
     /**
      * Коллбек вызывающийся при всех вариантах закрытия (автоматически проставляется, если используется `@provideNotification`)
      */
-    onRequestClose: PropTypes.func
+    onRequestClose: PropTypes.func,
+    /**
+     * Коллбек вызывающийся после закрытия
+     */
+    onClose: PropTypes.func
   }
 
   static defaultProps = {
@@ -192,7 +195,7 @@ export default class Notification extends PureComponent {
     if (this.state.isVisible) this.props.onRequestClose()
   }
 
-  render() {
+  renderContent = componentRef => {
     const {
       isOpened,
       className,
@@ -207,17 +210,17 @@ export default class Notification extends PureComponent {
       actionButton,
       onAction,
       onRequestClose,
-      closeOnClickOutside,
       onClose
     } = this.props
 
-    const content = (
+    return (
       <VisibilityAnimation
         isVisible={isOpened}
         animationDuration={theme.notification.animationDuration}
         onInvisible={onClose}>
         {({isVisible}) => (
           <div
+            ref={componentRef}
             style={style}
             className={classnames(
               classes.notification,
@@ -252,12 +255,24 @@ export default class Notification extends PureComponent {
         )}
       </VisibilityAnimation>
     )
+  }
+
+  render() {
+    const {closeOnClickOutside} = this.props
 
     if (closeOnClickOutside)
       return (
-        <OnClickOutside handler={this.onClickOutside}>{content}</OnClickOutside>
+        <OnClickOutside handler={this.onClickOutside}>
+          {componentRef => this.renderContent(componentRef)}
+        </OnClickOutside>
       )
 
-    return content
+    return this.renderContent()
   }
 }
+
+export default compose(
+  zIndexStack(SNACKBAR_ZINDEX),
+  renderToLayer,
+  withStyles(styles, {name: 'Notification'})
+)(Notification)

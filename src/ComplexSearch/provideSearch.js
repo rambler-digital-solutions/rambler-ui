@@ -1,9 +1,18 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import getDisplayName from '../utils/get-display-name'
 
 export default function provideSearch(Search) {
   return class extends PureComponent {
     static displayName = `provideSearch(${getDisplayName(Search)})`
+
+    static propTypes = {
+      value: PropTypes.string,
+      onSubmit: PropTypes.func,
+      onSearch: PropTypes.func,
+      onPressEnter: PropTypes.func
+    }
+
     static defaultProps = {
       value: '',
       placeholder: '',
@@ -33,10 +42,10 @@ export default function provideSearch(Search) {
       sourceType: 'global'
     }
 
-    componentWillReceiveProps(nextProps) {
-      if (this.props.value !== nextProps.value)
+    componentDidUpdate(prevProps) {
+      if (prevProps.value !== this.props.value)
         this.setState({
-          value: nextProps.value
+          value: this.props.value
         })
     }
 

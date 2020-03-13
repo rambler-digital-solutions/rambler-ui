@@ -48,15 +48,16 @@ src/
 
 ```js
 // src/Button/Button.js
-import React, { PureComponent } from 'react'
-import { injectSheet } from '../theme'
+import React, {PureComponent} from 'react'
+import {withStyles} from '../theme'
 
-@injectSheet({
+const styles = {
   root: { // имя css-класса внутри комонента
     color: 'black'
   }
-}, {name: 'Button'})
-export default class Button extends PureComponent {
+}
+
+class Button extends PureComponent {
   render() {
     const {classes, children} = this.props
 
@@ -67,25 +68,28 @@ export default class Button extends PureComponent {
     )
   }
 }
+
+export default withStyles(styles, {name: 'Button'})(Button)
 ```
 
-Более подробно про `injectSheet` описано в документации [`react-jss`](https://github.com/cssinjs/react-jss). В нашей реализации вторым аргументом в `injectSheet` передается объект с опциями, содержащий имя компонента для генерации детерминированных имен классов.
+Более подробно про `withStyles` описано в документации [`react-jss`](https://github.com/cssinjs/react-jss). В нашей реализации вторым аргументом в `withStyles` передается объект с опциями, содержащий имя компонента для генерации детерминированных имен классов.
 
 ### Темизация
 
-Библиотека позволяет темизировать компоненты путем изменеия базовых цветов и свойств отдельных компонентов, путем расширения [базовой темы](https://github.com/rambler-digital-solutions/rambler-ui/tree/master/src/theme/base/index.js). Соответственно при описании стилей компонента, необходимо базовые параметры: цвета, шрифты, размеры - выносить в тему и переиспользовать внутри:
+Библиотека позволяет темизировать компоненты путем изменеия базовых цветов и свойств отдельных компонентов, путем расширения [базовой темы](https://github.com/rambler-digital-solutions/rambler-ui/tree/master/src/theme/create-theme.js). Соответственно при описании стилей компонента, необходимо базовые параметры: цвета, шрифты, размеры - выносить в тему и переиспользовать внутри:
 
 ```js
 // src/Button/Button.js
-import React, { PureComponent } from 'react'
-import { injectSheet } from '../theme'
+import React, {PureComponent} from 'react'
+import {withStyles} from '../theme'
 
-@injectSheet(theme => {
+const styles = theme => ({
   root: { // имя css-класса внутри комонента
     color: theme.button.color
   }
-}, {name: 'Button'})
-export default class Button extends PureComponent {
+})
+
+class Button extends PureComponent {
   render() {
     const {classes, children} = this.props
 
@@ -97,11 +101,13 @@ export default class Button extends PureComponent {
   }
 }
 
-// src/theme/base/index.js
+export default withStyles(styles, {name: 'Button'})(Button)
+
+// src/theme/create-theme.js
 import deepmerge from 'deepmerge'
 
-export function createTheme(config) {
-  const { colors } = config
+export const createTheme = config => {
+  const {colors} = config
 
   return deepmerge({
     fontFamily: 'Roboto, sans-serif',
@@ -151,7 +157,8 @@ export default () => (
 Для тестов используется `karma`, `jasmine` и headless `Chrome` и `Firefox` для их запуска:
 
 ```sh
-npm test              # запуск тестов в Chrome
+npm test              # запуск тестов
+npm run test:chrome   # в Chrome
 npm run test:firefox  # в Firefox
 npm run test:watch    # в режиме отслеживания изменений
 ```

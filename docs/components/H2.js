@@ -1,5 +1,6 @@
 import React from 'react'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import PropTypes from 'prop-types'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = {
   root: {
@@ -14,4 +15,8 @@ const styles = {
 
 const H2 = ({classes, children}) => <h2 className={classes.root}>{children}</h2>
 
-export default injectSheet(styles)(H2)
+H2.propTypes = {
+  children: PropTypes.node
+}
+
+export default withStyles(styles)(H2)

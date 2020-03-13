@@ -1,128 +1,123 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
-import {RADIO_INPUT_CONTEXT} from '../constants/context'
-import '../utils/focus-source'
+import {RadioButtonContext} from './context'
+import {subscribeFocusEvents} from '../utils/focus-source'
 
-function isSimpleType(value) {
-  const type = typeof value
-  return (
-    type === 'string' ||
-    type === 'number' ||
-    type === 'boolean' ||
-    value === null ||
-    value === undefined
-  )
-}
+subscribeFocusEvents()
 
-@injectSheet(
-  theme => ({
-    root: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      fontSize: theme.radio.fontSize,
-      display: 'flex',
-      width: '100%',
-      cursor: 'pointer',
-      position: 'relative',
-      color: theme.radio.colors.default.text,
-      userSelect: 'none',
-      '&:not(:last-child)': {
-        marginBottom: theme.radio.marginBottom
-      }
-    },
-    isDisabled: {
-      pointerEvents: 'none',
-      color: theme.radio.colors.disabled.text,
-      cursor: 'not-allowed'
-    },
-    real: {
-      fontFamily: theme.fontFamily,
-      position: 'absolute',
-      opacity: '0',
-      appearance: 'none',
-      pointerEvents: 'none'
-    },
-    fake: {
-      flex: 'none',
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      position: 'relative',
+const isSimpleType = value =>
+  typeof value === 'string' ||
+  typeof value === 'number' ||
+  typeof value === 'boolean' ||
+  value === null ||
+  value === undefined
+
+const styles = theme => ({
+  root: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    fontSize: theme.radio.fontSize,
+    display: 'flex',
+    width: '100%',
+    cursor: 'pointer',
+    position: 'relative',
+    color: theme.radio.colors.default.text,
+    userSelect: 'none',
+    '&:not(:last-child)': {
+      marginBottom: theme.radio.marginBottom
+    }
+  },
+  isDisabled: {
+    pointerEvents: 'none',
+    color: theme.radio.colors.disabled.text,
+    cursor: 'not-allowed'
+  },
+  real: {
+    fontFamily: theme.fontFamily,
+    position: 'absolute',
+    opacity: '0',
+    appearance: 'none',
+    pointerEvents: 'none'
+  },
+  fake: {
+    flex: 'none',
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    position: 'relative',
+    boxSizing: 'border-box',
+    borderRadius: '50%',
+    width: theme.radio.radioSize,
+    height: theme.radio.radioSize,
+    border: '1px solid',
+    borderColor: theme.radio.colors.default.dotBorder,
+    background: theme.radio.colors.default.dotBackground,
+    marginTop: 3,
+    transitionDuration: theme.radio.animationDuration,
+    transitionProperty: 'border-color, background-color, color',
+    '&:after': {
       boxSizing: 'border-box',
-      borderRadius: '50%',
-      width: theme.radio.radioSize,
-      height: theme.radio.radioSize,
-      border: '1px solid',
-      borderColor: theme.radio.colors.default.dotBorder,
-      background: theme.radio.colors.default.dotBackground,
-      marginTop: 3,
-      transitionDuration: theme.radio.animationDuration,
-      transitionProperty: 'border-color, background-color, color',
-      '&:after': {
-        boxSizing: 'border-box',
-        content: '""',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        margin: 'auto',
-        width: 5,
-        height: 5,
-        transform: 'scale(0.5, 0.5)',
-        opacity: 0,
-        transitionDuration: 'inherit',
-        transitionProperty: 'opacity, transform, background-color',
-        background: 'currentColor',
-        borderRadius: '50%'
-      },
-      '$isChecked &:after': {
-        transform: 'scale(1, 1)',
-        opacity: 1
-      },
-      '$isEnabled:hover &': {
-        borderColor: theme.radio.colors.hover.dotBorder,
-        color: theme.radio.colors.hover.dot
-      },
-      ...focusSourceMixin('other', '$real:focus + &', {
-        borderColor: theme.radio.colors.focus.dotBorder
-      }),
-      '$isEnabled:active &': {
-        borderColor: theme.radio.colors.active.dotBorder,
-        background: theme.radio.colors.active.dotBackground,
-        color: theme.radio.colors.active.dot
-      },
-      '$isDisabled &': {
-        borderColor: theme.radio.colors.disabled.dotBorder,
-        color: theme.radio.colors.disabled.dot
-      },
-      '$labelright &': {
-        marginRight: theme.radio.labelMargin
-      },
-      '$labelleft &': {
-        marginLeft: theme.radio.labelMargin
-      }
+      content: '""',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      margin: 'auto',
+      width: 5,
+      height: 5,
+      transform: 'scale(0.5, 0.5)',
+      opacity: 0,
+      transitionDuration: 'inherit',
+      transitionProperty: 'opacity, transform, background-color',
+      background: 'currentColor',
+      borderRadius: '50%'
     },
-    label: {
-      display: 'inline-block',
-      verticalAlign: 'middle',
-      lineHeight: theme.radio.lineHeight + 'px',
-      '$labelleft &': {
-        order: -1,
-        marginRight: 'auto'
-      }
+    '$isChecked &:after': {
+      transform: 'scale(1, 1)',
+      opacity: 1
     },
-    isChecked: {},
-    isEnabled: {},
-    labelleft: {},
-    labelright: {}
-  }),
-  {name: 'RadioButton'}
-)
+    '$isEnabled:hover &': {
+      borderColor: theme.radio.colors.hover.dotBorder,
+      color: theme.radio.colors.hover.dot
+    },
+    ...focusSourceMixin('other', '$real:focus + &', {
+      borderColor: theme.radio.colors.focus.dotBorder
+    }),
+    '$isEnabled:active &': {
+      borderColor: theme.radio.colors.active.dotBorder,
+      background: theme.radio.colors.active.dotBackground,
+      color: theme.radio.colors.active.dot
+    },
+    '$isDisabled &': {
+      borderColor: theme.radio.colors.disabled.dotBorder,
+      color: theme.radio.colors.disabled.dot
+    },
+    '$labelright &': {
+      marginRight: theme.radio.labelMargin
+    },
+    '$labelleft &': {
+      marginLeft: theme.radio.labelMargin
+    }
+  },
+  label: {
+    display: 'inline-block',
+    verticalAlign: 'middle',
+    lineHeight: theme.radio.lineHeight + 'px',
+    '$labelleft &': {
+      order: -1,
+      marginRight: 'auto'
+    }
+  },
+  isChecked: {},
+  isEnabled: {},
+  labelleft: {},
+  labelright: {}
+})
+
 class RadioButton extends PureComponent {
   static propTypes = {
     /**
@@ -156,7 +151,11 @@ class RadioButton extends PureComponent {
     /**
      * Позиция label - либо слева, либо справа
      */
-    labelPosition: PropTypes.oneOf(['left', 'right'])
+    labelPosition: PropTypes.oneOf(['left', 'right']),
+    /**
+     * Контент поля
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -167,44 +166,30 @@ class RadioButton extends PureComponent {
     labelStyle: {}
   }
 
-  static contextTypes = {
-    [RADIO_INPUT_CONTEXT]: PropTypes.shape({
-      getValue: PropTypes.func,
-      getName: PropTypes.func,
-      events: PropTypes.instanceOf(EventEmitter)
-    })
+  static contextType = RadioButtonContext
+
+  constructor(props) {
+    super(props)
+    this.setInputValue(this.props.value)
   }
 
   get isChecked() {
-    return this.inputValue === this.context[RADIO_INPUT_CONTEXT].getValue()
-  }
-
-  componentWillMount() {
-    this.setInputValue(this.props.value)
-    this.context[RADIO_INPUT_CONTEXT].events.on(
-      'updateValue',
-      this.onUpdateValue
-    )
-  }
-
-  componentWillUnmount() {
-    this.context[RADIO_INPUT_CONTEXT].events.removeListener(
-      'updateValue',
-      this.onUpdateValue
-    )
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value)
-      this.setInputValue(nextProps.value)
+    return this.inputValue === this.context.getValue()
   }
 
   componentDidMount() {
+    this.context.events.on('updateValue', this.onUpdateValue)
     if (this.input) this.input.checked = this.isChecked
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value)
+      this.setInputValue(this.props.value)
     if (this.input) this.input.checked = this.isChecked
+  }
+
+  componentWillUnmount() {
+    this.context.events.removeListener('updateValue', this.onUpdateValue)
   }
 
   setInputValue(value) {
@@ -216,14 +201,11 @@ class RadioButton extends PureComponent {
     this.forceUpdate()
   }
 
-  onChange = e => {
-    this.context[RADIO_INPUT_CONTEXT].events.emit(
-      'newValue',
-      e,
-      this.props.value
-    )
+  onChange = event => {
+    this.context.events.emit('newValue', event, this.props.value)
     // оставляем для обратной совместимости
-    if (this.props.onChange) this.props.onChange(e, this.inputValue)
+    // eslint-disable-next-line react/prop-types
+    if (this.props.onChange) this.props.onChange(event, this.inputValue)
   }
 
   render() {
@@ -241,7 +223,7 @@ class RadioButton extends PureComponent {
       onBlur,
       theme, // eslint-disable-line no-unused-vars
       value, // eslint-disable-line no-unused-vars
-      onChange, // eslint-disable-line no-unused-vars
+      onChange, // eslint-disable-line no-unused-vars, react/prop-types
       ...other
     } = this.props
 
@@ -261,7 +243,7 @@ class RadioButton extends PureComponent {
           ref={input => {
             this.input = input
           }}
-          name={this.context[RADIO_INPUT_CONTEXT].getName()}
+          name={this.context.getName()}
           value={this.stringValue}
           disabled={disabled}
           onChange={this.onChange}
@@ -279,5 +261,7 @@ class RadioButton extends PureComponent {
   }
 }
 
-RadioButton.displayName = 'ruiRadioButton'
-export default RadioButton
+export default withStyles(styles, {
+  name: 'RadioButton',
+  displayName: 'ruiRadioButton'
+})(RadioButton)

@@ -1,33 +1,31 @@
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../../SvgIcon'
 
-type SvgIconComponent = typeof SvgIcon
-
-export const RamblerAutoIcon: SvgIconComponent
-export const RamblerMailIcon: SvgIconComponent
-export const RamblerMoneyIcon: SvgIconComponent
-export const RamblerNewsIcon: SvgIconComponent
-export const RamblerFinanceIcon: SvgIconComponent
-export const RamblerSearchIcon: SvgIconComponent
-export const RamblerOrganizationsIcon: SvgIconComponent
-export const RamblerBrowserIcon: SvgIconComponent
-export const RamblerVideoIcon: SvgIconComponent
-export const RamblerHeadIcon: SvgIconComponent
-export const RamblerHelpIcon: SvgIconComponent
-export const RamblerHoroscopesIcon: SvgIconComponent
-export const RamblerSportIcon: SvgIconComponent
-export const RamblerTop100Icon: SvgIconComponent
-export const RamblerPicturesIcon: SvgIconComponent
-export const RamblerClassIcon: SvgIconComponent
-export const RamblerLiveIcon: SvgIconComponent
-export const RamblerTravelIcon: SvgIconComponent
-export const RamblerAfishaIcon: SvgIconComponent
-export const RamblerDoctorIcon: SvgIconComponent
-export const RamblerWomanIcon: SvgIconComponent
-export const RamblerLikesIcon: SvgIconComponent
-export const RamblerLoveIcon: SvgIconComponent
-export const RamblerKassaIcon: SvgIconComponent
-export const RamblerTVIcon: SvgIconComponent
-export const RamblerWeatherIcon: SvgIconComponent
-export const RamblerWeekendIcon: SvgIconComponent
-export const RamblerStarLifeIcon: SvgIconComponent
-export const RamblerPromoCodesIcon: SvgIconComponent
+export const RamblerAutoIcon: typeof SvgIcon
+export const RamblerMailIcon: typeof SvgIcon
+export const RamblerMoneyIcon: typeof SvgIcon
+export const RamblerNewsIcon: typeof SvgIcon
+export const RamblerFinanceIcon: typeof SvgIcon
+export const RamblerSearchIcon: typeof SvgIcon
+export const RamblerOrganizationsIcon: typeof SvgIcon
+export const RamblerBrowserIcon: typeof SvgIcon
+export const RamblerVideoIcon: typeof SvgIcon
+export const RamblerHeadIcon: typeof SvgIcon
+export const RamblerHelpIcon: typeof SvgIcon
+export const RamblerHoroscopesIcon: typeof SvgIcon
+export const RamblerSportIcon: typeof SvgIcon
+export const RamblerTop100Icon: typeof SvgIcon
+export const RamblerPicturesIcon: typeof SvgIcon
+export const RamblerClassIcon: typeof SvgIcon
+export const RamblerLiveIcon: typeof SvgIcon
+export const RamblerTravelIcon: typeof SvgIcon
+export const RamblerAfishaIcon: typeof SvgIcon
+export const RamblerDoctorIcon: typeof SvgIcon
+export const RamblerWomanIcon: typeof SvgIcon
+export const RamblerLikesIcon: typeof SvgIcon
+export const RamblerLoveIcon: typeof SvgIcon
+export const RamblerKassaIcon: typeof SvgIcon
+export const RamblerTVIcon: typeof SvgIcon
+export const RamblerWeatherIcon: typeof SvgIcon
+export const RamblerWeekendIcon: typeof SvgIcon
+export const RamblerStarLifeIcon: typeof SvgIcon
+export const RamblerPromoCodesIcon: typeof SvgIcon

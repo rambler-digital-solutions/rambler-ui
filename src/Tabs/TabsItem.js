@@ -1,85 +1,81 @@
 import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
+import {TabsContext} from './context'
 
 const setThemeForSelector = colors => ({
   borderColor: colors.border,
   color: colors.text
 })
 
-@injectSheet(
-  theme => {
-    const {sizes, colors} = theme.tabs
-    return {
-      tab: {
-        extend: isolateMixin,
-        display: 'inline-block',
-        userSelect: 'none',
-        whiteSpace: 'nowrap',
-        cursor: 'pointer',
-        outline: 'none !important',
-        borderStyle: 'solid',
-        borderWidth: 0,
-        background: 'none',
-        fontWeight: 500,
-        transitionDuration: theme.tabs.animationDuration,
-        transitionProperty: 'color, border-color',
-        '&::-moz-focus-inner': {
-          border: 'none !important',
-          outline: 'none !important'
-        },
-        '&&': setThemeForSelector(colors.default),
-        '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
-        '&$isEnabled:hover, &$isEnabled:focus': setThemeForSelector(
-          colors.hover
-        ),
-        '&$isEnabled:active': setThemeForSelector(colors.active),
-        '&$isDisabled': setThemeForSelector(colors.disabled),
-        '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
+const styles = theme => {
+  const {sizes, colors} = theme.tabs
+  return {
+    tab: {
+      extend: isolateMixin,
+      display: 'inline-block',
+      userSelect: 'none',
+      whiteSpace: 'nowrap',
+      cursor: 'pointer',
+      outline: 'none !important',
+      borderStyle: 'solid',
+      borderWidth: 0,
+      background: 'none',
+      fontWeight: 500,
+      transitionDuration: theme.tabs.animationDuration,
+      transitionProperty: 'color, border-color',
+      '&::-moz-focus-inner': {
+        border: 'none !important',
+        outline: 'none !important'
       },
-      ...['top', 'bottom'].reduce(
-        (positionResult, position) => ({
-          ...positionResult,
-          [`position-${position}`]: {
-            [`border${position === 'top' ? 'Bottom' : 'Top'}Width`]: theme.tabs
-              .borderWidth,
-            ...['small', 'medium'].reduce(
-              (sizeResult, size) => ({
-                ...sizeResult,
-                [`&$size-${size}`]: {
-                  [`padding${position === 'top' ? 'Bottom' : 'Top'}`]: sizes[
-                    size
-                  ].verticalPadding
-                }
-              }),
-              {}
-            )
-          }
-        }),
-        {}
-      ),
-      'size-small': {
-        fontSize: sizes.small.fontSize,
-        lineHeight: sizes.small.lineHeight,
-        letterSpacing: 1.3,
-        textTransform: 'uppercase'
-      },
-      'size-medium': {
-        fontSize: sizes.medium.fontSize,
-        lineHeight: sizes.medium.lineHeight
-      },
-      isDisabled: {
-        cursor: 'not-allowed',
-        pointerEvents: 'none'
-      },
-      isEnabled: {},
-      isSelected: {}
-    }
-  },
-  {name: 'TabsItem'}
-)
+      '&&': setThemeForSelector(colors.default),
+      '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
+      '&$isEnabled:hover, &$isEnabled:focus': setThemeForSelector(colors.hover),
+      '&$isEnabled:active': setThemeForSelector(colors.active),
+      '&$isDisabled': setThemeForSelector(colors.disabled),
+      '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
+    },
+    ...['top', 'bottom'].reduce(
+      (positionResult, position) => ({
+        ...positionResult,
+        [`position-${position}`]: {
+          [`border${position === 'top' ? 'Bottom' : 'Top'}Width`]: theme.tabs
+            .borderWidth,
+          ...['small', 'medium'].reduce(
+            (sizeResult, size) => ({
+              ...sizeResult,
+              [`&$size-${size}`]: {
+                [`padding${position === 'top' ? 'Bottom' : 'Top'}`]: sizes[size]
+                  .verticalPadding
+              }
+            }),
+            {}
+          )
+        }
+      }),
+      {}
+    ),
+    'size-small': {
+      fontSize: sizes.small.fontSize,
+      lineHeight: sizes.small.lineHeight,
+      letterSpacing: 1.3,
+      textTransform: 'uppercase'
+    },
+    'size-medium': {
+      fontSize: sizes.medium.fontSize,
+      lineHeight: sizes.medium.lineHeight
+    },
+    isDisabled: {
+      cursor: 'not-allowed',
+      pointerEvents: 'none'
+    },
+    isEnabled: {},
+    isSelected: {}
+  }
+}
+
 class TabsItem extends Component {
   static propTypes = {
     /**
@@ -98,6 +94,10 @@ class TabsItem extends Component {
      * Контент (обычно просто текст)
      */
     children: PropTypes.node,
+    /**
+     * Если указан href, то кнопка будет ссылкой
+     */
+    href: PropTypes.string,
     /**
      * Размер компонента (автоматически проставляется компонентом `<Tabs/>`)
      */
@@ -132,6 +132,8 @@ class TabsItem extends Component {
     isSelected: false,
     disabled: false
   }
+
+  static contextType = TabsContext
 
   handleClick = event => {
     const {props} = this
@@ -194,6 +196,8 @@ class TabsItem extends Component {
     return cloneElement(element, elemProps, children)
   }
 }
-TabsItem.displayName = 'ruiTabsItem'
 
-export default TabsItem
+export default withStyles(styles, {
+  name: 'TabsItem',
+  displayName: 'ruiTabsItem'
+})(TabsItem)

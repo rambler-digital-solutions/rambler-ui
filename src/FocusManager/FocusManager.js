@@ -9,7 +9,7 @@ export default class FocusManager extends PureComponent {
 
   beforeActiveElement = null
 
-  componentWillMount() {
+  componentDidMount() {
     const {tabIndex} = this.props
     if (tabIndex == null || tabIndex < 0) return
     this.beforeActiveElement = document.activeElement
@@ -19,12 +19,11 @@ export default class FocusManager extends PureComponent {
     if (
       this.beforeActiveElement &&
       typeof this.beforeActiveElement.focus === 'function'
-    ) 
+    )
       this.beforeActiveElement.focus()
-    
   }
 
-  focusElement = element => {
+  focusRef = element => {
     const {tabIndex} = this.props
     if (!element || tabIndex == null || tabIndex < 0) return
     setTimeout(() => {
@@ -34,8 +33,6 @@ export default class FocusManager extends PureComponent {
   }
 
   render() {
-    const {focusElement} = this
-    const {children} = this.props
-    return children({focusElement})
+    return this.props.children(this.focusRef)
   }
 }

@@ -4,8 +4,10 @@ import classnames from 'classnames'
 import TickIcon from './TickIcon'
 import TickIconSmall from './TickIconSmall'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
-import {injectSheet} from '../theme'
-import '../utils/focus-source'
+import {withStyles} from '../theme'
+import {subscribeFocusEvents} from '../utils/focus-source'
+
+subscribeFocusEvents()
 
 const setThemeForSelector = colors => ({
   background: colors.background,
@@ -19,189 +21,186 @@ const tickStyle = {
   height: null
 }
 
-@injectSheet(
-  theme => {
-    const checkboxTheme = theme.checkbox
-    const {regular, awesome} = checkboxTheme.types
-    return {
-      checkbox: {
-        extend: isolateMixin,
-        fontFamily: theme.fontFamily,
-        fontSize: checkboxTheme.fontSize,
-        position: 'relative',
-        display: 'inline-block',
-        verticalAlign: 'top',
-        cursor: 'pointer',
-        userSelect: 'none',
-        transition: `color ${checkboxTheme.animationDuration}ms`
+const styles = theme => {
+  const checkboxTheme = theme.checkbox
+  const {regular, awesome} = checkboxTheme.types
+  return {
+    checkbox: {
+      extend: isolateMixin,
+      fontFamily: theme.fontFamily,
+      fontSize: checkboxTheme.fontSize,
+      position: 'relative',
+      display: 'inline-block',
+      verticalAlign: 'top',
+      cursor: 'pointer',
+      userSelect: 'none',
+      transition: `color ${checkboxTheme.animationDuration}ms`
+    },
+    isDisabled: {
+      cursor: 'not-allowed',
+      pointerEvents: 'none'
+    },
+    regular: {
+      color: regular.colors.default.text,
+      '&$isDisabled': {
+        color: regular.colors.disabled.text
       },
-      isDisabled: {
-        cursor: 'not-allowed',
-        pointerEvents: 'none'
+      '& $fake': setThemeForSelector(regular.colors.default),
+      '&$isEnabled:hover $fake': setThemeForSelector(regular.colors.hover),
+      '&$isEnabled:active $fake': setThemeForSelector(regular.colors.active),
+      '&$isDisabled $fake': setThemeForSelector(regular.colors.disabled),
+      '&$isChecked $fake': setThemeForSelector(regular.colors.checked),
+      ...focusSourceMixin(
+        'other',
+        '& $real:focus ~ $fake',
+        setThemeForSelector(regular.colors.focus)
+      )
+    },
+    awesome: {
+      color: awesome.colors.default.text,
+      '&$isDisabled': {
+        color: awesome.colors.disabled.text
       },
-      regular: {
-        color: regular.colors.default.text,
-        '&$isDisabled': {
-          color: regular.colors.disabled.text
-        },
-        '& $fake': setThemeForSelector(regular.colors.default),
-        '&$isEnabled:hover $fake': setThemeForSelector(regular.colors.hover),
-        '&$isEnabled:active $fake': setThemeForSelector(regular.colors.active),
-        '&$isDisabled $fake': setThemeForSelector(regular.colors.disabled),
-        '&$isChecked $fake': setThemeForSelector(regular.colors.checked),
-        ...focusSourceMixin(
-          'other',
-          '& $real:focus ~ $fake',
-          setThemeForSelector(regular.colors.focus)
-        )
-      },
-      awesome: {
-        color: awesome.colors.default.text,
-        '&$isDisabled': {
-          color: awesome.colors.disabled.text
-        },
-        '& $fake': setThemeForSelector(awesome.colors.default),
-        '&$isEnabled:hover $fake': setThemeForSelector(awesome.colors.hover),
-        '&$isEnabled$isChecked $fake, &&$indeterminate $fake': setThemeForSelector(
-          awesome.colors.checked
-        ),
-        '&$isEnabled$isChecked:hover $fake, &$isEnabled$indeterminate:hover $fake': setThemeForSelector(
-          awesome.colors.checkedHover
-        ),
-        '&$isDisabled $fake': setThemeForSelector(awesome.colors.disabled)
-      },
-      fake: {
-        display: 'block',
-        boxSizing: 'border-box',
+      '& $fake': setThemeForSelector(awesome.colors.default),
+      '&$isEnabled:hover $fake': setThemeForSelector(awesome.colors.hover),
+      '&$isEnabled$isChecked $fake, &&$indeterminate $fake': setThemeForSelector(
+        awesome.colors.checked
+      ),
+      '&$isEnabled$isChecked:hover $fake, &$isEnabled$indeterminate:hover $fake': setThemeForSelector(
+        awesome.colors.checkedHover
+      ),
+      '&$isDisabled $fake': setThemeForSelector(awesome.colors.disabled)
+    },
+    fake: {
+      display: 'block',
+      boxSizing: 'border-box',
+      position: 'absolute',
+      borderRadius: checkboxTheme.borderRadius,
+      borderStyle: 'solid',
+      borderWidth: 1,
+      lineHeight: 0,
+      transitionDuration: checkboxTheme.animationDuration,
+      transitionProperty: 'border-color, background-color, color',
+      '&:before': {
         position: 'absolute',
-        borderRadius: checkboxTheme.borderRadius,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        lineHeight: 0,
-        transitionDuration: checkboxTheme.animationDuration,
-        transitionProperty: 'border-color, background-color, color',
-        '&:before': {
-          position: 'absolute',
-          content: '""',
-          opacity: 0,
-          top: 0,
-          right: 0,
-          bottom: 0.5,
-          left: 0,
-          background: 'currentColor',
-          height: 2,
-          margin: 'auto 2px',
-          borderRadius: 1,
-          transform: 'scaleX(0.4)',
-          transitionDuration: checkboxTheme.animationDuration,
-          transitionProperty: 'transform, opacity'
-        },
-        '$indeterminate &:before': {
-          opacity: 1,
-          transform: 'scaleX(1)'
-        },
-        '$iconright &': {
-          right: 0
-        },
-        '$iconleft &': {
-          left: 0
-        }
-      },
-      real: {
-        position: 'absolute',
+        content: '""',
         opacity: 0,
-        appearance: 'none',
-        pointerEvents: 'none'
-      },
-      label: {
-        fontSize: checkboxTheme.fontSize,
-        fontWeight: 'normal',
-        display: 'inline-block'
-      },
-      tick: {
-        position: 'absolute',
-        fill: 'currentColor',
-        opacity: 0,
+        top: 0,
+        right: 0,
+        bottom: 0.5,
+        left: 0,
+        background: 'currentColor',
+        height: 2,
+        margin: 'auto 2px',
+        borderRadius: 1,
+        transform: 'scaleX(0.4)',
         transitionDuration: checkboxTheme.animationDuration,
-        transitionProperty: 'transform, opacity',
-        '$isChecked &': {
-          opacity: 1
-        }
+        transitionProperty: 'transform, opacity'
       },
-      isEnabled: {},
-      isChecked: {},
-      indeterminate: {},
-      iconright: {},
-      iconleft: {},
-      ...['medium', 'small'].reduce(
-        (result, size) => ({
-          ...result,
-          [size]: {
-            '&$checkbox': {
-              lineHeight: checkboxTheme.sizes[size].size + 'px'
-            },
-            '& $fake': {
-              top:
-                size === 'small'
-                  ? Math.round(
-                    (checkboxTheme.sizes[size].lineHeight -
-                        checkboxTheme.sizes[size].size) /
-                        2
-                  )
-                  : Math.round(
-                    (checkboxTheme.sizes[size].lineHeight -
-                        checkboxTheme.sizes[size].size) /
-                        2
-                  ) - 1,
-              width: checkboxTheme.sizes[size].size,
-              height: checkboxTheme.sizes[size].size
-            },
-            '& $tick': {
-              top:
-                Math.round(
-                  (checkboxTheme.sizes[size].size -
-                    checkboxTheme.sizes[size].tickSize) /
-                    2
+      '$indeterminate &:before': {
+        opacity: 1,
+        transform: 'scaleX(1)'
+      },
+      '$iconright &': {
+        right: 0
+      },
+      '$iconleft &': {
+        left: 0
+      }
+    },
+    real: {
+      position: 'absolute',
+      opacity: 0,
+      appearance: 'none',
+      pointerEvents: 'none'
+    },
+    label: {
+      fontSize: checkboxTheme.fontSize,
+      fontWeight: 'normal',
+      display: 'inline-block'
+    },
+    tick: {
+      position: 'absolute',
+      fill: 'currentColor',
+      opacity: 0,
+      transitionDuration: checkboxTheme.animationDuration,
+      transitionProperty: 'transform, opacity',
+      '$isChecked &': {
+        opacity: 1
+      }
+    },
+    isEnabled: {},
+    isChecked: {},
+    indeterminate: {},
+    iconright: {},
+    iconleft: {},
+    ...['medium', 'small'].reduce(
+      (result, size) => ({
+        ...result,
+        [size]: {
+          '&$checkbox': {
+            lineHeight: checkboxTheme.sizes[size].size + 'px'
+          },
+          '& $fake': {
+            top:
+              size === 'small'
+                ? Math.round(
+                  (checkboxTheme.sizes[size].lineHeight -
+                      checkboxTheme.sizes[size].size) /
+                      2
+                )
+                : Math.round(
+                  (checkboxTheme.sizes[size].lineHeight -
+                      checkboxTheme.sizes[size].size) /
+                      2
                 ) - 1,
-              left:
-                Math.round(
-                  (checkboxTheme.sizes[size].size -
-                    checkboxTheme.sizes[size].tickSize) /
-                    2
-                ) - 1,
-              width: checkboxTheme.sizes[size].tickSize,
-              height: checkboxTheme.sizes[size].tickSize,
-              transform:
-                size === 'small'
-                  ? `translateY(-${checkboxTheme.sizes[size].tickSize * 0.3}px)`
-                  : `translateY(-${checkboxTheme.sizes[size].tickSize *
-                      0.5}px)`,
-              '$isChecked&': {
-                transform: 'translateY(0)'
-              }
+            width: checkboxTheme.sizes[size].size,
+            height: checkboxTheme.sizes[size].size
+          },
+          '& $tick': {
+            top:
+              Math.round(
+                (checkboxTheme.sizes[size].size -
+                  checkboxTheme.sizes[size].tickSize) /
+                  2
+              ) - 1,
+            left:
+              Math.round(
+                (checkboxTheme.sizes[size].size -
+                  checkboxTheme.sizes[size].tickSize) /
+                  2
+              ) - 1,
+            width: checkboxTheme.sizes[size].tickSize,
+            height: checkboxTheme.sizes[size].tickSize,
+            transform:
+              size === 'small'
+                ? `translateY(-${checkboxTheme.sizes[size].tickSize * 0.3}px)`
+                : `translateY(-${checkboxTheme.sizes[size].tickSize * 0.5}px)`,
+            '$isChecked&': {
+              transform: 'translateY(0)'
+            }
+          },
+          '& $label': {
+            lineHeight: checkboxTheme.sizes[size].lineHeight + 'px',
+            '$iconright&': {
+              paddingRight:
+                checkboxTheme.sizes[size].size +
+                checkboxTheme.sizes[size].labelMargin
             },
-            '& $label': {
-              lineHeight: checkboxTheme.sizes[size].lineHeight + 'px',
-              '$iconright&': {
-                paddingRight:
-                  checkboxTheme.sizes[size].size +
-                  checkboxTheme.sizes[size].labelMargin
-              },
-              '$iconleft&': {
-                paddingLeft:
-                  checkboxTheme.sizes[size].size +
-                  checkboxTheme.sizes[size].labelMargin
-              }
+            '$iconleft&': {
+              paddingLeft:
+                checkboxTheme.sizes[size].size +
+                checkboxTheme.sizes[size].labelMargin
             }
           }
-        }),
-        {}
-      )
-    }
-  },
-  {name: 'Checkbox'}
-)
-export default class Checkbox extends PureComponent {
+        }
+      }),
+      {}
+    )
+  }
+}
+
+class Checkbox extends PureComponent {
   static propTypes = {
     /**
      * Имя чекбокса
@@ -260,7 +259,11 @@ export default class Checkbox extends PureComponent {
     /**
      * Размер чекбокса
      */
-    size: PropTypes.oneOf(['small', 'medium'])
+    size: PropTypes.oneOf(['small', 'medium']),
+    /**
+     * Контент инпута
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -349,3 +352,5 @@ export default class Checkbox extends PureComponent {
     )
   }
 }
+
+export default withStyles(styles, {name: 'Checkbox'})(Checkbox)

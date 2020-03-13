@@ -1,51 +1,49 @@
 import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(
-  theme => ({
-    sideNavItem: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily,
-      display: 'flex',
-      alignItems: 'center',
-      userSelect: 'none',
-      whiteSpace: 'nowrap',
-      cursor: 'pointer',
-      position: 'relative',
-      textDecoration: 'none',
-      fontSize: theme.sideNav.fontSize,
-      height: theme.sideNav.height,
-      color: theme.sideNav.colors.default.text,
-      transition: 'color .2s',
+const styles = theme => ({
+  sideNavItem: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily,
+    display: 'flex',
+    alignItems: 'center',
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+    position: 'relative',
+    textDecoration: 'none',
+    fontSize: theme.sideNav.fontSize,
+    height: theme.sideNav.height,
+    color: theme.sideNav.colors.default.text,
+    transition: 'color .2s',
 
-      'a&:visited': {
-        color: theme.sideNav.colors.default.text
-      },
-      '&&$isSelected, &&:hover': {
-        color: theme.sideNav.colors.selected.text
-      }
+    'a&:visited': {
+      color: theme.sideNav.colors.default.text
     },
-    icon: {
-      flex: 'none',
-      display: 'inline-block',
-      width: '1em',
-      height: '1em',
-      fontSize: theme.sideNav.iconSize
-    },
-    isSelected: {
-      cursor: 'default'
-    },
-    medium: {
-      '& $icon': {
-        marginRight: theme.sideNav.iconRightMargin
-      }
+    '&&$isSelected, &&:hover': {
+      color: theme.sideNav.colors.selected.text
     }
-  }),
-  {name: 'SideNavItem'}
-)
+  },
+  icon: {
+    flex: 'none',
+    display: 'inline-block',
+    width: '1em',
+    height: '1em',
+    fontSize: theme.sideNav.iconSize
+  },
+  isSelected: {
+    cursor: 'default'
+  },
+  medium: {
+    '& $icon': {
+      marginRight: theme.sideNav.iconRightMargin
+    }
+  }
+})
+
 class SideNavItem extends Component {
   static propTypes = {
     /**
@@ -93,7 +91,11 @@ class SideNavItem extends Component {
     /**
      * Колбек нажатия на элемент (автоматически проставляется компонентом `<SideNav />`)
      */
-    onPress: PropTypes.func
+    onPress: PropTypes.func,
+    /**
+     * Коллбек клика на элемент, в качестве аргументов принимает объект события
+     */
+    onClick: PropTypes.func
   }
 
   onClick = event => {
@@ -166,6 +168,7 @@ class SideNavItem extends Component {
   }
 }
 
-SideNavItem.displayName = 'ruiSideNavItem'
-
-export default SideNavItem
+export default withStyles(styles, {
+  name: 'SideNavItem',
+  displayName: 'ruiSideNavItem'
+})(SideNavItem)

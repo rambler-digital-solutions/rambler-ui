@@ -1,7 +1,7 @@
 import React from 'react'
 import Input from '../Input/Input'
 import Hint from '../Hint/Hint'
-import {mount, withTheme, getStyles} from '../utils/test-utils'
+import {mount, withTheme, getStyles} from '../../test/utils'
 import FormGroup from './FormGroup'
 
 describe('<FormGroup />', () => {

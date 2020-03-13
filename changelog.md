@@ -1,5 +1,19 @@
 # Changelog
 
+## v-4.0.0 - 2020-03-13
+### BREAKING CHANGES
+* Удалены устаревшее API и life-cycle методы компонентов `react`, теперь для корректной работы необходим `react@^16.8` и `react-dom@^16.8`
+* Компонент `<ApplyTheme />` переименован в `<ThemeProvider />`
+* Фабрика функций создания имен классов `createGenerateClassName` и свойство `generateClassName` переименованы в `createGenerateId` и `generateId` соответственно
+* С этой версии `<ThemeProvider />` сделан необязательным в общем случае, но остается обязательным при отрисовке server-side или при необходимости использования кастомных `jss`, `sheetsRegistry`, `generateId` или собственной `theme`
+* Компонент `<InputStatus />` переименован в `<FieldStatus />`
+* Компонент `<SvgIcon />` перенесен из `rambler-ui/icons` в корень
+* Переделаны экспорты темы, теперь все функции и классы импортируются из `rambler-ui/theme`
+* Удалена неиспользуемая тема `champ` и иконка `rambler-ui/icons/profiles/PhoneIcon`
+
+### Added
+* Добавлена сборка с ECMAScript модулями для улучшения tree-shaking
+
 ## v-3.50.1 - 2020-02-21
 ### Fixed
 * Поправлена фокусировка на `<svg />` при анмаунте компонентов перехватывающих фокус

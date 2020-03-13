@@ -1,7 +1,8 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import UiButton from 'rambler-ui/Button'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 
 const styles = theme => ({
   button: {
@@ -55,4 +56,8 @@ const Button = ({type, classes, ...props}) => (
   />
 )
 
-export default injectSheet(styles)(Button)
+Button.propTypes = {
+  type: PropTypes.string
+}
+
+export default withStyles(styles)(Button)

@@ -1,4 +1,4 @@
-import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
+import {CSSProperties, PureComponent, ReactNode} from 'react'
 
 export interface PopupProps {
   className?: string

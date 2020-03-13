@@ -1,43 +1,40 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import * as PropTypes from 'prop-types'
-import EventEmitter from 'eventemitter3'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import uuid from '../utils/uuid'
-import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
+import {ProvideSearchDropdownContext} from './context'
 
-@injectSheet(
-  theme => ({
-    isHighlighted: {},
-    root: {
-      height: theme.suggestItem.height,
-      padding: '0 15px',
-      cursor: 'pointer',
-      fontSize: theme.suggestItem.fontSize,
-      position: 'relative',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'space-between',
+const styles = theme => ({
+  isHighlighted: {},
+  root: {
+    height: theme.suggestItem.height,
+    padding: '0 15px',
+    cursor: 'pointer',
+    fontSize: theme.suggestItem.fontSize,
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
 
-      '&$isHighlighted': {
-        backgroundColor: theme.suggestItem.highlighted.backgroundColor,
-        color: theme.search.color
-      }
-    },
-    string: {
-      textOverflow: 'ellipsis',
-      overflow: 'hidden',
-      whiteSpace: 'nowrap'
-    },
-    removeButton: {
-      fontSize: theme.suggestItem.removeButton.fontSize,
-      color: theme.suggestItem.removeButton.color,
-      paddingLeft: 10
+    '&$isHighlighted': {
+      backgroundColor: theme.suggestItem.highlighted.backgroundColor,
+      color: theme.search.color
     }
-  }),
-  {name: 'SuggestItem'}
-)
-class SuggestItem extends React.PureComponent {
+  },
+  string: {
+    textOverflow: 'ellipsis',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap'
+  },
+  removeButton: {
+    fontSize: theme.suggestItem.removeButton.fontSize,
+    color: theme.suggestItem.removeButton.color,
+    paddingLeft: 10
+  }
+})
+
+class SuggestItem extends PureComponent {
   static propTypes = {
     /**
      * Переопределение стандартных стилей компонента SuggestItem
@@ -58,62 +55,33 @@ class SuggestItem extends React.PureComponent {
     /**
      * Значение поиского запроса айтема, может быть  любым объектом
      */
-    value: PropTypes.any.isRequired
+    value: PropTypes.any.isRequired,
+    /**
+     * Контент элемента
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {
     removeButton: ''
   }
 
-  static contextTypes = {
-    [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-      /**
-       * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-       */
-      registerSuggestItem: PropTypes.func,
-      /**
-       * Колбек удаления SuggestItem
-       */
-      onRemoveSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек клика по SuggestItem
-       */
-      onSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек наведения на SuggestItem
-       */
-      onSuggestItemHover: PropTypes.func,
-      /**
-       * Функция для подсветки SuggestItem
-       */
-      setHighlightedId: PropTypes.func,
-      /**
-       * Шина событий
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
-  }
+  static contextType = ProvideSearchDropdownContext
 
-  constructor(props) {
-    super(props)
-    this.id = uuid()
-    this.state = {
-      isHighlighted: false
-    }
-  }
+  id = uuid()
 
-  get ctx() {
-    return this.context[COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]
+  state = {
+    isHighlighted: false
   }
 
   componentDidMount() {
-    this.ctx.events.on('highlight', this.onHighlight)
-    this.ctx.registerSuggestItem(this.id, this)
+    this.context.events.on('highlight', this.onHighlight)
+    this.context.registerSuggestItem(this.id, this)
   }
 
   componentWillUnmount() {
-    this.ctx.events.removeListener('highlight', this.onHighlight)
-    this.ctx.registerSuggestItem(this.id, null)
+    this.context.events.removeListener('highlight', this.onHighlight)
+    this.context.registerSuggestItem(this.id, null)
   }
 
   onHighlight = highlightedItemId => {
@@ -123,17 +91,17 @@ class SuggestItem extends React.PureComponent {
   }
 
   onItemClick = () => {
-    this.ctx.setHighlightedId(this.id)
-    this.ctx.onSuggestItemClick(this.props.value)
+    this.context.setHighlightedId(this.id)
+    this.context.onSuggestItemClick(this.props.value)
   }
 
   onMouseEnter = () => {
-    this.ctx.setHighlightedId(this.id)
-    this.ctx.onSuggestItemHover(this.props.value)
+    this.context.setHighlightedId(this.id)
+    this.context.onSuggestItemHover(this.props.value)
   }
 
   onRemoveClick = () => {
-    this.ctx.onRemoveSuggestItemClick(this.props.value)
+    this.context.onRemoveSuggestItemClick(this.props.value)
   }
 
   render() {
@@ -168,4 +136,4 @@ class SuggestItem extends React.PureComponent {
   }
 }
 
-export default SuggestItem
+export default withStyles(styles, {name: 'SuggestItem'})(SuggestItem)

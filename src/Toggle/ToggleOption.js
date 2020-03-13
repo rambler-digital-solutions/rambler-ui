@@ -1,46 +1,44 @@
 import React, {Component, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
-@injectSheet(
-  theme => ({
-    toggleOption: {
-      extend: [isolateMixin, middleMixin],
-      fontFamily: theme.fontFamily,
-      display: 'inline-block',
-      textAlign: 'center',
-      userSelect: 'none',
-      whiteSpace: 'nowrap',
-      cursor: 'pointer',
-      color: 'inherit',
-      outline: 'none !important',
-      background: 'transparent',
-      '&::-moz-focus-inner': {
-        border: 'none !important',
-        outline: 'none !important'
-      }
-    },
-    'size-small': {
-      fontSize: theme.toggle.sizes.small.fontSize,
-      height: theme.toggle.sizes.small.height,
-      lineHeight: theme.toggle.sizes.small.height - 2 + 'px',
-      padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
-    },
-    'size-medium': {
-      fontSize: theme.toggle.sizes.medium.fontSize,
-      height: theme.toggle.sizes.medium.height,
-      lineHeight: theme.toggle.sizes.medium.height - 2 + 'px',
-      padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
-    },
-    icon: {
-      display: 'inline-block',
-      marginRight: 10
+const styles = theme => ({
+  toggleOption: {
+    extend: [isolateMixin, middleMixin],
+    fontFamily: theme.fontFamily,
+    display: 'inline-block',
+    textAlign: 'center',
+    userSelect: 'none',
+    whiteSpace: 'nowrap',
+    cursor: 'pointer',
+    color: 'inherit',
+    outline: 'none !important',
+    background: 'transparent',
+    '&::-moz-focus-inner': {
+      border: 'none !important',
+      outline: 'none !important'
     }
-  }),
-  {name: 'ToggleOption'}
-)
+  },
+  'size-small': {
+    fontSize: theme.toggle.sizes.small.fontSize,
+    height: theme.toggle.sizes.small.height,
+    lineHeight: theme.toggle.sizes.small.height - 2 + 'px',
+    padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
+  },
+  'size-medium': {
+    fontSize: theme.toggle.sizes.medium.fontSize,
+    height: theme.toggle.sizes.medium.height,
+    lineHeight: theme.toggle.sizes.medium.height - 2 + 'px',
+    padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
+  },
+  icon: {
+    display: 'inline-block',
+    marginRight: 10
+  }
+})
+
 class ToggleOption extends Component {
   static propTypes = {
     /**
@@ -63,6 +61,10 @@ class ToggleOption extends Component {
      * Иконка
      */
     icon: PropTypes.node,
+    /**
+     * Коллбек клика на кнопку, в качестве аргументов принимает объект события
+     */
+    onClick: PropTypes.func,
     /**
      * Размер компонента (автоматически проставляется компонентом `<Toggle/>`)
      */
@@ -134,5 +136,8 @@ class ToggleOption extends Component {
     )
   }
 }
-ToggleOption.displayName = 'ruiToggleOption'
-export default ToggleOption
+
+export default withStyles(styles, {
+  name: 'ToggleOption',
+  displayName: 'ruiToggleOption'
+})(ToggleOption)

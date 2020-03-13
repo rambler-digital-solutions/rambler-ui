@@ -1,9 +1,14 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function provideNotification(Target) {
-  @provideRenderToLayer
   class ProvideNotification extends PureComponent {
+    static propTypes = {
+      renderToLayer: PropTypes.func.isRequired,
+      unrenderAtLayer: PropTypes.func.isRequired
+    }
+
     openNotification = element => {
       const notification = {}
 
@@ -40,5 +45,5 @@ export default function provideNotification(Target) {
     }
   }
 
-  return ProvideNotification
+  return provideRenderToLayer(ProvideNotification)
 }

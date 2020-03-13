@@ -3,20 +3,18 @@ import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
 import uuid from '../utils/uuid'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
-import {RADIO_INPUT_CONTEXT} from '../constants/context'
+import {RadioButtonContext} from './context'
 
-@injectSheet(
-  theme => ({
-    radioButtonGroup: {
-      extend: isolateMixin,
-      fontFamily: theme.fontFamily
-    }
-  }),
-  {name: 'RadioButtonGroup'}
-)
-export default class RadioButtonGroup extends PureComponent {
+const styles = theme => ({
+  radioButtonGroup: {
+    extend: isolateMixin,
+    fontFamily: theme.fontFamily
+  }
+})
+
+class RadioButtonGroup extends PureComponent {
   static propTypes = {
     /**
      * Имя, которое будет применяться ко всей группе radio.
@@ -42,26 +40,11 @@ export default class RadioButtonGroup extends PureComponent {
     /**
      * Значение, выбранного в данный момент radio
      */
-    value: PropTypes.any
-  }
-
-  static childContextTypes = {
-    [RADIO_INPUT_CONTEXT]: PropTypes.shape({
-      /**
-       * Получить текущее значение
-       */
-      getValue: PropTypes.func,
-      /**
-       * Получить атрибут name для input
-       */
-      getName: PropTypes.func,
-      /**
-       * Шина событий
-       * @newValue - событие установки нового значения, кидают компоненты RadioButton
-       * @updateValue - событие изменения значения, кидает компонент RadioButtonGroup
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
+    value: PropTypes.any,
+    /**
+     * Позиция label - либо слева, либо справа
+     */
+    labelPosition: PropTypes.oneOf(['left', 'right'])
   }
 
   static defaultProps = {
@@ -69,30 +52,26 @@ export default class RadioButtonGroup extends PureComponent {
     onChange: () => {}
   }
 
+  value = this.props.value
+
   getRadioInputName = () => {
     this.resultRadioInputName =
       this.resultRadioInputName || this.props.name || `RadioGroup-${uuid()}`
     return this.resultRadioInputName
   }
 
-  getChildContext() {
+  get contextValue() {
     if (!this.radioInputEvents) this.createRadioInputEvents()
     return {
-      [RADIO_INPUT_CONTEXT]: {
-        events: this.radioInputEvents,
-        getName: this.getRadioInputName,
-        getValue: () => this.value
-      }
+      events: this.radioInputEvents,
+      getName: this.getRadioInputName,
+      getValue: () => this.value
     }
   }
 
-  componentWillMount() {
-    this.value = this.props.value
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.value !== this.props.value) {
-      this.value = nextProps.value
+  componentDidUpdate(prevProps) {
+    if (this.props.value !== prevProps.value) {
+      this.value = this.props.value
       if (this.radioInputEvents)
         this.radioInputEvents.emit('updateValue', this.value)
     }
@@ -126,9 +105,13 @@ export default class RadioButtonGroup extends PureComponent {
     const resultClassName = classnames(classes.radioButtonGroup, className)
 
     return (
-      <div className={resultClassName} {...otherRootProps}>
-        {children}
-      </div>
+      <RadioButtonContext.Provider value={this.contextValue}>
+        <div className={resultClassName} {...otherRootProps}>
+          {children}
+        </div>
+      </RadioButtonContext.Provider>
     )
   }
 }
+
+export default withStyles(styles, {name: 'RadioButtonGroup'})(RadioButtonGroup)

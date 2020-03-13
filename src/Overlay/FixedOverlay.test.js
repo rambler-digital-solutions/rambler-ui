@@ -1,18 +1,14 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import FixedOverlay from './FixedOverlay'
-import {
-  withTheme,
-  mount,
-  getWrapperNode,
-  getNodeStyles
-} from '../utils/test-utils'
+import {withTheme, mount, getWrapperNode, getNodeStyles} from '../../test/utils'
 
 class Content extends Component {
   static propTypes = {
     isVisible: PropTypes.bool,
     pointX: PropTypes.oneOf(['left', 'right', 'center']),
     pointY: PropTypes.oneOf(['top', 'bottom', 'center']),
+    contentRef: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onBecomeInvisible: PropTypes.func,
     anchorWidth: PropTypes.number,
@@ -28,6 +24,7 @@ class Content extends Component {
   render() {
     return (
       <div
+        ref={this.props.contentRef}
         style={{padding: '15px', background: '#ddd'}}
         className="content-body">
         Content
@@ -74,7 +71,7 @@ describe('<FixedOverlay />', () => {
         />
       )
     )
-    wrapperNode = getWrapperNode(wrapper)
+    wrapperNode = getWrapperNode(wrapper.find(Anchor))
     wrapperNodeRect = wrapperNode.getBoundingClientRect()
   }
 

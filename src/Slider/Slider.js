@@ -1,10 +1,10 @@
 import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(theme => ({
+const styles = theme => ({
   root: {
     extend: isolateMixin,
     position: 'relative',
@@ -94,8 +94,9 @@ import {isolateMixin} from '../utils/mixins'
     background: theme.slider.colors.fill,
     height: theme.slider.height
   }
-}))
-export default class Slider extends PureComponent {
+})
+
+class Slider extends PureComponent {
   static propTypes = {
     /**
      * Значение слайдера
@@ -171,3 +172,5 @@ export default class Slider extends PureComponent {
     )
   }
 }
+
+export default withStyles(styles, {name: 'Slider'})(Slider)

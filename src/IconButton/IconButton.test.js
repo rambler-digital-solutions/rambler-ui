@@ -1,12 +1,12 @@
 import React from 'react'
 import IconButton from './IconButton'
-import {ApplyTheme} from '../theme'
-import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
+import {ThemeProvider} from '../theme'
+import {mount, getStyles, getWrapperNode} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 import RamblerMailIcon from '../icons/services/RamblerMailIcon'
 
-const applyTheme = children => <ApplyTheme>{children}</ApplyTheme>
+const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 
 describe('<IconButton />', () => {
   const defaultProps = {

@@ -1,83 +1,81 @@
 import React, {PureComponent, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 
-@injectSheet(
-  theme => ({
-    root: {
-      extend: isolateMixin,
-      position: 'relative',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'stretch',
-      '& > *': {
-        flex: 1,
-        flexBasis: 0
+const styles = theme => ({
+  root: {
+    extend: isolateMixin,
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'stretch',
+    '& > *': {
+      flex: 1,
+      flexBasis: 0
+    },
+    '& input': {
+      '&, &:disabled': {
+        backgroundColor: 'transparent'
       },
-      '& input': {
-        '&, &:disabled': {
-          backgroundColor: 'transparent'
-        },
-        '&, &:disabled, &:enabled:hover': {
-          borderColor: 'transparent'
-        }
-      },
-      '& > :nth-child(n+2)': {
-        marginLeft: -1
-      },
-      '&:before': {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        border: '0 solid',
-        borderColor: theme.field.colors.default.outline,
-        content: '""',
-        transition: `all ${theme.field.animationDuration}ms ease`
-      },
-      '&:not($disabled):hover:before': {
-        borderColor: theme.field.colors.hover.outline
+      '&, &:disabled, &:enabled:hover': {
+        borderColor: 'transparent'
       }
     },
-    disabled: {
-      '&:before': {
-        borderColor: theme.field.colors.disabled.outline
-      }
+    '& > :nth-child(n+2)': {
+      marginLeft: -1
     },
-    regular: {
-      backgroundColor: theme.field.colors.default.background,
-      '&$disabled': {
-        backgroundColor: theme.field.colors.disabled.background
-      },
-      '&:before': {
-        borderRadius: theme.field.borderRadius,
-        borderWidth: 1
-      }
+    '&:before': {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      border: '0 solid',
+      borderColor: theme.field.colors.default.outline,
+      content: '""',
+      transition: `all ${theme.field.animationDuration}ms ease`
     },
-    awesome: {
-      composes: ['$regular']
-    },
-    promo: {
-      '&:before': {
-        paddingTop: 1,
-        borderBottomWidth: 1
-      }
-    },
-    showDivider: {
-      '& > :not(:last-child) input': {
-        borderRightColor: theme.field.colors.default.outline
-      },
-      '&:hover > :not(:last-child) input': {
-        borderRightColor: theme.field.colors.hover.outline
-      }
+    '&:not($disabled):hover:before': {
+      borderColor: theme.field.colors.hover.outline
     }
-  }),
-  {name: 'FieldGroup'}
-)
-export default class FieldGroup extends PureComponent {
+  },
+  disabled: {
+    '&:before': {
+      borderColor: theme.field.colors.disabled.outline
+    }
+  },
+  regular: {
+    backgroundColor: theme.field.colors.default.background,
+    '&$disabled': {
+      backgroundColor: theme.field.colors.disabled.background
+    },
+    '&:before': {
+      borderRadius: theme.field.borderRadius,
+      borderWidth: 1
+    }
+  },
+  awesome: {
+    composes: ['$regular']
+  },
+  promo: {
+    '&:before': {
+      paddingTop: 1,
+      borderBottomWidth: 1
+    }
+  },
+  showDivider: {
+    '& > :not(:last-child) input': {
+      borderRightColor: theme.field.colors.default.outline
+    },
+    '&:hover > :not(:last-child) input': {
+      borderRightColor: theme.field.colors.hover.outline
+    }
+  }
+})
+
+class FieldGroup extends PureComponent {
   static propTypes = {
     /**
      * Класс контейнера
@@ -106,7 +104,11 @@ export default class FieldGroup extends PureComponent {
     /**
      * Разделитель между инпутами группы
      */
-    showDivider: PropTypes.bool
+    showDivider: PropTypes.bool,
+    /**
+     * Набор полей ввода Input или Select
+     */
+    children: PropTypes.node.isRequired
   }
 
   static defaultProps = {
@@ -157,3 +159,5 @@ export default class FieldGroup extends PureComponent {
     )
   }
 }
+
+export default withStyles(styles, {name: 'FieldGroup'})(FieldGroup)

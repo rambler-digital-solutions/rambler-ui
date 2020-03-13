@@ -1,4 +1,4 @@
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 import loadStyleSheet from 'docs/utils/load-style-sheet'
 
 loadStyleSheet('https://static.rambler.ru/fonts/Roboto/Roboto.css')
@@ -42,4 +42,4 @@ const styles = theme => ({
   }
 })
 
-export default injectSheet(styles)(({children}) => children)
+export default withStyles(styles)(({children}) => children)

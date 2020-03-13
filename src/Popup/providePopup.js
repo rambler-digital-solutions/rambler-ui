@@ -1,9 +1,14 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import provideRenderToLayer from '../hoc/provide-render-to-layer'
 
 export default function providePopup(Target) {
-  @provideRenderToLayer
   class ProvidePopup extends PureComponent {
+    static propTypes = {
+      renderToLayer: PropTypes.func.isRequired,
+      unrenderAtLayer: PropTypes.func.isRequired
+    }
+
     openPopup = createElement => {
       const popup = {}
 
@@ -62,5 +67,5 @@ export default function providePopup(Target) {
     }
   }
 
-  return ProvidePopup
+  return provideRenderToLayer(ProvidePopup)
 }

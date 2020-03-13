@@ -7,7 +7,7 @@ import {
   getStyles,
   getNodeStyles,
   getWrapperNode
-} from '../utils/test-utils'
+} from '../../test/utils'
 
 const contentEl = <div className="content">Hello world</div>
 
@@ -33,12 +33,14 @@ describe('<Loader />', () => {
     wrapper.setProps({
       loading: true
     })
+    wrapper.update()
 
     expect(wrapper.find(Spinner).exists()).toBe(true)
 
     wrapper.setProps({
       loading: false
     })
+    wrapper.update()
 
     expect(wrapper.find(Spinner).exists()).toBe(false)
   })
@@ -162,23 +164,25 @@ describe('<Loader />', () => {
     expect(overlay.classList.contains('overlay')).toBe(true)
   })
 
-  it('should hide content when loading = true', () => {
+  it('should hide content when loading = true', async () => {
     const wrapper = mount(
       withTheme(<Loader hideContent={true}>{contentEl}</Loader>)
     )
 
-    expect(wrapper.find('.content').exists()).toBe(true)
+    expect(wrapper.exists('.content')).toBe(true)
 
     wrapper.setProps({
       loading: true
     })
+    wrapper.update()
 
-    expect(wrapper.find('.content').exists()).toBe(false)
+    expect(wrapper.exists('.content')).toBe(false)
 
     wrapper.setProps({
       loading: false
     })
+    wrapper.update()
 
-    expect(wrapper.find('.content').exists()).toBe(true)
+    expect(wrapper.exists('.content')).toBe(true)
   })
 })

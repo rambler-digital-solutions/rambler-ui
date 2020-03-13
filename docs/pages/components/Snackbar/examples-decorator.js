@@ -4,6 +4,7 @@ import {Snackbar, provideSnackbar} from 'rambler-ui/Snackbar'
 
 class WithSnackbar extends Component {
   openAlert = () => {
+    // eslint-disable-next-line react/prop-types
     this.props.openSnackbar(
       <Snackbar positionY="top" showClose type="danger">
         При удалении почты произошла ошибка
@@ -12,6 +13,7 @@ class WithSnackbar extends Component {
   }
 
   openConfirm = () => {
+    // eslint-disable-next-line react/prop-types
     const snackbar = this.props.openSnackbar(
       <Snackbar
         positionX="right"
@@ -24,6 +26,7 @@ class WithSnackbar extends Component {
   }
 
   openSnackbar = () => {
+    // eslint-disable-next-line react/prop-types
     this.props.openSnackbar(
       <Snackbar
         positionY="top"

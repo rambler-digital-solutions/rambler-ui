@@ -1,5 +1,5 @@
-import {Tabs, TabsItem} from 'rambler-ui/Tabs'
 import React, {Component} from 'react'
+import {Tabs, TabsItem} from 'rambler-ui/Tabs'
 
 const values = ['Day', 'Week', 'Month', 'Year']
 

@@ -2,7 +2,7 @@ import React from 'react'
 import Notification from './Notification'
 import FaceIcon from '../icons/forms/FaceIcon'
 import {SNACKBAR_ZINDEX} from '../constants/z-indexes'
-import {withTheme, mount, getNodeStyles} from '../utils/test-utils'
+import {withTheme, mount, getNodeStyles} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 
@@ -13,7 +13,6 @@ describe('<Notification />', () => {
     mount(
       withTheme(
         <Notification
-          className="notification"
           title="Hi"
           body="Foo"
           containerRef={ref => {
@@ -80,7 +79,8 @@ describe('<Notification />', () => {
 
   it('should apply default styles', () => {
     mountWrapper({
-      isOpened: true
+      isOpened: true,
+      className: 'notification-default'
     })
 
     const containerStyles = getNodeStyles(containerNode)
@@ -88,7 +88,9 @@ describe('<Notification />', () => {
     expect(containerStyles.position).toEqual('absolute')
     expect(containerStyles['z-index']).toEqual(`${SNACKBAR_ZINDEX}`)
 
-    const notificationNode = containerNode.querySelector('.notification')
+    const notificationNode = containerNode.querySelector(
+      '.notification-default'
+    )
     const notificationStyles = getNodeStyles(notificationNode)
 
     expect(notificationStyles.position).toEqual('fixed')
@@ -111,10 +113,13 @@ describe('<Notification />', () => {
   it('should apply positionX', () => {
     mountWrapper({
       isOpened: true,
-      positionX: 'left'
+      positionX: 'left',
+      className: 'notification-positionX'
     })
 
-    const notificationNode = containerNode.querySelector('.notification')
+    const notificationNode = containerNode.querySelector(
+      '.notification-positionX'
+    )
     const notificationStyles = getNodeStyles(notificationNode)
 
     expect(notificationStyles.left).toEqual('15px')
@@ -123,10 +128,13 @@ describe('<Notification />', () => {
   it('should not append close and action buttons', () => {
     mountWrapper({
       isOpened: true,
-      showClose: false
+      showClose: false,
+      className: 'notification-closeAndAction'
     })
 
-    const notificationNode = containerNode.querySelector('.notification')
+    const notificationNode = containerNode.querySelector(
+      '.notification-closeAndAction'
+    )
     const buttons = notificationNode.querySelectorAll('button')
 
     expect(buttons.length).toEqual(0)
@@ -135,10 +143,12 @@ describe('<Notification />', () => {
   it('should append className', () => {
     mountWrapper({
       isOpened: true,
-      className: 'notification'
+      className: 'notification-className'
     })
 
-    expect(containerNode.querySelector('.notification')).not.toBeUndefined()
+    expect(
+      containerNode.querySelector('.notification-className')
+    ).not.toBeUndefined()
   })
 
   it('should append styles', () => {
@@ -148,10 +158,11 @@ describe('<Notification />', () => {
       style: {
         backgroundColor
       },
-      isOpened: true
+      isOpened: true,
+      className: 'notification-styles'
     })
 
-    const notificationNode = containerNode.querySelector('.notification')
+    const notificationNode = containerNode.querySelector('.notification-styles')
     const notificationStyles = getNodeStyles(notificationNode)
 
     expect(notificationStyles['background-color']).toEqual(backgroundColor)
@@ -202,10 +213,11 @@ describe('<Notification />', () => {
   it('should append close button', () => {
     mountWrapper({
       isOpened: true,
-      showClose: true
+      showClose: true,
+      className: 'notification-close'
     })
 
-    const buttonNode = containerNode.querySelector('.notification button')
+    const buttonNode = containerNode.querySelector('.notification-close button')
     const buttonStyles = getNodeStyles(buttonNode)
 
     expect(buttonStyles.position).toEqual('absolute')
@@ -217,10 +229,13 @@ describe('<Notification />', () => {
     mountWrapper({
       isOpened: true,
       showClose: false,
-      actionButton: 'Ok'
+      actionButton: 'Ok',
+      className: 'notification-action'
     })
 
-    const buttonNode = containerNode.querySelector('.notification button')
+    const buttonNode = containerNode.querySelector(
+      '.notification-action button'
+    )
     const buttonStyles = getNodeStyles(buttonNode)
 
     expect(buttonNode.textContent).toEqual('Ok')
@@ -240,7 +255,8 @@ describe('<Notification />', () => {
     const props = {
       isOpened: true,
       showClose: false,
-      actionButton: 'Ok'
+      actionButton: 'Ok',
+      className: 'notification-onAction'
     }
 
     const whenAction = new Promise(resolve => {
@@ -250,7 +266,7 @@ describe('<Notification />', () => {
     spyOn(props, 'onAction').and.callThrough()
     mountWrapper(props)
     expect(props.onAction).not.toHaveBeenCalled()
-    containerNode.querySelector('.notification button').click()
+    containerNode.querySelector('.notification-onAction button').click()
     await whenAction
     expect(props.onAction).toHaveBeenCalledTimes(1)
     done()
@@ -259,7 +275,8 @@ describe('<Notification />', () => {
   it('should call props.onRequestClose() when click on close button', async done => {
     const props = {
       isOpened: true,
-      showClose: true
+      showClose: true,
+      className: 'notification-onRequestClose'
     }
 
     const whenRequestClose = new Promise(resolve => {
@@ -269,7 +286,7 @@ describe('<Notification />', () => {
     spyOn(props, 'onRequestClose').and.callThrough()
     mountWrapper(props)
     expect(props.onRequestClose).not.toHaveBeenCalled()
-    containerNode.querySelector('.notification button').click()
+    containerNode.querySelector('.notification-onRequestClose button').click()
     await whenRequestClose
     expect(props.onRequestClose).toHaveBeenCalledTimes(1)
     done()

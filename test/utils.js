@@ -1,23 +1,26 @@
 import React, {cloneElement} from 'react'
 import Enzyme, {mount as enzymeMount} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import {ApplyTheme} from '../theme'
+import jasmineEnzyme from 'jasmine-enzyme'
+import {ThemeProvider} from '../src/theme'
 
 const bodyStyle = document.body.style
 const htmlStyle = document.documentElement.style
+let testContainerId = 0
 
 bodyStyle.height = bodyStyle.minHeight = htmlStyle.height = htmlStyle.minHeight =
   '100%'
 
 Enzyme.configure({adapter: new Adapter()})
 
+beforeEach(() => {
+  jasmineEnzyme()
+})
+
 const provideContainer = () => {
-  let container = document.querySelector('.test-container')
-  if (container == null) {
-    container = document.createElement('div')
-    container.className = 'test-container'
-    document.body.appendChild(container)
-  }
+  const container = document.createElement('div')
+  container.className = `test-container-${testContainerId++}`
+  document.body.appendChild(container)
   return container
 }
 
@@ -46,12 +49,12 @@ export function getStyles(wrappedComponent) {
 }
 
 export function applyTheme(children) {
-  return <ApplyTheme>{children}</ApplyTheme>
+  return <ThemeProvider>{children}</ThemeProvider>
 }
 
 export function withTheme(element) {
   const Result = props => (
-    <ApplyTheme>{cloneElement(element, props)}</ApplyTheme>
+    <ThemeProvider>{cloneElement(element, props)}</ThemeProvider>
   )
   Result.displayName = element.displayName
   return <Result />

@@ -1,0 +1,34 @@
+[
+  {
+    "name": "The initial cost people pay for using one component with commonjs build",
+    "limit": "30 KB",
+    "path": ["build/Button/index.js", "!build/**/*.test.js"]
+  },
+  {
+    "name": "The initial cost people pay for using one component with es build",
+    "limit": "26 KB",
+    "path": "build/es/index.js",
+    "import": "{Button}"
+  },
+  {
+    "name": "The size of the commonjs library components",
+    "limit": "87 KB",
+    "path": [
+      "build/**/*.js",
+      "!build/icons/**/*.js",
+      "!build/es/**/*.js",
+      "!build/index.js",
+      "!build/**/*.test.js"
+    ]
+  },
+  {
+    "name": "The size of the commonjs library build with all icons",
+    "limit": "101 KB",
+    "path": "build/index.js"
+  },
+  {
+    "name": "The size of the es library build with all icons",
+    "limit": "91 KB",
+    "path": "build/es/index.js"
+  }
+]

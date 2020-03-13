@@ -1,5 +1,5 @@
 import React from 'react'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 import Button from 'docs/components/Button'
 import H1 from 'docs/components/H1'
 import H3 from 'docs/components/H3'
@@ -415,4 +415,4 @@ const Main = ({classes}) => (
   </div>
 )
 
-export default injectSheet(styles)(Main)
+export default withStyles(styles)(Main)

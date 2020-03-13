@@ -1,7 +1,7 @@
 import React from 'react'
 import Avatar from './Avatar'
 import theme from '../theme/base'
-import {mount, withTheme, getStyles} from '../utils/test-utils'
+import {mount, withTheme, getStyles} from '../../test/utils'
 import {normalize as nc} from '../utils/colors'
 
 const TEST_IMAGE =

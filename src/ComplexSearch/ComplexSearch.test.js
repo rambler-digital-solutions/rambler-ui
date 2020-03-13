@@ -5,7 +5,7 @@ import SuggestItem from './SuggestItem'
 import SourceButtons from './SourceButtons'
 import ServiceSourceIcon from './icons/ServiceSourceIcon'
 import theme from '../theme/base'
-import {mount, withTheme, getStyles, getWrapperNode} from '../utils/test-utils'
+import {mount, withTheme, getStyles, getWrapperNode} from '../../test/utils'
 import {normalize as nc} from '../utils/colors'
 
 const SEARCH_BUTTON_WIDTH = 125

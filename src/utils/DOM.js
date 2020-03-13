@@ -55,17 +55,6 @@ export function findOverflowedParent(element) {
 }
 
 /**
- * Узнать текущий скролл элемента
- * @param  {HTMLElement} element
- * @return {Number}
- */
-export function getScroll(element) {
-  if (element === document.body || element === document.documentElement)
-    return document.body.scrollTop || document.documentElement.scrollTop
-  return element.scrollTop
-}
-
-/**
  * Не все браузеры содержат width и height
  * Дополняем этими свойствами результат
  */

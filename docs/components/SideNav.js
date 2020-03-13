@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import StickySidebar from 'sticky-sidebar/dist/sticky-sidebar'
 import debounce from 'lodash.debounce'
@@ -9,7 +10,7 @@ import {Menu, MenuItem} from 'rambler-ui/Menu'
 import {throttle} from 'rambler-ui/utils/raf'
 import {createMutationObserver} from 'rambler-ui/utils/DOM'
 import config from 'docs/config'
-import injectSheet, {fontFamily} from 'docs/utils/theming'
+import {withStyles, fontFamily} from 'docs/utils/theming'
 import Button from 'docs/components/Button'
 import Link from 'docs/components/Link'
 import Logo from 'docs/components/icons/Logo'
@@ -222,6 +223,13 @@ const styles = theme => ({
 })
 
 class SideNav extends PureComponent {
+  static propTypes = {
+    index: PropTypes.array,
+    location: PropTypes.shape({
+      pathname: PropTypes.string
+    })
+  }
+
   state = {
     desktop: showNavigation,
     navOpened: showNavigation,
@@ -456,51 +464,54 @@ class SideNav extends PureComponent {
 
     return (
       <OnClickOutside handler={this.closeNavOnClickOutside}>
-        <div
-          className={classnames(
-            classes.root,
-            navOpened && classes.opened,
-            (!desktop || !navOpened) && classes.mobile
-          )}>
-          <div className={classes.scroll}>
-            <Link to="/" className={classes.logo} preload={false}>
-              <Logo />
-            </Link>
-            <button
-              type="button"
-              className={classes.toggle}
-              onClick={this.toggleNav}>
-              <span />
-              <span />
-              <span />
-            </button>
-            {this.renderList(index)}
-            <div className={classes.buttons}>
-              <Button
-                type="outlineBlue"
-                block
-                href="https://brand.rambler.ru"
-                rel="noreferrer noopener"
-                target="_blank">
-                Дизайнеру
-                <ArrowIcon color="#315efb" />
-              </Button>
-              <Button
-                type="outlineBlue"
-                block
-                href="https://github.com/rambler-digital-solutions/rambler-ui"
-                rel="noreferrer noopener"
-                target="_blank">
-                Разработчику
-                <ArrowIcon color="#315efb" />
-              </Button>
+        {componentRef => (
+          <div
+            ref={componentRef}
+            className={classnames(
+              classes.root,
+              navOpened && classes.opened,
+              (!desktop || !navOpened) && classes.mobile
+            )}>
+            <div className={classes.scroll}>
+              <Link to="/" className={classes.logo} preload={false}>
+                <Logo />
+              </Link>
+              <button
+                type="button"
+                className={classes.toggle}
+                onClick={this.toggleNav}>
+                <span />
+                <span />
+                <span />
+              </button>
+              {this.renderList(index)}
+              <div className={classes.buttons}>
+                <Button
+                  type="outlineBlue"
+                  block
+                  href="https://brand.rambler.ru"
+                  rel="noreferrer noopener"
+                  target="_blank">
+                  Дизайнеру
+                  <ArrowIcon color="#315efb" />
+                </Button>
+                <Button
+                  type="outlineBlue"
+                  block
+                  href="https://github.com/rambler-digital-solutions/rambler-ui"
+                  rel="noreferrer noopener"
+                  target="_blank">
+                  Разработчику
+                  <ArrowIcon color="#315efb" />
+                </Button>
+              </div>
+              {this.renderVersion()}
             </div>
-            {this.renderVersion()}
           </div>
-        </div>
+        )}
       </OnClickOutside>
     )
   }
 }
 
-export default withRouter(injectSheet(styles)(SideNav))
+export default withRouter(withStyles(styles)(SideNav))

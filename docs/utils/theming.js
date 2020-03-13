@@ -1,5 +1,9 @@
-import React from 'react'
-import injectSheet, {createTheming} from 'react-jss'
+import React, {createContext} from 'react'
+import PropTypes from 'prop-types'
+import {
+  createTheming,
+  createUseStyles as originalCreateUseStyles
+} from 'react-jss'
 
 export const fontFamily = {
   Roboto: 'Roboto, sans-serif',
@@ -22,13 +26,29 @@ export const theme = {
   }
 }
 
-const theming = createTheming('UI_DOCS_THEME')
-const {ThemeProvider: Provider, withTheme} = theming
+const ThemeContext = createContext({})
+const theming = createTheming(ThemeContext)
+const {ThemeProvider: Provider, withTheme, useTheme} = theming
 
-export {withTheme}
+export {withTheme, useTheme}
 
 export const ThemeProvider = ({children}) => (
   <Provider theme={theme}>{children}</Provider>
 )
 
-export default styles => injectSheet(styles, {theming})
+ThemeProvider.propTypes = {
+  children: PropTypes.node
+}
+
+export const createUseStyles = styles =>
+  originalCreateUseStyles(styles, {theming})
+
+export const withStyles = styles => Component => {
+  const useStyles = createUseStyles(styles)
+  const StyledComponent = props => {
+    const theme = useTheme()
+    const classes = useStyles()
+    return <Component {...props} theme={theme} classes={classes} />
+  }
+  return StyledComponent
+}

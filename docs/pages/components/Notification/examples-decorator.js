@@ -5,6 +5,7 @@ import {Notification, provideNotification} from 'rambler-ui/Notification'
 
 class WithNotification extends Component {
   open = () => {
+    // eslint-disable-next-line react/prop-types
     const notification = this.props.openNotification(
       <Notification
         title="Hi"

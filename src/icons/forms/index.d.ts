@@ -1,38 +1,35 @@
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../../SvgIcon'
 
-type SvgIconComponent = typeof SvgIcon
-
-export const TickIcon: SvgIconComponent
-export const Eye: SvgIconComponent
-export const EyeIcon: SvgIconComponent
-export const ClosedEyeIcon: SvgIconComponent
-export const QuestionIcon: SvgIconComponent
-export const InfoIcon: SvgIconComponent
-export const BlockIcon: SvgIconComponent
-export const RefreshIcon: SvgIconComponent
-export const LockIcon: SvgIconComponent
-export const LockOutlineIcon: SvgIconComponent
-export const LockOpenIcon: SvgIconComponent
-export const BookIcon: SvgIconComponent
-export const EmailIcon: SvgIconComponent
-export const PhoneIcon: SvgIconComponent
-export const CreditCardIcon: SvgIconComponent
-export const WizardIcon: SvgIconComponent
-export const FaceIcon: SvgIconComponent
-export const PhotoCameraIcon: SvgIconComponent
-export const AddIcon: SvgIconComponent
-export const RemoveIcon: SvgIconComponent
-export const EditIcon: SvgIconComponent
-export const HoldIcon: SvgIconComponent
-export const UndoIcon: SvgIconComponent
-export const EllipsisIcon: SvgIconComponent
-export const ChevronLeftIcon: SvgIconComponent
-export const ChevronRightIcon: SvgIconComponent
-export const ClearIcon: SvgIconComponent
-export const KeyboardIcon: SvgIconComponent
-export const SettingsIcon: SvgIconComponent
-export const SearchIcon: SvgIconComponent
-export const GridIcon: SvgIconComponent
-export const UserIcon: SvgIconComponent
-export const ClockIcon: SvgIconComponent
-export const CalendarIcon: SvgIconComponent
+export const TickIcon: typeof SvgIcon
+export const EyeIcon: typeof SvgIcon
+export const ClosedEyeIcon: typeof SvgIcon
+export const QuestionIcon: typeof SvgIcon
+export const InfoIcon: typeof SvgIcon
+export const BlockIcon: typeof SvgIcon
+export const RefreshIcon: typeof SvgIcon
+export const LockIcon: typeof SvgIcon
+export const LockOutlineIcon: typeof SvgIcon
+export const LockOpenIcon: typeof SvgIcon
+export const BookIcon: typeof SvgIcon
+export const EmailIcon: typeof SvgIcon
+export const PhoneIcon: typeof SvgIcon
+export const CreditCardIcon: typeof SvgIcon
+export const WizardIcon: typeof SvgIcon
+export const FaceIcon: typeof SvgIcon
+export const PhotoCameraIcon: typeof SvgIcon
+export const AddIcon: typeof SvgIcon
+export const RemoveIcon: typeof SvgIcon
+export const EditIcon: typeof SvgIcon
+export const HoldIcon: typeof SvgIcon
+export const UndoIcon: typeof SvgIcon
+export const EllipsisIcon: typeof SvgIcon
+export const ChevronLeftIcon: typeof SvgIcon
+export const ChevronRightIcon: typeof SvgIcon
+export const ClearIcon: typeof SvgIcon
+export const KeyboardIcon: typeof SvgIcon
+export const SettingsIcon: typeof SvgIcon
+export const SearchIcon: typeof SvgIcon
+export const GridIcon: typeof SvgIcon
+export const UserIcon: typeof SvgIcon
+export const ClockIcon: typeof SvgIcon
+export const CalendarIcon: typeof SvgIcon

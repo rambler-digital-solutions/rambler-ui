@@ -4,7 +4,7 @@ import path from 'path'
 import serve from 'koa-static'
 import React from 'react'
 import {renderToString} from 'react-dom/server'
-import {ApplyTheme, createSheetsRegistry} from 'rambler-ui/theme'
+import {ThemeProvider, createSheetsRegistry} from 'rambler-ui/theme'
 import App from '../common/App'
 
 const app = new Koa()
@@ -13,9 +13,9 @@ function render(ctx) {
   const sheetsRegistry = createSheetsRegistry()
 
   const app = renderToString(
-    <ApplyTheme sheetsRegistry={sheetsRegistry}>
+    <ThemeProvider sheetsRegistry={sheetsRegistry}>
       <App />
-    </ApplyTheme>
+    </ThemeProvider>
   )
 
   ctx.body = `
@@ -41,4 +41,4 @@ function render(ctx) {
 app.use(serve(path.join(__dirname, '../build')))
 app.use(render)
 
-app.listen(8080)
+app.listen(8081)

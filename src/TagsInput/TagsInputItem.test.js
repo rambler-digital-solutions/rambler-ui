@@ -1,12 +1,12 @@
 import React from 'react'
 import {TagsInputItem} from '../TagsInput'
 import PhotoCameraIcon from '../icons/forms/PhotoCameraIcon'
-import {ApplyTheme} from '../theme'
-import {mount, getStyles, getWrapperNode} from '../utils/test-utils'
+import {ThemeProvider} from '../theme'
+import {mount, getStyles, getWrapperNode} from '../../test/utils'
 import theme from '../theme/base'
 import {normalize as nc} from '../utils/colors'
 
-const applyTheme = children => <ApplyTheme children={children} />
+const applyTheme = children => <ThemeProvider>{children}</ThemeProvider>
 
 describe('TagsInputItem: should apply props', () => {
   it('className and children', () => {
@@ -14,7 +14,9 @@ describe('TagsInputItem: should apply props', () => {
     const children = 'test'
     const wrapper = mount(
       applyTheme(
-        <TagsInputItem children={children} className={className} value="" />
+        <TagsInputItem className={className} value="">
+          {children}
+        </TagsInputItem>
       )
     )
     expect(wrapper.find('div').hasClass(className)).toBeTruthy()
@@ -29,13 +31,13 @@ describe('TagsInputItem: should apply props', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInputItem
-          children="text"
           onClick={(ev, val) => {
             clickEvent = ev
             clickValue = val
           }}
-          value={v}
-        />
+          value={v}>
+          text
+        </TagsInputItem>
       )
     )
 
@@ -53,14 +55,14 @@ describe('TagsInputItem: should apply props', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInputItem
-          children="text"
           onClick={(ev, val) => {
             clickEvent = ev
             clickValue = val
           }}
           value={v}
-          disabled
-        />
+          disabled>
+          text
+        </TagsInputItem>
       )
     )
 
@@ -80,7 +82,6 @@ describe('TagsInputItem: should apply props', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInputItem
-          children="text"
           onClick={(ev, val) => {
             clickEvent = ev
             clickValue = val
@@ -89,8 +90,9 @@ describe('TagsInputItem: should apply props', () => {
             removeEvent = ev
             removeValue = val
           }}
-          value={v}
-        />
+          value={v}>
+          text
+        </TagsInputItem>
       )
     )
 
@@ -112,7 +114,6 @@ describe('TagsInputItem: should apply props', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInputItem
-          children="text"
           onClick={(ev, val) => {
             clickEvent = ev
             clickValue = val
@@ -122,8 +123,9 @@ describe('TagsInputItem: should apply props', () => {
             removeValue = val
           }}
           value={v}
-          disabled
-        />
+          disabled>
+          text
+        </TagsInputItem>
       )
     )
 
@@ -141,12 +143,12 @@ describe('TagsInputItem: should apply props', () => {
     const wrapper = mount(
       applyTheme(
         <TagsInputItem
-          children="text"
           nodeRef={ref => {
             nodeRef = ref
           }}
-          value=""
-        />
+          value="">
+          text
+        </TagsInputItem>
       )
     )
 
@@ -158,7 +160,7 @@ describe('TagsInputItem: should apply default styles', () => {
   it('regular type', () => {
     const regularTheme = theme.tagsInput.types.regular
     const wrapper = mount(
-      applyTheme(<TagsInputItem children="text" value="" />)
+      applyTheme(<TagsInputItem value="">text</TagsInputItem>)
     )
     const itemStyles = getStyles(wrapper.find(TagsInputItem))
     const textStyles = getStyles(wrapper.find('span'))
@@ -178,7 +180,11 @@ describe('TagsInputItem: should apply default styles', () => {
   it('background type', () => {
     const backgroundTheme = theme.tagsInput.types.background
     const wrapper = mount(
-      applyTheme(<TagsInputItem children="text" type="background" value="" />)
+      applyTheme(
+        <TagsInputItem type="background" value="">
+          text
+        </TagsInputItem>
+      )
     )
     const itemStyles = getStyles(wrapper.find(TagsInputItem))
     const textStyles = getStyles(wrapper.find('span'))
@@ -199,7 +205,11 @@ describe('TagsInputItem: should apply default styles', () => {
 
   it('regular type with remove button', () => {
     const wrapper = mount(
-      applyTheme(<TagsInputItem children="text" value="" onRemove={() => {}} />)
+      applyTheme(
+        <TagsInputItem value="" onRemove={() => {}}>
+          text
+        </TagsInputItem>
+      )
     )
     const textStyles = getStyles(wrapper.find('span'))
     const iconStyles = getStyles(wrapper.find('svg'))
@@ -222,12 +232,9 @@ describe('TagsInputItem: should apply default styles', () => {
   it('background type with remove button', () => {
     const wrapper = mount(
       applyTheme(
-        <TagsInputItem
-          children="text"
-          type="background"
-          value=""
-          onRemove={() => {}}
-        />
+        <TagsInputItem type="background" value="" onRemove={() => {}}>
+          text
+        </TagsInputItem>
       )
     )
     const textStyles = getStyles(wrapper.find('span'))
@@ -252,7 +259,9 @@ describe('TagsInputItem: should apply default styles', () => {
     const regularTheme = theme.tagsInput.types.regular
     const wrapper = mount(
       applyTheme(
-        <TagsInputItem children="text" value="" icon={<PhotoCameraIcon />} />
+        <TagsInputItem value="" icon={<PhotoCameraIcon />}>
+          text
+        </TagsInputItem>
       )
     )
     const iconStyles = getStyles(wrapper.find('svg'))
@@ -280,11 +289,9 @@ describe('TagsInputItem: should apply default styles', () => {
     const color = '#FF0000'
     const wrapper = mount(
       applyTheme(
-        <TagsInputItem
-          children="text"
-          value=""
-          icon={<PhotoCameraIcon color={color} />}
-        />
+        <TagsInputItem value="" icon={<PhotoCameraIcon color={color} />}>
+          text
+        </TagsInputItem>
       )
     )
     const iconStyles = getStyles(wrapper.find('svg'))
@@ -310,10 +317,10 @@ describe('TagsInputItem: should apply default styles', () => {
       applyTheme(
         <TagsInputItem
           disabled
-          children="text"
           value=""
-          icon={<PhotoCameraIcon color={color} />}
-        />
+          icon={<PhotoCameraIcon color={color} />}>
+          text
+        </TagsInputItem>
       )
     )
     const iconStyles = getStyles(wrapper.find('svg'))
@@ -325,7 +332,9 @@ describe('TagsInputItem: should apply default styles', () => {
   it('regular type with remove button and disabled', () => {
     const wrapper = mount(
       applyTheme(
-        <TagsInputItem disabled children="text" value="" onRemove={() => {}} />
+        <TagsInputItem disabled value="" onRemove={() => {}}>
+          text
+        </TagsInputItem>
       )
     )
     const itemStyles = getStyles(wrapper.find(TagsInputItem))
@@ -344,13 +353,9 @@ describe('TagsInputItem: should apply default styles', () => {
   it('background type with remove button disabled', () => {
     const wrapper = mount(
       applyTheme(
-        <TagsInputItem
-          disabled
-          children="text"
-          type="background"
-          value=""
-          onRemove={() => {}}
-        />
+        <TagsInputItem disabled type="background" value="" onRemove={() => {}}>
+          text
+        </TagsInputItem>
       )
     )
     const itemStyles = getStyles(wrapper.find(TagsInputItem))

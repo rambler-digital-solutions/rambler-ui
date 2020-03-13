@@ -1,38 +1,50 @@
 {
   "presets": [
-    ["env", {
-      "target": {
+    ["@babel/preset-env", {
+      "targets": {
         "browsers": "last 2 versions"
-      }
+      },
+      "useBuiltIns": false
     }],
-    "react"
+    "@babel/preset-react"
   ],
   "plugins": [
-    "syntax-dynamic-import",
-    "transform-react-constant-elements",
-    "transform-decorators-legacy",
-    "transform-object-rest-spread",
-    "transform-class-properties",
-    "transform-export-extensions",
-    "preval"
+    "babel-plugin-optimize-clsx",
+    ["@babel/plugin-proposal-object-rest-spread", {"loose": true}],
+    ["@babel/plugin-proposal-class-properties", {"loose": true}],
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-transform-object-assign",
+    "@babel/plugin-transform-react-constant-elements"
   ],
   "env": {
-    "production": {
+    "cjs": {
       "plugins": [
-        ["transform-inline-environment-variables", {
-          "include": [
-            "VERSION"
-          ]
-        }],
-        ["transform-react-remove-prop-types", {
-          "mode": "wrap",
-          "removeImport": false
+        ["transform-react-remove-prop-types", {"mode": "wrap"}]
+      ]
+    },
+    "es": {
+      "presets": [
+        ["@babel/preset-env", {
+          "targets": {
+            "browsers": "last 2 versions"
+          },
+          "modules": false,
+          "useBuiltIns": false
         }]
+      ],
+      "plugins": [
+        ["transform-react-remove-prop-types", {"mode": "wrap"}]
+      ]
+    },
+    "docs": {
+      "plugins": [
+        "@babel/plugin-syntax-dynamic-import",
+        "preval"
       ]
     },
     "test": {
       "plugins": [
-        "istanbul"
+        "babel-plugin-istanbul"
       ]
     }
   }

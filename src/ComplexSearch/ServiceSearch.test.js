@@ -1,7 +1,7 @@
 import React from 'react'
 import ServiceSearch from './ServiceSearch'
 import theme from '../theme/base'
-import {mount, withTheme, getStyles, getWrapperNode} from '../utils/test-utils'
+import {mount, withTheme, getStyles, getWrapperNode} from '../../test/utils'
 
 const DATA_ATTR = 'data-cerber-head'
 const SEARCH_DATA_ATTR = 'main::search'

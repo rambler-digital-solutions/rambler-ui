@@ -4,7 +4,7 @@ import {
   findOverflowedParent,
   getBoundingClientRect as originalGetBoundingClientRect
 } from '../utils/DOM'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
@@ -276,23 +276,21 @@ function getContentProps(params) {
   }
 }
 
+const styles = {
+  container: {
+    position: 'relative',
+    display: 'inline-block'
+  },
+  content: {
+    position: 'absolute',
+    zIndex: 10
+  }
+}
+
 /**
  * Оверлей, который оборачивает внутри children, и позиционируется относительно children рядом с ними
  */
-@injectSheet(
-  () => ({
-    container: {
-      position: 'relative',
-      display: 'inline-block'
-    },
-    content: {
-      position: 'absolute',
-      zIndex: 10
-    }
-  }),
-  {name: 'RelativeOverlay'}
-)
-export default class RelativeOverlay extends PureComponent {
+class RelativeOverlay extends PureComponent {
   static propTypes = {
     /**
      * Класс контейнера
@@ -383,67 +381,67 @@ export default class RelativeOverlay extends PureComponent {
     getElementRect: originalGetBoundingClientRect
   }
 
-  constructor(props) {
-    super(props)
-    this.events = new EventEmitter()
-    // Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
-    this.transactionIndex = 0
-    this.state = {
-      /**
-       * Вставлен ли контент в DOM
-       */
-      isContentInDom: props.isOpened || false,
-      /**
-       * является ли content видимым
-       */
-      isContentVisible: false,
-      /**
-       * Точка прикрепления контента X
-       */
-      contentPointX: props.contentPointX,
-      /**
-       * Точка прикрепления контента Y
-       */
-      contentPointY: props.contentPointY,
-      /**
-       * Ширина anchor элемента
-       */
-      anchorWidth: undefined,
-      /**
-       * Высота anchor элемента
-       */
-      anchorHeight: undefined,
-      /**
-       * Координата anchor по оси X
-       */
-      anchorLeft: undefined,
-      /**
-       * Координата anchor по оси Y
-       */
-      anchorTop: undefined,
-      /**
-       * Стиль контента
-       */
-      contentStyle: {}
-    }
+  events = new EventEmitter()
+
+  // Идентификатор транзакции открытия/закрытия контента (чтобы правильно резолвить Promise)
+  transactionIndex = 0
+
+  state = {
+    /**
+     * Вставлен ли контент в DOM
+     */
+    isContentInDom: this.props.isOpened || false,
+    /**
+     * является ли content видимым
+     */
+    isContentVisible: false,
+    /**
+     * Точка прикрепления контента X
+     */
+    contentPointX: this.props.contentPointX,
+    /**
+     * Точка прикрепления контента Y
+     */
+    contentPointY: this.props.contentPointY,
+    /**
+     * Ширина anchor элемента
+     */
+    anchorWidth: undefined,
+    /**
+     * Высота anchor элемента
+     */
+    anchorHeight: undefined,
+    /**
+     * Координата anchor по оси X
+     */
+    anchorLeft: undefined,
+    /**
+     * Координата anchor по оси Y
+     */
+    anchorTop: undefined,
+    /**
+     * Стиль контента
+     */
+    contentStyle: {}
   }
 
-  componentWillReceiveProps({
-    isOpened,
-    anchorPointX,
-    anchorPointY,
-    contentPointX,
-    contentPointY
-  }) {
-    if (isOpened !== undefined && isOpened !== this.props.isOpened)
+  componentDidUpdate(prevProps) {
+    const {
+      isOpened,
+      anchorPointX,
+      anchorPointY,
+      contentPointX,
+      contentPointY
+    } = this.props
+    if (isOpened !== undefined && isOpened !== prevProps.isOpened)
       if (isOpened) this.show()
       else this.hide()
     else if (
       isOpened &&
-      (this.props.anchorPointX !== anchorPointX ||
-        this.props.anchorPointY !== anchorPointY ||
-        this.props.contentPointX !== contentPointX ||
-        this.props.contentPointY !== contentPointY)
+      (prevProps.anchorPointX !== anchorPointX ||
+        prevProps.anchorPointY !== anchorPointY ||
+        prevProps.contentPointX !== contentPointX ||
+        prevProps.contentPointY !== contentPointY)
     )
       this.show()
   }
@@ -648,3 +646,5 @@ export default class RelativeOverlay extends PureComponent {
     )
   }
 }
+
+export default withStyles(styles, {name: 'RelativeOverlay'})(RelativeOverlay)

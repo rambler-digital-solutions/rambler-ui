@@ -2,70 +2,68 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import TickIcon from '../icons/forms/TickIcon'
-import {isolateMixin, ifDesktopSize, middleMixin} from '../utils/mixins'
-import {injectSheet} from '../theme'
+import {isolateMixin, ifDesktopWindow, middleMixin} from '../utils/mixins'
+import {withStyles} from '../theme'
 
 const defaultIcon = <TickIcon size={15} color="currentColor" />
 
-@injectSheet(
-  theme => ({
-    step: {
-      extend: isolateMixin,
-      fontFamily: theme.stepper.fontFamily,
-      fontSize: theme.stepper.fontSize,
-      display: 'flex',
-      alignItems: 'center',
-      padding: '10px 0',
-      backgroundColor: theme.stepper.colors.default.background,
-      color: theme.stepper.colors.default.color,
-      textAlign: 'center',
-      zIndex: 1,
-      ...ifDesktopSize({
-        padding: '0 10px',
-        marginTop: 0
-      })
+const styles = theme => ({
+  step: {
+    extend: isolateMixin,
+    fontFamily: theme.stepper.fontFamily,
+    fontSize: theme.stepper.fontSize,
+    display: 'flex',
+    alignItems: 'center',
+    padding: '10px 0',
+    backgroundColor: theme.stepper.colors.default.background,
+    color: theme.stepper.colors.default.color,
+    textAlign: 'center',
+    zIndex: 1,
+    ...ifDesktopWindow({
+      padding: '0 10px',
+      marginTop: 0
+    })
+  },
+  text: {
+    cursor: 'pointer'
+  },
+  badge: {
+    extend: middleMixin,
+    display: 'inline-block',
+    borderRadius: '50%',
+    boxSizing: 'border-box',
+    width: 35,
+    height: 35,
+    marginRight: 10,
+    userSelect: 'none',
+    fontSize: theme.stepper.badge.fontSize,
+    backgroundColor: theme.stepper.colors.default.badge.background,
+    border: `1px solid ${theme.stepper.colors.default.badge.border}`,
+    color: theme.stepper.colors.default.badge.color
+  },
+  active: {
+    color: theme.stepper.colors.active.color,
+    '& $badge': {
+      color: theme.stepper.colors.active.badge.color,
+      backgroundColor: theme.stepper.colors.active.badge.background,
+      fontWeight: '500'
     },
-    text: {
-      cursor: 'pointer'
-    },
-    badge: {
-      extend: middleMixin,
-      display: 'inline-block',
-      borderRadius: '50%',
-      boxSizing: 'border-box',
-      width: 35,
-      height: 35,
-      marginRight: 10,
-      userSelect: 'none',
-      fontSize: theme.stepper.badge.fontSize,
-      backgroundColor: theme.stepper.colors.default.badge.background,
-      border: `1px solid ${theme.stepper.colors.default.badge.border}`,
-      color: theme.stepper.colors.default.badge.color
-    },
-    active: {
-      color: theme.stepper.colors.active.color,
-      '& $badge': {
-        color: theme.stepper.colors.active.badge.color,
-        backgroundColor: theme.stepper.colors.active.badge.background,
-        fontWeight: '500'
-      },
-      '& $text': {
-        cursor: 'default'
-      }
-    },
-    disabled: {
-      color: theme.stepper.colors.disabled.color,
-      '& $badge': {
-        color: theme.stepper.colors.disabled.badge.color,
-        backgroundColor: theme.stepper.colors.disabled.badge.background
-      },
-      '& $text': {
-        cursor: 'default'
-      }
+    '& $text': {
+      cursor: 'default'
     }
-  }),
-  {name: 'Step'}
-)
+  },
+  disabled: {
+    color: theme.stepper.colors.disabled.color,
+    '& $badge': {
+      color: theme.stepper.colors.disabled.badge.color,
+      backgroundColor: theme.stepper.colors.disabled.badge.background
+    },
+    '& $text': {
+      cursor: 'default'
+    }
+  }
+})
+
 class Step extends Component {
   static propTypes = {
     /**
@@ -111,7 +109,11 @@ class Step extends Component {
     /**
      *  Объект css стилей компонента
      */
-    style: PropTypes.object
+    style: PropTypes.object,
+    /**
+     * Контент (обычно просто текст)
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -162,6 +164,4 @@ class Step extends Component {
   }
 }
 
-Step.displayName = 'ruiStep'
-
-export default Step
+export default withStyles(styles, {name: 'Step', displayName: 'ruiStep'})(Step)

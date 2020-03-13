@@ -1,5 +1,5 @@
 import React from 'react'
-import SvgIcon from '../SvgIcon'
+import SvgIcon from '../../SvgIcon'
 
 export default function UndoIcon(props) {
   return (

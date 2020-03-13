@@ -8,6 +8,7 @@ class WithPopup extends Component {
   }
 
   openAlert = () => {
+    // eslint-disable-next-line react/prop-types
     this.alertPopup = this.props.openPopup(resolve => (
       <Popup
         title="Ошибка"
@@ -42,6 +43,7 @@ class WithPopup extends Component {
   }
 
   openConfirm = () => {
+    // eslint-disable-next-line react/prop-types
     this.confirmPopup = this.props.openPopup((resolve, reject) => (
       <Popup
         title="Удаление почты"

@@ -1,99 +1,69 @@
 {
-  "root": true,
   "env": {
     "browser": true,
     "commonjs": true,
     "es6": true,
     "jasmine": true
   },
-  "extends": [
-    "eslint:recommended",
-    "prettier"
-  ],
   "parser": "babel-eslint",
+  "extends": ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  "plugins": ["react", "babel", "import"],
   "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
-    },
+    "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "plugins": [
-    "react",
-    "babel",
-    "import"
-  ],
   "rules": {
-    "react/jsx-uses-vars": 1,
-    "react/jsx-uses-react": 1,
     "indent": [
-      "error",
-      2
+      2,
+      2,
+      {
+        "ignoredNodes": ["TemplateLiteral"]
+      }
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "never"
-    ],
-    "comma-dangle": [
-      "warn",
-      "never"
-    ],
-    "object-curly-spacing": "off",
-    "max-len": [
-      "warn",
-      200
-    ],
+    "linebreak-style": [2, "unix"],
+    "quotes": [2, "single"],
+    "semi": [2, "never"],
+    "comma-dangle": [2, "never"],
+    "babel/object-curly-spacing": [2, "never"],
     "no-unused-expressions": [
-      "error",
+      2,
       {
         "allowShortCircuit": true
       }
     ],
-    "prefer-template": "off",
-    "one-var": "off",
-    "one-var-declaration-per-line": "off",
-    "no-confusing-arrow": "off",
-    "padded-blocks": "off",
-    "arrow-body-style": [
-      "error",
-      "as-needed"
-    ],
-    "curly": [
-      "error",
-      "multi",
-      "consistent"
-    ],
-    "no-param-reassign": "off",
-    "consistent-return": "off",
+    "arrow-body-style": [2, "as-needed"],
+    "curly": [2, "multi", "consistent"],
+    "no-param-reassign": 0,
+    "consistent-return": 0,
     "no-underscore-dangle": [
-      "error",
+      2,
       {
         "allowAfterThis": true
       }
     ],
-    "no-nested-ternary": "off",
-    "import/no-unresolved": "off",
-    "import/extensions": "off",
-    "import/no-extraneous-dependencies": "off",
-    "func-names": "off",
-    "radix": "off",
-    "react/jsx-equals-spacing": [
-      "error",
-      "never"
-    ],
-    "no-prototype-builtins": "off"
+    "no-nested-ternary": 0,
+    "no-prototype-builtins": 0,
+    "react/jsx-equals-spacing": [2, "never"],
+    "react/prop-types": [
+      2,
+      {
+        "ignore": [
+          "classes",
+          "theme",
+          "style",
+          "className",
+          "onFocus",
+          "onBlur",
+          "maxLength",
+          "zIndex",
+          "windowEvents"
+        ]
+      }
+    ]
   },
   "settings": {
-    "import/core-modules": [
-      "react"
-    ]
+    "react": {
+      "version": "^16.8.0"
+    }
   }
 }

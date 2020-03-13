@@ -1,30 +1,26 @@
-import React from 'react'
+import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import EventEmitter from 'eventemitter3'
-import {injectSheet} from '../theme'
+import {withStyles} from '../theme'
 import Dropdown from '../Dropdown'
-import {COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT} from '../constants/context'
 
-@injectSheet(
-  () => ({
-    dropdown: {
-      transition: 'none',
-      animation: 'none',
-      width: '100%'
-    },
-    overlay: {
-      width: '100%'
-    },
-    suggest: {
-      width: '100%',
-      background: 'white',
-      boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
-    }
-  }),
-  {name: 'SuggestDropdown'}
-)
-export default class SuggestDropdown extends React.PureComponent {
+const styles = {
+  dropdown: {
+    transition: 'none',
+    animation: 'none',
+    width: '100%'
+  },
+  overlay: {
+    width: '100%'
+  },
+  suggest: {
+    width: '100%',
+    background: 'white',
+    boxShadow: '1px 2px 5px 0 rgba(102, 116, 166, 0.15)'
+  }
+}
+
+class SuggestDropdown extends PureComponent {
   static propTypes = {
     /**
      * Признак того, открыт ли дропдаун
@@ -49,7 +45,11 @@ export default class SuggestDropdown extends React.PureComponent {
     /**
      * Переопределение стилей дропдауна
      */
-    style: PropTypes.object
+    style: PropTypes.object,
+    /**
+     * Контент дропдауна
+     */
+    children: PropTypes.node
   }
 
   static defaultProps = {
@@ -63,35 +63,6 @@ export default class SuggestDropdown extends React.PureComponent {
     setNode: () => {}
   }
 
-  static contextTypes = {
-    [COMPLEX_SEARCH_SUGGEST_ITEM_CONTEXT]: PropTypes.shape({
-      /**
-       * Функция регистрации SuggestItem (при добавлении этого компонента в DOM)
-       */
-      registerSuggestItem: PropTypes.func,
-      /**
-       * Колбек удаления SuggestItem
-       */
-      onRemoveSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек клика по SuggestItem
-       */
-      onSuggestItemClick: PropTypes.func,
-      /**
-       * Колбек наведения на SuggstItem
-       */
-      onSuggestItemHover: PropTypes.func,
-      /**
-       * Функция для подсветки SuggestItem
-       */
-      setHighlightedId: PropTypes.func,
-      /**
-       * Шина событий
-       */
-      events: PropTypes.instanceOf(EventEmitter)
-    })
-  }
-
   render() {
     const {
       children,
@@ -99,8 +70,8 @@ export default class SuggestDropdown extends React.PureComponent {
       anchor,
       appendToBody,
       autoPositionY,
-      dropdownStyle,
-      dropdownClassName,
+      style,
+      className,
       classes
     } = this.props
 
@@ -109,8 +80,8 @@ export default class SuggestDropdown extends React.PureComponent {
         isOpened={isOpened}
         anchor={anchor}
         padding={false}
-        style={dropdownStyle}
-        className={classnames(classes.dropdown, dropdownClassName)}
+        style={style}
+        className={classnames(classes.dropdown, className)}
         appendToBody={appendToBody}
         anchorFullWidth={true}
         autoPositionY={autoPositionY}
@@ -124,3 +95,5 @@ export default class SuggestDropdown extends React.PureComponent {
     )
   }
 }
+
+export default withStyles(styles, {name: 'SuggestDropdown'})(SuggestDropdown)

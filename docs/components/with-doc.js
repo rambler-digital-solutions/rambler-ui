@@ -1,9 +1,10 @@
-import React, {PureComponent, Fragment} from 'react'
-import {MDXProvider} from '@mdx-js/tag'
+import React, {PureComponent} from 'react'
+import PropTypes from 'prop-types'
+import {MDXProvider} from '@mdx-js/react'
 import {withRouter} from 'react-router-dom'
 import IconButton from 'rambler-ui/IconButton'
 import createSourceUrl from 'docs/utils/create-source-url'
-import injectSheet from 'docs/utils/theming'
+import {withStyles} from 'docs/utils/theming'
 import 'highlight.js/styles/default.css'
 import H1 from 'docs/components/H1'
 import H2 from 'docs/components/H2'
@@ -17,7 +18,7 @@ const components = {
   h1: H1,
   h2: H2,
   h3: H3,
-  pre: PreCode,
+  code: PreCode,
   inlineCode: InlineCode
 }
 
@@ -75,73 +76,80 @@ const styles = theme => ({
   }
 })
 
-export default meta => Component =>
-  withRouter(
-    injectSheet(styles)(
-      class extends PureComponent {
-        sourceUrl = createSourceUrl(this.props.location.pathname)
+export default function withDoc(meta) {
+  return Component =>
+    withRouter(
+      withStyles(styles)(
+        class Docs extends PureComponent {
+          static propTypes = {
+            history: PropTypes.any,
+            location: PropTypes.any
+          }
 
-        componentDidMount() {
-          const {classes} = this.props
-          this.headingElements = document.querySelectorAll(
-            `.${classes.content} h2, .${classes.content} h3`
-          )
-        }
+          sourceUrl = createSourceUrl(this.props.location.pathname)
 
-        scrollToHeading = event => {
-          const index = parseInt(
-            event.currentTarget.getAttribute('data-index'),
-            10
-          )
-          const headingElement = this.headingElements[index]
-          if (!headingElement) return
-          window.scrollTo(0, headingElement.offsetTop - 30)
-        }
+          componentDidMount() {
+            const {classes} = this.props
+            this.headingElements = document.querySelectorAll(
+              `.${classes.content} h2, .${classes.content} h3`
+            )
+          }
 
-        render() {
-          const {
-            classes,
-            location, // eslint-disable-line no-unused-vars
-            history, // eslint-disable-line no-unused-vars
-            ...props
-          } = this.props
-          return (
-            <MDXProvider components={components}>
-              <Fragment>
-                <header className={classes.header}>
-                  {this.sourceUrl && (
-                    <IconButton
-                      className={classes.source}
-                      size="small"
-                      href={this.sourceUrl}
-                      rel="noreferrer noopener"
-                      target="_blank">
-                      <GithubIcon />
-                    </IconButton>
-                  )}
-                  <H1>{meta.title}</H1>
-                  {meta.description && <p>{meta.description}</p>}
-                  {meta.toc && (
-                    <div className={classes.toc}>
-                      {meta.toc.map((item, index) => (
-                        <Button
-                          type="outline"
-                          key={item}
-                          data-index={index}
-                          onClick={this.scrollToHeading}>
-                          {item}
-                        </Button>
-                      ))}
-                    </div>
-                  )}
-                </header>
-                <div className={classes.content}>
-                  <Component {...props} />
-                </div>
-              </Fragment>
-            </MDXProvider>
-          )
+          scrollToHeading = event => {
+            const index = parseInt(
+              event.currentTarget.getAttribute('data-index'),
+              10
+            )
+            const headingElement = this.headingElements[index]
+            if (!headingElement) return
+            window.scrollTo(0, headingElement.offsetTop - 30)
+          }
+
+          render() {
+            const {
+              classes,
+              location, // eslint-disable-line no-unused-vars
+              history, // eslint-disable-line no-unused-vars
+              ...props
+            } = this.props
+            return (
+              <MDXProvider components={components}>
+                <>
+                  <header className={classes.header}>
+                    {this.sourceUrl && (
+                      <IconButton
+                        className={classes.source}
+                        size="small"
+                        href={this.sourceUrl}
+                        rel="noreferrer noopener"
+                        target="_blank">
+                        <GithubIcon />
+                      </IconButton>
+                    )}
+                    <H1>{meta.title}</H1>
+                    {meta.description && <p>{meta.description}</p>}
+                    {meta.toc && (
+                      <div className={classes.toc}>
+                        {meta.toc.map((item, index) => (
+                          <Button
+                            type="outline"
+                            key={item}
+                            data-index={index}
+                            onClick={this.scrollToHeading}>
+                            {item}
+                          </Button>
+                        ))}
+                      </div>
+                    )}
+                  </header>
+                  <div className={classes.content}>
+                    <Component {...props} />
+                  </div>
+                </>
+              </MDXProvider>
+            )
+          }
         }
-      }
+      )
     )
-  )
+}
