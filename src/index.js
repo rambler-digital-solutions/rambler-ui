@@ -1,6 +1,7 @@
 export * from './icons/forms'
 export * from './icons/profiles'
 export * from './icons/services'
+
 export * from './theme'
 export * from './Toggle'
 export * from './Radio'
@@ -12,8 +13,10 @@ export * from './Snackbar'
 export * from './Notification'
 export * from './Tabs'
 export * from './TagsInput'
-export * from './Typography'
 export * from './Stepper'
+
+export {default as Typography} from './Typography'
+export * from './Typography'
 
 export {default as Button} from './Button'
 export * from './Button'
