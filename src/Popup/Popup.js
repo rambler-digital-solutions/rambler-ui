@@ -18,6 +18,7 @@ import {
   ifDesktop
 } from '../utils/mixins'
 import {subscribeFocusEvents} from '../utils/focus-source'
+import createGetMemoizedRef from '../utils/createGetMemoizedRef'
 
 subscribeFocusEvents()
 
@@ -234,6 +235,8 @@ class Popup extends PureComponent {
     if (event.keyCode === ESCAPE) this.props.onRequestClose()
   }
 
+  getMemoizedRef = createGetMemoizedRef()
+
   renderContent = componentRef => {
     const {
       children,
@@ -258,10 +261,7 @@ class Popup extends PureComponent {
           <div
             style={style}
             className={classnames(classes.popup, className)}
-            ref={element => {
-              focusRef(element)
-              if (componentRef) componentRef(element)
-            }}>
+            ref={this.getMemoizedRef(focusRef, componentRef)}>
             {showClose && (
               <button className={classes.close} onClick={onRequestClose}>
                 <ClearIcon size={15} color="currentColor" />

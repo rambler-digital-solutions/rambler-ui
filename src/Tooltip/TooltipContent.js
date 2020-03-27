@@ -6,6 +6,7 @@ import VisibilityAnimation from '../VisibilityAnimation'
 import {withStyles} from '../theme'
 import {POINTS_Y, POINTS_X} from '../constants/overlay'
 import {isolateMixin, fontSmoothingMixin} from '../utils/mixins'
+import createGetMemoizedRef from '../utils/createGetMemoizedRef'
 
 const styles = theme => ({
   content: {
@@ -187,6 +188,8 @@ class TooltipContent extends PureComponent {
     isVisible: false
   }
 
+  getMemoizedRef = createGetMemoizedRef()
+
   render() {
     const {
       isVisible,
@@ -245,10 +248,7 @@ class TooltipContent extends PureComponent {
             onInvisible={onBecomeInvisible}>
             {({isVisible}) => (
               <div
-                ref={element => {
-                  if (componentRef) componentRef(element)
-                  if (contentRef) contentRef(element)
-                }}
+                ref={this.getMemoizedRef(componentRef, contentRef)}
                 style={{padding: '3px'}}
                 className={classnames(
                   className,

@@ -7,6 +7,7 @@ import OnClickOutside from '../OnClickOutside'
 import {POINTS_Y, POINTS_X} from '../constants/overlay'
 import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
+import createGetMemoizedRef from '../utils/createGetMemoizedRef'
 
 const BG_COLOR = '#fff'
 const ARROW_SIZE = 5
@@ -102,6 +103,8 @@ class DropdownContent extends PureComponent {
       else props.hide()
   }
 
+  getMemoizedRef = createGetMemoizedRef()
+
   renderContent = componentRef => {
     const {
       isVisible,
@@ -147,11 +150,7 @@ class DropdownContent extends PureComponent {
                   isVisible && classes.isVisible
                 )}
                 style={resultStyle}
-                ref={element => {
-                  focusRef(element)
-                  if (componentRef) componentRef(element)
-                  if (contentRef) contentRef(element)
-                }}>
+                ref={this.getMemoizedRef(focusRef, componentRef, contentRef)}>
                 {children}
               </div>
             )}
