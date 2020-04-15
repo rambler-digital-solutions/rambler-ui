@@ -11,6 +11,7 @@ export interface ButtonProps {
   type?: ButtonType
   href?: string
   target?: string
+  rel?: string
   className?: string
   style?: CSSProperties
   icon?: ReactNode

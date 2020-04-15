@@ -99,6 +99,14 @@ class TabsItem extends Component {
      */
     href: PropTypes.string,
     /**
+     * Атрибут target для ссылки, если указан атрибут href
+     */
+    target: PropTypes.string,
+    /**
+     * Атрибут rel для ссылки, если указан атрибут href
+     */
+    rel: PropTypes.string,
+    /**
      * Размер компонента (автоматически проставляется компонентом `<Tabs/>`)
      */
     size: PropTypes.oneOf(['small', 'medium']),

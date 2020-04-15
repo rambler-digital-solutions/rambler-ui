@@ -94,6 +94,14 @@ class Avatar extends PureComponent {
      */
     href: PropTypes.string,
     /**
+     * Атрибут target для ссылки, если указан атрибут href
+     */
+    target: PropTypes.string,
+    /**
+     * Атрибут rel для ссылки, если указан атрибут href
+     */
+    rel: PropTypes.string,
+    /**
      * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
      */
     container: PropTypes.element

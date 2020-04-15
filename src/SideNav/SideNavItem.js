@@ -83,6 +83,10 @@ class SideNavItem extends Component {
      */
     target: PropTypes.string,
     /**
+     * Атрибут rel для ссылки, если указан атрибут href
+     */
+    rel: PropTypes.string,
+    /**
      * Элемент, который содержит контент, например `<Link />` в случае с `react-router`.
      * Если используется `<NavLink />` с `activeClassName`,
      * нужно в `container` передавать фабрику, которая получает `activeClassName` в аргументах

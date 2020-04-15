@@ -166,6 +166,10 @@ class IconButton extends PureComponent {
      */
     target: PropTypes.string,
     /**
+     * Атрибут rel для ссылки, если указан атрибут href
+     */
+    rel: PropTypes.string,
+    /**
      * Css-класс
      */
     className: PropTypes.string,

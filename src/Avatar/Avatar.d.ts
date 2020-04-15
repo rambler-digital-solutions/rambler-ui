@@ -25,6 +25,8 @@ export interface AvatarProps {
   shape?: AvatarShape
   profileType?: ProfileType
   href?: string
+  target?: string
+  rel?: string
   container?: ReactElement
 }
 
