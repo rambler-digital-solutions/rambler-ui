@@ -145,7 +145,7 @@ const styles = theme => ({
         '& input$input': {
           height: theme.field.sizes[size].height,
           ...ifMobile({
-            height: theme.field.mobile.sizes[size].height + 'px'
+            height: theme.field.mobile.sizes[size].height
           }),
           '&[type="month"], &[type="date"], &[type="time"]': {
             ...ifMobile({
@@ -615,7 +615,11 @@ class Input extends PureComponent {
      */
     characterCounter: PropTypes.bool,
     /**
-     * Коллбек вызывающийся при монтировании/размонтировании элемента input
+     * Коллбек для передачи ссылки на ноду корневого элемента
+     */
+    containerRef: PropTypes.func,
+    /**
+     * Коллбек для передачи ссылки на ноду элемента input
      */
     inputRef: PropTypes.func
   }
@@ -780,6 +784,7 @@ class Input extends PureComponent {
       inputRef, // eslint-disable-line no-unused-vars
       maxLength,
       characterCounter,
+      containerRef,
       ...other
     } = this.props
 
@@ -820,7 +825,7 @@ class Input extends PureComponent {
     })
 
     return (
-      <div style={style} className={resultClassName}>
+      <div style={style} className={resultClassName} ref={containerRef}>
         {iconLeft &&
           this.renderIcon(
             iconLeft,
