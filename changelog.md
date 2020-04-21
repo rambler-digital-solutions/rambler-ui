@@ -1,5 +1,9 @@
 # Changelog
 
+## 4.1.1 (2019-04-21)
+### Fixed
+* Все high-order компоненты наследуются от `Component` вместо `PureComponent`
+
 ## 4.1.0 (2019-04-20)
 ### Added
 * Добавлено свойство `containerRef` в `<Input />` для получения ноды контейнера
