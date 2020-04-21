@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react'
+import React, {Component} from 'react'
 import {createPortal} from 'react-dom'
 import PropTypes from 'prop-types'
 
@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
  * Монтирует дерево оборачиваемого `Target` в отдельную ноду в DOM.
  *
  *  @renderToLayer
- *  class Popup extends Components {
+ *  class Popup extends Component {
  *
  *    render() {
  *      const {
@@ -30,7 +30,7 @@ import PropTypes from 'prop-types'
  * - onClose() - коллбек, который нужно вызвать в `Target` после закрытия, например после окончания всех анимаций
  */
 export default function renderToLayer(Target) {
-  return class RenderToLayer extends PureComponent {
+  return class RenderToLayer extends Component {
     static propTypes = {
       /**
        * Контролирует видимость

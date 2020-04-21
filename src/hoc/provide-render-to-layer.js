@@ -6,7 +6,7 @@ import uuid from '../utils/uuid'
  * Предоставляет в оборачиваемый `Target` методы монтирования/размонтирования в отделную ноду в DOM.
  *
  *  @provideRenderToLayer
- *  class Popup extends Components {
+ *  class Popup extends Component {
  *
  *    openPopup = () => {
  *      this.popupElement = this.props.renderToLayer(

@@ -1,4 +1,4 @@
-import React, {PureComponent, createContext} from 'react'
+import React, {Component, createContext} from 'react'
 import PropTypes from 'prop-types'
 import getDisplayName from '../utils/get-display-name'
 
@@ -12,7 +12,7 @@ const ZIndexStackContext = createContext({})
  */
 export default function zIndexStack(initialZIndex) {
   return Target =>
-    class extends PureComponent {
+    class extends Component {
       static displayName = `zIndexStack(${getDisplayName(Target)})`
 
       static propTypes = {
