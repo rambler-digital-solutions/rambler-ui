@@ -215,10 +215,6 @@ class Button extends PureComponent {
       'danger'
     ]),
     /**
-     * Если указан href, то кнопка будет ссылкой
-     */
-    href: PropTypes.string,
-    /**
      * Css-класс
      */
     className: PropTypes.string,
@@ -309,7 +305,6 @@ class Button extends PureComponent {
       children,
       size,
       type,
-      href,
       container,
       buttonType,
       disabled,
@@ -365,8 +360,6 @@ class Button extends PureComponent {
 
     const resultContainer = isValidElement(container) ? (
       container
-    ) : href ? (
-      <a href={href} ref={nodeRef} />
     ) : overlay ? (
       <div ref={nodeRef} />
     ) : (

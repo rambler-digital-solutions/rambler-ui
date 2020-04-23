@@ -9,9 +9,6 @@ import {HorizontalPosition, Size, ButtonType} from '..'
 
 export interface ButtonProps {
   type?: ButtonType
-  href?: string
-  target?: string
-  rel?: string
   className?: string
   style?: CSSProperties
   icon?: ReactNode
@@ -26,6 +23,7 @@ export interface ButtonProps {
   width?: number | string
   loading?: boolean
   rounded?: boolean
+  nodeRef?: (ref: HTMLElement) => void
 }
 
 export default class Button extends PureComponent<ButtonProps, {}> {}

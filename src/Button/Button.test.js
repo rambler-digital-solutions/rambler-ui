@@ -17,7 +17,7 @@ describe('<Button />', () => {
   const defaultPropsLink = {
     href: 'http://www.rambler.ru',
     ref: () => {},
-    target: '_blank'
+    container: <a target="_blank" />
   }
 
   const defaultPropsDisabledBtn = {
@@ -25,13 +25,10 @@ describe('<Button />', () => {
     ref: () => {}
   }
 
-  let event, linkComponent, btnComponent
+  let event, btnComponent
   beforeEach(() => {
     spyOn(defaultProps, 'onClick').and.callFake(e => {
       event = e
-    })
-    spyOn(defaultPropsLink, 'ref').and.callFake(component => {
-      linkComponent = component
     })
     spyOn(defaultPropsDisabledBtn, 'ref').and.callFake(component => {
       btnComponent = component
@@ -125,11 +122,11 @@ describe('<Button />', () => {
         </Button>
       )
     )
-    const a = wrapper.find('a')
-    expect(a.type()).toEqual('a')
-    expect(a.text()).toEqual('test')
-    expect(linkComponent.props.target).toEqual('_blank')
-    expect(linkComponent.props.href).toEqual('http://www.rambler.ru')
+    const a = getWrapperNode(wrapper.find('a'))
+    expect(a.tagName).toEqual('A')
+    expect(a.textContent).toEqual('test')
+    expect(a.getAttribute('target')).toEqual('_blank')
+    expect(a.getAttribute('href')).toEqual('http://www.rambler.ru')
   })
 
   it('check attr disabled', () => {
