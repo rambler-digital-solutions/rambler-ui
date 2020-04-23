@@ -4,7 +4,7 @@ import {HorizontalPosition} from '..'
 export interface HintProps {
   className?: string
   style?: CSSProperties
-  icon?: ReactNode
+  icon?: (forwardRef: (ref: HTMLElement) => void) => ReactNode
   contentClassName?: string
   contentStyle?: CSSProperties
   children: ReactNode

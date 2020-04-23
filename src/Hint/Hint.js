@@ -26,9 +26,9 @@ class Hint extends PureComponent {
      */
     style: PropTypes.object,
     /**
-     * Иконка, по-умолчанию `<QuestionIcon />`
+     * Функция, возвращающая иконку, по-умолчанию `<QuestionIcon />`. Принимает коллбек для передачи ссылки на ноду в качестве аргумента
      */
-    icon: PropTypes.node.isRequired,
+    icon: PropTypes.func.isRequired,
     /**
      * Класс контента подсказки
      */
@@ -63,7 +63,7 @@ class Hint extends PureComponent {
     positionX: 'right',
     autoPositionY: true,
     closeOnScroll: true,
-    icon: <QuestionIcon size={15} />
+    icon: ref => <QuestionIcon nodeRef={ref} size={15} />
   }
 
   state = {
@@ -116,30 +116,30 @@ class Hint extends PureComponent {
 
     const {isOpened} = this.state
     const pointX = positionX === 'left' ? 'right' : 'left'
-    const color =
-      icon.props.color ||
-      (isOpened
-        ? theme.hint.icon.colors.active
-        : theme.hint.icon.colors.default)
-
-    const anchor = cloneElement(icon, {
-      color,
-      style,
-      className: classnames(classes.icon, className),
-      onMouseEnter: this.show,
-      onTouchStart: this.show,
-      onMouseLeave: this.hide
-    })
 
     return (
       <FixedOverlay
         isOpened={isOpened}
-        anchor={anchor}
+        anchor={ref => {
+          const iconElement = icon(ref)
+          return cloneElement(iconElement, {
+            color:
+              iconElement.props.color ||
+              (isOpened
+                ? theme.hint.icon.colors.active
+                : theme.hint.icon.colors.default),
+            style,
+            className: classnames(classes.icon, className),
+            onMouseEnter: this.show,
+            onTouchStart: this.show,
+            onMouseLeave: this.hide
+          })
+        }}
         content={
           <HintContent
             className={contentClassName}
             style={contentStyle}
-            icon={icon}
+            icon={icon()}
             onMouseEnter={this.show}
             onMouseLeave={this.hide}>
             {children}

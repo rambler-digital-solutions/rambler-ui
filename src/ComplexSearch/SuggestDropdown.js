@@ -27,9 +27,9 @@ class SuggestDropdown extends PureComponent {
      */
     isOpened: PropTypes.bool,
     /**
-     * Нода, к которой привязывается дропдаун
+     * Функция, возвращающая ноду, к которой привязывается дропдаун. Принимает коллбек для передачи ссылки на ноду в качестве аргумента
      */
-    anchor: PropTypes.node,
+    anchor: PropTypes.func.isRequired,
     /**
      * Дополнительный класс для дропдауна
      */

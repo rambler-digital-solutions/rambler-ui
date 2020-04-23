@@ -436,12 +436,12 @@ class SideNav extends PureComponent {
           anchorPointX="left"
           contentPointX="left"
           isOpened={showVersions}
-          anchor={
-            <button onClick={this.showVersions}>
+          anchor={ref => (
+            <button onClick={this.showVersions} ref={ref}>
               Версия {currentVersion}
               <ChevronIcon color="currentColor" />
             </button>
-          }
+          )}
           onClose={this.hideVersions}>
           <Menu
             size="small"

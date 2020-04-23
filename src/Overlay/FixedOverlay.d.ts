@@ -10,7 +10,7 @@ export interface FixedOverlayProps {
   contentPointY: VerticalPosition
   autoPositionX?: boolean
   autoPositionY?: boolean
-  anchor: ReactNode
+  anchor: (forwardRef: (ref: HTMLElement) => void) => ReactNode
   content: ReactNode
   contentWrapperRef?: Ref<HTMLElement>
   onContentClose?: () => void | Promise<void>

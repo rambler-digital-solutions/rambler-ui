@@ -376,7 +376,7 @@ class ComplexSearch extends PureComponent {
     )
   }
 
-  renderInput = () => {
+  renderInput = ref => {
     const {
       division,
       inputWrapperClassName,
@@ -394,7 +394,8 @@ class ComplexSearch extends PureComponent {
           inputWrapperClassName,
           isDropdownOpened && classes.active
         )}
-        onSubmit={onSubmit}>
+        onSubmit={onSubmit}
+        ref={ref}>
         {division && <div className={classes.division}>{division}</div>}
         {this.renderInputIcon()}
         {this.renderInputNode()}
@@ -481,7 +482,7 @@ class ComplexSearch extends PureComponent {
 
   renderDropdown() {
     // eslint-disable-next-line react/prop-types
-    return this.props.renderDropdown(this.renderInput())
+    return this.props.renderDropdown(this.renderInput)
   }
 
   render() {

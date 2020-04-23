@@ -52,7 +52,7 @@ export default class DropdownExample extends Component {
               if (!this.preventCloseRelative) this.сloseRelative()
               this.preventCloseRelative = false
             }}
-            anchor={
+            anchor={ref => (
               <Input
                 style={{width: 200}}
                 value={state.inputValue}
@@ -64,8 +64,9 @@ export default class DropdownExample extends Component {
                   if (state.isOpenedRelative) this.preventCloseRelative = true
                 }}
                 onChange={this.changeInputValue}
+                containerRef={ref}
               />
-            }>
+            )}>
             <div>
               <p>Dropdown content</p>
               <div>
@@ -83,11 +84,11 @@ export default class DropdownExample extends Component {
             isOpened={state.isOpenedFixed}
             onClose={this.closeFixed}
             anchorPointY="center"
-            anchor={
-              <Button type="outline" onClick={this.openFixed}>
+            anchor={ref => (
+              <Button type="outline" onClick={this.openFixed} nodeRef={ref}>
                 Открыть Dropdown Fixed
               </Button>
-            }>
+            )}>
             <div>
               <p>Dropdown content</p>
               <div>

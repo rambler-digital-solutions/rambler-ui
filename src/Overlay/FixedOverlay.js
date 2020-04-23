@@ -5,7 +5,6 @@ import EventEmitter from 'eventemitter3'
 import debounce from 'lodash.debounce'
 import zIndexStack from '../hoc/z-index-stack'
 import windowEvents from '../hoc/window-events'
-import {withStyles} from '../theme'
 import {DROPDOWN_ZINDEX} from '../constants/z-indexes'
 import {POINTS_X, POINTS_Y, MAPPING_POINTS} from '../constants/overlay'
 import compose from '../utils/compose'
@@ -222,14 +221,6 @@ function getPositionOptions(params) {
   }
 }
 
-const styles = {
-  ref: {
-    position: 'absolute',
-    display: 'none',
-    visibility: 'hidden'
-  }
-}
-
 /**
  * Оверлей, который добавляется к body
  * Есть возможность прицепить оверлей, как fixed, так и absolute
@@ -267,9 +258,9 @@ class FixedOverlay extends PureComponent {
      */
     autoPositionY: PropTypes.bool,
     /**
-     * Элемент вокруг которого показываем overlay
+     * Функция, возвращающая элемент вокруг которого показываем overlay. Принимает коллбек для передачи ссылки на ноду в качестве аргумента
      */
-    anchor: PropTypes.node.isRequired,
+    anchor: PropTypes.func.isRequired,
     /**
      * Инстанс компонент контента
      * Получает автоматически на вход следующие props:
@@ -670,7 +661,7 @@ class FixedOverlay extends PureComponent {
   }
 
   setAnchorNode = element => {
-    this.anchorNode = element && element.nextSibling
+    this.anchorNode = element
   }
 
   setContentNode = element => {
@@ -678,13 +669,10 @@ class FixedOverlay extends PureComponent {
   }
 
   render() {
-    const {anchor, classes} = this.props
-    const {isOpened} = this.state
     return (
       <>
-        <span ref={this.setAnchorNode} className={classes.ref}></span>
-        {anchor}
-        {isOpened &&
+        {this.props.anchor(this.setAnchorNode)}
+        {this.state.isOpened &&
           createPortal(this.contentElement, this.getContentContainerNode())}
       </>
     )
@@ -693,6 +681,5 @@ class FixedOverlay extends PureComponent {
 
 export default compose(
   zIndexStack(DROPDOWN_ZINDEX),
-  windowEvents('scroll', 'resize'),
-  withStyles(styles, {name: 'FixedOverlay'})
+  windowEvents('scroll', 'resize')
 )(FixedOverlay)

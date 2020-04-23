@@ -335,7 +335,7 @@ class ServiceSearch extends PureComponent {
     )
   }
 
-  renderInput = () => {
+  renderInput = ref => {
     const {
       inputWrapperClassName,
       classes,
@@ -353,7 +353,8 @@ class ServiceSearch extends PureComponent {
           inputWrapperClassName,
           isDropdownOpened && classes.active
         )}
-        onSubmit={onSubmit}>
+        onSubmit={onSubmit}
+        ref={ref}>
         {this.renderInputIcon()}
         {this.renderInputNode()}
         {!this.isClearVisible && this.renderButton()}
@@ -371,7 +372,7 @@ class ServiceSearch extends PureComponent {
 
   renderDropdown() {
     // eslint-disable-next-line react/prop-types
-    return this.props.renderDropdown(this.renderInput())
+    return this.props.renderDropdown(this.renderInput)
   }
 
   render() {

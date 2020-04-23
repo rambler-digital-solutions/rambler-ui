@@ -329,9 +329,9 @@ class RelativeOverlay extends PureComponent {
      */
     autoPositionY: PropTypes.bool,
     /**
-     * Элемент вокруг которого показываем overlay
+     * Функция, возвращающая элемент вокруг которого показываем overlay
      */
-    anchor: PropTypes.node.isRequired,
+    anchor: PropTypes.func.isRequired,
     /**
      * Инстанс компонент контента
      * Получает автоматически на вход следующие props:
@@ -640,7 +640,7 @@ class RelativeOverlay extends PureComponent {
         className={classnames(className, classes.container)}
         style={style}
         ref={this.onContainerMount}>
-        {anchor}
+        {anchor()}
         {contentElement}
       </div>
     )

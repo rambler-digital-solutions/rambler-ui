@@ -15,7 +15,9 @@ export default class HintExample extends PureComponent {
 
         <div style={{width: '33%', display: 'flex', alignItems: 'center'}}>
           Кастомная иконка
-          <Hint icon={<InfoIcon color="magenta" />} style={{marginLeft: 10}}>
+          <Hint
+            icon={ref => <InfoIcon nodeRef={ref} color="magenta" />}
+            style={{marginLeft: 10}}>
             Номер телефона поможет вам восстановить пароль от почты
           </Hint>
         </div>

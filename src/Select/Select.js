@@ -925,18 +925,6 @@ class Select extends PureComponent {
       )
     }
 
-    const dropdownAnchor = (
-      <div
-        className={classnames(
-          containerClassName,
-          (multiple || customElementRenderer) && classes.withCustom
-        )}
-        style={containerStyle}>
-        {this.renderInput()}
-        {customElement}
-      </div>
-    )
-
     const resultIsOpened =
       !readOnly &&
       isOpened &&
@@ -949,7 +937,18 @@ class Select extends PureComponent {
           <div ref={componentRef} className={resultClassName} style={rootStyle}>
             <Dropdown
               isOpened={resultIsOpened}
-              anchor={dropdownAnchor}
+              anchor={ref => (
+                <div
+                  className={classnames(
+                    containerClassName,
+                    (multiple || customElementRenderer) && classes.withCustom
+                  )}
+                  style={containerStyle}
+                  ref={ref}>
+                  {this.renderInput()}
+                  {customElement}
+                </div>
+              )}
               padding={false}
               style={dropdownStyle}
               className={dropdownResultClassName}
