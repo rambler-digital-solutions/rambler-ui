@@ -77,8 +77,11 @@ export default class ButtonExample extends Component {
             rounded={true}>
             Rounded With Icon
           </Button>
-          <Button style={{margin: 20}} rounded={true}>
-            Rounded
+          <Button
+            style={{margin: 20}}
+            rounded={true}
+            container={<a href="#" rel="nofollow" target="_self" />}>
+            Rounded as a link
           </Button>
 
           <h4>overlay</h4>

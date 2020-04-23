@@ -219,14 +219,6 @@ class Button extends PureComponent {
      */
     href: PropTypes.string,
     /**
-     * Атрибут target для ссылки, если указан атрибут href
-     */
-    target: PropTypes.string,
-    /**
-     * Атрибут rel для ссылки, если указан атрибут href
-     */
-    rel: PropTypes.string,
-    /**
      * Css-класс
      */
     className: PropTypes.string,
@@ -250,10 +242,6 @@ class Button extends PureComponent {
      * Размер кнопки
      */
     size: PropTypes.oneOf(['small', 'medium']),
-    /**
-     * Обработчик клика
-     */
-    onClick: PropTypes.func,
     /**
      * Элемент, который содержит контент, например `<Link />`
      * в случае с `react-router`
@@ -286,7 +274,11 @@ class Button extends PureComponent {
     /**
      * Закругленная кнопка
      */
-    rounded: PropTypes.bool
+    rounded: PropTypes.bool,
+    /**
+     * Коллбэк для передачи ссылки на ноду элемента кнопки
+     */
+    nodeRef: PropTypes.func
   }
 
   static defaultProps = {
@@ -329,6 +321,7 @@ class Button extends PureComponent {
       iconPosition,
       rounded,
       style = {},
+      nodeRef,
       classes, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
       ...other
@@ -373,11 +366,11 @@ class Button extends PureComponent {
     const resultContainer = isValidElement(container) ? (
       container
     ) : href ? (
-      <a href={href} />
+      <a href={href} ref={nodeRef} />
     ) : overlay ? (
-      <div />
+      <div ref={nodeRef} />
     ) : (
-      <button type={buttonType} />
+      <button type={buttonType} ref={nodeRef} />
     )
 
     return cloneElement(
