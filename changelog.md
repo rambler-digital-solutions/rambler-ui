@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.0.0 (2019-04-27)
+### BREAKING CHANGES
+* Изменен тип свойства `anchor` на функцию в `<Dropdown />`, `<SuggestDropdown />`, `<FixedOverlay />` и `<RelativeOverlay />` для передачи ноды элемента
+* Изменен тип аргумента, передаваемого в свойство `renderDropdown` в `<ServiceSearch />` и `<ComplexSearch />` для передачи ноды элемента
+* Изменен тип свойства `icon` на функцию в `<Hint />` для передачи ноды элемента
+* Удалено свойство `href` в `<Button />`, для ссылки необходимо использовать свойство `container`
+
+### Added
+* Добавлено свойство `nodeRef` в `<Button />` и `<SvgIcon />` для получения ноды элемента
+
 ## 4.1.1 (2019-04-21)
 ### Fixed
 * Все high-order компоненты наследуются от `Component` вместо `PureComponent`
