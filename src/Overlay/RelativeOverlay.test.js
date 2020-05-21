@@ -179,7 +179,7 @@ describe('<RelativeOverlay />', () => {
     const contentNode = rootNode.querySelector('.anchor + div')
     expect(contentNode.style.left).toBe('0%')
     expect(contentNode.style.top).toBe('100%')
-    expect(contentNode.style.transform).toBe('translate(0%, 0%)')
+    expect(contentNode.style.transform).toMatch(/^translate\(0%(, 0%)?\)$/)
     done()
   })
 
@@ -204,7 +204,7 @@ describe('<RelativeOverlay />', () => {
     const contentNode = rootNode.querySelector('.anchor + div')
     expect(contentNode.style.right).toBe('0%')
     expect(contentNode.style.top).toBe('100%')
-    expect(contentNode.style.transform).toBe('translate(0%, 0%)')
+    expect(contentNode.style.transform).toMatch(/^translate\(0%(, 0%)?\)$/)
     done()
   })
 })
