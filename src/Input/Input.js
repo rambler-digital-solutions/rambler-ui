@@ -62,6 +62,16 @@ const styles = theme => ({
         margin: 0
       }
     },
+    '&::-webkit-calendar-picker-indicator': {
+      display: 'none',
+      '$withRightIcon &': {
+        display: 'block',
+        position: 'absolute',
+        margin: 0,
+        padding: 0,
+        background: 'transparent'
+      }
+    },
     '&:enabled:hover': {borderColor: theme.field.colors.hover.outline},
     '&:disabled': {
       background: theme.field.colors.disabled.background,
@@ -156,16 +166,22 @@ const styles = theme => ({
         '& $characterCounter': {
           lineHeight: theme.field.sizes[size].height + 'px'
         },
-        '& $icon': {
-          height: theme.field.sizes[size].icon,
-          width: theme.field.sizes[size].icon,
-          lineHeight: theme.field.sizes[size].icon + 'px',
-          ...ifMobile({
-            height: theme.field.mobile.sizes[size].icon,
-            width: theme.field.mobile.sizes[size].icon,
-            lineHeight: theme.field.mobile.sizes[size].icon + 'px'
-          })
-        },
+        ...['& $icon', '& $input::-webkit-calendar-picker-indicator'].reduce(
+          (result, selector) => ({
+            ...result,
+            [selector]: {
+              height: theme.field.sizes[size].icon,
+              width: theme.field.sizes[size].icon,
+              lineHeight: theme.field.sizes[size].icon + 'px',
+              ...ifMobile({
+                height: theme.field.mobile.sizes[size].icon,
+                width: theme.field.mobile.sizes[size].icon,
+                lineHeight: theme.field.mobile.sizes[size].icon + 'px'
+              })
+            }
+          }),
+          {}
+        ),
         '& $eye': {
           height: theme.field.sizes[size].eyeIcon,
           width: theme.field.sizes[size].eyeIcon,
@@ -319,15 +335,33 @@ const styles = theme => ({
         '&$promo $iconLeft': {
           left: 0
         },
-        '&$regular $iconRight, &$awesome $iconRight': {
-          right: theme.field.sizes[size].iconMargin,
-          ...ifMobile({
-            right: theme.field.mobile.sizes[size].iconMargin
-          })
-        },
-        '&$promo $iconRight': {
-          right: 0
-        },
+        '&$regular, &$awesome': [
+          '& $iconRight',
+          '& $input::-webkit-calendar-picker-indicator'
+        ].reduce(
+          (result, selector) => ({
+            ...result,
+            [selector]: {
+              right: theme.field.sizes[size].iconMargin,
+              ...ifMobile({
+                right: theme.field.mobile.sizes[size].iconMargin
+              })
+            }
+          }),
+          {}
+        ),
+        '&$promo': [
+          '& $iconRight',
+          '& $input::-webkit-calendar-picker-indicator'
+        ].reduce(
+          (result, selector) => ({
+            ...result,
+            [selector]: {
+              right: 0
+            }
+          }),
+          {}
+        ),
         '&$inGroup$regular, &$inGroup$awesome': {
           '&:not($startPosition)': {
             '& $input, & $activeBorder': {
