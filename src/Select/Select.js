@@ -495,12 +495,25 @@ class Select extends PureComponent {
     return !multiple && clearIcon && !this.isValueEmpty(this.state.value)
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const {value} = prevState
-    if (value === nextProps.value) return null
-    return {
-      value: nextProps.value
+  static getValue(nextValue, nextProps, prevState) {
+    const {valuesEquality, multiple} = nextProps
+    const oldValue = prevState.value
+    if (multiple) {
+      const currValue = Array.isArray(oldValue) ? oldValue : emptyArr
+      const nextValue = Array.isArray(nextValue) ? nextValue : emptyArr
+      if (
+        nextValue.length === currValue.length &&
+        nextValue.every((item, index) => valuesEquality(item, currValue[index]))
+      )
+        return null
+    } else if (valuesEquality(nextValue, oldValue)) {
+      return null
     }
+    return nextValue
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    return Select.getValue(nextProps.value, nextProps, prevState)
   }
 
   handleDropdownClose = () => {
