@@ -495,9 +495,12 @@ class Select extends PureComponent {
     return !multiple && clearIcon && !this.isValueEmpty(this.state.value)
   }
 
-  componentDidUpdate(prevProps) {
-    const {value} = this.props
-    if (value !== prevProps.value) this.setValue(value)
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const {value} = prevState
+    if (value === nextProps.value) return null
+    return {
+      value: nextProps.value
+    }
   }
 
   handleDropdownClose = () => {
