@@ -495,35 +495,14 @@ class Select extends PureComponent {
     return !multiple && clearIcon && !this.isValueEmpty(this.state.value)
   }
 
-  static getValue(nextValue, nextProps, prevState) {
-    const {valuesEquality, multiple} = nextProps
-    const oldValue = prevState.value
-    if (multiple) {
-      const currValue = Array.isArray(oldValue) ? oldValue : emptyArr
-      const nextValue = Array.isArray(nextValue) ? nextValue : emptyArr
-      if (
-        nextValue.length === currValue.length &&
-        nextValue.every((item, index) => valuesEquality(item, currValue[index]))
-      )
-        return null
-    } else if (valuesEquality(nextValue, oldValue)) {
-      return null
-    }
-    return nextValue
-  }
-
   static getDerivedStateFromProps(nextProps, prevState) {
-    return Select.getValue(nextProps.value, nextProps, prevState)
+    if (nextProps.value === prevState.value) return null
+    return Select.getValueState(nextProps.value, nextProps, prevState)
   }
 
-  handleDropdownClose = () => {
-    if (this.state.isOpened || this.props.inputMode) return
-    this.setSearchText('')
-  }
-
-  setValue(value) {
-    const {valuesEquality, multiple} = this.props
-    const oldValue = this.state.value
+  static getValueState(value, nextProps, prevState) {
+    const {valuesEquality, multiple} = nextProps
+    const {value: oldValue} = prevState
     if (multiple) {
       const currValue = Array.isArray(oldValue) ? oldValue : emptyArr
       const nextValue = Array.isArray(value) ? value : emptyArr
@@ -531,13 +510,16 @@ class Select extends PureComponent {
         nextValue.length === currValue.length &&
         nextValue.every((item, index) => valuesEquality(item, currValue[index]))
       )
-        return
+        return null
     } else if (valuesEquality(value, oldValue)) {
-      return
+      return null
     }
-    this.setState({
-      value
-    })
+    return {value}
+  }
+
+  handleDropdownClose = () => {
+    if (this.state.isOpened || this.props.inputMode) return
+    this.setSearchText('')
   }
 
   setSearchText(searchText) {
@@ -559,7 +541,8 @@ class Select extends PureComponent {
     const {multiple, inputMode, onChange} = this.props
     if (!multiple) this.setState({isOpened: false})
     if (inputMode) this.setSearchText(value || '')
-    this.setValue(value)
+    const nextState = Select.getValueState(value, this.props, this.state)
+    if (nextState) this.setState(nextState)
     if (onChange) onChange(value)
     if (!inputMode && !multiple) this.input.focus()
   }
@@ -1029,7 +1012,8 @@ class Select extends PureComponent {
         item => this.values[item.value]
       )
       : this.values[target.value]
-    this.setValue(nextValue)
+    const nextState = Select.getValueState(nextValue, this.props, this.state)
+    if (nextState) this.setState(nextState)
     if (onChange) onChange(nextValue)
   }
 
