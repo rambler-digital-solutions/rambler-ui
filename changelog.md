@@ -1,11 +1,11 @@
 # Changelog
 
-## 5.0.0 (2019-05-22)
+## 5.0.0 (2019-06-10)
 ### BREAKING CHANGES
 * Изменен тип свойства `anchor` на функцию в `<Dropdown />`, `<SuggestDropdown />`, `<FixedOverlay />` и `<RelativeOverlay />` для передачи ноды элемента
 * Изменен тип аргумента, передаваемого в свойство `renderDropdown` в `<ServiceSearch />` и `<ComplexSearch />` для передачи ноды элемента
 * Изменен тип свойства `icon` на функцию в `<Hint />` для передачи ноды элемента
-* Удалено свойство `href` в `<Button />`, для ссылки необходимо использовать свойство `container`
+* Удалены свойства `href`, `target` и `rel` в `<Avatar />`, `<Button />`, `<IconButton />`, `<SideNavItem />` и `<TabsItem />`. Для ссылок необходимо использовать свойство `container`
 
 ### Added
 * Добавлено свойство `nodeRef` в `<Button />` и `<SvgIcon />` для получения ноды элемента
