@@ -15,9 +15,6 @@ export interface TabsItemProps<T> {
   size?: Size
   isSelected?: boolean
   disabled?: boolean
-  href?: string
-  target?: string
-  rel?: string
   container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
   onPress?: (event: SyntheticEvent, value: T) => void | Promise<void>
 }

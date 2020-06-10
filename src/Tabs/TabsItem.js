@@ -95,18 +95,6 @@ class TabsItem extends Component {
      */
     children: PropTypes.node,
     /**
-     * Если указан href, то кнопка будет ссылкой
-     */
-    href: PropTypes.string,
-    /**
-     * Атрибут target для ссылки, если указан атрибут href
-     */
-    target: PropTypes.string,
-    /**
-     * Атрибут rel для ссылки, если указан атрибут href
-     */
-    rel: PropTypes.string,
-    /**
      * Размер компонента (автоматически проставляется компонентом `<Tabs/>`)
      */
     size: PropTypes.oneOf(['small', 'medium']),
@@ -123,7 +111,7 @@ class TabsItem extends Component {
      */
     disabled: PropTypes.bool,
     /**
-     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`.
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`, или `<a />` если необходима ссылка.
      * Если используется `<NavLink />` с `activeClassName`,
      * нужно в `container` передавать фабрику, которая получает `activeClassName` в аргументах
      */
@@ -151,7 +139,6 @@ class TabsItem extends Component {
 
   render() {
     const {
-      href,
       container,
       children,
       className,
@@ -188,9 +175,6 @@ class TabsItem extends Component {
       isLink = true
     } else if (typeof container === 'function') {
       element = container({activeClassName: classes.isSelected})
-      isLink = true
-    } else if (href) {
-      element = <a href={href} />
       isLink = true
     } else {
       element = <button type="button" disabled={disabled} />
