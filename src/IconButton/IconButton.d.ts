@@ -3,9 +3,6 @@ import {ButtonType, Size} from '..'
 
 export interface IconButtonProps {
   type?: ButtonType
-  href?: string
-  target?: string
-  rel?: string
   className?: string
   style?: CSSProperties
   children?: ReactNode

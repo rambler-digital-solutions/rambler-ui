@@ -17,32 +17,19 @@ describe('<IconButton />', () => {
     onClick: () => {}
   }
 
-  const defaultPropsLink = {
+  const anchorProps = {
     href: 'http://www.rambler.ru',
-    ref: () => {},
     target: '_blank'
   }
+  const defaultLinkProps = {
+    ref: () => {},
+    container: <a {...anchorProps} />
+  }
 
-  const defaultPropsDisabledBtn = {
+  const defaultDisabledButtonProps = {
     disabled: true,
     ref: () => {}
   }
-
-  let event, linkComponent, btnComponent
-  beforeEach(() => {
-    spyOn(defaultProps, 'onClick').and.callFake(e => {
-      event = e
-    })
-    spyOn(defaultPropsLink, 'ref').and.callFake(component => {
-      linkComponent = component
-    })
-    spyOn(defaultPropsDisabledBtn, 'ref').and.callFake(component => {
-      btnComponent = component
-    })
-    spyOn(defaultProps, 'ref').and.callFake(component => {
-      btnComponent = component
-    })
-  })
 
   it('expect type="primary" size="medium" affect style', () => {
     const wrapper = mount(
@@ -122,9 +109,14 @@ describe('<IconButton />', () => {
   })
 
   it('callback onClick', () => {
+    let event
     const wrapper = mount(
       applyTheme(
-        <IconButton type="primary" size="medium" {...defaultProps}>
+        <IconButton
+          type="primary"
+          size="medium"
+          {...defaultProps}
+          onClick={e => (event = e)}>
           <RamblerMailIcon />
         </IconButton>
       )
@@ -138,37 +130,38 @@ describe('<IconButton />', () => {
   it('check link is link and attrs - href, target', () => {
     const wrapper = mount(
       applyTheme(
-        <IconButton type="primary" size="small" {...defaultPropsLink}>
+        <IconButton type="primary" size="small" {...defaultLinkProps}>
           <RamblerMailIcon />
         </IconButton>
       )
     )
-    const a = wrapper.find('a')
-    expect(a.type()).toEqual('a')
-    expect(linkComponent.props.target).toEqual('_blank')
-    expect(linkComponent.props.href).toEqual('http://www.rambler.ru')
+    const link = getWrapperNode(wrapper.find('a').first())
+    expect(link.getAttribute('target')).toEqual(anchorProps.target)
+    expect(link.getAttribute('href')).toEqual(anchorProps.href)
   })
 
   it('check attr disabled', () => {
-    mount(
+    const wrapper = mount(
       applyTheme(
-        <IconButton type="primary" size="small" {...defaultPropsDisabledBtn}>
+        <IconButton type="primary" size="small" {...defaultDisabledButtonProps}>
           <RamblerMailIcon />
         </IconButton>
       )
     )
-    expect(btnComponent.props.disabled).toBeTruthy()
+    const button = getWrapperNode(wrapper.find('button').first())
+    expect(button.disabled).toBeTruthy()
   })
 
   it('check button type=button', () => {
-    mount(
+    const wrapper = mount(
       applyTheme(
         <IconButton {...defaultProps} buttonType="button">
           <RamblerMailIcon />
         </IconButton>
       )
     )
-    expect(btnComponent.props.buttonType).toEqual('button')
+    const button = getWrapperNode(wrapper.find('button').first())
+    expect(button.getAttribute('type')).toEqual('button')
   })
 
   it('check icon parent container in button', () => {

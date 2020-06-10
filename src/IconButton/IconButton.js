@@ -158,18 +158,6 @@ class IconButton extends PureComponent {
       'danger'
     ]),
     /**
-     * Если указан href, то кнопка будет ссылкой
-     */
-    href: PropTypes.string,
-    /**
-     * Атрибут target для ссылки, если указан атрибут href
-     */
-    target: PropTypes.string,
-    /**
-     * Атрибут rel для ссылки, если указан атрибут href
-     */
-    rel: PropTypes.string,
-    /**
      * Css-класс
      */
     className: PropTypes.string,
@@ -193,8 +181,7 @@ class IconButton extends PureComponent {
      */
     onClick: PropTypes.func,
     /**
-     * Элемент, который содержит контент, например `<Link />`
-     * в случае с `react-router`
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`, или `<a />` если необходима ссылка
      */
     container: PropTypes.element,
     /**
@@ -254,7 +241,6 @@ class IconButton extends PureComponent {
     const {
       children,
       type,
-      href,
       container,
       buttonType,
       disabled,
@@ -303,8 +289,6 @@ class IconButton extends PureComponent {
 
     const resultContainer = isValidElement(container) ? (
       container
-    ) : href ? (
-      <a href={href} />
     ) : overlay ? (
       <div />
     ) : (
