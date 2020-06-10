@@ -94,24 +94,15 @@ const Footer = ({classes}) => (
     <div className={classes.main}>
       <div className={classes.copy}>© Рамблер, {currentYear}</div>
       <div className={classes.links}>
-        <a
-          href="https://rambler-co.ru/jobs"
-          target="_blank"
-          rel="noreferrer noopener">
-          Вакансии
-        </a>
-        <a
-          href="https://rambler-co.ru/contacts"
-          target="_blank"
-          rel="noreferrer noopener">
-          Контакты
-        </a>
-        <a
-          href="https://rambler-co.ru/"
-          target="_blank"
-          rel="noreferrer noopener">
-          О компании
-        </a>
+        {[
+          ['Вакансии', 'https://rambler-co.ru/jobs'],
+          ['Контакты', 'https://rambler-co.ru/contacts'],
+          ['О компании', 'https://rambler-co.ru/']
+        ].map(([text, href], index) => (
+          <a href={href} target="_blank" rel="noreferrer noopener" key={index}>
+            {text}
+          </a>
+        ))}
       </div>
     </div>
     <div className={classes.help}>
@@ -119,26 +110,20 @@ const Footer = ({classes}) => (
       нам!
     </div>
     <div className={classes.buttons}>
-      <IconButton
-        size="small"
-        href="https://github.com/rambler-digital-solutions/rambler-ui"
-        target="_blank"
-        rel="noreferrer noopener">
-        <GithubIcon />
-      </IconButton>
-      <IconButton
-        size="small"
-        href="https://www.facebook.com/ramblerdesign/"
-        target="_blank"
-        rel="noreferrer noopener">
-        <FacebookIcon />
-      </IconButton>
-      {/* <IconButton */}
-      {/*   size="small" */}
-      {/*   href="https://medium.com/ramblerdesign" */}
-      {/*   target="_blank" rel="noreferrer noopener"> */}
-      {/*   <MediumIcon /> */}
-      {/* </IconButton> */}
+      {[
+        ['https://github.com/rambler-digital-solutions/rambler-ui', GithubIcon],
+        ['https://www.facebook.com/ramblerdesign/', FacebookIcon]
+        // ['https://medium.com/ramblerdesign', MediumIcon]
+      ].map(([href, Icon], index) => (
+        <IconButton
+          container={
+            <a href={href} target="_blank" rel="noreferrer noopener" />
+          }
+          size="small"
+          key={index}>
+          <Icon />
+        </IconButton>
+      ))}
     </div>
   </footer>
 )
