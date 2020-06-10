@@ -15,9 +15,6 @@ export interface SideNavItemProps<T> {
   size?: Size
   value?: T | null
   isSelected?: boolean
-  href?: string
-  target?: string
-  rel?: string
   container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
   onPress?: (event: SyntheticEvent, value: T) => void | Promise<void>
 }

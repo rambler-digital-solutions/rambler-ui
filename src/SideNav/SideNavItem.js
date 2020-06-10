@@ -75,19 +75,7 @@ class SideNavItem extends Component {
      */
     isSelected: PropTypes.bool,
     /**
-     * Если указан href, то элемент будет ссылкой
-     */
-    href: PropTypes.string,
-    /**
-     * Атрибут target для ссылки, если указан атрибут href
-     */
-    target: PropTypes.string,
-    /**
-     * Атрибут rel для ссылки, если указан атрибут href
-     */
-    rel: PropTypes.string,
-    /**
-     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`.
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`, или `<a />` если необходима ссылка.
      * Если используется `<NavLink />` с `activeClassName`,
      * нужно в `container` передавать фабрику, которая получает `activeClassName` в аргументах
      */
@@ -129,7 +117,6 @@ class SideNavItem extends Component {
       icon,
       size,
       isSelected,
-      href,
       container,
       classes,
       theme, // eslint-disable-line no-unused-vars
@@ -151,8 +138,6 @@ class SideNavItem extends Component {
       container
     ) : typeof container === 'function' ? (
       container({activeClassName: classes.isSelected})
-    ) : href ? (
-      <a href={href} />
     ) : (
       <div />
     )

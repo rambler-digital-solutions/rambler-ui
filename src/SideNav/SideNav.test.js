@@ -162,14 +162,13 @@ describe('<SideNav />', () => {
             <SideNavItem
               {...defaultPropsSideNavItem}
               className="sideNavPersonal"
-              href="/personal">
+              container={<a href="/personal" />}>
               Личные данные
             </SideNavItem>
             <SideNavItem
               {...defaultPropsSideNavItem}
               className="sideNavEmails"
-              href="/emails"
-              target="_blank">
+              container={<a href="/emails" target="_blank" />}>
               Адреса электронной почты
             </SideNavItem>
           </SideNav>

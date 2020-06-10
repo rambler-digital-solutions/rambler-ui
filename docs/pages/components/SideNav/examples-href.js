@@ -10,16 +10,18 @@ export default class SideNavExampleHref extends Component {
       <div>
         <div style={{width: '300px', display: 'inline-block'}}>
           <SideNav>
-            <SideNavItem href="#/components/icons/forms" icon={<TickIcon />}>
+            <SideNavItem
+              container={<a href="#/components/icons/forms" />}
+              icon={<TickIcon />}>
               Иконки форм
             </SideNavItem>
             <SideNavItem
-              href="#/components/icons/profiles"
+              container={<a href="#/components/icons/profiles" />}
               icon={<FacebookIcon />}>
               Иконки профилей
             </SideNavItem>
             <SideNavItem
-              href="#/components/icons/services"
+              container={<a href="#/components/icons/services" />}
               icon={<RamblerAutoIcon />}>
               Иконки сервисов
             </SideNavItem>
