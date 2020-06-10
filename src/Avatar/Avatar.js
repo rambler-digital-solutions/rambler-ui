@@ -90,19 +90,7 @@ class Avatar extends PureComponent {
       'vkontakte'
     ]),
     /**
-     * Если указан, аватар будет ссылкой
-     */
-    href: PropTypes.string,
-    /**
-     * Атрибут target для ссылки, если указан атрибут href
-     */
-    target: PropTypes.string,
-    /**
-     * Атрибут rel для ссылки, если указан атрибут href
-     */
-    rel: PropTypes.string,
-    /**
-     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`
+     * Элемент, который содержит контент, например `<Link />` в случае с `react-router`, или `<a />` если необходима ссылка
      */
     container: PropTypes.element
   }
@@ -110,16 +98,6 @@ class Avatar extends PureComponent {
   static defaultProps = {
     size: 45,
     shape: 'circle'
-  }
-
-  getContainer() {
-    const {href, container} = this.props
-
-    if (isValidElement(container)) return container
-
-    if (href) return <a href={href} />
-
-    return <div />
   }
 
   render() {
@@ -134,8 +112,7 @@ class Avatar extends PureComponent {
       profileType,
       theme,
       classes,
-      href, // eslint-disable-line no-unused-vars
-      container, // eslint-disable-line no-unused-vars
+      container,
       ...other
     } = this.props
 
@@ -157,7 +134,7 @@ class Avatar extends PureComponent {
     )
 
     return cloneElement(
-      this.getContainer(),
+      isValidElement(container) ? container : <div />,
       {
         ...other,
         style: {

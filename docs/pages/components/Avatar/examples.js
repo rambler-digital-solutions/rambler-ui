@@ -21,7 +21,11 @@ export default function AvatarExample() {
         <h4>shape: circle</h4>
         <Avatar {...props} profileType="facebook" />
         <Avatar {...props} size={36} profileType="facebook" />
-        <Avatar {...props} size={75} href="#/components/Button" />
+        <Avatar
+          {...props}
+          size={75}
+          container={<a href="#/components/Button" />}
+        />
       </div>
 
       <div style={{marginRight: 20}}>
