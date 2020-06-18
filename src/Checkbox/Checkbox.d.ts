@@ -1,11 +1,14 @@
-import {CSSProperties, PureComponent, SyntheticEvent} from 'react'
+import {
+  CSSProperties,
+  PureComponent,
+  SyntheticEvent,
+  HTMLAttributes
+} from 'react'
 import {HorizontalPosition, Size, Variation} from '..'
 
-export interface CheckboxProps {
+export interface CheckboxProps extends HTMLAttributes<HTMLInputElement> {
   name?: string
   disabled?: boolean
-  className?: string
-  style?: CSSProperties
   iconPosition?: Exclude<HorizontalPosition, 'center'>
   checked?: boolean
   indeterminate?: boolean

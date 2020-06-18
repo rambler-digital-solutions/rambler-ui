@@ -1,10 +1,8 @@
-import {CSSProperties, PureComponent, ReactElement, ReactNode} from 'react'
+import {PureComponent, ReactElement, ReactNode, HTMLAttributes} from 'react'
 import {ButtonType, Size} from '..'
 
-export interface IconButtonProps {
+export interface IconButtonProps extends HTMLAttributes<HTMLButtonElement> {
   type?: ButtonType
-  className?: string
-  style?: CSSProperties
   children?: ReactNode
   size?: number | Size
   onClick?: () => void | Promise<void>

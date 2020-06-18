@@ -1,9 +1,8 @@
-import {CSSProperties, PureComponent} from 'react'
+import {PureComponent, HTMLAttributes} from 'react'
 import {Size, Variation, StatusType} from '..'
 
-export interface FieldGroupProps {
-  className?: string
-  style?: CSSProperties
+export interface FieldGroupProps
+  extends HTMLAttributes<HTMLInputElement & HTMLSelectElement> {
   size?: Size
   variation?: Variation
   status?: Exclude<StatusType, 'filled'> | null

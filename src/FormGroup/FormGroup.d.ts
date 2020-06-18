@@ -1,14 +1,12 @@
-import {Component, CSSProperties, ReactNode} from 'react'
+import {Component, ReactNode, HTMLAttributes} from 'react'
 import {Size} from '..'
 
-export interface FormGroupProps {
+export interface FormGroupProps extends HTMLAttributes<HTMLDivElement> {
   inline?: boolean
   label?: ReactNode
   size?: Size
-  className?: string
   fieldId?: string
   children: ReactNode
-  style?: CSSProperties
 }
 
 export default class FormGroup extends Component<FormGroupProps, {}> {}

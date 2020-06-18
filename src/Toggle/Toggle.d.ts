@@ -1,11 +1,10 @@
-import {Component, CSSProperties, ReactNode, SyntheticEvent} from 'react'
+import {Component, ReactNode, SyntheticEvent, HTMLAttributes} from 'react'
 import {Size} from '..'
 
-export interface ToggleProps<T> {
+export interface ToggleProps<T>
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: T | null
   onChange?: (event: SyntheticEvent, value: T | null) => void | Promise<void>
-  className?: string
-  style?: CSSProperties
   children?: ReactNode
   size?: Size
   behavior?: 'radio' | 'toggle'

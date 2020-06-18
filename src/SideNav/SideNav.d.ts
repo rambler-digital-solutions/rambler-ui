@@ -1,9 +1,8 @@
-import {Component, CSSProperties, ReactNode, SyntheticEvent} from 'react'
+import {Component, ReactNode, SyntheticEvent, HTMLAttributes} from 'react'
 import {Size} from '..'
 
-export interface SideNavProps<T> {
-  className?: string
-  style?: CSSProperties
+export interface SideNavProps<T>
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   children?: ReactNode
   size?: Size
   value?: T | null

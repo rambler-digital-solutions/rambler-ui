@@ -1,6 +1,6 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-declare const Source: FC<Omit<TypographyProps, 'type'>>
+declare const Source: FC<BaseTypographyProps<HTMLSpanElement>>
 
 export default Source

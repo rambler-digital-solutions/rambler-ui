@@ -1,4 +1,4 @@
-import {CSSProperties, PureComponent, ReactElement} from 'react'
+import {PureComponent, ReactElement, HTMLAttributes} from 'react'
 
 export type AvatarShape = 'circle' | 'square' | 'rounded'
 
@@ -15,9 +15,7 @@ export type ProfileType =
   | 'twitter'
   | 'vkontakte'
 
-export interface AvatarProps {
-  className?: string
-  style?: CSSProperties
+export interface AvatarProps extends HTMLAttributes<HTMLDivElement> {
   backgroundColor?: string
   iconBackgroundColor?: string
   src: string

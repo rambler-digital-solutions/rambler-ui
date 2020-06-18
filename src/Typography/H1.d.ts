@@ -1,6 +1,6 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-declare const H1: FC<Omit<TypographyProps, 'type'>>
+declare const H1: FC<BaseTypographyProps<HTMLHeadingElement>>
 
 export default H1

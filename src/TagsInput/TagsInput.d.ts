@@ -1,10 +1,9 @@
-import {PureComponent, ReactNode} from 'react'
+import {PureComponent, ReactNode, HTMLAttributes} from 'react'
 import {TagType} from '..'
 
-export interface TagsInputProps {
+export interface TagsInputProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   disabled?: boolean
-  className?: string
   isExpanded?: boolean
   onChange?: () => void | Promise<void>
   onMoreClick?: () => void | Promise<void>

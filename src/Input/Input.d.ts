@@ -1,4 +1,10 @@
-import {CSSProperties, PureComponent, ReactNode, SyntheticEvent} from 'react'
+import {
+  CSSProperties,
+  PureComponent,
+  ReactNode,
+  SyntheticEvent,
+  HTMLAttributes
+} from 'react'
 import {Size, Variation, StatusType} from '..'
 
 export type InputType =
@@ -12,7 +18,11 @@ export type InputType =
   | 'date'
   | 'month'
 
-export interface InputProps {
+export interface InputProps
+  extends Omit<
+    HTMLAttributes<HTMLInputElement>,
+    'value' | 'size' | 'onChange'
+  > {
   value: string | null
   placeholder?: string
   disabled?: boolean

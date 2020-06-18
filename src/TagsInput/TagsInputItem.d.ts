@@ -1,8 +1,13 @@
-import {Component, ReactElement, Ref, SyntheticEvent} from 'react'
+import {
+  Component,
+  ReactElement,
+  Ref,
+  SyntheticEvent,
+  HTMLAttributes
+} from 'react'
 import {TagType} from '..'
 
-export interface TagsInputItemProps<T> {
-  className?: string
+export interface TagsInputItemProps<T> extends HTMLAttributes<HTMLDivElement> {
   value: T
   children: string
   icon?: ReactElement

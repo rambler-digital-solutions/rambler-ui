@@ -1,10 +1,9 @@
-import {Component, CSSProperties, ReactNode, Ref, SyntheticEvent} from 'react'
+import {Component, ReactNode, Ref, SyntheticEvent, HTMLAttributes} from 'react'
 import {Size} from '..'
 
-export interface ToggleOptionProps<T> {
+export interface ToggleOptionProps<T>
+  extends HTMLAttributes<HTMLButtonElement> {
   value: T | null
-  className?: string
-  style?: CSSProperties
   children?: ReactNode
   icon?: ReactNode
   size?: Size

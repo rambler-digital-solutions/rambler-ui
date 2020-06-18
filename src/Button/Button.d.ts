@@ -1,16 +1,14 @@
 import {
-  CSSProperties,
   ReactElement,
   ReactNode,
   PureComponent,
-  SyntheticEvent
+  SyntheticEvent,
+  HTMLAttributes
 } from 'react'
 import {HorizontalPosition, Size, ButtonType} from '..'
 
-export interface ButtonProps {
+export interface ButtonProps extends HTMLAttributes<HTMLButtonElement> {
   type?: ButtonType
-  className?: string
-  style?: CSSProperties
   icon?: ReactNode
   iconPosition?: Exclude<HorizontalPosition, 'center'>
   size?: Size

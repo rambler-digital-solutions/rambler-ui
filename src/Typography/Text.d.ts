@@ -1,6 +1,6 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-declare const Text: FC<Omit<TypographyProps, 'type'>>
+declare const Text: FC<BaseTypographyProps<HTMLParagraphElement>>
 
 export default Text

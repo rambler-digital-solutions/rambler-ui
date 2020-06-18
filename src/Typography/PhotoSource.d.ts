@@ -1,6 +1,6 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-declare const PhotoSource: FC<Omit<TypographyProps, 'type'>>
+declare const PhotoSource: FC<BaseTypographyProps<HTMLSpanElement>>
 
 export default PhotoSource

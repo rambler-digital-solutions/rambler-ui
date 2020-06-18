@@ -1,16 +1,14 @@
 import {
   Component,
-  CSSProperties,
   ReactElement,
   ReactNode,
-  SyntheticEvent
+  SyntheticEvent,
+  HTMLAttributes
 } from 'react'
 import {Size} from '..'
 
-export interface TabsItemProps<T> {
+export interface TabsItemProps<T> extends HTMLAttributes<HTMLButtonElement> {
   value?: T
-  className?: string
-  style?: CSSProperties
   children?: ReactNode
   size?: Size
   isSelected?: boolean

@@ -1,9 +1,8 @@
-import {PureComponent, CSSProperties, SyntheticEvent} from 'react'
+import {PureComponent, SyntheticEvent, HTMLAttributes} from 'react'
 
-export interface SliderProps<T> {
+export interface SliderProps<T>
+  extends Omit<HTMLAttributes<HTMLInputElement>, 'onChange'> {
   value?: T
-  className?: string
-  style?: CSSProperties
   min?: number
   max?: number
   step?: number

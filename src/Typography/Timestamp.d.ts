@@ -1,6 +1,6 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-declare const Timestamp: FC<Omit<TypographyProps, 'type'>>
+declare const Timestamp: FC<BaseTypographyProps<HTMLTimeElement>>
 
 export default Timestamp

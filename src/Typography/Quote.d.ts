@@ -1,6 +1,6 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-declare const Quote: FC<Omit<TypographyProps, 'type'>>
+declare const Quote: FC<BaseTypographyProps<HTMLQuoteElement>>
 
 export default Quote

@@ -1,10 +1,9 @@
-import {Component, CSSProperties, ReactNode, SyntheticEvent} from 'react'
+import {Component, ReactNode, SyntheticEvent, HTMLAttributes} from 'react'
 import {Size, VerticalPosition} from '..'
 
-export interface TabsProps<T> {
+export interface TabsProps<T>
+  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: T
-  className?: string
-  style?: CSSProperties
   children?: ReactNode
   size?: Size
   position?: Exclude<VerticalPosition, 'center'>

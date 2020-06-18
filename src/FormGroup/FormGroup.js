@@ -119,7 +119,8 @@ class FormGroup extends Component {
       children,
       style,
       size,
-      classes
+      classes,
+      ...props
     } = this.props
 
     const rootClass = inline === true ? 'inline' : 'normal'
@@ -134,7 +135,7 @@ class FormGroup extends Component {
     const innerClassName = classes.inner
 
     return (
-      <section className={rootClassName} style={style}>
+      <section className={rootClassName} style={style} {...props}>
         {label && (
           <label htmlFor={fieldId} className={labelClassName}>
             {label}

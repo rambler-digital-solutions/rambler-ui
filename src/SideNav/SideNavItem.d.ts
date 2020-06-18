@@ -1,15 +1,13 @@
 import {
   Component,
-  CSSProperties,
   ReactNode,
   ReactElement,
-  SyntheticEvent
+  SyntheticEvent,
+  HTMLAttributes
 } from 'react'
 import {Size} from '..'
 
-export interface SideNavItemProps<T> {
-  className?: string
-  style?: CSSProperties
+export interface SideNavItemProps<T> extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode
   icon: ReactNode
   size?: Size

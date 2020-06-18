@@ -3,11 +3,16 @@ import {
   PureComponent,
   ReactElement,
   ReactNode,
-  SyntheticEvent
+  SyntheticEvent,
+  HTMLAttributes
 } from 'react'
 import {Size, Variation, StatusType, TagType} from '..'
 
-export interface SelectProps<T> {
+export interface SelectProps<T>
+  extends Omit<
+    HTMLAttributes<HTMLSelectElement>,
+    'value' | 'size' | 'onChange' | 'inputMode'
+  > {
   className?: string
   style?: CSSProperties
   dropdownClassName?: string
