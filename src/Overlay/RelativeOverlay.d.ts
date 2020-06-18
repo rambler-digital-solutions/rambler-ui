@@ -12,7 +12,7 @@ export interface RelativeOverlayProps {
   contentPointY: VerticalPosition
   autoPositionX?: boolean
   autoPositionY?: boolean
-  anchor: ReactNode
+  anchor: () => ReactNode
   content: ReactNode
   onContentClose?: () => void | Promise<void>
   onContentOpen?: () => void | Promise<void>

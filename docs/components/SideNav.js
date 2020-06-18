@@ -436,12 +436,12 @@ class SideNav extends PureComponent {
           anchorPointX="left"
           contentPointX="left"
           isOpened={showVersions}
-          anchor={
-            <button onClick={this.showVersions}>
+          anchor={ref => (
+            <button onClick={this.showVersions} ref={ref}>
               Версия {currentVersion}
               <ChevronIcon color="currentColor" />
             </button>
-          }
+          )}
           onClose={this.hideVersions}>
           <Menu
             size="small"
@@ -486,24 +486,28 @@ class SideNav extends PureComponent {
               </button>
               {this.renderList(index)}
               <div className={classes.buttons}>
-                <Button
-                  type="outlineBlue"
-                  block
-                  href="https://brand.rambler.ru"
-                  rel="noreferrer noopener"
-                  target="_blank">
-                  Дизайнеру
-                  <ArrowIcon color="#315efb" />
-                </Button>
-                <Button
-                  type="outlineBlue"
-                  block
-                  href="https://github.com/rambler-digital-solutions/rambler-ui"
-                  rel="noreferrer noopener"
-                  target="_blank">
-                  Разработчику
-                  <ArrowIcon color="#315efb" />
-                </Button>
+                {[
+                  ['Дизайнеру', 'https://brand.rambler.ru'],
+                  [
+                    'Разработчику',
+                    'https://github.com/rambler-digital-solutions/rambler-ui'
+                  ]
+                ].map(([text, href], index) => (
+                  <Button
+                    container={
+                      <a
+                        href={href}
+                        rel="noreferrer noopener"
+                        target="_blank"
+                      />
+                    }
+                    type="outlineBlue"
+                    block
+                    key={index}>
+                    {text}
+                    <ArrowIcon color="#315efb" />
+                  </Button>
+                ))}
               </div>
               {this.renderVersion()}
             </div>

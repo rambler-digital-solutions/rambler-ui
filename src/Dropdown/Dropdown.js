@@ -6,9 +6,9 @@ import DropdownContent from './DropdownContent'
 export default class Dropdown extends PureComponent {
   static propTypes = {
     /**
-     * Элемент, к которому привязывается Dropdown
+     * Функция, возвращающая элемент, к которому привязывается Dropdown. Принимает коллбек для передачи ссылки на ноду в качестве аргумента
      */
-    anchor: PropTypes.node.isRequired,
+    anchor: PropTypes.func.isRequired,
     /**
      * Контент дропдауна
      */

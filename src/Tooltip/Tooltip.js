@@ -135,10 +135,13 @@ class Tooltip extends PureComponent {
     this.setState({isOpened: false})
   }
 
-  renderAnchor() {
+  renderAnchor = ref => {
     const {className, style, children, classes} = this.props
     const anchor = (
-      <span style={style} className={classnames(className, classes.anchor)}>
+      <span
+        style={style}
+        className={classnames(className, classes.anchor)}
+        ref={ref}>
         {children}
       </span>
     )
@@ -163,7 +166,7 @@ class Tooltip extends PureComponent {
     return (
       <FixedOverlay
         isOpened={this.state.isOpened}
-        anchor={this.renderAnchor()}
+        anchor={this.renderAnchor}
         content={
           <TooltipContent
             onClickOutside={this.onClickOutside}

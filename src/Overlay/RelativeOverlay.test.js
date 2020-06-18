@@ -53,7 +53,7 @@ describe('<RelativeOverlay />', () => {
       withTheme(
         <RelativeOverlay
           isOpened={false}
-          anchor={<Anchor {...anchorProps} />}
+          anchor={() => <Anchor {...anchorProps} />}
           content={<Content />}
           onContentOpen={callbacks.onContentOpen}
           onContentClose={callbacks.onContentClose}

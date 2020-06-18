@@ -1,5 +1,15 @@
 # Changelog
 
+## 5.0.0 (2020-06-18)
+### BREAKING CHANGES
+* Изменен тип свойства `anchor` на функцию в `<Dropdown />`, `<SuggestDropdown />`, `<FixedOverlay />` и `<RelativeOverlay />` для передачи ноды элемента
+* Изменен тип аргумента, передаваемого в свойство `renderDropdown` в `<ServiceSearch />` и `<ComplexSearch />` для передачи ноды элемента
+* Изменен тип свойства `icon` на функцию в `<Hint />` для передачи ноды элемента
+* Удалены свойства `href`, `target` и `rel` в `<Avatar />`, `<Button />`, `<IconButton />`, `<SideNavItem />` и `<TabsItem />`. Для ссылок необходимо использовать свойство `container`
+
+### Added
+* Добавлено свойство `nodeRef` в `<Button />` и `<SvgIcon />` для получения ноды элемента
+
 ## 4.1.4 (2020-06-04)
 ### Fixed
 * Поправлен рендер значения через `inputValueRenderer` в `<Select />` при обновлении `props`

@@ -120,9 +120,13 @@ export default function withDoc(meta) {
                       <IconButton
                         className={classes.source}
                         size="small"
-                        href={this.sourceUrl}
-                        rel="noreferrer noopener"
-                        target="_blank">
+                        container={
+                          <a
+                            href={this.sourceUrl}
+                            rel="noreferrer noopener"
+                            target="_blank"
+                          />
+                        }>
                         <GithubIcon />
                       </IconButton>
                     )}

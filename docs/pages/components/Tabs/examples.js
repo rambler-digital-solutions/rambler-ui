@@ -51,7 +51,10 @@ export default class TabsExample extends Component {
             value={this.state.value}
             onChange={this.handleChange}>
             {values.map((item, index) => (
-              <TabsItem href={'#/components/Tabs'} value={item} key={index}>
+              <TabsItem
+                container={<a href={'#/components/Tabs'} />}
+                value={item}
+                key={index}>
                 {item}
               </TabsItem>
             ))}
@@ -65,7 +68,10 @@ export default class TabsExample extends Component {
             value={this.state.value}
             onChange={this.handleChange}>
             {values.map((item, index) => (
-              <TabsItem href={'#/components/Tabs'} value={item} key={index}>
+              <TabsItem
+                container={<a href={'#/components/Tabs'} />}
+                value={item}
+                key={index}>
                 {item}
               </TabsItem>
             ))}
@@ -79,7 +85,9 @@ export default class TabsExample extends Component {
             onChange={this.handleChange}>
             {values.map((item, index) => (
               <TabsItem
-                href={index % 2 ? '#/components/Tabs' : null}
+                container={
+                  index % 2 ? <a href={'#/components/Tabs'} /> : undefined
+                }
                 value={item}
                 key={index}>
                 {item}
@@ -96,7 +104,9 @@ export default class TabsExample extends Component {
             onChange={this.handleChange}>
             {values.map((item, index) => (
               <TabsItem
-                href={index % 2 ? '#/components/Tabs' : null}
+                container={
+                  index % 2 ? <a href={'#/components/Tabs'} /> : undefined
+                }
                 value={item}
                 key={index}>
                 {item}

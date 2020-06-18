@@ -15,10 +15,11 @@ describe('<Tabs />', () => {
     className: 'tabs',
     onChange: () => {}
   }
+  const linkHref = '#'
   const linkProps = {
     id: 'link',
     children: 'tab1',
-    href: '#',
+    container: <a href={linkHref} />,
     title: 'Title1'
   }
   const buttonProps = {
@@ -99,7 +100,7 @@ describe('<Tabs />', () => {
 
     expect(link.tagName.toUpperCase()).toEqual('A')
     expect(link.classList.contains('test')).toEqual(true)
-    expect(link.getAttribute('href')).toEqual(linkProps.href)
+    expect(link.getAttribute('href')).toEqual(linkHref)
     expect(link.getAttribute('aria-disabled')).toEqual('false')
     expect(link.className.includes('size-small')).toEqual(true)
     expect(link.className.includes('isEnabled')).toEqual(true)

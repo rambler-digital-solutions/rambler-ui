@@ -33,7 +33,7 @@ class Content extends Component {
   }
 }
 
-function Anchor({style = {}}) {
+function Anchor({nodeRef, style = {}}) {
   return (
     <div
       className="anchor"
@@ -42,10 +42,15 @@ function Anchor({style = {}}) {
         padding: '10px',
         display: 'inline-block',
         ...style
-      }}>
+      }}
+      ref={nodeRef}>
       anchor
     </div>
   )
+}
+
+Anchor.propTypes = {
+  nodeRef: PropTypes.func.isRequired
 }
 
 describe('<FixedOverlay />', () => {
@@ -62,7 +67,7 @@ describe('<FixedOverlay />', () => {
       withTheme(
         <FixedOverlay
           isOpened={false}
-          anchor={<Anchor {...anchorProps} />}
+          anchor={ref => <Anchor nodeRef={ref} {...anchorProps} />}
           content={<Content />}
           onContentOpen={callbacks.onContentOpen}
           onContentClose={callbacks.onContentClose}

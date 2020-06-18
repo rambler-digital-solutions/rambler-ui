@@ -141,7 +141,9 @@ describe('<Avatar />', () => {
   })
 
   it('should append `<a />` as container', () => {
-    const wrapper = mount(withTheme(<Avatar src={TEST_IMAGE} href="/foo" />))
+    const wrapper = mount(
+      withTheme(<Avatar src={TEST_IMAGE} container={<a href="/foo" />} />)
+    )
 
     const image = wrapper.find(Avatar)
     const imageNode = image.getDOMNode()

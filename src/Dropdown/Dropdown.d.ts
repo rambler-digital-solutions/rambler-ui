@@ -2,7 +2,7 @@ import {CSSProperties, PureComponent, ReactNode} from 'react'
 import {HorizontalPosition, VerticalPosition} from '..'
 
 export interface DropdownProps {
-  anchor: ReactNode
+  anchor: (forwardRef: (ref: HTMLElement) => void) => ReactNode
   children: ReactNode
   className?: string
   style?: CSSProperties
