@@ -6,7 +6,6 @@ export type SnackbarType = 'main' | 'primary' | 'success' | 'danger'
 export interface SnackbarProps {
   className?: string
   style?: CSSProperties
-  children: ReactNode
   isOpened?: boolean
   type?: SnackbarType
   icon?: ReactNode

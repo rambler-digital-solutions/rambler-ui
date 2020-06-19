@@ -3,7 +3,6 @@ import {StatusType, HorizontalPosition, VerticalPosition} from '..'
 
 export interface TooltipProps {
   content?: ReactNode
-  children: ReactNode
   className?: string
   style?: CSSProperties
   contentClassName?: string

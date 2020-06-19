@@ -4,7 +4,6 @@ import {StatusType} from '..'
 export interface FieldStatusProps extends HTMLAttributes<HTMLDivElement> {
   type?: Exclude<StatusType, 'filled'>
   message?: ReactNode
-  children: ReactNode
   className?: string
   containerRef?: Ref<HTMLElement>
 }

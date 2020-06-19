@@ -18,7 +18,6 @@ export interface SwitcherProps extends HTMLAttributes<HTMLInputElement> {
   labelStyle?: CSSProperties
   iconPosition?: Exclude<HorizontalPosition, 'center'>
   checked: boolean
-  children?: ReactNode
   onCheck?: (event: SyntheticEvent, checked: boolean) => void | Promise<void>
 }
 

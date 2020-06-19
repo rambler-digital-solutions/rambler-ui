@@ -4,7 +4,6 @@ import {Size} from '..'
 export interface ToggleOptionProps<T>
   extends HTMLAttributes<HTMLButtonElement> {
   value: T | null
-  children?: ReactNode
   icon?: ReactNode
   size?: Size
   isSelected?: boolean

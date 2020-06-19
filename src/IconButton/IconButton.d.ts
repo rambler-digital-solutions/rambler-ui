@@ -3,7 +3,6 @@ import {ButtonType, Size} from '..'
 
 export interface IconButtonProps extends HTMLAttributes<HTMLButtonElement> {
   type?: ButtonType
-  children?: ReactNode
   size?: number | Size
   onClick?: () => void | Promise<void>
   container?: ReactElement

@@ -5,7 +5,6 @@ export interface ToggleProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: T | null
   onChange?: (event: SyntheticEvent, value: T | null) => void | Promise<void>
-  children?: ReactNode
   size?: Size
   behavior?: 'radio' | 'toggle'
   block?: boolean

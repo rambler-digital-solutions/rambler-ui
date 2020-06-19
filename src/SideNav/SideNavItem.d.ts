@@ -8,7 +8,6 @@ import {
 import {Size} from '..'
 
 export interface SideNavItemProps<T> extends HTMLAttributes<HTMLDivElement> {
-  children?: ReactNode
   icon: ReactNode
   size?: Size
   value?: T | null

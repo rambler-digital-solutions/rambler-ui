@@ -3,7 +3,6 @@ import {HorizontalPosition, VerticalPosition} from '..'
 
 export interface DropdownProps {
   anchor: (forwardRef: (ref: HTMLElement) => void) => ReactNode
-  children: ReactNode
   className?: string
   style?: CSSProperties
   overlayClassName?: string

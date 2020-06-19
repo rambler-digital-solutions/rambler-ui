@@ -6,7 +6,6 @@ export interface FormGroupProps extends HTMLAttributes<HTMLDivElement> {
   label?: ReactNode
   size?: Size
   fieldId?: string
-  children: ReactNode
 }
 
 export default class FormGroup extends Component<FormGroupProps, {}> {}

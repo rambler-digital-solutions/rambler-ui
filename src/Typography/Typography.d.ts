@@ -1,9 +1,8 @@
-import {PureComponent, ReactNode, HTMLAttributes} from 'react'
+import {PureComponent, HTMLAttributes} from 'react'
 
 export interface BaseTypographyProps<T = HTMLDivElement>
   extends HTMLAttributes<T> {
   tagName?: string
-  children?: ReactNode
   uppercase?: boolean
 }
 

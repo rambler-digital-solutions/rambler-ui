@@ -9,7 +9,6 @@ import {TagType} from '..'
 
 export interface TagsInputItemProps<T> extends HTMLAttributes<HTMLDivElement> {
   value: T
-  children: string
   icon?: ReactElement
   onClick?: (event: SyntheticEvent) => void | Promise<void>
   onRemove?: (event: SyntheticEvent, value: T) => void | Promise<void>

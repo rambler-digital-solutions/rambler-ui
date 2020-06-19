@@ -9,7 +9,6 @@ import {Size} from '..'
 
 export interface TabsItemProps<T> extends HTMLAttributes<HTMLButtonElement> {
   value?: T
-  children?: ReactNode
   size?: Size
   isSelected?: boolean
   disabled?: boolean

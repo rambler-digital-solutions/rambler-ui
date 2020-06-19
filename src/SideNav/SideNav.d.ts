@@ -3,7 +3,6 @@ import {Size} from '..'
 
 export interface SideNavProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
-  children?: ReactNode
   size?: Size
   value?: T | null
   block?: boolean

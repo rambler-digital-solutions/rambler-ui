@@ -6,7 +6,6 @@ export interface PopupProps {
   backdropClassName?: string
   backdropStyle?: CSSProperties
   backdropColor?: 'black' | 'blue'
-  children?: ReactNode
   title?: ReactNode
   titleClassName?: string
   titleStyle?: CSSProperties

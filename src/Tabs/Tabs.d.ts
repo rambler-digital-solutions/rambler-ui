@@ -4,7 +4,6 @@ import {Size, VerticalPosition} from '..'
 export interface TabsProps<T>
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
   value?: T
-  children?: ReactNode
   size?: Size
   position?: Exclude<VerticalPosition, 'center'>
   disabled?: boolean

@@ -7,7 +7,6 @@ export interface HintProps {
   icon?: (forwardRef: (ref: HTMLElement) => void) => ReactNode
   contentClassName?: string
   contentStyle?: CSSProperties
-  children: ReactNode
   isOpened?: boolean
   positionX?: Exclude<HorizontalPosition, 'center'>
   autoPositionY?: boolean
