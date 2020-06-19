@@ -7,7 +7,7 @@ import {
 } from 'react'
 import {Size} from '..'
 
-export interface TabsItemProps<T> extends HTMLAttributes<HTMLButtonElement> {
+export interface TabsItemProps<T, E> extends HTMLAttributes<E> {
   value?: T
   size?: Size
   isSelected?: boolean
@@ -16,7 +16,7 @@ export interface TabsItemProps<T> extends HTMLAttributes<HTMLButtonElement> {
   onPress?: (event: SyntheticEvent, value: T) => void | Promise<void>
 }
 
-export default class TabsItem<T = any> extends Component<
-  TabsItemProps<T>,
+export default class TabsItem<T = any, E = HTMLButtonElement> extends Component<
+  TabsItemProps<T, E>,
   {}
 > {}

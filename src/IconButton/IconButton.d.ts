@@ -1,7 +1,7 @@
 import {PureComponent, ReactElement, ReactNode, HTMLAttributes} from 'react'
 import {ButtonType, Size} from '..'
 
-export interface IconButtonProps extends HTMLAttributes<HTMLButtonElement> {
+export interface IconButtonProps<E> extends HTMLAttributes<E> {
   type?: ButtonType
   size?: number | Size
   onClick?: () => void | Promise<void>
@@ -12,4 +12,7 @@ export interface IconButtonProps extends HTMLAttributes<HTMLButtonElement> {
   loading?: boolean
 }
 
-export default class IconButton extends PureComponent<IconButtonProps, {}> {}
+export default class IconButton<E = HTMLButtonElement> extends PureComponent<
+  IconButtonProps<E>,
+  {}
+> {}

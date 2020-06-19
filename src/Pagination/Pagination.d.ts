@@ -1,7 +1,7 @@
 import {Component, ReactElement, SyntheticEvent, HTMLAttributes} from 'react'
 
-export interface PaginationProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+export interface PaginationProps<E>
+  extends Omit<HTMLAttributes<E>, 'onChange'> {
   pagesCount?: number
   currentPage?: number
   pageContainer?: (pageNumber: number) => ReactElement
@@ -15,4 +15,7 @@ export interface PaginationProps
   type?: 'select' | 'input'
 }
 
-export default class Pagination extends Component<PaginationProps, {}> {}
+export default class Pagination<E = HTMLDivElement> extends Component<
+  PaginationProps<E>,
+  {}
+> {}
