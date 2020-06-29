@@ -62,7 +62,6 @@ class Stepper extends PureComponent {
       value: currentValue,
       className,
       classes,
-      style,
       theme, // eslint-disable-line no-unused-vars
       onChange, // eslint-disable-line no-unused-vars
       ...other
@@ -89,10 +88,7 @@ class Stepper extends PureComponent {
       return acc
     }, [])
     return (
-      <div
-        {...other}
-        className={classnames(className, classes.stepper)}
-        style={style}>
+      <div {...other} className={classnames(className, classes.stepper)}>
         {steps}
       </div>
     )
