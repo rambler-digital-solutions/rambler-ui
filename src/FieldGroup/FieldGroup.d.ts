@@ -1,8 +1,7 @@
-import {PureComponent, HTMLAttributes} from 'react'
+import {PureComponent} from 'react'
 import {Size, Variation, StatusType} from '..'
 
-export interface FieldGroupProps
-  extends HTMLAttributes<HTMLInputElement & HTMLSelectElement> {
+export interface FieldGroupProps {
   size?: Size
   variation?: Variation
   status?: Exclude<StatusType, 'filled'> | null

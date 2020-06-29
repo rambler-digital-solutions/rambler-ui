@@ -123,10 +123,10 @@ class FieldGroup extends PureComponent {
       classes,
       children,
       disabled,
+      size,
       variation,
-      showDivider,
-      theme, // eslint-disable-line no-unused-vars
-      ...props
+      status,
+      showDivider
     } = this.props
 
     const count = Children.count(children)
@@ -149,9 +149,10 @@ class FieldGroup extends PureComponent {
           else if (i === count) groupPosition = 'end'
           i++
           return cloneElement(child, {
-            ...props,
             disabled,
+            size,
             variation,
+            status,
             groupPosition
           })
         })}
