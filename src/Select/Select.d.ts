@@ -10,7 +10,7 @@ import {Size, Variation, StatusType, TagType} from '..'
 
 export interface SelectProps<T>
   extends Omit<
-    HTMLAttributes<HTMLSelectElement>,
+    HTMLAttributes<HTMLInputElement>,
     'value' | 'size' | 'onChange' | 'inputMode'
   > {
   className?: string
