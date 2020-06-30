@@ -8,7 +8,6 @@ export interface LoaderProps {
   spinnerClassName?: string
   spinnerColor?: string
   loading?: boolean | Promise<any>
-  children?: ReactNode
   hideContent?: boolean
   blurContent?: boolean
 }

@@ -1,14 +1,12 @@
-import {PureComponent, ReactElement, ReactNode} from 'react'
+import {PureComponent, ReactElement, ReactNode, HTMLAttributes} from 'react'
 
-export interface MenuItemProps<T> {
-  className?: string
+export interface MenuItemProps<T, E> extends HTMLAttributes<E> {
   value?: T
   disabled?: boolean
-  children: ReactNode
   container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
 }
 
-export default class MenuItem<T = any> extends PureComponent<
-  MenuItemProps<T>,
-  {}
-> {}
+export default class MenuItem<
+  T = any,
+  E = HTMLDivElement
+> extends PureComponent<MenuItemProps<T, E>, {}> {}

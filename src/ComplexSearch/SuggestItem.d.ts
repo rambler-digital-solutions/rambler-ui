@@ -1,8 +1,6 @@
-import {CSSProperties, PureComponent} from 'react'
+import {PureComponent, HTMLAttributes} from 'react'
 
-export interface SuggestItemProps<T> {
-  style?: CSSProperties
-  className?: string
+export interface SuggestItemProps<T> extends HTMLAttributes<HTMLDivElement> {
   highlightedClassName?: string
   removeButton?: string
   value: T

@@ -1,4 +1,9 @@
-import {PureComponent, ReactNode} from 'react'
+import {PureComponent, HTMLAttributes} from 'react'
+
+export interface BaseTypographyProps<E> extends HTMLAttributes<E> {
+  tagName?: string
+  uppercase?: boolean
+}
 
 export type TypographyType =
   | 'h1'
@@ -14,11 +19,11 @@ export type TypographyType =
   | 'photoSource'
   | 'list'
 
-export interface TypographyProps {
+export interface TypographyProps<E> extends BaseTypographyProps<E> {
   type?: TypographyType
-  tagName?: string
-  children?: ReactNode
-  uppercase?: boolean
 }
 
-export default class Typography extends PureComponent<TypographyProps, {}> {}
+export default class Typography<E = HTMLButtonElement> extends PureComponent<
+  TypographyProps<E>,
+  {}
+> {}

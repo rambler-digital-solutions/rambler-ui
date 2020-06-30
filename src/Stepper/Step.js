@@ -132,7 +132,6 @@ class Step extends Component {
       className,
       badgeClassName,
       textClassName,
-      style,
       classes,
       disabled,
       completed,
@@ -148,11 +147,7 @@ class Step extends Component {
       [classes.disabled]: disabled
     })
     return (
-      <div
-        {...other}
-        className={resultClassName}
-        style={style}
-        onClick={this.onClick}>
+      <div {...other} className={resultClassName} onClick={this.onClick}>
         <span className={classnames(classes.badge, badgeClassName)}>
           {icon ? icon : completed ? defaultIcon : <span>{value + 1}</span>}
         </span>

@@ -1,13 +1,11 @@
-import {CSSProperties, PureComponent} from 'react'
+import {CSSProperties, PureComponent, HTMLAttributes} from 'react'
 import {HorizontalPosition} from '..'
 
-export interface RadioButtonProps<T> {
+export interface RadioButtonProps<T> extends HTMLAttributes<HTMLLabelElement> {
   value: T
   disabled?: boolean
-  className?: string
   radioClassName?: string
   labelClassName?: string
-  style?: CSSProperties
   labelStyle?: CSSProperties
   labelPosition?: Exclude<HorizontalPosition, 'center'>
 }

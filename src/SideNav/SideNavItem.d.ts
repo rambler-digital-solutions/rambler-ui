@@ -1,16 +1,13 @@
 import {
   Component,
-  CSSProperties,
   ReactNode,
   ReactElement,
-  SyntheticEvent
+  SyntheticEvent,
+  HTMLAttributes
 } from 'react'
 import {Size} from '..'
 
-export interface SideNavItemProps<T> {
-  className?: string
-  style?: CSSProperties
-  children?: ReactNode
+export interface SideNavItemProps<T, E> extends HTMLAttributes<E> {
   icon: ReactNode
   size?: Size
   value?: T | null
@@ -19,7 +16,7 @@ export interface SideNavItemProps<T> {
   onPress?: (event: SyntheticEvent, value: T) => void | Promise<void>
 }
 
-export default class SideNavItem<T = any> extends Component<
-  SideNavItemProps<T>,
+export default class SideNavItem<T = any, E = HTMLDivElement> extends Component<
+  SideNavItemProps<T, E>,
   {}
 > {}

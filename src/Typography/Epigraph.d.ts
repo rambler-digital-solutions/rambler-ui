@@ -1,6 +1,6 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-declare const Epigraph: FC<Omit<TypographyProps, 'type'>>
+declare const Epigraph: FC<BaseTypographyProps<HTMLDivElement>>
 
 export default Epigraph

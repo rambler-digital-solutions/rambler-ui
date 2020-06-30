@@ -216,7 +216,6 @@ class RadioButton extends PureComponent {
       className,
       radioClassName,
       labelClassName,
-      style,
       labelStyle,
       classes,
       onFocus,
@@ -236,7 +235,7 @@ class RadioButton extends PureComponent {
     )
 
     return (
-      <label className={rootClassName} style={style} {...other}>
+      <label className={rootClassName} {...other}>
         <input
           className={classes.real}
           type="radio"

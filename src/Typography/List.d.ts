@@ -1,9 +1,15 @@
 import {FC} from 'react'
-import {TypographyProps} from './Typography'
+import {BaseTypographyProps} from './Typography'
 
-export interface ListProps extends Omit<TypographyProps, 'type'> {
-  numbered: boolean
+export interface OListProps extends BaseTypographyProps<HTMLOListElement> {
+  numbered: true
 }
+
+export interface UListProps extends BaseTypographyProps<HTMLUListElement> {
+  numbered: false
+}
+
+export type ListProps = OListProps | UListProps
 
 declare const List: FC<ListProps>
 

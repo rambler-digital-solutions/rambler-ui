@@ -1,16 +1,14 @@
 import {
-  CSSProperties,
   ReactElement,
   ReactNode,
   PureComponent,
-  SyntheticEvent
+  SyntheticEvent,
+  HTMLAttributes
 } from 'react'
 import {HorizontalPosition, Size, ButtonType} from '..'
 
-export interface ButtonProps {
+export interface ButtonProps<E> extends Omit<HTMLAttributes<E>, 'onClick'> {
   type?: ButtonType
-  className?: string
-  style?: CSSProperties
   icon?: ReactNode
   iconPosition?: Exclude<HorizontalPosition, 'center'>
   size?: Size
@@ -26,4 +24,7 @@ export interface ButtonProps {
   nodeRef?: (ref: HTMLElement) => void
 }
 
-export default class Button extends PureComponent<ButtonProps, {}> {}
+export default class Button<E = HTMLButtonElement> extends PureComponent<
+  ButtonProps<E>,
+  {}
+> {}

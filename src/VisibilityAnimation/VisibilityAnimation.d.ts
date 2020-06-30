@@ -7,7 +7,7 @@ export interface VisibilityAnimationProps {
   onVisible?: () => void | Promise<void>
   onWillInvisible?: () => void | Promise<void>
   onInvisible?: () => void | Promise<void>
-  children?: (props: {isVisible: boolean}) => ReactNode
+  children: (props: {isVisible: boolean}) => ReactNode
 }
 
 export default class VisibilityAnimation extends PureComponent<
