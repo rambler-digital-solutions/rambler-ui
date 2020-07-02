@@ -4,13 +4,13 @@ import {
   ReactElement,
   ReactNode,
   SyntheticEvent,
-  HTMLAttributes
+  HTMLProps
 } from 'react'
 import {Size, Variation, StatusType, TagType} from '..'
 
 export interface SelectProps<T>
   extends Omit<
-    HTMLAttributes<HTMLInputElement>,
+    HTMLProps<HTMLInputElement>,
     'value' | 'size' | 'onChange' | 'inputMode'
   > {
   className?: string

@@ -1,7 +1,7 @@
-import {Component, ReactElement, SyntheticEvent, HTMLAttributes} from 'react'
+import {Component, ReactElement, SyntheticEvent, HTMLProps} from 'react'
 
 export interface PaginationProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'onChange'> {
   pagesCount?: number
   currentPage?: number
   pageContainer?: (pageNumber: number) => ReactElement

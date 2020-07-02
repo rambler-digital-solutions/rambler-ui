@@ -3,11 +3,12 @@ import {
   ReactNode,
   ReactElement,
   SyntheticEvent,
-  HTMLAttributes
+  HTMLProps
 } from 'react'
 import {Size} from '..'
 
-export interface SideNavItemProps<T, E> extends HTMLAttributes<E> {
+export interface SideNavItemProps<T, E>
+  extends Omit<HTMLProps<E>, 'size' | 'value'> {
   icon: ReactNode
   size?: Size
   value?: T | null

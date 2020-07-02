@@ -1,4 +1,4 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent} from 'react'
 
 export interface LoaderProps {
   className?: string

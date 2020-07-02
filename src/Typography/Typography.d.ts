@@ -1,6 +1,6 @@
-import {PureComponent, HTMLAttributes} from 'react'
+import {PureComponent, HTMLProps} from 'react'
 
-export interface BaseTypographyProps<E> extends HTMLAttributes<E> {
+export interface BaseTypographyProps<E> extends HTMLProps<E> {
   tagName?: string
   uppercase?: boolean
 }

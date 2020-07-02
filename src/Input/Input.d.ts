@@ -3,7 +3,7 @@ import {
   PureComponent,
   ReactNode,
   SyntheticEvent,
-  HTMLAttributes
+  HTMLProps
 } from 'react'
 import {Size, Variation, StatusType} from '..'
 
@@ -19,10 +19,7 @@ export type InputType =
   | 'month'
 
 export interface InputProps
-  extends Omit<
-    HTMLAttributes<HTMLInputElement>,
-    'value' | 'size' | 'onChange'
-  > {
+  extends Omit<HTMLProps<HTMLInputElement>, 'value' | 'size' | 'onChange'> {
   value: string | null
   placeholder?: string
   disabled?: boolean
