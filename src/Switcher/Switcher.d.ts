@@ -1,13 +1,7 @@
-import {
-  CSSProperties,
-  PureComponent,
-  ReactNode,
-  SyntheticEvent,
-  HTMLAttributes
-} from 'react'
+import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
 import {HorizontalPosition} from '..'
 
-export interface SwitcherProps extends HTMLAttributes<HTMLInputElement> {
+export interface SwitcherProps extends HTMLProps<HTMLInputElement> {
   name?: string
   disabled?: boolean
   switcherClassName?: string

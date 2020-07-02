@@ -3,11 +3,11 @@ import {
   ReactNode,
   PureComponent,
   SyntheticEvent,
-  HTMLAttributes
+  HTMLProps
 } from 'react'
 import {HorizontalPosition, Size, ButtonType} from '..'
 
-export interface ButtonProps<E> extends Omit<HTMLAttributes<E>, 'onClick'> {
+export interface ButtonProps<E> extends Omit<HTMLProps<E>, 'size' | 'onClick'> {
   type?: ButtonType
   icon?: ReactNode
   iconPosition?: Exclude<HorizontalPosition, 'center'>

@@ -3,11 +3,12 @@ import {
   ReactElement,
   ReactNode,
   SyntheticEvent,
-  HTMLAttributes
+  HTMLProps
 } from 'react'
 import {Size} from '..'
 
-export interface TabsItemProps<T, E> extends HTMLAttributes<E> {
+export interface TabsItemProps<T, E>
+  extends Omit<HTMLProps<E>, 'size' | 'value'> {
   value?: T
   size?: Size
   isSelected?: boolean

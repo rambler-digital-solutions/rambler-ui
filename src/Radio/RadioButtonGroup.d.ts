@@ -1,7 +1,7 @@
-import {PureComponent, ReactNode, SyntheticEvent, HTMLAttributes} from 'react'
+import {PureComponent, SyntheticEvent, HTMLProps} from 'react'
 
 export interface RadioButtonGroupProps<T>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'value' | 'onChange'> {
   name?: string
   onChange?: (event: SyntheticEvent, value: T) => void | Promise<void>
   value?: T | null

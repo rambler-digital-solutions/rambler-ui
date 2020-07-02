@@ -1,7 +1,7 @@
-import {Component, SyntheticEvent, HTMLAttributes} from 'react'
+import {Component, SyntheticEvent, HTMLProps} from 'react'
 
 export interface StepperProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'onChange'> {
   value: number
   onChange: (event: SyntheticEvent, value: number) => void | Promise<void>
 }

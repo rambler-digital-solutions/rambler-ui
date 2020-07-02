@@ -1,7 +1,6 @@
-import {Component, ReactNode, SyntheticEvent, HTMLAttributes} from 'react'
+import {Component, ReactNode, SyntheticEvent, HTMLProps} from 'react'
 
-export interface StepProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onClick'> {
+export interface StepProps extends Omit<HTMLProps<HTMLDivElement>, 'onClick'> {
   value: number
   icon?: ReactNode
   disabled?: boolean

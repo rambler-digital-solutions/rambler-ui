@@ -1,8 +1,8 @@
-import {PureComponent, ReactElement, HTMLAttributes} from 'react'
+import {PureComponent, ReactElement, HTMLProps} from 'react'
 import {Size} from '..'
 
 export interface MenuProps<T>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value' | 'onChange'> {
   multiple?: boolean
   disabled?: boolean
   autoFocus?: boolean

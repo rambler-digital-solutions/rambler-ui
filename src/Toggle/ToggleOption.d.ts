@@ -1,8 +1,8 @@
-import {Component, ReactNode, Ref, SyntheticEvent, HTMLAttributes} from 'react'
+import {Component, ReactNode, Ref, SyntheticEvent, HTMLProps} from 'react'
 import {Size} from '..'
 
 export interface ToggleOptionProps<T>
-  extends HTMLAttributes<HTMLButtonElement> {
+  extends Omit<HTMLProps<HTMLButtonElement>, 'size' | 'value'> {
   value: T | null
   icon?: ReactNode
   size?: Size

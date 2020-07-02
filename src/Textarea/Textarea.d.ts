@@ -1,13 +1,8 @@
-import {
-  CSSProperties,
-  PureComponent,
-  SyntheticEvent,
-  HTMLAttributes
-} from 'react'
+import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
 import {StatusType, Variation} from '..'
 
 export interface TextareaProps
-  extends Omit<HTMLAttributes<HTMLTextAreaElement>, 'onChange'> {
+  extends Omit<HTMLProps<HTMLTextAreaElement>, 'value' | 'onChange'> {
   value: string | null
   placeholder?: string
   disabled?: boolean

@@ -1,7 +1,7 @@
-import {PureComponent, ReactNode, Ref, HTMLAttributes} from 'react'
+import {PureComponent, ReactNode, Ref, HTMLProps} from 'react'
 import {StatusType} from '..'
 
-export interface FieldStatusProps extends HTMLAttributes<HTMLDivElement> {
+export interface FieldStatusProps extends HTMLProps<HTMLDivElement> {
   type?: Exclude<StatusType, 'filled'>
   message?: ReactNode
   className?: string

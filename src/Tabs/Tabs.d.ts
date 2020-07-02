@@ -1,8 +1,8 @@
-import {Component, ReactNode, SyntheticEvent, HTMLAttributes} from 'react'
+import {Component, SyntheticEvent, HTMLProps} from 'react'
 import {Size, VerticalPosition} from '..'
 
 export interface TabsProps<T>
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onChange'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value' | 'onChange'> {
   value?: T
   size?: Size
   position?: Exclude<VerticalPosition, 'center'>
