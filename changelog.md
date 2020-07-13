@@ -1,6 +1,6 @@
 # Changelog
 
-## 5.0.0 (2020-06-18)
+## 5.0.0 (2020-07-13)
 ### BREAKING CHANGES
 * Изменен тип свойства `anchor` на функцию в `<Dropdown />`, `<SuggestDropdown />`, `<FixedOverlay />` и `<RelativeOverlay />` для передачи ноды элемента
 * Изменен тип аргумента, передаваемого в свойство `renderDropdown` в `<ServiceSearch />` и `<ComplexSearch />` для передачи ноды элемента
