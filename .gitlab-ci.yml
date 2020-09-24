@@ -1,4 +1,4 @@
-image: portal-common-docker.art.rambler.ru/builder
+image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox
 
 stages:
   - setup
@@ -9,7 +9,7 @@ stages:
 install:
   stage: setup
   cache: &cache
-    key: "$CI_COMMIT_REF_NAME:node_modules"
+    key: '$CI_COMMIT_REF_NAME:node_modules'
     paths:
       - node_modules/
     policy: push
