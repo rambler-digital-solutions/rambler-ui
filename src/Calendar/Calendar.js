@@ -7,6 +7,9 @@ import {subscribeFocusEvents} from '../utils/focus-source'
 
 subscribeFocusEvents()
 
+const isInteger = value =>
+  typeof value === 'number' && isFinite(value) && Math.floor(value) === value
+
 const toNumber = (year, month, date) => year * 10000 + month * 100 + date
 
 const dateToNumber = date =>
@@ -470,7 +473,7 @@ class Calendar extends PureComponent {
 
     if (
       this.state.animate ||
-      (Number.isInteger(minYear) &&
+      (isInteger(minYear) &&
         minYear === firstCalendar.displayYear &&
         firstCalendar.displayMonth === 0)
     )
@@ -502,7 +505,7 @@ class Calendar extends PureComponent {
 
     if (
       this.state.animate ||
-      (Number.isInteger(maxYear) &&
+      (isInteger(maxYear) &&
         maxYear === lastCalendar.displayYear &&
         lastCalendar.displayMonth === 11)
     )
@@ -598,7 +601,7 @@ class Calendar extends PureComponent {
               tabIndex={-1}
               onClick={this.onPrev}
               disabled={
-                ((Number.isInteger(minYear) &&
+                ((isInteger(minYear) &&
                   minYear === displayYear &&
                   displayMonth === 0) ||
                   minNumberDate >= toNumber(displayYear, displayMonth, 1)) &&
@@ -621,7 +624,7 @@ class Calendar extends PureComponent {
               tabIndex={-1}
               onClick={this.onNext}
               disabled={
-                ((Number.isInteger(maxYear) &&
+                ((isInteger(maxYear) &&
                   maxYear === displayYear &&
                   displayMonth === 11) ||
                   maxNumberDate <= toNumber(displayYear, displayMonth, 31)) &&
