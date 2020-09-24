@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.1 (2020-09-24)
+### Fixed
+* Удалено использование `Number.isInteger` в `<Calendar />` для поддержки IE
+
 ## 5.0.0 (2020-07-13)
 ### BREAKING CHANGES
 * Изменен тип свойства `anchor` на функцию в `<Dropdown />`, `<SuggestDropdown />`, `<FixedOverlay />` и `<RelativeOverlay />` для передачи ноды элемента
