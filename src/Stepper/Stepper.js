@@ -67,7 +67,7 @@ class Stepper extends PureComponent {
       ...other
     } = this.props
     const steps = Children.toArray(children).reduce((acc, child, index) => {
-      if (!child.type || child.type.displayName !== 'ruiStep')
+      if (!child.type || child.type.displayName !== 'RamblerUI(Step)')
         throw new Error('Child component should be instance of <Step />')
       const active = index === currentValue
       const completed = index < currentValue

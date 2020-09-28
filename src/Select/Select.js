@@ -1041,7 +1041,7 @@ class Select extends PureComponent {
     const options = []
     Children.forEach(children, (item, index) => {
       const {children} = item.props
-      if (item.type.displayName !== 'ruiMenuItem')
+      if (item.type.displayName !== 'RamblerUI(MenuItem)')
         throw new Error('Child component should be instance of <MenuItem />')
       if (typeof children !== 'string')
         throw new Error('Children of <MenuItem /> should be a string')

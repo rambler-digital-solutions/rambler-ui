@@ -186,7 +186,4 @@ class MenuItem extends PureComponent {
   }
 }
 
-export default withStyles(styles, {
-  name: 'MenuItem',
-  displayName: 'ruiMenuItem'
-})(MenuItem)
+export default withStyles(styles, {name: 'MenuItem'})(MenuItem)

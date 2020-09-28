@@ -92,7 +92,7 @@ class SideNav extends Component {
     } = this.props
 
     const resultChildren = Children.map(children, child => {
-      if (!child.type || child.type.displayName !== 'ruiSideNavItem')
+      if (!child.type || child.type.displayName !== 'RamblerUI(SideNavItem)')
         throw new Error('Child component should be instance of <SideNavItem />')
 
       const hasValue = 'value' in child.props

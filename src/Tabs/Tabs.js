@@ -123,7 +123,7 @@ class Tabs extends Component {
     } = this.props
     let i = 0
     const tabs = Children.map(children, child => {
-      if (!child.type || child.type.displayName !== 'ruiTabsItem')
+      if (!child.type || child.type.displayName !== 'RamblerUI(TabsItem)')
         throw new Error('Child component should be instance of <Tab />')
       const {className, value} = child.props
       const hasValue = 'value' in child.props
