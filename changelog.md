@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.0.2 (2020-09-28)
+### Fixed
+* Исправлены `displayName` компонентов
+
 ## 5.0.1 (2020-09-24)
 ### Fixed
 * Удалено использование `Number.isInteger` в `<Calendar />` для поддержки IE
