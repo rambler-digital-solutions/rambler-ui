@@ -260,7 +260,4 @@ class RadioButton extends PureComponent {
   }
 }
 
-export default withStyles(styles, {
-  name: 'RadioButton',
-  displayName: 'ruiRadioButton'
-})(RadioButton)
+export default withStyles(styles, {name: 'RadioButton'})(RadioButton)

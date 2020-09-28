@@ -159,4 +159,4 @@ class Step extends Component {
   }
 }
 
-export default withStyles(styles, {name: 'Step', displayName: 'ruiStep'})(Step)
+export default withStyles(styles, {name: 'Step'})(Step)

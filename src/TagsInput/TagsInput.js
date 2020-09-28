@@ -259,7 +259,7 @@ class TagsInput extends PureComponent {
     )
     const count = Children.count(children)
     const items = Children.map(children, (child, i) => {
-      if (!child.type || child.type.displayName !== 'ruiTagsInputItem')
+      if (!child.type || child.type.displayName !== 'RamblerUI(TagsInputItem)')
         throw new Error(
           'Child component should be instance of <TagsInputItem />'
         )

@@ -233,7 +233,4 @@ class TagsInputItem extends Component {
   }
 }
 
-export default withStyles(styles, {
-  name: 'TagsInputItem',
-  displayName: 'ruiTagsInputItem'
-})(TagsInputItem)
+export default withStyles(styles, {name: 'TagsInputItem'})(TagsInputItem)

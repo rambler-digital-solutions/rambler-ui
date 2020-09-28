@@ -137,7 +137,4 @@ class ToggleOption extends Component {
   }
 }
 
-export default withStyles(styles, {
-  name: 'ToggleOption',
-  displayName: 'ruiToggleOption'
-})(ToggleOption)
+export default withStyles(styles, {name: 'ToggleOption'})(ToggleOption)

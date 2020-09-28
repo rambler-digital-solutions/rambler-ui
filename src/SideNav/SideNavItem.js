@@ -157,7 +157,4 @@ class SideNavItem extends Component {
   }
 }
 
-export default withStyles(styles, {
-  name: 'SideNavItem',
-  displayName: 'ruiSideNavItem'
-})(SideNavItem)
+export default withStyles(styles, {name: 'SideNavItem'})(SideNavItem)

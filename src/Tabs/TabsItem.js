@@ -189,7 +189,4 @@ class TabsItem extends Component {
   }
 }
 
-export default withStyles(styles, {
-  name: 'TabsItem',
-  displayName: 'ruiTabsItem'
-})(TabsItem)
+export default withStyles(styles, {name: 'TabsItem'})(TabsItem)

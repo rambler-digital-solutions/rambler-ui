@@ -249,7 +249,7 @@ class Toggle extends Component {
     this.optionsElements = []
     let i = 0
     const options = Children.map(children, child => {
-      if (!child.type || child.type.displayName !== 'ruiToggleOption')
+      if (!child.type || child.type.displayName !== 'RamblerUI(ToggleOption)')
         throw new Error(
           'Child component should be instance of <ToggleOption />'
         )
