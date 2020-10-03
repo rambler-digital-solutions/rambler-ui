@@ -16,6 +16,7 @@ export interface DropdownProps {
   anchorPointX?: HorizontalPosition
   contentPointY?: VerticalPosition
   anchorPointY?: VerticalPosition
+  autoPositionX?: boolean
   autoPositionY?: boolean
   anchorFullWidth?: boolean
   appendToBody?: boolean
