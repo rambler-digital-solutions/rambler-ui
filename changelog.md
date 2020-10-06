@@ -1,5 +1,12 @@
 # Changelog
 
+## 5.1.0 (2020-10-06)
+### Added
+* Добавлено свойство `autoPositionX` для автопозиционирования по горизонтали компонента `<Dropdown />`
+
+### Fixed
+* Обновлены иконки `<FacebookIcon />`, `<SberbankIcon />` и `<PgumosruIcon />`
+
 ## 5.0.2 (2020-09-28)
 ### Fixed
 * Исправлены `displayName` компонентов
