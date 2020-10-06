@@ -3,11 +3,8 @@ import SvgIcon from '../../SvgIcon'
 
 export default function FacebookIcon(props) {
   return (
-    <SvgIcon viewBox="0 0 9 18" {...props}>
-      <path
-        d="M5.854 9.428h2.642l.397-3.077h-3.04V4.379c0-.894.24-1.503 1.517-1.503H9V.115C8.718.077 7.75 0 6.625 0c-2.35 0-3.957 1.432-3.957 4.073v2.278H0v3.077h2.668v7.93h3.186v-7.93z"
-        fillRule="evenodd"
-      />
+    <SvgIcon viewBox="0 0 20 20" {...props}>
+      <path d="M20,0V20M0,20V0M19,9.5A9,9,0,1,0,8.59,18.39V12.1H6.31V9.5H8.59v-2A3.18,3.18,0,0,1,12,4a14.32,14.32,0,0,1,2,.17V6.41H12.87a1.29,1.29,0,0,0-1.46,1.4V9.5H13.9l-.4,2.6H11.41v6.29A9,9,0,0,0,19,9.5Z" />
     </SvgIcon>
   )
 }
