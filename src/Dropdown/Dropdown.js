@@ -60,6 +60,10 @@ export default class Dropdown extends PureComponent {
      */
     anchorPointX: PropTypes.oneOf(['left', 'right', 'center']),
     /**
+     * Автоматическое позиционирование по оси X (если выходит за пределы экрана)
+     */
+    autoPositionX: PropTypes.bool,
+    /**
      * Точка прикрепления контента по оси Y
      */
     contentPointY: PropTypes.oneOf(['top', 'bottom', 'center']),
@@ -98,6 +102,7 @@ export default class Dropdown extends PureComponent {
     closeOnClickOutside: true,
     contentPointX: 'left',
     anchorPointX: 'left',
+    autoPositionX: false,
     contentPointY: 'top',
     anchorPointY: 'bottom',
     autoPositionY: true,
@@ -112,6 +117,7 @@ export default class Dropdown extends PureComponent {
       isOpened,
       anchor,
       children,
+      autoPositionX,
       autoPositionY,
       anchorFullWidth,
       closeOnClickOutside,
@@ -145,6 +151,7 @@ export default class Dropdown extends PureComponent {
       anchor,
       contentPointX,
       anchorPointX,
+      autoPositionX,
       autoPositionY,
       contentPointY,
       anchorPointY,

@@ -250,11 +250,11 @@ class FixedOverlay extends PureComponent {
      */
     contentPointY: PropTypes.oneOf(POINTS_Y).isRequired,
     /**
-     * Автоматическое позиционирование, если контент по оси X выходи за пределы scroll-контейнера
+     * Автоматическое позиционирование, если контент по оси X выходит за пределы scroll-контейнера
      */
     autoPositionX: PropTypes.bool,
     /**
-     * Автоматическое позиционирование, если контент по оси Y выходи за пределы scroll-контейнера
+     * Автоматическое позиционирование, если контент по оси Y выходит за пределы scroll-контейнера
      */
     autoPositionY: PropTypes.bool,
     /**
