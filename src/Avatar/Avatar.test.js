@@ -109,7 +109,7 @@ describe('<Avatar />', () => {
     const iconStyles = getStyles(image.find('svg'))
     const iconContainerStyles = getStyles(image.find('div > div'))
 
-    expect(nc(iconStyles.fill)).toEqual(nc('#4661a3'))
+    expect(nc(iconStyles.fill)).toEqual(nc('#3876ea'))
     expect(iconStyles.width).toEqual('15px')
     expect(iconStyles.height).toEqual('15px')
 

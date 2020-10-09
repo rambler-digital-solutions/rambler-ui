@@ -12,5 +12,5 @@ export default function FacebookIcon(props) {
 FacebookIcon.displayName = 'FacebookIcon'
 
 FacebookIcon.defaultProps = {
-  color: '#4661a3'
+  color: '#3876ea'
 }
