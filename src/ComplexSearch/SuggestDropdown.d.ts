@@ -1,8 +1,8 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, Ref} from 'react'
 
 export interface SuggestDropdownProps {
   isOpened?: boolean
-  anchor?: (forwardRef: (ref: HTMLElement) => void) => ReactNode
+  anchor?: (forwardRef: Ref<HTMLElement>) => ReactNode
   className?: string
   appendToBody?: boolean
   autoPositionY?: boolean

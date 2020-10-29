@@ -1,8 +1,8 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, Ref} from 'react'
 import {HorizontalPosition, VerticalPosition} from '..'
 
 export interface DropdownProps {
-  anchor: (forwardRef: (ref: HTMLElement) => void) => ReactNode
+  anchor: (forwardRef: Ref<HTMLElement>) => ReactNode
   className?: string
   style?: CSSProperties
   overlayClassName?: string
