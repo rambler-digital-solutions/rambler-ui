@@ -3,7 +3,8 @@ import {
   ReactNode,
   PureComponent,
   SyntheticEvent,
-  HTMLProps
+  HTMLProps,
+  Ref
 } from 'react'
 import {HorizontalPosition, Size, ButtonType} from '..'
 
@@ -21,7 +22,7 @@ export interface ButtonProps<E> extends Omit<HTMLProps<E>, 'size' | 'onClick'> {
   width?: number | string
   loading?: boolean
   rounded?: boolean
-  nodeRef?: (ref: HTMLElement) => void
+  nodeRef?: Ref<HTMLElement>
 }
 
 export default class Button<E = HTMLButtonElement> extends PureComponent<
