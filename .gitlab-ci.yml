@@ -1,4 +1,4 @@
-image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox:0.7.0
+image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox:0.7.1
 
 stages:
   - setup
