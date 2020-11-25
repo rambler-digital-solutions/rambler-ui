@@ -1,6 +1,7 @@
 import React, {PureComponent, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import {ios} from '../utils/browser'
 import {FixedOverlay} from '../Overlay'
 import {withStyles} from '../theme'
 import TooltipContent from './TooltipContent'
@@ -147,8 +148,7 @@ class Tooltip extends PureComponent {
     )
     if (this.props.isOpened !== undefined) return anchor
     return cloneElement(anchor, {
-      onMouseEnter: this.onMouseEnter,
-      onTouchStart: this.onMouseEnter,
+      [ios ? 'onMouseDown' : 'onMouseEnter']: this.onMouseEnter,
       onMouseLeave: this.onMouseLeave
     })
   }
