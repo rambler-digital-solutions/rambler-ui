@@ -1,4 +1,4 @@
-image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox
+image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox:0.7.0
 
 stages:
   - setup
@@ -21,7 +21,6 @@ install:
     - npm install
 
 test:
-  image: dockerhub.art.rambler.ru/andrepolischuk/node-chrome-firefox
   stage: test
   cache:
     <<: *cache

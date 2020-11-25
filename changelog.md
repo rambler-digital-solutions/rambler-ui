@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.1.2 (2020-11-25)
+### Fixed
+* Исправлен двойной тап по якорю `<Tooltip />` на iOS
+
 ## 5.1.1 (2020-10-29)
 ### Fixed
 * Исправлены типы `nodeRef` и `anchor` в компонентах `<Button />`, `<Dropdown />`, `<Hint />` и `<SvgIcon />`
