@@ -222,17 +222,16 @@ class Popup extends PureComponent {
   }
 
   onWillVisible = () => {
-    if (this.props.closeOnEsc)
-      window.addEventListener('keydown', this.onKeyDown)
+    window.addEventListener('keydown', this.onKeyDown)
   }
 
   onWillInvisible = () => {
-    if (this.props.closeOnEsc)
-      window.removeEventListener('keydown', this.onKeyDown)
+    window.removeEventListener('keydown', this.onKeyDown)
   }
 
   onKeyDown = event => {
-    if (event.keyCode === ESCAPE) this.props.onRequestClose()
+    const {closeOnEsc, onRequestClose} = this
+    if (closeOnEsc && event.keyCode === ESCAPE) onRequestClose()
   }
 
   getMemoizedRef = createGetMemoizedRef()
