@@ -12,7 +12,7 @@ export interface ServiceSearchProps<T> {
   dropdownClassName?: string
   placeholder?: string
   onSearch?: (value: string, options: object) => void | Promise<void>
-  onFocus: () => void | Promise<void>
+  onFocus?: () => void | Promise<void>
   onBlur?: () => void | Promise<void>
   onSelectItem?: (value: T) => void | Promise<void>
   onClickItem?: (value: T) => void | Promise<void>
