@@ -4,7 +4,7 @@ import Button from 'rambler-ui/Button'
 import IconButton from 'rambler-ui/IconButton'
 import Input from 'rambler-ui/Input'
 import FormGroup from 'rambler-ui/FormGroup'
-import AddIcon from 'rambler-ui/icons/forms/AddIcon'
+import PlusIcon from 'rambler-ui/icons/forms/PlusIcon'
 
 export default class TooltipExample extends Component {
   state = {
@@ -107,7 +107,7 @@ export default class TooltipExample extends Component {
             position="top"
             style={{marginRight: '20px'}}>
             <IconButton size={22} type="secondary">
-              <AddIcon />
+              <PlusIcon />
             </IconButton>
           </Tooltip>
           <Tooltip
@@ -116,7 +116,7 @@ export default class TooltipExample extends Component {
             style={{marginRight: '20px'}}
             status="success">
             <IconButton size={22} type="secondary">
-              <AddIcon />
+              <PlusIcon />
             </IconButton>
           </Tooltip>
           <Tooltip
@@ -125,7 +125,7 @@ export default class TooltipExample extends Component {
             style={{marginRight: '20px'}}
             status="error">
             <IconButton size={22} type="secondary">
-              <AddIcon />
+              <PlusIcon />
             </IconButton>
           </Tooltip>
           <Tooltip
@@ -134,7 +134,7 @@ export default class TooltipExample extends Component {
             style={{marginRight: '20px'}}
             status="warning">
             <IconButton size={22} type="secondary">
-              <AddIcon />
+              <PlusIcon />
             </IconButton>
           </Tooltip>
         </div>
