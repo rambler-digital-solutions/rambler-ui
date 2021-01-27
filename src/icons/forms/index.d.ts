@@ -12,6 +12,7 @@ export const RobotIcon: typeof SvgIcon
 export const BookIcon: typeof SvgIcon
 export const KeyboardIcon: typeof SvgIcon
 export const PhoneIcon: typeof SvgIcon
+export const AuthenticatorIcon: typeof SvgIcon
 export const CreditCardIcon: typeof SvgIcon
 export const PrintIcon: typeof SvgIcon
 export const ArchiveIcon: typeof SvgIcon
