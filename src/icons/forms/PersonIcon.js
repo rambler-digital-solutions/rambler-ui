@@ -13,3 +13,5 @@ export default function PersonIcon(props) {
 }
 
 PersonIcon.displayName = 'PersonIcon'
+
+PersonIcon.alias = ['UserIcon']

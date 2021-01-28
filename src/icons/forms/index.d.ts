@@ -46,6 +46,7 @@ export const LogoutIcon: typeof SvgIcon
 export const FullscreenIcon: typeof SvgIcon
 export const FullscreenExitIcon: typeof SvgIcon
 export const PlusIcon: typeof SvgIcon
+export const AddIcon: typeof SvgIcon
 export const MinusIcon: typeof SvgIcon
 export const PlusCompactIcon: typeof SvgIcon
 export const MinusCompactIcon: typeof SvgIcon
@@ -53,6 +54,7 @@ export const EyeIcon: typeof SvgIcon
 export const ClosedEyeIcon: typeof SvgIcon
 export const LockFillIcon: typeof SvgIcon
 export const LockIcon: typeof SvgIcon
+export const LockOutlineIcon: typeof SvgIcon
 export const LockOpenIcon: typeof SvgIcon
 export const BlockIcon: typeof SvgIcon
 export const SmileIcon: typeof SvgIcon
@@ -88,7 +90,8 @@ export const PrivacyIcon: typeof SvgIcon
 export const AppsIcon: typeof SvgIcon
 export const HelpIcon: typeof SvgIcon
 export const PersonIcon: typeof SvgIcon
-export const PersonFILLIcon: typeof SvgIcon
+export const PersonFillIcon: typeof SvgIcon
+export const UserIcon: typeof SvgIcon
 export const PurchaseIcon: typeof SvgIcon
 export const ChartBarIcon: typeof SvgIcon
 export const ChartPieIcon: typeof SvgIcon

@@ -13,3 +13,5 @@ export default function LockIcon(props) {
 }
 
 LockIcon.displayName = 'LockIcon'
+
+LockIcon.alias = ['LockOutlineIcon']
