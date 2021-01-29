@@ -27,11 +27,14 @@ export default function SvgIcon({
     ...style
   }
 
+  const resultViewBox =
+    typeof viewBox === 'function' ? viewBox(resultSize) : viewBox
+
   const resultChildren =
     typeof children === 'function' ? children(resultSize) : children
 
   return (
-    <svg {...other} ref={nodeRef} viewBox={viewBox} style={resultStyle}>
+    <svg {...other} ref={nodeRef} viewBox={resultViewBox} style={resultStyle}>
       {resultChildren}
     </svg>
   )
@@ -65,8 +68,9 @@ SvgIcon.propTypes = {
   ]),
   /**
    * Атрибут viewBox svg-элемента
+   * ожидается строка или функция возвращающая строку и получающая размер как аргумент `size => string`
    */
-  viewBox: PropTypes.string,
+  viewBox: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
   /**
    * Коллбэк для передачи ссылки на ноду svg элемента
    */
