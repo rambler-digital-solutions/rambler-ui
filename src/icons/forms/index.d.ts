@@ -50,6 +50,8 @@ export const AddIcon: typeof SvgIcon
 export const MinusIcon: typeof SvgIcon
 export const PlusCompactIcon: typeof SvgIcon
 export const MinusCompactIcon: typeof SvgIcon
+export const CaretDownIcon: typeof SvgIcon
+export const CaretUpIcon: typeof SvgIcon
 export const EyeIcon: typeof SvgIcon
 export const ClosedEyeIcon: typeof SvgIcon
 export const LockFillIcon: typeof SvgIcon
@@ -117,3 +119,4 @@ export const OutboxIcon: typeof SvgIcon
 export const LikeIcon: typeof SvgIcon
 export const DislikeIcon: typeof SvgIcon
 export const FaceIcon: typeof SvgIcon
+export const GiftIcon: typeof SvgIcon
