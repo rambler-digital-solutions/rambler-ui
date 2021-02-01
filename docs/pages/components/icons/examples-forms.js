@@ -7,17 +7,11 @@ const styles = {
   margin: 10
 }
 
-const aliases = Object.keys(icons).reduce(
-  (acc, iconName) =>
-    icons[iconName].alias ? [...acc, ...icons[iconName].alias] : acc,
-  []
-)
-
 export default function FormIconsExamples() {
   return (
     <div>
       {Object.keys(icons)
-        .filter(iconName => aliases.indexOf(iconName) === -1)
+        .filter(iconName => iconName === icons[iconName].displayName)
         .map(iconName => {
           const Icon = icons[iconName]
           return (

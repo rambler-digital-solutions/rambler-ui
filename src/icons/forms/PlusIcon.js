@@ -24,5 +24,3 @@ export default function PlusIcon(props) {
 }
 
 PlusIcon.displayName = 'PlusIcon'
-
-PlusIcon.alias = ['AddIcon']
