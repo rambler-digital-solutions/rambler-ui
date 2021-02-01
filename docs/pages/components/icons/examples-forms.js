@@ -11,7 +11,7 @@ export default function FormIconsExamples() {
   return (
     <div>
       {Object.keys(icons)
-        .filter(iconName => iconName.indexOf('Icon') > 0)
+        .filter(iconName => iconName === icons[iconName].displayName)
         .map(iconName => {
           const Icon = icons[iconName]
           return (
