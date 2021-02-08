@@ -12,7 +12,7 @@
   },
   {
     "name": "The size of the commonjs library components",
-    "limit": "89 KB",
+    "limit": "90 KB",
     "path": [
       "build/**/*.js",
       "!build/icons/**/*.js",
