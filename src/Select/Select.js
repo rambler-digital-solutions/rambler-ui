@@ -904,10 +904,14 @@ class Select extends PureComponent {
 
     let customElement = null
     if (customElementRenderer) {
-      if (!this.isValueEmpty(value) && !(isOpened && onSearch))
-        customElement = cloneElement(customElementRenderer(value), {
-          className: classes.custom
+      if (!this.isValueEmpty(value) && !(isOpened && onSearch)) {
+        const customElementRendered = customElementRenderer(value)
+        const {className: customElementRenderedClassName} = customElementRendered.props
+
+        customElement = cloneElement(customElementRendered, {
+          className: classnames(classes.custom, customElementRenderedClassName)
         })
+      }
     } else if (multipleWithValue && (!isOpened || !onSearch)) {
       customElement = (
         <TagsInput
