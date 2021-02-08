@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.2.2 (2021-02-08)
+### Fixed
+* Исправлено перезаписывание `className` элементов в `customElementRenderer` в `<Select />`
+
 ## 5.2.1 (2021-02-08)
 ### Fixed
 * Исправлен тип свойства `inputValueRenderer` в `<Select />`
