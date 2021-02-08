@@ -26,7 +26,7 @@ export interface SelectProps<T>
   arrowStyle?: CSSProperties
   value?: T
   valuesEquality?: (value?: T, nextValue?: T) => boolean
-  inputValueRenderer?: (value?: T) => string
+  inputValueRenderer?: (value?: T extends any[] ? T[0] : T) => string
   iconElementRenderer?: (value?: T) => ReactElement
   placeholder?: string
   lightPlaceholderColor?: boolean
