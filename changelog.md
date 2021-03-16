@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.3.0 (2021-03-16)
+### Added
+* Добавлен `variation` для компонента `RadioButton` для возможности выбора типа отображения
+
 ## 5.2.2 (2021-02-08)
 ### Fixed
 * Исправлено перезаписывание `className` элементов в `customElementRenderer` в `<Select />`
