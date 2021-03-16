@@ -822,37 +822,77 @@ export default function createTheme(config) {
         animationDuration: 200
       },
       radio: {
-        colors: {
-          default: {
-            text: colors.dark,
-            dot: colors.dark,
-            dotBorder: lighten(colors.controls.grey.outline, 0.7),
-            dotBackground: colors.light
+        types: {
+          regular: {
+            colors: {
+              default: {
+                text: colors.dark,
+                dot: colors.dark,
+                dotBorder: lighten(colors.controls.grey.outline, 0.7),
+                dotBackground: colors.light
+              },
+              focus: {
+                dotBorder: colors.primary
+              },
+              checked: {
+                dotBorder: lighten(colors.controls.grey.outline, 0.7),
+                dotBackground: colors.light
+              },
+              active: {
+                dot: darken(colors.primary, 0.2),
+                dotBorder: darken(colors.primary, 0.2),
+                dotBackground: fade(darken(colors.primary, 0.2), 0.1)
+              },
+              hover: {
+                dot: colors.primary,
+                dotBorder: colors.primary
+              },
+              disabled: {
+                text: fade(colors.controls.grey.outline, 0.5),
+                dot: fade(colors.controls.grey.outline, 0.5),
+                dotBorder: fade(colors.controls.grey.outline, 0.2),
+                dotBackground: colors.light
+              }
+            }
           },
-          focus: {
-            dotBorder: colors.primary
-          },
-          checked: {
-            dotBorder: colors.primary
-          },
-          active: {
-            dotBackground: fade(darken(colors.primary, 0.2), 0.1),
-            dotBorder: darken(colors.primary, 0.2),
-            dot: darken(colors.primary, 0.2)
-          },
-          hover: {
-            dotBorder: colors.primary,
-            dot: colors.primary
-          },
-          disabled: {
-            dot: fade(colors.controls.grey.outline, 0.5),
-            text: fade(colors.controls.grey.outline, 0.5),
-            dotBorder: fade(colors.controls.grey.outline, 0.2)
+          awesome: {
+            colors: {
+              default: {
+                text: colors.dark,
+                dot: colors.light,
+                dotBorder: 'rgba(100, 157, 255, 0.2)',
+                dotBackground: colors.light
+              },
+              focus: {
+                dotBorder: colors.primary
+              },
+              checked: {
+                dotBorder: colors.primary,
+                dotBackground: colors.primary
+              },
+              active: {
+                dot: darken(colors.primary, 0.2),
+                dotBorder: darken(colors.primary, 0.2),
+                dotBackground: lighten(colors.primary, 0.9)
+              },
+              hover: {
+                dot: colors.light,
+                dotBorder: colors.primary
+              },
+              disabled: {
+                text: fade(colors.controls.grey.outline, 0.5),
+                dot: fade(colors.controls.grey.outline, 0.2),
+                dotBorder: fade(colors.controls.grey.outline, 0.2),
+                dotBackground: colors.light
+              }
+            }
           }
         },
-        dotSize: 5,
-        radioSize: 15,
-        labelMargin: 10,
+        sizes: {
+          size: 15,
+          dotSize: 5,
+          labelMargin: 10
+        },
         fontSize: 13,
         lineHeight: 20,
         marginBottom: 15,

@@ -25,7 +25,6 @@ const styles = theme => ({
     width: '100%',
     cursor: 'pointer',
     position: 'relative',
-    color: theme.radio.colors.default.text,
     userSelect: 'none',
     '&:not(:last-child)': {
       marginBottom: theme.radio.marginBottom
@@ -33,8 +32,80 @@ const styles = theme => ({
   },
   isDisabled: {
     pointerEvents: 'none',
-    color: theme.radio.colors.disabled.text,
     cursor: 'not-allowed'
+  },
+  regular: {
+    color: theme.radio.types.regular.colors.default.text,
+    '&$isDisabled': {
+      color: theme.radio.types.regular.colors.disabled.text
+    },
+    '& $fake': {
+      borderColor: theme.radio.types.regular.colors.default.dotBorder,
+      background: theme.radio.types.regular.colors.default.dotBackground,
+      color: theme.radio.types.regular.colors.default.dot
+    },
+    '&$isChecked $fake': {
+      borderColor: theme.radio.types.regular.colors.checked.dotBorder,
+      background: theme.radio.types.regular.colors.checked.dotBackground
+    },
+    '&$isEnabled:hover $fake': {
+      borderColor: theme.radio.types.regular.colors.hover.dotBorder,
+      color: theme.radio.types.regular.colors.hover.dot
+    },
+    ...focusSourceMixin('other', '& $real:focus + $fake', {
+      borderColor: theme.radio.types.regular.colors.focus.dotBorder
+    }),
+    '&$isEnabled:active $fake': {
+      borderColor: theme.radio.types.regular.colors.active.dotBorder,
+      background: theme.radio.types.regular.colors.active.dotBackground,
+      color: theme.radio.types.regular.colors.active.dot
+    },
+    '&$isDisabled $fake': {
+      borderColor: theme.radio.types.regular.colors.disabled.dotBorder,
+      color: theme.radio.types.regular.colors.disabled.dot,
+      background: theme.radio.types.regular.colors.disabled.dotBackground
+    }
+  },
+  awesome: {
+    color: theme.radio.types.awesome.colors.default.text,
+    '&$isDisabled': {
+      color: theme.radio.types.awesome.colors.disabled.text
+    },
+    '& $fake': {
+      borderColor: theme.radio.types.awesome.colors.default.dotBorder,
+      background: theme.radio.types.awesome.colors.default.dotBackground,
+      color: theme.radio.types.awesome.colors.default.dot
+    },
+    '&$isChecked $fake': {
+      borderColor: theme.radio.types.awesome.colors.checked.dotBorder,
+      background: theme.radio.types.awesome.colors.checked.dotBackground
+    },
+    '&$isEnabled:hover $fake': {
+      borderColor: theme.radio.types.awesome.colors.hover.dotBorder,
+      color: theme.radio.types.awesome.colors.hover.dot
+    },
+    ...focusSourceMixin('other', '& $real:focus + $fake', {
+      borderColor: theme.radio.types.awesome.colors.focus.dotBorder
+    }),
+    '&$isEnabled:active $fake': {
+      borderColor: theme.radio.types.awesome.colors.active.dotBorder,
+      background: theme.radio.types.awesome.colors.active.dotBackground,
+      color: theme.radio.types.awesome.colors.active.dot
+    },
+    '&$isEnabled$isChecked:active $fake': {
+      background: theme.radio.types.awesome.colors.active.dot,
+      color: theme.radio.types.awesome.colors.active.dotBackground
+    },
+    '&$isDisabled $fake': {
+      borderColor: theme.radio.types.awesome.colors.disabled.dotBorder,
+      color: theme.radio.types.awesome.colors.disabled.dot,
+      background: theme.radio.types.awesome.colors.disabled.dotBackground
+    },
+    '&$isDisabled$isChecked $fake': {
+      borderColor: 'transparent',
+      color: theme.radio.types.awesome.colors.disabled.dotBackground,
+      background: theme.radio.types.awesome.colors.disabled.dot
+    }
   },
   real: {
     fontFamily: theme.fontFamily,
@@ -50,12 +121,10 @@ const styles = theme => ({
     position: 'relative',
     boxSizing: 'border-box',
     borderRadius: '50%',
-    width: theme.radio.radioSize,
-    height: theme.radio.radioSize,
+    width: theme.radio.sizes.size,
+    height: theme.radio.sizes.size,
     border: '1px solid',
-    borderColor: theme.radio.colors.default.dotBorder,
-    background: theme.radio.colors.default.dotBackground,
-    marginTop: 3,
+    marginTop: Math.ceil((theme.radio.lineHeight - theme.radio.sizes.size) / 2),
     transitionDuration: theme.radio.animationDuration,
     transitionProperty: 'border-color, background-color, color',
     '&:after': {
@@ -67,8 +136,8 @@ const styles = theme => ({
       right: 0,
       bottom: 0,
       margin: 'auto',
-      width: 5,
-      height: 5,
+      width: theme.radio.sizes.dotSize,
+      height: theme.radio.sizes.dotSize,
       transform: 'scale(0.5, 0.5)',
       opacity: 0,
       transitionDuration: 'inherit',
@@ -80,27 +149,11 @@ const styles = theme => ({
       transform: 'scale(1, 1)',
       opacity: 1
     },
-    '$isEnabled:hover &': {
-      borderColor: theme.radio.colors.hover.dotBorder,
-      color: theme.radio.colors.hover.dot
-    },
-    ...focusSourceMixin('other', '$real:focus + &', {
-      borderColor: theme.radio.colors.focus.dotBorder
-    }),
-    '$isEnabled:active &': {
-      borderColor: theme.radio.colors.active.dotBorder,
-      background: theme.radio.colors.active.dotBackground,
-      color: theme.radio.colors.active.dot
-    },
-    '$isDisabled &': {
-      borderColor: theme.radio.colors.disabled.dotBorder,
-      color: theme.radio.colors.disabled.dot
-    },
     '$labelright &': {
-      marginRight: theme.radio.labelMargin
+      marginRight: theme.radio.sizes.labelMargin
     },
     '$labelleft &': {
-      marginLeft: theme.radio.labelMargin
+      marginLeft: theme.radio.sizes.labelMargin
     }
   },
   label: {
@@ -153,6 +206,10 @@ class RadioButton extends PureComponent {
      */
     labelPosition: PropTypes.oneOf(['left', 'right']),
     /**
+     * Разновидность инпута
+     */
+    variation: PropTypes.oneOf(['regular', 'awesome']),
+    /**
      * Контент поля
      */
     children: PropTypes.node
@@ -163,7 +220,8 @@ class RadioButton extends PureComponent {
     value: null,
     disabled: false,
     style: {},
-    labelStyle: {}
+    labelStyle: {},
+    variation: 'regular'
   }
 
   static contextType = RadioButtonContext
@@ -217,6 +275,7 @@ class RadioButton extends PureComponent {
       radioClassName,
       labelClassName,
       labelStyle,
+      variation,
       classes,
       onFocus,
       onBlur,
@@ -229,6 +288,7 @@ class RadioButton extends PureComponent {
     const rootClassName = classnames(
       className,
       classes.root,
+      classes[variation],
       classes[`label${labelPosition}`],
       disabled ? classes.isDisabled : classes.isEnabled,
       this.isChecked && classes.isChecked
