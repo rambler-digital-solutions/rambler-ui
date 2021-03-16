@@ -1,7 +1,10 @@
 [
   {
     "path": "",
-    "title": "latest (5.2.2)"
+    "title": "latest (5.3.0)"
+  },
+  {
+    "path": "5.3.0"
   },
   {
     "path": "5.2.2"
