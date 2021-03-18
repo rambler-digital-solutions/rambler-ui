@@ -84,18 +84,13 @@ const styles = theme => ({
       borderColor: theme.radio.types.awesome.colors.hover.dotBorder,
       color: theme.radio.types.awesome.colors.hover.dot
     },
+    '&$isEnabled$isChecked:hover $fake': {
+      borderColor: 'transparent',
+      background: theme.radio.types.awesome.colors.checkedHover.dotBackground
+    },
     ...focusSourceMixin('other', '& $real:focus + $fake', {
       borderColor: theme.radio.types.awesome.colors.focus.dotBorder
     }),
-    '&$isEnabled:active $fake': {
-      borderColor: theme.radio.types.awesome.colors.active.dotBorder,
-      background: theme.radio.types.awesome.colors.active.dotBackground,
-      color: theme.radio.types.awesome.colors.active.dot
-    },
-    '&$isEnabled$isChecked:active $fake': {
-      background: theme.radio.types.awesome.colors.active.dot,
-      color: theme.radio.types.awesome.colors.active.dotBackground
-    },
     '&$isDisabled $fake': {
       borderColor: theme.radio.types.awesome.colors.disabled.dotBorder,
       color: theme.radio.types.awesome.colors.disabled.dot,

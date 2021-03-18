@@ -860,7 +860,7 @@ export default function createTheme(config) {
               default: {
                 text: colors.dark,
                 dot: colors.light,
-                dotBorder: 'rgba(100, 157, 255, 0.2)',
+                dotBorder: lighten(colors.controls.grey.outline, 0.7),
                 dotBackground: colors.light
               },
               focus: {
@@ -870,14 +870,12 @@ export default function createTheme(config) {
                 dotBorder: colors.primary,
                 dotBackground: colors.primary
               },
-              active: {
-                dot: darken(colors.primary, 0.2),
-                dotBorder: darken(colors.primary, 0.2),
-                dotBackground: lighten(colors.primary, 0.9)
-              },
               hover: {
                 dot: colors.light,
-                dotBorder: colors.primary
+                dotBorder: fade(colors.controls.grey.outline, 0.7)
+              },
+              checkedHover: {
+                dotBackground: darken(colors.primary, 0.2)
               },
               disabled: {
                 text: fade(colors.controls.grey.outline, 0.5),
