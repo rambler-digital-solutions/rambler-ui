@@ -41,7 +41,7 @@ export interface SelectProps<T>
   appendToBody?: boolean
   onFocus?: (event: SyntheticEvent) => void | Promise<void>
   onBlur?: (event: SyntheticEvent) => void | Promise<void>
-  onChange?: (value?: T) => void | Promise<void>
+  onChange?: (value?: T | null) => void | Promise<void>
   onSearch?: (searchText: string) => void | Promise<void>
   customElementRenderer?: (value?: T) => ReactElement
   rootClassName?: string
