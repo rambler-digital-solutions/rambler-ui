@@ -4,7 +4,7 @@ import {Size} from '..'
 export interface ToggleProps<T>
   extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value' | 'onChange'> {
   value?: T | null
-  onChange?: (event: SyntheticEvent, value: T | null) => void | Promise<void>
+  onChange?: (event: SyntheticEvent, value?: T | null) => void | Promise<void>
   size?: Size
   behavior?: 'radio' | 'toggle'
   block?: boolean
