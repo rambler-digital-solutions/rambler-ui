@@ -404,6 +404,14 @@ class RelativeOverlay extends PureComponent {
      */
     contentPointY: this.props.contentPointY,
     /**
+     * Точка прицепления для achor X
+     */
+    anchorPointX: this.props.anchorPointX,
+    /**
+     * Точка прицепления для achor Y
+     */
+    anchorPointY: this.props.anchorPointY,
+    /**
      * Ширина anchor элемента
      */
     anchorWidth: undefined,
@@ -640,7 +648,12 @@ class RelativeOverlay extends PureComponent {
         className={classnames(className, classes.container)}
         style={style}
         ref={this.onContainerMount}>
-        {anchor()}
+        {anchor(undefined, {
+          anchorPointX,
+          anchorPointY,
+          contentPointX,
+          contentPointY
+        })}
         {contentElement}
       </div>
     )

@@ -346,7 +346,26 @@ class FixedOverlay extends PureComponent {
   }
 
   state = {
-    isOpened: false
+    /**
+     * Вставлен ли контент в DOM
+     */
+    isOpened: false,
+    /**
+     * Точка прикрепления контента X
+     */
+    contentPointX: this.props.contentPointX,
+    /**
+     * Точка прикрепления контента Y
+     */
+    contentPointY: this.props.contentPointY,
+    /**
+     * Точка прицепления для achor X
+     */
+    anchorPointX: this.props.anchorPointX,
+    /**
+     * Точка прицепления для achor Y
+     */
+    anchorPointY: this.props.anchorPointY
   }
 
   contentElement = null
@@ -476,13 +495,16 @@ class FixedOverlay extends PureComponent {
       )
     )
 
-    if (cachePositionOptions)
-      this.cachedOptions = {
-        anchorPointX: options.anchorPointX,
-        anchorPointY: options.anchorPointY,
-        contentPointX: options.contentPointX,
-        contentPointY: options.contentPointY
-      }
+    const currentOptions = {
+      anchorPointX: options.anchorPointX,
+      anchorPointY: options.anchorPointY,
+      contentPointX: options.contentPointX,
+      contentPointY: options.contentPointY
+    }
+
+    this.setState(currentOptions)
+
+    if (cachePositionOptions) this.cachedOptions = currentOptions
 
     this.portal.updateContentProps({
       content,
@@ -669,9 +691,20 @@ class FixedOverlay extends PureComponent {
   }
 
   render() {
+    const {
+      contentPointX,
+      contentPointY,
+      anchorPointX,
+      anchorPointY
+    } = this.state
     return (
       <>
-        {this.props.anchor(this.setAnchorNode)}
+        {this.props.anchor(this.setAnchorNode, {
+          anchorPointX,
+          anchorPointY,
+          contentPointX,
+          contentPointY
+        })}
         {this.state.isOpened &&
           createPortal(this.contentElement, this.getContentContainerNode())}
       </>

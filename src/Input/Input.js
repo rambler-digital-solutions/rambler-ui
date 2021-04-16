@@ -645,6 +645,10 @@ class Input extends PureComponent {
      */
     iconLeftClassName: PropTypes.string,
     /**
+     * Дополнительный класс границы
+     */
+    activeBorderClassName: PropTypes.string,
+    /**
      * Отображения счетчика символов
      */
     characterCounter: PropTypes.bool,
@@ -802,6 +806,7 @@ class Input extends PureComponent {
       inputClassName,
       iconLeftClassName,
       iconRightClassName,
+      activeBorderClassName,
       size,
       variation,
       iconLeft,
@@ -866,7 +871,9 @@ class Input extends PureComponent {
             classnames(iconLeftClassName, classes.iconLeft)
           )}
         {inputElement}
-        <div className={classes.activeBorder} />
+        <div
+          className={classnames(activeBorderClassName, classes.activeBorder)}
+        />
         {this.renderPlaceholder()}
         {this.iconRight &&
           this.renderIcon(

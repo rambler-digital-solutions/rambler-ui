@@ -42,6 +42,24 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
+const regularDropdownTopBorder = color => ({
+  '& + * $dropdown': {
+    borderTopColor: color,
+    borderLeftColor: color,
+    borderRightColor: color
+  }
+})
+
+const regularDropdownBottomBorder = color => ({
+  '& + * $dropdown': {
+    borderLeftColor: color,
+    borderRightColor: color
+  },
+  '& + * $menu': {
+    borderBottomColor: color
+  }
+})
+
 const styles = theme => ({
   root: {
     extend: isolateMixin,
@@ -106,6 +124,7 @@ const styles = theme => ({
   input: {
     '$withCustom &': absolutePosition
   },
+  inputBorder: {},
   field: {
     '$isReadonly &': {
       cursor: 'pointer',
@@ -133,6 +152,78 @@ const styles = theme => ({
       zIndex: 1
     }
   },
+  withTopDropdown: {
+    '$isOpened &': {
+      '& $field, & $inputBorder': {
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0
+      }
+    },
+    '$regular$isOpened &': {
+      '& $field, & $inputBorder': {
+        borderTopColor: 'transparent'
+      }
+    },
+    '$regular$isFocused &': regularDropdownTopBorder(
+      theme.field.colors.focus.border
+    ),
+    '$success$regular$isFocused &': regularDropdownTopBorder(
+      theme.colors.success
+    ),
+    '$error$regular$isFocused &': regularDropdownTopBorder(theme.colors.danger),
+    '$warning$regular$isFocused &': regularDropdownTopBorder(theme.colors.warn),
+    '& + *': {
+      '& $menu, & $dropdown': {
+        borderTopLeftRadius: theme.field.borderRadius,
+        borderTopRightRadius: theme.field.borderRadius
+      },
+      '& $dropdown': {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0
+      },
+      '$regular & $menu': {
+        borderBottom: 0
+      }
+    }
+  },
+  withBottomDropdown: {
+    '$isOpened &': {
+      '& $field, & $inputBorder': {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0
+      }
+    },
+    '$regular$isOpened &': {
+      '& $field, & $inputBorder': {
+        borderBottomColor: 'transparent'
+      }
+    },
+    '$regular$isFocused &': regularDropdownBottomBorder(
+      theme.field.colors.focus.border
+    ),
+    '$success$regular$isFocused &': regularDropdownBottomBorder(
+      theme.colors.success
+    ),
+    '$error$regular$isFocused &': regularDropdownBottomBorder(
+      theme.colors.danger
+    ),
+    '$warning$regular$isFocused &': regularDropdownBottomBorder(
+      theme.colors.warn
+    ),
+    '& + *': {
+      '& $menu, & $dropdown': {
+        borderBottomLeftRadius: theme.field.borderRadius,
+        borderBottomRightRadius: theme.field.borderRadius
+      },
+      '& $dropdown': {
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0
+      },
+      '$regular & $dropdown': {
+        borderTop: 0
+      }
+    }
+  },
   custom: {
     position: 'relative',
     pointerEvents: 'none'
@@ -148,9 +239,10 @@ const styles = theme => ({
   dropdown: {
     '&&': {
       boxShadow: 'none',
+      overflow: 'hidden',
       border: `1px solid ${theme.field.colors.default.outline}`,
       borderBottom: 0,
-      '&$isMultipleDropdown': {
+      '&$isMultipleDropdown, $regular &': {
         transitionProperty: 'opacity',
         top: '0 !important'
       }
@@ -284,6 +376,12 @@ const styles = theme => ({
     overflow: 'hidden',
     outline: 0
   },
+  regular: {},
+  awesome: {},
+  promo: {},
+  success: {},
+  error: {},
+  warning: {},
   isFocused: {},
   isOpened: {},
   isReadonly: {},
@@ -828,6 +926,7 @@ class Select extends PureComponent {
         iconLeft={icon}
         iconRight={rightIcon}
         iconRightClassName={classes.icon}
+        activeBorderClassName={classes.inputBorder}
         onKeyDown={this.keyDown}
         onClick={!onSearch && isOpened ? this.close : this.open}
         onFocus={this.focusInput}
@@ -871,6 +970,8 @@ class Select extends PureComponent {
       multipleType,
       disabled,
       size,
+      variation,
+      status,
       icon,
       classes
     } = this.props
@@ -882,31 +983,13 @@ class Select extends PureComponent {
     const options = multipleWithValue ? this.renderSelectedItems() : null
     const canBeModified = !!onSearch || inputMode
 
-    const resultClassName = classnames(
-      rootClassName,
-      classes.root,
-      (readOnly || (!disabled && !canBeModified)) && classes.isReadonly,
-      !readOnly && !disabled && canBeModified && classes.withSearch,
-      icon && classes.withLeftIcon,
-      this.showArrow && classes.withRightIcon,
-      size && classes[size],
-      disabled ? classes.isDisabled : classes.isEnabled,
-      isOpened && classes.isOpened,
-      focusedInput && classes.isFocused,
-      multiple && !onSearch && classes.isMultipleWithoutSearch
-    )
-
-    const dropdownResultClassName = classnames(
-      dropdownClassName,
-      classes.dropdown,
-      multiple && classes.isMultipleDropdown
-    )
-
     let customElement = null
     if (customElementRenderer) {
       if (!this.isValueEmpty(value) && !(isOpened && onSearch)) {
         const customElementRendered = customElementRenderer(value)
-        const {className: customElementRenderedClassName} = customElementRendered.props
+        const {
+          className: customElementRenderedClassName
+        } = customElementRendered.props
 
         customElement = cloneElement(customElementRendered, {
           className: classnames(classes.custom, customElementRenderedClassName)
@@ -934,17 +1017,42 @@ class Select extends PureComponent {
       (children.length > 0 ||
         (multiple && Array.isArray(value) && value.length > 0))
 
+    const resultClassName = classnames(
+      rootClassName,
+      classes.root,
+      (readOnly || (!disabled && !canBeModified)) && classes.isReadonly,
+      !readOnly && !disabled && canBeModified && classes.withSearch,
+      icon && classes.withLeftIcon,
+      this.showArrow && classes.withRightIcon,
+      classes[size],
+      classes[variation],
+      classes[status],
+      disabled ? classes.isDisabled : classes.isEnabled,
+      resultIsOpened && classes.isOpened,
+      focusedInput && classes.isFocused,
+      multiple && !onSearch && classes.isMultipleWithoutSearch
+    )
+
+    const dropdownResultClassName = classnames(
+      dropdownClassName,
+      classes.dropdown,
+      multiple && classes.isMultipleDropdown
+    )
+
     return (
       <OnClickOutside handler={this.closeOnClickOutside}>
         {componentRef => (
           <div ref={componentRef} className={resultClassName} style={rootStyle}>
             <Dropdown
               isOpened={resultIsOpened}
-              anchor={ref => (
+              anchor={(ref, {contentPointY}) => (
                 <div
                   className={classnames(
                     containerClassName,
-                    (multiple || customElementRenderer) && classes.withCustom
+                    (multiple || customElementRenderer) && classes.withCustom,
+                    contentPointY === 'top'
+                      ? classes.withBottomDropdown
+                      : classes.withTopDropdown
                   )}
                   style={containerStyle}
                   ref={ref}>
@@ -1029,6 +1137,8 @@ class Select extends PureComponent {
       multipleType,
       children,
       size,
+      variation,
+      status,
       icon,
       valuesEquality,
       inputValueRenderer,
@@ -1079,7 +1189,9 @@ class Select extends PureComponent {
       classes.isNative,
       classes.withRightIcon,
       icon && classes.withLeftIcon,
-      size && classes[size],
+      classes[size],
+      classes[variation],
+      classes[status],
       disabled ? classes.isDisabled : classes.isEnabled,
       inputFocused && classes.isFocused,
       multiple && classes.isMultipleWithoutSearch,
@@ -1097,6 +1209,7 @@ class Select extends PureComponent {
           iconLeft={icon}
           iconRight={createElement(this.Arrow)}
           iconRightClassName={classes.icon}
+          activeBorderClassName={classes.inputBorder}
           tabIndex={-1}
           readOnly={true}
           placeholder={selectedOptions ? null : placeholder}
