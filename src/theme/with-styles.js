@@ -5,8 +5,8 @@ import createUseStyles from './create-use-styles'
 import withBaseTheme from './with-base-theme'
 
 export default function withStyles(styles, options = {}) {
+  const useStyles = createUseStyles(styles, options)
   return Component => {
-    const useStyles = createUseStyles(styles, options)
     const StyledComponent = withBaseTheme(
       forwardRef(function StyledComponent(props, ref) {
         const theme = useTheme()

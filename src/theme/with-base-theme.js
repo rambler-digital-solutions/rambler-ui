@@ -1,5 +1,5 @@
 import React, {useContext, forwardRef} from 'react'
-import {JssProvider} from 'react-jss'
+import {JssContext} from 'react-jss'
 import {
   globalJss,
   globalSheetsRegistry,
@@ -10,20 +10,27 @@ import {
 import baseTheme from './base'
 
 const generateId = createGenerateId()
+const managers = {}
+
+const globalJssContext = {
+  generateId,
+  managers,
+  jss: globalJss,
+  registry: globalSheetsRegistry
+}
+
+const getBaseTheme = () => baseTheme
 
 export default function withBaseTheme(Component) {
   const WithThemeProvider = forwardRef(function WithThemeProvider(props, ref) {
-    const context = useContext(ThemeProviderContext)
-    if (context.jss) return <Component ref={ref} {...props} />
+    const themeContext = useContext(ThemeProviderContext)
+    if (themeContext.jss) return <Component ref={ref} {...props} />
     return (
-      <JssProvider
-        jss={globalJss}
-        registry={globalSheetsRegistry}
-        generateId={generateId}>
-        <JssThemeProvider theme={baseTheme}>
+      <JssContext.Provider value={globalJssContext}>
+        <JssThemeProvider theme={getBaseTheme}>
           <Component ref={ref} {...props} />
         </JssThemeProvider>
-      </JssProvider>
+      </JssContext.Provider>
     )
   })
   return WithThemeProvider

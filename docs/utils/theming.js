@@ -43,12 +43,14 @@ ThemeProvider.propTypes = {
 export const createUseStyles = styles =>
   originalCreateUseStyles(styles, {theming})
 
-export const withStyles = styles => Component => {
+export const withStyles = styles => {
   const useStyles = createUseStyles(styles)
-  const StyledComponent = props => {
-    const theme = useTheme()
-    const classes = useStyles()
-    return <Component {...props} theme={theme} classes={classes} />
+  return Component => {
+    const StyledComponent = props => {
+      const theme = useTheme()
+      const classes = useStyles()
+      return <Component {...props} theme={theme} classes={classes} />
+    }
+    return StyledComponent
   }
-  return StyledComponent
 }
