@@ -9,7 +9,6 @@ import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import createGetMemoizedRef from '../utils/createGetMemoizedRef'
 
-const BG_COLOR = '#fff'
 const ARROW_SIZE = 5
 
 const styles = theme => ({
@@ -23,7 +22,7 @@ const styles = theme => ({
     position: 'relative',
     transitionDuration: `${theme.dropdown.animationDuration}ms`,
     transitionProperty: 'opacity, top',
-    background: BG_COLOR,
+    background: theme.dropdown.colors.background,
     outline: 'none',
     boxShadow: theme.dropdown.boxShadow
   },
@@ -51,13 +50,13 @@ const styles = theme => ({
       content: '""',
       top: -ARROW_SIZE,
       borderTopWidth: 0,
-      borderBottomColor: BG_COLOR
+      borderBottomColor: theme.dropdown.colors.border
     },
     '&$pointY-bottom:before': {
       content: '""',
       bottom: -ARROW_SIZE,
       borderBottomWidth: 0,
-      borderTopColor: BG_COLOR
+      borderTopColor: theme.dropdown.colors.border
     },
     '&$pointX-left:before': {
       left: 15

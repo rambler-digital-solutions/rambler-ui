@@ -48,6 +48,10 @@ class Menu extends PureComponent {
      */
     style: PropTypes.object,
     /**
+     * Дополнительный CSS-класс элемента
+     */
+    itemClassName: PropTypes.string,
+    /**
      * Множественный выбор
      */
     multiple: PropTypes.bool,
@@ -128,7 +132,8 @@ class Menu extends PureComponent {
       isMenuDisabled: this.isMenuDisabled,
       getMenuSize: this.getMenuSize,
       getItemRef: this.getItemRef,
-      events: this.events
+      events: this.events,
+      className: this.props.itemClassName
     }
   }
 
