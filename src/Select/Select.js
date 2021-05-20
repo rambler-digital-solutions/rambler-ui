@@ -242,6 +242,7 @@ const styles = theme => ({
       overflow: 'hidden',
       border: `1px solid ${theme.field.colors.default.outline}`,
       borderBottom: 0,
+      backgroundColor: theme.field.colors.default.background,
       '&$isMultipleDropdown, $regular &': {
         transitionProperty: 'opacity',
         top: '0 !important'
@@ -254,6 +255,9 @@ const styles = theme => ({
   },
   menu: {
     borderBottom: `1px solid ${theme.field.colors.default.outline}`
+  },
+  menuItem: {
+    backgroundColor: theme.field.colors.default.background
   },
   ...['small', 'medium'].reduce(
     (result, size) => ({
@@ -1095,6 +1099,7 @@ class Select extends PureComponent {
                     classes[`menuSize-${size}`],
                     onSearch && multiple && classes.reducedHeight
                   )}
+                  itemClassName={classes.menuItem}
                   autoFocus={resultIsOpened && !inputFocused}
                   value={
                     multiple ? (Array.isArray(value) ? value : emptyArr) : value

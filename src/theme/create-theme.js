@@ -519,7 +519,11 @@ export default function createTheme(config) {
       dropdown: {
         borderRadius: 1,
         animationDuration: 200,
-        boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)'
+        boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
+        colors: {
+          background: colors.light,
+          border: colors.light
+        }
       },
       formGroup: {
         fontSize: 13,

@@ -166,6 +166,7 @@ class MenuItem extends PureComponent {
       ...other,
       className: classnames(
         className,
+        this.context.className,
         classes.root,
         this.size && classes[this.size],
         isItemDisabled ? classes.isDisabled : classes.isEnabled,
