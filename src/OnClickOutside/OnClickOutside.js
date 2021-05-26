@@ -16,12 +16,12 @@ class OnClickOutside extends PureComponent {
   }
 
   componentDidMount() {
-    this.props.windowEvents.on('click', this.onClick)
+    this.props.windowEvents.on('mousedown', this.onClick)
     this.props.windowEvents.on('touchstart', this.onClick)
   }
 
   componentWillUnmount() {
-    this.props.windowEvents.removeListener('click', this.onClick)
+    this.props.windowEvents.removeListener('mousedown', this.onClick)
     this.props.windowEvents.removeListener('touchstart', this.onClick)
   }
 
@@ -50,4 +50,4 @@ class OnClickOutside extends PureComponent {
   }
 }
 
-export default windowEvents('touchstart', 'click')(OnClickOutside)
+export default windowEvents('mousedown', 'touchstart')(OnClickOutside)
