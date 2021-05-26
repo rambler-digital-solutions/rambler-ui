@@ -30,7 +30,6 @@ class OnClickOutside extends PureComponent {
   }
 
   onClick = throttle(event => {
-    console.log('hi')
     let outsideClick = true
     let element = event.target
     let insideBody = false
