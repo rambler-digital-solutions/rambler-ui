@@ -25,6 +25,12 @@ function createHandlers() {
       },
       capture: true
     },
+    mousedown: {
+      handler: e => {
+        events.emit('mousedown', e)
+      },
+      capture: true
+    },
     touchstart: {
       handler: e => {
         events.emit('touchstart', e)
