@@ -13,7 +13,7 @@ export {
 export {default as ThemeProvider} from './ThemeProvider'
 export * from './ThemeProvider'
 
-export type Control = {
+export interface ControlGreyColors {
   default: string
   disabled: string
   icon: string
@@ -28,16 +28,16 @@ export type Control = {
   disabledText: string
 }
 
-export type Controls = {
-  grey: Control
+export interface ControlColors {
+  grey: ControlGreyColors
 }
 
-export type Colors = {
+export interface Colors {
   arrowBlueDark: string
   black: string
   blueDark: string
   blueLight: string
-  controls: Controls
+  controls: ControlColors
   danger: string
   dark: string
   fullDark: string
