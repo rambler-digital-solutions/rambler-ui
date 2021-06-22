@@ -68,7 +68,6 @@ const styles = theme => ({
     position: 'relative',
     flexShrink: 0,
     borderRadius: 9999,
-    marginTop: 1,
     width: theme.switcher.width,
     height: theme.switcher.height,
     transitionProperty: 'background',
@@ -86,8 +85,7 @@ const styles = theme => ({
   },
   label: {
     cursor: 'pointer',
-    fontWeight: 'normal',
-    lineHeight: 1.43
+    fontWeight: 'normal'
   }
 })
 
