@@ -6,11 +6,8 @@ import {canUseDOM} from '../utils/DOM'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 
 const whenDomReady = new Promise(resolve => {
-  if (document.readyState === 'complete' || !canUseDOM) 
-    resolve()
-  else 
-    window.addEventListener('load', resolve)
-  
+  if (!canUseDOM || document.readyState === 'complete') resolve()
+  else window.addEventListener('load', resolve)
 })
 
 const styles = theme => ({
