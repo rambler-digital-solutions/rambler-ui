@@ -2,11 +2,15 @@ import React, {Component, Children, cloneElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
+import {canUseDOM} from '../utils/DOM'
 import {isolateMixin, focusSourceMixin} from '../utils/mixins'
 
 const whenDomReady = new Promise(resolve => {
-  if (document.readyState === 'complete') resolve()
-  else window.addEventListener('load', resolve)
+  if (document.readyState === 'complete' || !canUseDOM) 
+    resolve()
+  else 
+    window.addEventListener('load', resolve)
+  
 })
 
 const styles = theme => ({
