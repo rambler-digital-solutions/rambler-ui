@@ -259,9 +259,7 @@ class Pagination extends Component {
 
   onInputChange = (event, value) => {
     event.preventDefault()
-    this.setState({
-      pageValue: value
-    })
+    this.props.onChange(event, value)
   }
 
   handlePressKey = event => {
@@ -294,7 +292,7 @@ class Pagination extends Component {
     const aroundPages = Math.floor(pagesInRange / 2)
 
     const leftPageNum = currentPage - aroundPages
-    const rightPageNum = currentPage + aroundPages
+    const rightPageNum = +currentPage + aroundPages
     const startRange = edgePages
     const endRange = pagesCount - edgePages + 1
 
