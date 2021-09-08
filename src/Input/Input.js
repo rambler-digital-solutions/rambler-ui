@@ -41,6 +41,9 @@ const styles = theme => ({
       fontWeight: theme.field.mobile.fontWeight,
       letterSpacing: theme.field.mobile.letterSpacing
     }),
+    '&:focus': {
+      background: theme.field.colors.focus.background
+    },
     '$textareaRoot &': {
       resize: 'vertical',
       height: '100%',
@@ -427,7 +430,13 @@ const styles = theme => ({
     extend: isolateMixin,
     position: 'relative',
     boxSizing: 'border-box',
-    fontFamily: theme.fontFamily
+    fontFamily: theme.fontFamily,
+    '&$error$isEnabled input': {
+      background: theme.field.colors.default.status.error
+    },
+    '&$warning$isEnabled input': {
+      background: theme.field.colors.default.status.warning
+    }
   },
   textareaRoot: {},
   characterCounter: {
@@ -785,9 +794,9 @@ class Input extends PureComponent {
     const statusClassName =
       length >= maxLength
         ? classes.characterCounterError
-        : length >= Math.ceil(maxLength * 0.95)
-          ? classes.characterCounterWarn
-          : ''
+        : length >= Math.ceil(maxLength * 0.95) // eslint-disable-next-line indent
+        ? classes.characterCounterWarn // eslint-disable-next-line indent
+        : ''
 
     return (
       <span className={`${classes.characterCounter} ${statusClassName}`}>
