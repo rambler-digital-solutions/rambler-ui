@@ -7,6 +7,8 @@ export interface TooltipProps {
   style?: CSSProperties
   contentClassName?: string
   contentStyle?: CSSProperties
+  arrowClassName?: string
+  arrowStyle?: CSSProperties
   delay?: number
   status?: Exclude<StatusType, 'filled'> | 'default'
   isOpened?: boolean

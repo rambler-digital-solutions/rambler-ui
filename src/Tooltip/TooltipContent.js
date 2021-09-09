@@ -169,6 +169,8 @@ class TooltipContent extends PureComponent {
   static propTypes = {
     style: PropTypes.object,
     bodyClassName: PropTypes.string,
+    arrowClassName: PropTypes.string,
+    arrowStyle: PropTypes.object,
     isVisible: PropTypes.bool,
     contentRef: PropTypes.func,
     onBecomeVisible: PropTypes.func,
@@ -197,6 +199,8 @@ class TooltipContent extends PureComponent {
       className,
       bodyClassName,
       style,
+      arrowClassName,
+      arrowStyle,
       pointY,
       pointX,
       anchorPointY,
@@ -211,7 +215,7 @@ class TooltipContent extends PureComponent {
       onBecomeVisible,
       onBecomeInvisible
     } = this.props
-    const arrowStyle = {}
+    const resultArrowStyle = {...arrowStyle}
 
     if (anchorWidth)
       if (anchorPointX === 'left' && pointX === 'left') {
@@ -225,16 +229,16 @@ class TooltipContent extends PureComponent {
     if (anchorHeight)
       if (anchorPointY === 'top' && pointY === 'top') {
         if (anchorPointX === 'left')
-          arrowStyle.top = anchorHeight / 2 + 3 + 'px'
+          resultArrowStyle.top = anchorHeight / 2 + 3 + 'px'
         if (anchorPointX === 'right')
-          arrowStyle.top = anchorHeight / 2 - 7 + 'px'
-        arrowStyle.bottom = 'auto'
+          resultArrowStyle.top = anchorHeight / 2 - 7 + 'px'
+        resultArrowStyle.bottom = 'auto'
       } else if (anchorPointY === 'bottom' && pointY === 'bottom') {
-        arrowStyle.top = 'auto'
+        resultArrowStyle.top = 'auto'
         if (anchorPointX === 'left')
-          arrowStyle.bottom = anchorHeight / 2 - 7 + 'px'
+          resultArrowStyle.bottom = anchorHeight / 2 - 7 + 'px'
         if (anchorPointX === 'right')
-          arrowStyle.bottom = anchorHeight / 2 + 3 + 'px'
+          resultArrowStyle.bottom = anchorHeight / 2 + 3 + 'px'
       }
 
     return (
@@ -260,7 +264,10 @@ class TooltipContent extends PureComponent {
                   classes[status],
                   isVisible && classes.isVisible
                 )}>
-                <div className={classes.arrow} style={arrowStyle} />
+                <div
+                  className={classnames(arrowClassName, classes.arrow)}
+                  style={resultArrowStyle}
+                />
                 <div
                   style={style}
                   className={classnames(bodyClassName, classes.body)}>

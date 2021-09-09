@@ -41,6 +41,14 @@ class Tooltip extends PureComponent {
      */
     contentStyle: PropTypes.object,
     /**
+     * Css класс стрелки тултипа
+     */
+    arrowClassName: PropTypes.string,
+    /**
+     * Стили стрелки тултипа
+     */
+    arrowStyle: PropTypes.object,
+    /**
      * Сколько мс должен провисеть тултип, прежде чем исчезнуть
      */
     delay: PropTypes.number,
@@ -158,6 +166,8 @@ class Tooltip extends PureComponent {
     const {
       contentClassName,
       contentStyle,
+      arrowClassName,
+      arrowStyle,
       content,
       position,
       closeOnScroll,
@@ -170,9 +180,11 @@ class Tooltip extends PureComponent {
         content={
           <TooltipContent
             onClickOutside={this.onClickOutside}
+            style={contentStyle}
             bodyClassName={contentClassName}
-            status={status}
-            style={contentStyle}>
+            arrowClassName={arrowClassName}
+            arrowStyle={arrowStyle}
+            status={status}>
             {content}
           </TooltipContent>
         }
