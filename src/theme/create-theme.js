@@ -606,10 +606,7 @@ export default function createTheme(config) {
           },
           success: {},
           warning: {},
-          error: {},
-          successFocus: {},
-          errorFocus: {},
-          warningFocus: {}
+          error: {}
         },
         sizes: {
           medium: {

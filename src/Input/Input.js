@@ -17,6 +17,13 @@ const activeBorder = borderColor => ({
   transform: 'none'
 })
 
+const backgroundColor = (background, focusBackground) => ({
+  background,
+  '&:focus': {
+    background: focusBackground
+  }
+})
+
 const styles = theme => ({
   input: {
     extend: isolateMixin,
@@ -31,7 +38,6 @@ const styles = theme => ({
     letterSpacing: theme.field.letterSpacing,
     appearance: 'none',
     lineHeight: 'normal',
-    background: theme.field.colors.default.background,
     color: theme.field.colors.default.text,
     boxShadow: 'none',
     border: '0 solid',
@@ -41,9 +47,10 @@ const styles = theme => ({
       fontWeight: theme.field.mobile.fontWeight,
       letterSpacing: theme.field.mobile.letterSpacing
     }),
-    '&:focus': {
-      background: theme.field.colors.focus.background
-    },
+    ...backgroundColor(
+      theme.field.colors.default.background,
+      theme.field.colors.focus.background
+    ),
     '$textareaRoot &': {
       resize: 'vertical',
       height: '100%',
@@ -108,36 +115,18 @@ const styles = theme => ({
     ...placeholderMixin('$isEnabled$isFocused &', {
       opacity: 0.54
     }),
-    '$error$isEnabled &': {
-      '&:focus': {
-        background:
-          theme.field.colors.errorFocus.background ||
-          theme.field.colors.focus.background
-      },
-      background:
-        theme.field.colors.error.background ||
-        theme.field.colors.default.background
-    },
-    '$warning$isEnabled &': {
-      '&:focus': {
-        background:
-          theme.field.colors.warningFocus.background ||
-          theme.field.colors.focus.background
-      },
-      background:
-        theme.field.colors.warning.background ||
-        theme.field.colors.default.background
-    },
-    '$success$isEnabled &': {
-      '&:focus': {
-        background:
-          theme.field.colors.successFocus.background ||
-          theme.field.colors.focus.background
-      },
-      background:
-        theme.field.colors.success.background ||
-        theme.field.colors.default.background
-    }
+    '$error$isEnabled &': backgroundColor(
+      theme.field.colors.error.background,
+      theme.field.colors.error.background
+    ),
+    '$warning$isEnabled &': backgroundColor(
+      theme.field.colors.warning.background,
+      theme.field.colors.warning.background
+    ),
+    '$success$isEnabled &': backgroundColor(
+      theme.field.colors.success.background,
+      theme.field.colors.success.background
+    )
   },
   withStatusLine: {
     '& $activeBorder': {
