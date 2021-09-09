@@ -107,7 +107,37 @@ const styles = theme => ({
     }),
     ...placeholderMixin('$isEnabled$isFocused &', {
       opacity: 0.54
-    })
+    }),
+    '$error$isEnabled &': {
+      '&:focus': {
+        background:
+          theme.field.colors.errorFocus.background ||
+          theme.field.colors.focus.background
+      },
+      background:
+        theme.field.colors.error.background ||
+        theme.field.colors.default.background
+    },
+    '$warning$isEnabled &': {
+      '&:focus': {
+        background:
+          theme.field.colors.warningFocus.background ||
+          theme.field.colors.focus.background
+      },
+      background:
+        theme.field.colors.warning.background ||
+        theme.field.colors.default.background
+    },
+    '$success$isEnabled &': {
+      '&:focus': {
+        background:
+          theme.field.colors.successFocus.background ||
+          theme.field.colors.focus.background
+      },
+      background:
+        theme.field.colors.success.background ||
+        theme.field.colors.default.background
+    }
   },
   withStatusLine: {
     '& $activeBorder': {
@@ -430,13 +460,7 @@ const styles = theme => ({
     extend: isolateMixin,
     position: 'relative',
     boxSizing: 'border-box',
-    fontFamily: theme.fontFamily,
-    '&$error$isEnabled input': {
-      background: theme.field.colors.default.status.error
-    },
-    '&$warning$isEnabled input': {
-      background: theme.field.colors.default.status.warning
-    }
+    fontFamily: theme.fontFamily
   },
   textareaRoot: {},
   characterCounter: {
