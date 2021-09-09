@@ -594,7 +594,8 @@ export default function createTheme(config) {
           },
           focus: {
             border: colors.primary,
-            arrow: colors.primary
+            arrow: colors.primary,
+            background: colors.light
           },
           disabled: {
             outline: fade(colors.controls.grey.fieldOutline, 0.6),
@@ -602,7 +603,13 @@ export default function createTheme(config) {
             placeholder: colors.controls.grey.disabled,
             arrow: lighten(colors.controls.grey.outline, 0.5),
             background: colors.light
-          }
+          },
+          success: {},
+          warning: {},
+          error: {},
+          successFocus: {},
+          errorFocus: {},
+          warningFocus: {}
         },
         sizes: {
           medium: {

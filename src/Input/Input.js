@@ -41,6 +41,9 @@ const styles = theme => ({
       fontWeight: theme.field.mobile.fontWeight,
       letterSpacing: theme.field.mobile.letterSpacing
     }),
+    '&:focus': {
+      background: theme.field.colors.focus.background
+    },
     '$textareaRoot &': {
       resize: 'vertical',
       height: '100%',
@@ -104,7 +107,37 @@ const styles = theme => ({
     }),
     ...placeholderMixin('$isEnabled$isFocused &', {
       opacity: 0.54
-    })
+    }),
+    '$error$isEnabled &': {
+      '&:focus': {
+        background:
+          theme.field.colors.errorFocus.background ||
+          theme.field.colors.focus.background
+      },
+      background:
+        theme.field.colors.error.background ||
+        theme.field.colors.default.background
+    },
+    '$warning$isEnabled &': {
+      '&:focus': {
+        background:
+          theme.field.colors.warningFocus.background ||
+          theme.field.colors.focus.background
+      },
+      background:
+        theme.field.colors.warning.background ||
+        theme.field.colors.default.background
+    },
+    '$success$isEnabled &': {
+      '&:focus': {
+        background:
+          theme.field.colors.successFocus.background ||
+          theme.field.colors.focus.background
+      },
+      background:
+        theme.field.colors.success.background ||
+        theme.field.colors.default.background
+    }
   },
   withStatusLine: {
     '& $activeBorder': {
@@ -785,9 +818,9 @@ class Input extends PureComponent {
     const statusClassName =
       length >= maxLength
         ? classes.characterCounterError
-        : length >= Math.ceil(maxLength * 0.95)
-          ? classes.characterCounterWarn
-          : ''
+        : length >= Math.ceil(maxLength * 0.95) // eslint-disable-next-line indent
+        ? classes.characterCounterWarn // eslint-disable-next-line indent
+        : ''
 
     return (
       <span className={`${classes.characterCounter} ${statusClassName}`}>
