@@ -594,7 +594,8 @@ export default function createTheme(config) {
           },
           focus: {
             border: colors.primary,
-            arrow: colors.primary
+            arrow: colors.primary,
+            background: colors.light
           },
           disabled: {
             outline: fade(colors.controls.grey.fieldOutline, 0.6),
