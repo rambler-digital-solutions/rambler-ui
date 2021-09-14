@@ -17,10 +17,22 @@ const activeBorder = borderColor => ({
   transform: 'none'
 })
 
-const backgroundColor = (background, focusBackground) => ({
+const borderColor = (border, outline) => ({
+  '& $input': {
+    borderColor: border
+  },
+  '& $activeBorder': {
+    borderColor: outline
+  }
+})
+
+const backgroundColor = (background, hoverBackground) => ({
   background,
+  '&:hover': {
+    background: hoverBackground
+  },
   '&:focus': {
-    background: focusBackground
+    background: hoverBackground
   }
 })
 
@@ -49,7 +61,7 @@ const styles = theme => ({
     }),
     ...backgroundColor(
       theme.field.colors.default.background,
-      theme.field.colors.focus.background
+      theme.field.colors.hover.background
     ),
     '$textareaRoot &': {
       resize: 'vertical',
@@ -146,13 +158,37 @@ const styles = theme => ({
     '& $activeBorder': {
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
-    }
+    },
+    '&$error$isEnabled': borderColor(
+      theme.field.colors.error.border,
+      theme.field.colors.error.border
+    ),
+    '&$warning$isEnabled': borderColor(
+      theme.field.colors.warning.border,
+      theme.field.colors.warning.border
+    ),
+    '&$success$isEnabled': borderColor(
+      theme.field.colors.success.border,
+      theme.field.colors.success.border
+    )
   },
   awesome: {
     composes: ['$withOutline', '$withStatusLine'],
     '& $activeBorder': {
       borderRadius: theme.field.borderRadius
-    }
+    },
+    '&$error$isEnabled': borderColor(
+      theme.field.colors.error.border,
+      theme.field.colors.error.outline
+    ),
+    '&$warning$isEnabled': borderColor(
+      theme.field.colors.warning.border,
+      theme.field.colors.warning.outline
+    ),
+    '&$success$isEnabled': borderColor(
+      theme.field.colors.success.border,
+      theme.field.colors.success.outline
+    )
   },
   promo: {
     composes: ['$withStatusLine'],
@@ -162,7 +198,22 @@ const styles = theme => ({
     },
     '& $input, & $input:disabled': {
       background: 'none'
-    }
+    },
+    '& $activeBorder': {
+      borderRadius: theme.field.borderRadius
+    },
+    '&$error$isEnabled': borderColor(
+      theme.field.colors.error.outline,
+      theme.field.colors.error.outline
+    ),
+    '&$warning$isEnabled': borderColor(
+      theme.field.colors.warning.outline,
+      theme.field.colors.warning.outline
+    ),
+    '&$success$isEnabled': borderColor(
+      theme.field.colors.success.outline,
+      theme.field.colors.success.outline
+    )
   },
   ...['medium', 'small'].reduce(
     (result, size) => ({
