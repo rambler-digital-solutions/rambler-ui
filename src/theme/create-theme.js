@@ -590,12 +590,12 @@ export default function createTheme(config) {
           },
           hover: {
             outline: darken(colors.controls.grey.fieldOutline, 0.1),
-            arrow: colors.primary
+            arrow: colors.primary,
+            background: colors.light
           },
           focus: {
             border: colors.primary,
-            arrow: colors.primary,
-            background: colors.light
+            arrow: colors.primary
           },
           disabled: {
             outline: fade(colors.controls.grey.fieldOutline, 0.6),
