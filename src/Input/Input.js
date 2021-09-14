@@ -17,15 +17,15 @@ const activeBorder = borderColor => ({
   transform: 'none'
 })
 
-const assignInputColors = (background, hoverBackground, borderColor) => ({
+const inputColors = (background, hoverBackground, borderColor) => ({
   background,
+  borderColor,
   '&:hover': {
     background: hoverBackground
   },
   '&:focus': {
     background: hoverBackground
-  },
-  borderColor
+  }
 })
 
 const styles = theme => ({
@@ -50,7 +50,7 @@ const styles = theme => ({
       fontWeight: theme.field.mobile.fontWeight,
       letterSpacing: theme.field.mobile.letterSpacing
     }),
-    ...assignInputColors(
+    ...inputColors(
       theme.field.colors.default.background,
       theme.field.colors.hover.background,
       theme.field.colors.default.outline
@@ -119,17 +119,17 @@ const styles = theme => ({
     ...placeholderMixin('$isEnabled$isFocused &', {
       opacity: 0.54
     }),
-    '$error$isEnabled &': assignInputColors(
+    '$error$isEnabled &': inputColors(
       theme.field.colors.error.background,
       theme.field.colors.error.background,
       theme.field.colors.error.outline
     ),
-    '$warning$isEnabled &': assignInputColors(
+    '$warning$isEnabled &': inputColors(
       theme.field.colors.warning.background,
       theme.field.colors.warning.background,
       theme.field.colors.warning.outline
     ),
-    '$success$isEnabled &': assignInputColors(
+    '$success$isEnabled &': inputColors(
       theme.field.colors.success.background,
       theme.field.colors.success.background,
       theme.field.colors.success.outline
