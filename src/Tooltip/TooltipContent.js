@@ -147,18 +147,11 @@ const styles = theme => ({
       ...styles,
       [type]: {
         '& $body': {background: theme.tooltip.colors[type].background},
-        '&$ytop$yabottom $arrow': {
-          borderBottomColor: theme.tooltip.colors[type].background
-        },
-        '&$ybottom$yatop $arrow': {
-          borderTopColor: theme.tooltip.colors[type].background
-        },
-        '&$xleft$xaright $arrow': {
-          borderRightColor: theme.tooltip.colors[type].background
-        },
-        '&$xright$xaleft $arrow': {
-          borderLeftColor: theme.tooltip.colors[type].background
-        }
+        '& $arrow': {color: theme.tooltip.colors[type].background},
+        '&$ytop$yabottom $arrow': {borderBottomColor: 'currentColor'},
+        '&$ybottom$yatop $arrow': {borderTopColor: 'currentColor'},
+        '&$xleft$xaright $arrow': {borderRightColor: 'currentColor'},
+        '&$xright$xaleft $arrow': {borderLeftColor: 'currentColor'}
       }
     }),
     {}
