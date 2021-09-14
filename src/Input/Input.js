@@ -17,23 +17,15 @@ const activeBorder = borderColor => ({
   transform: 'none'
 })
 
-const borderColor = (border, outline) => ({
-  '& $input': {
-    borderColor: border
-  },
-  '& $activeBorder': {
-    borderColor: outline
-  }
-})
-
-const backgroundColor = (background, hoverBackground) => ({
+const assignInputColors = (background, hoverBackground, borderColor) => ({
   background,
   '&:hover': {
     background: hoverBackground
   },
   '&:focus': {
     background: hoverBackground
-  }
+  },
+  borderColor
 })
 
 const styles = theme => ({
@@ -53,15 +45,15 @@ const styles = theme => ({
     color: theme.field.colors.default.text,
     boxShadow: 'none',
     border: '0 solid',
-    borderColor: theme.field.colors.default.outline,
     transition: `all ${theme.field.animationDuration}ms ease`,
     ...ifMobile({
       fontWeight: theme.field.mobile.fontWeight,
       letterSpacing: theme.field.mobile.letterSpacing
     }),
-    ...backgroundColor(
+    ...assignInputColors(
       theme.field.colors.default.background,
-      theme.field.colors.hover.background
+      theme.field.colors.hover.background,
+      theme.field.colors.default.outline
     ),
     '$textareaRoot &': {
       resize: 'vertical',
@@ -127,17 +119,20 @@ const styles = theme => ({
     ...placeholderMixin('$isEnabled$isFocused &', {
       opacity: 0.54
     }),
-    '$error$isEnabled &': backgroundColor(
+    '$error$isEnabled &': assignInputColors(
       theme.field.colors.error.background,
-      theme.field.colors.error.background
+      theme.field.colors.error.background,
+      theme.field.colors.error.outline
     ),
-    '$warning$isEnabled &': backgroundColor(
+    '$warning$isEnabled &': assignInputColors(
       theme.field.colors.warning.background,
-      theme.field.colors.warning.background
+      theme.field.colors.warning.background,
+      theme.field.colors.warning.outline
     ),
-    '$success$isEnabled &': backgroundColor(
+    '$success$isEnabled &': assignInputColors(
       theme.field.colors.success.background,
-      theme.field.colors.success.background
+      theme.field.colors.success.background,
+      theme.field.colors.success.outline
     )
   },
   withStatusLine: {
@@ -158,37 +153,13 @@ const styles = theme => ({
     '& $activeBorder': {
       borderRadius: theme.field.borderRadius,
       borderWidth: 1
-    },
-    '&$error$isEnabled': borderColor(
-      theme.field.colors.error.border,
-      theme.field.colors.error.border
-    ),
-    '&$warning$isEnabled': borderColor(
-      theme.field.colors.warning.border,
-      theme.field.colors.warning.border
-    ),
-    '&$success$isEnabled': borderColor(
-      theme.field.colors.success.border,
-      theme.field.colors.success.border
-    )
+    }
   },
   awesome: {
     composes: ['$withOutline', '$withStatusLine'],
     '& $activeBorder': {
       borderRadius: theme.field.borderRadius
-    },
-    '&$error$isEnabled': borderColor(
-      theme.field.colors.error.border,
-      theme.field.colors.error.outline
-    ),
-    '&$warning$isEnabled': borderColor(
-      theme.field.colors.warning.border,
-      theme.field.colors.warning.outline
-    ),
-    '&$success$isEnabled': borderColor(
-      theme.field.colors.success.border,
-      theme.field.colors.success.outline
-    )
+    }
   },
   promo: {
     composes: ['$withStatusLine'],
@@ -201,19 +172,7 @@ const styles = theme => ({
     },
     '& $activeBorder': {
       borderRadius: theme.field.borderRadius
-    },
-    '&$error$isEnabled': borderColor(
-      theme.field.colors.error.outline,
-      theme.field.colors.error.outline
-    ),
-    '&$warning$isEnabled': borderColor(
-      theme.field.colors.warning.outline,
-      theme.field.colors.warning.outline
-    ),
-    '&$success$isEnabled': borderColor(
-      theme.field.colors.success.outline,
-      theme.field.colors.success.outline
-    )
+    }
   },
   ...['medium', 'small'].reduce(
     (result, size) => ({
@@ -537,9 +496,15 @@ const styles = theme => ({
     '$input:focus + &, $isEnabled$isFocused &': activeBorder(
       theme.field.colors.focus.border
     ),
-    '$success$isEnabled &': activeBorder(theme.colors.success),
-    '$error$isEnabled &': activeBorder(theme.colors.danger),
-    '$warning$isEnabled &': activeBorder(theme.colors.warn)
+    '$success$isEnabled &': activeBorder(
+      theme.field.colors.success.border || theme.colors.success
+    ),
+    '$error$isEnabled &': activeBorder(
+      theme.field.colors.error.border || theme.colors.danger
+    ),
+    '$warning$isEnabled &': activeBorder(
+      theme.field.colors.warning.border || theme.colors.warn
+    )
   },
   icon: {
     position: 'absolute',
