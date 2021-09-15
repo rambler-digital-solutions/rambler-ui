@@ -193,7 +193,7 @@ class TooltipContent extends PureComponent {
       bodyClassName,
       style,
       arrowClassName,
-      arrowStyle,
+      arrowStyle = {},
       pointY,
       pointX,
       anchorPointY,
