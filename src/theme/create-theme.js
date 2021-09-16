@@ -656,6 +656,21 @@ export default function createTheme(config) {
           }
         }
       },
+      select: {
+        activeBorderRadius: 0,
+        dropdown: {
+          marginTop: 0,
+          boxShadow: 'none',
+          borderRadius: {
+            top: 0,
+            bottom: 0
+          },
+          colors: {}
+        },
+        colors: {
+          hover: {}
+        }
+      },
       tagsInput: {
         fontSize: 13,
         colors: {
@@ -772,6 +787,7 @@ export default function createTheme(config) {
       menu: {
         padding: 15,
         fontSize: 13,
+        fontWeight: 400,
         lineHeight: 19,
         sizes: {
           medium: {
