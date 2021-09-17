@@ -658,7 +658,7 @@ export default function createTheme(config) {
       },
       select: {
         dropdown: {
-          marginTop: 10
+          marginTop: 0
         },
         colors: {
           hover: {}
