@@ -42,21 +42,9 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
-const regularDropdownTopBorder = color => ({
-  '& + * $dropdown': {
-    borderTopColor: color,
-    borderLeftColor: color,
-    borderRightColor: color
-  }
-})
-
-const regularDropdownBottomBorder = color => ({
-  '& + * $dropdown': {
-    borderLeftColor: color,
-    borderRightColor: color
-  },
-  '& + * $menu': {
-    borderBottomColor: color
+const regularDropdownBackground = backgroundColor => ({
+  '& $menuItem': {
+    backgroundColor
   }
 })
 
@@ -158,82 +146,28 @@ const styles = theme => ({
     }
   },
   withTopDropdown: {
-    '$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderTopLeftRadius: theme.select.activeBorderRadius,
-        borderTopRightRadius: theme.select.activeBorderRadius
-      }
-    },
-    '$regular$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderTopColor: 'transparent'
-      }
-    },
-    '$regular$isFocused &': regularDropdownTopBorder(
-      theme.field.colors.focus.border
-    ),
-    '$success$regular$isFocused &': regularDropdownTopBorder(
-      theme.colors.success
-    ),
-    '$error$regular$isFocused &': regularDropdownTopBorder(theme.colors.danger),
-    '$warning$regular$isFocused &': regularDropdownTopBorder(theme.colors.warn),
     '& + *': {
-      '& $menu, & $dropdown': {
-        borderTopLeftRadius:
-          theme.select.dropdown.borderRadius.bottom || theme.field.borderRadius,
-        borderTopRightRadius:
-          theme.select.dropdown.borderRadius.bottom || theme.field.borderRadius,
-        borderBottomLeftRadius: theme.select.dropdown.borderRadius.top,
-        borderBottomRightRadius: theme.select.dropdown.borderRadius.top
-      },
       '& $dropdown': {
-        marginBottom: theme.select.dropdown.marginTop,
-        borderBottomLeftRadius: theme.select.dropdown.borderRadius.top,
-        borderBottomRightRadius: theme.select.dropdown.borderRadius.top
-      },
-      '$regular & $menu': {
-        borderBottom: 0
+        marginBottom: theme.select.dropdown.marginTop
+      }
+    },
+    '$regular$isOpened & + *': {
+      '& $menu': {
+        borderBottomLeftRadius: theme.dropdown.borderRadius,
+        borderBottomRightRadius: theme.dropdown.borderRadius
       }
     }
   },
   withBottomDropdown: {
-    '$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderBottomLeftRadius: theme.select.activeBorderRadius,
-        borderBottomRightRadius: theme.select.activeBorderRadius
-      }
-    },
-    '$regular$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderBottomColor: 'transparent'
-      }
-    },
-    '$regular$isFocused &': regularDropdownBottomBorder(
-      theme.field.colors.focus.border
-    ),
-    '$success$regular$isFocused &': regularDropdownBottomBorder(
-      theme.select.dropdown.colors.success || theme.colors.success
-    ),
-    '$error$regular$isFocused &': regularDropdownBottomBorder(
-      theme.select.dropdown.colors.error || theme.colors.danger
-    ),
-    '$warning$regular$isFocused &': regularDropdownBottomBorder(
-      theme.select.dropdown.colors.warning || theme.colors.warn
-    ),
     '& + *': {
-      '& $menu, & $dropdown': {
-        borderBottomLeftRadius:
-          theme.select.dropdown.borderRadius.bottom || theme.field.borderRadius,
-        borderBottomRightRadius:
-          theme.select.dropdown.borderRadius.bottom || theme.field.borderRadius
-      },
       '& $dropdown': {
-        marginTop: theme.select.dropdown.marginTop,
-        borderTopLeftRadius: theme.select.dropdown.borderRadius.top,
-        borderTopRightRadius: theme.select.dropdown.borderRadius.top
-      },
-      '$regular & $dropdown': {
-        borderTop: 0
+        marginTop: theme.select.dropdown.marginTop
+      }
+    },
+    '$regular$isOpened & + *': {
+      '& $menu': {
+        borderBottomLeftRadius: theme.dropdown.borderRadius,
+        borderBottomRightRadius: theme.dropdown.borderRadius
       }
     }
   },
@@ -251,7 +185,7 @@ const styles = theme => ({
   },
   dropdown: {
     '&&': {
-      boxShadow: theme.select.dropdown.boxShadow,
+      boxShadow: theme.dropdown.boxShadow,
       overflow: 'hidden',
       border: `1px solid ${theme.field.colors.default.outline}`,
       borderBottom: 0,
@@ -393,7 +327,17 @@ const styles = theme => ({
     overflow: 'hidden',
     outline: 0
   },
-  regular: {},
+  regular: {
+    '&$error$isFocused': regularDropdownBackground(
+      theme.field.colors.error.background
+    ),
+    '&$success$isFocused &': regularDropdownBackground(
+      theme.field.colors.success.background
+    ),
+    '&$warning$isFocused &': regularDropdownBackground(
+      theme.field.colors.warning.background
+    )
+  },
   awesome: {},
   promo: {},
   success: {},

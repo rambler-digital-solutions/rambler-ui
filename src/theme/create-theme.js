@@ -657,15 +657,8 @@ export default function createTheme(config) {
         }
       },
       select: {
-        activeBorderRadius: 0,
         dropdown: {
-          marginTop: 0,
-          boxShadow: 'none',
-          borderRadius: {
-            top: 0,
-            bottom: 0
-          },
-          colors: {}
+          marginTop: 10
         },
         colors: {
           hover: {}
