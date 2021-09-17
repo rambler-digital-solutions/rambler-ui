@@ -112,6 +112,7 @@ const styles = theme => ({
     backgroundColor: 'transparent',
     color: theme.snackbar.colors.actionButton,
     fontSize: theme.snackbar.fontSize,
+    fontWeight: theme.snackbar.fontWeight,
     textAlign: 'center',
     textTransform: 'uppercase',
     letterSpacing: 1,
