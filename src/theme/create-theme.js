@@ -1057,6 +1057,7 @@ export default function createTheme(config) {
           }
         },
         fontSize: 13,
+        fontWeight: 400,
         animationDuration: 200
       },
       spinner: {

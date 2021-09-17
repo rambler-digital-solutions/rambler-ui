@@ -25,6 +25,7 @@ const styles = theme => ({
     lineHeight: 1.15,
     color: theme.snackbar.colors.text,
     fontSize: theme.snackbar.fontSize,
+    fontWeight: theme.snackbar.fontWeight,
     opacity: 0,
     transitionDuration: theme.snackbar.animationDuration,
     transitionProperty: 'top, bottom, opacity',
