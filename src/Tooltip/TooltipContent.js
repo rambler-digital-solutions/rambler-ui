@@ -27,8 +27,10 @@ const styles = theme => ({
   },
   body: {
     fontSize: theme.tooltip.fontSize,
+    fontWeight: theme.tooltip.fontWeight,
+    boxShadow: theme.tooltip.boxShadow,
+    padding: theme.tooltip.padding,
     color: theme.tooltip.colors.default.text,
-    padding: '8px 12px',
     boxSizing: 'border-box',
     lineHeight: 1.4,
     borderRadius: theme.tooltip.borderRadius,

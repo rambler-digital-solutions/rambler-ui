@@ -1018,6 +1018,8 @@ export default function createTheme(config) {
         borderRadius: 1,
         animationDuration: 200,
         fontSize: 13,
+        fontWeight: 400,
+        padding: '8px 12px',
         colors: {
           default: {
             background: fade(colors.blueDark, 0.95),
