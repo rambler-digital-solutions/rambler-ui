@@ -42,6 +42,24 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
+const assignStatusColors = color => ({
+  '& $field': {
+    borderColor: color
+  },
+  '&$isFocused': {
+    '& $menuItem': {
+      backgroundColor: 'transparent'
+    },
+    '& $dropdown': {
+      backgroundColor: color,
+      borderColor: 'transparent'
+    },
+    '& $menu': {
+      borderColor: 'transparent'
+    }
+  }
+})
+
 const styles = theme => ({
   root: {
     extend: isolateMixin,
@@ -65,7 +83,10 @@ const styles = theme => ({
         color: theme.field.colors.disabled.arrow + '!important',
         pointerEvents: 'none'
       }
-    }
+    },
+    '&$error': assignStatusColors(theme.field.colors.error.background),
+    '&$warning': assignStatusColors(theme.field.colors.warning.background),
+    '&$success': assignStatusColors(theme.field.colors.success.background)
   },
   dropdownContainer: {
     '&&': {
@@ -198,16 +219,7 @@ const styles = theme => ({
     borderBottom: `1px solid ${theme.field.colors.default.outline}`
   },
   menuItem: {
-    backgroundColor: theme.field.colors.default.background,
-    '$error$isFocused &': {
-      backgroundColor: theme.field.colors.error.background
-    },
-    '$warning$isFocused &': {
-      backgroundColor: theme.field.colors.warning.background
-    },
-    '$success$isFocused &': {
-      backgroundColor: theme.field.colors.success.background
-    }
+    backgroundColor: theme.field.colors.default.background
   },
   ...['small', 'medium'].reduce(
     (result, size) => ({
