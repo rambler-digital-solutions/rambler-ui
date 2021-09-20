@@ -42,20 +42,20 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
-const assignStatusColors = color => ({
+const assignStatusColors = (backgroundColor, borderColor) => ({
   '& $field': {
-    borderColor: color
+    borderColor
   },
   '&$isFocused': {
     '& $menuItem': {
       backgroundColor: 'transparent'
     },
     '& $dropdown': {
-      backgroundColor: color,
-      borderColor: 'transparent'
+      backgroundColor,
+      borderColor
     },
     '& $menu': {
-      borderColor: 'transparent'
+      borderColor
     }
   }
 })
@@ -84,9 +84,18 @@ const styles = theme => ({
         pointerEvents: 'none'
       }
     },
-    '&$error': assignStatusColors(theme.field.colors.error.background),
-    '&$warning': assignStatusColors(theme.field.colors.warning.background),
-    '&$success': assignStatusColors(theme.field.colors.success.background)
+    '&$error': assignStatusColors(
+      theme.field.colors.error.background,
+      theme.field.colors.error.outline
+    ),
+    '&$warning': assignStatusColors(
+      theme.field.colors.warning.background,
+      theme.field.colors.warning.outline
+    ),
+    '&$success': assignStatusColors(
+      theme.field.colors.success.background,
+      theme.field.colors.success.outline
+    )
   },
   dropdownContainer: {
     '&&': {
@@ -200,7 +209,7 @@ const styles = theme => ({
   },
   dropdown: {
     '&&': {
-      boxShadow: theme.dropdown.boxShadow,
+      boxShadow: theme.select.dropdown.boxShadow,
       overflow: 'hidden',
       border: `1px solid ${theme.field.colors.default.outline}`,
       borderBottom: 0,

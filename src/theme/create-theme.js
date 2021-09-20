@@ -658,6 +658,7 @@ export default function createTheme(config) {
       },
       select: {
         dropdown: {
+          boxShadow: 'none',
           marginTop: 0
         },
         colors: {
