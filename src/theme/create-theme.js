@@ -1133,7 +1133,8 @@ export default function createTheme(config) {
         fontSize: 13,
         fontFamily: fontFamilies.Roboto,
         badge: {
-          fontSize: 13
+          fontSize: 13,
+          size: 35
         },
         colors: {
           default: {
@@ -1158,6 +1159,15 @@ export default function createTheme(config) {
               color: '#c6cad8',
               background: colors.light
             }
+          },
+          hover: {
+            badge: {}
+          },
+          pressed: {
+            badge: {}
+          },
+          completed: {
+            badge: {}
           }
         }
       },
