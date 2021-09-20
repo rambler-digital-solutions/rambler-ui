@@ -19,6 +19,7 @@ const styles = theme => ({
     paddingRight: theme.menu.padding,
     outline: 0,
     fontSize: theme.menu.fontSize,
+    fontWeight: theme.menu.fontWeight,
     lineHeight: theme.menu.lineHeight + 'px'
   },
   ...['medium', 'small'].reduce(

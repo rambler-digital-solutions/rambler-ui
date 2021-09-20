@@ -42,21 +42,21 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
-const regularDropdownTopBorder = color => ({
-  '& + * $dropdown': {
-    borderTopColor: color,
-    borderLeftColor: color,
-    borderRightColor: color
-  }
-})
-
-const regularDropdownBottomBorder = color => ({
-  '& + * $dropdown': {
-    borderLeftColor: color,
-    borderRightColor: color
+const assignStatusColors = (backgroundColor, borderColor) => ({
+  '& $field': {
+    borderColor
   },
-  '& + * $menu': {
-    borderBottomColor: color
+  '&$isFocused': {
+    '& $menuItem': {
+      backgroundColor: 'transparent'
+    },
+    '& $dropdown': {
+      backgroundColor,
+      borderColor
+    },
+    '& $menu': {
+      borderColor
+    }
   }
 })
 
@@ -69,6 +69,11 @@ const styles = theme => ({
         color: theme.field.colors.focus.arrow
       }
     },
+    '&:hover&$isEnabled': {
+      '& $field': {
+        color: theme.select.colors.hover.text
+      }
+    },
     '&$isDisabled': {
       cursor: 'not-allowed',
       '& $input': {
@@ -78,7 +83,19 @@ const styles = theme => ({
         color: theme.field.colors.disabled.arrow + '!important',
         pointerEvents: 'none'
       }
-    }
+    },
+    '&$error': assignStatusColors(
+      theme.field.colors.error.background,
+      theme.field.colors.error.outline
+    ),
+    '&$warning': assignStatusColors(
+      theme.field.colors.warning.background,
+      theme.field.colors.warning.outline
+    ),
+    '&$success': assignStatusColors(
+      theme.field.colors.success.background,
+      theme.field.colors.success.outline
+    )
   },
   dropdownContainer: {
     '&&': {
@@ -153,74 +170,28 @@ const styles = theme => ({
     }
   },
   withTopDropdown: {
-    '$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0
-      }
-    },
-    '$regular$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderTopColor: 'transparent'
-      }
-    },
-    '$regular$isFocused &': regularDropdownTopBorder(
-      theme.field.colors.focus.border
-    ),
-    '$success$regular$isFocused &': regularDropdownTopBorder(
-      theme.colors.success
-    ),
-    '$error$regular$isFocused &': regularDropdownTopBorder(theme.colors.danger),
-    '$warning$regular$isFocused &': regularDropdownTopBorder(theme.colors.warn),
     '& + *': {
-      '& $menu, & $dropdown': {
-        borderTopLeftRadius: theme.field.borderRadius,
-        borderTopRightRadius: theme.field.borderRadius
-      },
       '& $dropdown': {
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0
-      },
-      '$regular & $menu': {
-        borderBottom: 0
+        marginBottom: theme.select.dropdown.marginTop
+      }
+    },
+    '$regular$isOpened & + *': {
+      '& $menu': {
+        borderBottomLeftRadius: theme.dropdown.borderRadius,
+        borderBottomRightRadius: theme.dropdown.borderRadius
       }
     }
   },
   withBottomDropdown: {
-    '$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0
-      }
-    },
-    '$regular$isOpened &': {
-      '& $field, & $inputBorder': {
-        borderBottomColor: 'transparent'
-      }
-    },
-    '$regular$isFocused &': regularDropdownBottomBorder(
-      theme.field.colors.focus.border
-    ),
-    '$success$regular$isFocused &': regularDropdownBottomBorder(
-      theme.colors.success
-    ),
-    '$error$regular$isFocused &': regularDropdownBottomBorder(
-      theme.colors.danger
-    ),
-    '$warning$regular$isFocused &': regularDropdownBottomBorder(
-      theme.colors.warn
-    ),
     '& + *': {
-      '& $menu, & $dropdown': {
-        borderBottomLeftRadius: theme.field.borderRadius,
-        borderBottomRightRadius: theme.field.borderRadius
-      },
       '& $dropdown': {
-        borderTopLeftRadius: 0,
-        borderTopRightRadius: 0
-      },
-      '$regular & $dropdown': {
-        borderTop: 0
+        marginTop: theme.select.dropdown.marginTop
+      }
+    },
+    '$regular$isOpened & + *': {
+      '& $menu': {
+        borderBottomLeftRadius: theme.dropdown.borderRadius,
+        borderBottomRightRadius: theme.dropdown.borderRadius
       }
     }
   },
@@ -238,7 +209,7 @@ const styles = theme => ({
   },
   dropdown: {
     '&&': {
-      boxShadow: 'none',
+      boxShadow: theme.select.dropdown.boxShadow,
       overflow: 'hidden',
       border: `1px solid ${theme.field.colors.default.outline}`,
       borderBottom: 0,
