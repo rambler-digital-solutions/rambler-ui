@@ -16,7 +16,7 @@ const styles = theme => ({
     })
   },
   normal: {
-    marginBottom: 15
+    marginBottom: theme.formGroup.mobile.margin
   },
   inline: {
     marginBottom: 15
@@ -36,7 +36,7 @@ const styles = theme => ({
       '& $label': {
         width: '100%'
       },
-      marginBottom: 20
+      marginBottom: theme.formGroup.marginBottom
     },
     inline: {
       marginBottom: 30,
