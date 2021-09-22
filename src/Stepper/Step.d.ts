@@ -1,6 +1,7 @@
 import {Component, ReactNode, SyntheticEvent, HTMLProps} from 'react'
 
-export interface StepProps extends Omit<HTMLProps<HTMLDivElement>, 'onClick'> {
+export interface StepProps
+  extends Omit<HTMLProps<HTMLDivElement>, 'onClick' | 'ref'> {
   value: number
   icon?: ReactNode
   disabled?: boolean

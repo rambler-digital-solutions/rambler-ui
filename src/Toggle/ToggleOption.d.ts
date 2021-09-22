@@ -2,7 +2,7 @@ import {Component, ReactNode, Ref, SyntheticEvent, HTMLProps} from 'react'
 import {Size} from '..'
 
 export interface ToggleOptionProps<T>
-  extends Omit<HTMLProps<HTMLButtonElement>, 'size' | 'value'> {
+  extends Omit<HTMLProps<HTMLButtonElement>, 'size' | 'value' | 'ref'> {
   value: T | null
   icon?: ReactNode
   size?: Size

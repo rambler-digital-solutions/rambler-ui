@@ -1,7 +1,7 @@
 import {PureComponent, SyntheticEvent, HTMLProps} from 'react'
 
 export interface SliderProps<T>
-  extends Omit<HTMLProps<HTMLInputElement>, 'value' | 'onChange'> {
+  extends Omit<HTMLProps<HTMLInputElement>, 'value' | 'onChange' | 'ref'> {
   value?: T
   min?: number
   max?: number

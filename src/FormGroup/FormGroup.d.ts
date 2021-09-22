@@ -2,7 +2,7 @@ import {Component, ReactNode, HTMLProps} from 'react'
 import {Size} from '..'
 
 export interface FormGroupProps
-  extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'label'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'label' | 'ref'> {
   inline?: boolean
   label?: ReactNode
   size?: Size

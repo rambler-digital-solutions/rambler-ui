@@ -8,7 +8,8 @@ import {
 } from 'react'
 import {HorizontalPosition, Size, ButtonType} from '..'
 
-export interface ButtonProps<E> extends Omit<HTMLProps<E>, 'size' | 'onClick'> {
+export interface ButtonProps<E>
+  extends Omit<HTMLProps<E>, 'size' | 'onClick' | 'ref'> {
   type?: ButtonType
   icon?: ReactNode
   iconPosition?: Exclude<HorizontalPosition, 'center'>

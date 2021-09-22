@@ -15,7 +15,7 @@ export type ProfileType =
   | 'twitter'
   | 'vkontakte'
 
-export interface AvatarProps<E> extends HTMLProps<E> {
+export interface AvatarProps<E> extends Omit<HTMLProps<E>, 'ref'> {
   backgroundColor?: string
   iconBackgroundColor?: string
   src: string

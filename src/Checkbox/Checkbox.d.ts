@@ -2,7 +2,7 @@ import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
 import {HorizontalPosition, Size, Variation} from '..'
 
 export interface CheckboxProps
-  extends Omit<HTMLProps<HTMLInputElement>, 'size'> {
+  extends Omit<HTMLProps<HTMLInputElement>, 'size' | 'ref'> {
   name?: string
   disabled?: boolean
   iconPosition?: Exclude<HorizontalPosition, 'center'>

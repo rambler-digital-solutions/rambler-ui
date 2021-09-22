@@ -1,7 +1,7 @@
 import {Component, SyntheticEvent, HTMLProps} from 'react'
 
 export interface StepperProps
-  extends Omit<HTMLProps<HTMLDivElement>, 'onChange'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'onChange' | 'ref'> {
   value: number
   onChange: (event: SyntheticEvent, value: number) => void | Promise<void>
 }

@@ -8,7 +8,7 @@ import {
 import {Size} from '..'
 
 export interface SideNavItemProps<T, E>
-  extends Omit<HTMLProps<E>, 'size' | 'value'> {
+  extends Omit<HTMLProps<E>, 'size' | 'value' | 'ref'> {
   icon: ReactNode
   size?: Size
   value?: T | null

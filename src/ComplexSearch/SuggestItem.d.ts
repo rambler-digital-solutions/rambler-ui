@@ -1,7 +1,7 @@
 import {PureComponent, HTMLProps} from 'react'
 
 export interface SuggestItemProps<T>
-  extends Omit<HTMLProps<HTMLDivElement>, 'value'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'value' | 'ref'> {
   highlightedClassName?: string
   removeButton?: string
   value: T

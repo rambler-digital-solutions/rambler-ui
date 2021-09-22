@@ -2,7 +2,10 @@ import {Component, SyntheticEvent, HTMLProps} from 'react'
 import {Size} from '..'
 
 export interface SideNavProps<T>
-  extends Omit<HTMLProps<HTMLDivElement>, 'size' | 'value' | 'onChange'> {
+  extends Omit<
+    HTMLProps<HTMLDivElement>,
+    'size' | 'value' | 'onChange' | 'ref'
+  > {
   size?: Size
   value?: T | null
   block?: boolean

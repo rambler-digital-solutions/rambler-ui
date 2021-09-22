@@ -2,7 +2,7 @@ import {Component, ReactElement, Ref, SyntheticEvent, HTMLProps} from 'react'
 import {TagType} from '..'
 
 export interface TagsInputItemProps<T>
-  extends Omit<HTMLProps<HTMLDivElement>, 'value'> {
+  extends Omit<HTMLProps<HTMLDivElement>, 'value' | 'ref'> {
   value: T
   icon?: ReactElement
   onClick?: (event: SyntheticEvent) => void | Promise<void>

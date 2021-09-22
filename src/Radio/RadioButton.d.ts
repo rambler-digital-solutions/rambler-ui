@@ -2,7 +2,7 @@ import {CSSProperties, PureComponent, HTMLProps} from 'react'
 import {HorizontalPosition} from '..'
 
 export interface RadioButtonProps<T>
-  extends Omit<HTMLProps<HTMLLabelElement>, 'value'> {
+  extends Omit<HTMLProps<HTMLLabelElement>, 'value' | 'ref'> {
   value: T
   disabled?: boolean
   radioClassName?: string

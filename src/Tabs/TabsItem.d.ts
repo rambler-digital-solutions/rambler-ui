@@ -8,7 +8,7 @@ import {
 import {Size} from '..'
 
 export interface TabsItemProps<T, E>
-  extends Omit<HTMLProps<E>, 'size' | 'value'> {
+  extends Omit<HTMLProps<E>, 'size' | 'value' | 'ref'> {
   value?: T
   size?: Size
   isSelected?: boolean

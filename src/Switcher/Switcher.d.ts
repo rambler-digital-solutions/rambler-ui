@@ -1,7 +1,8 @@
 import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
 import {HorizontalPosition} from '..'
 
-export interface SwitcherProps extends HTMLProps<HTMLInputElement> {
+export interface SwitcherProps
+  extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
   name?: string
   disabled?: boolean
   switcherClassName?: string
