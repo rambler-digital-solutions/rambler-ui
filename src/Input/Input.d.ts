@@ -19,7 +19,10 @@ export type InputType =
   | 'month'
 
 export interface InputProps
-  extends Omit<HTMLProps<HTMLInputElement>, 'value' | 'size' | 'onChange'> {
+  extends Omit<
+    HTMLProps<HTMLInputElement>,
+    'value' | 'size' | 'onChange' | 'ref'
+  > {
   value: string | null
   placeholder?: string
   disabled?: boolean

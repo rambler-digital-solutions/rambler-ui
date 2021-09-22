@@ -8,7 +8,8 @@ import {
 } from 'react'
 import {HorizontalPosition, Size, ButtonType} from '..'
 
-export interface ButtonProps<E> extends Omit<HTMLProps<E>, 'size' | 'onClick'> {
+export interface ButtonProps<E>
+  extends Omit<HTMLProps<E>, 'size' | 'onClick' | 'ref'> {
   type?: ButtonType
   icon?: ReactNode
   iconPosition?: Exclude<HorizontalPosition, 'center'>
@@ -23,6 +24,7 @@ export interface ButtonProps<E> extends Omit<HTMLProps<E>, 'size' | 'onClick'> {
   loading?: boolean
   rounded?: boolean
   nodeRef?: Ref<HTMLElement>
+  ref: Ref<Button<E>>
 }
 
 export default class Button<E = HTMLButtonElement> extends PureComponent<

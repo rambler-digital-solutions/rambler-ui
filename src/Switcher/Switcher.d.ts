@@ -1,7 +1,14 @@
-import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
+import {
+  CSSProperties,
+  PureComponent,
+  SyntheticEvent,
+  HTMLProps,
+  Ref
+} from 'react'
 import {HorizontalPosition} from '..'
 
-export interface SwitcherProps extends HTMLProps<HTMLInputElement> {
+export interface SwitcherProps
+  extends Omit<HTMLProps<HTMLInputElement>, 'ref'> {
   name?: string
   disabled?: boolean
   switcherClassName?: string
@@ -13,6 +20,7 @@ export interface SwitcherProps extends HTMLProps<HTMLInputElement> {
   iconPosition?: Exclude<HorizontalPosition, 'center'>
   checked: boolean
   onCheck?: (event: SyntheticEvent, checked: boolean) => void | Promise<void>
+  ref: Ref<Switcher>
 }
 
 export default class Switcher extends PureComponent<SwitcherProps, {}> {}
