@@ -1,4 +1,10 @@
-import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
+import {
+  CSSProperties,
+  PureComponent,
+  SyntheticEvent,
+  HTMLProps,
+  Ref
+} from 'react'
 import {StatusType, Variation} from '..'
 
 export interface TextareaProps
@@ -11,6 +17,7 @@ export interface TextareaProps
   textareaClassName?: string
   textareaStyle?: CSSProperties
   onChange?: (event: SyntheticEvent, value: string) => void | Promise<void>
+  ref: Ref<Textarea>
 }
 
 export default class Textarea extends PureComponent<TextareaProps, {}> {}

@@ -7,6 +7,7 @@ export interface FieldStatusProps
   message?: ReactNode
   className?: string
   containerRef?: Ref<HTMLElement>
+  ref: Ref<FieldStatus>
 }
 
 export default class FieldStatus extends PureComponent<FieldStatusProps, {}> {}

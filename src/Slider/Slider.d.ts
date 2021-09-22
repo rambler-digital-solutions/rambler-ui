@@ -1,4 +1,4 @@
-import {PureComponent, SyntheticEvent, HTMLProps} from 'react'
+import {PureComponent, SyntheticEvent, HTMLProps, Ref} from 'react'
 
 export interface SliderProps<T>
   extends Omit<HTMLProps<HTMLInputElement>, 'value' | 'onChange' | 'ref'> {
@@ -7,6 +7,7 @@ export interface SliderProps<T>
   max?: number
   step?: number
   onChange?: (event: SyntheticEvent, value: T) => void | Promise<void>
+  ref: Ref<Slider<T>>
 }
 
 export default class Slider<T = any> extends PureComponent<

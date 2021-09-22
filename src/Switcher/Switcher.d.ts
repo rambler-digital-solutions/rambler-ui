@@ -1,4 +1,10 @@
-import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
+import {
+  CSSProperties,
+  PureComponent,
+  SyntheticEvent,
+  HTMLProps,
+  Ref
+} from 'react'
 import {HorizontalPosition} from '..'
 
 export interface SwitcherProps
@@ -14,6 +20,7 @@ export interface SwitcherProps
   iconPosition?: Exclude<HorizontalPosition, 'center'>
   checked: boolean
   onCheck?: (event: SyntheticEvent, checked: boolean) => void | Promise<void>
+  ref: Ref<Switcher>
 }
 
 export default class Switcher extends PureComponent<SwitcherProps, {}> {}

@@ -1,4 +1,10 @@
-import {CSSProperties, PureComponent, SyntheticEvent, HTMLProps} from 'react'
+import {
+  CSSProperties,
+  PureComponent,
+  SyntheticEvent,
+  HTMLProps,
+  Ref
+} from 'react'
 import {HorizontalPosition, Size, Variation} from '..'
 
 export interface CheckboxProps
@@ -15,6 +21,7 @@ export interface CheckboxProps
   labelClassName?: string
   variation?: Exclude<Variation, 'promo'>
   size?: Size
+  ref: Ref<Checkbox>
 }
 
 export default class Checkbox extends PureComponent<CheckboxProps, {}> {}

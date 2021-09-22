@@ -1,4 +1,4 @@
-import {PureComponent, ReactElement, HTMLProps} from 'react'
+import {PureComponent, ReactElement, HTMLProps, Ref} from 'react'
 
 export type AvatarShape = 'circle' | 'square' | 'rounded'
 
@@ -23,6 +23,7 @@ export interface AvatarProps<E> extends Omit<HTMLProps<E>, 'ref'> {
   shape?: AvatarShape
   profileType?: ProfileType
   container?: ReactElement
+  ref: Ref<Avatar<E>>
 }
 
 export default class Avatar<E = HTMLDivElement> extends PureComponent<

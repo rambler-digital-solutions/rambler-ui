@@ -1,4 +1,4 @@
-import {Component, ReactElement, SyntheticEvent, HTMLProps} from 'react'
+import {Component, ReactElement, SyntheticEvent, HTMLProps, Ref} from 'react'
 
 export interface PaginationProps
   extends Omit<HTMLProps<HTMLDivElement>, 'onChange' | 'ref'> {
@@ -13,6 +13,7 @@ export interface PaginationProps
   pageInputTooltip?: string
   pagesInRange?: number
   type?: 'select' | 'input'
+  ref: Ref<Pagination>
 }
 
 export default class Pagination extends Component<PaginationProps, {}> {}

@@ -10,6 +10,7 @@ export interface TagsInputItemProps<T>
   nodeRef?: Ref<HTMLElement>
   disabled?: boolean
   type?: TagType
+  ref: Ref<TagsInputItem<T>>
 }
 
 export default class TagsInputItem<T = any> extends Component<
