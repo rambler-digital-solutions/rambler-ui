@@ -4,7 +4,7 @@ export interface StepperProps
   extends Omit<HTMLProps<HTMLDivElement>, 'onChange' | 'ref'> {
   value: number
   onChange: (event: SyntheticEvent, value: number) => void | Promise<void>
-  ref: Ref<Stepper>
+  ref?: Ref<Stepper>
 }
 
 export default class Stepper extends Component<StepperProps, {}> {}

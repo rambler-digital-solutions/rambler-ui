@@ -7,7 +7,7 @@ export interface SliderProps<T>
   max?: number
   step?: number
   onChange?: (event: SyntheticEvent, value: T) => void | Promise<void>
-  ref: Ref<Slider<T>>
+  ref?: Ref<Slider<T>>
 }
 
 export default class Slider<T = any> extends PureComponent<

@@ -16,7 +16,7 @@ export interface SideNavItemProps<T, E>
   isSelected?: boolean
   container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
   onPress?: (event: SyntheticEvent, value: T) => void | Promise<void>
-  ref: Ref<SideNavItem<T, E>>
+  ref?: Ref<SideNavItem<T, E>>
 }
 
 export default class SideNavItem<T = any, E = HTMLDivElement> extends Component<

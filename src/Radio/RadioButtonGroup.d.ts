@@ -5,7 +5,7 @@ export interface RadioButtonGroupProps<T>
   name?: string
   onChange?: (event: SyntheticEvent, value: T) => void | Promise<void>
   value?: T | null
-  ref: Ref<RadioButton<T>>
+  ref?: Ref<RadioButton<T>>
 }
 
 export default class RadioButton<T = any> extends PureComponent<

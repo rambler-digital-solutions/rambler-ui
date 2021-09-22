@@ -7,7 +7,7 @@ export interface TagsInputProps extends Omit<HTMLProps<HTMLDivElement>, 'ref'> {
   onChange?: () => void | Promise<void>
   onMoreClick?: () => void | Promise<void>
   type?: TagType
-  ref: Ref<TagsInput>
+  ref?: Ref<TagsInput>
 }
 
 export default class TagsInput extends PureComponent<TagsInputProps, {}> {}

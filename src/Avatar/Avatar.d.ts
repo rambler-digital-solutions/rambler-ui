@@ -23,7 +23,7 @@ export interface AvatarProps<E> extends Omit<HTMLProps<E>, 'ref'> {
   shape?: AvatarShape
   profileType?: ProfileType
   container?: ReactElement
-  ref: Ref<Avatar<E>>
+  ref?: Ref<Avatar<E>>
 }
 
 export default class Avatar<E = HTMLDivElement> extends PureComponent<

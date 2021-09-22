@@ -10,7 +10,7 @@ export interface StepProps
   onClick?: (event: SyntheticEvent, value: number) => void | Promise<void>
   badgeClassName?: string
   textClassName?: string
-  ref: Ref<Step>
+  ref?: Ref<Step>
 }
 
 export default class Step extends Component<StepProps, {}> {}

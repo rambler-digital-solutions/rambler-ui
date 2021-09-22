@@ -3,7 +3,7 @@ import {PureComponent, HTMLProps, Ref} from 'react'
 export interface BaseTypographyProps<E> extends Omit<HTMLProps<E>, 'ref'> {
   tagName?: string
   uppercase?: boolean
-  ref: Ref<Typography<E>>
+  ref?: Ref<Typography<E>>
 }
 
 export type TypographyType =

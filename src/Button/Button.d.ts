@@ -24,7 +24,7 @@ export interface ButtonProps<E>
   loading?: boolean
   rounded?: boolean
   nodeRef?: Ref<HTMLElement>
-  ref: Ref<Button<E>>
+  ref?: Ref<Button<E>>
 }
 
 export default class Button<E = HTMLButtonElement> extends PureComponent<

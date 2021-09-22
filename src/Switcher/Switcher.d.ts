@@ -20,7 +20,7 @@ export interface SwitcherProps
   iconPosition?: Exclude<HorizontalPosition, 'center'>
   checked: boolean
   onCheck?: (event: SyntheticEvent, checked: boolean) => void | Promise<void>
-  ref: Ref<Switcher>
+  ref?: Ref<Switcher>
 }
 
 export default class Switcher extends PureComponent<SwitcherProps, {}> {}

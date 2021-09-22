@@ -13,7 +13,7 @@ export interface PaginationProps
   pageInputTooltip?: string
   pagesInRange?: number
   type?: 'select' | 'input'
-  ref: Ref<Pagination>
+  ref?: Ref<Pagination>
 }
 
 export default class Pagination extends Component<PaginationProps, {}> {}

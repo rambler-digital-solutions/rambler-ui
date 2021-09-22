@@ -21,7 +21,7 @@ export interface CheckboxProps
   labelClassName?: string
   variation?: Exclude<Variation, 'promo'>
   size?: Size
-  ref: Ref<Checkbox>
+  ref?: Ref<Checkbox>
 }
 
 export default class Checkbox extends PureComponent<CheckboxProps, {}> {}

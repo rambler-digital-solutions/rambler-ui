@@ -9,7 +9,7 @@ export interface RadioButtonProps<T>
   labelClassName?: string
   labelStyle?: CSSProperties
   labelPosition?: Exclude<HorizontalPosition, 'center'>
-  ref: Ref<RadioButton<T>>
+  ref?: Ref<RadioButton<T>>
 }
 
 export default class RadioButton<T = any> extends PureComponent<

@@ -5,7 +5,7 @@ export interface MenuItemProps<T, E>
   value?: T
   disabled?: boolean
   container?: ReactElement | ((props: {activeClassName: string}) => ReactNode)
-  ref: Ref<MenuItem<T, E>>
+  ref?: Ref<MenuItem<T, E>>
 }
 
 export default class MenuItem<
