@@ -17,7 +17,7 @@ export interface TextareaProps
   textareaClassName?: string
   textareaStyle?: CSSProperties
   onChange?: (event: SyntheticEvent, value: string) => void | Promise<void>
-  ref: Ref<Textarea>
+  ref?: Ref<Textarea>
 }
 
 export default class Textarea extends PureComponent<TextareaProps, {}> {}

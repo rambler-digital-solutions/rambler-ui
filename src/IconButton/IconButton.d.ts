@@ -10,7 +10,7 @@ export interface IconButtonProps<E> extends Omit<HTMLProps<E>, 'size' | 'ref'> {
   disabled?: boolean
   buttonType?: string
   loading?: boolean
-  ref: Ref<IconButton<E>>
+  ref?: Ref<IconButton<E>>
 }
 
 export default class IconButton<E = HTMLButtonElement> extends PureComponent<

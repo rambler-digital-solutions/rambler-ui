@@ -5,7 +5,7 @@ export interface SuggestItemProps<T>
   highlightedClassName?: string
   removeButton?: string
   value: T
-  ref: Ref<SuggestItem<T>>
+  ref?: Ref<SuggestItem<T>>
 }
 
 export default class SuggestItem<T = any> extends PureComponent<

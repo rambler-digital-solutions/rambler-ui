@@ -7,7 +7,7 @@ export interface FormGroupProps
   label?: ReactNode
   size?: Size
   fieldId?: string
-  ref: Ref<FormGroup>
+  ref?: Ref<FormGroup>
 }
 
 export default class FormGroup extends Component<FormGroupProps, {}> {}
