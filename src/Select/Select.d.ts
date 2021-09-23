@@ -11,7 +11,7 @@ import {Size, Variation, StatusType, TagType} from '..'
 export interface SelectProps<T>
   extends Omit<
     HTMLProps<HTMLInputElement>,
-    'value' | 'size' | 'onChange' | 'inputMode'
+    'value' | 'size' | 'onChange' | 'inputMode' | 'ref'
   > {
   className?: string
   style?: CSSProperties

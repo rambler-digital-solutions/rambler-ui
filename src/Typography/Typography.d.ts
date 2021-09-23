@@ -1,8 +1,9 @@
-import {PureComponent, HTMLProps} from 'react'
+import {PureComponent, HTMLProps, Ref} from 'react'
 
-export interface BaseTypographyProps<E> extends HTMLProps<E> {
+export interface BaseTypographyProps<E> extends Omit<HTMLProps<E>, 'ref'> {
   tagName?: string
   uppercase?: boolean
+  ref?: Ref<Typography<E>>
 }
 
 export type TypographyType =

@@ -658,6 +658,15 @@ export default function createTheme(config) {
           }
         }
       },
+      select: {
+        dropdown: {
+          boxShadow: 'none',
+          marginTop: 0
+        },
+        colors: {
+          hover: {}
+        }
+      },
       tagsInput: {
         fontSize: 13,
         colors: {
@@ -774,6 +783,7 @@ export default function createTheme(config) {
       menu: {
         padding: 15,
         fontSize: 13,
+        fontWeight: 400,
         lineHeight: 19,
         sizes: {
           medium: {
@@ -1011,6 +1021,8 @@ export default function createTheme(config) {
         borderRadius: 1,
         animationDuration: 200,
         fontSize: 13,
+        fontWeight: 400,
+        padding: '8px 12px',
         colors: {
           default: {
             background: fade(colors.blueDark, 0.95),
@@ -1048,6 +1060,7 @@ export default function createTheme(config) {
           }
         },
         fontSize: 13,
+        fontWeight: 400,
         animationDuration: 200
       },
       spinner: {
