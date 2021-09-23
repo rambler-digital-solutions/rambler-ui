@@ -811,7 +811,8 @@ export default function createTheme(config) {
             background: lighten(colors.controls.grey.outline, 0.95)
           },
           selected: {
-            text: lighten(colors.controls.grey.outline, 0.5)
+            text: lighten(colors.controls.grey.outline, 0.5),
+            fontWeight: 400
           },
           disabled: {
             text: lighten(colors.controls.grey.outline, 0.5)
