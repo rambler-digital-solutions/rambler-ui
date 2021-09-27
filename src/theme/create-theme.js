@@ -532,6 +532,14 @@ export default function createTheme(config) {
         mobile: {
           fontSize: 14,
           lineHeight: 20
+        },
+
+        label: {
+          fontWeight: 400,
+
+          mobile: {
+            fontWeight: 400
+          }
         }
       },
       hint: {

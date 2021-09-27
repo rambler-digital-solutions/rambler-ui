@@ -24,7 +24,11 @@ const styles = theme => ({
   label: {
     width: '100%',
     display: 'inline-block',
-    marginBottom: 10
+    marginBottom: 10,
+    fontWeight: theme.formGroup.label.fontWeight,
+    ...ifMobile({
+      fontWeight: theme.formGroup.label.mobile.fontWeight
+    })
   },
   inner: {
     position: 'relative'
