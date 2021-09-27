@@ -528,10 +528,12 @@ export default function createTheme(config) {
       formGroup: {
         fontSize: 13,
         lineHeight: 15,
+        labelFontWeight: 400,
 
         mobile: {
           fontSize: 14,
-          lineHeight: 20
+          lineHeight: 20,
+          labelFontWeight: 400
         }
       },
       hint: {
