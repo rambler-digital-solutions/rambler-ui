@@ -20,7 +20,8 @@ const styles = theme => ({
     },
     '&, & *': {
       transitionDuration: theme.toggle.animationDuration + 'ms',
-      transitionProperty: 'background, opacity, border, box-shadow'
+      transitionProperty:
+        'background, opacity, border, box-shadow, border-color'
     }
   },
   option: {
@@ -29,7 +30,7 @@ const styles = theme => ({
       textAlign: 'center',
       borderStyle: 'solid',
       color: theme.toggle.colors.default.text,
-      borderWidth: 1,
+      borderWidth: theme.toggle.options.borderWidth,
       borderColor: theme.toggle.colors.default.border,
       background: theme.toggle.colors.default.background,
       cursor: 'pointer',
@@ -40,13 +41,19 @@ const styles = theme => ({
     },
     '&:first-child': {
       marginLeft: 0,
-      borderTopLeftRadius: theme.toggle.borderRadius,
-      borderBottomLeftRadius: theme.toggle.borderRadius
+      ...(!theme.toggle.sizes.medium.options.borderRadius &&
+        !theme.toggle.sizes.small.options.borderRadius && {
+        borderTopLeftRadius: theme.toggle.borderRadius,
+        borderBottomLeftRadius: theme.toggle.borderRadius
+      })
     },
     '&:last-child': {
-      borderWidth: 1,
-      borderTopRightRadius: theme.toggle.borderRadius,
-      borderBottomRightRadius: theme.toggle.borderRadius
+      ...(!theme.toggle.sizes.medium.options.borderRadius &&
+        !theme.toggle.sizes.small.options.borderRadius && {
+        borderWidth: 1,
+        borderTopRightRadius: theme.toggle.borderRadius,
+        borderBottomRightRadius: theme.toggle.borderRadius
+      })
     },
     '&:enabled:hover': {
       zIndex: 1
@@ -67,29 +74,45 @@ const styles = theme => ({
   },
   regular: {
     '& $option:disabled': {
-      borderColor: theme.toggle.colors.disabled.border
+      borderColor: theme.toggle.colors.disabled.border,
+      background: theme.toggle.colors.disabled.background,
+      color: theme.toggle.colors.disabled.text
     },
     '& $option:enabled:hover': {
-      borderColor: theme.toggle.colors.hover.border,
-      color: theme.toggle.colors.checked.text
+      '&:not($isSelected):not(:active)': {
+        background: theme.toggle.colors.hover.background,
+        borderColor: theme.toggle.colors.hover.border,
+        color: theme.toggle.colors.hover.text
+      }
     },
     ...focusSourceMixin('other', '& $option:focus', {
       color: theme.toggle.colors.focus.text
     }),
     '& $option:active': {
-      color: theme.toggle.colors.active.text,
-      background: theme.toggle.colors.active.background
+      '&:not(:disabled):not($isSelected)': {
+        color: theme.toggle.colors.active.text,
+        background: theme.toggle.colors.active.background,
+        borderColor: theme.toggle.colors.active.border
+      }
     },
     '& $isSelected:enabled': {
       borderColor: theme.toggle.colors.checked.border,
-      color: theme.toggle.colors.checked.text
+      color: theme.toggle.colors.checked.text,
+      background: theme.toggle.colors.checked.background
     },
     '& $isSelected:enabled:hover': {
-      borderColor: theme.toggle.colors.checkedHover.border,
-      color: theme.toggle.colors.checkedHover.text
+      '&:not(:active)': {
+        borderColor: theme.toggle.colors.checkedHover.border,
+        background: theme.toggle.colors.checkedHover.background,
+        color: theme.toggle.colors.checkedHover.text
+      }
+      // borderColor: theme.toggle.colors.checkedHover.border,
+      // color: theme.toggle.colors.checkedHover.text,
     },
     '& $isSelected:disabled': {
-      background: theme.toggle.colors.checkedDisabled.background
+      background: theme.toggle.colors.checkedDisabled.background,
+      borderColor: theme.toggle.colors.checkedDisabled.border,
+      color: theme.toggle.colors.checkedDisabled.text
     }
   },
   transparent: {

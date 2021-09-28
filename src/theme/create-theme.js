@@ -928,7 +928,8 @@ export default function createTheme(config) {
           },
           hover: {
             border: lighten(colors.controls.grey.outline, 0.5),
-            text: colors.primary
+            text: colors.primary,
+            background: colors.light
           },
           focus: {
             text: colors.primary
@@ -938,17 +939,22 @@ export default function createTheme(config) {
           },
           checked: {
             border: colors.primary,
-            text: colors.primary
+            text: colors.primary,
+            background: colors.light
           },
           checkedHover: {
+            background: colors.light,
             border: darken(colors.primary, 0.2),
             text: darken(colors.primary, 0.2)
           },
           disabled: {
             text: colors.controls.grey.disabled,
-            border: fade(colors.controls.grey.outline, 0.2)
+            border: fade(colors.controls.grey.outline, 0.2),
+            background: colors.light
           },
           checkedDisabled: {
+            border: fade(colors.controls.grey.outline, 0.2),
+            text: colors.controls.grey.disabled,
             background: lighten(colors.controls.grey.outline, 0.9)
           }
         },
@@ -964,18 +970,25 @@ export default function createTheme(config) {
             border: lighten(colors.controls.grey.outline, 0.7)
           }
         },
+        options: {
+          borderWidth: 1
+        },
         sizes: {
           medium: {
             fontSize: 13,
+            fontWeight: 400,
             height: 45,
             paddingHr: 25,
-            icon: 13
+            icon: 13,
+            options: {}
           },
           small: {
             fontSize: 13,
+            fontWeight: 400,
             icon: 13,
             height: 35,
-            paddingHr: 15
+            paddingHr: 15,
+            options: {}
           }
         }
       },
