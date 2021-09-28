@@ -16,8 +16,11 @@ const styles = theme => ({
       flexBasis: 0
     },
     '& input': {
-      '&, &:disabled, &:enabled:hover, &:enabled:focus': {
+      '&, &:disabled, &:enabled:hover': {
         borderColor: 'transparent',
+        backgroundColor: 'transparent'
+      },
+      '&:enabled:focus': {
         backgroundColor: 'transparent'
       }
     },
