@@ -92,7 +92,8 @@ export default function createTheme(config) {
       avatar: {
         colors: {
           iconBackground: colors.controls.grey.iconBackground
-        }
+        },
+        boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, .15)'
       },
       button: {
         fontFamily: fontFamilies.Roboto,
