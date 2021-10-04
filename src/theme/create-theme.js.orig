@@ -533,6 +533,10 @@ export default function createTheme(config) {
 
         mobile: {
           fontSize: 14,
+<<<<<<< HEAD
+          lineHeight: 20,
+          marginBottom: 15
+=======
           lineHeight: 20
         },
 
@@ -542,6 +546,7 @@ export default function createTheme(config) {
           mobile: {
             fontWeight: 400
           }
+>>>>>>> origin
         }
       },
       hint: {

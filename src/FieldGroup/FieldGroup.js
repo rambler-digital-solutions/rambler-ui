@@ -16,11 +16,12 @@ const styles = theme => ({
       flexBasis: 0
     },
     '& input': {
-      '&, &:disabled': {
+      '&, &:disabled, &:enabled:hover': {
+        borderColor: 'transparent',
         backgroundColor: 'transparent'
       },
-      '&, &:disabled, &:enabled:hover': {
-        borderColor: 'transparent'
+      '&:enabled:focus': {
+        backgroundColor: 'transparent'
       }
     },
     '& > :nth-child(n+2)': {
