@@ -19,18 +19,32 @@ const styles = theme => ({
     '&::-moz-focus-inner': {
       border: 'none !important',
       outline: 'none !important'
-    }
+    },
+    ...(theme.toggle.margin && {
+      borderRadius: theme.toggle.borderRadius,
+      '&:not(:last-child)': {
+        marginRight: theme.toggle.margin
+      }
+    })
   },
   'size-small': {
     fontSize: theme.toggle.sizes.small.fontSize,
+    fontWeight: theme.toggle.sizes.small.fontWeight,
     height: theme.toggle.sizes.small.height,
-    lineHeight: theme.toggle.sizes.small.height - 2 + 'px',
+    lineHeight:
+      theme.toggle.sizes.small.height -
+      (theme.toggle.borderWidth * 2 || 2) +
+      'px',
     padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
   },
   'size-medium': {
     fontSize: theme.toggle.sizes.medium.fontSize,
+    fontWeight: theme.toggle.sizes.medium.fontWeight,
     height: theme.toggle.sizes.medium.height,
-    lineHeight: theme.toggle.sizes.medium.height - 2 + 'px',
+    lineHeight:
+      theme.toggle.sizes.medium.height -
+      (theme.toggle.borderWidth * 2 || 2) +
+      'px',
     padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
   },
   icon: {

@@ -52,7 +52,8 @@ const styles = theme => ({
     }
   },
   isSelected: {
-    color: theme.menu.colors.selected.text
+    color: theme.menu.colors.selected.text,
+    fontWeight: theme.menu.selectedFontWeight
   },
   isDisabled: {
     color: theme.menu.colors.disabled.text,

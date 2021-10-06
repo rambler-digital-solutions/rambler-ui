@@ -32,8 +32,8 @@ const styles = theme => ({
     display: 'inline-block',
     borderRadius: '50%',
     boxSizing: 'border-box',
-    width: 35,
-    height: 35,
+    width: theme.stepper.badge.size,
+    height: theme.stepper.badge.size,
     marginRight: 10,
     userSelect: 'none',
     fontSize: theme.stepper.badge.fontSize,
@@ -60,6 +60,32 @@ const styles = theme => ({
     },
     '& $text': {
       cursor: 'default'
+    }
+  },
+  completed: {
+    color: theme.stepper.colors.completed.color,
+    '& $badge': {
+      color: theme.stepper.colors.completed.badge.color,
+      backgroundColor: theme.stepper.colors.completed.badge.background
+    },
+    '& $text': {
+      cursor: 'default'
+    }
+  },
+  default: {
+    '&:hover&:not(:active)': {
+      color: theme.stepper.colors.hover.color,
+      '& $badge': {
+        color: theme.stepper.colors.hover.badge.color,
+        backgroundColor: theme.stepper.colors.hover.badge.background
+      }
+    },
+    '&:active': {
+      color: theme.stepper.colors.pressed.color,
+      '& $badge': {
+        color: theme.stepper.colors.pressed.badge.color,
+        backgroundColor: theme.stepper.colors.pressed.badge.background
+      }
     }
   }
 })
@@ -144,7 +170,9 @@ class Step extends Component {
     } = this.props
     const resultClassName = classnames(className, classes.step, {
       [classes.active]: active,
-      [classes.disabled]: disabled
+      [classes.disabled]: disabled,
+      [classes.completed]: completed,
+      [classes.default]: !active && !disabled && !completed
     })
     return (
       <div {...other} className={resultClassName} onClick={this.onClick}>

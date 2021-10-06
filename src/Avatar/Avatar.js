@@ -8,7 +8,7 @@ import {isolateMixin, middleMixin} from '../utils/mixins'
 const chooseProfileSize = size =>
   size >= 75 ? [27, 15] : size >= 45 ? [22, 15] : [17, 11]
 
-const styles = {
+const styles = theme => ({
   avatar: {
     extend: isolateMixin,
     position: 'relative',
@@ -17,7 +17,7 @@ const styles = {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center',
-    boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, .15)'
+    boxShadow: theme.avatar.boxShadow
   },
   circle: {
     borderRadius: '50%',
@@ -39,7 +39,7 @@ const styles = {
     fontSize: 0,
     textAlign: 'center'
   }
-}
+})
 
 class Avatar extends PureComponent {
   static propTypes = {
