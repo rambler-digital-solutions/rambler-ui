@@ -533,7 +533,8 @@ export default function createTheme(config) {
 
         mobile: {
           fontSize: 14,
-          lineHeight: 20
+          lineHeight: 20,
+          marginBottom: 15
         },
 
         label: {
@@ -792,6 +793,7 @@ export default function createTheme(config) {
         padding: 15,
         fontSize: 13,
         fontWeight: 400,
+        selectedFontWeight: 400,
         lineHeight: 19,
         sizes: {
           medium: {
@@ -819,8 +821,7 @@ export default function createTheme(config) {
             background: lighten(colors.controls.grey.outline, 0.95)
           },
           selected: {
-            text: lighten(colors.controls.grey.outline, 0.5),
-            fontWeight: 400
+            text: lighten(colors.controls.grey.outline, 0.5)
           },
           disabled: {
             text: lighten(colors.controls.grey.outline, 0.5)
@@ -928,6 +929,7 @@ export default function createTheme(config) {
       toggle: {
         animationDuration: 200,
         borderRadius: 1,
+        borderWidth: 1,
         colors: {
           default: {
             text: colors.dark,
@@ -978,25 +980,20 @@ export default function createTheme(config) {
             border: lighten(colors.controls.grey.outline, 0.7)
           }
         },
-        options: {
-          borderWidth: 1
-        },
         sizes: {
           medium: {
             fontSize: 13,
             fontWeight: 400,
             height: 45,
             paddingHr: 25,
-            icon: 13,
-            options: {}
+            icon: 13
           },
           small: {
             fontSize: 13,
             fontWeight: 400,
             icon: 13,
             height: 35,
-            paddingHr: 15,
-            options: {}
+            paddingHr: 15
           }
         }
       },

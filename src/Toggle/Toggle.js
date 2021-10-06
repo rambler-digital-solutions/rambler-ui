@@ -30,7 +30,7 @@ const styles = theme => ({
       textAlign: 'center',
       borderStyle: 'solid',
       color: theme.toggle.colors.default.text,
-      borderWidth: theme.toggle.options.borderWidth,
+      borderWidth: theme.toggle.borderWidth,
       borderColor: theme.toggle.colors.default.border,
       background: theme.toggle.colors.default.background,
       cursor: 'pointer',
@@ -41,16 +41,14 @@ const styles = theme => ({
     },
     '&:first-child': {
       marginLeft: 0,
-      ...(!theme.toggle.sizes.medium.options.borderRadius &&
-        !theme.toggle.sizes.small.options.borderRadius && {
+      ...(!theme.toggle.margin && {
         borderTopLeftRadius: theme.toggle.borderRadius,
         borderBottomLeftRadius: theme.toggle.borderRadius
       })
     },
     '&:last-child': {
-      ...(!theme.toggle.sizes.medium.options.borderRadius &&
-        !theme.toggle.sizes.small.options.borderRadius && {
-        borderWidth: 1,
+      ...(!theme.toggle.margin && {
+        borderWidth: theme.toggle.borderWidth,
         borderTopRightRadius: theme.toggle.borderRadius,
         borderBottomRightRadius: theme.toggle.borderRadius
       })
@@ -106,8 +104,6 @@ const styles = theme => ({
         background: theme.toggle.colors.checkedHover.background,
         color: theme.toggle.colors.checkedHover.text
       }
-      // borderColor: theme.toggle.colors.checkedHover.border,
-      // color: theme.toggle.colors.checkedHover.text,
     },
     '& $isSelected:disabled': {
       background: theme.toggle.colors.checkedDisabled.background,

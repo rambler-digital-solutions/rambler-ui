@@ -20,7 +20,12 @@ const styles = theme => ({
       border: 'none !important',
       outline: 'none !important'
     },
-    borderWidth: theme.toggle.options.borderWidth
+    ...(theme.toggle.margin && {
+      borderRadius: theme.toggle.borderRadius,
+      '&:not(:last-child)': {
+        marginRight: theme.toggle.margin
+      }
+    })
   },
   'size-small': {
     fontSize: theme.toggle.sizes.small.fontSize,
@@ -28,15 +33,9 @@ const styles = theme => ({
     height: theme.toggle.sizes.small.height,
     lineHeight:
       theme.toggle.sizes.small.height -
-      (theme.toggle.options.borderWidth * 2 || 2) +
+      (theme.toggle.borderWidth * 2 || 2) +
       'px',
-    padding: `0 ${theme.toggle.sizes.small.paddingHr}px`,
-    borderRadius: theme.toggle.sizes.small.options.borderRadius,
-    ...(theme.toggle.sizes.small.options.margin && {
-      '&:not(:last-child)': {
-        marginRight: theme.toggle.sizes.small.options.margin
-      }
-    })
+    padding: `0 ${theme.toggle.sizes.small.paddingHr}px`
   },
   'size-medium': {
     fontSize: theme.toggle.sizes.medium.fontSize,
@@ -44,15 +43,9 @@ const styles = theme => ({
     height: theme.toggle.sizes.medium.height,
     lineHeight:
       theme.toggle.sizes.medium.height -
-      (theme.toggle.options.borderWidth * 2 || 2) +
+      (theme.toggle.borderWidth * 2 || 2) +
       'px',
-    padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`,
-    borderRadius: theme.toggle.sizes.medium.options.borderRadius,
-    ...(theme.toggle.sizes.medium.options.margin && {
-      '&:not(:last-child)': {
-        marginRight: theme.toggle.sizes.medium.options.margin
-      }
-    })
+    padding: `0 ${theme.toggle.sizes.medium.paddingHr}px`
   },
   icon: {
     display: 'inline-block',
