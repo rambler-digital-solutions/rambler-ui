@@ -73,7 +73,8 @@ const styles = theme => ({
         display: 'none'
       },
       '&::-webkit-date-and-time-value': {
-        margin: 0
+        margin: 0,
+        textAlign: 'left'
       }
     },
     '&::-webkit-calendar-picker-indicator': {
