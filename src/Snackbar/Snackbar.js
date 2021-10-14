@@ -32,7 +32,7 @@ const styles = theme => ({
     ...ifDesktop({
       width: 'auto',
       minWidth: 350,
-      maxWidth: 750,
+      maxWidth: theme.snackbar.maxWidth,
       borderRadius: theme.snackbar.borderRadius
     })
   },
