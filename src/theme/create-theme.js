@@ -1060,6 +1060,7 @@ export default function createTheme(config) {
       },
       snackbar: {
         borderRadius: 2,
+        lineHeight: 1.15,
         colors: {
           text: colors.light,
           actionButton: colors.light,

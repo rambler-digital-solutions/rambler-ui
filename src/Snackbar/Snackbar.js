@@ -22,7 +22,7 @@ const styles = theme => ({
     alignItems: 'center',
     padding: theme.snackbar.sizes.medium.padding,
     width: '100%',
-    lineHeight: 1.15,
+    lineHeight: theme.snackbar.lineHeight,
     color: theme.snackbar.colors.text,
     fontSize: theme.snackbar.fontSize,
     fontWeight: theme.snackbar.fontWeight,
