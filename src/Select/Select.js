@@ -770,6 +770,7 @@ class Select extends PureComponent {
   }
 
   Arrow = props => {
+    const {isOpened} = this.state
     const {arrowStyle, arrowClassName, arrowIcon, classes} = this.props
     const {
       className,
@@ -782,9 +783,7 @@ class Select extends PureComponent {
         style={arrowStyle}
         className={classnames(className, classes.arrow, arrowClassName)}
         {...otherProps}>
-        {typeof arrowIcon === 'function'
-          ? arrowIcon(this.state.isOpened)
-          : arrowIcon}
+        {typeof arrowIcon === 'function' ? arrowIcon({isOpened}) : arrowIcon}
       </div>
     )
   }
