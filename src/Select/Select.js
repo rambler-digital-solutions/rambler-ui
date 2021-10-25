@@ -782,7 +782,7 @@ class Select extends PureComponent {
         style={arrowStyle}
         className={classnames(className, classes.arrow, arrowClassName)}
         {...otherProps}>
-        {arrowIcon(this.state.isOpened)}
+        {arrowIcon && arrowIcon(this.state.isOpened)}
       </div>
     )
   }

@@ -234,7 +234,7 @@ export default class SelectExample extends Component {
           <Select
             placeholder="Type something..."
             value={this.state.objectValue}
-            arrowIcon={<EllipsisIcon size={12} color="currentColor" />}
+            arrowIcon={() => <EllipsisIcon size={12} color="currentColor" />}
             inputValueRenderer={value => value && value.key}
             valuesEquality={(a, b) => a === b || (a && b && a.id === b.id)}
             onChange={this.setValue('objectValue')}
