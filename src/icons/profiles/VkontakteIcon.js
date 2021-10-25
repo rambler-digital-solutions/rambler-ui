@@ -15,5 +15,5 @@ export default function VkontakteIcon(props) {
 VkontakteIcon.displayName = 'VkontakteIcon'
 
 VkontakteIcon.defaultProps = {
-  color: '#5c7da4'
+  color: '#2787f5'
 }

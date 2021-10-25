@@ -42,21 +42,9 @@ const absolutePosition = {
 /* http://stackoverflow.com/questions/34660500/mobile-safari-multi-select-bug */
 const multipleSelectFix = <optgroup disabled hidden />
 
-const assignStatusColors = (backgroundColor, borderColor) => ({
+const assignStatusColors = borderColor => ({
   '& $field': {
     borderColor
-  },
-  '&$isFocused': {
-    '& $menuItem': {
-      backgroundColor: 'transparent'
-    },
-    '& $dropdown': {
-      backgroundColor,
-      borderColor
-    },
-    '& $menu': {
-      borderColor
-    }
   }
 })
 
@@ -84,18 +72,9 @@ const styles = theme => ({
         pointerEvents: 'none'
       }
     },
-    '&$error': assignStatusColors(
-      theme.field.colors.error.background,
-      theme.field.colors.error.outline
-    ),
-    '&$warning': assignStatusColors(
-      theme.field.colors.warning.background,
-      theme.field.colors.warning.outline
-    ),
-    '&$success': assignStatusColors(
-      theme.field.colors.success.background,
-      theme.field.colors.success.outline
-    )
+    '&$error': assignStatusColors(theme.field.colors.error.outline),
+    '&$warning': assignStatusColors(theme.field.colors.warning.outline),
+    '&$success': assignStatusColors(theme.field.colors.success.outline)
   },
   dropdownContainer: {
     '&&': {
@@ -225,7 +204,15 @@ const styles = theme => ({
     cursor: 'default'
   },
   menu: {
-    borderBottom: `1px solid ${theme.field.colors.default.outline}`
+    borderBottom: `1px solid ${theme.field.colors.default.outline}`,
+    ...(theme.dropdown.borderRadius > 1 && {
+      '&::-webkit-scrollbar-track': {
+        margin: `${theme.dropdown.borderRadius}px 0`
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: 3
+      }
+    })
   },
   menuItem: {
     backgroundColor: theme.field.colors.default.background
@@ -464,7 +451,7 @@ class Select extends PureComponent {
     /**
      * Иконка стрелки
      */
-    arrowIcon: PropTypes.node,
+    arrowIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     /**
      * Размер
      */
@@ -795,7 +782,9 @@ class Select extends PureComponent {
         style={arrowStyle}
         className={classnames(className, classes.arrow, arrowClassName)}
         {...otherProps}>
-        {arrowIcon}
+        {typeof arrowIcon === 'function'
+          ? arrowIcon(this.state.isOpened)
+          : arrowIcon}
       </div>
     )
   }

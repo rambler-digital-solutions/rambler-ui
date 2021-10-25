@@ -34,7 +34,7 @@ export interface SelectProps<T>
   readOnly?: boolean
   children?: Array<ReactElement>
   icon?: ReactNode
-  arrowIcon?: ReactNode
+  arrowIcon?: ReactNode | ((isOpened: boolean) => ReactNode)
   size?: Size
   variation?: Variation
   status?: StatusType | null
