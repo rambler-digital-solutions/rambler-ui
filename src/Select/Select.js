@@ -149,7 +149,9 @@ const styles = theme => ({
           color: theme.field.colors.focus.arrow
         }
       }
-    }
+    },
+    borderRadius: theme.field.borderRadius,
+    overflow: 'hidden'
   },
   inputBorder: {},
   field: {
