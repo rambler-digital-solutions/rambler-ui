@@ -451,7 +451,7 @@ class Select extends PureComponent {
     /**
      * Иконка стрелки
      */
-    arrowIcon: PropTypes.func,
+    arrowIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
     /**
      * Размер
      */
@@ -782,7 +782,9 @@ class Select extends PureComponent {
         style={arrowStyle}
         className={classnames(className, classes.arrow, arrowClassName)}
         {...otherProps}>
-        {arrowIcon && arrowIcon(this.state.isOpened)}
+        {typeof arrowIcon === 'function'
+          ? arrowIcon(this.state.isOpened)
+          : arrowIcon}
       </div>
     )
   }

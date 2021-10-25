@@ -62,7 +62,7 @@ describe('<Select />', () => {
         <Select
           arrowStyle={{width: 25}}
           arrowClassName="arrow"
-          arrowIcon={() => <EllipsisIcon />}>
+          arrowIcon={<EllipsisIcon />}>
           <MenuItem value="foo">foo</MenuItem>
           <MenuItem value="bar">baz</MenuItem>
         </Select>
