@@ -190,7 +190,7 @@ const styles = theme => ({
     '&&': {
       boxShadow: theme.select.dropdown.boxShadow,
       overflow: 'hidden',
-      border: `1px solid ${theme.field.colors.default.outline}`,
+      border: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
       borderBottom: 0,
       backgroundColor: theme.field.colors.default.background,
       '&$isMultipleDropdown, $regular &': {
@@ -200,11 +200,11 @@ const styles = theme => ({
     }
   },
   selected: {
-    borderBottom: `1px solid ${theme.field.colors.default.outline}`,
+    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
     cursor: 'default'
   },
   menu: {
-    borderBottom: `1px solid ${theme.field.colors.default.outline}`,
+    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
     ...(theme.dropdown.borderRadius > 1 && {
       '&::-webkit-scrollbar-track': {
         margin: `${theme.dropdown.borderRadius}px 0`
