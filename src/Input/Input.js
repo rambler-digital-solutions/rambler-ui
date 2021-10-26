@@ -461,6 +461,9 @@ const styles = theme => ({
     position: 'relative',
     boxSizing: 'border-box',
     fontFamily: theme.fontFamily
+    // TODO mishin ???
+    // borderRadius: theme.field.borderRadius,
+    // overflow: 'hidden'
   },
   textareaRoot: {},
   characterCounter: {

@@ -171,12 +171,12 @@ const styles = theme => ({
     '$isEnabled$isReadonly &, $isEnabled:not($isFocused) &': {
       ...placeholderMixin('&', {
         opacity: 1,
-        color: theme.field.colors.default.text,
-        'transition-property': 'color',
-        'transition-duration': 200
+        color: theme.select.colors.default.placeholder,
+        transitionProperty: 'color',
+        transitionDuration: 200
       }),
       ...placeholderMixin('&:hover', {
-        color: theme.select.colors.hover.darkPlaceholder
+        color: theme.select.colors.hover.placeholder
       })
     }
   },

@@ -673,9 +673,10 @@ export default function createTheme(config) {
           marginTop: 0
         },
         colors: {
-          hover: {
-            darkPlaceholder: colors.dark
-          }
+          default: {
+            placeholder: colors.dark
+          },
+          hover: {}
         }
       },
       tagsInput: {
