@@ -582,7 +582,8 @@ export default function createTheme(config) {
         fontFamily: fontFamilies.Roboto,
         fontWeight: 400,
         letterSpacing: 0,
-        borderRadius: 1,
+        borderRadius: 15,
+        // borderRadius: 1,
 
         icon: {
           colors: {

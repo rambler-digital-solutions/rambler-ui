@@ -47,6 +47,7 @@ const styles = theme => ({
     border: '0 solid',
     transition: `all ${theme.field.animationDuration}ms ease`,
     borderRadius: theme.field.borderRadius,
+    overflow: 'hidden',
     ...ifMobile({
       fontWeight: theme.field.mobile.fontWeight,
       letterSpacing: theme.field.mobile.letterSpacing
@@ -461,9 +462,7 @@ const styles = theme => ({
     extend: isolateMixin,
     position: 'relative',
     boxSizing: 'border-box',
-    fontFamily: theme.fontFamily,
-    borderRadius: theme.field.borderRadius,
-    overflow: 'hidden'
+    fontFamily: theme.fontFamily
   },
   textareaRoot: {},
   characterCounter: {
