@@ -460,10 +460,9 @@ const styles = theme => ({
     extend: isolateMixin,
     position: 'relative',
     boxSizing: 'border-box',
-    fontFamily: theme.fontFamily
-    // TODO mishin ???
-    // borderRadius: theme.field.borderRadius,
-    // overflow: 'hidden'
+    fontFamily: theme.fontFamily,
+    borderRadius: theme.field.borderRadius,
+    overflow: 'hidden'
   },
   textareaRoot: {},
   characterCounter: {
