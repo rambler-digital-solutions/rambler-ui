@@ -670,7 +670,8 @@ export default function createTheme(config) {
       select: {
         dropdown: {
           boxShadow: 'none',
-          marginTop: 0
+          marginTop: 0,
+          borderWidth: 1
         },
         colors: {
           hover: {}
