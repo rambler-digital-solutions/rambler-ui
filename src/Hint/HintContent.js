@@ -50,7 +50,7 @@ const styles = theme => ({
     position: 'absolute'
   },
   left: {
-    left: -15,
+    left: -theme.hint.paddings.right,
     paddingLeft: theme.hint.paddings.left,
     paddingRight: theme.hint.paddings.right,
     '& $icon': {
@@ -58,7 +58,7 @@ const styles = theme => ({
     }
   },
   right: {
-    left: 15,
+    left: theme.hint.paddings.right,
     paddingLeft: theme.hint.paddings.right,
     paddingRight: theme.hint.paddings.left,
     '& $icon': {
