@@ -150,8 +150,7 @@ const styles = theme => ({
         }
       }
     },
-    borderRadius: theme.field.borderRadius,
-    overflow: 'hidden'
+    borderRadius: theme.field.borderRadius
   },
   inputBorder: {},
   field: {
@@ -312,7 +311,8 @@ const styles = theme => ({
                   theme.field.mobile.sizes[size].icon) /
                   2
               )
-            })
+            }),
+            borderRadius: theme.field.borderRadius
           },
           '&:empty:after': {
             top: size === 'small' ? -2 : -1,
