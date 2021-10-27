@@ -46,6 +46,7 @@ const styles = theme => ({
     boxShadow: 'none',
     border: '0 solid',
     transition: `all ${theme.field.animationDuration}ms ease`,
+    borderRadius: theme.field.borderRadius,
     ...ifMobile({
       fontWeight: theme.field.mobile.fontWeight,
       letterSpacing: theme.field.mobile.letterSpacing
@@ -253,7 +254,8 @@ const styles = theme => ({
                   theme.field.mobile.sizes[size].eyeIcon) /
                   2
               )
-            })
+            }),
+            borderRadius: theme.field.borderRadius
           }
         },
         '& $placeholder': {

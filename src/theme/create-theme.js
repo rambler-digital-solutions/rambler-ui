@@ -674,6 +674,9 @@ export default function createTheme(config) {
           borderWidth: 1
         },
         colors: {
+          default: {
+            placeholder: colors.dark
+          },
           hover: {}
         }
       },

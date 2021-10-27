@@ -52,16 +52,6 @@ const styles = theme => ({
   root: {
     extend: isolateMixin,
     position: 'relative',
-    '&:hover, &$isFocused': {
-      '& $arrow': {
-        color: theme.field.colors.focus.arrow
-      }
-    },
-    '&:hover&$isEnabled': {
-      '& $field': {
-        color: theme.select.colors.hover.text
-      }
-    },
     '&$isDisabled': {
       cursor: 'not-allowed',
       '& $input': {
@@ -118,7 +108,28 @@ const styles = theme => ({
     }
   },
   input: {
-    '$withCustom &': absolutePosition
+    '$withCustom &': absolutePosition,
+    '$isEnabled$isFocused &': {
+      '& $arrow': {
+        color: theme.field.colors.focus.arrow
+      },
+      '&:hover': {
+        '& $arrow': {
+          color: theme.select.colors.hover.arrow
+        }
+      }
+    },
+    '$isEnabled &': {
+      '&:hover': {
+        '& $field': {
+          color: theme.select.colors.hover.text
+        },
+        '& $arrow': {
+          color: theme.field.colors.focus.arrow
+        }
+      }
+    },
+    borderRadius: theme.field.borderRadius
   },
   inputBorder: {},
   field: {
@@ -138,7 +149,12 @@ const styles = theme => ({
     '$isEnabled$isReadonly &, $isEnabled:not($isFocused) &': {
       ...placeholderMixin('&', {
         opacity: 1,
-        color: theme.field.colors.default.text
+        color: theme.select.colors.default.placeholder,
+        transitionProperty: 'color',
+        transitionDuration: 200
+      }),
+      ...placeholderMixin('&:hover', {
+        color: theme.select.colors.hover.placeholder
       })
     }
   },
@@ -282,7 +298,8 @@ const styles = theme => ({
                   theme.field.mobile.sizes[size].icon) /
                   2
               )
-            })
+            }),
+            borderRadius: theme.field.borderRadius
           },
           '&:empty:after': {
             top: size === 'small' ? -2 : -1,
