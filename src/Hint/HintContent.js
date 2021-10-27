@@ -18,20 +18,21 @@ const styles = theme => ({
     borderRadius: theme.hint.borderRadius,
     boxSizing: 'border-box',
     boxShadow: theme.hint.boxShadow,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: theme.hint.paddings.top,
+    paddingBottom: theme.hint.paddings.bottom,
     width: 265,
     backgroundColor: theme.hint.colors.background,
     fontSize: theme.hint.fontSize,
-    lineHeight: 1.54,
+    lineHeight: theme.hint.lineHeight,
     opacity: 0.01,
     transitionDuration: `${theme.hint.animationDuration}ms`,
-    transitionProperty: 'opacity'
+    transitionProperty: 'opacity',
+    fontWeight: theme.hint.fontWeight
   },
   mobile: {
     width: '100%',
     maxWidth: 480,
-    padding: 20,
+    padding: theme.hint.paddings.mobile,
     fontSize: 14
   },
   arrow: {
@@ -50,18 +51,18 @@ const styles = theme => ({
   },
   left: {
     left: -15,
-    paddingLeft: 45,
-    paddingRight: 15,
+    paddingLeft: theme.hint.paddings.withLeftIcon.left,
+    paddingRight: theme.hint.paddings.withLeftIcon.right,
     '& $icon': {
-      left: 15
+      left: theme.hint.paddings.withLeftIcon.right
     }
   },
   right: {
     left: 15,
-    paddingLeft: 15,
-    paddingRight: 45,
+    paddingLeft: theme.hint.paddings.withRightIcon.left,
+    paddingRight: theme.hint.paddings.withRightIcon.right,
     '& $icon': {
-      right: 15
+      right: theme.hint.paddings.withRightIcon.left
     }
   },
   top: {
