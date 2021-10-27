@@ -105,7 +105,9 @@ const styles = theme => ({
       margin: 'auto',
       maxWidth: '100%',
       maxHeight: '100%'
-    }
+    },
+    transitionProperty: 'color',
+    transitionDuration: 200
   },
   input: {
     '$withCustom &': absolutePosition,

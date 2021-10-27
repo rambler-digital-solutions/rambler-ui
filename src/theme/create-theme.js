@@ -606,7 +606,8 @@ export default function createTheme(config) {
           },
           focus: {
             border: colors.primary,
-            arrow: colors.primary
+            arrow: colors.dark
+            // arrow: colors.primary
           },
           disabled: {
             outline: fade(colors.controls.grey.fieldOutline, 0.6),
@@ -677,7 +678,9 @@ export default function createTheme(config) {
           default: {
             placeholder: colors.dark
           },
-          hover: {}
+          hover: {
+            text: colors.primary
+          }
         }
       },
       tagsInput: {
