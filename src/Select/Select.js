@@ -115,7 +115,7 @@ const styles = theme => ({
       },
       '&:hover': {
         '& $arrow': {
-          color: theme.select.colors.hover.arrow
+          color: theme.field.colors.hover.arrow
         }
       }
     },
