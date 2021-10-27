@@ -566,14 +566,8 @@ export default function createTheme(config) {
           top: 15,
           bottom: 15,
           mobile: '20px',
-          withLeftIcon: {
-            left: 45,
-            right: 15
-          },
-          withRightIcon: {
-            left: 15,
-            right: 45
-          }
+          left: 45,
+          right: 15
         }
       },
       iconButton: {

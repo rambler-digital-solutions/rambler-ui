@@ -51,18 +51,18 @@ const styles = theme => ({
   },
   left: {
     left: -15,
-    paddingLeft: theme.hint.paddings.withLeftIcon.left,
-    paddingRight: theme.hint.paddings.withLeftIcon.right,
+    paddingLeft: theme.hint.paddings.left,
+    paddingRight: theme.hint.paddings.right,
     '& $icon': {
-      left: theme.hint.paddings.withLeftIcon.right
+      left: theme.hint.paddings.right
     }
   },
   right: {
     left: 15,
-    paddingLeft: theme.hint.paddings.withRightIcon.left,
-    paddingRight: theme.hint.paddings.withRightIcon.right,
+    paddingLeft: theme.hint.paddings.right,
+    paddingRight: theme.hint.paddings.left,
     '& $icon': {
-      right: theme.hint.paddings.withRightIcon.left
+      right: theme.hint.paddings.right
     }
   },
   top: {
