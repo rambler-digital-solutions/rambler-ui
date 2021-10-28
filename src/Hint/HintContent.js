@@ -81,9 +81,6 @@ const styles = theme => ({
     '&$mobile': {
       top: -10
     },
-    '& $icon': {
-      bottom: 19
-    },
     '& $arrow': {
       top: '100%',
       transform: 'rotate(180deg)'
