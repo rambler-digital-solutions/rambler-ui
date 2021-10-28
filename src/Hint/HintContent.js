@@ -40,7 +40,7 @@ const styles = theme => ({
     position: 'absolute',
     borderStyle: 'solid',
     borderColor: 'transparent',
-    borderWidth: theme.hint.arrowWidth,
+    borderWidth: theme.hint.arrowSize,
     borderBottomColor: theme.hint.colors.background,
     zIndex: 100
   },
