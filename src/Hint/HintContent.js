@@ -12,33 +12,35 @@ const isMobileBehavior = ios || android
 const styles = theme => ({
   hint: {
     extend: isolateMixin,
+    display: 'flex',
     fontFamily: theme.fontFamily,
     position: 'relative',
     color: theme.hint.colors.text,
     borderRadius: theme.hint.borderRadius,
     boxSizing: 'border-box',
     boxShadow: theme.hint.boxShadow,
-    paddingTop: 15,
-    paddingBottom: 15,
+    paddingTop: theme.hint.verticalPadding,
+    paddingBottom: theme.hint.verticalPadding,
     width: 265,
     backgroundColor: theme.hint.colors.background,
     fontSize: theme.hint.fontSize,
-    lineHeight: 1.54,
+    lineHeight: theme.hint.lineHeight,
     opacity: 0.01,
     transitionDuration: `${theme.hint.animationDuration}ms`,
-    transitionProperty: 'opacity'
+    transitionProperty: 'opacity',
+    fontWeight: theme.hint.fontWeight
   },
   mobile: {
     width: '100%',
     maxWidth: 480,
-    padding: 20,
+    padding: `${theme.hint.mobile.verticalPadding}px ${theme.hint.mobile.horizontalPadding}px`,
     fontSize: 14
   },
   arrow: {
     position: 'absolute',
     borderStyle: 'solid',
     borderColor: 'transparent',
-    borderWidth: 5,
+    borderWidth: theme.hint.arrowWidth,
     borderBottomColor: theme.hint.colors.background,
     zIndex: 100
   },
@@ -46,31 +48,29 @@ const styles = theme => ({
     opacity: 1
   },
   icon: {
-    position: 'absolute'
+    flexShrink: 0
   },
   left: {
-    left: -15,
-    paddingLeft: 45,
-    paddingRight: 15,
+    left: -theme.hint.horizontalPadding,
+    paddingLeft: theme.hint.horizontalPadding,
+    paddingRight: theme.hint.horizontalPadding,
     '& $icon': {
-      left: 15
+      marginRight: theme.hint.horizontalPadding
     }
   },
   right: {
-    left: 15,
-    paddingLeft: 15,
-    paddingRight: 45,
+    left: theme.hint.horizontalPadding,
+    paddingLeft: theme.hint.horizontalPadding,
+    paddingRight: theme.hint.horizontalPadding,
+    flexDirection: 'row-reverse',
     '& $icon': {
-      right: 15
+      marginLeft: theme.hint.horizontalPadding
     }
   },
   top: {
     top: -15,
     '&$mobile': {
       top: 10
-    },
-    '& $icon': {
-      top: 15
     },
     '& $arrow': {
       bottom: '100%'
@@ -80,9 +80,6 @@ const styles = theme => ({
     top: 19,
     '&$mobile': {
       top: -10
-    },
-    '& $icon': {
-      bottom: 19
     },
     '& $arrow': {
       top: '100%',

@@ -549,6 +549,9 @@ export default function createTheme(config) {
         borderRadius: 1,
         animationDuration: 200,
         boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
+        fontWeight: 400,
+        lineHeight: 1.54,
+        arrowWidth: 5,
         colors: {
           background: colors.light,
           text: colors.dark
@@ -559,7 +562,13 @@ export default function createTheme(config) {
             active: colors.primary
           }
         },
-        fontSize: 13
+        fontSize: 13,
+        verticalPadding: 15,
+        horizontalPadding: 15,
+        mobile: {
+          verticalPadding: 20,
+          horizontalPadding: 20
+        }
       },
       iconButton: {
         borderRadius: '50%',

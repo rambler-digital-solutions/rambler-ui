@@ -105,7 +105,9 @@ const styles = theme => ({
       margin: 'auto',
       maxWidth: '100%',
       maxHeight: '100%'
-    }
+    },
+    transitionProperty: 'color',
+    transitionDuration: 200
   },
   input: {
     '$withCustom &': absolutePosition,
@@ -115,7 +117,7 @@ const styles = theme => ({
       },
       '&:hover': {
         '& $arrow': {
-          color: theme.select.colors.hover.arrow
+          color: theme.field.colors.hover.arrow
         }
       }
     },
@@ -125,7 +127,7 @@ const styles = theme => ({
           color: theme.select.colors.hover.text
         },
         '& $arrow': {
-          color: theme.field.colors.focus.arrow
+          color: theme.field.colors.hover.arrow
         }
       }
     },
