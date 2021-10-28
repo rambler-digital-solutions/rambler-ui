@@ -551,6 +551,7 @@ export default function createTheme(config) {
         boxShadow: '-2px 2px 10px 0 rgba(102, 116, 166, 0.2)',
         fontWeight: 400,
         lineHeight: 1.54,
+        arrowWidth: 5,
         colors: {
           background: colors.light,
           text: colors.dark
