@@ -562,12 +562,11 @@ export default function createTheme(config) {
           }
         },
         fontSize: 13,
-        paddings: {
-          top: 15,
-          bottom: 15,
-          mobile: '20px',
-          left: 45,
-          right: 15
+        verticalPadding: 15,
+        horizontalPadding: 15,
+        mobile: {
+          verticalPadding: 20,
+          horizontalPadding: 20
         }
       },
       iconButton: {

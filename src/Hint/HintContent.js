@@ -12,14 +12,15 @@ const isMobileBehavior = ios || android
 const styles = theme => ({
   hint: {
     extend: isolateMixin,
+    display: 'flex',
     fontFamily: theme.fontFamily,
     position: 'relative',
     color: theme.hint.colors.text,
     borderRadius: theme.hint.borderRadius,
     boxSizing: 'border-box',
     boxShadow: theme.hint.boxShadow,
-    paddingTop: theme.hint.paddings.top,
-    paddingBottom: theme.hint.paddings.bottom,
+    paddingTop: theme.hint.verticalPadding,
+    paddingBottom: theme.hint.verticalPadding,
     width: 265,
     backgroundColor: theme.hint.colors.background,
     fontSize: theme.hint.fontSize,
@@ -32,7 +33,7 @@ const styles = theme => ({
   mobile: {
     width: '100%',
     maxWidth: 480,
-    padding: theme.hint.paddings.mobile,
+    padding: `${theme.hint.mobile.verticalPadding}px ${theme.hint.mobile.horizontalPadding}px`,
     fontSize: 14
   },
   arrow: {
@@ -47,31 +48,29 @@ const styles = theme => ({
     opacity: 1
   },
   icon: {
-    position: 'absolute'
+    flexShrink: 0
   },
   left: {
-    left: -theme.hint.paddings.right,
-    paddingLeft: theme.hint.paddings.left,
-    paddingRight: theme.hint.paddings.right,
+    left: -theme.hint.horizontalPadding,
+    paddingLeft: theme.hint.horizontalPadding,
+    paddingRight: theme.hint.horizontalPadding,
     '& $icon': {
-      left: theme.hint.paddings.right
+      marginRight: theme.hint.horizontalPadding
     }
   },
   right: {
-    left: theme.hint.paddings.right,
-    paddingLeft: theme.hint.paddings.right,
-    paddingRight: theme.hint.paddings.left,
+    left: theme.hint.horizontalPadding,
+    paddingLeft: theme.hint.horizontalPadding,
+    paddingRight: theme.hint.horizontalPadding,
+    flexDirection: 'row-reverse',
     '& $icon': {
-      right: theme.hint.paddings.right
+      marginLeft: theme.hint.horizontalPadding
     }
   },
   top: {
     top: -15,
     '&$mobile': {
       top: 10
-    },
-    '& $icon': {
-      top: 15
     },
     '& $arrow': {
       bottom: '100%'
