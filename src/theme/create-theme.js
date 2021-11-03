@@ -788,6 +788,7 @@ export default function createTheme(config) {
         }
       },
       inputStatus: {
+        fontWeight: 400,
         sizes: {
           fontSize: 13,
           lineHeight: 15,
@@ -796,6 +797,10 @@ export default function createTheme(config) {
             fontSize: 14,
             lineHeight: 20
           }
+        },
+        marginTop: 10,
+        mobile: {
+          marginTop: 5
         }
       },
       loader: {
