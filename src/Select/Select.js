@@ -224,6 +224,20 @@ const styles = theme => ({
   menu: {
     borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
     ...(theme.dropdown.borderRadius > 1 && {
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        width: '100%',
+        height: '5px',
+        background: theme.field.colors.default.background
+      },
+      '&:before': {
+        top: 0
+      },
+      '&:after': {
+        bottom: 0
+      },
       '&::-webkit-scrollbar-track': {
         margin: `${theme.dropdown.borderRadius}px 0`
       },
