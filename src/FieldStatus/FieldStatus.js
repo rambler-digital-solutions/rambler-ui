@@ -24,15 +24,14 @@ const styles = theme => ({
     extend: isolateMixin,
     fontFamily: theme.fontFamily,
     marginTop: theme.inputStatus.marginTop,
-    ...(theme.inputStatus.marginLeft && {
-      marginLeft: theme.inputStatus.marginLeft
-    }),
+    marginLeft: theme.inputStatus.marginLeft,
     fontWeight: theme.inputStatus.fontWeight,
     fontSize: theme.inputStatus.sizes.fontSize,
     lineHeight: theme.inputStatus.sizes.lineHeight + 'px',
     textAlign: 'left',
     ...ifMobile({
       marginTop: theme.inputStatus.mobile.marginTop,
+      marginLeft: theme.inputStatus.mobile.marginLeft,
       fontSize: theme.inputStatus.sizes.mobile.fontSize,
       lineHeight: theme.inputStatus.sizes.mobile.lineHeight + 'px'
     })

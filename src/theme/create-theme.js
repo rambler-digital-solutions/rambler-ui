@@ -799,8 +799,10 @@ export default function createTheme(config) {
           }
         },
         marginTop: 10,
+        marginLeft: 0,
         mobile: {
-          marginTop: 5
+          marginTop: 5,
+          marginLeft: 0
         }
       },
       loader: {
