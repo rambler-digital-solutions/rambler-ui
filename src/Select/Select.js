@@ -681,7 +681,7 @@ class Select extends PureComponent {
 
   close = () => {
     if (!this.state.isOpened) return
-    this.setState({isOpened: true})
+    this.setState({isOpened: false})
   }
 
   openOnArrowClick = () => {
@@ -720,7 +720,7 @@ class Select extends PureComponent {
     if (!this.state.isOpened) return
     event.stopPropagation()
     this.setState({
-      isOpened: true
+      isOpened: false
     })
     this.input.focus()
   }
@@ -733,7 +733,7 @@ class Select extends PureComponent {
     const {isOpened, inputFocused, onBlur} = this.state
     if (!isOpened || inputFocused) return
     this.setState({
-      isOpened: true,
+      isOpened: false,
       inputFocused: false
     })
     if (onBlur) onBlur(event)
