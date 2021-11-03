@@ -23,12 +23,12 @@ const styles = theme => ({
   message: {
     extend: isolateMixin,
     fontFamily: theme.fontFamily,
-    marginTop: 10,
+    margin: theme.inputStatus.margin,
     fontSize: theme.inputStatus.sizes.fontSize,
     lineHeight: theme.inputStatus.sizes.lineHeight + 'px',
     textAlign: 'left',
     ...ifMobile({
-      marginTop: 5,
+      margin: theme.inputStatus.mobile.margin,
       fontSize: theme.inputStatus.sizes.mobile.fontSize,
       lineHeight: theme.inputStatus.sizes.mobile.lineHeight + 'px'
     })

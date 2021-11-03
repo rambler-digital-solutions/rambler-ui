@@ -796,6 +796,10 @@ export default function createTheme(config) {
             fontSize: 14,
             lineHeight: 20
           }
+        },
+        margin: '10px 0 0',
+        mobile: {
+          margin: '5px 0 0'
         }
       },
       loader: {
