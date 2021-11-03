@@ -6,7 +6,7 @@
   },
   {
     "name": "The initial cost people pay for using one component with es build",
-    "limit": "26 KB",
+    "limit": "27 KB",
     "path": "build/es/index.js",
     "import": "{Button}"
   },
