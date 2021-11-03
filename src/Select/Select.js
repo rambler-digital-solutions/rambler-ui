@@ -222,31 +222,7 @@ const styles = theme => ({
     cursor: 'default'
   },
   menu: {
-    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
-    ...(theme.select.dropdown.borderWidth === 0 && {
-      '&:before, &:after': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        width: '100%',
-        height: '5px',
-        background: theme.field.colors.default.background
-      },
-      '&:before': {
-        top: 0
-      },
-      '&:after': {
-        bottom: 0
-      }
-    }),
-    ...(theme.dropdown.borderRadius > 1 && {
-      '&::-webkit-scrollbar-track': {
-        margin: `${theme.dropdown.borderRadius}px 0`
-      },
-      '&::-webkit-scrollbar-thumb': {
-        borderRadius: 3
-      }
-    })
+    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`
   },
   menuItem: {
     backgroundColor: theme.field.colors.default.background
@@ -263,7 +239,32 @@ const styles = theme => ({
     }),
     {}
   ),
-  reducedHeight: {},
+  reducedHeight: {
+    ...(theme.select.dropdown.borderWidth === 0 && {
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        width: '100%',
+        height: '5px',
+        background: theme.field.colors.default.background
+      },
+      '&:before': {
+        top: 0
+      },
+      '&:after': {
+        bottom: 0
+      }
+    }),
+    ...(theme.dropdown.borderRadius > 5 && {
+      '&::-webkit-scrollbar-track': {
+        margin: `${theme.dropdown.borderRadius}px 0`
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: 3
+      }
+    })
+  },
   clear: {
     flex: 'none',
     alignSelf: 'center',
@@ -654,7 +655,7 @@ class Select extends PureComponent {
     if (!this.state.inputFocused) return
     const {inputMode, onBlur} = this.props
     this.setState({
-      isOpened: false,
+      isOpened: true,
       inputFocused: false
     })
     if (inputMode) this.changeValue(this.state.searchText)
@@ -680,7 +681,7 @@ class Select extends PureComponent {
 
   close = () => {
     if (!this.state.isOpened) return
-    this.setState({isOpened: false})
+    this.setState({isOpened: true})
   }
 
   openOnArrowClick = () => {
@@ -719,7 +720,7 @@ class Select extends PureComponent {
     if (!this.state.isOpened) return
     event.stopPropagation()
     this.setState({
-      isOpened: false
+      isOpened: true
     })
     this.input.focus()
   }
@@ -732,7 +733,7 @@ class Select extends PureComponent {
     const {isOpened, inputFocused, onBlur} = this.state
     if (!isOpened || inputFocused) return
     this.setState({
-      isOpened: false,
+      isOpened: true,
       inputFocused: false
     })
     if (onBlur) onBlur(event)
