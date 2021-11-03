@@ -24,6 +24,7 @@ const styles = theme => ({
     extend: isolateMixin,
     fontFamily: theme.fontFamily,
     margin: theme.inputStatus.margin,
+    fontWeight: theme.inputStatus.fontWeight,
     fontSize: theme.inputStatus.sizes.fontSize,
     lineHeight: theme.inputStatus.sizes.lineHeight + 'px',
     textAlign: 'left',

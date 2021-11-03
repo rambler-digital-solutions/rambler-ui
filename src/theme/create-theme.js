@@ -788,6 +788,7 @@ export default function createTheme(config) {
         }
       },
       inputStatus: {
+        fontWeight: 400,
         sizes: {
           fontSize: 13,
           lineHeight: 15,
