@@ -223,7 +223,7 @@ const styles = theme => ({
   },
   menu: {
     borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
-    ...(theme.dropdown.borderRadius > 1 && {
+    ...(theme.select.dropdown.borderWidth === 0 && {
       '&:before, &:after': {
         content: '""',
         position: 'absolute',
@@ -237,7 +237,9 @@ const styles = theme => ({
       },
       '&:after': {
         bottom: 0
-      },
+      }
+    }),
+    ...(theme.dropdown.borderRadius > 1 && {
       '&::-webkit-scrollbar-track': {
         margin: `${theme.dropdown.borderRadius}px 0`
       },
