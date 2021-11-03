@@ -655,7 +655,7 @@ class Select extends PureComponent {
     if (!this.state.inputFocused) return
     const {inputMode, onBlur} = this.props
     this.setState({
-      isOpened: true,
+      isOpened: false,
       inputFocused: false
     })
     if (inputMode) this.changeValue(this.state.searchText)
