@@ -798,9 +798,9 @@ export default function createTheme(config) {
             lineHeight: 20
           }
         },
-        margin: '10px 0 0',
+        marginTop: 10,
         mobile: {
-          margin: '5px 0 0'
+          marginTop: 5
         }
       },
       loader: {
