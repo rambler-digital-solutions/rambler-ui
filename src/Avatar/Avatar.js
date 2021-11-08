@@ -6,7 +6,13 @@ import {withStyles} from '../theme'
 import {isolateMixin, middleMixin} from '../utils/mixins'
 
 const chooseProfileSize = size =>
-  size >= 75 ? [27, 15] : size >= 45 ? [22, 15] : [17, 11]
+  size >= 75
+    ? [30, 20, 2]
+    : size >= 45
+      ? [20, 15, 1]
+      : size >= 30
+        ? [15, 12, 1]
+        : [11, 10, 1]
 
 const styles = theme => ({
   avatar: {
@@ -34,7 +40,6 @@ const styles = theme => ({
     right: 0,
     bottom: 0,
     transform: 'translate(25%, 25%)',
-    boxShadow: 'inset 0 0 0 1px white',
     borderRadius: '100%',
     fontSize: 0,
     textAlign: 'center'
@@ -117,7 +122,7 @@ class Avatar extends PureComponent {
     } = this.props
 
     const ProfileIcon = profileType && profileIcons[profileType]
-    const [profileSize, roundSize] = chooseProfileSize(size)
+    const [profileSize, roundSize, borderWidth] = chooseProfileSize(size)
 
     const profileSizePx = profileSize + 'px'
     const children = ProfileIcon && (
@@ -126,6 +131,7 @@ class Avatar extends PureComponent {
         style={{
           backgroundColor:
             iconBackgroundColor || theme.avatar.colors.iconBackground,
+          boxShadow: `0 0 0 ${borderWidth}px white`,
           width: profileSizePx,
           height: profileSizePx
         }}>

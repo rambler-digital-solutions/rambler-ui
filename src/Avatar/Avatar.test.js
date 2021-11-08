@@ -114,8 +114,8 @@ describe('<Avatar />', () => {
     expect(iconStyles.height).toEqual('15px')
 
     expect(iconContainerStyles.position).toEqual('absolute')
-    expect(iconContainerStyles.width).toEqual('22px')
-    expect(iconContainerStyles.height).toEqual('22px')
+    expect(iconContainerStyles.width).toEqual('20px')
+    expect(iconContainerStyles.height).toEqual('20px')
     expect(nc(iconContainerStyles['background-color'])).toEqual(
       nc(theme.avatar.colors.iconBackground)
     )

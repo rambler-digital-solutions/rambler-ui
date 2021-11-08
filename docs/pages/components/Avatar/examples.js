@@ -7,7 +7,7 @@ export default function AvatarExample() {
       marginRight: 10,
       marginBottom: 10
     },
-    src: '//api.adorable.io/avatars/face/eyes4/nose5/mouth7/8e8895/'
+    src: 'https://i.pravatar.cc/100'
   }
 
   return (
@@ -20,11 +20,13 @@ export default function AvatarExample() {
       <div style={{marginRight: 20}}>
         <h4>shape: circle</h4>
         <Avatar {...props} profileType="facebook" />
+        <Avatar {...props} size={25} profileType="facebook" />
         <Avatar {...props} size={36} profileType="facebook" />
         <Avatar
           {...props}
           size={75}
           container={<a href="#/components/Button" />}
+          profileType="facebook"
         />
       </div>
 
@@ -32,6 +34,7 @@ export default function AvatarExample() {
         <h4>shape: rounded</h4>
         <Avatar {...props} shape="rounded" profileType="facebook" />
         <Avatar {...props} shape="rounded" size={25} profileType="facebook" />
+        <Avatar {...props} shape="rounded" size={36} profileType="facebook" />
         <Avatar
           {...props}
           shape="rounded"
@@ -46,6 +49,7 @@ export default function AvatarExample() {
         <h4>shape: square</h4>
         <Avatar {...props} shape="square" profileType="livejournal" />
         <Avatar {...props} shape="square" size={25} />
+        <Avatar {...props} shape="square" size={36} />
         <Avatar {...props} shape="square" size={75} />
       </div>
     </div>
