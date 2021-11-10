@@ -1,4 +1,4 @@
-import {PureComponent, ReactElement, HTMLProps} from 'react'
+import {PureComponent, ReactElement, HTMLProps, Ref} from 'react'
 import {Size} from '..'
 
 export interface MenuProps<T>
@@ -16,6 +16,7 @@ export interface MenuProps<T>
   onChange?: (value: T) => void | Promise<void>
   onEscKeyDown?: () => void | Promise<void>
   size?: Size
+  nodeRef?: Ref<HTMLElement>
 }
 
 export default class Menu<T = any> extends PureComponent<MenuProps<T>, {}> {}

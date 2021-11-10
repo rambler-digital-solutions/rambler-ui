@@ -96,9 +96,9 @@ class Menu extends PureComponent {
      */
     size: PropTypes.oneOf(['small', 'medium']),
     /**
-     * Коллбек, вызывающийся при скролле меню
+     * Коллбэк для передачи ссылки на ноду элемента кнопки
      */
-    onScroll: PropTypes.func
+    nodeRef: PropTypes.func
   }
 
   static defaultProps = {
@@ -314,12 +314,9 @@ class Menu extends PureComponent {
     this.focusIndex = -1
   }
 
-  handleScroll = () => {
-    if (this.props.onScroll) this.props.onScroll(this.menu)
-  }
-
   saveMenuRef = ref => {
     this.menu = ref
+    if (this.props.nodeRef) this.props.nodeRef(ref)
   }
 
   getMenuProps() {
@@ -348,7 +345,6 @@ class Menu extends PureComponent {
       maxHeight,
       children,
       classes,
-      onScroll,
       ...other
     } = this.getMenuProps()
 
@@ -360,8 +356,7 @@ class Menu extends PureComponent {
           style={{maxHeight, ...style}}
           className={classnames(classes.menu, className)}
           onKeyDown={this.keyDown}
-          onBlur={this.handleBlur}
-          {...(onScroll && {onScroll: this.handleScroll})}>
+          onBlur={this.handleBlur}>
           {children}
         </div>
       </MenuContext.Provider>

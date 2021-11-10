@@ -225,7 +225,7 @@ const styles = theme => ({
   },
   menu: {
     borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
-    ...(theme.dropdown.borderRadius > 5 && {
+    ...(theme.dropdown.borderRadius > 2 && {
       '&::-webkit-scrollbar-track': {
         margin: `${theme.dropdown.borderRadius}px 0`
       },
@@ -239,27 +239,36 @@ const styles = theme => ({
         position: 'absolute',
         left: 0,
         width: '100%',
-        height: '5px',
-        backgroundColor: theme.field.colors.default.background,
-        opacity: 0
+        height: Math.max(5, theme.dropdown.borderRadius),
+        opacity: 0,
+        pointerEvents: 'none'
       },
       '&:before': {
-        top: 0
+        top: 0,
+        borderTopLeftRadius: theme.dropdown.borderRadius,
+        borderTopRightRadius: theme.dropdown.borderRadius,
+        background: `linear-gradient(to bottom, ${theme.field.colors.default.background} 0 5px, transparent 5px 100%)`
       },
       '&:after': {
-        bottom: 0
+        bottom: 0,
+        borderBottomLeftRadius: theme.dropdown.borderRadius,
+        borderBottomRightRadius: theme.dropdown.borderRadius,
+        background: `linear-gradient(to top, ${theme.field.colors.default.background} 0 5px, transparent 5px 100%)`
       }
     })
   },
-  scrollableBorderTop: {
+  'menuOverflowY-top': {
     '&:before': {
       opacity: 1
     }
   },
-  scrollableBorderBottom: {
+  'menuOverflowY-bottom': {
     '&:after': {
       opacity: 1
     }
+  },
+  'menuOverflowY-both': {
+    composes: ['$menuOverflowY-top', '$menuOverflowY-bottom']
   },
   menuItem: {
     backgroundColor: theme.field.colors.default.background
@@ -586,8 +595,7 @@ class Select extends PureComponent {
     inputFocused: false,
     searchText: '',
     value: this.initialValue,
-    scrollableBorderTop: false,
-    scrollableBorderBottom: false
+    menuOverflowY: false
   }
 
   get initialValue() {
@@ -647,25 +655,34 @@ class Select extends PureComponent {
     this.setSearchText(event.target.value)
   }
 
-  handleMenuScroll = throttle(menuNode => {
-    const {classes} = this.props
+  setMenuOverflow(menuNode) {
+    const menuRect = getBoundingClientRect(menuNode)
 
-    const items = menuNode.getElementsByClassName(classes.menuItem)
-    const first = items[0]
-    const last = items[items.length - 1]
+    const overflowedTop =
+      getBoundingClientRect(menuNode.firstChild).top < menuRect.top
+    const overflowedBottom =
+      getBoundingClientRect(menuNode.lastChild).bottom > menuRect.bottom
 
-    const scrolledToTop =
-      getBoundingClientRect(first).top === getBoundingClientRect(menuNode).top
+    const menuOverflowY =
+      overflowedTop && overflowedBottom
+        ? 'both'
+        : overflowedTop
+          ? 'top'
+          : overflowedBottom
+            ? 'bottom'
+            : false
 
-    const scrolledToBottom =
-      getBoundingClientRect(last).bottom ===
-      getBoundingClientRect(menuNode).bottom
+    this.setState({
+      menuOverflowY
+    })
+  }
 
-    if (scrolledToTop) this.setState({scrollableBorderTop: false})
-    else this.setState({scrollableBorderTop: true})
+  onMenuMount = menuNode => {
+    if (menuNode) this.setMenuOverflow(menuNode)
+  }
 
-    if (scrolledToBottom) this.setState({scrollableBorderBottom: false})
-    else this.setState({scrollableBorderBottom: true})
+  onMenuScroll = throttle(event => {
+    this.setMenuOverflow(event.target)
   })
 
   changeValue = value => {
@@ -673,8 +690,7 @@ class Select extends PureComponent {
     if (!multiple)
       this.setState({
         isOpened: false,
-        scrollableBorderTop: false,
-        scrollableBorderBottom: false
+        menuOverflowY: false
       })
     if (inputMode) this.setSearchText(value || '')
     const nextState = Select.getValueState(value, this.props, this.state)
@@ -697,8 +713,7 @@ class Select extends PureComponent {
     this.setState({
       isOpened: false,
       inputFocused: false,
-      scrollableBorderTop: false,
-      scrollableBorderBottom: false
+      menuOverflowY: false
     })
     if (inputMode) this.changeValue(this.state.searchText)
     if (onBlur) onBlur(event)
@@ -725,8 +740,7 @@ class Select extends PureComponent {
     if (!this.state.isOpened) return
     this.setState({
       isOpened: false,
-      scrollableBorderTop: false,
-      scrollableBorderBottom: false
+      menuOverflowY: false
     })
   }
 
@@ -767,8 +781,7 @@ class Select extends PureComponent {
     event.stopPropagation()
     this.setState({
       isOpened: false,
-      scrollableBorderTop: false,
-      scrollableBorderBottom: false
+      menuOverflowY: false
     })
     this.input.focus()
   }
@@ -783,8 +796,7 @@ class Select extends PureComponent {
     this.setState({
       isOpened: false,
       inputFocused: false,
-      scrollableBorderTop: false,
-      scrollableBorderBottom: false
+      menuOverflowY: false
     })
     if (onBlur) onBlur(event)
   }
@@ -796,8 +808,7 @@ class Select extends PureComponent {
     else if (code === TAB)
       this.setState({
         isOpened: false,
-        scrollableBorderTop: false,
-        scrollableBorderBottom: false
+        menuOverflowY: false
       })
     else if (code === UP || code === DOWN) this.openOnArrowKey(event)
     else if (inputMode && code === ENTER)
@@ -999,13 +1010,7 @@ class Select extends PureComponent {
   }
 
   renderSelect() {
-    const {
-      value,
-      inputFocused,
-      isOpened,
-      scrollableBorderTop,
-      scrollableBorderBottom
-    } = this.state
+    const {value, inputFocused, isOpened, menuOverflowY} = this.state
 
     const {
       dropdownStyle,
@@ -1151,10 +1156,8 @@ class Select extends PureComponent {
                     classes.menu,
                     classes[`menuSize-${size}`],
                     onSearch && multiple && classes.reducedHeight,
-                    scrollableBorderTop && classes.scrollableBorderTop,
-                    scrollableBorderBottom && classes.scrollableBorderBottom
+                    menuOverflowY && classes[`menuOverflowY-${menuOverflowY}`]
                   )}
-                  onScroll={this.handleMenuScroll}
                   itemClassName={classes.menuItem}
                   autoFocus={resultIsOpened && !inputFocused}
                   value={
@@ -1164,6 +1167,8 @@ class Select extends PureComponent {
                   onChange={this.changeValue}
                   onMouseDown={this.preventBlurInput}
                   onEscKeyDown={this.closeOnEsc}
+                  onScroll={this.onMenuScroll}
+                  nodeRef={this.onMenuMount}
                   multiple={multiple}
                   size={size}>
                   {children}
