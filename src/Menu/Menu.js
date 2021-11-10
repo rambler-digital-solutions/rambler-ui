@@ -94,7 +94,11 @@ class Menu extends PureComponent {
     /**
      * Размер опций
      */
-    size: PropTypes.oneOf(['small', 'medium'])
+    size: PropTypes.oneOf(['small', 'medium']),
+    /**
+     * Коллбек, вызывающийся при скролле меню
+     */
+    onScroll: PropTypes.func
   }
 
   static defaultProps = {
@@ -310,6 +314,10 @@ class Menu extends PureComponent {
     this.focusIndex = -1
   }
 
+  handleScroll = () => {
+    if (this.props.onScroll) this.props.onScroll(this.menu)
+  }
+
   saveMenuRef = ref => {
     this.menu = ref
   }
@@ -326,6 +334,7 @@ class Menu extends PureComponent {
       valuesEquality,
       disabled,
       size,
+      itemClassName,
       ...props
     } = this.props
     /* eslint-enable no-unused-vars */
@@ -339,6 +348,7 @@ class Menu extends PureComponent {
       maxHeight,
       children,
       classes,
+      onScroll,
       ...other
     } = this.getMenuProps()
 
@@ -350,7 +360,8 @@ class Menu extends PureComponent {
           style={{maxHeight, ...style}}
           className={classnames(classes.menu, className)}
           onKeyDown={this.keyDown}
-          onBlur={this.handleBlur}>
+          onBlur={this.handleBlur}
+          {...(onScroll && {onScroll: this.handleScroll})}>
           {children}
         </div>
       </MenuContext.Provider>

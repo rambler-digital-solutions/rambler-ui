@@ -6,6 +6,7 @@ import React, {
 } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
+import throttle from 'lodash.throttle'
 import Menu from '../Menu/Menu'
 import Input from '../Input'
 import {TagsInput, TagsInputItem} from '../TagsInput'
@@ -23,6 +24,7 @@ import {
 import {withStyles} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
+import {getBoundingClientRect} from '../utils/DOM'
 import ClearIconSmall from './ClearIconSmall'
 
 const isNativeSelectAllowed = ios || android
@@ -222,7 +224,42 @@ const styles = theme => ({
     cursor: 'default'
   },
   menu: {
-    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`
+    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
+    ...(theme.dropdown.borderRadius > 5 && {
+      '&::-webkit-scrollbar-track': {
+        margin: `${theme.dropdown.borderRadius}px 0`
+      },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: 3
+      }
+    }),
+    ...(theme.select.dropdown.borderWidth === 0 && {
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        left: 0,
+        width: '100%',
+        height: '5px',
+        backgroundColor: theme.field.colors.default.background,
+        opacity: 0
+      },
+      '&:before': {
+        top: 0
+      },
+      '&:after': {
+        bottom: 0
+      }
+    })
+  },
+  scrollableBorderTop: {
+    '&:before': {
+      opacity: 1
+    }
+  },
+  scrollableBorderBottom: {
+    '&:after': {
+      opacity: 1
+    }
   },
   menuItem: {
     backgroundColor: theme.field.colors.default.background
@@ -239,32 +276,7 @@ const styles = theme => ({
     }),
     {}
   ),
-  reducedHeight: {
-    ...(theme.select.dropdown.borderWidth === 0 && {
-      '&:before, &:after': {
-        content: '""',
-        position: 'absolute',
-        left: 0,
-        width: '100%',
-        height: '5px',
-        background: theme.field.colors.default.background
-      },
-      '&:before': {
-        top: 0
-      },
-      '&:after': {
-        bottom: 0
-      }
-    }),
-    ...(theme.dropdown.borderRadius > 5 && {
-      '&::-webkit-scrollbar-track': {
-        margin: `${theme.dropdown.borderRadius}px 0`
-      },
-      '&::-webkit-scrollbar-thumb': {
-        borderRadius: 3
-      }
-    })
-  },
+  reducedHeight: {},
   clear: {
     flex: 'none',
     alignSelf: 'center',
@@ -573,7 +585,9 @@ class Select extends PureComponent {
     isOpened: false,
     inputFocused: false,
     searchText: '',
-    value: this.initialValue
+    value: this.initialValue,
+    scrollableBorderTop: false,
+    scrollableBorderBottom: false
   }
 
   get initialValue() {
@@ -633,9 +647,35 @@ class Select extends PureComponent {
     this.setSearchText(event.target.value)
   }
 
+  handleMenuScroll = throttle(menuNode => {
+    const {classes} = this.props
+
+    const items = menuNode.getElementsByClassName(classes.menuItem)
+    const first = items[0]
+    const last = items[items.length - 1]
+
+    const scrolledToTop =
+      getBoundingClientRect(first).top === getBoundingClientRect(menuNode).top
+
+    const scrolledToBottom =
+      getBoundingClientRect(last).bottom ===
+      getBoundingClientRect(menuNode).bottom
+
+    if (scrolledToTop) this.setState({scrollableBorderTop: false})
+    else this.setState({scrollableBorderTop: true})
+
+    if (scrolledToBottom) this.setState({scrollableBorderBottom: false})
+    else this.setState({scrollableBorderBottom: true})
+  })
+
   changeValue = value => {
     const {multiple, inputMode, onChange} = this.props
-    if (!multiple) this.setState({isOpened: false})
+    if (!multiple)
+      this.setState({
+        isOpened: false,
+        scrollableBorderTop: false,
+        scrollableBorderBottom: false
+      })
     if (inputMode) this.setSearchText(value || '')
     const nextState = Select.getValueState(value, this.props, this.state)
     if (nextState) this.setState(nextState)
@@ -656,7 +696,9 @@ class Select extends PureComponent {
     const {inputMode, onBlur} = this.props
     this.setState({
       isOpened: false,
-      inputFocused: false
+      inputFocused: false,
+      scrollableBorderTop: false,
+      scrollableBorderBottom: false
     })
     if (inputMode) this.changeValue(this.state.searchText)
     if (onBlur) onBlur(event)
@@ -681,7 +723,11 @@ class Select extends PureComponent {
 
   close = () => {
     if (!this.state.isOpened) return
-    this.setState({isOpened: false})
+    this.setState({
+      isOpened: false,
+      scrollableBorderTop: false,
+      scrollableBorderBottom: false
+    })
   }
 
   openOnArrowClick = () => {
@@ -720,7 +766,9 @@ class Select extends PureComponent {
     if (!this.state.isOpened) return
     event.stopPropagation()
     this.setState({
-      isOpened: false
+      isOpened: false,
+      scrollableBorderTop: false,
+      scrollableBorderBottom: false
     })
     this.input.focus()
   }
@@ -734,7 +782,9 @@ class Select extends PureComponent {
     if (!isOpened || inputFocused) return
     this.setState({
       isOpened: false,
-      inputFocused: false
+      inputFocused: false,
+      scrollableBorderTop: false,
+      scrollableBorderBottom: false
     })
     if (onBlur) onBlur(event)
   }
@@ -745,7 +795,9 @@ class Select extends PureComponent {
     if (code === ESCAPE) this.closeOnEsc(event)
     else if (code === TAB)
       this.setState({
-        isOpened: false
+        isOpened: false,
+        scrollableBorderTop: false,
+        scrollableBorderBottom: false
       })
     else if (code === UP || code === DOWN) this.openOnArrowKey(event)
     else if (inputMode && code === ENTER)
@@ -947,7 +999,13 @@ class Select extends PureComponent {
   }
 
   renderSelect() {
-    const {value, inputFocused, isOpened} = this.state
+    const {
+      value,
+      inputFocused,
+      isOpened,
+      scrollableBorderTop,
+      scrollableBorderBottom
+    } = this.state
 
     const {
       dropdownStyle,
@@ -1092,8 +1150,11 @@ class Select extends PureComponent {
                     menuClassName,
                     classes.menu,
                     classes[`menuSize-${size}`],
-                    onSearch && multiple && classes.reducedHeight
+                    onSearch && multiple && classes.reducedHeight,
+                    scrollableBorderTop && classes.scrollableBorderTop,
+                    scrollableBorderBottom && classes.scrollableBorderBottom
                   )}
+                  onScroll={this.handleMenuScroll}
                   itemClassName={classes.menuItem}
                   autoFocus={resultIsOpened && !inputFocused}
                   value={
