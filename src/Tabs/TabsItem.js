@@ -2,8 +2,11 @@ import React, {Component, cloneElement, isValidElement} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
-import {isolateMixin} from '../utils/mixins'
+import {isolateMixin, focusSourceMixin} from '../utils/mixins'
+import {subscribeFocusEvents} from '../utils/focus-source'
 import {TabsContext} from './context'
+
+subscribeFocusEvents()
 
 const setThemeForSelector = colors => ({
   borderColor: colors.border,
@@ -32,7 +35,12 @@ const styles = theme => {
       },
       '&&': setThemeForSelector(colors.default),
       '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
-      '&$isEnabled:hover, &$isEnabled:focus': setThemeForSelector(colors.hover),
+      '&$isEnabled:hover': setThemeForSelector(colors.hover),
+      ...focusSourceMixin(
+        'other',
+        '&$isEnabled:focus',
+        setThemeForSelector(colors.hover)
+      ),
       '&$isEnabled:active': setThemeForSelector(colors.active),
       '&$isDisabled': setThemeForSelector(colors.disabled),
       '&$isDisabled$isSelected': setThemeForSelector(colors.disabledSelected)
