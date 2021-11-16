@@ -12,7 +12,7 @@
   },
   {
     "name": "The size of the commonjs library components",
-    "limit": "92 KB",
+    "limit": "108 KB",
     "path": [
       "build/**/*.js",
       "!build/icons/**/*.js",
@@ -23,12 +23,12 @@
   },
   {
     "name": "The size of the commonjs library build with all icons",
-    "limit": "132 KB",
+    "limit": "148 KB",
     "path": "build/index.js"
   },
   {
     "name": "The size of the es library build with all icons",
-    "limit": "122 KB",
+    "limit": "137 KB",
     "path": "build/es/index.js"
   }
 ]

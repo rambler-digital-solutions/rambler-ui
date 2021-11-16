@@ -17,6 +17,7 @@ export interface MenuProps<T>
   onEscKeyDown?: () => void | Promise<void>
   size?: Size
   nodeRef?: Ref<HTMLElement>
+  scrollRef?: Ref<HTMLElement>
 }
 
 export default class Menu<T = any> extends PureComponent<MenuProps<T>, {}> {}
