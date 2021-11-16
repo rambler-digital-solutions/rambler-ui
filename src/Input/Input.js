@@ -516,9 +516,15 @@ const styles = theme => ({
     fontSize: 0,
     color: theme.field.icon.colors.default,
     '$textareaRoot &': {
-      marginTop: theme.input.sizes.medium.padding,
+      marginTop: Math.ceil(
+        (theme.field.sizes.medium.height - theme.field.sizes.medium.icon) / 2
+      ),
       ...ifMobile({
-        marginTop: theme.input.mobile.sizes.medium.padding
+        marginTop: Math.ceil(
+          (theme.field.mobile.sizes.medium.height -
+            theme.field.mobile.sizes.medium.icon) /
+            2
+        )
       })
     }
   },

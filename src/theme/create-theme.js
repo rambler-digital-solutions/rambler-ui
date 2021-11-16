@@ -631,20 +631,20 @@ export default function createTheme(config) {
         sizes: {
           medium: {
             height: 45,
-            withIconPadding: 45,
-            withIconsPadding: 75,
-            iconMargin: 15,
-            icon: 15,
-            eyeIcon: 15,
+            withIconPadding: 40,
+            withIconsPadding: 70,
+            iconMargin: 10,
+            icon: 20,
+            eyeIcon: 20,
             fontSize: 13
           },
           small: {
             height: 35,
-            withIconPadding: 45,
-            withIconsPadding: 75,
-            iconMargin: 15,
-            icon: 15,
-            eyeIcon: 15,
+            withIconPadding: 40,
+            withIconsPadding: 70,
+            iconMargin: 10,
+            icon: 20,
+            eyeIcon: 20,
             fontSize: 13
           }
         },
@@ -657,20 +657,20 @@ export default function createTheme(config) {
           sizes: {
             medium: {
               height: 55,
-              withIconPadding: 60,
-              withIconsPadding: 100,
-              iconMargin: 20,
-              icon: 19,
-              eyeIcon: 19,
+              withIconPadding: 40,
+              withIconsPadding: 70,
+              iconMargin: 10,
+              icon: 20,
+              eyeIcon: 20,
               fontSize: 16
             },
             small: {
               height: 45,
-              withIconPadding: 50,
-              withIconsPadding: 85,
-              iconMargin: 15,
-              icon: 19,
-              eyeIcon: 19,
+              withIconPadding: 40,
+              withIconsPadding: 70,
+              iconMargin: 10,
+              icon: 20,
+              eyeIcon: 20,
               fontSize: 16
             }
           }
@@ -765,7 +765,7 @@ export default function createTheme(config) {
         }
       },
       input: {
-        eyeMargin: 15,
+        eyeMargin: 10,
         sizes: {
           medium: {
             padding: 15
@@ -776,7 +776,7 @@ export default function createTheme(config) {
         },
 
         mobile: {
-          eyeMargin: 20,
+          eyeMargin: 10,
           sizes: {
             medium: {
               padding: 20

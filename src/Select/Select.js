@@ -26,6 +26,7 @@ import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
 import {getBoundingClientRect} from '../utils/DOM'
 import ClearIconSmall from './ClearIconSmall'
+import ChevronDownCompactIcon from '../icons/forms/ChevronDownCompactIcon'
 
 const isNativeSelectAllowed = ios || android
 
@@ -91,17 +92,6 @@ const styles = theme => ({
     lineHeight: 0,
     color: theme.field.colors.default.arrow,
     pointerEvents: 'auto',
-    '&:empty': {
-      '&:after': {
-        height: 8,
-        width: 8,
-        position: 'absolute',
-        borderStyle: 'solid',
-        borderWidth: '0 0 1px 1px',
-        content: '""',
-        transform: 'rotate(-45deg) translateY(50%)'
-      }
-    },
     '& svg': {
       extend: absolutePosition,
       margin: 'auto',
@@ -109,6 +99,12 @@ const styles = theme => ({
       maxHeight: '100%'
     },
     transitionProperty: 'color',
+    transitionDuration: 200
+  },
+  arrowIcon: {
+    position: 'absolute',
+    transform: 'rotate3d(0, 0, 1, 0deg)',
+    transitionProperty: 'transform',
     transitionDuration: 200
   },
   input: {
@@ -291,8 +287,6 @@ const styles = theme => ({
     alignSelf: 'center',
     color: theme.field.icon.colors.default,
     fill: 'currentColor',
-    marginTop: 1,
-    marginLeft: 1,
     cursor: 'pointer',
     pointerEvents: 'auto',
     '&:hover , &:active': {
@@ -340,16 +334,10 @@ const styles = theme => ({
               )
             }),
             borderRadius: theme.field.borderRadius
-          },
-          '&:empty:after': {
-            top: size === 'small' ? -2 : -1,
-            left: size === 'small' ? 1 : 1
           }
         },
-        '&$isOpened $arrow:empty:after': {
-          transform: 'rotate(45deg) translateY(-50%) scaleY(-1)',
-          top: size === 'small' ? 9 : 9,
-          left: size === 'small' ? 1 : 1
+        '&$isOpened $arrowIcon': {
+          transform: 'rotate3d(0, 0, 1, 180deg)'
         },
         '& $custom': {
           paddingRight: theme.input.sizes[size].padding + 1,
@@ -877,25 +865,38 @@ class Select extends PureComponent {
       color, // eslint-disable-line no-unused-vars
       ...otherProps
     } = props
+    const resultIcon =
+      typeof arrowIcon === 'function'
+        ? arrowIcon({isOpened})
+        : arrowIcon || (
+          <ChevronDownCompactIcon
+            className={classes.arrowIcon}
+            size={20}
+            color="currentColor"
+          />
+        )
     return (
       <div
         style={arrowStyle}
         className={classnames(className, classes.arrow, arrowClassName)}
         {...otherProps}>
-        {typeof arrowIcon === 'function' ? arrowIcon({isOpened}) : arrowIcon}
+        {resultIcon}
       </div>
     )
   }
 
-  Clear = () => (
-    <ClearIconSmall
-      className={this.props.classes.clear}
-      size={15}
-      color="currentColor"
-      onMouseDown={this.preventBlurInput}
-      onClick={this.onClear}
-    />
-  )
+  Clear = () => {
+    const {classes} = this.props
+    return (
+      <ClearIconSmall
+        className={classes.clear}
+        size={20}
+        color="currentColor"
+        onMouseDown={this.preventBlurInput}
+        onClick={this.onClear}
+      />
+    )
+  }
 
   renderSelectedItems() {
     const {props} = this
