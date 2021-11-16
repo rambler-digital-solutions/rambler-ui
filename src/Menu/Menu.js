@@ -21,7 +21,8 @@ const styles = theme => ({
   },
   scrollbar: {
     width: '100% !important',
-    borderRadius: theme.menu.borderRadius
+    borderRadius: theme.menu.borderRadius,
+    transform: 'translate3d(0, 0, 0)'
   },
   content: {
     display: 'block !important'

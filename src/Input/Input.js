@@ -20,7 +20,7 @@ const activeBorder = borderColor => ({
 const inputColors = (background, hoverBackground, borderColor) => ({
   background,
   borderColor,
-  '&:hover': {
+  '&:enabled:hover, $icon:hover ~ &:enabled': {
     background: hoverBackground
   },
   '&:focus': {
@@ -87,7 +87,9 @@ const styles = theme => ({
         background: 'transparent'
       }
     },
-    '&:enabled:hover': {borderColor: theme.field.colors.hover.outline},
+    '&:enabled:hover, $icon:hover ~ &:enabled': {
+      borderColor: theme.field.colors.hover.outline
+    },
     '&:disabled': {
       background: theme.field.colors.disabled.background,
       color: theme.field.colors.disabled.text,
@@ -916,17 +918,17 @@ class Input extends PureComponent {
             iconLeft,
             classnames(iconLeftClassName, classes.iconLeft)
           )}
-        {inputElement}
-        <div
-          className={classnames(activeBorderClassName, classes.activeBorder)}
-        />
-        {this.renderPlaceholder()}
         {this.iconRight &&
           this.renderIcon(
             this.iconRight,
             classnames(iconRightClassName, classes.iconRight)
           )}
         {this.renderPasswordIcon()}
+        {inputElement}
+        <div
+          className={classnames(activeBorderClassName, classes.activeBorder)}
+        />
+        {this.renderPlaceholder()}
         {characterCounter && this.renderCharacterCounter()}
       </div>
     )

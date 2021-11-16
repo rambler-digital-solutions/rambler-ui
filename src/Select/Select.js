@@ -83,7 +83,8 @@ const styles = theme => ({
       bottom: 'auto',
       margin: 0,
       transform: 'translateY(-50%)'
-    }
+    },
+    zIndex: 1
   },
   arrow: {
     cursor: 'pointer',
@@ -153,6 +154,11 @@ const styles = theme => ({
         transitionDuration: 200
       }),
       ...placeholderMixin('&:hover', {
+        color: theme.select.colors.hover.placeholder
+      })
+    },
+    '$isEnabled$isReadonly $icon:hover ~ &, $isEnabled:not($isFocused) $icon:hover ~ &': {
+      ...placeholderMixin('&', {
         color: theme.select.colors.hover.placeholder
       })
     }
@@ -229,7 +235,8 @@ const styles = theme => ({
         width: '100%',
         height: Math.max(5, theme.dropdown.borderRadius),
         opacity: 0,
-        pointerEvents: 'none'
+        pointerEvents: 'none',
+        zIndex: 1
       },
       '&:before': {
         top: 0,
