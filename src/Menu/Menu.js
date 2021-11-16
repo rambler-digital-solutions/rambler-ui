@@ -2,6 +2,7 @@ import React, {PureComponent} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import EventEmitter from 'eventemitter3'
+import {Scrollbar} from 'react-scrollbars-custom'
 import {ESCAPE, UP, DOWN, TAB} from '../constants/keys'
 import {withStyles} from '../theme'
 import {getBoundingClientRect} from '../utils/DOM'
@@ -16,24 +17,34 @@ const styles = theme => ({
     fontFamily: theme.fontFamily,
     boxSizing: 'border-box',
     padding: 0,
-    overflowY: 'auto',
-    '&&': {},
-    '& > *': {},
-    '&::-webkit-scrollbar': {
-      width: 4,
-      backgroundColor: 'transparent'
-    },
-    '&::-webkit-scrollbar-track': {
-      '-webkit-box-shadow': 'none'
-    },
-    '&::-webkit-scrollbar-thumb': {
-      background: '#dcdfe7',
-      borderRadius: 0
-    },
-    '&::-webkit-scrollbar-track-piece': {},
-    '&::-webkit-scrollbar-button': {},
-    '&::-webkit-scrollbar-corner': {},
-    '&::-webkit-resizer': {}
+    borderRadius: theme.menu.borderRadius
+  },
+  scrollbar: {
+    width: '100% !important',
+    borderRadius: theme.menu.borderRadius
+  },
+  content: {
+    display: 'block !important'
+  },
+  scrollbarTrack: {
+    width: '6px !important',
+    right: `${theme.menu.scrollMargin}px !important`,
+    top: `${Math.max(
+      theme.menu.scrollMargin,
+      theme.menu.borderRadius - 5
+    )}px !important`,
+    height: `calc(100% - ${2 *
+      Math.max(
+        theme.menu.scrollMargin,
+        theme.menu.borderRadius - 5
+      )}px) !important`,
+    borderRadius: `${theme.menu.borderRadius}px !important`,
+    backgroundColor: 'transparent !important'
+  },
+  scrollbarThumb: {
+    width: '6px !important',
+    borderRadius: `${theme.menu.borderRadius}px !important`,
+    backgroundColor: `${theme.menu.colors.default.thumb} !important`
   }
 })
 
@@ -98,7 +109,11 @@ class Menu extends PureComponent {
     /**
      * Коллбэк для передачи ссылки на ноду элемента кнопки
      */
-    nodeRef: PropTypes.func
+    nodeRef: PropTypes.func,
+    /**
+     * Коллбэк для передачи ссылки на инстанс скролла
+     */
+    scrollRef: PropTypes.func
   }
 
   static defaultProps = {
@@ -332,6 +347,7 @@ class Menu extends PureComponent {
       disabled,
       size,
       itemClassName,
+      nodeRef,
       ...props
     } = this.props
     /* eslint-enable no-unused-vars */
@@ -345,20 +361,28 @@ class Menu extends PureComponent {
       maxHeight,
       children,
       classes,
+      scrollRef,
       ...other
     } = this.getMenuProps()
 
     return (
       <MenuContext.Provider value={this.contextValue}>
-        <div
+        <Scrollbar
           {...other}
-          ref={this.saveMenuRef}
+          ref={scrollRef}
+          elementRef={this.saveMenuRef}
           style={{maxHeight, ...style}}
           className={classnames(classes.menu, className)}
           onKeyDown={this.keyDown}
-          onBlur={this.handleBlur}>
+          onBlur={this.handleBlur}
+          translateContentSizeYToHolder
+          removeTracksWhenNotUsed
+          contentProps={{className: classes.content}}
+          wrapperProps={{className: classes.scrollbar}}
+          trackYProps={{className: classes.scrollbarTrack}}
+          thumbYProps={{className: classes.scrollbarThumb}}>
           {children}
-        </div>
+        </Scrollbar>
       </MenuContext.Provider>
     )
   }

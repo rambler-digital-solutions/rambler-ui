@@ -24,7 +24,6 @@ import {
 import {withStyles} from '../theme'
 import {isolateMixin, placeholderMixin, ifMobile} from '../utils/mixins'
 import {ios, android} from '../utils/browser'
-import {getBoundingClientRect} from '../utils/DOM'
 import ClearIconSmall from './ClearIconSmall'
 import ChevronDownCompactIcon from '../icons/forms/ChevronDownCompactIcon'
 
@@ -221,14 +220,7 @@ const styles = theme => ({
   },
   menu: {
     borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
-    ...(theme.dropdown.borderRadius > 2 && {
-      '&::-webkit-scrollbar-track': {
-        margin: `${theme.dropdown.borderRadius}px 0`
-      },
-      '&::-webkit-scrollbar-thumb': {
-        borderRadius: 3
-      }
-    }),
+    boxSizing: 'content-box',
     ...(theme.select.dropdown.borderWidth === 0 && {
       '&:before, &:after': {
         content: '""',
@@ -643,13 +635,10 @@ class Select extends PureComponent {
     this.setSearchText(event.target.value)
   }
 
-  setMenuOverflow(menuNode) {
-    const menuRect = getBoundingClientRect(menuNode)
-
-    const overflowedTop =
-      getBoundingClientRect(menuNode.firstChild).top < menuRect.top
-    const overflowedBottom =
-      getBoundingClientRect(menuNode.lastChild).bottom > menuRect.bottom
+  setMenuOverflow = event => {
+    const {scrollTop, scrollHeight, clientHeight} = event
+    const overflowedTop = scrollTop > 0
+    const overflowedBottom = scrollTop < scrollHeight - clientHeight
 
     const menuOverflowY =
       overflowedTop && overflowedBottom
@@ -665,13 +654,15 @@ class Select extends PureComponent {
     })
   }
 
-  onMenuMount = menuNode => {
-    if (menuNode) this.setMenuOverflow(menuNode)
+  onMenuScrollMount = scroll => {
+    this.menuScroll = scroll
   }
 
-  onMenuScroll = throttle(event => {
-    this.setMenuOverflow(event.target)
-  })
+  onMenuScroll = throttle(this.setMenuOverflow)
+
+  onDropdownOpen = () => {
+    if (this.menuScroll) this.setMenuOverflow(this.menuScroll.getScrollState())
+  }
 
   changeValue = value => {
     const {multiple, inputMode, onChange} = this.props
@@ -1134,6 +1125,7 @@ class Select extends PureComponent {
               contentPointY="top"
               closeOnClickOutside={false}
               cachePositionOptions={false}
+              onOpen={this.onDropdownOpen}
               onClose={this.handleDropdownClose}>
               {multipleWithValue && onSearch && (
                 <TagsInput
@@ -1169,7 +1161,7 @@ class Select extends PureComponent {
                   onMouseDown={this.preventBlurInput}
                   onEscKeyDown={this.closeOnEsc}
                   onScroll={this.onMenuScroll}
-                  nodeRef={this.onMenuMount}
+                  scrollRef={this.onMenuScrollMount}
                   multiple={multiple}
                   size={size}>
                   {children}

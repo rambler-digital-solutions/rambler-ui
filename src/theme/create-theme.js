@@ -815,6 +815,8 @@ export default function createTheme(config) {
         fontWeight: 400,
         selectedFontWeight: 400,
         lineHeight: 19,
+        scrollMargin: 0,
+        borderRadius: 0,
         sizes: {
           medium: {
             height: 45
@@ -826,7 +828,8 @@ export default function createTheme(config) {
         colors: {
           default: {
             text: colors.dark,
-            background: colors.light
+            background: colors.light,
+            thumb: '#dcdfe7'
           },
           hover: {
             text: colors.primary,

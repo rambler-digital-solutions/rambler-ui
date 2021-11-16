@@ -45,7 +45,8 @@
     "jss-preset-default": "^10.0.4",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
-    "react-jss": "^10.0.4"
+    "react-jss": "^10.0.4",
+    "react-scrollbars-custom": "^4.0.27"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
