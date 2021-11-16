@@ -21,7 +21,9 @@ describe('<Menu />', () => {
 
     const wrapperNode = getWrapperNode(wrapper)
 
-    expect(wrapperNode.children.length).toEqual(2)
+    expect(
+      wrapperNode.firstChild.firstChild.firstChild.children.length
+    ).toEqual(2)
     expect(wrapperNode.querySelector('.foo').textContent).toEqual('foo')
     expect(wrapperNode.querySelector('.bar').textContent).toEqual('baz')
 
@@ -31,7 +33,6 @@ describe('<Menu />', () => {
     expect(menuStyles['padding-left']).toEqual('0px')
     expect(menuStyles['padding-right']).toEqual('0px')
     expect(menuStyles['padding-bottom']).toEqual('0px')
-    expect(menuStyles['overflow-y']).toEqual('auto')
 
     const item = wrapper.find(MenuItem).first()
     const itemStyles = getStyles(item)
@@ -217,12 +218,14 @@ describe('<Menu />', () => {
       )
     )
 
-    const menu = getWrapperNode(wrapper)
-    expect(menu.children[0].textContent).toEqual('foo')
-    expect(menu.children[1].textContent).toEqual('baz')
-    expect(menu.children[0].tagName).toEqual('SPAN')
-    expect(menu.children[1].tagName).toEqual('A')
-    expect(menu.children[0].dataset.test).toEqual('test')
-    expect(menu.children[1].dataset.test.includes('isSelected')).toBeTruthy()
+    const menuContent = getWrapperNode(wrapper).firstChild.firstChild.firstChild
+    expect(menuContent.children[0].textContent).toEqual('foo')
+    expect(menuContent.children[1].textContent).toEqual('baz')
+    expect(menuContent.children[0].tagName).toEqual('SPAN')
+    expect(menuContent.children[1].tagName).toEqual('A')
+    expect(menuContent.children[0].dataset.test).toEqual('test')
+    expect(
+      menuContent.children[1].dataset.test.includes('isSelected')
+    ).toBeTruthy()
   })
 })
