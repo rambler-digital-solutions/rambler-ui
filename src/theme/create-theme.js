@@ -832,16 +832,16 @@ export default function createTheme(config) {
             text: colors.primary,
             background: lighten(colors.controls.grey.outline, 0.95)
           },
+          focus: {
+            text: colors.primary,
+            background: lighten(colors.controls.grey.outline, 0.95)
+          },
           active: {
             text: darken(colors.primary, 0.2),
             background: lighten(colors.controls.grey.outline, 0.9)
           },
-          focus: {
-            text: colors.dark,
-            background: lighten(colors.controls.grey.outline, 0.95)
-          },
           selected: {
-            text: lighten(colors.controls.grey.outline, 0.5)
+            text: colors.primary
           },
           disabled: {
             text: lighten(colors.controls.grey.outline, 0.5)
