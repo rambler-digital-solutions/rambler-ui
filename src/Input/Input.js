@@ -20,7 +20,10 @@ const activeBorder = borderColor => ({
 const inputColors = (background, hoverBackground, borderColor) => ({
   background,
   borderColor,
-  '&:enabled:hover, $icon:hover ~ &:enabled': {
+  '&:enabled:hover': {
+    background: hoverBackground
+  },
+  '$icon:hover ~ &:enabled': {
     background: hoverBackground
   },
   '&:focus': {
