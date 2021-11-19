@@ -5,6 +5,7 @@ export interface FieldStatusProps
   extends Omit<HTMLProps<HTMLDivElement>, 'ref'> {
   type?: Exclude<StatusType, 'filled'>
   message?: ReactNode
+  containerClassName?: string
   className?: string
   containerRef?: Ref<HTMLElement>
   ref?: Ref<FieldStatus>
