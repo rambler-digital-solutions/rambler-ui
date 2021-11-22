@@ -56,7 +56,7 @@ class FieldStatus extends PureComponent {
     /**
      * Дополнительный класс для контейнера
      */
-    containerClassName: PropTypes.string,
+    rootClassName: PropTypes.string,
     /**
      * Дополнительный класс для элемента сообщения
      */
@@ -74,22 +74,19 @@ class FieldStatus extends PureComponent {
       classes,
       message,
       children,
-      containerClassName,
+      rootClassName,
       className,
       containerRef,
       ...otherProps
     } = this.props
 
-    const rootClassName = classnames(
-      message && classes[type],
-      containerClassName
-    )
-    const messageClassName = classnames(classes.message, className)
+    const resultClassName = classnames(message && classes[type], rootClassName)
+    const messageResultClassName = classnames(classes.message, className)
 
     return (
-      <div className={rootClassName} {...otherProps} ref={containerRef}>
+      <div className={resultClassName} {...otherProps} ref={containerRef}>
         {children}
-        {message && <div className={messageClassName}>{message}</div>}
+        {message && <div className={messageResultClassName}>{message}</div>}
       </div>
     )
   }
