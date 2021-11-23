@@ -69,6 +69,10 @@ class Avatar extends PureComponent {
      */
     src: PropTypes.string.isRequired,
     /**
+     * Фолбек URL картинки
+     */
+    fallbackSrc: PropTypes.string,
+    /**
      * Размер аватарки
      */
     size: PropTypes.number,
@@ -105,6 +109,37 @@ class Avatar extends PureComponent {
     shape: 'circle'
   }
 
+  loader = new Image()
+
+  state = {
+    error: false
+  }
+
+  componentDidMount() {
+    this.loadImage()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.src !== this.props.src) this.loadImage()
+  }
+
+  componentWillUnmount() {
+    this.loader.removeEventListener('error', this.onImageError)
+  }
+
+  loadImage() {
+    const {src, fallbackSrc} = this.props
+    if (fallbackSrc) {
+      this.setState({error: false})
+      this.loader.addEventListener('error', this.onImageError)
+      this.loader.src = src
+    }
+  }
+
+  onImageError = () => {
+    this.setState({error: true})
+  }
+
   render() {
     const {
       className,
@@ -112,6 +147,7 @@ class Avatar extends PureComponent {
       backgroundColor,
       iconBackgroundColor,
       src,
+      fallbackSrc,
       size,
       shape,
       profileType,
@@ -123,8 +159,9 @@ class Avatar extends PureComponent {
 
     const ProfileIcon = profileType && profileIcons[profileType]
     const [profileSize, roundSize, borderWidth] = chooseProfileSize(size)
-
     const profileSizePx = profileSize + 'px'
+    const imageUrl = (this.state.error && fallbackSrc) || src
+
     const children = ProfileIcon && (
       <div
         className={classes.profile}
@@ -148,7 +185,7 @@ class Avatar extends PureComponent {
           backgroundColor,
           width: size,
           height: size,
-          backgroundImage: `url(${src})`
+          backgroundImage: `url(${imageUrl})`
         },
         className: classnames(classes.avatar, classes[shape], className)
       },
