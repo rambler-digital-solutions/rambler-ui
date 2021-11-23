@@ -19,6 +19,7 @@ export interface AvatarProps<E> extends Omit<HTMLProps<E>, 'ref'> {
   backgroundColor?: string
   iconBackgroundColor?: string
   src: string
+  fallbackSrc?: string
   size?: number
   shape?: AvatarShape
   profileType?: ProfileType
