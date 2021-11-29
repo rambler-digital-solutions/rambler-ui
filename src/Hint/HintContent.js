@@ -32,7 +32,7 @@ const styles = theme => ({
   },
   mobile: {
     width: '100%',
-    maxWidth: 480,
+    maxWidth: theme.hint.maxWidth,
     padding: `${theme.hint.mobile.verticalPadding}px ${theme.hint.mobile.horizontalPadding}px`,
     fontSize: 14
   },

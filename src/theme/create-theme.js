@@ -552,6 +552,7 @@ export default function createTheme(config) {
         fontWeight: 400,
         lineHeight: 1.54,
         arrowSize: 5,
+        maxWidth: 480,
         colors: {
           background: colors.light,
           text: colors.dark
