@@ -389,7 +389,11 @@ const styles = theme => ({
   error: {},
   warning: {},
   isFocused: {},
-  isOpened: {},
+  isOpened: {
+    '& $field': {
+      backgroundColor: theme.field.colors.default.background
+    }
+  },
   isReadonly: {},
   isEnabled: {},
   isDisabled: {},
