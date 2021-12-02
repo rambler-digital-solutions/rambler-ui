@@ -6,6 +6,7 @@ import Loader from 'rambler-ui/Loader'
 import Select from 'rambler-ui/Select'
 import {MenuItem} from 'rambler-ui/Menu'
 import PhoneIcon from 'rambler-ui/icons/forms/PhoneIcon'
+import SearchIcon from 'rambler-ui/icons/forms/SearchIcon'
 import EllipsisIcon from 'rambler-ui/icons/forms/EllipsisIcon'
 
 const data = [...Array(5)].map((item, i) => `Foo${i}`)
@@ -200,6 +201,7 @@ export default class SelectExample extends Component {
             placeholder="Type something..."
             lightPlaceholderColor={true}
             value={this.state.value1}
+            rightIcon={<SearchIcon />}
             onChange={this.setValue('value1')}
             onSearch={this.filterData}>
             {this.state.data.map(item => (

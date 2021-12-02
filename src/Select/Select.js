@@ -497,6 +497,10 @@ class Select extends PureComponent {
      */
     icon: PropTypes.node,
     /**
+     * Правая иконка (показывается вместо arrowIcon и clearIcon)
+     */
+    rightIcon: PropTypes.node,
+    /**
      * Иконка стрелки
      */
     arrowIcon: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
@@ -562,11 +566,7 @@ class Select extends PureComponent {
      * При использовании `onSearch` - не применяется.
      * `<MenuItem>` в качестве `children` должен принимать элемент типа `String`
      */
-    native: PropTypes.bool,
-    /**
-     * Правая иконка (перетирает arrowIcon и clearIcon)
-     */
-    rightIcon: PropTypes.node
+    native: PropTypes.bool
   }
 
   static defaultProps = {
@@ -940,7 +940,7 @@ class Select extends PureComponent {
       customElementRenderer,
       inputMode,
       lightPlaceholderColor,
-      rightIcon: rightIconFromProps
+      rightIcon
     } = this.props
 
     const focusedInput = inputFocused || isOpened
@@ -980,8 +980,8 @@ class Select extends PureComponent {
         (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
         (multiple && (isOpened || !Array.isArray(value) || value.length === 0)))
 
-    const rightIcon =
-      rightIconFromProps ||
+    const resultRightIcon =
+      rightIcon ||
       (this.showClearIcon
         ? createElement(this.Clear)
         : this.showArrow &&
@@ -997,7 +997,7 @@ class Select extends PureComponent {
         inputStyle={style}
         className={classes.input}
         iconLeft={icon}
-        iconRight={rightIcon}
+        iconRight={resultRightIcon}
         iconRightClassName={classes.icon}
         activeBorderClassName={classes.inputBorder}
         onKeyDown={this.keyDown}
