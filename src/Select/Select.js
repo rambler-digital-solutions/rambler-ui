@@ -562,7 +562,11 @@ class Select extends PureComponent {
      * При использовании `onSearch` - не применяется.
      * `<MenuItem>` в качестве `children` должен принимать элемент типа `String`
      */
-    native: PropTypes.bool
+    native: PropTypes.bool,
+    /**
+     * Правая иконка (перетирает arrowIcon и clearIcon)
+     */
+    rightIcon: PropTypes.node
   }
 
   static defaultProps = {
@@ -852,6 +856,7 @@ class Select extends PureComponent {
       clearIcon,
       inputMode,
       lightPlaceholderColor,
+      rightIcon,
       /* eslint-enable no-unused-vars */
       ...props
     } = this.props
@@ -934,7 +939,8 @@ class Select extends PureComponent {
       inputValueRenderer,
       customElementRenderer,
       inputMode,
-      lightPlaceholderColor
+      lightPlaceholderColor,
+      rightIcon: rightIconFromProps
     } = this.props
 
     const focusedInput = inputFocused || isOpened
@@ -974,14 +980,16 @@ class Select extends PureComponent {
         (customElementRenderer && (isOpened || this.isValueEmpty(value))) ||
         (multiple && (isOpened || !Array.isArray(value) || value.length === 0)))
 
-    const rightIcon = this.showClearIcon
-      ? createElement(this.Clear)
-      : this.showArrow &&
-        createElement(this.Arrow, {
-          role: 'button',
-          onMouseDown: this.preventBlurInput,
-          onClick: this.openOnArrowClick
-        })
+    const rightIcon =
+      rightIconFromProps ||
+      (this.showClearIcon
+        ? createElement(this.Clear)
+        : this.showArrow &&
+          createElement(this.Arrow, {
+            role: 'button',
+            onMouseDown: this.preventBlurInput,
+            onClick: this.openOnArrowClick
+          }))
 
     return (
       <Input
