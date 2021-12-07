@@ -321,7 +321,8 @@ export default function createTheme(config) {
         },
         animationDuration: 200,
         borderRadius: 1,
-        fontSize: 13
+        fontSize: 13,
+        fontWeight: 400
       },
       switcher: {
         colors: {

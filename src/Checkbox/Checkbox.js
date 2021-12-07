@@ -116,7 +116,7 @@ const styles = theme => {
     },
     label: {
       fontSize: checkboxTheme.fontSize,
-      fontWeight: 'normal',
+      fontWeight: checkboxTheme.fontWeight,
       display: 'inline-block'
     },
     tick: {
