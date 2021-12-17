@@ -61,11 +61,11 @@ const styles = theme => ({
     '$textareaRoot &': {
       resize: 'vertical',
       height: '100%',
-      paddingTop: theme.textarea.verticalPadding,
-      paddingBottom: theme.textarea.verticalPadding,
+      paddingTop: theme.input.verticalPadding,
+      paddingBottom: theme.input.verticalPadding,
       ...ifMobile({
-        paddingTop: theme.textarea.mobile.verticalPadding,
-        paddingBottom: theme.textarea.mobile.verticalPadding
+        paddingTop: theme.input.mobile.verticalPadding,
+        paddingBottom: theme.input.mobile.verticalPadding
       })
     },
     '&::-ms-reveal, &::-ms-clear': {
