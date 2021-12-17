@@ -154,6 +154,7 @@ const styles = theme => ({
       borderWidth: 1
     }
   },
+  withCounter: {},
   regular: {
     composes: ['$withOutline'],
     '& $activeBorder': {
@@ -363,6 +364,12 @@ const styles = theme => ({
             right:
               theme.field.mobile.sizes[size].withIconPadding -
               theme.input.mobile.sizes[size].padding
+          })
+        },
+        '&$withCounter $input': {
+          paddingRight: theme.field.sizes[size].withIconPadding - 1,
+          ...ifMobile({
+            paddingRight: theme.field.mobile.sizes[size].withIconPadding - 1
           })
         },
         '&$regular $iconLeft, &$awesome $iconLeft': {
@@ -893,7 +900,8 @@ class Input extends PureComponent {
       this.iconRight && classes.withRightIcon,
       type === 'password' && classes.withEye,
       groupPosition && classes[`${groupPosition}Position`],
-      groupPosition && classes.inGroup
+      groupPosition && classes.inGroup,
+      characterCounter && classes.withCounter
     )
 
     const inputElement = createElement(tag, {
