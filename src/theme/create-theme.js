@@ -807,6 +807,12 @@ export default function createTheme(config) {
           marginLeft: 0
         }
       },
+      textarea: {
+        verticalPadding: 15,
+        mobile: {
+          verticalPadding: 20
+        }
+      },
       loader: {
         animationDuration: 200,
         color: colors.light
