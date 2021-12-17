@@ -768,6 +768,7 @@ export default function createTheme(config) {
       },
       input: {
         eyeMargin: 10,
+        verticalPadding: 15,
         sizes: {
           medium: {
             padding: 15
@@ -778,6 +779,7 @@ export default function createTheme(config) {
         },
 
         mobile: {
+          verticalPadding: 20,
           eyeMargin: 10,
           sizes: {
             medium: {
@@ -791,7 +793,9 @@ export default function createTheme(config) {
         counter: {
           fontSize: 11,
           fontWeight: 400,
-          color: '#b0b4c2'
+          colors: {
+            default: '#b0b4c2'
+          }
         }
       },
       inputStatus: {
@@ -810,12 +814,6 @@ export default function createTheme(config) {
         mobile: {
           marginTop: 5,
           marginLeft: 0
-        }
-      },
-      textarea: {
-        verticalPadding: 15,
-        mobile: {
-          verticalPadding: 20
         }
       },
       loader: {

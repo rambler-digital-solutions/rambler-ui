@@ -484,7 +484,7 @@ const styles = theme => ({
     margin: 'auto',
     fontSize: theme.input.counter.fontSize,
     fontWeight: theme.input.counter.fontWeight,
-    color: theme.input.counter.color,
+    color: theme.input.counter.colors.default,
     '$textareaRoot &': {
       top: 'auto',
       bottom: 10,
