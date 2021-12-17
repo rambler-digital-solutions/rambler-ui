@@ -787,6 +787,11 @@ export default function createTheme(config) {
               padding: 15
             }
           }
+        },
+        counter: {
+          fontSize: 11,
+          fontWeight: 400,
+          color: '#b0b4c2'
         }
       },
       inputStatus: {
