@@ -1193,6 +1193,7 @@ export default function createTheme(config) {
       stepper: {
         fontSize: 13,
         fontFamily: fontFamilies.Roboto,
+        fontWeight: 400,
         badge: {
           fontSize: 13,
           size: 35
