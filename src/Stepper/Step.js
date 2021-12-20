@@ -12,6 +12,7 @@ const styles = theme => ({
     extend: isolateMixin,
     fontFamily: theme.stepper.fontFamily,
     fontSize: theme.stepper.fontSize,
+    fontWeight: theme.stepper.fontWeight,
     display: 'flex',
     alignItems: 'center',
     padding: '10px 0',
@@ -39,7 +40,8 @@ const styles = theme => ({
     fontSize: theme.stepper.badge.fontSize,
     backgroundColor: theme.stepper.colors.default.badge.background,
     border: `1px solid ${theme.stepper.colors.default.badge.border}`,
-    color: theme.stepper.colors.default.badge.color
+    color: theme.stepper.colors.default.badge.color,
+    fontWeight: theme.stepper.fontWeight
   },
   active: {
     color: theme.stepper.colors.active.color,
