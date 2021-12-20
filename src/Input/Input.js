@@ -61,11 +61,11 @@ const styles = theme => ({
     '$textareaRoot &': {
       resize: 'vertical',
       height: '100%',
-      paddingTop: theme.input.sizes.medium.padding,
-      paddingBottom: theme.input.sizes.medium.padding,
+      paddingTop: theme.input.verticalPadding,
+      paddingBottom: theme.input.verticalPadding,
       ...ifMobile({
-        paddingTop: theme.input.mobile.sizes.medium.padding,
-        paddingBottom: theme.input.mobile.sizes.medium.padding
+        paddingTop: theme.input.mobile.verticalPadding,
+        paddingBottom: theme.input.mobile.verticalPadding
       })
     },
     '&::-ms-reveal, &::-ms-clear': {
@@ -154,6 +154,7 @@ const styles = theme => ({
       borderWidth: 1
     }
   },
+  withCounter: {},
   regular: {
     composes: ['$withOutline'],
     '& $activeBorder': {
@@ -365,6 +366,12 @@ const styles = theme => ({
               theme.input.mobile.sizes[size].padding
           })
         },
+        '&$withCounter $input': {
+          paddingRight: theme.field.sizes[size].withIconPadding - 1,
+          ...ifMobile({
+            paddingRight: theme.field.mobile.sizes[size].withIconPadding - 1
+          })
+        },
         '&$regular $iconLeft, &$awesome $iconLeft': {
           left: theme.field.sizes[size].iconMargin,
           ...ifMobile({
@@ -475,8 +482,9 @@ const styles = theme => ({
     bottom: 0,
     right: 15,
     margin: 'auto',
-    fontSize: 11,
-    color: '#b0b4c2',
+    fontSize: theme.input.counter.fontSize,
+    fontWeight: theme.input.counter.fontWeight,
+    color: theme.input.counter.colors.default,
     '$textareaRoot &': {
       top: 'auto',
       bottom: 10,
@@ -893,7 +901,8 @@ class Input extends PureComponent {
       this.iconRight && classes.withRightIcon,
       type === 'password' && classes.withEye,
       groupPosition && classes[`${groupPosition}Position`],
-      groupPosition && classes.inGroup
+      groupPosition && classes.inGroup,
+      characterCounter && classes.withCounter
     )
 
     const inputElement = createElement(tag, {

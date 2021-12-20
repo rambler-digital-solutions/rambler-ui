@@ -768,6 +768,7 @@ export default function createTheme(config) {
       },
       input: {
         eyeMargin: 10,
+        verticalPadding: 15,
         sizes: {
           medium: {
             padding: 15
@@ -778,6 +779,7 @@ export default function createTheme(config) {
         },
 
         mobile: {
+          verticalPadding: 20,
           eyeMargin: 10,
           sizes: {
             medium: {
@@ -786,6 +788,13 @@ export default function createTheme(config) {
             small: {
               padding: 15
             }
+          }
+        },
+        counter: {
+          fontSize: 11,
+          fontWeight: 400,
+          colors: {
+            default: '#b0b4c2'
           }
         }
       },
