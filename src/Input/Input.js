@@ -60,13 +60,7 @@ const styles = theme => ({
     ),
     '$textareaRoot &': {
       resize: 'vertical',
-      height: '100%',
-      paddingTop: theme.input.verticalPadding,
-      paddingBottom: theme.input.verticalPadding,
-      ...ifMobile({
-        paddingTop: theme.input.mobile.verticalPadding,
-        paddingBottom: theme.input.mobile.verticalPadding
-      })
+      height: '100%'
     },
     '&::-ms-reveal, &::-ms-clear': {
       display: 'none'
@@ -204,6 +198,14 @@ const styles = theme => ({
         },
         '& $characterCounter': {
           lineHeight: theme.field.sizes[size].height + 'px'
+        },
+        '&$textareaRoot $input': {
+          paddingTop: theme.input.sizes[size].verticalPadding,
+          paddingBottom: theme.input.sizes[size].verticalPadding,
+          ...ifMobile({
+            paddingTop: theme.input.mobile.sizes[size].verticalPadding,
+            paddingBottom: theme.input.mobile.sizes[size].verticalPadding
+          })
         },
         ...['& $icon', '& $input::-webkit-calendar-picker-indicator'].reduce(
           (result, selector) => ({

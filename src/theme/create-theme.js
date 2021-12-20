@@ -768,25 +768,27 @@ export default function createTheme(config) {
       },
       input: {
         eyeMargin: 10,
-        verticalPadding: 15,
         sizes: {
           medium: {
-            padding: 15
+            padding: 15,
+            verticalPadding: 15
           },
           small: {
-            padding: 15
+            padding: 15,
+            verticalPadding: 15
           }
         },
 
         mobile: {
-          verticalPadding: 20,
           eyeMargin: 10,
           sizes: {
             medium: {
-              padding: 20
+              padding: 20,
+              verticalPadding: 20
             },
             small: {
-              padding: 15
+              padding: 15,
+              verticalPadding: 15
             }
           }
         },
