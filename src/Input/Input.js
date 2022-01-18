@@ -23,7 +23,7 @@ const inputColors = (background, hoverBackground, borderColor) => ({
   '&:enabled:hover': {
     background: hoverBackground
   },
-  '$icon:hover ~ &:enabled': {
+  '$icon:hover ~ &': {
     background: hoverBackground
   },
   '&:focus': {
@@ -561,6 +561,11 @@ const styles = theme => ({
     },
     '$promo &': {
       right: 0
+    },
+    '$isDisabled &': {
+      cursor: 'not-allowed',
+      color: theme.field.colors.disabled.text,
+      pointerEvents: 'none'
     }
   },
   withLeftIcon: {},
