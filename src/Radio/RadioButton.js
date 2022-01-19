@@ -21,6 +21,7 @@ const styles = theme => ({
     extend: isolateMixin,
     fontFamily: theme.fontFamily,
     fontSize: theme.radio.fontSize,
+    fontWeight: theme.radio.fontWeight,
     display: 'flex',
     width: '100%',
     cursor: 'pointer',
@@ -140,6 +141,21 @@ const styles = theme => ({
       background: 'currentColor',
       borderRadius: '50%'
     },
+    '&:before': {
+      content: '""',
+      display: 'block',
+      position: 'absolute',
+      width: theme.radio.sizes.size + theme.radio.outline.width,
+      height: theme.radio.sizes.size + theme.radio.outline.width,
+      borderRadius: '50%',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      border: `solid ${theme.radio.outline.color}`,
+      borderWidth: 0,
+      transitionDuration: 'inherit',
+      transitionProperty: 'border-width'
+    },
     '$isChecked &:after': {
       transform: 'scale(1, 1)',
       opacity: 1
@@ -149,6 +165,9 @@ const styles = theme => ({
     },
     '$labelleft &': {
       marginLeft: theme.radio.sizes.labelMargin
+    },
+    '$isEnabled:active &:before': {
+      borderWidth: theme.radio.outline.width
     }
   },
   label: {

@@ -958,9 +958,14 @@ export default function createTheme(config) {
           labelMargin: 10
         },
         fontSize: 13,
+        fontWeight: 400,
         lineHeight: 20,
         marginBottom: 15,
-        animationDuration: 200
+        animationDuration: 200,
+        outline: {
+          width: 5,
+          color: '#eff5ff'
+        }
       },
       toggle: {
         animationDuration: 200,

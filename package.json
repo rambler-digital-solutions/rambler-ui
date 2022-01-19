@@ -45,6 +45,7 @@
     "jss-preset-default": "^10.0.4",
     "lodash.debounce": "^4.0.8",
     "lodash.throttle": "^4.1.1",
+    "rambler-ui": "^5.10.6",
     "react-jss": "^10.0.4",
     "react-scrollbars-custom": "^4.0.27"
   },
