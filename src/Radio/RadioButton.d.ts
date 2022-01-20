@@ -7,6 +7,7 @@ export interface RadioButtonProps<T>
   disabled?: boolean
   radioClassName?: string
   labelClassName?: string
+  variation?: 'regular' | 'awesome'
   labelStyle?: CSSProperties
   labelPosition?: Exclude<HorizontalPosition, 'center'>
   ref?: Ref<RadioButton<T>>

@@ -943,6 +943,14 @@ export default function createTheme(config) {
               checkedHover: {
                 dotBackground: darken(colors.primary, 0.2)
               },
+              checkedActive: {
+                dotBackground: darken(colors.primary, 0.2)
+              },
+              checkedDisabled: {
+                dotBorder: 'transparent',
+                dot: colors.light,
+                dotBackground: fade(colors.controls.grey.outline, 0.2)
+              },
               disabled: {
                 text: fade(colors.controls.grey.outline, 0.5),
                 dot: fade(colors.controls.grey.outline, 0.2),
@@ -961,11 +969,7 @@ export default function createTheme(config) {
         fontWeight: 400,
         lineHeight: 20,
         marginBottom: 15,
-        animationDuration: 200,
-        outline: {
-          width: 5,
-          color: '#eff5ff'
-        }
+        animationDuration: 200
       },
       toggle: {
         animationDuration: 200,
