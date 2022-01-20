@@ -266,9 +266,7 @@ const styles = theme => ({
     composes: ['$menuOverflowY-top', '$menuOverflowY-bottom']
   },
   menuItem: {
-    '&&': {
-      backgroundColor: theme.field.colors.default.background
-    }
+    backgroundColor: theme.field.colors.default.background
   },
   ...['small', 'medium'].reduce(
     (result, size) => ({
