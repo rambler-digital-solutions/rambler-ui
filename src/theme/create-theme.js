@@ -943,6 +943,14 @@ export default function createTheme(config) {
               checkedHover: {
                 dotBackground: darken(colors.primary, 0.2)
               },
+              checkedActive: {
+                dotBackground: darken(colors.primary, 0.2)
+              },
+              checkedDisabled: {
+                dotBorder: 'transparent',
+                dot: colors.light,
+                dotBackground: fade(colors.controls.grey.outline, 0.2)
+              },
               disabled: {
                 text: fade(colors.controls.grey.outline, 0.5),
                 dot: fade(colors.controls.grey.outline, 0.2),
@@ -958,6 +966,7 @@ export default function createTheme(config) {
           labelMargin: 10
         },
         fontSize: 13,
+        fontWeight: 400,
         lineHeight: 20,
         marginBottom: 15,
         animationDuration: 200

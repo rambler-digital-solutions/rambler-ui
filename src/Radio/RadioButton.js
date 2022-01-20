@@ -21,6 +21,7 @@ const styles = theme => ({
     extend: isolateMixin,
     fontFamily: theme.fontFamily,
     fontSize: theme.radio.fontSize,
+    fontWeight: theme.radio.fontWeight,
     display: 'flex',
     width: '100%',
     cursor: 'pointer',
@@ -82,11 +83,16 @@ const styles = theme => ({
     },
     '&$isEnabled:hover $fake': {
       borderColor: theme.radio.types.awesome.colors.hover.dotBorder,
-      color: theme.radio.types.awesome.colors.hover.dot
+      color: theme.radio.types.awesome.colors.hover.dot,
+      background: theme.radio.types.awesome.colors.hover.dotBackground
     },
     '&$isEnabled$isChecked:hover $fake': {
       borderColor: 'transparent',
       background: theme.radio.types.awesome.colors.checkedHover.dotBackground
+    },
+    '&$isEnabled$isChecked:active $fake': {
+      borderColor: 'transparent',
+      background: theme.radio.types.awesome.colors.checkedActive.dotBackground
     },
     ...focusSourceMixin('other', '& $real:focus + $fake', {
       borderColor: theme.radio.types.awesome.colors.focus.dotBorder
@@ -97,9 +103,9 @@ const styles = theme => ({
       background: theme.radio.types.awesome.colors.disabled.dotBackground
     },
     '&$isDisabled$isChecked $fake': {
-      borderColor: 'transparent',
-      color: theme.radio.types.awesome.colors.disabled.dotBackground,
-      background: theme.radio.types.awesome.colors.disabled.dot
+      borderColor: theme.radio.types.awesome.colors.checkedDisabled.dotBorder,
+      color: theme.radio.types.awesome.colors.checkedDisabled.dot,
+      background: theme.radio.types.awesome.colors.checkedDisabled.dotBackground
     }
   },
   real: {
@@ -140,6 +146,26 @@ const styles = theme => ({
       background: 'currentColor',
       borderRadius: '50%'
     },
+    ...(theme.radio.outline && {
+      '&:before': {
+        content: '""',
+        display: 'block',
+        position: 'absolute',
+        width: theme.radio.sizes.size,
+        height: theme.radio.sizes.size,
+        borderRadius: '50%',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        border: `solid ${theme.radio.outline.color}`,
+        borderWidth: 0,
+        transitionDuration: 'inherit',
+        transitionProperty: 'border-width'
+      },
+      '$isEnabled:active &:before': {
+        borderWidth: theme.radio.outline.width
+      }
+    }),
     '$isChecked &:after': {
       transform: 'scale(1, 1)',
       opacity: 1
