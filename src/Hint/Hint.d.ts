@@ -11,6 +11,7 @@ export interface HintProps {
   positionX?: Exclude<HorizontalPosition, 'center'>
   autoPositionY?: boolean
   closeOnScroll?: boolean
+  renderAnchor?: (icon: ReactNode) => ReactNode
 }
 
 export default class Hint extends PureComponent<HintProps, {}> {}
