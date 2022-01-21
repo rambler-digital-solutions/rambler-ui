@@ -42,6 +42,10 @@ class Hint extends PureComponent {
      */
     children: PropTypes.node.isRequired,
     /**
+     * Функция, возвращающая элемент якоря, по-умолчанию возвращает иконку. Принимает иконку.
+     */
+    renderAnchor: PropTypes.func,
+    /**
      * Флаг показа подсказки. Если ничего не указано, подсказка будет показываться при hover
      */
     isOpened: PropTypes.bool,
@@ -63,7 +67,8 @@ class Hint extends PureComponent {
     positionX: 'right',
     autoPositionY: true,
     closeOnScroll: true,
-    icon: ref => <QuestionIcon nodeRef={ref} size={15} />
+    icon: ref => <QuestionIcon nodeRef={ref} size={15} />,
+    renderAnchor: icon => icon
   }
 
   state = {
@@ -73,11 +78,9 @@ class Hint extends PureComponent {
   containerStyle = isMobileBehavior ? {left: 0, right: 0} : null
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.isOpened !== undefined &&
-      this.props.isOpened !== prevProps.isOpened
-    )
-      if (this.props.isOpened) this.show()
+    const {isOpened} = this.props
+    if (isOpened !== undefined && isOpened !== prevProps.isOpened)
+      if (isOpened) this.show()
       else this.hide()
   }
 
@@ -106,6 +109,7 @@ class Hint extends PureComponent {
       contentClassName,
       contentStyle,
       icon,
+      renderAnchor,
       children,
       positionX,
       theme,
@@ -122,18 +126,24 @@ class Hint extends PureComponent {
         isOpened={isOpened}
         anchor={ref => {
           const iconElement = icon(ref)
-          return cloneElement(iconElement, {
-            color:
-              iconElement.props.color ||
-              (isOpened
-                ? theme.hint.icon.colors.active
-                : theme.hint.icon.colors.default),
-            style,
-            className: classnames(classes.icon, className),
-            onMouseEnter: this.show,
-            onTouchStart: this.show,
-            onMouseLeave: this.hide
-          })
+          return cloneElement(
+            renderAnchor(
+              cloneElement(iconElement, {
+                color:
+                  iconElement.props.color ||
+                  (isOpened
+                    ? theme.hint.icon.colors.active
+                    : theme.hint.icon.colors.default),
+                style,
+                className: classnames(classes.icon, className)
+              })
+            ),
+            {
+              onMouseEnter: this.show,
+              onTouchStart: this.show,
+              onMouseLeave: this.hide
+            }
+          )
         }}
         content={
           <HintContent
