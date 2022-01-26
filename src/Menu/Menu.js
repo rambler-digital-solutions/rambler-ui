@@ -20,12 +20,18 @@ const styles = theme => ({
     borderRadius: theme.menu.borderRadius
   },
   scrollbar: {
-    width: '100% !important',
+    position: 'relative',
+    width: '100%',
+    height: '100%',
     borderRadius: theme.menu.borderRadius,
     transform: 'translate3d(0, 0, 0)'
   },
+  scrollbarInner: {
+    position: 'relative',
+    height: '100%'
+  },
   content: {
-    display: 'block !important'
+    display: 'block'
   },
   scrollbarTrack: {
     width: '6px !important',
@@ -373,15 +379,65 @@ class Menu extends PureComponent {
           ref={scrollRef}
           elementRef={this.saveMenuRef}
           style={{maxHeight, ...style}}
-          className={classnames(classes.menu, className)}
           onKeyDown={this.keyDown}
           onBlur={this.handleBlur}
           translateContentSizeYToHolder
           removeTracksWhenNotUsed
-          contentProps={{className: classes.content}}
-          wrapperProps={{className: classes.scrollbar}}
-          trackYProps={{className: classes.scrollbarTrack}}
-          thumbYProps={{className: classes.scrollbarThumb}}>
+          renderer={({elementRef, ...props}) => (
+            <div
+              {...props}
+              ref={elementRef}
+              className={classnames(classes.menu, className)}
+            />
+          )}
+          contentProps={{
+            renderer: ({elementRef, style, ...props}) => (
+              <div
+                {...props}
+                ref={elementRef}
+                className={classes.content}
+                style={{...style, display: null}}
+              />
+            )
+          }}
+          wrapperProps={{
+            renderer: ({elementRef, style, ...props}) => (
+              <div
+                {...props}
+                ref={elementRef}
+                className={classes.scrollbar}
+                style={{...style, position: null, width: null}}
+              />
+            )
+          }}
+          scrollerProps={{
+            renderer: ({elementRef, style, ...props}) => (
+              <div
+                {...props}
+                ref={elementRef}
+                className={classes.scrollbarInner}
+                style={{...style, position: null}}
+              />
+            )
+          }}
+          trackYProps={{
+            renderer: ({elementRef, ...props}) => (
+              <div
+                {...props}
+                ref={elementRef}
+                className={classes.scrollbarTrack}
+              />
+            )
+          }}
+          thumbYProps={{
+            renderer: ({elementRef, ...props}) => (
+              <div
+                {...props}
+                ref={elementRef}
+                className={classes.scrollbarThumb}
+              />
+            )
+          }}>
           {children}
         </Scrollbar>
       </MenuContext.Provider>
