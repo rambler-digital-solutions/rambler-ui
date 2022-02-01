@@ -84,7 +84,7 @@ class Tooltip extends PureComponent {
      * right - контент слева от якоря
      * left - контент справа от якоря
      *
-     * Работает только если position top или bottom, иначе ломается тултип.
+     * Применяется только если position top или bottom
      */
     positionX: PropTypes.oneOf(['left', 'center', 'right'])
   }
