@@ -805,7 +805,11 @@ class Input extends PureComponent {
           : passwordIconTooltip
 
       return (
-        <Tooltip content={content} className={classes.eye}>
+        <Tooltip
+          content={content}
+          className={classes.eye}
+          position="top"
+          {...(isTouchDevice && {positionX: 'right'})}>
           {icon}
         </Tooltip>
       )
