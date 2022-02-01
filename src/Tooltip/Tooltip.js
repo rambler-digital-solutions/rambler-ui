@@ -83,8 +83,10 @@ class Tooltip extends PureComponent {
      * center - контент по центру
      * right - контент слева от якоря
      * left - контент справа от якоря
+     *
+     * Работает только если position top или bottom, иначе ломается тултип.
      */
-    horyzontalAlignment: PropTypes.oneOf(['left', 'center', 'right'])
+    positionX: PropTypes.oneOf(['left', 'center', 'right'])
   }
 
   static defaultProps = {
@@ -92,7 +94,8 @@ class Tooltip extends PureComponent {
     closeOnClickOutside: false,
     closeOnScroll: true,
     autoPosition: true,
-    status: 'default'
+    status: 'default',
+    positionX: 'center'
   }
 
   state = {
@@ -170,6 +173,7 @@ class Tooltip extends PureComponent {
 
   render() {
     if (!this.props.content) return this.renderAnchor()
+
     const {
       contentClassName,
       contentStyle,
@@ -179,8 +183,9 @@ class Tooltip extends PureComponent {
       position,
       closeOnScroll,
       status,
-      horyzontalAlignment
+      positionX
     } = this.props
+
     return (
       <FixedOverlay
         isOpened={this.state.isOpened}
@@ -213,20 +218,18 @@ class Tooltip extends PureComponent {
               : 'center'
         }
         anchorPointX={
-          horyzontalAlignment ||
-          (position === 'left'
+          position === 'left'
             ? 'left'
             : position === 'right'
               ? 'right'
-              : 'center')
+              : positionX
         }
         contentPointX={
-          horyzontalAlignment ||
-          (position === 'left'
+          position === 'left'
             ? 'right'
             : position === 'right'
               ? 'left'
-              : 'center')
+              : positionX
         }
         cachePositionOptions={false}
         closeOnScroll={this.props.isOpened === undefined && closeOnScroll}

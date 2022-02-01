@@ -725,14 +725,7 @@ class Input extends PureComponent {
     /**
      * Коллбек для передачи ссылки на ноду элемента input
      */
-    inputRef: PropTypes.func,
-    /**
-     * Горизонтальное позиционирование тултипа относительно якоря
-     * center - контент по центру
-     * right - контент слева от якоря
-     * left - контент справа от якоря
-     */
-    tooltipAlignment: PropTypes.oneOf(['left', 'center', 'right'])
+    inputRef: PropTypes.func
   }
 
   static defaultProps = {
@@ -775,8 +768,7 @@ class Input extends PureComponent {
       size,
       classes,
       passwordIconTooltip,
-      passwordIconProps,
-      tooltipAlignment
+      passwordIconProps
     } = this.props
 
     if (type !== 'password') return null
@@ -816,7 +808,8 @@ class Input extends PureComponent {
         <Tooltip
           content={content}
           className={classes.eye}
-          horyzontalAlignment={tooltipAlignment}>
+          position="top"
+          {...(isTouchDevice && {positionX: 'right'})}>
           {icon}
         </Tooltip>
       )
