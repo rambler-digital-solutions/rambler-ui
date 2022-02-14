@@ -168,7 +168,7 @@ class Avatar extends PureComponent {
         style={{
           backgroundColor:
             iconBackgroundColor || theme.avatar.colors.iconBackground,
-          boxShadow: `0 0 0 ${borderWidth}px white inset`,
+          boxShadow: `0 0 0 ${borderWidth}px white`,
           width: profileSizePx,
           height: profileSizePx
         }}>
