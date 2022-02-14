@@ -28,7 +28,7 @@ const styles = theme => ({
   circle: {
     borderRadius: '50%',
     '& $profile': {
-      transform: 'translate(10%, 10%)'
+      transform: 'translate(0, 0)'
     }
   },
   rounded: {
