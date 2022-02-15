@@ -16,7 +16,7 @@ const styles = theme => ({
     })
   },
   normal: {
-    marginBottom: theme.formGroup.mobile.margin
+    marginBottom: theme.formGroup.mobile.marginBottom
   },
   inline: {
     marginBottom: 15
