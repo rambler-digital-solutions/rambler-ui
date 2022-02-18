@@ -49,7 +49,16 @@ const styles = theme => {
       '&$isEnabled:hover $fake': setThemeForSelector(regular.colors.hover),
       '&$isEnabled:active $fake': setThemeForSelector(regular.colors.active),
       '&$isDisabled $fake': setThemeForSelector(regular.colors.disabled),
+      '&$isDisabled$isChecked $fake': setThemeForSelector(
+        regular.colors.checkedDisabled
+      ),
       '&$isChecked $fake': setThemeForSelector(regular.colors.checked),
+      '&$isChecked:hover $fake': setThemeForSelector(
+        regular.colors.checkedHover
+      ),
+      '&$isChecked:active $fake': setThemeForSelector(
+        regular.colors.checkedActive
+      ),
       ...focusSourceMixin(
         'other',
         '& $real:focus ~ $fake',
@@ -81,6 +90,25 @@ const styles = theme => {
       lineHeight: 0,
       transitionDuration: checkboxTheme.animationDuration,
       transitionProperty: 'border-color, background-color, color',
+      transformStyle: 'preserve-3d',
+      ...(theme.checkbox.outline && {
+        '&:after': {
+          content: '""',
+          display: 'block',
+          position: 'absolute',
+          borderRadius: '50%',
+          top: '50%',
+          left: '50%',
+          transform: `translate3d(-50%, -50%, -${theme.checkbox.outline.width}px)`,
+          border: `solid ${theme.checkbox.outline.color}`,
+          borderWidth: 0,
+          transitionDuration: 'inherit',
+          transitionProperty: 'border-width'
+        },
+        '$isEnabled:active &:after': {
+          borderWidth: theme.checkbox.outline.width
+        }
+      }),
       '&:before': {
         position: 'absolute',
         content: '""',
@@ -155,7 +183,13 @@ const styles = theme => {
                       2
                 ) - 1,
             width: checkboxTheme.sizes[size].size,
-            height: checkboxTheme.sizes[size].size
+            height: checkboxTheme.sizes[size].size,
+            ...(theme.checkbox.outline && {
+              '&:after': {
+                width: checkboxTheme.sizes[size].size,
+                height: checkboxTheme.sizes[size].size
+              }
+            })
           },
           '& $tick': {
             top:
