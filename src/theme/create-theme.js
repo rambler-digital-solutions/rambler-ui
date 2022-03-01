@@ -270,6 +270,9 @@ export default function createTheme(config) {
                 tick: colors.primary
               },
               checked: {},
+              checkedHover: {},
+              checkedActive: {},
+              checkedDisabled: {},
               disabled: {
                 tick: fade(colors.controls.grey.outline, 0.5),
                 background: fade(colors.controls.grey.outline, 0.2),
