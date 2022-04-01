@@ -10,7 +10,8 @@ subscribeFocusEvents()
 
 const setThemeForSelector = colors => ({
   borderColor: colors.border,
-  color: colors.text
+  color: colors.text,
+  textDecoration: colors.textDecoration
 })
 
 const styles = theme => {
@@ -35,6 +36,7 @@ const styles = theme => {
       },
       '&&': setThemeForSelector(colors.default),
       '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
+      '&$isEnabled$isSelected:hover': setThemeForSelector(colors.selectedHover),
       '&$isEnabled:hover': setThemeForSelector(colors.hover),
       ...focusSourceMixin(
         'other',

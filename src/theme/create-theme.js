@@ -1156,6 +1156,9 @@ export default function createTheme(config) {
             text: colors.primary,
             border: 'currentColor'
           },
+          selectedHover: {
+            text: colors.primary
+          },
           disabled: {
             text: lighten(colors.controls.grey.outline, 0.5)
           },
