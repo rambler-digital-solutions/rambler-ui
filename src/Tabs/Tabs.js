@@ -9,7 +9,7 @@ const styles = theme => ({
   tabs: {
     extend: isolateMixin,
     display: 'inline-flex',
-    fontFamily: theme.fontFamily,
+    fontFamily: theme.tabs.fontFamily,
     paddingLeft: theme.tabs.sidePadding,
     paddingRight: theme.tabs.sidePadding
   },

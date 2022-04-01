@@ -1139,6 +1139,7 @@ export default function createTheme(config) {
         sidePadding: 10,
         borderWidth: 2,
         animationDuration: 200,
+        fontFamily: fontFamilies.Roboto,
         colors: {
           default: {
             text: colors.dark,
