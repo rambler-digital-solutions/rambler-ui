@@ -157,6 +157,9 @@ const styles = theme => ({
 
       const setThemeForSelector = (colors, outlineOffset) => ({
         background: colors.background,
+        ...(colors.textDecoration && {
+          textDecoration: `${colors.textDecoration} !important`
+        }),
         '&, & *': {
           color: colors.text
         },
