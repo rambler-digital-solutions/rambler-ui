@@ -1167,7 +1167,9 @@ export default function createTheme(config) {
             horizontalGap: 40,
             verticalPadding: 9,
             fontSize: 11,
-            lineHeight: 1.36
+            lineHeight: 1.36,
+            letterSpacing: 1.3,
+            textTransform: 'uppercase'
           },
           medium: {
             horizontalGap: 20,

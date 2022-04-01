@@ -68,12 +68,14 @@ const styles = theme => {
     'size-small': {
       fontSize: sizes.small.fontSize,
       lineHeight: sizes.small.lineHeight,
-      letterSpacing: 1.3,
-      textTransform: 'uppercase'
+      letterSpacing: sizes.small.letterSpacing,
+      textTransform: sizes.small.textTransform
     },
     'size-medium': {
       fontSize: sizes.medium.fontSize,
-      lineHeight: sizes.medium.lineHeight
+      lineHeight: sizes.medium.lineHeight,
+      letterSpacing: sizes.medium.letterSpacing,
+      textTransform: sizes.medium.textTransform
     },
     isDisabled: {
       cursor: 'not-allowed',
