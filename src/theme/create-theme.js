@@ -139,8 +139,7 @@ export default function createTheme(config) {
                 text: colors.light,
                 icon: colors.light,
                 loader: colors.light,
-                background: colors.primary,
-                textDecoration: 'none'
+                background: colors.primary
               },
               hover: {
                 background: darken(colors.primary, 0.1)
