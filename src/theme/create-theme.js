@@ -135,7 +135,8 @@ export default function createTheme(config) {
                 text: colors.light,
                 icon: colors.light,
                 loader: colors.light,
-                background: colors.primary
+                background: colors.primary,
+                textDecoration: 'none'
               },
               hover: {
                 background: darken(colors.primary, 0.1)
@@ -156,7 +157,8 @@ export default function createTheme(config) {
                 text: colors.light,
                 icon: colors.light,
                 loader: colors.light,
-                background: colors.danger
+                background: colors.danger,
+                textDecoration: 'none'
               },
               hover: {
                 background: darken(colors.danger, 0.1)
@@ -176,7 +178,8 @@ export default function createTheme(config) {
                 text: colors.dark,
                 icon: colors.primary,
                 loader: colors.primary,
-                background: colors.controls.grey.background
+                background: colors.controls.grey.background,
+                textDecoration: 'none'
               },
               hover: {
                 text: colors.primary,
@@ -200,7 +203,8 @@ export default function createTheme(config) {
                 icon: colors.primary,
                 loader: colors.primary,
                 border: mix(colors.controls.grey.outline, '#ffffff', 0.3),
-                background: 'transparent'
+                background: 'transparent',
+                textDecoration: 'none'
               },
               hover: {
                 text: colors.primary,
@@ -228,7 +232,8 @@ export default function createTheme(config) {
                 text: colors.dark,
                 icon: colors.primary,
                 loader: colors.primary,
-                background: 'transparent'
+                background: 'transparent',
+                textDecoration: 'none'
               },
               hover: {
                 background: colors.controls.grey.background

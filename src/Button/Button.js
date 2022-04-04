@@ -25,7 +25,6 @@ const styles = theme => ({
     textAlign: 'center',
     cursor: 'pointer',
     boxSizing: 'border-box',
-    textDecoration: 'none !important',
     outline: 'none !important',
     position: 'relative',
     display: 'inline-block',
@@ -157,9 +156,7 @@ const styles = theme => ({
 
       const setThemeForSelector = (colors, outlineOffset) => ({
         background: colors.background,
-        ...(colors.textDecoration && {
-          textDecoration: `${colors.textDecoration} !important`
-        }),
+        textDecoration: colors.textDecoration,
         '&, & *': {
           color: colors.text
         },
