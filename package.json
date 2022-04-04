@@ -1,6 +1,6 @@
 {
   "name": "rambler-ui",
-  "version": "5.14.0",
+  "version": "5.14.1",
   "description": "Rambler UI Components based on React.js",
   "main": "index.js",
   "module": "es/index.js",
@@ -131,8 +131,8 @@
     "webpack-dev-server": "^3.10.3"
   },
   "peerDependencies": {
-    "react": "^16.8.0",
-    "react-dom": "^16.8.0"
+    "react": "^16.8.0 || 17.x || 18.x",
+    "react-dom": "^16.8.0 || 17.x || 18.x"
   },
   "keywords": [
     "react",
