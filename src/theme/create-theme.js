@@ -130,6 +130,10 @@ export default function createTheme(config) {
         types: {
           primary: {
             outlineOffset: 3,
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.light,
@@ -152,13 +156,16 @@ export default function createTheme(config) {
           },
           danger: {
             outlineOffset: 3,
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.light,
                 icon: colors.light,
                 loader: colors.light,
-                background: colors.danger,
-                textDecoration: 'none'
+                background: colors.danger
               },
               hover: {
                 background: darken(colors.danger, 0.1)
@@ -173,13 +180,16 @@ export default function createTheme(config) {
             }
           },
           secondary: {
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.dark,
                 icon: colors.primary,
                 loader: colors.primary,
-                background: colors.controls.grey.background,
-                textDecoration: 'none'
+                background: colors.controls.grey.background
               },
               hover: {
                 text: colors.primary,
@@ -197,14 +207,17 @@ export default function createTheme(config) {
             }
           },
           outline: {
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.dark,
                 icon: colors.primary,
                 loader: colors.primary,
                 border: mix(colors.controls.grey.outline, '#ffffff', 0.3),
-                background: 'transparent',
-                textDecoration: 'none'
+                background: 'transparent'
               },
               hover: {
                 text: colors.primary,
@@ -227,13 +240,16 @@ export default function createTheme(config) {
             }
           },
           flat: {
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.dark,
                 icon: colors.primary,
                 loader: colors.primary,
-                background: 'transparent',
-                textDecoration: 'none'
+                background: 'transparent'
               },
               hover: {
                 background: colors.controls.grey.background

@@ -154,9 +154,9 @@ const styles = theme => ({
       const conf = theme.button.types[type]
       const offset = conf.outlineOffset || 0
 
-      const setThemeForSelector = (colors, outlineOffset) => ({
+      const setThemeForSelector = (colors, outlineOffset, textDecoration) => ({
         background: colors.background,
-        textDecoration: colors.textDecoration,
+        ...(textDecoration && {textDecoration}),
         '&, & *': {
           color: colors.text
         },
@@ -184,14 +184,22 @@ const styles = theme => ({
         ...result,
         [`type-${type}`]: {
           '&:active:active': setThemeForSelector(conf.colors.active, offset),
-          '&:hover': setThemeForSelector(conf.colors.hover, offset),
+          '&:hover': setThemeForSelector(
+            conf.colors.hover,
+            offset,
+            conf.hover.textDecoration
+          ),
           '&[disabled]': setThemeForSelector(conf.colors.disabled, offset),
           ...focusSourceMixin(
             'other',
             '&:focus',
             setThemeForSelector(conf.colors.focus, offset)
           ),
-          ...setThemeForSelector(conf.colors.default, offset),
+          ...setThemeForSelector(
+            conf.colors.default,
+            offset,
+            conf.textDecoration
+          ),
           '& $loader': {
             color: conf.colors.default.loader
           }
