@@ -130,6 +130,10 @@ export default function createTheme(config) {
         types: {
           primary: {
             outlineOffset: 3,
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.light,
@@ -151,6 +155,10 @@ export default function createTheme(config) {
           },
           danger: {
             outlineOffset: 3,
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.light,
@@ -171,6 +179,10 @@ export default function createTheme(config) {
             }
           },
           secondary: {
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.dark,
@@ -194,6 +206,10 @@ export default function createTheme(config) {
             }
           },
           outline: {
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.dark,
@@ -223,6 +239,10 @@ export default function createTheme(config) {
             }
           },
           flat: {
+            textDecoration: 'none',
+            hover: {
+              textDecoration: 'none'
+            },
             colors: {
               default: {
                 text: colors.dark,
@@ -1139,6 +1159,7 @@ export default function createTheme(config) {
         sidePadding: 10,
         borderWidth: 2,
         animationDuration: 200,
+        fontFamily: fontFamilies.Roboto,
         colors: {
           default: {
             text: colors.dark,
@@ -1155,6 +1176,9 @@ export default function createTheme(config) {
             text: colors.primary,
             border: 'currentColor'
           },
+          selectedHover: {
+            text: colors.primary
+          },
           disabled: {
             text: lighten(colors.controls.grey.outline, 0.5)
           },
@@ -1167,7 +1191,9 @@ export default function createTheme(config) {
             horizontalGap: 40,
             verticalPadding: 9,
             fontSize: 11,
-            lineHeight: 1.36
+            lineHeight: 1.36,
+            letterSpacing: 1.3,
+            textTransform: 'uppercase'
           },
           medium: {
             horizontalGap: 20,

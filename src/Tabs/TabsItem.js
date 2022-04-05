@@ -10,7 +10,8 @@ subscribeFocusEvents()
 
 const setThemeForSelector = colors => ({
   borderColor: colors.border,
-  color: colors.text
+  color: colors.text,
+  textDecoration: colors.textDecoration
 })
 
 const styles = theme => {
@@ -35,6 +36,7 @@ const styles = theme => {
       },
       '&&': setThemeForSelector(colors.default),
       '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
+      '&$isEnabled$isSelected:hover': setThemeForSelector(colors.selectedHover),
       '&$isEnabled:hover': setThemeForSelector(colors.hover),
       ...focusSourceMixin(
         'other',
@@ -68,12 +70,14 @@ const styles = theme => {
     'size-small': {
       fontSize: sizes.small.fontSize,
       lineHeight: sizes.small.lineHeight,
-      letterSpacing: 1.3,
-      textTransform: 'uppercase'
+      letterSpacing: sizes.small.letterSpacing,
+      textTransform: sizes.small.textTransform
     },
     'size-medium': {
       fontSize: sizes.medium.fontSize,
-      lineHeight: sizes.medium.lineHeight
+      lineHeight: sizes.medium.lineHeight,
+      letterSpacing: sizes.medium.letterSpacing,
+      textTransform: sizes.medium.textTransform
     },
     isDisabled: {
       cursor: 'not-allowed',
