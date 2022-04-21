@@ -37,6 +37,9 @@ const styles = theme => {
       '&&': setThemeForSelector(colors.default),
       '&$isEnabled$isSelected': setThemeForSelector(colors.selected),
       '&$isEnabled$isSelected:hover': setThemeForSelector(colors.selectedHover),
+      '&$isEnabled$isSelected:active': setThemeForSelector(
+        colors.selectedActive
+      ),
       '&$isEnabled:hover': setThemeForSelector(colors.hover),
       ...focusSourceMixin(
         'other',
