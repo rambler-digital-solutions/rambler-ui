@@ -27,7 +27,7 @@ const styles = theme => {
       borderStyle: 'solid',
       borderWidth: 0,
       background: 'none',
-      fontWeight: 500,
+      fontWeight: theme.tabs.fontWeight,
       transitionDuration: theme.tabs.animationDuration,
       transitionProperty: 'color, border-color',
       '&::-moz-focus-inner': {
