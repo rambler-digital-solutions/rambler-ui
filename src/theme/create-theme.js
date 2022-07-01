@@ -91,7 +91,8 @@ export default function createTheme(config) {
       },
       avatar: {
         colors: {
-          iconBackground: colors.controls.grey.iconBackground
+          iconBackground: colors.controls.grey.iconBackground,
+          profileBorder: '#ffffff'
         },
         boxShadow: 'inset 0 0 0 1px rgba(0, 0, 0, .15)'
       },
