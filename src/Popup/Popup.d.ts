@@ -1,4 +1,4 @@
-import {CSSProperties, PureComponent, ReactNode} from 'react'
+import {CSSProperties, PureComponent, ReactNode, Ref} from 'react'
 
 export interface PopupProps {
   className?: string
@@ -21,6 +21,7 @@ export interface PopupProps {
   onOpen?: () => void | Promise<void>
   onRequestClose?: () => void | Promise<void>
   onClose?: () => void | Promise<void>
+  containerRef?: Ref<HTMLElement>
 }
 
 export default class Popup extends PureComponent<PopupProps, {}> {}
