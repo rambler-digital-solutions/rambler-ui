@@ -652,7 +652,10 @@ export default function createTheme(config) {
           },
           success: {},
           warning: {},
-          error: {}
+          error: {},
+          successHover: {},
+          warningHover: {},
+          errorHover: {}
         },
         sizes: {
           medium: {
