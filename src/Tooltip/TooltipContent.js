@@ -260,10 +260,12 @@ class TooltipContent extends PureComponent {
                   classes[status],
                   isVisible && classes.isVisible
                 )}>
-                <div
-                  className={classnames(arrowClassName, classes.arrow)}
-                  style={resultArrowStyle}
-                />
+                {theme.tooltip.withArrow && (
+                  <div
+                    className={classnames(arrowClassName, classes.arrow)}
+                    style={resultArrowStyle}
+                  />
+                )}
                 <div
                   style={style}
                   className={classnames(bodyClassName, classes.body)}>
