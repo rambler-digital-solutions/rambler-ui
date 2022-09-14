@@ -20,7 +20,17 @@ const styles = theme => ({
     outline: 0,
     fontSize: theme.menu.fontSize,
     fontWeight: theme.menu.fontWeight,
-    lineHeight: theme.menu.lineHeight + 'px'
+    lineHeight: theme.menu.lineHeight + 'px',
+    borderRadius: theme.menu.item.borderRadius,
+    '&$isSelected': {
+      color: theme.menu.colors.selected.text,
+      backgroundColor: theme.menu.colors.selected.background,
+      fontWeight: theme.menu.selectedFontWeight,
+
+      '&:hover': {
+        backgroundColor: theme.menu.colors.selected.background
+      }
+    }
   },
   ...['medium', 'small'].reduce(
     (result, size) => ({
@@ -34,6 +44,7 @@ const styles = theme => ({
     }),
     {}
   ),
+  isSelected: {},
   isEnabled: {
     color: theme.menu.colors.default.text,
     backgroundColor: theme.menu.colors.default.background,
@@ -50,10 +61,6 @@ const styles = theme => ({
       color: theme.menu.colors.active.text,
       background: theme.menu.colors.active.background
     }
-  },
-  isSelected: {
-    color: theme.menu.colors.selected.text,
-    fontWeight: theme.menu.selectedFontWeight
   },
   isDisabled: {
     color: theme.menu.colors.disabled.text,

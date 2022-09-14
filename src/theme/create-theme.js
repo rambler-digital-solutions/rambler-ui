@@ -857,6 +857,9 @@ export default function createTheme(config) {
         lineHeight: 19,
         scrollMargin: 0,
         borderRadius: 0,
+        item: {
+          borderRadius: 0
+        },
         sizes: {
           medium: {
             height: 45
