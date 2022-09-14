@@ -168,6 +168,7 @@ class TooltipContent extends PureComponent {
     arrowClassName: PropTypes.string,
     arrowStyle: PropTypes.object,
     isVisible: PropTypes.bool,
+    withArrow: PropTypes.bool,
     contentRef: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onClickOutside: PropTypes.func,
@@ -209,7 +210,8 @@ class TooltipContent extends PureComponent {
       contentRef,
       onClickOutside,
       onBecomeVisible,
-      onBecomeInvisible
+      onBecomeInvisible,
+      withArrow
     } = this.props
     const resultArrowStyle = {...arrowStyle}
 
@@ -260,7 +262,7 @@ class TooltipContent extends PureComponent {
                   classes[status],
                   isVisible && classes.isVisible
                 )}>
-                {theme.tooltip.withArrow && (
+                {withArrow && (
                   <div
                     className={classnames(arrowClassName, classes.arrow)}
                     style={resultArrowStyle}

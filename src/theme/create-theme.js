@@ -1118,7 +1118,6 @@ export default function createTheme(config) {
         fontWeight: 400,
         lineHeight: 1.4,
         padding: '8px 12px',
-        withArrow: true,
         colors: {
           default: {
             background: fade(colors.blueDark, 0.95),

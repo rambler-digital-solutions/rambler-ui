@@ -95,7 +95,11 @@ class Tooltip extends PureComponent {
      *
      * Применяется только если position right или left
      */
-    positionY: PropTypes.oneOf(['top', 'center', 'bottom'])
+    positionY: PropTypes.oneOf(['top', 'center', 'bottom']),
+    /**
+     * Наличие стрелки у тултипа
+     */
+    withArrow: PropTypes.bool
   }
 
   static defaultProps = {
@@ -105,7 +109,8 @@ class Tooltip extends PureComponent {
     autoPosition: true,
     status: 'default',
     positionX: 'center',
-    positionY: 'center'
+    positionY: 'center',
+    withArrow: true
   }
 
   state = {
@@ -194,7 +199,8 @@ class Tooltip extends PureComponent {
       closeOnScroll,
       status,
       positionX,
-      positionY
+      positionY,
+      withArrow
     } = this.props
 
     return (
@@ -208,6 +214,7 @@ class Tooltip extends PureComponent {
             bodyClassName={contentClassName}
             arrowClassName={arrowClassName}
             arrowStyle={arrowStyle}
+            withArrow={withArrow}
             status={status}>
             {content}
           </TooltipContent>
