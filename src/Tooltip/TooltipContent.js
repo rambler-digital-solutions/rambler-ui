@@ -33,7 +33,7 @@ const styles = theme => ({
     color: theme.tooltip.colors.default.text,
     letterSpacing: theme.tooltip.letterSpacing,
     boxSizing: 'border-box',
-    lineHeight: 1.4,
+    lineHeight: theme.tooltip.lineHeight,
     borderRadius: theme.tooltip.borderRadius,
     maxWidth: 320
   },

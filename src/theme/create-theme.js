@@ -1113,6 +1113,7 @@ export default function createTheme(config) {
         animationDuration: 200,
         fontSize: 13,
         fontWeight: 400,
+        lineHeight: 1.4,
         padding: '8px 12px',
         colors: {
           default: {
