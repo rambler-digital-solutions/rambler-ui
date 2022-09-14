@@ -31,6 +31,7 @@ const styles = theme => ({
     boxShadow: theme.tooltip.boxShadow,
     padding: theme.tooltip.padding,
     color: theme.tooltip.colors.default.text,
+    letterSpacing: theme.tooltip.letterSpacing,
     boxSizing: 'border-box',
     lineHeight: 1.4,
     borderRadius: theme.tooltip.borderRadius,
