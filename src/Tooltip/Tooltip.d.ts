@@ -19,6 +19,7 @@ export interface TooltipProps {
   closeOnClickOutside?: boolean
   closeOnScroll?: boolean
   positionX?: 'left' | 'center' | 'right'
+  positionY?: 'top' | 'center' | 'bottom'
 }
 
 export default class Tooltip extends PureComponent<TooltipProps, {}> {}

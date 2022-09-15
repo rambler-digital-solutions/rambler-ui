@@ -211,9 +211,9 @@ const styles = theme => ({
     '&&': {
       boxShadow: theme.select.dropdown.boxShadow,
       overflow: 'hidden',
-      border: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
+      border: `${theme.select.dropdown.borderWidth}px solid ${theme.menu.colors.default.border}`,
       borderBottom: 0,
-      backgroundColor: theme.field.colors.default.background,
+      backgroundColor: theme.menu.colors.default.background,
       '&$isMultipleDropdown, $regular &': {
         transitionProperty: 'opacity',
         top: '0 !important'
@@ -221,11 +221,11 @@ const styles = theme => ({
     }
   },
   selected: {
-    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
+    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.menu.colors.default.border}`,
     cursor: 'default'
   },
   menu: {
-    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
+    borderBottom: `${theme.select.dropdown.borderWidth}px solid ${theme.menu.colors.default.border}`,
     boxSizing: 'content-box',
     ...(theme.select.dropdown.borderWidth === 0 && {
       '&:before, &:after': {
