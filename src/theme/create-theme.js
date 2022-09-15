@@ -652,7 +652,10 @@ export default function createTheme(config) {
           },
           success: {},
           warning: {},
-          error: {}
+          error: {},
+          successHover: {},
+          warningHover: {},
+          errorHover: {}
         },
         sizes: {
           medium: {
@@ -854,6 +857,9 @@ export default function createTheme(config) {
         lineHeight: 19,
         scrollMargin: 0,
         borderRadius: 0,
+        item: {
+          borderRadius: 0
+        },
         sizes: {
           medium: {
             height: 45
@@ -1110,20 +1116,25 @@ export default function createTheme(config) {
         animationDuration: 200,
         fontSize: 13,
         fontWeight: 400,
+        lineHeight: 1.4,
         padding: '8px 12px',
         colors: {
           default: {
             background: fade(colors.blueDark, 0.95),
-            text: colors.light
+            text: colors.light,
+            arrow: 'currentColor'
           },
           error: {
-            background: fade(colors.danger, 0.9)
+            background: fade(colors.danger, 0.9),
+            arrow: 'currentColor'
           },
           success: {
-            background: fade(colors.success, 0.9)
+            background: fade(colors.success, 0.9),
+            arrow: 'currentColor'
           },
           warning: {
-            background: fade(colors.warn, 0.9)
+            background: fade(colors.warn, 0.9),
+            arrow: 'currentColor'
           }
         }
       },

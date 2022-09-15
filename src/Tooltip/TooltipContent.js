@@ -31,8 +31,9 @@ const styles = theme => ({
     boxShadow: theme.tooltip.boxShadow,
     padding: theme.tooltip.padding,
     color: theme.tooltip.colors.default.text,
+    letterSpacing: theme.tooltip.letterSpacing,
     boxSizing: 'border-box',
-    lineHeight: 1.4,
+    lineHeight: theme.tooltip.lineHeight,
     borderRadius: theme.tooltip.borderRadius,
     maxWidth: 320
   },
@@ -150,10 +151,18 @@ const styles = theme => ({
       [type]: {
         '& $body': {background: theme.tooltip.colors[type].background},
         '& $arrow': {color: theme.tooltip.colors[type].background},
-        '&$ytop$yabottom $arrow': {borderBottomColor: 'currentColor'},
-        '&$ybottom$yatop $arrow': {borderTopColor: 'currentColor'},
-        '&$xleft$xaright $arrow': {borderRightColor: 'currentColor'},
-        '&$xright$xaleft $arrow': {borderLeftColor: 'currentColor'}
+        '&$ytop$yabottom $arrow': {
+          borderBottomColor: theme.tooltip.colors[type].arrow
+        },
+        '&$ybottom$yatop $arrow': {
+          borderTopColor: theme.tooltip.colors[type].arrow
+        },
+        '&$xleft$xaright $arrow': {
+          borderRightColor: theme.tooltip.colors[type].arrow
+        },
+        '&$xright$xaleft $arrow': {
+          borderLeftColor: theme.tooltip.colors[type].arrow
+        }
       }
     }),
     {}

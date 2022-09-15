@@ -86,7 +86,16 @@ class Tooltip extends PureComponent {
      *
      * Применяется только если position top или bottom
      */
-    positionX: PropTypes.oneOf(['left', 'center', 'right'])
+    positionX: PropTypes.oneOf(['left', 'center', 'right']),
+    /**
+     * Вертикальное позиционирование контента тултипа относительно якоря
+     * center - контент по центру
+     * top - контент будет выровнен по верхней границе якоря
+     * bottom - контент будет выровнен по нижней границе якоря
+     *
+     * Применяется только если position right или left
+     */
+    positionY: PropTypes.oneOf(['top', 'center', 'bottom'])
   }
 
   static defaultProps = {
@@ -95,7 +104,8 @@ class Tooltip extends PureComponent {
     closeOnScroll: true,
     autoPosition: true,
     status: 'default',
-    positionX: 'center'
+    positionX: 'center',
+    positionY: 'center'
   }
 
   state = {
@@ -183,7 +193,8 @@ class Tooltip extends PureComponent {
       position,
       closeOnScroll,
       status,
-      positionX
+      positionX,
+      positionY
     } = this.props
 
     return (
@@ -208,14 +219,14 @@ class Tooltip extends PureComponent {
             ? 'top'
             : position === 'bottom'
               ? 'bottom'
-              : 'center'
+              : positionY
         }
         contentPointY={
           position === 'top'
             ? 'bottom'
             : position === 'bottom'
               ? 'top'
-              : 'center'
+              : positionY
         }
         anchorPointX={
           position === 'left'

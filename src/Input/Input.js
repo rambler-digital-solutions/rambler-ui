@@ -21,13 +21,13 @@ const inputColors = (background, hoverBackground, borderColor) => ({
   background,
   borderColor,
   '&:enabled:hover': {
-    background: hoverBackground
+    background: hoverBackground || background
   },
   '$icon:hover ~ &': {
-    background: hoverBackground
+    background: hoverBackground || background
   },
   '&:focus': {
-    background: hoverBackground
+    background: background
   }
 })
 
@@ -121,17 +121,17 @@ const styles = theme => ({
     }),
     '$error$isEnabled &': inputColors(
       theme.field.colors.error.background,
-      theme.field.colors.error.background,
+      theme.field.colors.errorHover.background,
       theme.field.colors.error.outline
     ),
     '$warning$isEnabled &': inputColors(
       theme.field.colors.warning.background,
-      theme.field.colors.warning.background,
+      theme.field.colors.warningHover.background,
       theme.field.colors.warning.outline
     ),
     '$success$isEnabled &': inputColors(
       theme.field.colors.success.background,
-      theme.field.colors.success.background,
+      theme.field.colors.successHover.background,
       theme.field.colors.success.outline
     )
   },
