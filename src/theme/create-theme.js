@@ -872,7 +872,8 @@ export default function createTheme(config) {
           default: {
             text: colors.dark,
             background: colors.light,
-            thumb: '#dcdfe7'
+            thumb: '#dcdfe7',
+            border: colors.controls.grey.fieldOutline
           },
           hover: {
             text: colors.primary,
