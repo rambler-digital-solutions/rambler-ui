@@ -1121,16 +1121,20 @@ export default function createTheme(config) {
         colors: {
           default: {
             background: fade(colors.blueDark, 0.95),
-            text: colors.light
+            text: colors.light,
+            arrow: 'currentColor'
           },
           error: {
-            background: fade(colors.danger, 0.9)
+            background: fade(colors.danger, 0.9),
+            arrow: 'currentColor'
           },
           success: {
-            background: fade(colors.success, 0.9)
+            background: fade(colors.success, 0.9),
+            arrow: 'currentColor'
           },
           warning: {
-            background: fade(colors.warn, 0.9)
+            background: fade(colors.warn, 0.9),
+            arrow: 'currentColor'
           }
         }
       },

@@ -151,10 +151,18 @@ const styles = theme => ({
       [type]: {
         '& $body': {background: theme.tooltip.colors[type].background},
         '& $arrow': {color: theme.tooltip.colors[type].background},
-        '&$ytop$yabottom $arrow': {borderBottomColor: 'currentColor'},
-        '&$ybottom$yatop $arrow': {borderTopColor: 'currentColor'},
-        '&$xleft$xaright $arrow': {borderRightColor: 'currentColor'},
-        '&$xright$xaleft $arrow': {borderLeftColor: 'currentColor'}
+        '&$ytop$yabottom $arrow': {
+          borderBottomColor: theme.tooltip.colors[type].arrow
+        },
+        '&$ybottom$yatop $arrow': {
+          borderTopColor: theme.tooltip.colors[type].arrow
+        },
+        '&$xleft$xaright $arrow': {
+          borderRightColor: theme.tooltip.colors[type].arrow
+        },
+        '&$xright$xaleft $arrow': {
+          borderLeftColor: theme.tooltip.colors[type].arrow
+        }
       }
     }),
     {}
@@ -168,7 +176,6 @@ class TooltipContent extends PureComponent {
     arrowClassName: PropTypes.string,
     arrowStyle: PropTypes.object,
     isVisible: PropTypes.bool,
-    withArrow: PropTypes.bool,
     contentRef: PropTypes.func,
     onBecomeVisible: PropTypes.func,
     onClickOutside: PropTypes.func,
@@ -210,8 +217,7 @@ class TooltipContent extends PureComponent {
       contentRef,
       onClickOutside,
       onBecomeVisible,
-      onBecomeInvisible,
-      withArrow
+      onBecomeInvisible
     } = this.props
     const resultArrowStyle = {...arrowStyle}
 
@@ -262,12 +268,10 @@ class TooltipContent extends PureComponent {
                   classes[status],
                   isVisible && classes.isVisible
                 )}>
-                {withArrow && (
-                  <div
-                    className={classnames(arrowClassName, classes.arrow)}
-                    style={resultArrowStyle}
-                  />
-                )}
+                <div
+                  className={classnames(arrowClassName, classes.arrow)}
+                  style={resultArrowStyle}
+                />
                 <div
                   style={style}
                   className={classnames(bodyClassName, classes.body)}>
