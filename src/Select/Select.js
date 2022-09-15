@@ -213,7 +213,7 @@ const styles = theme => ({
       overflow: 'hidden',
       border: `${theme.select.dropdown.borderWidth}px solid ${theme.field.colors.default.outline}`,
       borderBottom: 0,
-      backgroundColor: theme.field.colors.default.background,
+      backgroundColor: theme.menu.colors.default.background,
       '&$isMultipleDropdown, $regular &': {
         transitionProperty: 'opacity',
         top: '0 !important'
