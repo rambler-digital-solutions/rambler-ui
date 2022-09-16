@@ -26,6 +26,7 @@ const styles = theme => ({
     display: 'inline-block',
     marginBottom: 10,
     fontWeight: theme.formGroup.label.fontWeight,
+    letterSpacing: theme.formGroup.label.letterSpacing,
     ...ifMobile({
       fontWeight: theme.formGroup.label.mobile.fontWeight
     })
