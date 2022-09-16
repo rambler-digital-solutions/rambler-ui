@@ -565,7 +565,6 @@ export default function createTheme(config) {
 
         label: {
           fontWeight: 400,
-          marginBottom: 10,
 
           mobile: {
             fontWeight: 400
