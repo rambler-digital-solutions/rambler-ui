@@ -24,8 +24,9 @@ const styles = theme => ({
   label: {
     width: '100%',
     display: 'inline-block',
-    marginBottom: 10,
+    marginBottom: theme.formGroup.label.marginBottom,
     fontWeight: theme.formGroup.label.fontWeight,
+    letterSpacing: theme.formGroup.label.letterSpacing,
     ...ifMobile({
       fontWeight: theme.formGroup.label.mobile.fontWeight
     })
