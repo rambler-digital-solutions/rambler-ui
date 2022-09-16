@@ -33,7 +33,7 @@ const styles = ({typography}) => ({
   },
   h3: {
     extend: getFontStyle(typography.h3),
-    margin: '20px 0',
+    margin: typography.h3.margin,
     ...ifMobile({
       extend: getFontStyle(typography.h3.mobile)
     })

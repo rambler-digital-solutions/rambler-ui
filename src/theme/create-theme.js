@@ -36,7 +36,8 @@ export default function createTheme(config) {
           fontSize: 20,
           lineHeight: 30,
           fontWeight: 500,
-          fontFamily: fontFamilies.CorsicaRamblerLX
+          fontFamily: fontFamilies.CorsicaRamblerLX,
+          margin: '20px 0'
         },
         text: {
           fontSize: 18,
