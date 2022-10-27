@@ -550,6 +550,9 @@ const styles = theme => ({
     outline: 0,
     cursor: 'pointer',
     '&:hover': {
+      color: theme.field.icon.colors.hover
+    },
+    '&:active': {
       color: theme.field.icon.colors.active
     },
     '$regular &, $awesome &': {
