@@ -622,6 +622,7 @@ export default function createTheme(config) {
         icon: {
           colors: {
             default: colors.controls.grey.outline,
+            hover: colors.primary,
             active: colors.primary
           }
         },
