@@ -623,7 +623,7 @@ export default function createTheme(config) {
           colors: {
             default: colors.controls.grey.outline,
             hover: colors.primary,
-            active: colors.primary,
+            active: colors.primary
           }
         },
         colors: {
