@@ -74,7 +74,10 @@ const styles = theme => ({
   },
   content: {
     extend: [middleMixin, fontSmoothingMixin],
-    display: 'block',
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    verticalAlign: 'middle',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -130,7 +133,6 @@ const styles = theme => ({
   },
   icon: {
     display: 'inline-block',
-    marginTop: -2,
     transition: 'fill .2s'
   },
   'iconPosition-right': {
