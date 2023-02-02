@@ -4,7 +4,6 @@ import classnames from 'classnames'
 import Spinner from '../Spinner'
 import {withStyles} from '../theme'
 import {
-  middleMixin,
   isolateMixin,
   fontSmoothingMixin,
   ifMobile,
@@ -73,8 +72,11 @@ const styles = theme => ({
     })
   },
   content: {
-    extend: [middleMixin, fontSmoothingMixin],
-    display: 'block',
+    extend: fontSmoothingMixin,
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    verticalAlign: 'middle',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
@@ -130,7 +132,6 @@ const styles = theme => ({
   },
   icon: {
     display: 'inline-block',
-    marginTop: -2,
     transition: 'fill .2s'
   },
   'iconPosition-right': {
