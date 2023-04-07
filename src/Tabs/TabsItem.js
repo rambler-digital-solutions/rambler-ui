@@ -132,9 +132,9 @@ class TabsItem extends Component {
      */
     container: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
     /**
-     * Колбек нажатия на элемент (автоматически проставляется компонентом `<Tabs/>`)
+     * Колбек клика на элемент (автоматически проставляется компонентом `<Tabs/>`)
      */
-    onPress: PropTypes.func
+    onClick: PropTypes.func
   }
 
   static defaultProps = {
@@ -148,8 +148,8 @@ class TabsItem extends Component {
 
   handleClick = event => {
     const {props} = this
-    if (!props.onPress) return
-    props.onPress(event, props.value)
+    if (!props.onClick) return
+    props.onClick(event, props.value)
   }
 
   render() {
@@ -164,7 +164,7 @@ class TabsItem extends Component {
       classes,
       value, // eslint-disable-line no-unused-vars
       theme, // eslint-disable-line no-unused-vars
-      onPress, // eslint-disable-line no-unused-vars
+      onClick, // eslint-disable-line no-unused-vars
       ...other
     } = this.props
 
@@ -199,6 +199,7 @@ class TabsItem extends Component {
           role="tab"
           aria-selected={isSelected}
           aria-controls={`${value}_tab`}
+          data-value={value}
         />
       )
     }

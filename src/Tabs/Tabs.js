@@ -107,7 +107,7 @@ class Tabs extends Component {
   onKeyUp = event => {
     const {children} = this.props
 
-    const value = event.target.innerHTML
+    const value = event.target.dataset.value
     const tabIndex = children.findIndex(child => child.props.value === value)
     const isFirstChild = !tabIndex
     const isLastChild = tabIndex === children.length - 1
@@ -178,6 +178,7 @@ class Tabs extends Component {
               : i++,
         isSelected: hasValue && child.props.value === this.state.value,
         onKeyUp: hasValue && !disabled ? this.onKeyUp : null,
+        onClick: hasValue && !disabled ? this.handleValueChange : null,
         size,
         disabled,
         position,

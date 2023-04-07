@@ -199,26 +199,29 @@ describe('<Tabs />', () => {
     let event, value
     const props = {
       value: 'test',
-      onPress: (e, val) => {
+      onKeyUp: e => {
         event = e
-        value = val
+        value = e.target.dataset.value
       }
     }
 
     const wrapper = mount(applyTheme(<TabsItem {...props} />))
 
-    wrapper.simulate('click')
-    expect(event.type).toEqual('click')
+    wrapper.simulate('keyup', {
+      key: 'Enter',
+      target: {dataset: {value: 'test'}}
+    })
+    expect(event.nativeEvent.type).toBe('keyup')
     expect(value).toEqual(props.value)
   })
 
-  it('Tabs onChange handler', () => {
+  it('Tabs onKeyUp handler', () => {
     let event, value
     const props = {
       value: linkProps.id,
-      onChange: (e, val) => {
+      onChange: e => {
         event = e
-        value = val
+        value = e.target.dataset.value
       }
     }
     const wrapper = mount(
@@ -243,19 +246,28 @@ describe('<Tabs />', () => {
     expect(buttonEl.className.includes('isSelected')).toEqual(false)
     expect(containerEl.className.includes('isSelected')).toEqual(false)
     expect(funcEl.className.includes('isSelected')).toEqual(false)
-    button.simulate('click')
-    expect(event.type).toEqual('click')
+    button.simulate('keyup', {
+      key: 'Enter',
+      target: {dataset: {value: buttonProps.id}}
+    })
+    expect(event.nativeEvent.type).toEqual('keyup')
     expect(value).toEqual(buttonProps.id)
     expect(linkEl.className.includes('isSelected')).toEqual(false)
     expect(buttonEl.className.includes('isSelected')).toEqual(true)
     expect(containerEl.className.includes('isSelected')).toEqual(false)
     expect(funcEl.className.includes('isSelected')).toEqual(false)
-    container.simulate('click')
+    container.simulate('keyup', {
+      key: 'Enter',
+      target: {dataset: {value: containerProps.id}}
+    })
     expect(linkEl.className.includes('isSelected')).toEqual(false)
     expect(buttonEl.className.includes('isSelected')).toEqual(false)
     expect(containerEl.className.includes('isSelected')).toEqual(true)
     expect(funcEl.className.includes('isSelected')).toEqual(false)
-    func.simulate('click')
+    func.simulate('keyup', {
+      key: 'Enter',
+      target: {dataset: {value: funcProps.id}}
+    })
     expect(linkEl.className.includes('isSelected')).toEqual(false)
     expect(buttonEl.className.includes('isSelected')).toEqual(false)
     expect(containerEl.className.includes('isSelected')).toEqual(false)
