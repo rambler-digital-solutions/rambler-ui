@@ -4,7 +4,7 @@ import classnames from 'classnames'
 import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import {TabsContext} from './context'
-import {keys} from '../utils/keys'
+import {ENTER, LEFT, RIGHT} from '../constants/keys'
 
 const styles = theme => ({
   tabs: {
@@ -83,14 +83,10 @@ class Tabs extends Component {
     disabled: false
   }
 
-  constructor(props) {
-    super(props)
+  tabsRef = createRef()
 
-    this.tabsRef = createRef()
-
-    this.state = {
-      value: props.value
-    }
+  state = {
+    value: this.props.value
   }
 
   get contextValue() {
@@ -113,20 +109,20 @@ class Tabs extends Component {
     const isLastChild = tabIndex === children.length - 1
     const childrenNodes = this.tabsRef.current.children
 
-    switch (event.key) {
-    case keys.ARROW_LEFT: {
+    switch (event.keyCode) {
+    case LEFT: {
       childrenNodes[isFirstChild ? children.length - 1 : tabIndex - 1].focus()
 
       break
     }
 
-    case keys.ARROW_RIGHT: {
+    case RIGHT: {
       childrenNodes[isLastChild ? 0 : tabIndex + 1].focus()
 
       break
     }
 
-    case keys.ENTER: {
+    case ENTER: {
       this.handleValueChange(event, children[tabIndex].props.value)
 
       break
@@ -178,7 +174,7 @@ class Tabs extends Component {
               : i++,
         isSelected: hasValue && child.props.value === this.state.value,
         onKeyUp: hasValue && !disabled ? this.onKeyUp : null,
-        onClick: hasValue && !disabled ? this.handleValueChange : null,
+        onPress: hasValue && !disabled ? this.handleValueChange : null,
         size,
         disabled,
         position,
