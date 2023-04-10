@@ -195,6 +195,26 @@ describe('<Tabs />', () => {
     expect(func.getAttribute('tabindex')).toEqual('-1')
   })
 
+  it('TabsItem onKeyUp handler', () => {
+    let event, value
+    const props = {
+      value: 'test',
+      onKeyUp: e => {
+        event = e
+        value = e.target.dataset.value
+      }
+    }
+
+    const wrapper = mount(applyTheme(<TabsItem {...props} />))
+
+    wrapper.simulate('keyup', {
+      key: 'Enter',
+      target: {dataset: {value: 'test'}}
+    })
+    expect(event.nativeEvent.type).toBe('keyup')
+    expect(value).toEqual(props.value)
+  })
+
   it('TabsItem onPress handler', () => {
     let event, value
     const props = {
@@ -210,6 +230,65 @@ describe('<Tabs />', () => {
     wrapper.simulate('click')
     expect(event.type).toEqual('click')
     expect(value).toEqual(props.value)
+  })
+
+  it('Tabs onKeyUp handler', () => {
+    let event, value
+    const props = {
+      value: linkProps.id,
+      onKeyUp: e => {
+        event = e
+        value = e.target.dataset.value
+      }
+    }
+    const wrapper = mount(
+      applyTheme(
+        <Tabs {...props}>
+          <TabsItem {...linkProps} value={linkProps.id} />
+          <TabsItem {...buttonProps} value={buttonProps.id} />
+          <TabsItem {...containerProps} value={containerProps.id} />
+          <TabsItem {...funcProps} value={funcProps.id} />
+        </Tabs>
+      )
+    )
+    const linkEl = getWrapperNode(wrapper.find('#' + linkProps.id).first())
+    const button = wrapper.find('#' + buttonProps.id).first()
+    const buttonEl = getWrapperNode(button)
+    const container = wrapper.find('#' + containerProps.id).first()
+    const containerEl = getWrapperNode(container)
+    const func = wrapper.find('#' + funcProps.id).first()
+    const funcEl = getWrapperNode(func)
+
+    expect(linkEl.className.includes('isSelected')).toEqual(true)
+    expect(buttonEl.className.includes('isSelected')).toEqual(false)
+    expect(containerEl.className.includes('isSelected')).toEqual(false)
+    expect(funcEl.className.includes('isSelected')).toEqual(false)
+    button.simulate('keyup', {
+      keyCode: 13,
+      target: {dataset: {value: buttonProps.id}}
+    })
+    expect(event.nativeEvent.type).toEqual('keyup')
+    expect(value).toEqual(buttonProps.id)
+    expect(linkEl.className.includes('isSelected')).toEqual(false)
+    expect(buttonEl.className.includes('isSelected')).toEqual(true)
+    expect(containerEl.className.includes('isSelected')).toEqual(false)
+    expect(funcEl.className.includes('isSelected')).toEqual(false)
+    container.simulate('keyup', {
+      keyCode: 13,
+      target: {dataset: {value: containerProps.id}}
+    })
+    expect(linkEl.className.includes('isSelected')).toEqual(false)
+    expect(buttonEl.className.includes('isSelected')).toEqual(false)
+    expect(containerEl.className.includes('isSelected')).toEqual(true)
+    expect(funcEl.className.includes('isSelected')).toEqual(false)
+    func.simulate('keyup', {
+      keyCode: 13,
+      target: {dataset: {value: funcProps.id}}
+    })
+    expect(linkEl.className.includes('isSelected')).toEqual(false)
+    expect(buttonEl.className.includes('isSelected')).toEqual(false)
+    expect(containerEl.className.includes('isSelected')).toEqual(false)
+    expect(funcEl.className.includes('isSelected')).toEqual(true)
   })
 
   it('Tabs onChange handler', () => {

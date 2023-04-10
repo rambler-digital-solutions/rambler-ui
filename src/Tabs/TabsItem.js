@@ -192,7 +192,16 @@ class TabsItem extends Component {
       element = container({activeClassName: classes.isSelected})
       isLink = true
     } else {
-      element = <button type="button" disabled={disabled} />
+      element = (
+        <button
+          type="button"
+          disabled={disabled}
+          role="tab"
+          aria-selected={isSelected}
+          aria-controls={`${value}_tab`}
+          data-value={value}
+        />
+      )
     }
 
     if (isLink) {

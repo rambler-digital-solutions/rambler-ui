@@ -1,9 +1,10 @@
-import React, {Component, Children, cloneElement} from 'react'
+import React, {Component, Children, cloneElement, createRef} from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import {withStyles} from '../theme'
 import {isolateMixin} from '../utils/mixins'
 import {TabsContext} from './context'
+import {ENTER, LEFT, RIGHT} from '../constants/keys'
 
 const styles = theme => ({
   tabs: {
@@ -82,6 +83,8 @@ class Tabs extends Component {
     disabled: false
   }
 
+  tabsRef = createRef()
+
   state = {
     value: this.props.value
   }
@@ -95,6 +98,39 @@ class Tabs extends Component {
   componentDidUpdate(prevProps) {
     const {value} = this.props
     if (value !== prevProps.value) this.setValue(value)
+  }
+
+  onKeyUp = event => {
+    const {children} = this.props
+
+    const value = event.target.dataset.value
+    const tabIndex = children.findIndex(child => child.props.value === value)
+    const isFirstChild = !tabIndex
+    const isLastChild = tabIndex === children.length - 1
+    const childrenNodes = this.tabsRef.current.children
+
+    switch (event.keyCode) {
+    case LEFT: {
+      childrenNodes[isFirstChild ? children.length - 1 : tabIndex - 1].focus()
+
+      break
+    }
+
+    case RIGHT: {
+      childrenNodes[isLastChild ? 0 : tabIndex + 1].focus()
+
+      break
+    }
+
+    case ENTER: {
+      this.handleValueChange(event, children[tabIndex].props.value)
+
+      break
+    }
+
+    default:
+      break
+    }
   }
 
   setValue(value) {
@@ -122,7 +158,8 @@ class Tabs extends Component {
       ...other
     } = this.props
     let i = 0
-    const tabs = Children.map(children, child => {
+
+    const tabs = Children.map(children, (child, index) => {
       if (!child.type || child.type.displayName !== 'RamblerUI(TabsItem)')
         throw new Error('Child component should be instance of <Tab />')
       const {className, value} = child.props
@@ -136,10 +173,12 @@ class Tabs extends Component {
               ? value
               : i++,
         isSelected: hasValue && child.props.value === this.state.value,
+        onKeyUp: hasValue && !disabled ? this.onKeyUp : null,
         onPress: hasValue && !disabled ? this.handleValueChange : null,
         size,
         disabled,
-        position
+        position,
+        tabIndex: !index ? 0 : -1
       })
     })
 
@@ -147,6 +186,9 @@ class Tabs extends Component {
       <TabsContext.Provider value={this.contextValue}>
         <div
           {...other}
+          role="tablist"
+          ref={this.tabsRef}
+          {...(disabled && {'aria-disabled': true})}
           className={classnames(
             className,
             classes.tabs,
