@@ -262,7 +262,10 @@ class Popup extends PureComponent {
             className={classnames(classes.popup, className)}
             ref={this.getMemoizedRef(focusRef, componentRef)}>
             {showClose && (
-              <button className={classes.close} onClick={onRequestClose}>
+              <button
+                className={classes.close}
+                onClick={onRequestClose}
+                aria-label="Закрыть всплывающее окно">
                 <ClearIcon size={15} color="currentColor" />
               </button>
             )}
