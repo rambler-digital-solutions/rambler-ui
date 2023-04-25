@@ -17,5 +17,6 @@ export default {
   pagination: {
     label: 'На страницу',
     tooltip: 'Такая страница отсутствует'
-  }
+  },
+  closePopup: 'Закрыть всплывающее окно'
 }

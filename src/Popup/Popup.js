@@ -251,7 +251,8 @@ class Popup extends PureComponent {
       okButton,
       tabIndex,
       cancelButton,
-      onRequestClose
+      onRequestClose,
+      theme
     } = this.props
 
     return (
@@ -265,7 +266,7 @@ class Popup extends PureComponent {
               <button
                 className={classes.close}
                 onClick={onRequestClose}
-                aria-label="Закрыть всплывающее окно">
+                aria-label={theme.i18n.closePopup}>
                 <ClearIcon size={15} color="currentColor" />
               </button>
             )}
