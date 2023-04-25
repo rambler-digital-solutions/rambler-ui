@@ -251,7 +251,8 @@ class Popup extends PureComponent {
       okButton,
       tabIndex,
       cancelButton,
-      onRequestClose
+      onRequestClose,
+      theme
     } = this.props
 
     return (
@@ -262,7 +263,10 @@ class Popup extends PureComponent {
             className={classnames(classes.popup, className)}
             ref={this.getMemoizedRef(focusRef, componentRef)}>
             {showClose && (
-              <button className={classes.close} onClick={onRequestClose}>
+              <button
+                className={classes.close}
+                onClick={onRequestClose}
+                aria-label={theme.i18n.closePopup}>
                 <ClearIcon size={15} color="currentColor" />
               </button>
             )}
