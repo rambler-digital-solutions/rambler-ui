@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.14.16 (2023-05-30)
+### Fixed
+* Зафиксированы версии модулей `react-jss`, `jss` и `jss-preset-default`
+
 ## 5.14.15 (2023-05-03)
 ### Fixed
 * Обновлена иконка `<OdnoklassnikiIcon />`
