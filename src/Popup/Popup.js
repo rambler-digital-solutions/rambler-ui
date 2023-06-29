@@ -15,7 +15,8 @@ import {
   isolateMixin,
   middleMixin,
   focusSourceMixin,
-  ifDesktop
+  ifDesktop,
+  ifMobile
 } from '../utils/mixins'
 import {subscribeFocusEvents} from '../utils/focus-source'
 import createGetMemoizedRef from '../utils/createGetMemoizedRef'
@@ -98,6 +99,10 @@ const styles = theme => ({
     },
     ...focusSourceMixin('other', '&:focus', {
       color: theme.popup.colors.close.hover
+    }),
+    ...ifMobile({
+      top: 15,
+      right: 15
     })
   },
   buttons: {
