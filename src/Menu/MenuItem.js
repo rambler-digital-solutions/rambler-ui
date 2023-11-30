@@ -143,6 +143,7 @@ class MenuItem extends PureComponent {
   handlePressKey = event => {
     if (event.keyCode === ENTER) {
       event.stopPropagation()
+      event.preventDefault()
       this.item.focus()
       this.handleSelect()
     }
