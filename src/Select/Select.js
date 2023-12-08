@@ -529,6 +529,10 @@ class Select extends PureComponent {
      */
     onBlur: PropTypes.func,
     /**
+     * Коллбек вызывающийся при нажатии кнопки клавиатуры
+     */
+    onKeyDown: PropTypes.func,
+    /**
      * Коллбек вызывающийся при изменении состояния
      */
     onChange: PropTypes.func,
@@ -566,7 +570,11 @@ class Select extends PureComponent {
      * При использовании `onSearch` - не применяется.
      * `<MenuItem>` в качестве `children` должен принимать элемент типа `String`
      */
-    native: PropTypes.bool
+    native: PropTypes.bool,
+    /**
+     * Коллбек для передачи ссылки на ноду элемента input
+     */
+    inputRef: PropTypes.func
   }
 
   static defaultProps = {
@@ -781,11 +789,14 @@ class Select extends PureComponent {
   }
 
   saveInputRef = ref => {
+    const {inputRef} = this.props
+    if (inputRef) inputRef(ref)
     this.input = ref
   }
 
   closeOnClickOutside = event => {
-    const {isOpened, inputFocused, onBlur} = this.state
+    const {onBlur} = this.props
+    const {isOpened, inputFocused} = this.state
     if (!isOpened || inputFocused) return
     this.setState({
       isOpened: false,
@@ -797,7 +808,8 @@ class Select extends PureComponent {
 
   keyDown = event => {
     const code = event.keyCode
-    const {inputMode, multiple, customElementRenderer} = this.props
+    const {inputMode, multiple, customElementRenderer, onKeyDown} = this.props
+    if (onKeyDown) onKeyDown(event)
     if (code === ESCAPE) this.closeOnEsc(event)
     else if (code === TAB)
       this.setState({
@@ -838,6 +850,7 @@ class Select extends PureComponent {
       classes,
       onFocus,
       onBlur,
+      onKeyDown,
       onChange,
       inputValueRenderer,
       iconElementRenderer,
@@ -857,6 +870,7 @@ class Select extends PureComponent {
       inputMode,
       lightPlaceholderColor,
       rightIcon,
+      inputRef,
       /* eslint-enable no-unused-vars */
       ...props
     } = this.props
