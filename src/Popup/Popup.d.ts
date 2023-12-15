@@ -1,6 +1,7 @@
-import {CSSProperties, PureComponent, ReactNode, Ref} from 'react'
+import {CSSProperties, ReactElement, PureComponent, ReactNode, Ref} from 'react'
 
 export interface PopupProps {
+  children?: ReactElement | Array<ReactElement>
   className?: string
   style?: CSSProperties
   backdropClassName?: string
