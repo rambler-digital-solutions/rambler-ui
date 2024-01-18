@@ -2,6 +2,7 @@ import {CSSProperties, PureComponent, ReactNode, Ref} from 'react'
 import {HorizontalPosition} from '..'
 
 export interface HintProps {
+  children?: ReactNode | Array<ReactNode>
   className?: string
   style?: CSSProperties
   icon?: (forwardRef: Ref<HTMLElement>) => ReactNode

@@ -4,6 +4,7 @@ import {HorizontalPosition, VerticalPosition, Size} from '..'
 export type SnackbarType = 'main' | 'primary' | 'success' | 'danger'
 
 export interface SnackbarProps {
+  children?: ReactNode | Array<ReactNode>
   className?: string
   style?: CSSProperties
   isOpened?: boolean
