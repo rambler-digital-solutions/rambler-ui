@@ -2,6 +2,7 @@ import {CSSProperties, PureComponent, ReactNode} from 'react'
 import {StatusType, HorizontalPosition, VerticalPosition} from '..'
 
 export interface TooltipProps {
+  children?: ReactNode | Array<ReactNode>
   content?: ReactNode
   className?: string
   style?: CSSProperties
