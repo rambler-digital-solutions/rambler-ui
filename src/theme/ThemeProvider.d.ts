@@ -7,6 +7,7 @@ export interface ThemeProviderProps {
   jss?: Jss
   sheetsRegistry?: SheetsRegistry
   generateId?: GenerateId
+  children: React.ReactNode
 }
 
 export default class ThemeProvider extends PureComponent<
