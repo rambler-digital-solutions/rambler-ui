@@ -1,5 +1,9 @@
 # Changelog
 
+## 5.15.4 (2024-05-16)
+### Fixed
+* Поправлена типизация пропсов `<ThemeProvider />`
+
 ## 5.15.3 (2024-01-19)
 ### Fixed
 * Поправлена типизация пропсов `<Button />`, `<Dropdown />`, `<Hint />`, `<MenuItem />`, `<Snackbar />` и `<Tooltip />`
