@@ -711,12 +711,9 @@ class Select extends PureComponent {
 
   blurInput = event => {
     if (!this.state.inputFocused) return
+
     const {inputMode, onBlur} = this.props
-    this.setState({
-      isOpened: false,
-      inputFocused: false,
-      menuOverflowY: false
-    })
+
     if (inputMode) this.changeValue(this.state.searchText)
     if (onBlur) onBlur(event)
   }
@@ -794,16 +791,16 @@ class Select extends PureComponent {
     this.input = ref
   }
 
-  closeOnClickOutside = event => {
-    const {onBlur} = this.props
-    const {isOpened, inputFocused} = this.state
-    if (!isOpened || inputFocused) return
+  closeOnClickOutside = () => {
+    const {isOpened} = this.state
+
+    if (!isOpened) return
+
     this.setState({
       isOpened: false,
       inputFocused: false,
       menuOverflowY: false
     })
-    if (onBlur) onBlur(event)
   }
 
   keyDown = event => {
@@ -1191,7 +1188,6 @@ class Select extends PureComponent {
                   }
                   valuesEquality={valuesEquality}
                   onChange={this.changeValue}
-                  onMouseDown={this.preventBlurInput}
                   onEscKeyDown={this.closeOnEsc}
                   onScroll={this.onMenuScroll}
                   scrollRef={this.onMenuScrollMount}
