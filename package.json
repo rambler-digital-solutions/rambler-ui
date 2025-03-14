@@ -121,7 +121,7 @@
     "recast": "^0.13.2",
     "remark": "^11.0.2",
     "remark-highlight.js": "^5.2.0",
-    "remark-html": "^10.0.0",
+    "remark-html": "^13.0.2",
     "size-limit": "^4.9.0",
     "sticky-sidebar": "^3.3.1",
     "style-loader": "^1.1.3",
